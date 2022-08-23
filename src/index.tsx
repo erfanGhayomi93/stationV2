@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Providers
 import { AppProvider } from 'src/contexts/app';
 import { ThemeProvider } from 'src/contexts/theme';
 import TranslatorProvider from './contexts/translator';
 
-// Temp
+// Components
+import App from './components/App';
+
+// Styles
 import 'src/assets/scss/main.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -25,7 +28,6 @@ root.render(
                 <ThemeProvider>
                     <QueryClientProvider client={queryClient}>
                         <App />
-                        <ReactQueryDevtools initialIsOpen={false} />
                     </QueryClientProvider>
                 </ThemeProvider>
             </TranslatorProvider>

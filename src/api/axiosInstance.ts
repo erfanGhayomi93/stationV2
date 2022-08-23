@@ -9,15 +9,12 @@ import { configMockAdapter } from './axiosMock';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatch | undefined;
-const tokenCookieName = 'ROG_client_id';
+const tokenCookieName = 'ROS_client_id';
 
 const AXIOS = axios.create({
     baseURL: window.baseURL,
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
-
-// MockAdapter
-configMockAdapter(AXIOS);
 
 AXIOS.interceptors.request.use(
     function (config: AxiosRequestConfig): AxiosRequestConfig {
