@@ -1,5 +1,5 @@
 import AXIOS from 'src/api/axiosInstance';
-import { ReducerActionEnum as AppActionEnum, ReducerDispatchType as AppDispatch } from 'src/contexts/app';
+import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
 
 // add plugins to dayjs globaly
 import dayjs from 'dayjs';
@@ -10,7 +10,7 @@ dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
 //
 
-export const fetchUser = async (dispatch: AppDispatch) => {
+export const fetchUser = async (dispatch: AppDispatchType) => {
     try {
         const { data } = await AXIOS.get(apiRoutes.User.Info);
         dispatch({ type: AppActionEnum.SET_APP_USER, payload: data?.result || {} });

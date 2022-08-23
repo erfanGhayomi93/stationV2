@@ -20,9 +20,5 @@ i18n.use(initReactI18next)
         // },
     });
 
-const TranslatorProvider = ({ children }: any) => {
-    //
-    return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
-};
-
+const TranslatorProvider = ({ children }: any) => <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 export default TranslatorProvider;

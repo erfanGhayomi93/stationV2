@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
-import { useAppDispatch, ReducerActionEnum as AppActionEnum } from 'src/contexts/app';
+import { useAppDispatch, AppActionEnum } from 'src/contexts/app';
 
 const loginFormSubmitReq = async ({ userName, password }: { userName: string; password: string }) => {
     const { data } = await AXIOS.post(apiRoutes.User.Login, { userName, password });

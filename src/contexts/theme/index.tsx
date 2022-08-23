@@ -2,27 +2,24 @@ import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 
 // state
-type ReducerStateType = {
+type ThemeStateType = {
     isDarkMode: boolean;
 };
 
-const reducerInitialState = {
+const themeInitialState: ThemeStateType = {
     isDarkMode: false,
 };
 
 // action
-export enum ReducerActionEnum {
+export enum ThemeActionEnum {
     SET_APP_DARK_MODE = 'SET_APP_DARK_MODE',
 }
 
-type ReducerActionType = { type: ReducerActionEnum.SET_APP_DARK_MODE; payload: boolean };
+type ThemeActionType = { type: ThemeActionEnum.SET_APP_DARK_MODE; payload: typeof themeInitialState.isDarkMode };
 
-// dispatch
-export type ReducerDispatchType = React.Dispatch<ReducerActionType>;
-
-const reducer = (state: ReducerStateType, action: ReducerActionType): ReducerStateType => {
+const reducer = (state: ThemeStateType, action: ThemeActionType): ThemeStateType => {
     //
-    if (action.type === ReducerActionEnum.SET_APP_DARK_MODE) {
+    if (action.type === ThemeActionEnum.SET_APP_DARK_MODE) {
         return { ...state, isDarkMode: action.payload };
     }
 
@@ -30,7 +27,7 @@ const reducer = (state: ReducerStateType, action: ReducerActionType): ReducerSta
 };
 
 // react-tracked container
-const useMyReducer = () => useReducer(reducer, reducerInitialState);
+const useMyReducer = () => useReducer(reducer, themeInitialState);
 const container = createContainer(useMyReducer);
 
 // change names and export

@@ -1,20 +1,23 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { NavigateFunction } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import qs from 'qs';
-import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
 import apiRoutes from 'src/api/apiRoutes';
-import { NavigateFunction } from 'react-router-dom';
-import { ReducerActionEnum as AppActionEnum, ReducerDispatchType as AppDispatch } from 'src/contexts/app';
-import { configMockAdapter } from './axiosMock';
+import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
+import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
+import { configMockAdapter } from 'src/api_mock/config';
 
 let routerNavigate: NavigateFunction | undefined;
-let appDispatch: AppDispatch | undefined;
+let appDispatch: AppDispatchType | undefined;
 const tokenCookieName = 'ROS_client_id';
 
 const AXIOS = axios.create({
     baseURL: window.baseURL,
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
+
+// MockAdapter
+configMockAdapter(AXIOS);
 
 AXIOS.interceptors.request.use(
     function (config: AxiosRequestConfig): AxiosRequestConfig {
@@ -127,23 +130,23 @@ export const logOutUser = async () => {
 };
 
 export const setAuthorizeData = (client_id: string) => {
-    if (client_id) {
-        //
-        const expiresTimeInDay = process.env.REACT_APP_CLIENT_ID_TIMEOUT ? +process.env.REACT_APP_CLIENT_ID_TIMEOUT : 1;
+    //
+    if (!client_id) return;
 
-        const options: any = {
-            expires: expiresTimeInDay,
-            path: '/',
-        };
+    const expiresTimeInDay = process.env.REACT_APP_CLIENT_ID_TIMEOUT ? +process.env.REACT_APP_CLIENT_ID_TIMEOUT : 1;
 
-        if (window.APP_ENV === 'production') {
-            options.secure = true;
-            options.sameSite = 'Lax';
-        }
+    const options: any = {
+        expires: expiresTimeInDay,
+        path: '/',
+    };
 
-        Cookies.set(tokenCookieName, client_id, options);
-        AXIOS.defaults.headers.common['Authorization'] = `Bearer ${client_id}`;
+    if (window.APP_ENV === 'production') {
+        options.secure = true;
+        options.sameSite = 'Lax';
     }
+
+    Cookies.set(tokenCookieName, client_id, options);
+    AXIOS.defaults.headers.common['Authorization'] = `Bearer ${client_id}`;
 };
 
 export const unAuthorized = () => {
@@ -151,7 +154,7 @@ export const unAuthorized = () => {
     appDispatch && appDispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'LoggedOut' });
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
-    setTimeout(() => routerNavigate && routerNavigate('/login'));
+    routerNavigate && routerNavigate('/login');
 };
 
 export default AXIOS;

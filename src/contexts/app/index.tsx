@@ -2,46 +2,37 @@ import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 
 // state
-type ReducerStateType = {
-    appState: keyof typeof AppStateEnum;
-    userData: { firstName: string; lastName: string };
+type AppStateType = {
+    appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed';
+    userData: { firstName: string; lastName: string; userName: string };
 };
 
-enum AppStateEnum {
-    Loading = 'Loading',
-    LoggedIn = 'LoggedIn',
-    LoggedOut = 'LoggedOut',
-    Crashed = 'Crashed',
-}
-
-type AppUserType = { firstName: string; lastName: string; userName: string };
-
-const reducerInitialState = {
-    appState: AppStateEnum.Loading,
-    userData: { firstName: '', lastName: '' },
+const appInitialState: AppStateType = {
+    appState: 'Loading',
+    userData: { firstName: '', lastName: '', userName: '' },
 };
 
 // action
-export enum ReducerActionEnum {
+export enum AppActionEnum {
     SET_APP_STATE = 'SET_APP_STATE',
     SET_APP_USER = 'SET_APP_USER',
 }
 
-type ReducerActionType =
-    | { type: ReducerActionEnum.SET_APP_STATE; payload: keyof typeof AppStateEnum }
-    | { type: ReducerActionEnum.SET_APP_USER; payload: AppUserType };
+type AppActionType =
+    | { type: AppActionEnum.SET_APP_STATE; payload: typeof appInitialState.appState }
+    | { type: AppActionEnum.SET_APP_USER; payload: typeof appInitialState.userData };
 
 // dispatch
-export type ReducerDispatchType = React.Dispatch<ReducerActionType>;
+export type AppDispatchType = React.Dispatch<AppActionType>;
 
-const reducer = (state: ReducerStateType, action: ReducerActionType): ReducerStateType => {
+const reducer = (state: AppStateType, action: AppActionType): AppStateType => {
     //
 
-    if (action.type === ReducerActionEnum.SET_APP_STATE) {
+    if (action.type === AppActionEnum.SET_APP_STATE) {
         return { ...state, appState: action.payload };
     }
 
-    if (action.type === ReducerActionEnum.SET_APP_USER) {
+    if (action.type === AppActionEnum.SET_APP_USER) {
         return { ...state, userData: action.payload, appState: 'LoggedIn' };
     }
 
@@ -49,7 +40,7 @@ const reducer = (state: ReducerStateType, action: ReducerActionType): ReducerSta
 };
 
 // react-tracked container
-const useMyReducer = () => useReducer(reducer, reducerInitialState);
+const useMyReducer = () => useReducer(reducer, appInitialState);
 const container = createContainer(useMyReducer);
 
 // change names and export
