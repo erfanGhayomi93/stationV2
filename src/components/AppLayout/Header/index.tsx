@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
-import Modal from 'src/components/common/Modal';
+import BrokerData from './BrokerData';
+import Clock from './Clock';
+import MarketIndexes from './MarketIndexes';
+import Messages from './Messages';
+import UserActions from './UserActions';
+import UserData from './UserData';
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState(false);
     //
     return (
-        <div className="w-full bg-slate-200 py-3 px-2 flex items-center justify-between">
-            <div>information</div>
-            <div>Action</div>
-            <div onClick={() => setIsOpen(true)}>modal</div>
-            <Modal onClose={setIsOpen} isOpen={isOpen}>
-                <>hey</>
-            </Modal>
+        <div className="bg-white h-[72px] flex items-center justify-start px-4 py-2">
+            <div>
+                <BrokerData />
+            </div>
+            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div>
+                <UserData />
+            </div>
+            <div className="mr-auto">
+                <MarketIndexes />
+            </div>
+            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div>
+                <Messages />
+            </div>
+            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div>
+                <Clock />
+            </div>
+            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div>
+                <UserActions />
+            </div>
         </div>
     );
 };

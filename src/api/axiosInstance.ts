@@ -117,16 +117,9 @@ AXIOS.interceptors.response.use(
     },
 );
 
-export const transferFunctions = (routerNavigateFun: any, appDispatchFun: any) => {
+export const transferFunctions = (routerNavigateFun: NavigateFunction, appDispatchFun: AppDispatchType) => {
     routerNavigate = routerNavigateFun;
     appDispatch = appDispatchFun;
-};
-
-export const logOutUser = async () => {
-    try {
-        const result = await AXIOS.get(`${apiRoutes.User.Logout}`);
-        if (result) unAuthorized();
-    } catch (error) {}
 };
 
 export const setAuthorizeData = (client_id: string) => {

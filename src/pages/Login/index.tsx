@@ -22,7 +22,7 @@ const Login = () => {
             <br />
             <input type="text" placeholder="username" value={userName} onChange={(e) => setUserName(e?.target?.value || '')} />
             <br />
-            <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e?.target?.value || '')} />
+            <input type="text" placeholder="password" value={password} onChange={(e) => setPassword(e?.target?.value || '')} />
             <br />
             <button className="bg-gray-200 hover:bg-slate-300" onClick={onSubmitClick}>
                 Submit

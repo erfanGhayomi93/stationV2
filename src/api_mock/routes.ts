@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import dayjs from 'dayjs';
 import apiRoutes from 'src/api/apiRoutes';
 
 //
@@ -23,7 +24,7 @@ export const mock_routes: MockRoute[] = [
             const tokenGeneratedTime = Number(token) || 0;
             const nowTime = new Date().getTime();
 
-            if (nowTime - tokenGeneratedTime > 5 * 60 * 1000) return [401];
+            if (nowTime - tokenGeneratedTime > 15 * 60 * 1000) return [401];
             else return [200, successApiResponse({ firstName: 'جواد', lastName: 'بینایی', userName: 'admin' })];
         },
     },
@@ -37,6 +38,20 @@ export const mock_routes: MockRoute[] = [
 
             if (isUserOk) return [200, successApiResponse({ firstName: 'جواد', lastName: 'بینایی', userName: 'admin', token: new Date().getTime() })];
             else return [200, failApiResponse(['UserNotFound'])];
+        },
+    },
+    {
+        method: 'Get',
+        path: apiRoutes.Time.Get,
+        replyFn: () => {
+            return [200, successApiResponse(dayjs())];
+        },
+    },
+    {
+        method: 'Post',
+        path: apiRoutes.User.Logout,
+        replyFn: () => {
+            return [200, successApiResponse(true)];
         },
     },
 ];

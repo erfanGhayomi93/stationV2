@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sider = () => {
     //
-    return <div>Sider</div>;
+    return <div className="w-[88px] bg-[#171840] text-white">Sider</div>;
 };
 
 export default Sider;

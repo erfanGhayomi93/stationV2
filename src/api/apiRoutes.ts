@@ -7,6 +7,9 @@ const apiRoutes = {
         Logout: '/User/UserLogout',
         Info: '/User/UserInfo',
     },
+    Time: {
+        Get: '/Time/Get',
+    },
 };
 
 export default apiRoutes;

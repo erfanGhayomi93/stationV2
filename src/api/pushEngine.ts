@@ -44,27 +44,30 @@ const disConnect = () => client.disconnect();
 const subscribe = ({ id, mode, items, fields, adaptername, issnapshot, onFieldsUpdate }: ISubscribe) => {
     //
     if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adaptername || !issnapshot || !onFieldsUpdate) return;
+    if (items?.length === 0 || fields?.length === 0) return;
 
-    const onItemUpdate = (updateInfo: ItemUpdate) => {
-        const updatedFields: UpdatedFieldsType = { itemName: updateInfo?.getItemName(), changedFields: {} };
-        updateInfo?.[updateInfo.isSnapshot() ? 'forEachField' : 'forEachChangedField']((name, _, value) => {
-            value !== null && (updatedFields.changedFields[name] = value);
-        });
-        if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0) onFieldsUpdate(updatedFields);
-    };
+    // // TODO
+    // const isSubscribeExist =
+    //     subscriptions?.hasOwnProperty(id) &&
+    //     JSON.stringify(subscriptions[id]?.getItems()?.sort()) === JSON.stringify(items?.sort()) &&
+    //     JSON.stringify(subscriptions[id]?.getFields()?.sort()) === JSON.stringify(fields?.sort());
 
-    // TODO
-    const isSubscribeExist =
-        subscriptions?.hasOwnProperty(id) &&
-        JSON.stringify(subscriptions[id]?.getItems()?.sort()) === JSON.stringify(items?.sort()) &&
-        JSON.stringify(subscriptions[id]?.getFields()?.sort()) === JSON.stringify(fields?.sort());
-
-    if (isSubscribeExist) return;
+    // if (isSubscribeExist) return;
 
     const sub = new Subscription(mode, items, fields);
     sub.setDataAdapter(adaptername);
     sub.setRequestedSnapshot(issnapshot);
-    sub.addListener({ onItemUpdate });
+
+    sub.addListener({
+        onItemUpdate: (updateInfo) => {
+            const updatedFields: UpdatedFieldsType = { itemName: updateInfo?.getItemName(), changedFields: {} };
+            updateInfo?.[updateInfo.isSnapshot() ? 'forEachField' : 'forEachChangedField']((name, _, value) => {
+                value !== null && (updatedFields.changedFields[name] = value);
+            });
+            if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0) onFieldsUpdate(updatedFields);
+        },
+    });
+
     subscriptions[id] = sub;
     client.subscribe(sub);
 };

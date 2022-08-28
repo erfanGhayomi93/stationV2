@@ -1,0 +1,68 @@
+@use 'ag-grid-community/styles' as ag;
+
+@include ag.grid-styles(
+    (
+        themes: (
+            alpine: (
+                // font
+                --ag-font-family: 'IRANSansEnNum',
+                --ag-font-size: 0.75rem,
+                // header
+                --ag-header-height: 40px,
+                --ag-header-background-color: #eceef2,
+                --ag-header-column-separator-display: true,
+                --ag-header-column-separator-color: #ffffff,
+                // Main Colors
+                --ag-foreground-color: #002952,
+                --ag-alpine-active-color: #002952,
+                --ag-header-foreground-color: #002952,
+                --ag-data-color: #2e3644,
+                --ag-row-hover-color: #d2e3fa,
+                --ag-odd-row-background-color: #f9fafb,
+                // Borders
+                --ag-borders: 0px solid,
+                --ag-border-color: #babfc7,
+                --ag-borders-secondary: 0px solid,
+                --ag-cell-horizontal-border: solid #ffffff,
+                --ag-borders-critical: 0px solid,
+                --ag-borders-row: 0px solid,
+                // Rows
+                --ag-row-height: 50px,
+
+                // Spacing
+                --ag-grid-size: 3px,
+                --ag-icon-size: 14px,
+            ),
+            alpine-dark: (
+                // font
+                --ag-font-family: 'IRANSansEnNum',
+                --ag-font-size: 0.75rem,
+                // header
+                --ag-header-height: 40px,
+                --ag-header-background-color: #252930,
+                --ag-header-column-separator-display: true,
+                --ag-header-column-separator-color: #000000,
+                // Main Colors
+                --ag-foreground-color: #a0b4e3,
+                --ag-alpine-active-color: #a0b4e3,
+                --ag-header-foreground-color: #eaecef,
+                --ag-data-color: #eaecef,
+                --ag-row-hover-color: #474d57,
+                --ag-odd-row-background-color: rgba(#2b2f36, 0.9),
+                // Borders
+                --ag-borders: 0px solid,
+                --ag-border-color: #babfc7,
+                --ag-borders-secondary: 0px solid,
+                --ag-cell-horizontal-border: solid #000000,
+                --ag-borders-critical: 0px solid,
+                --ag-borders-row: 0px solid,
+                // Rows
+                --ag-row-height: 50px,
+
+                // Spacing
+                --ag-grid-size: 3px,
+                --ag-icon-size: 14px,
+            ),
+        ),
+    )
+);
