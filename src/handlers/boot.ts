@@ -12,8 +12,8 @@ dayjs.extend(relativeTime);
 
 export const fetchUser = async (dispatch: AppDispatchType) => {
     try {
-        const { data } = await AXIOS.get(apiRoutes.User.Info);
-        dispatch({ type: AppActionEnum.SET_APP_USER, payload: data?.result || {} });
+        const { data } = await AXIOS.get(apiRoutes.User.GetUserInformation);
+        dispatch({ type: AppActionEnum.SET_APP_USER, payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' } });
     } catch (error: any) {
         if (![401].includes(error?.response?.status)) dispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'Crashed' });
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import PushEngine from './PushEngine';
+import PushEngineInfo from './PushEngineInfo';
 import SymbolsPreview from './SymbolsPreview';
 
 const Footer = () => {
@@ -7,7 +7,7 @@ const Footer = () => {
     return (
         <div className="bg-[#F8F8F8] h-[40px] flex flex-row-reverse items-center justify-start px-4 py-2">
             <div>
-                <PushEngine />
+                <PushEngineInfo />
             </div>
             <div className="h-full border mx-1 border-sky-200" />
             <div className="grow">

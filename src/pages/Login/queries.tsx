@@ -1,12 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
 import { useAppDispatch, AppActionEnum } from 'src/contexts/app';
 
-const loginFormSubmitReq = async ({ userName, password }: { userName: string; password: string }) => {
-    const { data } = await AXIOS.post(apiRoutes.User.Login, { userName, password });
-    return data?.result;
+const loginFormSubmitReq = async (payload: any) => {
+    const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
+    return data?.result || {};
 };
 
 export const useLoginFormSubmit = () => {
@@ -15,15 +16,24 @@ export const useLoginFormSubmit = () => {
     const navigate = useNavigate();
 
     return useMutation(loginFormSubmitReq, {
-        onSuccess: (result: any) => {
+        onSuccess: (result) => {
             if (result) {
                 setAuthorizeData(result?.token);
                 appDispatch({
                     type: AppActionEnum.SET_APP_USER,
-                    payload: { userName: result?.userName, firstName: result?.firstName, lastName: result?.lastName },
+                    payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' },
                 });
                 navigate('/');
             }
         },
     });
+};
+
+const fetchCaptcha = async () => {
+    const { data } = await axios.get<{ key: string; base64String: string }>(apiRoutes.OAuthApi.captcha);
+    return { key: data.key, base64String: data.base64String };
+};
+
+export const useCaptcha = () => {
+    return useQuery(['Captcha'], fetchCaptcha);
 };

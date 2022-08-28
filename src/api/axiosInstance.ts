@@ -1,23 +1,19 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NavigateFunction } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import qs from 'qs';
-import apiRoutes from 'src/api/apiRoutes';
 import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
 import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
-import { configMockAdapter } from 'src/api_mock/config';
+// import { configMockAdapter } from 'src/api_mock/config';
+import { pushEngine } from './pushEngine';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatchType | undefined;
 const tokenCookieName = 'ROS_client_id';
 
-const AXIOS = axios.create({
-    baseURL: window.baseURL,
-    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
-});
+const AXIOS = axios.create();
 
-// MockAdapter
-configMockAdapter(AXIOS);
+// // MockAdapter
+// configMockAdapter(AXIOS);
 
 AXIOS.interceptors.request.use(
     function (config: AxiosRequestConfig): AxiosRequestConfig {
@@ -147,6 +143,7 @@ export const unAuthorized = () => {
     appDispatch && appDispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'LoggedOut' });
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
+    pushEngine.disConnect();
     routerNavigate && routerNavigate('/login');
 };
 

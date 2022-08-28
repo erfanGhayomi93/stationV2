@@ -1,14 +1,21 @@
 //
-// export default window.API_ROUTES;
+
+const mock_path = 'MockApi/api/';
+const CommonUrl = 'http://192.168.40.8:12000';
+const OauthUrl = 'http://192.168.40.8:5011';
 
 const apiRoutes = {
+    OAuthApi: {
+        authorization: OauthUrl + '/OAuthApi/v1/Authorization',
+        captcha: OauthUrl + '/Captcha/v1/create',
+        twoFactor: OauthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
+        logout: OauthUrl + '/OAuthApi/v1/Logout',
+    },
     User: {
-        Login: '/User/UserLogin',
-        Logout: '/User/UserLogout',
-        Info: '/User/UserInfo',
+        GetUserInformation: `${CommonUrl}/Customer/v1/GetGeneralInformation`,
     },
     Time: {
-        Get: '/Time/Get',
+        Get: `${CommonUrl}/Time/v1/Get`,
     },
 };
 

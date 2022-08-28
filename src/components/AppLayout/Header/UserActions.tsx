@@ -19,8 +19,8 @@ const UserActions = () => {
 };
 
 const logOutReq = async () => {
-    const { data } = await AXIOS.post(apiRoutes.User.Logout);
-    return data?.result;
+    const { data } = await AXIOS.post(apiRoutes.OAuthApi.logout);
+    return data?.succeeded;
 };
 
 export default UserActions;

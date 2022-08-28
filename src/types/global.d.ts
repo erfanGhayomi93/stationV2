@@ -11,3 +11,9 @@ declare module '*.svg' {
     const src: string;
     export default src;
 }
+
+interface GlobalApiResponseType<T> {
+    result: T;
+    succeeded: boolean;
+    errors?: string[] | string;
+}
