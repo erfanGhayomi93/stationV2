@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { base64 } from 'src/utils/helpers';
 import { useCaptcha, useLoginFormSubmit } from './queries';
 
 const Login = () => {
@@ -18,7 +19,7 @@ const Login = () => {
             token: '',
             captchaValue: captchaValue,
             captchaKey: captchaData?.key,
-            password: 'VGdzMTAwMDE=',
+            password: base64.encode('Tgs10001'),
             term: 'soheilkh',
         });
     }, [captchaData, captchaValue]);
@@ -29,7 +30,7 @@ const Login = () => {
             <br />
             <input type="text" disabled value="soheilkh" />
             <br />
-            <input type="text" disabled value="VGdzMTAwMDE=" />
+            <input type="text" disabled value="*******" />
             <br />
             <input
                 className="border"
