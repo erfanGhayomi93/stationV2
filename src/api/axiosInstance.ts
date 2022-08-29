@@ -4,7 +4,6 @@ import Cookies from 'js-cookie';
 import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
 import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
 // import { configMockAdapter } from 'src/api_mock/config';
-import { pushEngine } from './pushEngine';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatchType | undefined;
@@ -143,7 +142,6 @@ export const unAuthorized = () => {
     appDispatch && appDispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'LoggedOut' });
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
-    pushEngine.disConnect();
     routerNavigate && routerNavigate('/login');
 };
 

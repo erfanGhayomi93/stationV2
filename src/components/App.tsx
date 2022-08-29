@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppValues } from 'src/contexts/app';
+
 import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/api/appRoutes';
 import { transferFunctions } from 'src/api/axiosInstance';
-import RouteWrapper from 'src/components/common/RouteWrapper';
-import AppLayout from 'src/components/AppLayout';
-import { useAppDispatch, useAppValues } from 'src/contexts/app';
 import { fetchUser } from 'src/handlers/boot';
 
+import RouteWrapper from 'src/components/common/RouteWrapper';
+import AppLayout from 'src/components/AppLayout';
 import CrashPage from 'src/pages/PageCrash';
 
 const App = () => {
