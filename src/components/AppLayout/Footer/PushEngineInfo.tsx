@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Signal } from 'src/components/Icons';
 import { pushEngine } from 'src/api/pushEngine';
+import { useTranslation } from 'react-i18next';
 
 // https://sdk.lightstreamer.com/ls-web-client/8.0.5/api/StatusWidget.html#onStatusChange
 type PushEngineStatusType =
@@ -19,13 +20,15 @@ const PushEngineInfo = () => {
     //
     const [pushEngineState, setPushEngineState] = useState<PushEngineStatusType>('DISCONNECTED'); // move to app context if needed
 
+    const { t } = useTranslation();
+
     const redStatus = useMemo(() => ['DISCONNECTED', 'DISCONNECTED:WILL-RETRY', 'DISCONNECTED:TRYING-RECOVERY'], []);
     const greenStatus = useMemo(() => ['CONNECTED:WS-STREAMING', 'CONNECTED:HTTP-STREAMING', 'CONNECTED:WS-POLLING', 'CONNECTED:HTTP-POLLING'], []);
 
     const signalData = useMemo(() => {
-        if (redStatus.includes(pushEngineState)) return { colorClass: 'text-red-500', text: 'غیر متصل' };
-        else if (greenStatus.includes(pushEngineState)) return { colorClass: 'text-green-500', text: 'اتصال برقرار' };
-        else return { colorClass: 'text-yellow-500', text: 'در حال اتصال' };
+        if (redStatus.includes(pushEngineState)) return { colorClass: 'text-red-500', text: t('PushEngine.Disconnected') };
+        else if (greenStatus.includes(pushEngineState)) return { colorClass: 'text-green-500', text: t('PushEngine.Connected') };
+        else return { colorClass: 'text-yellow-500', text: t('PushEngine.Stalled') };
     }, [pushEngineState]);
 
     useEffect(() => {
