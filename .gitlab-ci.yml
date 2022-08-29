@@ -5,7 +5,7 @@ Deploy-Job:
   stage: deploy
   script:
     - npm install
-    - ($env:CI = "false") -and (npm run build:dev)
+    - ($env:CI = "false") -and (npm run build)
     - Remove-Item "E:\Station\*" -Recurse
     - Copy-item -Force -Recurse -Verbose "E:\GitLab-Runner\builds\JQ2tbnAm\0\ui\OnlineStationUI\build\*" -Destination  "E:\Station\"
   tags:
