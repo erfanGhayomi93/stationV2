@@ -1,0 +1,15 @@
+image : mcr.microsoft.com/dotnet/sdk:latest
+stages:
+  - deploy
+Deploy-Job:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build:dev)
+    - Remove-Item "E:\Station\*" -Recurse
+    - Copy-item -Force -Recurse -Verbose "build\\*" -Destination  "E:\Station\"
+  tags:
+    - Test
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Develop"
