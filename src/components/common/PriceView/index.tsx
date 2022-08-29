@@ -24,7 +24,7 @@ const PriceView = ({
 
     return (
         <div className={textColorClassName} style={{ direction: 'ltr' }}>
-            {`${sepNumbers(price)} (${percentage}%)`}
+            {`${sepNumbers(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}
         </div>
     );
 };

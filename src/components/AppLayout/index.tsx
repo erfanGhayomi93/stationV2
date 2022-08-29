@@ -14,8 +14,8 @@ const AppLayout = () => {
             DomainName: 'https://pushengine.ramandtech.com',
             DomainPort: 443,
             AdapterSet: 'Ramand_Remoter_Adapter',
-            User: 'Soheilkh',
-            Password: 'This is My Password',
+            User: 'Soheilkh', // get from app context
+            Password: 'This is My Password', // get from app context
         });
 
         return () => {
