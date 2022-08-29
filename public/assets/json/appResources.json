@@ -1,5 +1,10 @@
 {
     "Login": {
         "title": "Welcome to Login Page"
+    },
+    "PushEngine": {
+        "Connected": "اتصال برقرار",
+        "Disconnected": "غیر متصل",
+        "Stalled": "در حال اتصال"
     }
 }

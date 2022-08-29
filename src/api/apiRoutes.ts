@@ -3,6 +3,7 @@
 const mock_path = 'MockApi/api/';
 const CommonUrl = 'http://192.168.40.8:12000';
 const OauthUrl = 'http://192.168.40.8:5011';
+const MarketData = 'http://192.168.40.8:7000';
 
 const apiRoutes = {
     OAuthApi: {
@@ -16,6 +17,9 @@ const apiRoutes = {
     },
     Time: {
         Get: `${CommonUrl}/Time/v1/Get`,
+    },
+    Index: {
+        Symbols: `${MarketData}/Index/v1/Symbols`,
     },
 };
 
