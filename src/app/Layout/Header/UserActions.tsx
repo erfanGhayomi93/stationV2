@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { unAuthorized } from 'src/api/axiosInstance';
-import { PowerOff } from 'src/components/Icons';
+import { PowerOff } from 'src/common/icons';
 
 const UserActions = () => {
     //

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Broker_173 } from 'src/components/Icons';
+import { Broker_173 } from 'src/common/icons';
 
 const BrokerData = () => {
     //

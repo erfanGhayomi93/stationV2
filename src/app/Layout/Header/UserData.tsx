@@ -1,10 +1,10 @@
 import React from 'react';
-import { UserIcon } from 'src/components/Icons';
-import { useAppValues } from 'src/contexts/app';
+import { UserIcon } from 'src/common/icons';
+import { useGlobalValues } from 'src/app/contexts/global';
 
 const UserData = () => {
     //
-    const { userData } = useAppValues();
+    const { userData } = useGlobalValues();
 
     return (
         <div className="flex items-center ">

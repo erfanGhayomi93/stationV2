@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppValues } from 'src/contexts/app';
+import { useGlobalDispatch, useGlobalValues } from 'src/app/contexts/global';
 
 import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/api/appRoutes';
 import { transferFunctions } from 'src/api/axiosInstance';
 import { fetchUser } from 'src/handlers/boot';
 
-import RouteWrapper from 'src/components/common/RouteWrapper';
-import AppLayout from 'src/components/AppLayout';
+import RouteWrapper from 'src/common/components/RouteWrapper';
+import AppLayout from 'src/app/Layout';
 import CrashPage from 'src/pages/PageCrash';
 
 const App = () => {
     //
-    const { appState } = useAppValues();
+    const { appState } = useGlobalValues();
 
     const navigate = useNavigate();
-    const appDispatch = useAppDispatch();
+    const appDispatch = useGlobalDispatch();
 
     const { ready: isTranslationResourceReady } = useTranslation();
 
