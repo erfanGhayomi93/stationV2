@@ -1,4 +1,4 @@
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Disclosure, Transition } from '@headlessui/react';
 import { FC, Fragment } from 'react';
 import {
     BasketIcon,
@@ -23,8 +23,20 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose }) => {
         <>
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => onClose(false)}>
-                    <div className="fixed  inset-0 overflow-y-auto right-0">
-                        <div className="   ">
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-white  bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -34,8 +46,8 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose }) => {
                                 leaveFrom="opacity-100 "
                                 leaveTo="opacity-0  translate-x-40"
                             >
-                                <Dialog.Panel className="h-screen">
-                                    <div className="w-[18rem] h-screen  rounded-l-lg bg-L-basics-20 text-white flex flex-col justify-between py-5 pt-3">
+                                <Dialog.Panel className="h-screen absolute right-0 overflow-hidden">
+                                    <div className="w-[18rem] h-screen overflow-y-auto bar rounded-l-lg bg-L-basics-20 text-white flex flex-col justify-between py-5 pt-3">
                                         <div className="flex flex-col items-center gap-5 px-6 ">
                                             <button
                                                 className=" p-3 rounded-md flex items-center justify-between w-full"
@@ -44,14 +56,85 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose }) => {
                                                 <MenuIcon height={20} width={20} />
                                                 بستن
                                             </button>
-                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
-                                                <HomeIcon height={20} width={20} />
-                                                منو آیتم 8
-                                            </button>
-                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
-                                                <BasketIcon height={20} width={20} />
-                                                منو آیتم 4
-                                            </button>
+
+                                            <Disclosure defaultOpen={false}>
+                                                <Disclosure.Button as={Fragment}>
+                                                    <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                        <HomeIcon height={20} width={20} />
+                                                        منو آیتم 8
+                                                    </button>
+                                                </Disclosure.Button>
+                                                <Transition
+                                                    as={Fragment}
+                                                    enter="ease-out duration-300"
+                                                    enterFrom="opacity-0  translate-x-10"
+                                                    enterTo="opacity-100 "
+                                                    leave="ease-out duration-300"
+                                                    leaveFrom="opacity-100 "
+                                                    leaveTo="opacity-0  translate-x-10"
+                                                >
+                                                    <Disclosure.Panel className="pr-3 w-full">
+                                                        <div className=" w-full border-solid border-r-2 border-L-menu-20">
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                        </div>
+                                                    </Disclosure.Panel>
+                                                </Transition>
+                                            </Disclosure>
+
+                                            <Disclosure defaultOpen={false}>
+                                                <Disclosure.Button as={Fragment}>
+                                                    <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                        <BasketIcon height={20} width={20} />
+                                                        منو آیتم 4
+                                                    </button>
+                                                </Disclosure.Button>
+                                                <Transition
+                                                    as={Fragment}
+                                                    enter="ease-out duration-300"
+                                                    enterFrom="opacity-0  translate-x-10"
+                                                    enterTo="opacity-100 "
+                                                    leave="ease-out duration-300"
+                                                    leaveFrom="opacity-100 "
+                                                    leaveTo="opacity-0  translate-x-10"
+                                                >
+                                                    <Disclosure.Panel className="pr-3 w-full">
+                                                        <div className=" w-full border-solid border-r-2 border-L-menu-20">
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                            <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
+                                                                <HomeIcon height={18} width={18} />
+                                                                زیر منو آیتم
+                                                            </button>
+                                                        </div>
+                                                    </Disclosure.Panel>
+                                                </Transition>
+                                            </Disclosure>
+
                                             <button className="hover:bg-L-menu-20 hover:text-white flex w-full items-center justify-between text-L-gray-5 p-3 rounded-md">
                                                 <BasketIcon height={20} width={20} />
                                                 منو آیتم 7
