@@ -2,11 +2,11 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NavigateFunction } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
-import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
+import { GlobalActionEnum, GlobalDispatchType } from 'src/app/contexts/global';
 // import { configMockAdapter } from 'src/api_mock/config';
 
 let routerNavigate: NavigateFunction | undefined;
-let appDispatch: AppDispatchType | undefined;
+let appDispatch: GlobalDispatchType | undefined;
 const tokenCookieName = 'ROS_client_id';
 
 const AXIOS = axios.create();
@@ -112,7 +112,7 @@ AXIOS.interceptors.response.use(
     },
 );
 
-export const transferFunctions = (routerNavigateFun: NavigateFunction, appDispatchFun: AppDispatchType) => {
+export const transferFunctions = (routerNavigateFun: NavigateFunction, appDispatchFun: GlobalDispatchType) => {
     routerNavigate = routerNavigateFun;
     appDispatch = appDispatchFun;
 };
@@ -139,7 +139,7 @@ export const setAuthorizeData = (client_id: string) => {
 
 export const unAuthorized = () => {
     //
-    appDispatch && appDispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'LoggedOut' });
+    appDispatch && appDispatch({ type: GlobalActionEnum.SET_APP_STATE, payload: 'LoggedOut' });
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
     routerNavigate && routerNavigate('/login');

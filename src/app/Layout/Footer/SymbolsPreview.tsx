@@ -1,5 +1,5 @@
 import React from 'react';
-import PriceView from 'src/components/common/PriceView';
+import PriceView from 'src/common/components/PriceView';
 
 const SymbolsPreview = () => {
     //

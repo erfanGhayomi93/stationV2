@@ -11,7 +11,7 @@ import {
     QMarkIcon,
     QuitIcon,
     MenuIcon,
-} from 'src/components/Icons';
+} from 'src/common/icons';
 import ExpandedSider from './ExpandedSider';
 
 const Sider = () => {

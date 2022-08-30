@@ -1,5 +1,5 @@
 import React from 'react';
-import { Envelope } from 'src/components/Icons';
+import { Envelope } from 'src/common/icons';
 
 const Messages = () => {
     //

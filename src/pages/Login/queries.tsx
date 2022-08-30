@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
-import { useAppDispatch, AppActionEnum } from 'src/contexts/app';
+import { useGlobalDispatch, GlobalActionEnum } from 'src/app/contexts/global';
 
 const loginFormSubmitReq = async (payload: any) => {
     const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
@@ -12,7 +12,7 @@ const loginFormSubmitReq = async (payload: any) => {
 
 export const useLoginFormSubmit = () => {
     //
-    const appDispatch = useAppDispatch();
+    const appDispatch = useGlobalDispatch();
     const navigate = useNavigate();
 
     return useMutation(loginFormSubmitReq, {
@@ -20,7 +20,7 @@ export const useLoginFormSubmit = () => {
             if (result) {
                 setAuthorizeData(result?.token);
                 appDispatch({
-                    type: AppActionEnum.SET_APP_USER,
+                    type: GlobalActionEnum.SET_APP_USER,
                     payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' },
                 });
                 navigate('/');

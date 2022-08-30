@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Signal } from 'src/components/Icons';
+import { Signal } from 'src/common/icons';
 import { pushEngine } from 'src/api/pushEngine';
 import { useTranslation } from 'react-i18next';
 

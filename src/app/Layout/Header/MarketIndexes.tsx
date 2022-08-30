@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import PriceView from 'src/components/common/PriceView';
+import PriceView from 'src/common/components/PriceView';
 
 const MarketIndexes = () => {
     //

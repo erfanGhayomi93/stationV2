@@ -12,7 +12,7 @@ import {
     QMarkIcon,
     QuitIcon,
     MenuIcon,
-} from 'src/components/Icons';
+} from 'src/common/icons';
 interface IExpandedSiderType {
     isOpen: boolean;
     onClose: (value: boolean) => void;

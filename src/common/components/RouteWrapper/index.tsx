@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import ErrorBoundary from 'src/components/common/ErrorBoundary';
+import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { useLocation } from 'react-router-dom';
 import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/api/appRoutes';
 
