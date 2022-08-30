@@ -6,8 +6,17 @@ Deploy-Job:
   script:
     - npm install
     - ($env:CI = "false") -and (npm run build)
-    - Remove-Item "E:\Station\*" -Recurse
-    - Copy-item -Force -Recurse -Verbose "E:\GitLab-Runner\builds\JQ2tbnAm\0\ui\OnlineStationUI\build\*" -Destination  "E:\Station\"
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "E:\Station\Versions\Station.$date.$Env:VersionStation\"
+    - Import-Module WebAdministration
+    - Set-ItemProperty IIS:\Sites\Station -name physicalPath -value "E:\Station\Versions\Station.$date.$Env:VersionStation\"
+    #- Remove-Item "E:\Station\*" -Recurse
+    - Copy-item -Force -Recurse -Verbose "E:\GitLab-Runner\builds\JQ2tbnAm\0\ui\OnlineStationUI\build\*" -Destination  "E:\Station\Versions\Station.$date.$Env:VersionStation\"
+    - Stop-WebSite "Station"
+    - Start-WebSite "Station"
+    - ([Environment]::SetEnvironmentVariable("VersionStation", [int64]$Env:VersionStation + 1, "Machine"))
+    - cd c:\scripts\Station\
+    - .\only4backup
   tags:
     - Test
   artifacts:
