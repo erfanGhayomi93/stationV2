@@ -1,4 +1,4 @@
-import { Subscription, LightstreamerClient, ConnectionSharing, ItemUpdate } from 'lightstreamer-client-web';
+import { Subscription, LightstreamerClient, ConnectionSharing } from 'lightstreamer-client-web';
 
 interface IConnect {
     DomainName: string;
