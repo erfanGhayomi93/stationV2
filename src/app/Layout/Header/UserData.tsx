@@ -1,10 +1,11 @@
-import React from 'react';
 import { UserIcon } from 'src/common/icons';
-import { useGlobalValues } from 'src/app/contexts/global';
+import { useAppValues } from 'src/redux/hooks';
 
 const UserData = () => {
     //
-    const { userData } = useGlobalValues();
+    const {
+        global: { userData },
+    } = useAppValues();
 
     return (
         <div className="flex items-center ">

@@ -21,3 +21,6 @@ export { ReactComponent as MenuIcon } from 'src/assets/svg/Menu.svg';
 export { ReactComponent as MonitorIcon } from 'src/assets/svg/Monitor.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
+
+// Common
+export { ReactComponent as Search } from 'src/assets/svg/Search.svg';

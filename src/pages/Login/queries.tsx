@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
-import { useGlobalDispatch, GlobalActionEnum } from 'src/app/contexts/global';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setAppUser } from 'src/redux/slices/global';
 
 const loginFormSubmitReq = async (payload: any) => {
     const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
@@ -12,17 +13,14 @@ const loginFormSubmitReq = async (payload: any) => {
 
 export const useLoginFormSubmit = () => {
     //
-    const appDispatch = useGlobalDispatch();
+    const appDispatch = useAppDispatch();
     const navigate = useNavigate();
 
     return useMutation(loginFormSubmitReq, {
         onSuccess: (result) => {
             if (result) {
                 setAuthorizeData(result?.token);
-                appDispatch({
-                    type: GlobalActionEnum.SET_APP_USER,
-                    payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' },
-                });
+                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
                 navigate('/');
             }
         },
