@@ -2,17 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// Providers
-import { GlobalProvider } from 'src/app/contexts/global';
-import { ThemeProvider } from 'src/app/contexts/theme';
-import TranslatorProvider from 'src/app/contexts/translator';
+import { Provider } from 'react-redux';
+import TranslatorProvider from 'src/i18n';
 
 // Components
 import App from 'src/App';
 
 // Styles
 import 'src/assets/scss/main.scss';
+
+import { store } from 'src/redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -22,15 +21,13 @@ const queryClient = new QueryClient({
 });
 
 root.render(
-    <BrowserRouter>
-        <GlobalProvider>
+    <Provider store={store}>
+        <BrowserRouter>
             <TranslatorProvider>
-                <ThemeProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <App />
-                    </QueryClientProvider>
-                </ThemeProvider>
+                <QueryClientProvider client={queryClient}>
+                    <App />
+                </QueryClientProvider>
             </TranslatorProvider>
-        </GlobalProvider>
-    </BrowserRouter>,
+        </BrowserRouter>
+    </Provider>,
 );
