@@ -80,7 +80,9 @@
 .ag-row .ag-cell .ag-cell-wrapper {
     text-align: center !important;
 }
-
+.ag-row .ag-cell.ag-cell-value {
+    text-align: center !important;
+}
 .ag-header .ag-header-cell .ag-header-cell-label {
     justify-content: center !important;
 }
