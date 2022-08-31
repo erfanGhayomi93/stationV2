@@ -50,6 +50,7 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
     return (
         <div className={containerClassName} style={containerStyle}>
             <AgGridReact
+                scrollbarWidth={5}
                 ref={ref}
                 enableRtl
                 suppressCellFocus
@@ -59,7 +60,6 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
                 enableCellTextSelection={false}
                 maintainColumnOrder
                 suppressColumnVirtualisation
-                alwaysShowVerticalScroll
                 //
                 onGridSizeChanged={onGridSizeChanged}
                 onRowDataUpdated={onRowDataUpdated}
