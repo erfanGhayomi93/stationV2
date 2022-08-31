@@ -45,7 +45,7 @@ const Reports = () => {
     ];
 
     return (
-        <div className="w-full h-full bg-red-200">
+        <div className="w-full h-full bg-red-200 flex flex-col">
             <Tab onChange={(idx) => setActiveTab(idx)} selectedIndex={activeTab} items={items} />
         </div>
     );

@@ -9,29 +9,31 @@
                 --ag-font-size: 0.75rem,
                 // header
                 --ag-header-height: 40px,
-                --ag-header-background-color: #eceef2,
+                --ag-header-background-color: #f0f5fa,
                 --ag-header-column-separator-display: true,
-                --ag-header-column-separator-color: #ffffff,
+                --ag-header-column-separator-color: #ffffff00,
                 // Main Colors
                 --ag-foreground-color: #002952,
                 --ag-alpine-active-color: #002952,
-                --ag-header-foreground-color: #002952,
+                --ag-header-foreground-color: #333333,
                 --ag-data-color: #2e3644,
                 --ag-row-hover-color: #d2e3fa,
-                --ag-odd-row-background-color: #f9fafb,
+                --ag-odd-row-background-color: #eff5fb,
                 // Borders
                 --ag-borders: 0px solid,
                 --ag-border-color: #babfc7,
                 --ag-borders-secondary: 0px solid,
-                --ag-cell-horizontal-border: solid #ffffff,
+                --ag-cell-horizontal-border: solid #d2e3fa00,
                 --ag-borders-critical: 0px solid,
-                --ag-borders-row: 0px solid,
                 // Rows
-                --ag-row-height: 50px,
+                --ag-row-height: 40px,
+                --ag-borders-row: 1px solid,
+                --ag-row-border-color: #c2d6eb,
 
                 // Spacing
                 --ag-grid-size: 3px,
                 --ag-icon-size: 14px,
+                --ag-list-item-height: 40px,
             ),
             alpine-dark: (
                 // font
@@ -66,3 +68,23 @@
         ),
     )
 );
+
+.ag-root-wrapper {
+    border-radius: 10px;
+}
+
+.ag-body-viewport.ag-layout-normal .ag-center-cols-viewport {
+    overflow-x: hidden !important;
+}
+
+.ag-row .ag-cell .ag-cell-wrapper {
+    text-align: center !important;
+}
+
+.ag-header .ag-header-cell .ag-header-cell-label {
+    justify-content: center !important;
+}
+
+.ag-header .ag-header-group-cell .ag-header-group-cell-label {
+    justify-content: center !important;
+}

@@ -56,7 +56,7 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
                 suppressRowClickSelection
                 localeText={AgGridLocalization}
                 enableBrowserTooltips
-                enableCellTextSelection
+                enableCellTextSelection={false}
                 maintainColumnOrder
                 suppressColumnVirtualisation
                 alwaysShowVerticalScroll

@@ -22,7 +22,7 @@ const PortfolioWatchlist = () => {
     ];
 
     return (
-        <div className="w-full h-full bg-red-200">
+        <div className="w-full h-full flex flex-col">
             <Tab onChange={(idx) => setActiveTab(idx)} selectedIndex={activeTab} items={items} />
         </div>
     );

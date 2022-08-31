@@ -29,7 +29,7 @@ const AppLayout = () => {
                 <Sider />
                 <div className="flex flex-col h-full grow ">
                     <Header />
-                    <div className="h-full p-3">
+                    <div className="h-full px-4 py-2">
                         <Outlet />
                     </div>
                     <Footer />
