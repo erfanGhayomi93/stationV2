@@ -1,4 +1,4 @@
-import { Children, cloneElement, FC, ReactElement } from 'react';
+import { Children, cloneElement, FC, Fragment, ReactElement } from 'react';
 import { Tab as HeadlessTab } from '@headlessui/react';
 import clsx from 'clsx';
 interface ITabType {
@@ -28,7 +28,7 @@ const Tab: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
                     <div>
                         {items ? (
                             items.map((item) => (
-                                <TabButton key="1">
+                                <TabButton key={item.key}>
                                     <>{item.title}</>
                                 </TabButton>
                             ))
@@ -39,10 +39,10 @@ const Tab: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
                     {leftNode}
                 </div>
             </HeadlessTab.List>
-            <HeadlessTab.Panels>
+            <HeadlessTab.Panels className="grow p-1 bg-white">
                 {items ? (
                     items.map((item) => (
-                        <HeadlessTab.Panel key={item.key}>
+                        <HeadlessTab.Panel key={item.key} as={Fragment}>
                             <>{item.content}</>
                         </HeadlessTab.Panel>
                     ))
