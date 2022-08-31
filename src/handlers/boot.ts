@@ -1,5 +1,5 @@
 import AXIOS from 'src/api/axiosInstance';
-import { AppActionEnum, AppDispatchType } from 'src/contexts/app';
+import { GlobalActionEnum, GlobalDispatchType } from 'src/app/contexts/global';
 
 // add plugins to dayjs globaly
 import dayjs from 'dayjs';
@@ -10,12 +10,12 @@ dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
 //
 
-export const fetchUser = async (dispatch: AppDispatchType) => {
+export const fetchUser = async (dispatch: GlobalDispatchType) => {
     try {
         const { data } = await AXIOS.get(apiRoutes.User.GetUserInformation);
-        dispatch({ type: AppActionEnum.SET_APP_USER, payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' } });
+        dispatch({ type: GlobalActionEnum.SET_APP_USER, payload: { userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' } });
     } catch (error: any) {
-        if (![401].includes(error?.response?.status)) dispatch({ type: AppActionEnum.SET_APP_STATE, payload: 'Crashed' });
+        if (![401].includes(error?.response?.status)) dispatch({ type: GlobalActionEnum.SET_APP_STATE, payload: 'Crashed' });
     }
 
     setPrimaryLoadingState(false);
