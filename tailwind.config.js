@@ -107,6 +107,9 @@ module.exports = {
                 1.3: '0.8125rem',
                 1.4: '0.875rem',
             },
+            gridTemplateColumns: {
+                'min-one': '1fr min-content;',
+            },
         },
     },
     plugins: [
