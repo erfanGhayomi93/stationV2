@@ -9,7 +9,7 @@ const Layout = () => {
     //
     return (
         <div className="grid gap-2 h-full grid-cols-12">
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-2">
                 <div className="col-span-3">
                     <SymbolDetail />
                 </div>
