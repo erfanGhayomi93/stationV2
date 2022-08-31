@@ -28,7 +28,7 @@ const Tab: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
                     <div>
                         {items ? (
                             items.map((item) => (
-                                <TabButton key="1">
+                                <TabButton key={item.key}>
                                     <>{item.title}</>
                                 </TabButton>
                             ))
