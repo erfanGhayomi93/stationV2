@@ -20,7 +20,7 @@ interface ITabButtonType {
     key: string;
 }
 
-const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
+const TabsList2: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
     //
     return (
         <div className="w-full h-full flex flex-col">
@@ -28,8 +28,8 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =>
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
-                <HeadlessTab.List className=" bg-[#BFDBF7]">
-                    <div className="flex justify-between items-center">
+                <HeadlessTab.List>
+                    <div className="flex justify-between items-center border-b-2">
                         <div>
                             {items ? (
                                 items.map((item) => (
@@ -65,7 +65,7 @@ const TabButton: FC<ITabButtonType> = ({ children }) => {
         <HeadlessTab
             className={({ selected }) =>
                 clsx(
-                    'border-t-2 py-2 px-5 border-solid outline-none',
+                    'border-b-2 py-1 px-3 border-solid outline-none',
                     selected ? ' text-[#135CA4] border-[#135CA4] bg-white font-semibold' : ' border-transparent text-[#333333]',
                 )
             }
@@ -78,4 +78,4 @@ const TabButton: FC<ITabButtonType> = ({ children }) => {
 TabButton.displayName = 'TabButton';
 HeadlessTab.Panel.displayName = 'TabPanel';
 
-export default TabsList;
+export default TabsList2;
