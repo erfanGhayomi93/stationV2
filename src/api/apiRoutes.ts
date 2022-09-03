@@ -21,6 +21,10 @@ const apiRoutes = {
     Index: {
         Symbols: `${MarketData}/Index/v1/Symbols`,
     },
+    Symbol: {
+        Search: CommonUrl + '/Symbol/v1/Search',
+        SymbolGeneralInformation: MarketData + '/Symbol/v1/SymbolGeneralInformation',
+    },
 };
 
 export default apiRoutes;
