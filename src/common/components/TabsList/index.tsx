@@ -6,34 +6,40 @@ interface ITabType {
     leftNode?: JSX.Element;
     onChange: (index: string) => void;
     selectedIndex?: string;
-    items: Item[];
+    items: ITabItemType[];
+    fill?: boolean;
 }
 
-interface Item {
+export interface ITabItemType {
     key: string;
     title: JSX.Element | string;
     content: JSX.Element;
+    backgroundColor?: string;
+    borderColor?: string;
 }
 
 interface ITabButtonType {
     children: JSX.Element;
     key: string;
+    fill?: boolean;
+    backgroundColor?: string;
+    borderColor?: string;
 }
 
-const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) => {
+const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill }) => {
     //
     return (
-        <div className="w-full h-full flex flex-col">
+        <div className="w-full h-full flex flex-col bg-white">
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
-                <HeadlessTab.List className=" bg-[#BFDBF7]">
+                <HeadlessTab.List className=" bg-[#BFDBF7] ">
                     <div className="flex justify-between items-center">
-                        <div>
+                        <div className="w-full flex">
                             {items ? (
                                 items.map((item) => (
-                                    <TabButton key={item.key}>
+                                    <TabButton {...item} key={item.key} fill={fill}>
                                         <>{item.title}</>
                                     </TabButton>
                                 ))
@@ -44,10 +50,10 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =>
                         {leftNode}
                     </div>
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow p-1 bg-white">
+                <HeadlessTab.Panels className="grow bg-white ">
                     {items ? (
                         items.map((item) => (
-                            <HeadlessTab.Panel key={item.key} as={Fragment}>
+                            <HeadlessTab.Panel key={item.key} className="p-1 h-full" style={{ backgroundColor: item.backgroundColor }}>
                                 <>{item.content}</>
                             </HeadlessTab.Panel>
                         ))
@@ -60,17 +66,21 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =>
     );
 };
 
-const TabButton: FC<ITabButtonType> = ({ children }) => {
+const TabButton: FC<ITabButtonType> = ({ children, fill, backgroundColor = '#FFFFFF', borderColor = '#135CA4' }) => {
     return (
-        <HeadlessTab
-            className={({ selected }) =>
-                clsx(
-                    'border-t-2 py-2 px-5 border-solid outline-none',
-                    selected ? ' text-[#135CA4] border-[#135CA4] bg-white font-semibold' : ' border-transparent text-[#333333]',
-                )
-            }
-        >
-            {({ selected }) => cloneElement(children, { selected })}
+        <HeadlessTab as={Fragment}>
+            {({ selected }) => (
+                <div
+                    style={selected ? { backgroundColor: backgroundColor, borderColor: borderColor, color: borderColor } : {}}
+                    className={clsx(
+                        'border-t-2 py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer ',
+                        fill ? 'w-full' : '',
+                        selected ? ' text-[#135CA4] border-[#135CA4] bg-white font-semibold' : ' border-transparent text-[#333333]',
+                    )}
+                >
+                    {cloneElement(children, { selected })}
+                </div>
+            )}
         </HeadlessTab>
     );
 };
