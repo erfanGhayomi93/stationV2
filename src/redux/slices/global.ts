@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface GlobalState {
+interface GlobalState {
     appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed';
     userData: { firstName: string; lastName: string; userName: string };
 }
@@ -11,7 +11,7 @@ const initialState: GlobalState = {
     userData: { firstName: '', lastName: '', userName: '' },
 };
 
-export const globalSlice = createSlice({
+const globalSlice = createSlice({
     name: 'global',
     initialState,
     reducers: {
