@@ -1,5 +1,4 @@
 //
-
 interface Window {
     APP_ENV: 'production' | 'development';
     baseURL: string;
