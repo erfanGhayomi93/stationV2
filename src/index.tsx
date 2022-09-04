@@ -9,6 +9,7 @@ import TranslatorProvider from 'src/i18n';
 import App from 'src/App';
 
 // Styles
+import 'src/common/components/LinearRangeChart/build.css';
 import 'src/assets/scss/main.scss';
 
 import { store } from 'src/redux/store';
