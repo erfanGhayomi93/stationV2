@@ -24,12 +24,12 @@ const AppLayout = () => {
     }, []);
 
     return (
-        <div className="h-screen w-screen overflow-hidden bg-[#DAEBFB]">
-            <div className="h-full w-full flex">
+        <div className="h-screen w-screen  bg-[#DAEBFB]">
+            <div className="h-full w-full grid grid-cols-one-min">
                 <Sider />
-                <div className="flex flex-col h-full grow ">
+                <div className="grid grid-rows-min-one-min overflow-y-auto ">
                     <Header />
-                    <div className="h-full px-4 py-2">
+                    <div className="h-full px-4 py-2 grid overflow-y-auto overflow-x-auto min-w-[1230px]">
                         <Outlet />
                     </div>
                     <Footer />

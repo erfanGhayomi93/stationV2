@@ -8,12 +8,12 @@ import SymbolDetail from 'src/common/widgets/SymbolDetail';
 const Home = () => {
     //
     return (
-        <div className="grid gap-2 h-full grid-cols-12">
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 ">
+        <div className="grid gap-2 h-full grid-cols-12 overflow-y-auto ">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-60-40 overflow-y-auto ">
                 <div className="col-span-3">
                     <SymbolDetail />
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-3 grid h-full overflow-y-auto">
                     <CustomerSearch />
                 </div>
             </div>

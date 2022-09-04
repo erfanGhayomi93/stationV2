@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSymbolGeneralInfo } from 'src/app/queries';
 import LinearRangeChart from 'src/common/components/LinearRangeChart';
 import { TriangleIcon } from 'src/common/components/LinearRangeChart/Icons';
+import { useAppValues } from 'src/redux/hooks';
+
 const traderOptions = {
     footer: false,
     ruler: true,
@@ -47,14 +50,36 @@ const traderOptions = {
 };
 const SymbolPriceBar = () => {
     //
+    const {
+        option: { selectedSymbol },
+    } = useAppValues();
+
+    const { data } = useSymbolGeneralInfo(selectedSymbol, (data) => ({
+        //
+        yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
+        //
+        lowThreshold: data?.symbolData?.lowThreshold,
+        highThreshold: data?.symbolData?.highThreshold,
+        //
+        highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
+        lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
+        //
+        lastTradedPrice: data?.symbolData?.lastTradedPrice,
+        firstTradedPrice: data?.symbolData?.firstTradedPrice,
+    }));
+
     return (
         <div className="font-sans">
             <LinearRangeChart
                 {...traderOptions}
-                originData={2000}
-                thresholdData={[1000, 3000]}
-                exchangeData={[1200, 2400]}
-                boundaryData={[1600, 2800]}
+                originData={data?.yesterdayClosingPrice || 0}
+                thresholdData={data?.lowThreshold && data?.highThreshold ? [data?.lowThreshold, data?.highThreshold] : [0, 0]}
+                exchangeData={data?.lastTradedPrice && data?.firstTradedPrice ? [data?.firstTradedPrice, data?.lastTradedPrice] : [0, 0]}
+                boundaryData={
+                    data?.lowestTradePriceOfTradingDay && data?.highestTradePriceOfTradingDay
+                        ? [data?.lowestTradePriceOfTradingDay, data?.highestTradePriceOfTradingDay]
+                        : [0, 0]
+                }
             />
         </div>
     );
