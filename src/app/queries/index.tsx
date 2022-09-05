@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { SymbolGeneralInfoType } from './types';
 
 const getSymbolGeneralInfo = async (symbolISIN: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolGeneralInfoType>>(apiRoutes.Symbol.SymbolGeneralInformation, {
@@ -10,9 +9,20 @@ const getSymbolGeneralInfo = async (symbolISIN: string) => {
     return data?.result;
 };
 
-export const useSymbolGeneralInfo = <T = SymbolGeneralInfoType,>(symbolISIN: string, select?: (data: SymbolGeneralInfoType) => T) => {
-    return useQuery<SymbolGeneralInfoType, any, T, any[]>(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), {
-        enabled: !!symbolISIN,
-        select,
+export const useSymbolGeneralInfo = (symbolISIN: string, options?: { select: (data: SymbolGeneralInfoType) => any }) => {
+    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), { enabled: !!symbolISIN, ...options });
+};
+
+const searchSymbol = async (term: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(apiRoutes.Symbol.Search, { params: { term } });
+    return data?.result || [];
+};
+
+export const useSymbolSearch = (term: string) => {
+    return useQuery(['SymbolSearch', term], ({ queryKey }) => searchSymbol(queryKey[1]), {
+        enabled: !!term,
+        staleTime: 0,
+        cacheTime: 0,
+        select: (data) => (data ? data.slice(0, 10) : undefined),
     });
 };

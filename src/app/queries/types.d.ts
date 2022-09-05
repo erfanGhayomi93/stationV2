@@ -70,7 +70,36 @@ type IndividualLegal = {
     legalSellVolume: number;
 };
 
-export type SymbolGeneralInfoType = {
+type SymbolGeneralInfoType = {
     symbolData: SymbolData;
     individualLegal: IndividualLegal;
+};
+
+type SymbolSearchResult = {
+    symbolISIN: string;
+    companyISIN: string;
+    symbolTitle: string;
+    companyName: string;
+    highPrice: number;
+    lowPrice: number;
+    closingPrice: number;
+    openPrice: number;
+    highThreshold: number;
+    lowThreshold: number;
+    lastTradedPrice: number;
+    symbolGroupCode: string;
+    sectorCode: string;
+    marketCode: string;
+    marketUnit: string;
+    tradePriceVarPreviousTradePercent: number;
+    yesterdayClosingPrice: number;
+    closingPriceVarReferencePrice: number;
+    closingPriceVarReferencePricePercent: number;
+    symbolOrderState: string;
+    symbolTradeState: string;
+    groupState: string;
+    isInWatchList: boolean;
+    symbolState: string;
+    companyCode: string;
+    symbolTag: string;
 };
