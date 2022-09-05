@@ -9,8 +9,13 @@ const getSymbolGeneralInfo = async (symbolISIN: string) => {
     return data?.result;
 };
 
-export const useSymbolGeneralInfo = (symbolISIN: string, options?: { select: (data: SymbolGeneralInfoType) => any }) => {
-    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), { enabled: !!symbolISIN, ...options });
+export const useSymbolGeneralInfo = <T,>(symbolISIN: string, options?: { select: (data: SymbolGeneralInfoType) => T }) => {
+    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), {
+        enabled: !!symbolISIN,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        ...options,
+    });
 };
 
 const searchSymbol = async (term: string) => {

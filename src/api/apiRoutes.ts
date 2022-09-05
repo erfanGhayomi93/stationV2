@@ -25,6 +25,9 @@ const apiRoutes = {
         Search: CommonUrl + '/Symbol/v1/Search',
         SymbolGeneralInformation: MarketData + '/Symbol/v1/SymbolGeneralInformation',
     },
+    MarketDepth: {
+        Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
+    },
 };
 
 export default apiRoutes;
