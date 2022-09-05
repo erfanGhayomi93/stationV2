@@ -2,6 +2,7 @@ import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
+import SymbolState from 'src/common/components/SymbolState';
 import { useAppValues } from 'src/redux/hooks';
 
 const SymbolHeader = () => {
@@ -10,12 +11,14 @@ const SymbolHeader = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data, isLoading } = useSymbolGeneralInfo(selectedSymbol, (data) => ({
-        symbolTitle: data?.symbolData?.symbolTitle,
-        companyName: data?.symbolData?.companyName,
-        symbolState: data?.symbolData?.symbolState,
-        insCode: data?.symbolData?.insCode,
-    }));
+    const { data } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data) => ({
+            symbolTitle: data?.symbolData?.symbolTitle,
+            companyName: data?.symbolData?.companyName,
+            symbolState: data?.symbolData?.symbolState,
+            insCode: data?.symbolData?.insCode,
+        }),
+    });
 
     return (
         <div className="flex items-center">
@@ -24,7 +27,7 @@ const SymbolHeader = () => {
                 <div className="w-[40px] h-[40px] bg-sky-400 rounded-full "></div>
             </div>
             <div className="ml-2">
-                <div className="w-[9px] h-[9px] bg-green-400 rounded-full "></div>
+                <SymbolState symbolState={data?.symbolState || ''} />
             </div>
             <div className="flex flex-col">
                 <span className="font-bold">{data?.symbolTitle || '-'}</span>

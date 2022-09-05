@@ -54,19 +54,21 @@ const SymbolPriceBar = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data } = useSymbolGeneralInfo(selectedSymbol, (data) => ({
-        //
-        yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
-        //
-        lowThreshold: data?.symbolData?.lowThreshold,
-        highThreshold: data?.symbolData?.highThreshold,
-        //
-        highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
-        lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
-        //
-        lastTradedPrice: data?.symbolData?.lastTradedPrice,
-        firstTradedPrice: data?.symbolData?.firstTradedPrice,
-    }));
+    const { data } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data) => ({
+            //
+            yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
+            //
+            lowThreshold: data?.symbolData?.lowThreshold,
+            highThreshold: data?.symbolData?.highThreshold,
+            //
+            highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
+            lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
+            //
+            lastTradedPrice: data?.symbolData?.lastTradedPrice,
+            firstTradedPrice: data?.symbolData?.firstTradedPrice,
+        }),
+    });
 
     return (
         <div className="font-sans">
