@@ -16,7 +16,7 @@ const PriceView = ({
     label,
     positiveClassName = 'text-green-500',
     negativeClassName = 'text-red-500',
-    neutralClassName = 'text-gray-300',
+    neutralClassName = 'text-gray-500',
 }: IProps) => {
     //
     const textColorClassName = useMemo(

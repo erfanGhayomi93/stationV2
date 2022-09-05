@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
@@ -11,7 +11,7 @@ const SymbolHeader = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data } = useSymbolGeneralInfo(selectedSymbol, {
+    const { data, remove } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
             symbolTitle: data?.symbolData?.symbolTitle,
             companyName: data?.symbolData?.companyName,
