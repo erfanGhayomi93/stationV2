@@ -9,12 +9,14 @@ const SymbolPricePreview = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data, isLoading } = useSymbolGeneralInfo(selectedSymbol, (data) => ({
-        lastTradedPrice: data?.symbolData?.lastTradedPrice,
-        lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,
-        closingPrice: data?.symbolData?.closingPrice,
-        closingPriceVarPercent: data?.symbolData?.closingPriceVarPercent,
-    }));
+    const { data, isLoading } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data) => ({
+            lastTradedPrice: data?.symbolData?.lastTradedPrice,
+            lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,
+            closingPrice: data?.symbolData?.closingPrice,
+            closingPriceVarPercent: data?.symbolData?.closingPriceVarPercent,
+        }),
+    });
 
     return (
         <div className="px-3 py-2 rounded-md bg-gray-100">
