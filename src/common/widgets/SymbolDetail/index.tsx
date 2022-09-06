@@ -10,8 +10,8 @@ const SymbolDetail = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    // apply loading here
-    const { remove, isLoading } = useSymbolGeneralInfo(selectedSymbol);
+    // isLoading or isFetching ? depends ...
+    const { remove, isLoading, isFetching } = useSymbolGeneralInfo(selectedSymbol);
 
     useEffect(() => {
         return () => {
@@ -24,6 +24,7 @@ const SymbolDetail = () => {
             <div className="pb-2">
                 <SymbolSearch />
             </div>
+            {/*  apply loading wrapper here */}
             <div className="grow">
                 <SymbolData />
             </div>
