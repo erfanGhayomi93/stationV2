@@ -14,13 +14,14 @@ export const useSymbolGeneralInfo = <T,>(symbolISIN: string, options?: { select:
         enabled: !!symbolISIN,
         staleTime: Infinity,
         cacheTime: Infinity,
+        // keepPreviousData: true,
         ...options,
     });
 };
 
 const searchSymbol = async (term: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(apiRoutes.Symbol.Search, { params: { term } });
-    return data?.result || [];
+    return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
 };
 
 export const useSymbolSearch = (term: string) => {
@@ -28,6 +29,5 @@ export const useSymbolSearch = (term: string) => {
         enabled: !!term,
         staleTime: 0,
         cacheTime: 0,
-        select: (data) => (data ? data.slice(0, 10) : undefined),
     });
 };

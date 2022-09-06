@@ -30,7 +30,7 @@ const AdditionalData = () => {
     return (
         <div className="w-full h-full">
             <div className="w-full flex flex-col ">
-                <div className="flex items-center my-2">
+                <div className="flex items-center my-4">
                     <div className="w-5/12">
                         <ProgressBar
                             topCenter={abbreviateNumber(data?.individualBuyVolume || 0)}
