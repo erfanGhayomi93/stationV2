@@ -11,7 +11,7 @@ const SymbolHeader = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data, remove } = useSymbolGeneralInfo(selectedSymbol, {
+    const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
             symbolTitle: data?.symbolData?.symbolTitle,
             companyName: data?.symbolData?.companyName,

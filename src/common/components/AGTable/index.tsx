@@ -55,9 +55,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
                 suppressRowClickSelection
                 localeText={AgGridLocalization}
                 enableBrowserTooltips
-                enableCellTextSelection={false}
                 scrollbarWidth={5}
-                maintainColumnOrder
                 suppressColumnVirtualisation
                 //
                 onGridSizeChanged={onGridSizeChanged}
