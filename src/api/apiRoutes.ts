@@ -4,6 +4,8 @@ const mock_path = 'MockApi/api/';
 const CommonUrl = 'http://192.168.40.8:12000';
 const OauthUrl = 'http://192.168.40.8:5011';
 const MarketData = 'http://192.168.40.8:7000';
+const BackOffice = 'http://192.168.40.8:9500';
+
 
 const apiRoutes = {
     OAuthApi: {
@@ -24,6 +26,10 @@ const apiRoutes = {
     Symbol: {
         Search: CommonUrl + '/Symbol/v1/Search',
         SymbolGeneralInformation: MarketData + '/Symbol/v1/SymbolGeneralInformation',
+    },
+    Customer: {
+        Search: BackOffice + '/GoCustomer/v1/Search',
+        SymbolGeneralInformation: BackOffice + '/GoCustomer/v1/GetCustomerInformation',
     },
 };
 

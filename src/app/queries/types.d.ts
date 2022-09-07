@@ -103,3 +103,52 @@ type SymbolSearchResult = {
     companyCode: string;
     symbolTag: string;
 };
+
+
+
+type ICustomerTypeType = "Total" | "Customer" | "Group" | "Mine";
+interface IGoCustomerResult {
+    type: ICustomerTypeType
+    searchResult: PaginatedSearchResult
+    typeCounts: TypeCount[];
+}
+
+interface PaginatedSearchResult {
+
+    errors: null | string[];
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+    pageNumber: number
+    pageSize: number
+    result: SearchResult[]
+    succeeded: boolean
+    totalCount: number
+    totalPages: number
+}
+interface SearchResult {
+    customerTitle: string;
+    customerISIN: string;
+    balance: number;
+    bourseCode: string;
+    nationalCode: string;
+    groupName: string;
+    groupId: number;
+}
+
+interface TypeCount {
+    type: ICustomerTypeType
+    count: number;
+}
+
+
+interface IGoCustomerResponse extends IGlobalResponseType<IGoCustomerResult> {
+
+}
+
+interface IGoCustomerRequest extends IPaginateRequest {
+    term?: string
+    type?: ICustomerTypeType
+}
+
+
+

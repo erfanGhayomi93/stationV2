@@ -26,3 +26,4 @@ export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
 export { ReactComponent as Search } from 'src/assets/svg/Search.svg';
 export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
+export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
