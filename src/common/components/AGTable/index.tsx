@@ -1,5 +1,5 @@
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
-import React, { forwardRef, useCallback, useMemo } from 'react';
+import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 
 import { sepNumbers, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
@@ -13,9 +13,9 @@ export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'childr
     children: (ColDefType<TData> | ColGroupDefType<TData>)[];
 }
 
-interface Props extends AgGridReactProps {}
+interface Props<TData> extends AgGridReactProps<TData> {}
 
-const AGTable = forwardRef<AgGridReact, Props>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
+const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
     //
     const isDarkMode = false;
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
@@ -77,4 +77,4 @@ const AGTable = forwardRef<AgGridReact, Props>(({ defaultColDef = {}, rowData = 
 
 AGTable.displayName = 'AGTable';
 
-export default React.memo(AGTable);
+export default AGTable as <TData extends unknown>(props: Props<TData> & { ref?: Ref<AgGridReact<TData>> }) => JSX.Element;

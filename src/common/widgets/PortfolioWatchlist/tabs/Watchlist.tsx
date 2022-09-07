@@ -4,28 +4,24 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 
-type X = {
+type WatchlistData = {
     symbolISIN: string;
-    note: null;
-    stopLoss: number;
-    takeProfit: number;
-    commentCount: number;
-    insCode: string;
-    companyISIN: string;
     symbolTitle: string;
-    companyName: string;
-    enCompanyName: string;
+    lastTradedPrice: number;
+    closingPrice: number;
+    totalNumberOfSharesTraded: number;
+    totalTradeValue: number;
 };
 
 const Watchlist = () => {
     //
-    const gridRef = useRef<AgGridReact<X>>(null);
+    const appDispatch = useAppDispatch();
+
+    const gridRef = useRef<AgGridReact<WatchlistData>>(null);
 
     gridRef.current?.api.forEachNode(({ data }) => {
-        data?.commentCount;
+        data?.closingPrice;
     });
-
-    const appDispatch = useAppDispatch();
 
     const [rowData] = useState([
         {
@@ -307,14 +303,8 @@ const Watchlist = () => {
     ]);
 
     const Columns = useMemo(
-        (): ColDefType<X>[] => [
-            {
-                headerName: 'نماد',
-                field: 'symbolTitle',
-                onCellClicked: ({ data }) => {
-                    data?.insCode;
-                },
-            },
+        (): ColDefType<WatchlistData>[] => [
+            { headerName: 'نماد', field: 'symbolTitle' },
             { headerName: 'قیمت لحظه ای', field: 'lastTradedPrice', type: 'sepratedNumber' },
             { headerName: 'قیمت پایانی', field: 'closingPrice', type: 'sepratedNumber' },
             { headerName: 'حجم معاملات', field: 'totalNumberOfSharesTraded', type: 'abbreviatedNumber' },
@@ -329,11 +319,9 @@ const Watchlist = () => {
             <div className="py-3">actions</div>
             <div className="grow">
                 <AGTable
-                    ref={gridRef}
                     rowData={rowData}
                     columnDefs={Columns}
-                    onRowClicked={(e) => appDispatch(setSelectedSymbol(e.data.symbolISIN))}
-                    onCellClicked={({ data }) => {}}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </div>
         </div>
