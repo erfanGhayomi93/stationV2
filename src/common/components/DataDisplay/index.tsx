@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, { useCallback, useMemo } from 'react';
 
 type Item = { key: number | string; label: string; value: string | number };
+
 interface Props {
     items: Item[];
     cols: 2 | 3;

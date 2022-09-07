@@ -1,35 +1,34 @@
-import { AgGridColumnProps, AgGridReact, AgGridReactProps } from 'ag-grid-react';
+import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 
-import { sepNumbers } from 'src/utils/helpers';
+import { sepNumbers, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
-import { ColGroupDef } from 'ag-grid-community';
+import { ColGroupDef, ColDef } from 'ag-grid-community';
 
-export interface ColDefType extends Omit<AgGridColumnProps, 'type'> {
-    type?: 'sepratedNumber';
+export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
+    type?: 'sepratedNumber' | 'abbreviatedNumber';
 }
 
-export interface ColGroupDefType extends Omit<ColGroupDef, 'children'> {
-    children: (ColDefType | ColGroupDefType)[];
+export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'children'> {
+    children: (ColDefType<TData> | ColGroupDefType<TData>)[];
 }
 
-interface Props extends AgGridReactProps {
-    ref?: Ref<AgGridReact>;
-}
+interface Props<TData> extends AgGridReactProps<TData> {}
 
-const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
+const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
     //
     const isDarkMode = false;
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
     const containerClassName = useMemo((): string => `ag-theme-alpine${isDarkMode ? '-dark' : ''}`, []);
 
-    const ColumnTypes = useMemo((): { [key: string]: AgGridColumnProps } => {
+    const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
             sepratedNumber: { valueFormatter: ({ value }) => sepNumbers(value), cellStyle: { direction: 'ltr' } },
+            abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
         };
     }, []);
 
-    const DefaultColDef = useMemo((): AgGridColumnProps => {
+    const DefaultColDef = useMemo((): ColDef => {
         return {
             minWidth: 100,
             suppressMovable: true,
@@ -50,7 +49,6 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
     return (
         <div className={containerClassName} style={containerStyle}>
             <AgGridReact
-                scrollbarWidth={5}
                 ref={ref}
                 enableRtl
                 suppressCellFocus
@@ -58,6 +56,7 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
                 localeText={AgGridLocalization}
                 enableBrowserTooltips
                 enableCellTextSelection={false}
+                scrollbarWidth={5}
                 maintainColumnOrder
                 suppressColumnVirtualisation
                 //
@@ -78,4 +77,4 @@ const AGTable: React.FC<Props> = forwardRef(({ defaultColDef = {}, rowData = [],
 
 AGTable.displayName = 'AGTable';
 
-export default React.memo(AGTable);
+export default AGTable as <TData extends unknown>(props: Props<TData> & { ref?: Ref<AgGridReact<TData>> }) => JSX.Element;
