@@ -222,7 +222,7 @@ export const abbreviateNumber = (number: number) => {
 
     if (isNaN(number)) return number;
 
-    const SI_SYMBOL = ['', 'K', 'M', 'G', 'T', 'P', 'E'];
+    const SI_SYMBOL = ['', 'K', 'M', 'B', 'T', 'P', 'E'];
 
     // what tier? (determines SI symbol)
     const tier = (Math.log10(Math.abs(Number(number))) / 3) | 0;
