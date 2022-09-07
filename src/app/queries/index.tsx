@@ -35,6 +35,7 @@ export const useSymbolSearch = (term: string) => {
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes.Customer.Search, { params });
+
     return data.result || [];
 };
 
@@ -43,6 +44,7 @@ export const useCustomerList = (params: IGoCustomerRequest) => {
         enabled: !!params,
         staleTime: 0,
         cacheTime: 0,
+        keepPreviousData: true,
         select: (data) => data,
     });
 };
@@ -55,12 +57,10 @@ interface IParamType {
 export const useCustomerListInfinit = (params: IGoCustomerRequest) => {
     return useInfiniteQuery(
         ['searchCustomer', params],
-        ({ queryKey, pageParam = { pageNumber: 1 } }) => searchCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1], ...pageParam } : {}),
+        ({ queryKey, pageParam = 1 }) => searchCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1], pageNumber: pageParam } : {}),
         {
             enabled: !!params,
-            getNextPageParam: (data) => {
-                return { pageNumber: data.searchResult.pageNumber + 1, hasNextPage: data.searchResult.hasNextPage };
-            },
+            getNextPageParam: (data) => (data.searchResult.hasNextPage ? data.searchResult.pageNumber + 1 : undefined),
         },
     );
 };

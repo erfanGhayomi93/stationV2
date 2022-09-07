@@ -120,12 +120,12 @@ interface PaginatedSearchResult {
     hasPreviousPage: boolean
     pageNumber: number
     pageSize: number
-    result: SearchResult[]
+    result: IGoCustomerSearchResult[]
     succeeded: boolean
     totalCount: number
     totalPages: number
 }
-interface SearchResult {
+interface IGoCustomerSearchResult {
     customerTitle: string;
     customerISIN: string;
     balance: number;

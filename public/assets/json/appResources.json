@@ -6,5 +6,11 @@
         "Connected": "اتصال برقرار",
         "Disconnected": "غیر متصل",
         "Stalled": "در حال اتصال"
+    },
+    "CustomerTypes":{
+        "Total":"همه",
+        "Customer":"مشتریان",
+        "Mine":"خودم",
+        "Group":"گروه"
     }
 }
