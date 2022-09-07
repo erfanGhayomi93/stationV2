@@ -9,7 +9,7 @@ const SymbolPricePreview = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const { data, isLoading } = useSymbolGeneralInfo(selectedSymbol, {
+    const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
             lastTradedPrice: data?.symbolData?.lastTradedPrice,
             lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,

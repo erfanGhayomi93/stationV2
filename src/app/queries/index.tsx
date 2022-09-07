@@ -10,13 +10,19 @@ const getSymbolGeneralInfo = async (symbolISIN: string) => {
     return data?.result;
 };
 
-export const useSymbolGeneralInfo = (symbolISIN: string, options?: { select: (data: SymbolGeneralInfoType) => any }) => {
-    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), { enabled: !!symbolISIN, ...options });
+export const useSymbolGeneralInfo = <T,>(symbolISIN: string, options?: { select: (data: SymbolGeneralInfoType) => T }) => {
+    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), {
+        enabled: !!symbolISIN,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        // keepPreviousData: true,
+        ...options,
+    });
 };
 
 const searchSymbol = async (term: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(apiRoutes.Symbol.Search, { params: { term } });
-    return data?.result || [];
+    return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
 };
 
 export const useSymbolSearch = (term: string) => {
@@ -24,7 +30,6 @@ export const useSymbolSearch = (term: string) => {
         enabled: !!term,
         staleTime: 0,
         cacheTime: 0,
-        select: (data) => (data ? data.slice(0, 10) : undefined),
     });
 };
 
