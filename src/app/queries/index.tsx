@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryObserverOptions, UseBaseQueryOptions, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { AxiosPromise, AxiosResponse } from 'axios';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 
@@ -32,4 +33,36 @@ export const useSymbolSearch = (term: string) => {
         staleTime: 0,
         cacheTime: 0,
     });
+};
+
+const searchCustomer = async (params: IGoCustomerRequest) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes.Customer.Search, { params });
+
+    return data.result || [];
+};
+
+export const useCustomerList = (params: IGoCustomerRequest) => {
+    return useQuery(['searchCustomer', params], ({ queryKey }) => searchCustomer(queryKey[1] as IGoCustomerRequest), {
+        enabled: !!params,
+        staleTime: 0,
+        cacheTime: 0,
+        keepPreviousData: true,
+        select: (data) => data,
+    });
+};
+
+interface IParamType {
+    queryKey: IGoCustomerRequest;
+    pageParam: number;
+}
+
+export const useCustomerListInfinit = (params: IGoCustomerRequest) => {
+    return useInfiniteQuery(
+        ['searchCustomer', params],
+        ({ queryKey, pageParam = 1 }) => searchCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1], pageNumber: pageParam } : {}),
+        {
+            enabled: !!params,
+            getNextPageParam: (data) => (data.searchResult.hasNextPage ? data.searchResult.pageNumber + 1 : undefined),
+        },
+    );
 };
