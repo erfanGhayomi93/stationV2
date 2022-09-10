@@ -33,7 +33,7 @@ const DataDisplay = ({ cols, items, applyDots = true }: Props) => {
     return (
         <div className="w-full border rounded-md text-xs">
             {Array.from({ length: rowCounts }, (_, i) => i).map((rowNum) => {
-                return <Row key={rowNum} rowItems={items.slice(rowNum * 2, rowNum * 2 + cols)} />;
+                return <Row key={rowNum} rowItems={items.slice(rowNum * cols, rowNum * cols + cols)} />;
             })}
         </div>
     );

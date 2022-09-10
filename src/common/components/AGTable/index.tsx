@@ -1,9 +1,9 @@
-import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
+import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
+import { ColGroupDef, ColDef } from 'ag-grid-community';
 
 import { sepNumbers, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
-import { ColGroupDef, ColDef } from 'ag-grid-community';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
     type?: 'sepratedNumber' | 'abbreviatedNumber';
