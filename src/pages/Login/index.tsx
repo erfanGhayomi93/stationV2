@@ -5,6 +5,9 @@ import { useCaptcha, useLoginFormSubmit } from './queries';
 
 const Login = () => {
     //
+    const [userString, setUserString] = useState('');
+    const [passString, setPassString] = useState('');
+
     const [captchaValue, setCaptchaValue] = useState('');
 
     const { t } = useTranslation();
@@ -12,25 +15,39 @@ const Login = () => {
     const { data: captchaData, isFetching } = useCaptcha();
     const { isLoading, mutate: loginFormSubmit } = useLoginFormSubmit();
 
-    const onSubmitClick = useCallback(() => {
+    const onSubmitClick = () => {
         loginFormSubmit({
             productType: 'Local',
             requestUri: '',
             token: '',
             captchaValue: captchaValue,
             captchaKey: captchaData?.key,
-            password: base64.encode('Tgs10001'),
-            term: 'soheilkh',
+            password: base64.encode(passString),
+            term: userString,
         });
-    }, [captchaData, captchaValue]);
+    };
 
     return (
         <div className="w-1/3 flex flex-col mx-auto text-center pt-10">
             <div>{t('Login.title')}</div>
             <br />
-            <input type="text" disabled value="soheilkh" />
+            <input
+                name="username"
+                placeholder="username"
+                className="border"
+                type="text"
+                value={userString}
+                onChange={(e) => setUserString(e.target.value)}
+            />
             <br />
-            <input type="text" disabled value="*******" />
+            <input
+                name="password"
+                placeholder="password"
+                className="border"
+                type="text"
+                value={passString}
+                onChange={(e) => setPassString(e.target.value)}
+            />
             <br />
             <input
                 className="border"
