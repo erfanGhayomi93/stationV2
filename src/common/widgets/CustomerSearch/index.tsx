@@ -11,13 +11,19 @@ import SearchInput from './components/SearchInput';
 import { useCustomerSearchState } from './context/CustomerSearchContext';
 import { CounterBalloon } from '../../components/CounterBalloon/CounterBalloon';
 import nameCellRenderer from './components/NameCell/NameCell';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
+    const appDispatch = useAppDispatch();
     const { setState, state } = useCustomerSearchState();
     const debouncedParams = useDebounce(state.params, 500);
-    const { data: data, isLoading: isSearchLoading, hasNextPage, fetchNextPage } = useCustomerListInfinit(debouncedParams);
+    const {
+        option: { selectedCustomers },
+    } = useAppValues();
 
+    const { data: data, isFetching, hasNextPage, fetchNextPage } = useCustomerListInfinit(debouncedParams);
     const Columns = useMemo<ColDefType<IGoCustomerSearchResult>[]>(
         () => [
             { field: 'customerTitle', headerName: 'نام', cellRenderer: nameCellRenderer, headerCheckboxSelection: true, checkboxSelection: true },
@@ -30,6 +36,8 @@ const CustomerSearch = () => {
         ],
         [],
     );
+
+    const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
     const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
     const setParams = (type: ICustomerTypeType) => {
@@ -42,11 +50,25 @@ const CustomerSearch = () => {
         rowIndex === itemsLength && fetchNextPage();
     };
 
-    const onSelectionChanged = useCallback((event: SelectionChangedEvent<any>) => {
-        const rows = event.api.getSelectedNodes();
-        const selectedCustomers = rows.map((item) => item.data);
-        setState((prev) => ({ ...prev, selectedCustomers }));
-    }, []);
+    const onRowSelected = useCallback(
+        (event: RowSelectedEvent<IGoCustomerSearchResult>) => {
+            const index = selectedCustomers.findIndex((customer) => customer.customerISIN === event.data?.customerISIN);
+            if (index === -1) {
+                // appDispatch(setSelectedCustomers([...selectedCustomers, event.data as IGoCustomerSearchResult]));
+            } else {
+                // appDispatch(setSelectedCustomers(selectedCustomers.filter((customer) => customer.customerISIN !== event.data?.customerISIN)));
+            }
+        },
+        [selectedCustomers],
+    );
+
+    const onSelectionChanged = useCallback(
+        (event: SelectionChangedEvent<IGoCustomerSearchResult>) => {
+            var rows = event.api.getSelectedNodes().map((item) => item.data as IGoCustomerSearchResult);
+            appDispatch(setSelectedCustomers(rows));
+        },
+        [selectedCustomers],
+    );
 
     const toggleSelection = (isActive: boolean) => {
         setState((prev) => ({ ...prev, isSelectedActive: isActive }));
@@ -55,37 +77,45 @@ const CustomerSearch = () => {
     return (
         <div className="w-full h-full grid gap-2 grid-rows-min-one overflow-y-auto">
             <SearchInput />
-            <WidgetLoading spining={isSearchLoading}>
+            <WidgetLoading spining={isFetching}>
                 <div className="bg-white h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                     <div className="flex gap-2  py-2">
-                        {typeCounts?.map((type) => (
-                            <>
-                                <button
-                                    onClick={() => setParams(type.type)}
-                                    disabled={!type.count}
-                                    className={clsx(
-                                        'bg-[#E2EBF3] outline-none disabled:opacity-60 relative text-[#566978] border-solid border-transparent border px-2 py-1 rounded-md',
-                                    )}
-                                >
-                                    <CounterBalloon count={type.count} />
-                                    {t('CustomerTypes.' + type.type)}
-                                </button>
-                            </>
+                        {types.map((type, inx) => (
+                            <button
+                                key={inx}
+                                onClick={() => setParams(type)}
+                                disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
+                                className={clsx(
+                                    ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
+                                    !state.isSelectedActive && state.params.type === type
+                                        ? 'bg-[#E2EBF3] border-[#135CA4] text-[#135CA4]'
+                                        : 'bg-[#E2EBF3] border-transparent text-[#566978]',
+                                )}
+                            >
+                                <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} />
+                                {t('CustomerTypes.' + type)}
+                            </button>
                         ))}
                         <button
                             onClick={() => toggleSelection(true)}
-                            className="bg-[#E2EBF3] relative text-[#566978] border-solid border-transparent border px-2 py-1 rounded-md"
+                            className={clsx(
+                                ' duration-200 relative outline-none border-solid border px-2 py-1 rounded-md',
+                                state.isSelectedActive
+                                    ? 'bg-[#E2EBF3] border-[#135CA4] text-[#135CA4]'
+                                    : 'bg-[#E2EBF3] border-transparent text-[#566978]',
+                            )}
                         >
-                            <CounterBalloon count={state.selectedCustomers.length} />
+                            <CounterBalloon count={selectedCustomers.length} />
                             همه انتخاب شده‌ها
                         </button>
                     </div>
                     <AGTable
-                        rowData={data?.pages.flatMap((page) => page.searchResult.result) || []}
+                        rowData={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || []}
                         columnDefs={Columns}
                         rowSelection={'multiple'}
                         onBodyScrollEnd={onGridReady}
                         rowHeight={50}
+                        onRowSelected={onRowSelected}
                         onSelectionChanged={onSelectionChanged}
                         suppressRowClickSelection={true}
                     />
