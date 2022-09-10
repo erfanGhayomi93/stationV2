@@ -1,6 +1,5 @@
-import React from 'react';
 import BuySell from 'src/common/widgets/BuySell';
-import CustomerSearch from 'src/common/widgets/CustomerSearch';
+import CustomerSearchWidget from 'src/common/widgets/CustomerSearch/context/CustomerSearchContext';
 import PortfolioWatchlist from 'src/common/widgets/PortfolioWatchlist';
 import Reports from 'src/common/widgets/Reports';
 import SymbolDetail from 'src/common/widgets/SymbolDetail';
@@ -9,12 +8,12 @@ const Home = () => {
     //
     return (
         <div className="grid gap-2 h-full grid-cols-12 overflow-y-auto ">
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-60-40 overflow-y-auto ">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-2 overflow-y-auto ">
                 <div className="col-span-3">
                     <SymbolDetail />
                 </div>
                 <div className="col-span-3 grid h-full overflow-y-auto">
-                    <CustomerSearch />
+                    <CustomerSearchWidget />
                 </div>
             </div>
             <div className="col-span-9">
