@@ -24,9 +24,9 @@ const useMarketDepth = () => {
     });
 
     /* Message ID */
-    const storeMsgID = (id: any) => MESSAGE_IDS.push(id);
+    const storeMsgID = (id: any) => MESSAGE_IDS.push(+id);
 
-    const hasMsgID = (id: any) => MESSAGE_IDS.indexOf(id) !== -1;
+    const hasMsgID = (id: any) => MESSAGE_IDS.indexOf(+id) !== -1;
 
     /* Delete a price order */
     const deleteAnOrderOnOrderbook = ({ data, totalQuantity }: any, row: any) => {
@@ -40,20 +40,25 @@ const useMarketDepth = () => {
             const newData = { ...data };
 
             Object.keys(newData).forEach((price) => {
-                const children = newData[price][3];
+                const priceRow = newData[price];
+                const children = priceRow[3];
+                const childrenLength = priceRow[2];
 
-                for (let i = 0; i < children.length; i++) {
-                    const child = newData[price][3][i];
+                for (let i = 0; i < childrenLength; i++) {
+                    const child = children[i];
 
-                    if (child[6] === row[6]) {
-                        const currentRow = newData[price];
-                        children.splice(i, 1);
+                    if (+child[6] === +row[6]) {
+                        if (priceRow[2] - 1 === 0) {
+                            delete newData[price];
+                        } else {
+                            children.splice(i, 1);
 
-                        currentRow[1] = currentRow[1] - child[4];
-                        currentRow[2] = currentRow[2] - 1;
-                        currentRow[3] = children;
+                            priceRow[1] = priceRow[1] - child[4];
+                            priceRow[2] = priceRow[2] - 1;
+                            priceRow[3] = children;
+                            newData[price] = priceRow;
+                        }
 
-                        newData[price] = currentRow;
                         return {
                             data: newData,
                             totalQuantity: totalQuantity - child[4],
@@ -146,18 +151,23 @@ const useMarketDepth = () => {
          */
         try {
             const newData = { ...data };
-            const dataRow = newData[row[3]];
 
-            if (!dataRow) return { data, totalQuantity };
+            const price = row[3];
+            const priceRow = newData[price];
 
-            const children = dataRow[3];
-            for (let i = 0; i < dataRow[2]; i++) {
-                if (children[i][6] === row[6]) {
-                    const oldQuantity = children[i][4];
-                    children[i][4] = row[4];
+            if (!priceRow) return { data, totalQuantity };
 
-                    newData[row[3]][1] = children[i][4] - oldQuantity + row[4];
-                    newData[row[3]][3] = children;
+            const children = priceRow[3];
+            for (let i = 0; i < priceRow[2]; i++) {
+                const child = children[i];
+
+                if (+child[6] === +row[6]) {
+                    const oldQuantity = child[4];
+                    child[4] = row[4];
+
+                    const rowQuantity = newData[price][1];
+                    newData[price][1] = Math.abs(rowQuantity - oldQuantity + row[4]);
+                    newData[price][3] = children;
 
                     return {
                         data: newData,
@@ -197,7 +207,7 @@ const useMarketDepth = () => {
 
             return {
                 data: newData,
-                totalQuantity: totalQuantity + row.orderQuantity,
+                totalQuantity: totalQuantity + row[4],
             };
         } catch (e) {
             console.log(e);
