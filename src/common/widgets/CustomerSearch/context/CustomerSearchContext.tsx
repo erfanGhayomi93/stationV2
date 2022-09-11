@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createContainer } from 'react-tracked';
 import CustomerSearch from '..';
-import CustomerDetail from '../components/CustomerDetailModal/CustomerDetail';
+import CustomerDetailModal from '../modal/CustomerDetailModal';
 interface ICustomerSearchWidgetType {
     params: IGoCustomerRequest;
     detailModalData?: IGoCustomerSearchResult;
@@ -20,7 +20,7 @@ const CustomerSearchWidget = () => {
         <>
             <CustomerSearchProvider>
                 <CustomerSearch />
-                <CustomerDetail />
+                <CustomerDetailModal />
             </CustomerSearchProvider>
         </>
     );

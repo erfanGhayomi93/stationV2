@@ -1,7 +1,7 @@
 import { onSuccessNotif } from 'src/handlers/notification';
 
 //
-export const sepNumbers = (num: number): any => {
+export const sepNumbers = (num: number | undefined): any => {
     if (num && !isNaN(num)) {
         let sepCode = String(num);
         return sepCode.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

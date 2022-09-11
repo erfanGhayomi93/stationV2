@@ -68,6 +68,7 @@ const FreeBoundary: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     return (
         <>
             <div
+                data-mn="boundary"
                 style={{
                     zIndex: 99,
                     left: tooltip.x,
@@ -96,7 +97,7 @@ const FreeBoundary: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
                     </span>
                 </div>
             </div>
-            <div style={{ padding: '0 10px', zIndex: 99 }} className=" lc-absolute w-full">
+            <div style={{ padding: '0 10px', zIndex: 99 }} className=" lc-absolute w-full" data-mn="boundary">
                 <div
                     onMouseMove={showTooltip}
                     onMouseLeave={hideTooltip}
@@ -104,7 +105,7 @@ const FreeBoundary: React.FC<Props & HTMLAttributes<HTMLDivElement>> = ({
                     className={`   lc-top-0 py-3 -mt-1.5  lc-w-full ${boundarySetting?.className}`}
                 ></div>
             </div>
-            <div className={`  lc-absolute lc-top-0 lc-z-10  lc-w-full ${boundarySetting?.className}`}>
+            <div className={`  lc-absolute lc-top-0 lc-z-10  lc-w-full ${boundarySetting?.className}`} data-mn="boundary">
                 <div style={{ padding: '0 10px' }} className="lc-w-full lc-h-full lc-absolute ">
                     <div ref={totalRef} className="lc-relative lc-w-full lc-h-full lc-overflow-hidden ">
                         <div

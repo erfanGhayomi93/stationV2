@@ -6,7 +6,6 @@ const OauthUrl = 'http://192.168.40.8:5011';
 const MarketData = 'http://192.168.40.8:7000';
 const BackOffice = 'http://192.168.40.8:9500';
 
-
 const apiRoutes = {
     OAuthApi: {
         authorization: OauthUrl + '/OAuthApi/v1/Authorization',
@@ -29,7 +28,8 @@ const apiRoutes = {
     },
     Customer: {
         Search: BackOffice + '/GoCustomer/v1/Search',
-        SymbolGeneralInformation: BackOffice + '/GoCustomer/v1/GetCustomerInformation',
+        GetCustomerInformation: BackOffice + '/GoCustomer/v1/GetCustomerInformation',
+        GetGroupInformation: BackOffice + '/GoCustomer/v1/GetGroupInformation',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
