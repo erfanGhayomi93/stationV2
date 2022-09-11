@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useCallback } from 'react';
 import { useAppValues } from 'src/redux/hooks';
 import useMarketDepth from './useMarketDepth';
-import HalfRow from './HalfRow';
+import HalfRowType from './HalfRow';
 import { useSymbolGeneralInfo } from 'src/app/queries';
+
+type HalfRowType = {
+    price: number;
+    volume: number;
+    count: number;
+    percent: number;
+};
 
 const Orders = () => {
     //
@@ -23,15 +30,16 @@ const Orders = () => {
     } = useMarketDepth();
 
     const buyData = useMemo(() => {
-        const data: { price: number; volume: number; count: number }[] = [];
+        const data: HalfRowType[] = [];
 
         if (bids.data) {
             for (const key in bids.data) {
                 if (Array.isArray(bids.data?.[key])) {
-                    const tempObj = { price: 0, volume: 0, count: 0 };
+                    const tempObj: HalfRowType = { price: 0, volume: 0, count: 0, percent: 0 };
                     tempObj['price'] = bids.data[key][0];
                     tempObj['volume'] = bids.data[key][1];
                     tempObj['count'] = bids.data[key][2];
+                    tempObj['percent'] = Number(bids.data[key][1]) / Number(bids.totalQuantity) || 0;
                     data.push(tempObj);
                 }
             }
@@ -41,15 +49,16 @@ const Orders = () => {
     }, [bids]);
 
     const sellData = useMemo(() => {
-        const data: { price: number; volume: number; count: number }[] = [];
+        const data: HalfRowType[] = [];
 
         if (asks.data) {
             for (const key in asks.data) {
                 if (Array.isArray(asks.data?.[key])) {
-                    const tempObj = { price: 0, volume: 0, count: 0 };
+                    const tempObj: HalfRowType = { price: 0, volume: 0, count: 0, percent: 0 };
                     tempObj['price'] = asks.data[key][0];
                     tempObj['volume'] = asks.data[key][1];
                     tempObj['count'] = asks.data[key][2];
+                    tempObj['percent'] = Number(asks.data[key][1]) / Number(asks.totalQuantity) || 0;
                     data.push(tempObj);
                 }
             }
@@ -84,9 +93,9 @@ const Orders = () => {
                     <span className="mr-auto">قیمت</span>
                 </div>
                 <div>
-                    {buyData.map(({ count, price, volume }, inx) => {
+                    {buyData.map(({ count, price, volume, percent }, inx) => {
                         return (
-                            <HalfRow
+                            <HalfRowType
                                 key={price}
                                 mode="Buy"
                                 price={price}
@@ -94,6 +103,7 @@ const Orders = () => {
                                 count={count}
                                 isOdd={inx % 2 === 0}
                                 isInRange={isPriceInRange(price)}
+                                percent={percent}
                             />
                         );
                     })}
@@ -106,9 +116,9 @@ const Orders = () => {
                     <span className="mr-4">تعداد</span>
                 </div>
                 <div>
-                    {sellData.map(({ count, price, volume }, inx) => {
+                    {sellData.map(({ count, price, volume, percent }, inx) => {
                         return (
-                            <HalfRow
+                            <HalfRowType
                                 key={price}
                                 mode="Sell"
                                 price={price}
@@ -116,6 +126,7 @@ const Orders = () => {
                                 count={count}
                                 isOdd={inx % 2 === 0}
                                 isInRange={isPriceInRange(price)}
+                                percent={percent}
                             />
                         );
                     })}
