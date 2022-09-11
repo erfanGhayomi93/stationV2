@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface OptionState {
     selectedSymbol: string;
+    selectedCustomers: IGoCustomerSearchResult[];
 }
 
 const initialState: OptionState = {
     selectedSymbol: 'IRO1TAMN0001',
+    selectedCustomers: [],
 };
 
 const optionSlice = createSlice({
@@ -16,9 +18,12 @@ const optionSlice = createSlice({
         setSelectedSymbol: (state, action: PayloadAction<typeof initialState.selectedSymbol>) => {
             state.selectedSymbol = action.payload;
         },
+        setSelectedCustomers: (state, action: PayloadAction<typeof initialState.selectedCustomers>) => {
+            state.selectedCustomers = action.payload;
+        },
     },
 });
 
-export const { setSelectedSymbol } = optionSlice.actions;
+export const { setSelectedSymbol, setSelectedCustomers } = optionSlice.actions;
 
 export default optionSlice.reducer;
