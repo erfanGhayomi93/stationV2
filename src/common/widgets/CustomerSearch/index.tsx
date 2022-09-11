@@ -26,7 +26,7 @@ const CustomerSearch = () => {
     const { data: data, isFetching, hasNextPage, fetchNextPage } = useCustomerListInfinit(debouncedParams);
     const Columns = useMemo<ColDefType<IGoCustomerSearchResult>[]>(
         () => [
-            { field: 'customerTitle', headerName: 'نام', cellRenderer: nameCellRenderer, headerCheckboxSelection: true, checkboxSelection: true },
+            { field: 'customerTitle', headerName: 'نام', cellRenderer: nameCellRenderer, checkboxSelection: true },
             { field: 'balance', headerName: 'دارایی', type: 'sepratedNumber' },
             {
                 field: 'customerTitle',
@@ -54,9 +54,9 @@ const CustomerSearch = () => {
         (event: RowSelectedEvent<IGoCustomerSearchResult>) => {
             const index = selectedCustomers.findIndex((customer) => customer.customerISIN === event.data?.customerISIN);
             if (index === -1) {
-                // appDispatch(setSelectedCustomers([...selectedCustomers, event.data as IGoCustomerSearchResult]));
+                appDispatch(setSelectedCustomers([...selectedCustomers, event.data as IGoCustomerSearchResult]));
             } else {
-                // appDispatch(setSelectedCustomers(selectedCustomers.filter((customer) => customer.customerISIN !== event.data?.customerISIN)));
+                appDispatch(setSelectedCustomers(selectedCustomers.filter((customer) => customer.customerISIN !== event.data?.customerISIN)));
             }
         },
         [selectedCustomers],
@@ -116,7 +116,7 @@ const CustomerSearch = () => {
                         onBodyScrollEnd={onGridReady}
                         rowHeight={50}
                         onRowSelected={onRowSelected}
-                        onSelectionChanged={onSelectionChanged}
+                        // onSelectionChanged={onSelectionChanged}
                         suppressRowClickSelection={true}
                     />
                 </div>
