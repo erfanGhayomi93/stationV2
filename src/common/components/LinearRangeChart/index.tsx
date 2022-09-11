@@ -34,7 +34,11 @@ const LinearRangeChart = (props: ILinearRangeChartApi) => {
         badge,
     } = props;
     return (
-        <div dir="ltr" style={{ minWidth: '280px' }} className=" lc-w-full lc-flex   lc-flex-col  ">
+        <div
+            dir="ltr"
+            style={{ minWidth: '280px', overflow: 'hidden', width: '100%', position: 'relative' }}
+            className=" lc-w-full lc-flex   lc-flex-col  "
+        >
             {thresholdData &&
             thresholdData[0] < thresholdData[1] &&
             boundaryData[1] >= boundaryData[0] &&

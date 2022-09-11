@@ -66,3 +66,25 @@ export const useCustomerListInfinit = (params: IGoCustomerRequest) => {
         },
     );
 };
+
+const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(apiRoutes.Customer.GetCustomerInformation, { params });
+    return data.result || [];
+};
+
+const GetGroupInformation = async (params: IGetGroupInformationRequestType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGroupInformationResultType>>(apiRoutes.Customer.GetGroupInformation, { params });
+    return data.result || [];
+};
+
+export const useCustomerInformation = (param: IGetCustomerInformationRequestType) => {
+    return useQuery(['getCustomerInformation', param], ({ queryKey }) => GetCustomerInformation(queryKey[1] as IGetCustomerInformationRequestType), {
+        enabled: !!param.customerISIN,
+    });
+};
+
+export const useGroupInformation = (param: IGetGroupInformationRequestType) => {
+    return useQuery(['GetGroupInformation', param], ({ queryKey }) => GetGroupInformation(queryKey[1] as IGetGroupInformationRequestType), {
+        enabled: !!param.groupId,
+    });
+};
