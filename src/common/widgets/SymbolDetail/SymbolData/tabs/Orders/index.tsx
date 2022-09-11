@@ -76,7 +76,7 @@ const Orders = () => {
     }, [selectedSymbol]);
 
     return (
-        <div className="w-full h-full flex pt-2 overflow-auto" style={{ maxHeight: '300px' }}>
+        <div className="w-full h-full flex pt-2 ">
             <div className="w-1/2 border-l h-full">
                 <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-gray-400">
                     <span className="ml-4">تعداد</span>
