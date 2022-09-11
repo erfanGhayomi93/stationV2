@@ -13,8 +13,8 @@ interface ISubscribe {
     mode: 'MERGE' | 'RAW';
     items: string[];
     fields: string[];
-    adaptername: string;
-    issnapshot: 'no' | 'yes';
+    adapterName: string;
+    isSnapShot: 'no' | 'yes';
     onFieldsUpdate: (updatedFields: UpdatedFieldsType) => void;
 }
 
@@ -41,9 +41,9 @@ const connect = ({ DomainName, DomainPort, AdapterSet, User, Password }: IConnec
 
 const disConnect = () => client.disconnect();
 
-const subscribe = ({ id, mode, items, fields, adaptername, issnapshot, onFieldsUpdate }: ISubscribe) => {
+const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsUpdate }: ISubscribe) => {
     //
-    if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adaptername || !issnapshot || !onFieldsUpdate) return;
+    if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adapterName || !isSnapShot || !onFieldsUpdate) return;
     if (items?.length === 0 || fields?.length === 0) return;
 
     // // TODO
@@ -55,8 +55,8 @@ const subscribe = ({ id, mode, items, fields, adaptername, issnapshot, onFieldsU
     // if (isSubscribeExist) return;
 
     const sub = new Subscription(mode, items, fields);
-    sub.setDataAdapter(adaptername);
-    sub.setRequestedSnapshot(issnapshot);
+    sub.setDataAdapter(adapterName);
+    sub.setRequestedSnapshot(isSnapShot);
 
     sub.addListener({
         onItemUpdate: (updateInfo) => {
@@ -73,9 +73,16 @@ const subscribe = ({ id, mode, items, fields, adaptername, issnapshot, onFieldsU
 };
 
 const unSubscribe = (subId: string) => {
-    if (subId && subscriptions?.[subId] && client && subscriptions[subId]?.isActive()) {
+    if (!subId || !client) return;
+
+    const isSubActive = subscriptions[subId]?.isActive() || false;
+
+    if (isSubActive) {
         client.unsubscribe(subscriptions[subId] as Subscription);
+        subscriptions[subId] = null;
     }
 };
 
-export const pushEngine = { client, connect, disConnect, subscribe, unSubscribe };
+const getSubscribeById = (id: string) => subscriptions?.[id] || null;
+
+export const pushEngine = { client, connect, disConnect, subscribe, unSubscribe, getSubscribeById };
