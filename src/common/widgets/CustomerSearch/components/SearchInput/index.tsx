@@ -7,7 +7,7 @@ type ISearchInputType = {};
 const SearchInput = ({}: ISearchInputType) => {
     const { setState, state } = useCustomerSearchState();
     const setParams = (input: string) => {
-        setState((prev) => ({ ...prev, params: { ...prev.params, term: input } }));
+        setState((prev) => ({ ...prev, params: { ...prev.params, term: input }, isSelectedActive: false }));
     };
     return (
         <>

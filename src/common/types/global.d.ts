@@ -16,3 +16,8 @@ interface GlobalApiResponseType<T> {
     succeeded: boolean;
     errors?: string[] | string;
 }
+
+interface IPaginateRequest {
+    pageNumber?: number;
+    pageSize?: number;
+}
