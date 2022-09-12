@@ -45,7 +45,7 @@ const SymbolData = () => {
     );
 
     return (
-        <div className="h-full w-full flex flex-col bg-white p-3">
+        <div className="h-full w-full flex flex-col bg-L-basic dark:bg-D-basic p-3">
             <div className="mb-2">
                 <SymbolHeader />
             </div>

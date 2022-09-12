@@ -51,12 +51,12 @@ const SymbolSearch = () => {
         <div className="w-full">
             <Combobox value={null} onChange={onSymbolSelect}>
                 <div className="relative">
-                    <div className="relative w-full cursor-default overflow-hidden rounded-sm bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-                        <div className="flex items-center px-2">
-                            <Search className="text-gray-400" />
+                    <div className="relative w-full cursor-default border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md bg-L-basic dark:bg-D-basic text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                        <div className="flex items-center px-2 ">
+                            <Search className="text-L-gray-400 dark:text-L-gray-400" />
                             <Combobox.Input
                                 placeholder="جستجوی نماد"
-                                className="grow border-none p-2 text-sm leading-5 text-gray-900 focus:ring-0 outline-none"
+                                className="grow border-none p-2 text-sm leading-5 text-L-gray-400 dark:text-L-gray-400 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
                                 onChange={(e) => setTerm(e?.target?.value || '')}
                             />
                         </div>
@@ -68,7 +68,7 @@ const SymbolSearch = () => {
                         leaveTo="opacity-0"
                         afterLeave={() => setTerm('')}
                     >
-                        <Combobox.Options className="z-[100] absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Combobox.Options className="z-[100] absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {optionsContent}
                         </Combobox.Options>
                     </Transition>

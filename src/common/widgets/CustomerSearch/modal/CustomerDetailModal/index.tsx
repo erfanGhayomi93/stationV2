@@ -16,8 +16,8 @@ const CustomerDetailModal = ({}: ICustomerDetailModalType) => {
         <>
             <Modal isOpen={!!state.detailModalData} onClose={closeModal} className="min-h-[40rem] w-2/4 rounded-md h-full grid ">
                 <div className="grid grid-rows-min-one">
-                    <div className="w-full text-white font-semibold  bg-[#135CA4] h-10 flex items-center justify-between px-5">
-                        <div>{state.detailModalData?.customerTitle}</div>
+                    <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                        <div>{state.detailModalData?.customerTitle || state.detailModalData?.groupName}</div>
                         <CloseIcon onClick={closeModal} className="cursor-pointer" />
                     </div>
                     {state.detailModalData?.customerISIN ? <CustomerDetail /> : <GroupDetail />}

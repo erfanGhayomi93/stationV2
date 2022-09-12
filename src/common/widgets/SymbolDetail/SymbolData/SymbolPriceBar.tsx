@@ -15,8 +15,8 @@ const traderOptions = {
     rulerSetting: {
         step: 1,
         degree: 4,
-        className: 'lc-border-solid lc-border-slate-300 dark:border-dark-gray-700 lc-border-t-8 ',
-        rulerClassName: 'lc-text-gray-400 lc-h-6 ',
+        className: 'lc-border-solid lc-border-slate-300  dark:border-D-gray-350 lc-border-t-8  dark:text-D-primary-50',
+        rulerClassName: 'lc-text-gray-400 lc-h-6 dark:text-D-primary-50',
         threshold: true,
     },
     thresholdSetting: {
@@ -24,7 +24,7 @@ const traderOptions = {
         thresholdEndClassName: 'lc-hidden',
     },
     originSetting: {
-        className: 'lc-text-sm lc-bg-slate-200 lc-text-slate-400 lc-px-2 lc-py-1 lc-mb-2 lc-rounded dark:bg-dark-gray-700 dark:text-white',
+        className: 'lc-text-sm lc-bg-slate-200 lc-text-slate-400 lc-px-2 lc-py-1 lc-mb-2 lc-rounded dark:bg-D-gray-350 dark:text-white',
     },
     boundarySetting: {
         boundaryStartLabel: 'کمترین قیمت',
@@ -41,11 +41,11 @@ const traderOptions = {
         exchangeStartClassName: 'lc-top-1',
     },
     footerSetting: {
-        className: 'lc-text-slate-600',
+        className: 'lc-text-slate-600 dark:text-D-primary-50',
     },
     exchangeIcons: {
-        start: <TriangleIcon className="lc-rotate-180 lc-text-gray-700 dark:lc-text-white dark:text-dark-primary-100" />,
-        end: <TriangleIcon className="lc-text-gray-700 dark:lc-text-white dark:text-dark-primary-100" />,
+        start: <TriangleIcon className="lc-rotate-180 lc-text-gray-700 dark:lc-text-white  dark:text-D-gray-450 scale-y-75 scale-x-90 " />,
+        end: <TriangleIcon className="lc-text-gray-700 dark:lc-text-white  dark:text-D-gray-450 scale-y-75 scale-x-90" />,
     },
 };
 const SymbolPriceBar = () => {

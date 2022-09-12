@@ -29,7 +29,7 @@ const TabsList2: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
                 <HeadlessTab.List>
-                    <div className="flex justify-between items-center border-b-2">
+                    <div className="flex justify-between items-center ">
                         <div>
                             {items ? (
                                 items.map((item) => (
@@ -44,7 +44,7 @@ const TabsList2: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =
                         {leftNode}
                     </div>
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow p-1 bg-white">
+                <HeadlessTab.Panels className="grow p-1 bg-L-basic dark:bg-D-basic">
                     {items ? (
                         items.map((item) => (
                             <HeadlessTab.Panel key={item.key} as={Fragment}>
@@ -66,7 +66,9 @@ const TabButton: FC<ITabButtonType> = ({ children }) => {
             className={({ selected }) =>
                 clsx(
                     'border-b-2 py-1 px-3 border-solid outline-none',
-                    selected ? ' text-[#135CA4] border-[#135CA4] bg-white font-semibold' : ' border-transparent text-[#333333]',
+                    selected
+                        ? ' text-L-primary-50  border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50  bg-L-basic dark:bg-D-basic font-semibold'
+                        : '   dark:text-D-gray-450 text-L-gray-450  dark:border-t-transparent border-t-transparent   dark:border-D-gray-350 border-L-gray-350 ',
                 )
             }
         >
