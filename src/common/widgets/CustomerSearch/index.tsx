@@ -78,7 +78,7 @@ const CustomerSearch = () => {
         <div className="w-full h-full grid gap-2 grid-rows-min-one overflow-y-auto">
             <SearchInput />
             <WidgetLoading spining={isFetching}>
-                <div className="bg-white h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
+                <div className="bg-L-basic dark:bg-D-basic h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                     <div className="flex gap-2  py-2">
                         {types.map((type, inx) => (
                             <button
@@ -88,8 +88,8 @@ const CustomerSearch = () => {
                                 className={clsx(
                                     ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
                                     !state.isSelectedActive && state.params.type === type
-                                        ? 'bg-[#E2EBF3] border-[#135CA4] text-[#135CA4]'
-                                        : 'bg-[#E2EBF3] border-transparent text-[#566978]',
+                                        ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
+                                        : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
                                 )}
                             >
                                 <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} />
@@ -101,8 +101,8 @@ const CustomerSearch = () => {
                             className={clsx(
                                 ' duration-200 relative outline-none border-solid border px-2 py-1 rounded-md',
                                 state.isSelectedActive
-                                    ? 'bg-[#E2EBF3] border-[#135CA4] text-[#135CA4]'
-                                    : 'bg-[#E2EBF3] border-transparent text-[#566978]',
+                                    ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
+                                    : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
                             )}
                         >
                             <CounterBalloon count={selectedCustomers.length} />

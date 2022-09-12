@@ -30,8 +30,8 @@ const SymbolHeader = () => {
                 <SymbolState symbolState={data?.symbolState || ''} />
             </div>
             <div className="flex flex-col">
-                <span className="font-bold">{data?.symbolTitle || '-'}</span>
-                <small className="text-gray-400">{data?.companyName || '-'}</small>
+                <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
+                <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
             </div>
             <div className="mr-auto flex items-center">
                 <CodalBtn symbolTitle={data?.symbolTitle || ''} />

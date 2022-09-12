@@ -29,12 +29,12 @@ interface ITabButtonType {
 const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill }) => {
     //
     return (
-        <div className="w-full h-full flex flex-col bg-white">
+        <div className="w-full h-full flex flex-col ">
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
-                <HeadlessTab.List className=" bg-[#BFDBF7] ">
+                <HeadlessTab.List className=" bg-L-basic dark:bg-D-basic border  border-L-gray-350 dark:border-D-gray-350 ">
                     <div className="flex justify-between items-center">
                         <div className="w-full flex">
                             {items ? (
@@ -50,7 +50,7 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
                         {leftNode}
                     </div>
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow bg-white ">
+                <HeadlessTab.Panels className="grow bg-L-basic dark:bg-D-basic ">
                     {items ? (
                         items.map((item) => (
                             <HeadlessTab.Panel key={item.key} className="p-1 h-full" style={{ backgroundColor: item.backgroundColor }}>
@@ -66,16 +66,18 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
     );
 };
 
-const TabButton: FC<ITabButtonType> = ({ children, fill, backgroundColor = '#FFFFFF', borderColor = '#135CA4' }) => {
+const TabButton: FC<ITabButtonType> = ({ children, fill, backgroundColor, borderColor }) => {
     return (
         <HeadlessTab as={Fragment}>
             {({ selected }) => (
                 <div
                     style={selected ? { backgroundColor: backgroundColor, borderColor: borderColor, color: borderColor } : {}}
                     className={clsx(
-                        'border-t-2 py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer ',
+                        ' py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer ',
                         fill ? 'w-full' : '',
-                        selected ? ' text-[#135CA4] border-[#135CA4] bg-white font-semibold' : ' border-transparent text-[#333333]',
+                        selected
+                            ? ' text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-350 border-l-L-gray-350 relative after:-bottom-1 after:w-full after:h-1 after:absolute after:dark:bg-D-basic after:bg-L-basic'
+                            : ' border-l  dark:text-D-gray-450 text-L-gray-450 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-150 dark:bg-D-gray-150  dark:border-D-gray-350 border-L-gray-350 ',
                     )}
                 >
                     {cloneElement(children, { selected })}

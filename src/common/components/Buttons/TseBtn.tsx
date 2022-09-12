@@ -12,7 +12,7 @@ const TseBtn = ({ insCode, className, ...rest }: Props) => {
     }, [insCode]);
 
     return (
-        <button onClick={onBtnClick} className={`p-1 rounded-sm hover:bg-slate-100 ${className}`} {...rest}>
+        <button onClick={onBtnClick} className={`p-1 rounded-sm hover:bg-L-gray-250 dark:hover:bg-D-gray-250 ${className}`} {...rest}>
             <TseIcon />
         </button>
     );

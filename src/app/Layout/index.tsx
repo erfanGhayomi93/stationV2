@@ -24,7 +24,7 @@ const AppLayout = () => {
     }, []);
 
     return (
-        <div className="h-screen w-screen  bg-[#DAEBFB]">
+        <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50">
             <div className="h-full w-full grid grid-cols-one-min">
                 <Sider />
                 <div className="grid grid-rows-min-one-min overflow-y-auto ">
