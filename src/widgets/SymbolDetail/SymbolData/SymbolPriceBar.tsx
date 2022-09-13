@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSymbolGeneralInfo } from 'src/app/queries';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import LinearRangeChart from 'src/common/components/LinearRangeChart';
 import { TriangleIcon } from 'src/common/components/LinearRangeChart/Icons';
 import { useAppValues } from 'src/redux/hooks';

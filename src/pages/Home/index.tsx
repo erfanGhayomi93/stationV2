@@ -1,8 +1,8 @@
-import BuySell from 'src/common/widgets/BuySell';
-import CustomerSearchWidget from 'src/common/widgets/CustomerSearch/context/CustomerSearchContext';
-import PortfolioWatchlist from 'src/common/widgets/PortfolioWatchlist';
-import Reports from 'src/common/widgets/Reports';
-import SymbolDetail from 'src/common/widgets/SymbolDetail';
+import BuySell from 'src/widgets/BuySell';
+import CustomerSearchWidget from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
+import PortfolioWatchlist from 'src/widgets/PortfolioWatchlist';
+import Reports from 'src/widgets/Reports';
+import SymbolDetail from 'src/widgets/SymbolDetail';
 
 const Home = () => {
     //

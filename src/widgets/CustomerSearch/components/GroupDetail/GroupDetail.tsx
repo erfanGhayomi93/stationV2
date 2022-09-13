@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { useGroupInformation } from 'src/app/queries';
+import { useGroupInformation } from 'src/app/queries/group';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSymbolGeneralInfo } from 'src/app/queries';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';

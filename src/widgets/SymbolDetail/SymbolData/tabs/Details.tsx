@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
-import { useSymbolGeneralInfo } from 'src/app/queries';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import DataDisplay from 'src/common/components/DataDisplay';
 import { useAppValues } from 'src/redux/hooks';
 import { sepNumbers } from 'src/utils/helpers';

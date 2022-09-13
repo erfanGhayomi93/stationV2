@@ -1,6 +1,6 @@
 import { Combobox, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useMemo, useState } from 'react';
-import { useSymbolSearch } from 'src/app/queries';
+import { useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolState from 'src/common/components/SymbolState';
 import useDebounce from 'src/common/hooks/useDebounce';
 import { Search } from 'src/common/icons';

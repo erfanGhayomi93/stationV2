@@ -2,7 +2,7 @@ import { useEffect, useMemo, useCallback } from 'react';
 import { useAppValues } from 'src/redux/hooks';
 import useMarketDepth from './useMarketDepth';
 import HalfRowType from './HalfRow';
-import { useSymbolGeneralInfo } from 'src/app/queries';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 
 type HalfRowType = {
     price: number;
