@@ -8,28 +8,30 @@ interface ITabType {
     selectedIndex?: string;
     items: ITabItemType[];
     fill?: boolean;
+    buttonClass?: string;
+    selectedButtonClass?: string;
 }
 
 export interface ITabItemType {
     key: string;
     title: JSX.Element | string;
     content: JSX.Element;
-    backgroundColor?: string;
-    borderColor?: string;
+    tabClass?: string;
+    selectedButtonClass?: string;
 }
 
 interface ITabButtonType {
     children: JSX.Element;
     key: string;
     fill?: boolean;
-    backgroundColor?: string;
-    borderColor?: string;
+    buttonClass?: string;
+    selectedButtonClass?: string;
 }
 
-const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill }) => {
+const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill, buttonClass, selectedButtonClass }) => {
     //
     return (
-        <div className="w-full h-full flex flex-col ">
+        <div className="w-full h-full flex flex-col rounded-md overflow-hidden">
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
@@ -39,7 +41,13 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
                         <div className="w-full flex">
                             {items ? (
                                 items.map((item) => (
-                                    <TabButton {...item} key={item.key} fill={fill}>
+                                    <TabButton
+                                        selectedButtonClass={selectedButtonClass}
+                                        buttonClass={buttonClass}
+                                        {...item}
+                                        key={item.key}
+                                        fill={fill}
+                                    >
                                         <>{item.title}</>
                                     </TabButton>
                                 ))
@@ -53,7 +61,15 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
                 <HeadlessTab.Panels className="grow bg-L-basic dark:bg-D-basic ">
                     {items ? (
                         items.map((item) => (
-                            <HeadlessTab.Panel key={item.key} className="p-1 h-full" style={{ backgroundColor: item.backgroundColor }}>
+                            <HeadlessTab.Panel
+                                key={item.key}
+                                className={clsx(
+                                    'p-1 h-full ',
+                                    item.tabClass
+                                        ? item.tabClass
+                                        : 'border border-t-0  dark:border-D-gray-350 border-L-gray-350 text-L-gray-500 dark:text-D-gray-500',
+                                )}
+                            >
                                 <>{item.content}</>
                             </HeadlessTab.Panel>
                         ))
@@ -66,18 +82,20 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
     );
 };
 
-const TabButton: FC<ITabButtonType> = ({ children, fill, backgroundColor, borderColor }) => {
+const TabButton: FC<ITabButtonType> = ({
+    children,
+    fill,
+    buttonClass = 'border-l dark:text-D-gray-450 text-L-gray-450 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-150 dark:bg-D-gray-150  dark:border-D-gray-350 border-L-gray-350',
+    selectedButtonClass = 'after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-350 border-l-L-gray-350 ',
+}) => {
     return (
         <HeadlessTab as={Fragment}>
             {({ selected }) => (
                 <div
-                    style={selected ? { backgroundColor: backgroundColor, borderColor: borderColor, color: borderColor } : {}}
                     className={clsx(
-                        ' py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer ',
+                        ' py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute ',
                         fill ? 'w-full' : '',
-                        selected
-                            ? ' text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-350 border-l-L-gray-350 relative after:-bottom-1 after:w-full after:h-1 after:absolute after:dark:bg-D-basic after:bg-L-basic'
-                            : ' border-l  dark:text-D-gray-450 text-L-gray-450 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-150 dark:bg-D-gray-150  dark:border-D-gray-350 border-L-gray-350 ',
+                        selected ? selectedButtonClass : buttonClass,
                     )}
                 >
                     {cloneElement(children, { selected })}
