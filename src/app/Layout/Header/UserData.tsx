@@ -10,7 +10,7 @@ const UserData = () => {
     return (
         <div className="flex items-center ">
             <span className="ml-1">
-                <UserIcon className="text-[#354B61]" width={'21px'} height={'21px'} />
+                <UserIcon className="text-L-primary-50 dark:text-D-primary-50" width={'21px'} height={'21px'} />
             </span>
             <span className="font-bold">{`${userData?.firstName || ''} ${userData?.lastName || ''}`}</span>
         </div>

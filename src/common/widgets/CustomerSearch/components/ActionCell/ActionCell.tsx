@@ -12,11 +12,11 @@ const actionCellRenderer = ({ data }: { data: IGoCustomerSearchResult }) => {
     };
     return (
         <div className="flex items-center justify-center gap-2 py-2 h-full">
-            <button onClick={() => showDetailModal(data)} className=" bg-[#C6D8E7] px-1.5 py-1 rounded-md">
-                <MoreDotsIcon className="text-[#135CA4]" />
+            <button onClick={() => showDetailModal(data)} className="dark:bg-D-gray-350 bg-L-gray-350 px-1.5 py-1 rounded-md">
+                <MoreDotsIcon className="text-L-primary-50 dark:text-D-primary-50" />
             </button>
             <button onClick={() => showActionModal(data)} className="">
-                <PortfolioDetailIcon className="text-[#135CA4]" />
+                <PortfolioDetailIcon className="text-L-primary-50 dark:text-D-primary-50" />
             </button>
         </div>
     );

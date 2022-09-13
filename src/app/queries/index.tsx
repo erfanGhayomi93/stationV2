@@ -1,4 +1,4 @@
-import { QueryObserverOptions, UseBaseQueryOptions, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { InfiniteData, QueryObserverOptions, UseBaseQueryOptions, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosPromise, AxiosResponse } from 'axios';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
@@ -56,13 +56,20 @@ interface IParamType {
     pageParam: number;
 }
 
-export const useCustomerListInfinit = (params: IGoCustomerRequest) => {
+export const useCustomerListInfinit = (
+    params: IGoCustomerRequest,
+    options?: {
+        select?: (data: InfiniteData<IGoCustomerResult>) => InfiniteData<IGoCustomerResult>;
+        onSuccess?: (data: InfiniteData<IGoCustomerResult>) => void;
+    },
+) => {
     return useInfiniteQuery(
         ['searchCustomer', params],
         ({ queryKey, pageParam = 1 }) => searchCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1], pageNumber: pageParam } : {}),
         {
             enabled: !!params,
             getNextPageParam: (data) => (data.searchResult.hasNextPage ? data.searchResult.pageNumber + 1 : undefined),
+            ...options,
         },
     );
 };

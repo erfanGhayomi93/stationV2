@@ -17,7 +17,7 @@ const DataDisplay = ({ cols, items, applyDots = true }: Props) => {
 
     const Row = useCallback(
         ({ rowItems }: { rowItems: Item[] }) => (
-            <div className="w-full flex items-center px-1 py-2 odd:bg-gray-100">
+            <div className="w-full flex items-center px-1 py-2 odd:bg-L-gray-100 dark:odd:bg-D-gray-100 text-L-gray-500 dark:text-D-gray-500 border-b border-L-gray-300 dark:border-D-gray-300">
                 {rowItems.map(({ key, label, value }) => (
                     <div key={key} className="flex items-center px-2" style={{ width: `${100 / cols}%` }}>
                         <span>{label}</span>
@@ -31,7 +31,7 @@ const DataDisplay = ({ cols, items, applyDots = true }: Props) => {
     );
 
     return (
-        <div className="w-full border rounded-md text-xs">
+        <div className="w-full border rounded-md text-xs  border-L-gray-300 dark:border-D-gray-300 overflow-hidden">
             {Array.from({ length: rowCounts }, (_, i) => i).map((rowNum) => {
                 return <Row key={rowNum} rowItems={items.slice(rowNum * cols, rowNum * cols + cols)} />;
             })}

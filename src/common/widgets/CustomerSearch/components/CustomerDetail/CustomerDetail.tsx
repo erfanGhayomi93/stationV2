@@ -11,12 +11,14 @@ const CustomerDetail = ({}: ICustomerDetailType) => {
 
     return (
         <>
-            <div className="py-5">
-                <div className="border-b border-[#C6D8E7] flex px-5">
-                    <div className="border-b-2 border-[#135CA4]">اطلاعات مشتری</div>
+            <div className="py-5 bg-L-basic dark:bg-D-basic">
+                <div className="border-b border-L-gray-350 dark:border-D-gray-350 flex px-5">
+                    <div className="border-b-2 border-L-primary-50 dark:border-D-primary-50  text-L-primary-50 pb-2 dark:text-D-primary-50">
+                        اطلاعات مشتری
+                    </div>
                 </div>
                 <div className="grid gap-5 px-5 py-7">
-                    <div className="border-[#DFEBF5] border rounded-lg overflow-hidden">
+                    <div className="border-L-gray-350 dark:border-D-gray-350 border rounded-lg overflow-hidden">
                         <DescriptionRow>
                             <Block value={customerInformation?.customerTitle} label="نام و نام خانوادگی / شرکت" />
                             <Block value={customerInformation?.fatherName} label="نام پدر" />
@@ -49,7 +51,7 @@ interface IBlockType {
 
 const Block: FC<IBlockType> = ({ value, label }) => {
     return (
-        <div className="flex justify-between w-full first:border-l-2 first:border-slate-300 first:pl-2">
+        <div className="flex justify-between w-full first:border-l-2 first:border-L-gray-350 first:dark:border-D-gray-350 first:pl-2">
             <div>{label}</div>
             <div>{value}</div>
         </div>
@@ -63,7 +65,7 @@ interface IDescriptionRowType {
 const DescriptionRow: FC<IDescriptionRowType> = ({ children }) => {
     return (
         <>
-            <div className="odd:bg-[#F3F7FB] py-2 px-2 border-b border-[#DFEBF5] last:border-none">
+            <div className="odd:bg-L-gray-300 dark:odd:bg-D-gray-300 dark:text-L-basic text-D-basic py-2 px-2 border-b border-L-gray-350 dark:border-D-gray-350 last:border-none">
                 <div className="grid grid-cols-2 gap-2 ">{children}</div>
             </div>
         </>

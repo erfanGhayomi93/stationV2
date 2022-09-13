@@ -46,13 +46,8 @@ const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsU
     if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adapterName || !isSnapShot || !onFieldsUpdate) return;
     if (items?.length === 0 || fields?.length === 0) return;
 
-    // // TODO
-    // const isSubscribeExist =
-    //     subscriptions?.hasOwnProperty(id) &&
-    //     JSON.stringify(subscriptions[id]?.getItems()?.sort()) === JSON.stringify(items?.sort()) &&
-    //     JSON.stringify(subscriptions[id]?.getFields()?.sort()) === JSON.stringify(fields?.sort());
-
-    // if (isSubscribeExist) return;
+    const isSubscribeExist = subscriptions?.[id];
+    if (isSubscribeExist) unSubscribe(id);
 
     const sub = new Subscription(mode, items, fields);
     sub.setDataAdapter(adapterName);
@@ -62,8 +57,9 @@ const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsU
         onItemUpdate: (updateInfo) => {
             const updatedFields: UpdatedFieldsType = { itemName: updateInfo?.getItemName(), changedFields: {} };
             updateInfo?.[updateInfo.isSnapshot() ? 'forEachField' : 'forEachChangedField']((name, _, value) => {
-                value !== null && (updatedFields.changedFields[name] = value);
+                value !== null && (updatedFields.changedFields[name] = isNaN(value as any) ? value : +value);
             });
+
             if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0) onFieldsUpdate(updatedFields);
         },
     });
@@ -73,11 +69,9 @@ const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsU
 };
 
 const unSubscribe = (subId: string) => {
+    //
     if (!subId || !client) return;
-
-    const isSubActive = subscriptions[subId]?.isActive() || false;
-
-    if (isSubActive) {
+    if (subscriptions[subId]) {
         client.unsubscribe(subscriptions[subId] as Subscription);
         subscriptions[subId] = null;
     }

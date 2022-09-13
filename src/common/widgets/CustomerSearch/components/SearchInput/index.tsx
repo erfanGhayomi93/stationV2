@@ -10,9 +10,9 @@ const SearchInput = ({}: ISearchInputType) => {
         setState((prev) => ({ ...prev, params: { ...prev.params, term: input }, isSelectedActive: false }));
     };
     return (
-        <>
+        <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
             <Input placeholder="جستجوی مشتری" addonBefore={<Search className="text-gray-400" />} onChange={(e) => setParams(e.target.value)} />
-        </>
+        </div>
     );
 };
 
