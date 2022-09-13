@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
 import {
     BasketIcon,
     Envelope2Icon,
@@ -12,11 +13,37 @@ import {
     QuitIcon,
     MenuIcon,
 } from 'src/common/icons';
+
 import ExpandedSider from './ExpandedSider';
 
+type MenuItemType = {
+    icon: JSX.Element;
+    label: string | JSX.Element;
+    position: 'top' | 'bottom';
+    placeOfDisplay: 'closed' | 'opened' | 'both';
+    isActive: boolean;
+    onClick: (() => void) | undefined;
+    children?: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>[];
+};
+
 const Sider = () => {
-    const [isOpen, setIsOpen] = useState(false);
     //
+    const [isOpen, setIsOpen] = useState(false);
+
+    const menuItems = useMemo(
+        (): MenuItemType[] => [
+            {
+                icon: <HomeIcon height={20} width={20} />,
+                label: 'صفحه اصلی',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+        ],
+        [],
+    );
+
     return (
         <>
             <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col justify-between py-5 pt-3">
@@ -24,7 +51,7 @@ const Sider = () => {
                     <button className=" p-3 rounded-md" onClick={() => setIsOpen(true)}>
                         <MenuIcon height={20} width={20} />
                     </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
+                    <button className=" hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
                         <HomeIcon height={20} width={20} />
                     </button>
                     <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
