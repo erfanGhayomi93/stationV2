@@ -16,7 +16,10 @@ const SymbolSearch = () => {
     const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm);
     const appDispatch = useAppDispatch();
 
-    const TextDisplay = useCallback(({ text }: any) => <div className="relative cursor-default select-none py-2 px-4 text-gray-700">{text}</div>, []);
+    const TextDisplay = useCallback(
+        ({ text }: any) => <div className="relative cursor-default select-none py-2 px-4 text-L-gray-400 dark:text-D-gray-400">{text}</div>,
+        [],
+    );
 
     const optionsContent = useMemo(() => {
         if (term.length < minSearchTermLength) return <TextDisplay text={`حداقل ${minSearchTermLength} کاراکتر وارد نمایید.`} />;
@@ -27,7 +30,13 @@ const SymbolSearch = () => {
         return searchResult.map((symbol) => (
             <Combobox.Option
                 key={symbol.symbolISIN}
-                className={({ active }) => `relative cursor-default select-none py-2 px-3 ${active ? 'bg-blue-600 text-white' : 'text-gray-900'}`}
+                className={({ active }) =>
+                    `relative cursor-default   select-none py-2 px-3 border-b last:border-none border-L-gray-350 dark:border-D-gray-350 ${
+                        active
+                            ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-500 dark:text-D-gray-500'
+                            : 'text-L-gray-500 dark:text-D-gray-500 dark:odd:bg-D-gray-300 odd:bg-L-gray-300'
+                    }`
+                }
                 value={symbol}
             >
                 <div className="flex items-center">
@@ -68,7 +77,7 @@ const SymbolSearch = () => {
                         leaveTo="opacity-0"
                         afterLeave={() => setTerm('')}
                     >
-                        <Combobox.Options className="z-[100] absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Combobox.Options className="z-[100] absolute mt-1 max-h-60 w-full border border-L-gray-350 dark:border-D-gray-350 overflow-auto rounded-md bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {optionsContent}
                         </Combobox.Options>
                     </Transition>

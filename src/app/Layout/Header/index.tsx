@@ -8,26 +8,26 @@ import UserData from './UserData';
 const Header = () => {
     //
     return (
-        <div className="bg-white h-[72px] flex items-center justify-start px-4 py-2">
+        <div className="bg-L-basic dark:bg-D-basic border-b border-L-gray-350 dark:border-D-gray-350 text--gray-500 dark:text-D-gray-500 h-[72px] flex items-center justify-start px-4 py-2">
             <div>
                 <BrokerData />
             </div>
-            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div className="h-1/2  mx-1 " />
             <div>
                 <UserData />
             </div>
             <div className="mr-auto">
                 <MarketIndexes />
             </div>
-            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div className="h-1/2  mx-1 " />
             <div>
                 <Messages />
             </div>
-            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div className="h-1/2 border mx-1 border-L-gray-350 dark:border-D-gray-350 " />
             <div>
                 <Clock />
             </div>
-            <div className="h-1/2 border mx-1 border-sky-200" />
+            <div className="h-1/2 border mx-1 border-L-gray-350 dark:border-D-gray-350 " />
             <div>
                 <UserActions />
             </div>

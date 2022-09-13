@@ -86,8 +86,8 @@ const Orders = () => {
 
     return (
         <div className="w-full h-full flex pt-2 ">
-            <div className="w-1/2 border-l h-full">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-gray-400">
+            <div className="w-1/2 border-l h-full dark:border-D-gray-350 border-L-gray-350">
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
                     <span className="ml-4">تعداد</span>
                     <span>حجم</span>
                     <span className="mr-auto">قیمت</span>
@@ -109,8 +109,8 @@ const Orders = () => {
                     })}
                 </div>
             </div>
-            <div className="w-1/2 border-r h-full">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-gray-400">
+            <div className="w-1/2 border-r h-full dark:border-D-gray-350 border-L-gray-350">
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
                     <span className="ml-auto">قیمت</span>
                     <span>حجم</span>
                     <span className="mr-4">تعداد</span>

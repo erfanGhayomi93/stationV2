@@ -32,8 +32,8 @@ const Clock = () => {
     return (
         <div
             title={dayjs().calendar('jalali').format('YYYY/MM/DD')}
-            className="text-center font-bold"
-            style={{ minWidth: '80px', fontFamily: 'sans-serif', fontSize: '18px' }}
+            className="text-center leading-none pt-0.5 font-thin "
+            style={{ minWidth: '80px', fontSize: '18px' }}
         >
             {nowTime.format('HH:mm:ss')}
         </div>
