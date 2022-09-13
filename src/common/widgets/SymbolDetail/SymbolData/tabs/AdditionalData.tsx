@@ -29,13 +29,13 @@ const AdditionalData = () => {
 
     return (
         <div className="w-full h-full">
-            <div className="w-full flex flex-col ">
-                <div className="flex items-center my-4">
+            <div className="w-full flex flex-col text-L-gray-400 dark:text-L-gray-400">
+                <div className="flex items-center my-4 ">
                     <div className="w-5/12">
                         <ProgressBar
                             topCenter={abbreviateNumber(data?.individualBuyVolume || 0)}
                             bottomCenter={sepNumbers(data?.numberOfIndividualBuyers || 0)}
-                            bgColorClass="bg-green-500"
+                            bgColorClass="bg-L-success-150 dark:bg-D-success-150"
                             percent={buyPercent.individual * 100}
                             origin="end"
                         />
@@ -45,7 +45,7 @@ const AdditionalData = () => {
                         <ProgressBar
                             topCenter={abbreviateNumber(data?.individualSellVolume || 0)}
                             bottomCenter={sepNumbers(data?.numberOfIndividualSellers || 0)}
-                            bgColorClass="bg-red-500"
+                            bgColorClass="bg-L-error-150 dark:bg-D-error-150"
                             percent={sellPercent.individual * 100}
                         />
                     </div>
@@ -55,7 +55,7 @@ const AdditionalData = () => {
                         <ProgressBar
                             topCenter={abbreviateNumber(data?.legalBuyVolume || 0)}
                             bottomCenter={sepNumbers(data?.numberOfLegalBuyers || 0)}
-                            bgColorClass="bg-green-500"
+                            bgColorClass="bg-L-success-150 dark:bg-D-success-150"
                             percent={buyPercent.legal * 100}
                             origin="end"
                         />
@@ -65,7 +65,7 @@ const AdditionalData = () => {
                         <ProgressBar
                             topCenter={abbreviateNumber(data?.legalSellVolume || 0)}
                             bottomCenter={sepNumbers(data?.numberOfLegalSellers || 0)}
-                            bgColorClass="bg-red-500"
+                            bgColorClass="bg-L-error-150 dark:bg-D-error-150"
                             percent={sellPercent.legal * 100}
                         />
                     </div>
