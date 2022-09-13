@@ -1,8 +1,16 @@
 import { useMemo } from 'react';
 import { Broker_173 } from 'src/common/icons';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setAppTheme } from 'src/redux/slices/ui';
 
 const BrokerData = () => {
     //
+    const {
+        ui: { theme },
+    } = useAppValues();
+
+    const appDispatch = useAppDispatch();
+
     const brokers = useMemo(
         () => [
             {
@@ -21,7 +29,7 @@ const BrokerData = () => {
     const Icon = userBroker.icon;
 
     return (
-        <div className="flex items-center pl-5">
+        <div className="flex items-center pl-5" onClick={() => appDispatch(setAppTheme(theme === 'dark' ? 'light' : 'dark'))}>
             <span className="ml-2">
                 <Icon />
             </span>
