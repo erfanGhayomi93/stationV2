@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import AGTable, { ColDefType } from 'src/common/components/AGTable';
+
+type RequestData = {
+    customer: string;
+    symbolName: string;
+    side: string;
+    number: number;
+    tradeValue: number;
+    creditRequest: Boolean;
+};
 
 const Requests = () => {
-    //
-    return <div>Requests</div>;
+    const columns = useMemo(
+        (): ColDefType<RequestData>[] => [
+            { headerName: 'مشتری یا گروه مشتری', field: 'customer' },
+            { headerName: 'نام نماد', field: 'symbolName' },
+            { headerName: 'سمت', field: 'side' },
+            { headerName: 'تعداد', field: 'number' },
+            { headerName: 'قیمت', field: 'tradeValue' },
+            { headerName: 'ارزش کل معامله', field: 'tradeValue' },
+            { headerName: 'اعتبار درخواست', field: 'creditRequest' },
+        ],
+        [],
+    );
+
+    return (
+        <div className='w-full h-full p-3'>
+            <AGTable rowData={[]} columnDefs={columns} />
+        </div>
+    );
 };
 
 export default Requests;
