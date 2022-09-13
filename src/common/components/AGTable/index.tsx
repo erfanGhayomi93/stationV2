@@ -4,6 +4,7 @@ import { ColGroupDef, ColDef } from 'ag-grid-community';
 
 import { sepNumbers, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
+import { useAppValues } from 'src/redux/hooks';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
     type?: 'sepratedNumber' | 'abbreviatedNumber';
@@ -17,9 +18,12 @@ interface Props<TData> extends AgGridReactProps<TData> {}
 
 const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
     //
-    const isDarkMode = false;
+    const {
+        ui: { theme },
+    } = useAppValues();
+
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
-    const containerClassName = useMemo((): string => `ag-theme-alpine${isDarkMode ? '-dark' : ''}`, []);
+    const containerClassName = useMemo((): string => `ag-theme-alpine${theme === 'dark' ? '-dark' : ''}`, [theme]);
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
