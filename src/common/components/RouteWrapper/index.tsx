@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { useLocation } from 'react-router-dom';
-import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/api/appRoutes';
+import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/app/routes/appRoutes';
 
 interface Props {
     children: React.ReactNode;
