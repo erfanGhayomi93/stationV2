@@ -46,7 +46,7 @@ const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsU
     if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adapterName || !isSnapShot || !onFieldsUpdate) return;
     if (items?.length === 0 || fields?.length === 0) return;
 
-    const isSubscribeExist = subscriptions?.[id];
+    const isSubscribeExist = Boolean(subscriptions?.[id]);
     if (isSubscribeExist) unSubscribe(id);
 
     const sub = new Subscription(mode, items, fields);

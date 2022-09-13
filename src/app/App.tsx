@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/api/appRoutes';
+import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/app/routes/appRoutes';
 import { transferFunctions } from 'src/api/axiosInstance';
 import { fetchUser } from 'src/handlers/boot';
 
 import RouteWrapper from 'src/common/components/RouteWrapper';
 import AppLayout from 'src/app/Layout';
 import CrashPage from 'src/pages/PageCrash';
-import { useAppDispatch, useAppValues } from './redux/hooks';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 
 const App = () => {
     //

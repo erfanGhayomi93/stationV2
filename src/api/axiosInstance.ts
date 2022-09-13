@@ -4,7 +4,6 @@ import Cookies from 'js-cookie';
 import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
 import { AppDispatch } from 'src/redux/store';
 import { setAppState } from 'src/redux/slices/global';
-// import { configMockAdapter } from 'src/api_mock/config';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatch | undefined;
@@ -12,9 +11,6 @@ let appDispatch: AppDispatch | undefined;
 const tokenCookieName = 'ROS_client_id';
 
 const AXIOS = axios.create();
-
-// // MockAdapter
-// configMockAdapter(AXIOS);
 
 AXIOS.interceptors.request.use(
     function (config: AxiosRequestConfig): AxiosRequestConfig {

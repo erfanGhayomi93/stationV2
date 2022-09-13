@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useCustomerInformation } from 'src/app/queries';
+import { useCustomerInformation } from 'src/app/queries/customer';
 import { sepNumbers } from 'src/utils/helpers';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 

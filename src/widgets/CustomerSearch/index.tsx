@@ -2,17 +2,17 @@ import { BodyScrollEvent, RowSelectedEvent, SelectionChangedEvent } from 'ag-gri
 import clsx from 'clsx';
 import { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCustomerListInfinit } from 'src/app/queries';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import useDebounce from 'src/common/hooks/useDebounce';
 import actionCellRenderer from './components/ActionCell/ActionCell';
 import SearchInput from './components/SearchInput';
 import { useCustomerSearchState } from './context/CustomerSearchContext';
-import { CounterBalloon } from '../../components/CounterBalloon/CounterBalloon';
+import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
 import nameCellRenderer from './components/NameCell/NameCell';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
+import { useCustomerListInfinit } from 'src/app/queries/customer';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();

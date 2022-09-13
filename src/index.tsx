@@ -1,31 +1,28 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Redux
 import { Provider } from 'react-redux';
-import TranslatorProvider from 'src/i18n';
+import { store } from 'src/redux/store';
+
+// Providers
+import TranslatorProvider from 'src/app/i18n';
+import QueryClientProvider from 'src/app/queryClient';
 
 // Components
-import App from 'src/App';
+import App from 'src/app/App';
 
 // Styles
 import 'src/common/components/LinearRangeChart/build.css';
 import 'src/assets/scss/main.scss';
 
-import { store } from 'src/redux/store';
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-
-// React Query Client
-const queryClient = new QueryClient({
-    defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
-});
 
 root.render(
     <Provider store={store}>
         <BrowserRouter>
             <TranslatorProvider>
-                <QueryClientProvider client={queryClient}>
+                <QueryClientProvider>
                     <App />
                 </QueryClientProvider>
             </TranslatorProvider>

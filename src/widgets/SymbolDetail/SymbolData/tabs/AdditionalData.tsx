@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMemo } from 'react';
-import { useSymbolGeneralInfo } from 'src/app/queries';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ProgressBar from 'src/common/components/ProgressBar';
 import { useAppValues } from 'src/redux/hooks';
 import { abbreviateNumber, sepNumbers } from 'src/utils/helpers';
