@@ -12,7 +12,7 @@ const CodalBtn = ({ className, symbolTitle, ...rest }: Props) => {
     }, [symbolTitle]);
 
     return (
-        <button onClick={onBtnClick} className={`p-1 rounded-sm hover:bg-L-gray-250 dark:hover:bg-D-gray-250 ${className}`} {...rest}>
+        <button onClick={onBtnClick} className={`p-1 rounded-sm hover:bg-L-gray-250 dark:hover:bg-D-gray-250 dark:text-white ${className}`} {...rest}>
             <CodalIcon />
         </button>
     );
