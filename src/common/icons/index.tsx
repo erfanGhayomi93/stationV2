@@ -25,6 +25,10 @@ export { ReactComponent as MonitorIcon } from 'src/assets/svg/Monitor.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
 export { ReactComponent as CloseIcon } from 'src/assets/svg/Close.svg';
+export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDown.svg';
+export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
+export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
+export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
 
 // Common
 export { ReactComponent as Search } from 'src/assets/svg/Search.svg';
