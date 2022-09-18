@@ -34,6 +34,7 @@ const apiRoutes = {
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
+    Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
 };
 
 export default apiRoutes;
