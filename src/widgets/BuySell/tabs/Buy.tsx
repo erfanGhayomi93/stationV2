@@ -56,7 +56,7 @@ const Buy = () => {
                         <Input placeholder=" مشتری" />
                     </div>
                     <div className="w-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
-                        <Input placeholder="نماد" />
+                        <Input placeholder="نماد" value={symbolData?.symbolTitle} />
                     </div>
                 </div>
                 <div className="flex w-full gap-4">
