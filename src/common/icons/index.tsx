@@ -4,6 +4,9 @@
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as Broker_173 } from 'src/assets/svg/Broker_173.svg';
+export { ReactComponent as BrokerWhite_173 } from 'src/assets/svg/Broker_white_173.svg';
+export { ReactComponent as ArrowLeft } from 'src/assets/svg/arrowLeft.svg';
+export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
 export { ReactComponent as Envelope } from 'src/assets/svg/Envelope.svg';
 
 // Footer
