@@ -1,5 +1,5 @@
 import { Combobox, Transition } from '@headlessui/react';
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState, FC } from 'react';
 import { useSymbolGeneralInfo, useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolState from 'src/common/components/SymbolState';
 import useDebounce from 'src/common/hooks/useDebounce';
@@ -8,8 +8,10 @@ import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 
 const minSearchTermLength = 2;
-
-const SymbolSearch = () => {
+interface ISymbolSearchType {
+    placeholder?: string;
+}
+const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const {
         option: { selectedSymbol },
     } = useAppValues();
@@ -70,7 +72,7 @@ const SymbolSearch = () => {
                         <div className="flex items-center px-2 ">
                             <Search className="text-L-gray-400 dark:text-L-gray-400" />
                             <Combobox.Input
-                                placeholder={symbolData?.symbolTitle || 'جستجوی نماد'}
+                                placeholder={placeholder ? placeholder : symbolData?.symbolTitle || 'جستجوی نماد'}
                                 className="grow border-none p-2 text-sm leading-5 text-L-gray-400 dark:text-L-gray-400 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
                                 onChange={(e) => setTerm(e?.target?.value || '')}
                             />
