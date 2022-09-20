@@ -217,6 +217,86 @@ export const base64 = {
     },
 };
 
+export const zeroPad = (number: any, length = 2) => {
+    number = String(number);
+
+    while (number.length < length) {
+        number = `0${number}`;
+    }
+
+    return number;
+};
+
+export const parseEnglish = (input: any) => {
+    const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+    const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+
+    for (let i = 0; i < 10; i++) {
+        input = input.toString().replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+    }
+
+    return input;
+};
+
+export const getFarsiDate = (timeStamp: string) => {
+    const days = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه'];
+
+    const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+
+    let time = Number(`${timeStamp}`) ? new Date(timeStamp) : new Date(`${timeStamp}`);
+
+    const hr = zeroPad(time.getHours());
+
+    const min = zeroPad(time.getMinutes());
+
+    const seconds = zeroPad(time.getSeconds());
+
+    const dayOfWeek = days[time.getDay()];
+
+    const farsiDate = parseEnglish(time.toLocaleDateString('fa-IR')).split('/');
+
+    const farsiMonth = months[Number(farsiDate[1]) - 1];
+
+    return {
+        time: `${hr}:${min}`,
+        seconds,
+        dayOfWeek,
+        farsiMonth,
+        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
+            farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
+        }`,
+    };
+};
+
+export const howLongAgo = (timeStamp: any) => {
+    const now = new Date().getTime();
+    const diff = (now - timeStamp) / 1000;
+    let result = '';
+    let timeAgo;
+
+    if (diff <= 60) {
+        result = 'همین الان';
+    }
+    if (diff > 60) {
+        timeAgo = Math.floor(diff / 60);
+        result = `${timeAgo} دقیقه پیش`;
+    }
+    if (diff > 3600) {
+        timeAgo = Math.floor(diff / 3600);
+        result = `${timeAgo} ساعت پیش`;
+    }
+    if (diff > 86400) {
+        timeAgo = Math.floor(diff / 86400);
+        result = `${timeAgo} روز پیش`;
+    }
+    if (diff > 2592000) {
+        timeAgo = Math.floor(diff / 2592000);
+        result = `${timeAgo} ماه پیش`;
+    }
+
+    return result;
+};
+
 export const abbreviateNumber = (number: number) => {
     //
 

@@ -34,6 +34,10 @@ const apiRoutes = {
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
+    SupervisorMessage : {
+        Get : `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage` , 
+        ReadPost : `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`
+    }
 };
 
 export default apiRoutes;
