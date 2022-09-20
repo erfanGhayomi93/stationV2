@@ -19,7 +19,10 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
     const [searchValue, setsearchValue] = useState('');
     const MessagesSuppervisor = useMessagesSuppervisor();
 
-    const countNumberMessage = () => {
+    const countNumberMessage = (ind: number)  => {
+        if (ind === 0 || ind === 2) {
+            return 0;
+        }
         let counter = 0;
         MessagesSuppervisor.data?.forEach((item) => {
             if (!item.read) ++counter;
@@ -49,7 +52,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                                     'border-transparent text-L-gray-500 dark:text-D-gray-500': !selected,
                                                 })}
                                             >
-                                                {`${item.tab}(${countNumberMessage()})`}
+                                                {`${item.tab}(${countNumberMessage(ind)})`}
                                             </button>
                                         )}
                                     </Tab>

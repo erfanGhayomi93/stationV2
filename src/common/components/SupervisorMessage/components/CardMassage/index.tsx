@@ -5,12 +5,12 @@ import { Disclosure, Transition } from '@headlessui/react';
 import { getFarsiDate, howLongAgo } from 'src/utils/helpers';
 import { useReadTodaySupervisorMessages } from 'src/app/queries/messages';
 
-
 type CArdMesaage = {
     data: SUpervisorMessageResult;
+    isOneSymbol?: boolean;
 };
 
-export const CardMessage: FC<CArdMesaage> = ({ data }) => {
+export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
     const { dateOfEvent, messageBody, messageTitle, read, type } = data;
     const { mutate } = useReadTodaySupervisorMessages();
     const [isRead, setisRead] = useState(read);
@@ -34,7 +34,9 @@ export const CardMessage: FC<CArdMesaage> = ({ data }) => {
                     )}
                 >
                     <Disclosure.Button className="w-full" onClick={handleClickTitle}>
-                        <div className="flex items-center justify-between pt-2 pb-1 px-4">
+                        <div className={clsx("flex items-center justify-between pt-2 pb-1" , {
+                            "px-4": !isOneSymbol
+                        })}>
                             <div className="flex-grow flex flex-col justify-between h-full">
                                 <div className="flex items-center">
                                     {type && (
@@ -50,7 +52,9 @@ export const CardMessage: FC<CArdMesaage> = ({ data }) => {
                                             )}
                                         />
                                     )}
-                                    <h1 className={clsx({}, 'text-sm text-L-gray-500 dark:text-D-gray-500 mr-2 p-0')}>{messageTitle}</h1>
+                                    <h1 className={clsx('text-xs font-normal text-L-gray-500 dark:text-D-gray-500 mr-2 p-0')}>
+                                        {messageTitle}
+                                    </h1>
                                 </div>
 
                                 <span className="flex items-center mt-2">
@@ -63,16 +67,18 @@ export const CardMessage: FC<CArdMesaage> = ({ data }) => {
                                     </span>
                                 </span>
                             </div>
-                            <div className="flex-grow-0 flex flex-col text-right p-0 m-0">
-                                <div className="text-left w-full mb-1 mt-0 mx-0 p-0">
-                                    <button type="button" className="btn btn-icon text-L-gray-400 dark:text-D-gray-400 mr-auto ml-0 p-0">
-                                        <ExpandArrow width="24" height="24" />
-                                    </button>
+                            {!isOneSymbol && (
+                                <div className="flex-grow-0 flex flex-col text-right p-0 m-0">
+                                    <div className="text-left w-full mb-1 mt-0 mx-0 p-0">
+                                        <button type="button" className="btn btn-icon text-L-gray-400 dark:text-D-gray-400 mr-auto ml-0 p-0">
+                                            <ExpandArrow width="24" height="24" />
+                                        </button>
+                                    </div>
+                                    <span className="text-xs font-normal text-L-gray-400 dark:text-D-gray-400 p-0 m-0 whitespace-nowrap">
+                                        {isRead ? 'خوانده شده' : ''}
+                                    </span>
                                 </div>
-                                <span className="text-xs font-normal text-L-gray-400 dark:text-D-gray-400 p-0 m-0 whitespace-nowrap">
-                                    {isRead ? 'خوانده شده' : ''}
-                                </span>
-                            </div>
+                            )}
                         </div>
                     </Disclosure.Button>
 

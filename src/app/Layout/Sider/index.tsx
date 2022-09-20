@@ -19,7 +19,7 @@ export type MenuItemType = {
 const Sider = () => {
     //
     const [isOpen, setIsOpen] = useState(false);
-    const [isShowSupervisorMessage, setisShowSupervisorMessage] = useState<boolean>(true);
+    const [isShowSupervisorMessage, setisShowSupervisorMessage] = useState<boolean>(false);
 
     const menuItems = useMemo(
         (): MenuItemType[] => [
