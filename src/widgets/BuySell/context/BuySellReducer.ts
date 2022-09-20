@@ -35,7 +35,26 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 symbolISIN: action.value,
             };
-
+        case 'SET_DIVIDE':
+            return {
+                ...state,
+                divide: action.value,
+            };
+        case 'SET_PERCENT':
+            return {
+                ...state,
+                percent: action.value,
+            };
+        case 'TOGGLE_CALCULATOR':
+            return {
+                ...state,
+                isCalculatorEnabled: action.value,
+            };
+        case 'SET_AMOUNT':
+            return {
+                ...state,
+                amount: action.value,
+            };
         default:
             return state;
     }

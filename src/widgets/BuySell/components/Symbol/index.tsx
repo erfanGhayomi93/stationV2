@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import Input from 'src/common/components/Input';
 import { useAppValues } from 'src/redux/hooks';
+import SymbolSearch from 'src/widgets/SymbolDetail/SymbolSearch';
 import { useBuySellDispatch } from '../../context/BuySellContext';
 
 interface IBuySellSymbolType {}
@@ -21,9 +22,7 @@ const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
     return (
         <label className="w-full flex items-center justify-center pr-2">
             <span className="w-[64px] whitespace-nowrap ">نماد</span>
-            <div className="w-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
-                <Input value={symbolData?.symbolTitle} />
-            </div>
+            <SymbolSearch />
         </label>
     );
 };

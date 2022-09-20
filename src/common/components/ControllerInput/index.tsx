@@ -1,4 +1,3 @@
-import Input from '../Input';
 import { FC } from 'react';
 import { ChevronIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
@@ -12,14 +11,16 @@ interface IControllerInputType {
     children?: JSX.Element;
     title?: string;
     placeholder?: string;
+    unit?: JSX.Element;
+    max?: number;
 }
-const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputValue, lowValue, children, placeholder, title }) => {
+const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputValue, lowValue, children, placeholder, title, unit, max }) => {
     return (
         <label className="w-full flex items-center justify-center ">
             <span className="w-[64px] whitespace-nowrap ">{title}</span>
             <div className="w-full flex border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
                 <div className="w-full">
-                    <TradeInput onChange={onChange} value={inputValue} placeholder={placeholder} />
+                    <TradeInput onChange={onChange} value={inputValue} placeholder={placeholder} unit={unit} max={max} />
                 </div>
                 <div className="flex w-48 justify-between items-center flex-row-reverse bg-L-gray-150 dark:bg-D-gray-150 border-r border-L-gray-400 dark:border-D-gray-400">
                     {children}

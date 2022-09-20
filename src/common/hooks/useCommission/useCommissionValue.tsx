@@ -24,12 +24,14 @@ export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
 
 const useCommission = ({ marketUnit, price, quantity }: IuseCommissionType) => {
     const { buyCommissionValue } = useCommissionValue({ marketUnit });
-    return Math.ceil(buyCommissionValue * price * quantity);
+    const commission = Math.ceil(buyCommissionValue * price * quantity * 1000) / 1000;
+    const unitCommission = Math.ceil(buyCommissionValue * price * 1 * 1000) / 1000;
+    return { commission, unitCommission };
 };
 
 export const useCostValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
-    const commision = useCommission({ quantity, price, marketUnit, side });
-    return Math.ceil(commision + price * quantity);
+    const { commission } = useCommission({ quantity, price, marketUnit, side });
+    return Math.ceil(commission + price * quantity);
 };
 
 export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
@@ -39,22 +41,22 @@ export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissi
 };
 
 export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const commision = useCommission({ quantity, price, marketUnit, side: 'BUY' });
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'BUY' });
     const cost = useCostValue({ quantity, price, marketUnit, side: 'BUY' });
     const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'BUY' });
     return {
-        commision,
+        commission,
         cost,
         drawValue,
     };
 };
 
 export const useSellDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const commision = useCommission({ quantity, price, marketUnit, side: 'SELL' });
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'SELL' });
     const cost = useCostValue({ quantity, price, marketUnit, side: 'SELL' });
     const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'SELL' });
     return {
-        commision,
+        commission,
         cost,
         drawValue,
     };

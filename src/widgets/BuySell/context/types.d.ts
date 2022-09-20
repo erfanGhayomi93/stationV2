@@ -6,6 +6,10 @@ type BuySellState = {
     validityDate: string | undefined;
     sequential: boolean;
     symbolISIN: string;
+    divide: boolean;
+    isCalculatorEnabled: boolean;
+    percent?: number;
+    amount: number;
 };
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
@@ -16,4 +20,8 @@ type BuySellAction =
     | { type: 'SET_VALIDITY'; value: validity }
     | { type: 'SET_VALIDITY_DATE'; value: string }
     | { type: 'SET_SEQUENTIAL'; value: boolean }
-    | { type: 'SET_SYMBOL'; value: string };
+    | { type: 'SET_SYMBOL'; value: string }
+    | { type: 'SET_DIVIDE'; value: boolean }
+    | { type: 'SET_PERCENT'; value: number }
+    | { type: 'SET_AMOUNT'; value: number }
+    | { type: 'TOGGLE_CALCULATOR'; value: boolean };
