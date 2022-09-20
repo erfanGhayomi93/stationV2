@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useCustomerInformation } from 'src/app/queries/customer';
-import { sepNumbers } from 'src/utils/helpers';
+import { seprateNumber } from 'src/utils/helpers';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
 type ICustomerDetailType = {};
@@ -24,12 +24,12 @@ const CustomerDetail = ({}: ICustomerDetailType) => {
                             <Block value={customerInformation?.fatherName} label="نام پدر" />
                         </DescriptionRow>
                         <DescriptionRow>
-                            <Block value={sepNumbers(customerInformation?.remainT1)} label="موجودی" />
+                            <Block value={seprateNumber(customerInformation?.remainT1)} label="موجودی" />
                             <Block value={customerInformation?.bourseCode} label="کد بورسی" />
                         </DescriptionRow>
                         <DescriptionRow>
-                            <Block value={sepNumbers(customerInformation?.blocked)} label="بلوکه شده" />
-                            <Block value={sepNumbers(customerInformation?.stationCredit)} label="اعتبار داده شده" />
+                            <Block value={seprateNumber(customerInformation?.blocked)} label="بلوکه شده" />
+                            <Block value={seprateNumber(customerInformation?.stationCredit)} label="اعتبار داده شده" />
                         </DescriptionRow>
                         <DescriptionRow>
                             <Block value={customerInformation?.nationalCode} label="کد ملی / شناسه ملی" />

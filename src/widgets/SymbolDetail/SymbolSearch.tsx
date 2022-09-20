@@ -1,16 +1,18 @@
 import { Combobox, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useMemo, useState } from 'react';
-import { useSymbolSearch } from 'src/app/queries/symbol';
+import { useSymbolGeneralInfo, useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolState from 'src/common/components/SymbolState';
 import useDebounce from 'src/common/hooks/useDebounce';
 import { Search } from 'src/common/icons';
-import { useAppDispatch } from 'src/redux/hooks';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 
 const minSearchTermLength = 2;
 
 const SymbolSearch = () => {
-    //
+    const {
+        option: { selectedSymbol },
+    } = useAppValues();
     const [term, setTerm] = useState<string>('');
     const debouncedTerm = useDebounce(term, 500);
     const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm);
@@ -56,15 +58,19 @@ const SymbolSearch = () => {
         selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
     }, []);
 
+    const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data) => data.symbolData,
+    });
+
     return (
         <div className="w-full">
-            <Combobox value={null} onChange={onSymbolSelect}>
+            <Combobox value={symbolData} onChange={onSymbolSelect}>
                 <div className="relative">
                     <div className="relative w-full cursor-default border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md bg-L-basic dark:bg-D-basic text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                         <div className="flex items-center px-2 ">
                             <Search className="text-L-gray-400 dark:text-L-gray-400" />
                             <Combobox.Input
-                                placeholder="جستجوی نماد"
+                                placeholder={symbolData?.symbolTitle || 'جستجوی نماد'}
                                 className="grow border-none p-2 text-sm leading-5 text-L-gray-400 dark:text-L-gray-400 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
                                 onChange={(e) => setTerm(e?.target?.value || '')}
                             />

@@ -1,11 +1,15 @@
 import { onSuccessNotif } from 'src/handlers/notification';
 
 //
-export const sepNumbers = (num: number | undefined): any => {
+export const seprateNumber = (num: number | undefined): any => {
     if (num && !isNaN(num)) {
         let sepCode = String(num);
         return sepCode.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     } else return num;
+};
+
+export const validNumber = (value: string | number) => {
+    return +String(value).replace(/[^0-9]/gi, '');
 };
 
 export const downloadBlobFile = (blob: Blob, fileName: string) => {
