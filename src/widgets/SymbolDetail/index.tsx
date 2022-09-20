@@ -80,7 +80,7 @@ const SymbolDetail = () => {
     return (
         <div className="w-full h-full flex flex-col">
             <div className="pb-2">
-                <SymbolSearch />
+                <SymbolSearch placeholder="جستجوی نماد" />
             </div>
             {/*  apply loading wrapper here */}
             <div className="grow">

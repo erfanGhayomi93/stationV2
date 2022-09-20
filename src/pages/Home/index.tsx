@@ -1,4 +1,4 @@
-import BuySell from 'src/widgets/BuySell';
+import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
 import CustomerSearchWidget from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
 import PortfolioWatchlist from 'src/widgets/PortfolioWatchlist';
 import Reports from 'src/widgets/Reports';
@@ -20,7 +20,7 @@ const Home = () => {
             <div className="col-span-9">
                 <div className="grid h-full grid-cols-9 grid-rows-2 gap-2">
                     <div className="col-span-3">
-                        <BuySell />
+                        <BuySellWidget />
                     </div>
                     <div className="col-span-6">
                         <PortfolioWatchlist />
