@@ -7,6 +7,8 @@ export { ReactComponent as Broker_173 } from 'src/assets/svg/Broker_173.svg';
 export { ReactComponent as BrokerWhite_173 } from 'src/assets/svg/Broker_white_173.svg';
 export { ReactComponent as ArrowLeft } from 'src/assets/svg/arrowLeft.svg';
 export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
+export { ReactComponent as ExpandArrow } from 'src/assets/svg/expandArrow.svg';
+export { ReactComponent as FiClock } from 'src/assets/svg/FiClock.svg';
 export { ReactComponent as Envelope } from 'src/assets/svg/Envelope.svg';
 
 // Footer
