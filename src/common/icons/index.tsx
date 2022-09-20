@@ -29,6 +29,7 @@ export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDow
 export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
 export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
 export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
+export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
 
 // Common
 export { ReactComponent as Search } from 'src/assets/svg/Search.svg';

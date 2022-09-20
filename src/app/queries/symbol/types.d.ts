@@ -43,7 +43,7 @@ type SymbolData = {
     oneMonthEfficiency: number;
     threeMonthEfficiency: number;
     oneYearEfficiency: number;
-    marketUnit: string;
+    marketUnit: MarketUnit;
     symbolOrderState: string;
     symbolTradeState: string;
     groupState: string;
