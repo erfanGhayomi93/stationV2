@@ -27,9 +27,9 @@ const apiRoutes = {
         SymbolGeneralInformation: MarketData + '/Symbol/v1/SymbolGeneralInformation',
     },
     Customer: {
-        Search: BackOffice + '/GoCustomer/v1/Search',
-        GetCustomerInformation: BackOffice + '/GoCustomer/v1/GetCustomerInformation',
-        GetGroupInformation: BackOffice + '/GoCustomer/v1/GetGroupInformation',
+        Search: BackOffice + '/GtCustomer/v1/Search',
+        GetCustomerInformation: BackOffice + '/GtCustomer/v1/GetCustomerInformation',
+        GetGroupInformation: BackOffice + '/GtCustomer/v1/GetGroupInformation',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
