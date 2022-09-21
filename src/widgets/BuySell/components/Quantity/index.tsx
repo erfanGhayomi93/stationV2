@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { FC, Fragment, useState, useMemo, memo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
+import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 import { CalculatorIcon, CoinIcon, PercentIcon } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import TradeInput from '../Input';
