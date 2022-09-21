@@ -22,16 +22,17 @@ export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
     );
 };
 
-const useCommission = ({ marketUnit, price, quantity }: IuseCommissionType) => {
-    const { buyCommissionValue } = useCommissionValue({ marketUnit });
-    const commission = Math.ceil(buyCommissionValue * price * quantity * 1000) / 1000;
-    const unitCommission = Math.ceil(buyCommissionValue * price * 1 * 1000) / 1000;
+const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
+    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit });
+    const commissionValue = side === 'BUY' ? buyCommissionValue : sellCommissionValue;
+    const commission = Math.ceil(commissionValue * price * quantity * 100) / 100;
+    const unitCommission = Math.ceil(commissionValue * price * 1 * 100) / 100;
     return { commission, unitCommission };
 };
 
 export const useCostValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const { commission } = useCommission({ quantity, price, marketUnit, side });
-    return Math.ceil(commission + price * quantity);
+    return Math.ceil(price * quantity + (side === 'SELL' ? commission * -1 : commission));
 };
 
 export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
@@ -55,6 +56,17 @@ export const useSellDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissi
     const { commission } = useCommission({ quantity, price, marketUnit, side: 'SELL' });
     const cost = useCostValue({ quantity, price, marketUnit, side: 'SELL' });
     const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'SELL' });
+    return {
+        commission,
+        cost,
+        drawValue,
+    };
+};
+
+export const useBuySellDetail = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
+    const { commission } = useCommission({ quantity, price, marketUnit, side });
+    const cost = useCostValue({ quantity, price, marketUnit, side });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side });
     return {
         commission,
         cost,
