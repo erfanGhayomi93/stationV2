@@ -1,22 +1,19 @@
-import i18next from 'i18next';
-import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import Input from 'src/common/components/Input';
 import Select, { SelectOption } from 'src/common/components/Select';
 import { ModalBasketIcon } from 'src/common/icons';
 import { STRATEGY_OPTIONS } from 'src/constant/strategy';
-import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import BuySellDetail from '../components/Detail/BuySellDetail';
 import BuySellPrice from '../components/Price';
 import BuySellQuantity from '../components/Quantity';
 import BuySellSymbol from '../components/Symbol';
-import { useBuySellDispatch, useBuySellState } from '../context/BuySellContext';
+import BuySellValidity from '../components/Validity';
+import { useBuySellDispatch } from '../context/BuySellContext';
 
 const Buy = () => {
     const dispatch = useBuySellDispatch();
 
-    const { validity } = useBuySellState();
     const setStrategy = (value: strategy) => dispatch({ type: 'SET_STRATEGY', value });
-    const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
 
     return (
         <div className="flex flex-col text-1.2 p-2 h-full relative">
@@ -34,22 +31,9 @@ const Buy = () => {
                 <BuySellPrice />
                 <BuySellQuantity />
 
-                <div className="flex w-full gap-4 pr-1">
+                <div className="flex w-full gap-4 pr-1 items-start">
                     <div className="flex w-full gap-4 pr-2">
-                        <Select
-                            title="اعتبار"
-                            onChange={(select: typeof VALIDITY_OPTIONS[0]) => setValidity(select.value as validity)}
-                            value={i18next.t('BSModal.validity_' + validity)}
-                        >
-                            {VALIDITY_OPTIONS.map((item, inx) => (
-                                <SelectOption
-                                    key={inx}
-                                    label={i18next.t('BSModal.validity_' + item.value)}
-                                    value={item}
-                                    className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
-                                />
-                            ))}
-                        </Select>
+                        <BuySellValidity />
                     </div>
                     <div className="flex w-full gap-4 ">
                         <Select

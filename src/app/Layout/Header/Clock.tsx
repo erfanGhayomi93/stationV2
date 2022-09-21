@@ -31,6 +31,7 @@ const Clock = () => {
 
     return (
         <div
+            //@ts-ignore
             title={dayjs().calendar('jalali').format('YYYY/MM/DD')}
             className="text-center leading-none pt-0.5 font-thin "
             style={{ minWidth: '80px', fontSize: '18px' }}
