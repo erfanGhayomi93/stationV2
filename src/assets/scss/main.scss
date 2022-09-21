@@ -10,6 +10,7 @@ body {
     box-sizing: border-box;
     font-family: 'IRANSansEnNum', 'IRANSansFaNum', sans-serif !important;
     font-size: 14px;
+    z-index: -50;
 }
 
 body #root {

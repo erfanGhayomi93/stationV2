@@ -1,22 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
-import {
-    BasketIcon,
-    Envelope2Icon,
-    EyeFrameIcon,
-    FileIcon,
-    File2Icon,
-    GearIcon,
-    HomeIcon,
-    MonitorIcon,
-    QMarkIcon,
-    QuitIcon,
-    MenuIcon,
-} from 'src/common/icons';
+import { useMemo, useState } from 'react';
+import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
+import Tooltip from 'src/common/components/Tooltip';
+import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, GearIcon, HomeIcon, MonitorIcon, QMarkIcon, QuitIcon } from 'src/common/icons';
 
 import ExpandedSider from './ExpandedSider';
+import ToggleSlider from './ToggleSlider';
 
-type MenuItemType = {
+export type MenuItemType = {
     icon: JSX.Element;
     label: string | JSX.Element;
     position: 'top' | 'bottom';
@@ -29,13 +19,99 @@ type MenuItemType = {
 const Sider = () => {
     //
     const [isOpen, setIsOpen] = useState(false);
+    const [isShowSupervisorMessage, setisShowSupervisorMessage] = useState<boolean>(false);
 
     const menuItems = useMemo(
         (): MenuItemType[] => [
             {
                 icon: <HomeIcon height={20} width={20} />,
-                label: 'صفحه اصلی',
+                label: 'منو آیتم 1',
                 position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+                children: [
+                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },
+                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined },
+                ],
+            },
+            {
+                icon: <BasketIcon height={20} width={20} />,
+                label: 'منو آیتم 2',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <BasketIcon height={20} width={20} />,
+                label: 'منو آیتم 3',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <EyeFrameIcon height={20} width={20} />,
+                label: 'منو آیتم 4',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <FileIcon height={20} width={20} />,
+                label: 'منو آیتم 5',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <FileIcon height={20} width={20} />,
+                label: 'منو آیتم 6',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+
+            {
+                icon: <MonitorIcon height={20} width={20} />,
+                label: 'منو آیتم 8',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <GearIcon height={20} width={20} />,
+                label: 'منو آیتم 9',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <QMarkIcon height={20} width={20} />,
+                label: 'منو آیتم 10',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: undefined,
+            },
+            {
+                icon: <Envelope2Icon height={20} width={20} />,
+                label: 'پیام‌ها',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: () => setisShowSupervisorMessage(true),
+            },
+            {
+                icon: <QuitIcon height={20} width={20} />,
+                label: 'منو آیتم 12',
+                position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: undefined,
@@ -46,49 +122,39 @@ const Sider = () => {
 
     return (
         <>
-            <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col justify-between py-5 pt-3">
-                <div className="flex flex-col items-center gap-5 ">
-                    <button className=" p-3 rounded-md" onClick={() => setIsOpen(true)}>
-                        <MenuIcon height={20} width={20} />
-                    </button>
-                    <button className=" hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <HomeIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <BasketIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <BasketIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <EyeFrameIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <FileIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <File2Icon height={20} width={20} />
-                    </button>
+            <SupervisorMassage flagToggle = {isShowSupervisorMessage} setFlagToggle={setisShowSupervisorMessage} />
+            <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+                <div className="flex flex-col items-center gap-5">
+                    <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>
-                <div className="flex flex-col items-center gap-5 ">
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <MonitorIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <GearIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <QMarkIcon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <Envelope2Icon height={20} width={20} />
-                    </button>
-                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md">
-                        <QuitIcon height={20} width={20} />
-                    </button>
+                <div className="flex flex-col justify-between h-full mt-8">
+                    <div className="flex flex-col items-center gap-5">
+                        {menuItems
+                            .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
+                            .map((item, ind) => (
+                                <Tooltip key={ind} title={item.label}>
+                                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
+                                        <>{item.icon}</>
+                                    </button>
+                                </Tooltip>
+                            ))}
+                    </div>
+                    <div className="flex flex-col items-center gap-5 ">
+                        {menuItems
+                            .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
+                            .map((item, ind) => (
+                                <button
+                                    key={ind}
+                                    className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
+                                    onClick={item.onClick}
+                                >
+                                    {item.icon}
+                                </button>
+                            ))}
+                    </div>
                 </div>
             </div>
-            <ExpandedSider isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <ExpandedSider isOpen={isOpen} onClose={() => setIsOpen(false)} menuItems={menuItems} />
         </>
     );
 };

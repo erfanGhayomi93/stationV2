@@ -4,6 +4,11 @@
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as Broker_173 } from 'src/assets/svg/Broker_173.svg';
+export { ReactComponent as BrokerWhite_173 } from 'src/assets/svg/Broker_white_173.svg';
+export { ReactComponent as ArrowLeft } from 'src/assets/svg/arrowLeft.svg';
+export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
+export { ReactComponent as ExpandArrow } from 'src/assets/svg/expandArrow.svg';
+export { ReactComponent as FiClock } from 'src/assets/svg/FiClock.svg';
 export { ReactComponent as Envelope } from 'src/assets/svg/Envelope.svg';
 
 // Footer
@@ -22,6 +27,13 @@ export { ReactComponent as MonitorIcon } from 'src/assets/svg/Monitor.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
 export { ReactComponent as CloseIcon } from 'src/assets/svg/Close.svg';
+export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDown.svg';
+export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
+export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
+export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
+export { ReactComponent as CoinIcon } from 'src/assets/svg/coinIcon.svg';
+export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
+export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
 
 // Common
 export { ReactComponent as Search } from 'src/assets/svg/Search.svg';

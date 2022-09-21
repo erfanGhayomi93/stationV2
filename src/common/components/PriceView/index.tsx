@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { sepNumbers } from 'src/utils/helpers';
+import { seprateNumber } from 'src/utils/helpers';
 
 interface IProps {
     price: number;
@@ -28,7 +28,7 @@ const PriceView = ({
         <div className="flex flex-nowrap whitespace-nowrap snap-center">
             {label ? <span className="ml-1">{label}:</span> : null}
             <div className={textColorClassName} style={{ direction: 'ltr' }}>
-                {`${sepNumbers(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}
+                {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}
             </div>
         </div>
     );

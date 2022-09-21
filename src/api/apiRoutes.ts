@@ -8,7 +8,7 @@ const BackOffice = 'http://192.168.40.8:9500';
 
 const apiRoutes = {
     OAuthApi: {
-        authorization: OauthUrl + '/OAuthApi/v1/Authorization',
+        authorization: OauthUrl + '/GTOAuthApi/v1/GTAuthorization',
         captcha: OauthUrl + '/Captcha/v1/create',
         twoFactor: OauthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
         logout: OauthUrl + '/OAuthApi/v1/Logout',
@@ -24,16 +24,23 @@ const apiRoutes = {
     },
     Symbol: {
         Search: CommonUrl + '/Symbol/v1/Search',
-        SymbolGeneralInformation: MarketData + '/Symbol/v1/SymbolGeneralInformation',
+        SymbolGeneralInformation: MarketData + '/GTSymbol/v1/SymbolGeneralInformation',
     },
     Customer: {
-        Search: BackOffice + '/GoCustomer/v1/Search',
-        GetCustomerInformation: BackOffice + '/GoCustomer/v1/GetCustomerInformation',
-        GetGroupInformation: BackOffice + '/GoCustomer/v1/GetGroupInformation',
+        Search: BackOffice + '/GtCustomer/v1/Search',
+        GetCustomerInformation: BackOffice + '/GtCustomer/v1/GetCustomerInformation',
+        GetGroupInformation: BackOffice + '/GtCustomer/v1/GetGroupInformation',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
+
+    SupervisorMessage : {
+        Get : `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage` , 
+        ReadPost : `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`
+    },
+    Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
+
 };
 
 export default apiRoutes;

@@ -2,7 +2,7 @@ import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { ColGroupDef, ColDef } from 'ag-grid-community';
 
-import { sepNumbers, abbreviateNumber } from 'src/utils/helpers';
+import { seprateNumber, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
 import { useAppValues } from 'src/redux/hooks';
 
@@ -27,7 +27,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
-            sepratedNumber: { valueFormatter: ({ value }) => sepNumbers(value), cellStyle: { direction: 'ltr' } },
+            sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
         };
     }, []);

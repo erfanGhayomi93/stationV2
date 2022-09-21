@@ -3,7 +3,7 @@ import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import DataDisplay from 'src/common/components/DataDisplay';
 import { useAppValues } from 'src/redux/hooks';
-import { sepNumbers } from 'src/utils/helpers';
+import { seprateNumber } from 'src/utils/helpers';
 
 const Details = () => {
     //
@@ -41,13 +41,14 @@ const Details = () => {
             label: 'آخرین معامله',
             value:
                 data?.lastTradeDateTime && !String(data?.lastTradeDateTime).includes('0001')
-                    ? dayjs(data?.lastTradeDateTime).calendar('jalali').format('hh:mm YYYY/MM/DD')
+                    ? //@ts-ignore
+                      dayjs(data?.lastTradeDateTime).calendar('jalali').format('hh:mm YYYY/MM/DD')
                     : '-',
         },
-        { key: 3, label: 'ارزش (تعداد)', value: data?.totalTradeValue ? sepNumbers(data?.totalTradeValue) : '-' },
-        { key: 4, label: 'اولین قیمت', value: data?.firstTradedPrice ? sepNumbers(data?.firstTradedPrice) : '-' },
-        { key: 5, label: 'حجم معاملات', value: data?.totalNumberOfSharesTraded ? sepNumbers(data?.totalNumberOfSharesTraded) : '-' },
-        { key: 6, label: 'حجم مبنا', value: data?.baseVolume ? sepNumbers(data?.baseVolume) : '-' },
+        { key: 3, label: 'ارزش (تعداد)', value: data?.totalTradeValue ? seprateNumber(data?.totalTradeValue) : '-' },
+        { key: 4, label: 'اولین قیمت', value: data?.firstTradedPrice ? seprateNumber(data?.firstTradedPrice) : '-' },
+        { key: 5, label: 'حجم معاملات', value: data?.totalNumberOfSharesTraded ? seprateNumber(data?.totalNumberOfSharesTraded) : '-' },
+        { key: 6, label: 'حجم مبنا', value: data?.baseVolume ? seprateNumber(data?.baseVolume) : '-' },
         { key: 7, label: 'درصد شناور', value: data?.floatFree || '-' },
         { key: 8, label: 'سال مالی', value: data?.fiscalYear || '-' },
         { key: 9, label: 'EPS', value: data?.estimatedEPS || '-' },
