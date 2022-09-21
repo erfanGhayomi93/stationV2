@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import Switcher from 'src/common/components/SwitchButton';
 import { useBuySellDetail } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -14,7 +14,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
     } = useAppValues();
 
     const dispatch = useBuySellDispatch();
-    const setSequential = (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value });
+    const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
     const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
 
     const { price, quantity, sequential, divide, side } = useBuySellState();

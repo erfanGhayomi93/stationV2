@@ -1,6 +1,6 @@
 import { RadioGroup, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment, useState, useMemo, memo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -46,9 +46,11 @@ const ToggleButton = () => {
 };
 const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const dispatch = useBuySellDispatch();
-    const { quantity, symbolISIN, price, isCalculatorEnabled, amount, side } = useBuySellState();
+    const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
+    const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
+    const toggleButton = useMemo(() => <ToggleButton />, []);
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
     const setPercent = (value: number) => dispatch({ type: 'SET_PERCENT', value });
@@ -60,26 +62,14 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     //
     const calculateQuantity = (value: number) => {
         setAmount(value);
-        price && setQuantity(Math.ceil(getTradedQuantity(price, value, side)));
-        console.log(getTradedQuantity(price, value, side));
     };
-
-    const getTradedQuantity = (p: number, value: number, side: 'Buy' | 'Sell') => {
-        console.log(side);
-
-        const cv = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
-        return side === 'Buy' ? value / (cv * p + p) : value / (-cv * p + p);
-    };
-
     const setPercentage = (value: number) => {
         setAmount(value);
         setPercent(value);
     };
     const handleQuantity = (value: number) => {
-        if (!isCalculatorEnabled) {
-            setQuantity(value);
-            setAmount(0);
-        }
+        setQuantity(value);
+        setAmount(0);
     };
     const handleChangeMode = (value: 'AMOUNT' | 'PERCENT') => {
         setMode(value);
@@ -98,7 +88,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
                     unit={<>عدد</>}
                 >
                     <button className="px-2" onClick={() => toggleCalculator(!isCalculatorEnabled)}>
-                        <CalculatorIcon className="text-L-gray-400 dark:text-D-gray-400" />
+                        {calculatorIcon}
                     </button>
                 </ControllerInput>
             </div>
@@ -133,7 +123,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
                                     as="div"
                                     className="flex items-center justify-center w-full h-full"
                                 >
-                                    <ToggleButton />
+                                    {toggleButton}
                                 </RadioGroup>
                             </div>
                         </div>
@@ -144,4 +134,4 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     );
 };
 
-export default BuySellQuantity;
+export default memo(BuySellQuantity);
