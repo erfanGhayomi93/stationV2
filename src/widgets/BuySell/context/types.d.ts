@@ -14,7 +14,7 @@ type BuySellState = {
 };
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
-type BuySellSide = 'BUY' | 'SELL';
+type BuySellSide = 'Buy' | 'Sell';
 type BuySellAction =
     | { type: 'SET_PRICE'; value: number }
     | { type: 'SET_QUANTITY'; value: number }

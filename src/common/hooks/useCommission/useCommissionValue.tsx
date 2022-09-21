@@ -8,7 +8,7 @@ interface IuseCommissionValueType {
 interface IuseCommissionType extends IuseCommissionValueType {
     price: number;
     quantity: number;
-    side: 'BUY' | 'SELL';
+    side: 'Buy' | 'Sell';
 }
 
 export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
@@ -24,7 +24,7 @@ export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
 
 const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit });
-    const commissionValue = side === 'BUY' ? buyCommissionValue : sellCommissionValue;
+    const commissionValue = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
     const commission = Math.ceil(commissionValue * price * quantity * 100) / 100;
     const unitCommission = Math.ceil(commissionValue * price * 1 * 100) / 100;
     return { commission, unitCommission };
@@ -32,7 +32,7 @@ const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType
 
 export const useCostValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const { commission } = useCommission({ quantity, price, marketUnit, side });
-    return Math.ceil(price * quantity + (side === 'SELL' ? commission * -1 : commission));
+    return Math.ceil(price * quantity + (side === 'Sell' ? commission * -1 : commission));
 };
 
 export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
@@ -42,9 +42,9 @@ export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissi
 };
 
 export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side: 'BUY' });
-    const cost = useCostValue({ quantity, price, marketUnit, side: 'BUY' });
-    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'BUY' });
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Buy' });
+    const cost = useCostValue({ quantity, price, marketUnit, side: 'Buy' });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Buy' });
     return {
         commission,
         cost,
@@ -53,9 +53,9 @@ export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissio
 };
 
 export const useSellDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side: 'SELL' });
-    const cost = useCostValue({ quantity, price, marketUnit, side: 'SELL' });
-    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'SELL' });
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Sell' });
+    const cost = useCostValue({ quantity, price, marketUnit, side: 'Sell' });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Sell' });
     return {
         commission,
         cost,

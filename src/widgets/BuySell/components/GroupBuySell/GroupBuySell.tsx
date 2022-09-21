@@ -1,4 +1,5 @@
 import Input from 'src/common/components/Input';
+import { useAppValues } from 'src/redux/hooks';
 import BuySellDetail from '../Detail/BuySellDetail';
 import BuySellPrice from '../Price';
 import BuySellQuantity from '../Quantity';
@@ -10,6 +11,10 @@ import BuySellSymbol from '../Symbol';
 import BuySellValidity from '../Validity';
 
 const GroupBuySell = () => {
+    const {
+        option: { selectedCustomers },
+    } = useAppValues();
+
     return (
         <div className="flex flex-col text-1.2 p-2 h-full relative">
             <div className="flex flex-col py-4 gap-2">
@@ -17,7 +22,7 @@ const GroupBuySell = () => {
                     <label className="w-full flex items-center justify-center ">
                         <span className="w-[64px] whitespace-nowrap ">مشتری</span>
                         <div className="w-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
-                            <Input />
+                            <Input value={selectedCustomers.map((c) => c.customerTitle)} />
                         </div>
                     </label>
                 </div>
