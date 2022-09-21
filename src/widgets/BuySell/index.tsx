@@ -13,7 +13,7 @@ const BuySell = () => {
     const items: ITabItemType[] = useMemo<ITabItemType[]>(
         () => [
             {
-                key: 'BUY',
+                key: 'Buy',
                 title: <>خرید</>,
                 content: <GroupBuySell />,
                 tabClass:
@@ -22,7 +22,7 @@ const BuySell = () => {
                     'text-L-success-150 dark:text-L-success-150 bg-L-success-50 dark:bg-D-success-50 after:dark:bg-D-success-50 after:bg-L-success-50 font-semibold border-t-2  border-L-success-150 dark:border-D-success-150 border-l  dark:border-l-D-gray-350 border-l-L-gray-350',
             },
             {
-                key: 'SELL',
+                key: 'Sell',
                 title: <>فروش</>,
                 content: <GroupBuySell />,
                 tabClass:
