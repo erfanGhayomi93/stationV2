@@ -22,9 +22,9 @@ const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
         setPrice(value);
     };
 
-    const getTradedQuantity = (p: number, value: number, side: 'BUY' | 'SELL') => {
-        const cv = side === 'BUY' ? buyCommissionValue : sellCommissionValue;
-        return side === 'BUY' ? value / (cv * p + p) : value / (-cv * p + p);
+    const getTradedQuantity = (p: number, value: number, side: 'Buy' | 'Sell') => {
+        const cv = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+        return side === 'Buy' ? value / (cv * p + p) : value / (-cv * p + p);
     };
 
     useEffect(() => {

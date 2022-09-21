@@ -64,9 +64,11 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
         console.log(getTradedQuantity(price, value, side));
     };
 
-    const getTradedQuantity = (p: number, value: number, side: 'BUY' | 'SELL') => {
-        const cv = side === 'BUY' ? buyCommissionValue : sellCommissionValue;
-        return side === 'BUY' ? value / (cv * p + p) : value / (-cv * p + p);
+    const getTradedQuantity = (p: number, value: number, side: 'Buy' | 'Sell') => {
+        console.log(side);
+
+        const cv = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+        return side === 'Buy' ? value / (cv * p + p) : value / (-cv * p + p);
     };
 
     const setPercentage = (value: number) => {

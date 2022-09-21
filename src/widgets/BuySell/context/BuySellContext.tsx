@@ -15,7 +15,7 @@ const initialState: BuySellState = {
     divide: false,
     isCalculatorEnabled: false,
     amount: 0,
-    side: 'BUY',
+    side: 'Buy',
 };
 const useValue = () => useReducer(BuySellReducer, initialState);
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);

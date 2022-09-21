@@ -38,7 +38,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
                 </div>
             </div>
             <div className="flex  text-L-gray-400 px-2 gap-16 min-h-[1.5rem]">
-                {side === 'BUY' ? (
+                {side === 'Buy' ? (
                     <>
                         <div className="flex justify-between items-center text-L-gray-400 w-full">
                             <span>قیمت سر به سر</span>

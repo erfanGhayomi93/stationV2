@@ -37,13 +37,12 @@ const apiRoutes = {
     },
     OrderUrl: {
         Create: OrderUrl + '/GTOrder/v1/Create',
-
-    SupervisorMessage : {
-        Get : `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage` , 
-        ReadPost : `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`
+    },
+    SupervisorMessage: {
+        Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
+        ReadPost: `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
-
 };
 
 export default apiRoutes;
