@@ -13,7 +13,7 @@ dayjs.extend(relativeTime);
 
 export const fetchUser = async (dispatch: AppDispatch) => {
     try {
-        const { data } = await AXIOS.get(apiRoutes.User.GetUserInformation);
+        // const { data } = await AXIOS.get(apiRoutes.User.GetUserInformation);
         dispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
     } catch (error: any) {
         if (![401].includes(error?.response?.status)) dispatch(setAppState('Crashed'));
