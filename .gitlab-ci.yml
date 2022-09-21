@@ -5,6 +5,7 @@ Deploy-Job:
   stage: deploy
   script:
     - npm install
+    - --legacy-peer-deps
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
     - mkdir -p "E:\Station\Versions\Station.$date.$Env:VersionStation\"
