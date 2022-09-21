@@ -1,16 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import Tooltip from 'src/common/components/Tooltip';
-import {
-    BasketIcon,
-    Envelope2Icon,
-    EyeFrameIcon,
-    FileIcon,
-    GearIcon,
-    HomeIcon,
-    MonitorIcon,
-    QMarkIcon,
-    QuitIcon,
-} from 'src/common/icons';
+import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, GearIcon, HomeIcon, MonitorIcon, QMarkIcon, QuitIcon } from 'src/common/icons';
 
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
@@ -25,10 +16,10 @@ export type MenuItemType = {
     children?: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>[];
 };
 
-
 const Sider = () => {
     //
     const [isOpen, setIsOpen] = useState(false);
+    const [isShowSupervisorMessage, setisShowSupervisorMessage] = useState<boolean>(false);
 
     const menuItems = useMemo(
         (): MenuItemType[] => [
@@ -39,7 +30,10 @@ const Sider = () => {
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: undefined,
-                children: [{ icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },{ icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined }],
+                children: [
+                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },
+                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined },
+                ],
             },
             {
                 icon: <BasketIcon height={20} width={20} />,
@@ -108,11 +102,11 @@ const Sider = () => {
             },
             {
                 icon: <Envelope2Icon height={20} width={20} />,
-                label: 'منو آیتم 11',
+                label: 'پیام‌ها',
                 position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => setisShowSupervisorMessage(true),
             },
             {
                 icon: <QuitIcon height={20} width={20} />,
@@ -128,7 +122,8 @@ const Sider = () => {
 
     return (
         <>
-              <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+            <SupervisorMassage flagToggle = {isShowSupervisorMessage} setFlagToggle={setisShowSupervisorMessage} />
+            <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
                 <div className="flex flex-col items-center gap-5">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>
