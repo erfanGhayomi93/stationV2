@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import Tooltip from 'src/common/components/Tooltip';
 import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, GearIcon, HomeIcon, MonitorIcon, QMarkIcon, QuitIcon } from 'src/common/icons';
-
+import { useSliderDispatch, useSliderValue } from './context';
+import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
 
@@ -17,9 +18,14 @@ export type MenuItemType = {
 };
 
 const Sider = () => {
-    //
     const [isOpen, setIsOpen] = useState(false);
-    const [isShowSupervisorMessage, setisShowSupervisorMessage] = useState<boolean>(false);
+    const { isShowSupervisorMessage, countNumberSupervisorMessage } = useSliderValue();
+    const dispatch = useSliderDispatch();
+
+
+    const tooggleSlider = () => {
+        dispatch({ type: SLiderActionEnum.TOGGLE_MENU });
+    };
 
     const menuItems = useMemo(
         (): MenuItemType[] => [
@@ -106,7 +112,7 @@ const Sider = () => {
                 position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: () => setisShowSupervisorMessage(true),
+                onClick: tooggleSlider,
             },
             {
                 icon: <QuitIcon height={20} width={20} />,
@@ -122,7 +128,7 @@ const Sider = () => {
 
     return (
         <>
-            <SupervisorMassage flagToggle = {isShowSupervisorMessage} setFlagToggle={setisShowSupervisorMessage} />
+            <SupervisorMassage flagToggle={isShowSupervisorMessage} setFlagToggle={tooggleSlider} countNumberSupervisorMessage={countNumberSupervisorMessage}/>
             <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
                 <div className="flex flex-col items-center gap-5">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
