@@ -4,6 +4,7 @@ import { pushEngine } from 'src/api/pushEngine';
 import Footer from './Footer';
 import Header from './Header';
 import Sider from './Sider';
+import { ProviderSlider } from './Sider/context';
 
 const AppLayout = () => {
     //
@@ -18,15 +19,21 @@ const AppLayout = () => {
             Password: 'This is My Password', // get from app context
         });
 
+
+
         return () => {
+
             pushEngine.disConnect();
         };
     }, []);
 
+
     return (
         <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50">
             <div className="h-full w-full grid grid-cols-one-min">
-                <Sider />
+                <ProviderSlider>
+                    <Sider />
+                </ProviderSlider>
                 <div className="grid grid-rows-min-one-min overflow-y-auto ">
                     <Header />
                     <div className="h-full px-4 py-2 grid overflow-y-auto overflow-x-auto min-w-[1230px]">
