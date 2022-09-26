@@ -21,7 +21,21 @@ const tabList = [{ tab: 'پیام های ناظر دیدبان' }, { tab: 'پی�
 export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagToggle, countNumberSupervisorMessage }) => {
     // const [selectedIndex, setSelectedIndex] = useState(0); 17390069635676
     const [searchValue, setsearchValue] = useState('');
-    const MessagesSuppervisor = useMessagesSuppervisor();
+    const MessagesSuppervisor = useMessagesSuppervisor({
+        onSuccess: (data) => {
+            pushEngine.subscribe({
+                id: 'supervisorMessage',
+                mode: 'RAW',
+                isSnapShot: 'no',
+                adapterName: 'RamandOMSGateway',
+                items: ['173_1890078169235', '173_All'],
+                fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
+                onFieldsUpdate: (item) => {
+                    console.log('item', item);
+                },
+            });
+        },
+    });
     const dispatch = useSliderDispatch();
 
     useEffect(() => {

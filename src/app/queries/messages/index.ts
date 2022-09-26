@@ -11,8 +11,8 @@ const getMessageSupervisorFn = async (): Promise<SUpervisorMessageResult[]> => {
     }
 };
 
-export const useMessagesSuppervisor = () => {
-    return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage'], getMessageSupervisorFn);
+export const useMessagesSuppervisor = (options: { onSuccess: (data: any) => void }) => {
+    return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage'], getMessageSupervisorFn, options);
 };
 
 const readMessageFn = async (id: number) => {
