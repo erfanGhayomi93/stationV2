@@ -55,6 +55,11 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 amount: action.value,
             };
+        case 'TOGGLE_BUY_SELL':
+            return {
+                ...state,
+                side: action.value,
+            };
         default:
             return state;
     }

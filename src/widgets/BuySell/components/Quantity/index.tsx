@@ -3,11 +3,10 @@ import clsx from 'clsx';
 import { FC, Fragment, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import useCommission, { useBuyDetail } from 'src/common/hooks/useCommission/useCommissionValue';
+import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 import { CalculatorIcon, CoinIcon, PercentIcon } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import TradeInput from '../Input';
-import { useEffect } from 'react';
 
 interface IBuySellQuantityType {}
 const ToggleButton = () => {
@@ -47,9 +46,9 @@ const ToggleButton = () => {
 };
 const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const dispatch = useBuySellDispatch();
-    const { quantity, symbolISIN, price, isCalculatorEnabled, amount } = useBuySellState();
+    const { quantity, symbolISIN, price, isCalculatorEnabled, amount, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-    const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side: 'BUY' });
+    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
     const setPercent = (value: number) => dispatch({ type: 'SET_PERCENT', value });
@@ -61,15 +60,26 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     //
     const calculateQuantity = (value: number) => {
         setAmount(value);
-        price && setQuantity(Math.floor(value / (price + unitCommission)));
+        price && setQuantity(Math.ceil(getTradedQuantity(price, value, side)));
+        console.log(getTradedQuantity(price, value, side));
     };
+
+    const getTradedQuantity = (p: number, value: number, side: 'Buy' | 'Sell') => {
+        console.log(side);
+
+        const cv = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+        return side === 'Buy' ? value / (cv * p + p) : value / (-cv * p + p);
+    };
+
     const setPercentage = (value: number) => {
         setAmount(value);
         setPercent(value);
     };
     const handleQuantity = (value: number) => {
-        setQuantity(value);
-        setAmount(0);
+        if (!isCalculatorEnabled) {
+            setQuantity(value);
+            setAmount(0);
+        }
     };
     const handleChangeMode = (value: 'AMOUNT' | 'PERCENT') => {
         setMode(value);

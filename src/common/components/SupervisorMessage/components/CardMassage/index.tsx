@@ -4,6 +4,8 @@ import { FiClock, ExpandArrow } from 'src/common/icons';
 import { Disclosure, Transition } from '@headlessui/react';
 import { getFarsiDate, howLongAgo } from 'src/utils/helpers';
 import { useReadTodaySupervisorMessages } from 'src/app/queries/messages';
+import { useSliderDispatch } from 'src/app/Layout/Sider/context';
+import { REadSupervisorEnum } from 'src/app/Layout/Sider/context/types';
 
 type CArdMesaage = {
     data: SUpervisorMessageResult;
@@ -14,11 +16,13 @@ export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
     const { dateOfEvent, messageBody, messageTitle, read, type } = data;
     const { mutate } = useReadTodaySupervisorMessages();
     const [isRead, setisRead] = useState(read);
+    const dispatch = useSliderDispatch();
 
     const handleClickTitle = () => {
         if (!isRead) {
             mutate(data.id);
             setisRead(true);
+            dispatch({ type: REadSupervisorEnum.READ_MESSAGE });
         }
     };
 
@@ -34,9 +38,11 @@ export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
                     )}
                 >
                     <Disclosure.Button className="w-full" onClick={handleClickTitle}>
-                        <div className={clsx("flex items-center justify-between pt-2 pb-1" , {
-                            "px-4": !isOneSymbol
-                        })}>
+                        <div
+                            className={clsx('flex items-center justify-between pt-2 pb-1', {
+                                'px-4': !isOneSymbol,
+                            })}
+                        >
                             <div className="flex-grow flex flex-col justify-between h-full">
                                 <div className="flex items-center">
                                     {type && (
@@ -52,9 +58,7 @@ export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
                                             )}
                                         />
                                     )}
-                                    <h1 className={clsx('text-xs font-normal text-L-gray-500 dark:text-D-gray-500 mr-2 p-0')}>
-                                        {messageTitle}
-                                    </h1>
+                                    <h1 className={clsx('text-xs font-normal text-L-gray-500 dark:text-D-gray-500 mr-2 p-0')}>{messageTitle}</h1>
                                 </div>
 
                                 <span className="flex items-center mt-2">

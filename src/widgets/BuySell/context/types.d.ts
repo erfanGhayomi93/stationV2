@@ -10,9 +10,11 @@ type BuySellState = {
     isCalculatorEnabled: boolean;
     percent?: number;
     amount: number;
+    side: BuySellSide;
 };
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
+type BuySellSide = 'Buy' | 'Sell';
 type BuySellAction =
     | { type: 'SET_PRICE'; value: number }
     | { type: 'SET_QUANTITY'; value: number }
@@ -24,4 +26,5 @@ type BuySellAction =
     | { type: 'SET_DIVIDE'; value: boolean }
     | { type: 'SET_PERCENT'; value: number }
     | { type: 'SET_AMOUNT'; value: number }
-    | { type: 'TOGGLE_CALCULATOR'; value: boolean };
+    | { type: 'TOGGLE_CALCULATOR'; value: boolean }
+    | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide };
