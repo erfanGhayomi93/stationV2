@@ -3,7 +3,6 @@ import Select, { SelectOption } from 'src/common/components/Select';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import i18next from 'i18next';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import dayjs from 'dayjs';
 import clsx from 'clsx';
 import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
