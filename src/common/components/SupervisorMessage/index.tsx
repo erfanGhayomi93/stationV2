@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment, useEffect, useMemo, useState } from 'react';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
 import { Tab } from '@headlessui/react';
@@ -6,39 +6,59 @@ import clsx from 'clsx';
 import SearchInput from './components/SearchInput';
 import { WatcherMessages } from './components/WatcherMessages';
 import { useMessagesSuppervisor } from 'src/app/queries/messages';
+import { useSliderDispatch } from 'src/app/Layout/Sider/context';
+import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
+import { pushEngine } from 'src/api/pushEngine';
 
 type SUpervisorMassage = {
     flagToggle: boolean;
-    setFlagToggle: (val: boolean) => void;
+    setFlagToggle: () => void;
+    countNumberSupervisorMessage: number;
 };
 
 const tabList = [{ tab: 'پیام های ناظر دیدبان' }, { tab: 'پیام های ناظر بازار' }, { tab: 'پیام های مدیر سیستم' }];
 
-export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagToggle }) => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagToggle, countNumberSupervisorMessage }) => {
+    // const [selectedIndex, setSelectedIndex] = useState(0); 17390069635676
     const [searchValue, setsearchValue] = useState('');
-    const MessagesSuppervisor = useMessagesSuppervisor();
+    const MessagesSuppervisor = useMessagesSuppervisor({
+        onSuccess: (data) => {
+            pushEngine.subscribe({
+                id: 'supervisorMessage',
+                mode: 'RAW',
+                isSnapShot: 'no',
+                adapterName: 'RamandOMSGateway',
+                items: ['173_1890078169235', '173_All'],
+                fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
+                onFieldsUpdate: (item) => {
+                    console.log('item', item);
+                },
+            });
+        },
+    });
+    const dispatch = useSliderDispatch();
 
-    const countNumberMessage = (ind: number)  => {
-        if (ind === 0 || ind === 2) {
-            return 0;
-        }
+    useEffect(() => {
         let counter = 0;
         MessagesSuppervisor.data?.forEach((item) => {
             if (!item.read) ++counter;
         });
-        return counter;
-    };
+
+        dispatch({ type: COuntNumberSupervisorEnum.COUNT_NUMBER, payload: counter });
+    }, [MessagesSuppervisor.data]);
 
     return (
         <Modal isOpen={flagToggle} onClose={setFlagToggle} className="min-h-[40rem] w-[600px] rounded-md h-full grid">
             <div className="grid grid-rows-min-one">
                 <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                     <p>پیام ها</p>
-                    <CloseIcon onClick={() => setFlagToggle(false)} className="cursor-pointer" />
+                    <CloseIcon onClick={setFlagToggle} className="cursor-pointer" />
                 </div>
                 <div className="pt-5 pb-4 bg-L-basic dark:bg-D-basic">
-                    <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+                    <Tab.Group
+                    // selectedIndex={selectedIndex}
+                    //  onChange={setSelectedIndex}
+                    >
                         <Tab.List>
                             <div className="border-b border-L-gray-350 dark:border-D-gray-350 flex px-5">
                                 {tabList.map((item, ind) => (
@@ -52,7 +72,9 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                                     'border-transparent text-L-gray-500 dark:text-D-gray-500': !selected,
                                                 })}
                                             >
-                                                {`${item.tab}(${countNumberMessage(ind)})`}
+                                                {`${item.tab}(
+                                                    ${ind === 0 || ind === 2 ? '0' : countNumberSupervisorMessage}
+                                                    )`}
                                             </button>
                                         )}
                                     </Tab>

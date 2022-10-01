@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import Select, { SelectOption } from 'src/common/components/Select';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { VALIDITY_OPTIONS } from 'src/constant/validity';
@@ -17,16 +17,18 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     const setValidityDate = (value: string | undefined) => dispatch({ type: 'SET_VALIDITY_DATE', value });
     const today = dayjs().valueOf();
 
-    const handleValidity = (value: validity) => {
-        setValidity(value);
-        value !== 'GoodTillDate' && setValidityDate(undefined);
+    const handleValidity = (select: any) => {
+        setValidity(select.value);
+        // select.value !== 'GoodTillDate' && setValidityDate(undefined);
+        if (select.value !== 'GoodTillDate') setValidityDate(select.validityDate);
+        else setValidityDate(undefined);
     };
 
     return (
         <div className="flex flex-col gap-2 w-full">
             <Select
                 title="اعتبار"
-                onChange={(select: typeof VALIDITY_OPTIONS[0]) => handleValidity(select.value as validity)}
+                onChange={(select: typeof VALIDITY_OPTIONS[0]) => handleValidity(select)}
                 value={i18next.t('BSModal.validity_' + validity)}
             >
                 {VALIDITY_OPTIONS.map((item, inx) => (

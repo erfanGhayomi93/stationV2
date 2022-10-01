@@ -12,10 +12,10 @@ const apiRoutes = {
         authorization: OauthUrl + '/GTOAuthApi/v1/GTAuthorization',
         captcha: OauthUrl + '/Captcha/v1/create',
         twoFactor: OauthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
-        logout: OauthUrl + '/OAuthApi/v1/Logout',
+        logout: OauthUrl + '/GTOAuthApi/v1/Logout'
     },
     User: {
-        GetUserInformation: `${CommonUrl}/Customer/v1/GetGeneralInformation`,
+        GetUserInformation: `${CommonUrl}/GTTrader/v1/GetGeneralInformation`,
     },
     Time: {
         Get: `${CommonUrl}/Time/v1/Get`,
@@ -41,6 +41,10 @@ const apiRoutes = {
     SupervisorMessage: {
         Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+    },
+    draft :{
+        Create: OrderUrl + '/GTOrderDraft/v1/Create',
+        Get: OrderUrl + '/GTOrderDraft/v1/Get',
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
 };
