@@ -15,7 +15,6 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     const { validity, validityDate } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
     const setValidityDate = (value: string | undefined) => dispatch({ type: 'SET_VALIDITY_DATE', value });
-    const today = dayjs().valueOf();
 
     const handleValidity = (select: any) => {
         setValidity(select.value);
@@ -52,7 +51,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
                         validity !== 'GoodTillDate' ? 'scale-y-0 origin-top opacity-0 absolute -z-20 ' : 'z-10',
                     )}
                 >
-                    <SimpleDatepicker onChange={(value) => setValidityDate(dayjs(value as any).format('YYYY/MM/DDTHH:mm:ss'))} />
+                    <SimpleDatepicker onChange={(value) => setValidityDate(dayjs(value as any).format('YYYY-MM-DD'))} />
                 </div>
 
                 {/* <AdvancedDatePicker
