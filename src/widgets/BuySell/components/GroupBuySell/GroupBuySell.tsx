@@ -1,3 +1,4 @@
+import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
 import Input from 'src/common/components/Input';
 import { useAppValues } from 'src/redux/hooks';
 import BuySellDetail from '../Detail/BuySellDetail';
@@ -39,6 +40,7 @@ const GroupBuySell = () => {
                         <BuySellStrategy />
                     </div>
                 </div>
+                <div className="w-5/6 z-40">{/* <SimpleDatepicker onChange={(value) => console.log({ value })} /> */}</div>
             </div>
 
             <BuySellDetail />

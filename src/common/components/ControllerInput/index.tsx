@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo, useMemo } from 'react';
 import { ChevronIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
 import TradeInput from 'src/widgets/BuySell/components/Input';
@@ -15,6 +15,8 @@ interface IControllerInputType {
     max?: number;
 }
 const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputValue, lowValue, children, placeholder, title, unit, max }) => {
+    const chevronIconUp = useMemo(() => <ChevronIcon className=" text-L-gray-400 dark:text-D-gray-400" />, []);
+    const chevronIconDown = useMemo(() => <ChevronIcon className="rotate-180 text-L-gray-400 dark:text-D-gray-400" />, []);
     return (
         <label className="w-full flex items-center justify-center ">
             <span className="w-[64px] whitespace-nowrap ">{title}</span>
@@ -26,12 +28,12 @@ const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputV
                     {children}
                     <span className="flex flex-col w-full ">
                         <button className="flex items-center justify-between px-2 gap-2" onClick={(e) => onChange(highValue)}>
-                            <ChevronIcon className=" text-L-gray-400 dark:text-D-gray-400" />
+                            {chevronIconUp}
                             <span className="text-L-gray-450 dark:text-D-gray-450 h-4 select-none">{seprateNumber(highValue)}</span>
                         </button>
                         <hr className="border-L-gray-400 dark:border-D-gray-400" />
                         <button className="flex items-center justify-between px-2 gap-2" onClick={(e) => onChange(lowValue)}>
-                            <ChevronIcon className="rotate-180 text-L-gray-400 dark:text-D-gray-400" />
+                            {chevronIconDown}
                             <span className="text-L-gray-450 dark:text-D-gray-450 h-4 select-none">{seprateNumber(lowValue)}</span>
                         </button>
                     </span>
@@ -41,4 +43,4 @@ const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputV
     );
 };
 
-export default ControllerInput;
+export default memo(ControllerInput);
