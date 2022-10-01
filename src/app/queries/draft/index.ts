@@ -24,7 +24,7 @@ export const useCreateDraft = () => {
 ////////////////get draft////////////////////////
 const getDraftFn = async () => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.draft.Get);
+        let { data } = await AXIOS.get<GlobalApiResponseType<number>>(apiRoutes.draft.Get);
         return data.result || [];
     } catch {
         return [];

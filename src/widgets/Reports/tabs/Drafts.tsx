@@ -14,7 +14,8 @@ type DraftData = {
 const Drafts = () => {
     const {data} = useGetDraft()
 
-        console.log(data)
+    // console.log("data",data)
+
     const columns = useMemo(
         (): ColDefType<DraftData>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customer' },
