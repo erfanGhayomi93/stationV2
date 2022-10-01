@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react';
-import { createContext, FC, useContext, useState, useEffect } from 'react';
+import { createContext, FC, useContext, useState, useEffect, memo } from 'react';
 import { SwitchButton } from './SwitchButton';
 
 interface ISwitchContextType {
@@ -30,4 +30,4 @@ const Switcher: FC<ISwitcherType> = ({ children = <SwitchButton />, defaultValue
     );
 };
 
-export default Switcher;
+export default memo(Switcher);

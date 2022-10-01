@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import BuySell from '..';
@@ -9,7 +10,7 @@ const initialState: BuySellState = {
     quantity: 0,
     validity: 'Day',
     strategy: 'normal',
-    validityDate: undefined,
+    validityDate: dayjs(new Date() as any).format('YYYY-MM-DD'),
     sequential: false,
     symbolISIN: '',
     divide: false,

@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useEffect, useMemo, memo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -9,6 +9,7 @@ interface IBuySellPriceType {}
 
 const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
     const dispatch = useBuySellDispatch();
+    const lockIcon = useMemo(() => <LockIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
 
     const { price, symbolISIN, isCalculatorEnabled, amount, quantity, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
@@ -22,13 +23,13 @@ const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
         setPrice(value);
     };
 
-    const getTradedQuantity = (p: number, value: number, side: 'Buy' | 'Sell') => {
-        const cv = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
-        return side === 'Buy' ? value / (cv * p + p) : value / (-cv * p + p);
+    const getTradedQuantity = () => {
+        const commissionValue = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+        return side === 'Buy' ? amount / (commissionValue * price + price) : amount / (-commissionValue * price + price);
     };
 
     useEffect(() => {
-        price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity(price, amount, side))) : setQuantity(0);
+        price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity())) : setQuantity(0);
     }, [unitCommission, price, amount, isCalculatorEnabled]);
 
     return (
@@ -42,12 +43,10 @@ const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
                 unit={<>ريال</>}
                 max={1000000000}
             >
-                <button className="px-2">
-                    <LockIcon className="text-L-gray-400 dark:text-D-gray-400" />
-                </button>
+                <button className="px-2">{lockIcon}</button>
             </ControllerInput>
         </div>
     );
 };
 
-export default BuySellPrice;
+export default memo(BuySellPrice);

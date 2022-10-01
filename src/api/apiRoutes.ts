@@ -42,6 +42,10 @@ const apiRoutes = {
         Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
+    draft :{
+        Create: OrderUrl + '/GTOrderDraft/v1/Create',
+        Get: OrderUrl + '/GTOrderDraft/v1/Get',
+    },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
 };
 

@@ -30,6 +30,7 @@ export { ReactComponent as CloseIcon } from 'src/assets/svg/Close.svg';
 export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDown.svg';
 export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
 export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
+export { ReactComponent as CalendarIcon } from 'src/assets/svg/Calendar.svg';
 export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
 export { ReactComponent as CoinIcon } from 'src/assets/svg/coinIcon.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 
 type DraftData = {
@@ -11,6 +12,9 @@ type DraftData = {
 };
 
 const Drafts = () => {
+    const {data} = useGetDraft()
+
+    // console.log("data",data)
 
     const columns = useMemo(
         (): ColDefType<DraftData>[] => [
