@@ -6,6 +6,7 @@ import i18next from 'i18next';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import dayjs from 'dayjs';
 import clsx from 'clsx';
+import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
 
 interface IBuySellValidityType {}
 
@@ -37,12 +38,26 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
                     />
                 ))}
             </Select>
-            <div className={clsx('pr-12 duration-200', validity !== 'GoodTillDate' && 'scale-y-0 origin-top opacity-0 absolute -z-20 ')}>
-                <AdvancedDatePicker
+            <div
+                className={clsx(
+                    'pr-12 duration-200 relative',
+                    validity !== 'GoodTillDate' ? 'scale-y-0 origin-top opacity-0 absolute -z-20  ' : ' py-[12px]',
+                )}
+            >
+                <div
+                    className={clsx(
+                        'absolute w-[15rem] top-0',
+                        validity !== 'GoodTillDate' ? 'scale-y-0 origin-top opacity-0 absolute -z-20 ' : 'z-10',
+                    )}
+                >
+                    <SimpleDatepicker onChange={(value) => setValidityDate(dayjs(value as any).format('YYYY/MM/DDTHH:mm:ss'))} />
+                </div>
+
+                {/* <AdvancedDatePicker
                     goToday={() => setValidityDate(dayjs().format('YYYY/MM/DDTHH:mm:ss'))}
                     onChange={(value) => setValidityDate(dayjs(value as any).format('YYYY/MM/DDTHH:mm:ss'))}
                     value={validityDate ? dayjs(validityDate).valueOf() : today}
-                />
+                /> */}
             </div>
         </div>
     );

@@ -51,5 +51,12 @@
         "calculator_bottom_label": "حداقل مبلغ",
         "confirmOverly_title_orderEdit": "ارسال ویرایش",
         "confirmOverly_remove_confirm_box_label": "نیازی به گرفتن تایید هنگام ارسال سفارش نیست."
+    },
+    "datepicker": {
+        "no_date_selected": "تاریخی انتخاب نشده",
+        "day": "روز",
+        "month": "ماه",
+        "year": "سال",
+        "submit": "تایید"
     }
 }

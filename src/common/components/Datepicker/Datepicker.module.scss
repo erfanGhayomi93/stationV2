@@ -1,0 +1,143 @@
+.datepicker {
+    background-color: theme('colors.white');
+    border-radius: theme('borderRadius.lg');
+    border: 1px solid;
+    border-color: theme('colors.L.gray.350');
+    width: 100%;
+    max-width: 100%;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        &.noDate {
+            max-height: 36px;
+            min-height: 36px;
+            padding: 0 0.8rem;
+            cursor: pointer;
+
+            .label {
+                direction: ltr;
+                padding-left: 8px;
+                flex: 1;
+                text-align: left;
+                color: theme('colors.L.gray.450');
+
+                &.disabled {
+                    direction: rtl;
+                    text-align: right;
+                    color: theme('colors.black');
+                }
+            }
+        }
+
+        .icon {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: theme('colors.L.gray.350');
+        }
+
+        .inputGroup {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .input {
+                position: relative;
+                min-height: 36px;
+                flex: 1;
+
+                &:nth-child(2) {
+                    border: 1px solid theme('colors.L.gray.350');
+                    border-top: none;
+                    border-bottom: none;
+                }
+
+                .select {
+                    cursor: pointer;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    position: absolute;
+                    align-items: center;
+
+                    ul.children {
+                        border-radius: 0 0 4px 4px;
+                        padding: 2px 0;
+                        width: calc(100% + 2px);
+                        background-color: theme('colors.white');
+                        border: 1px solid;
+                        border-color: theme('colors.L.gray.350');
+                        display: flex;
+                        flex-direction: column;
+                        overflow-x: hidden;
+                        overflow-y: scroll;
+                        min-height: 250px;
+                        max-height: 250px;
+
+                        li {
+                            padding: 8px 4px;
+                            text-align: center;
+                            color: theme('colors.black');
+
+                            &:hover {
+                                color: theme('colors.L.gray.450');
+                            }
+                        }
+                    }
+
+                    input,
+                    span {
+                        padding: 0 0.8rem;
+                        width: 100%;
+                        min-height: 36px;
+                        max-height: 36px;
+                        color: theme('colors.D.basic.DEFAULT');
+                    }
+
+                    input {
+                        text-align: center;
+
+                        &::placeholder {
+                            color: theme('colors.black');
+                        }
+                    }
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        &.empty {
+                            color: theme('colors.black');
+                        }
+                    }
+                }
+            }
+
+            .submit {
+                flex: 0;
+                padding: 0.2rem;
+
+                button {
+                    padding: 0 1.4rem;
+                    height: 100%;
+                    background-color: theme('colors.L.primary.50');
+                    display: flex;
+                    align-items: center;
+                    color: theme('colors.white');
+                    border-radius: 4px;
+                    font: {
+                        size: 12px;
+                        weight: 500;
+                    }
+                }
+            }
+        }
+    }
+}
