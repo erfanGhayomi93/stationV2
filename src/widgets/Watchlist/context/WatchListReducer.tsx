@@ -5,6 +5,11 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 ...state,
                 selectedWatchlist: action.value,
             };
+        case 'TOGGLE_EDIT_MODE':
+            return {
+                ...state,
+                editMode: action.value,
+            };
 
         default:
             return state;

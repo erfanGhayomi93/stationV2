@@ -19,7 +19,7 @@ const Home = () => {
             </div>
             <div className="col-span-9">
                 <div className="grid h-full grid-cols-9 grid-rows-2 gap-2">
-                    <div className="col-span-3 min-h-[487px]">
+                    <div className="col-span-3 min-h-[475px]">
                         <BuySellWidget />
                     </div>
                     <div className="col-span-6">
