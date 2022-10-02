@@ -9,7 +9,7 @@ const Home = () => {
 
     return (
         <div className="grid gap-2 h-full grid-cols-12 overflow-y-auto ">
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-60-40  overflow-y-auto ">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-2  overflow-y-auto ">
                 <div className="col-span-3    overflow-y-auto">
                     <SymbolDetail />
                 </div>
