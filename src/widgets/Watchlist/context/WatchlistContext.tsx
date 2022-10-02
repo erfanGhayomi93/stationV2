@@ -1,10 +1,12 @@
 import { useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import Watchlists from '..';
+import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
 
 const initialState: WathclistState = {
     selectedWatchlist: undefined,
+    editMode: false,
 };
 const useValue = () => useReducer(WatchlistReducer, initialState);
 export const { Provider: WatchListsProvider, useTrackedState: useTrackedState, useUpdate: useSetState } = createContainer(useValue);
@@ -14,7 +16,12 @@ export const useWatchListState = () => {
     return { state, setState };
 };
 const WatchlistContext = () => {
-    return <Watchlists />;
+    return (
+        <>
+            <Watchlists />
+            <EditWatchlistModal />
+        </>
+    );
 };
 
 const WatchlistWidget = () => (

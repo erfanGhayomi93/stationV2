@@ -123,7 +123,7 @@ module.exports = {
         },
     },
     plugins: [
-        plugin(function ({ addBase, theme }) {
+        plugin(function ({ addBase, theme, addVariant }) {
             addBase({
                 '.bar': {
                     overflowY: 'auto',
@@ -142,6 +142,7 @@ module.exports = {
                     backgroundColor: theme('colors.slate.200'),
                 },
             });
+            addVariant('actived', '&[data-actived="true"]');
         }),
     ],
 };
