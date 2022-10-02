@@ -1,18 +1,17 @@
 //
-
-const mock_path = 'MockApi/api/';
 const CommonUrl = 'http://192.168.40.8:12000';
-const OauthUrl = 'http://192.168.40.8:5011';
+const PortfolioUrl = 'http://192.168.40.8:11000';
 const MarketData = 'http://192.168.40.8:7000';
 const BackOffice = 'http://192.168.40.8:9500';
 const OrderUrl = 'http://192.168.40.8:8500';
+const OauthUrl = 'http://192.168.40.8:5011';
 
 const apiRoutes = {
     OAuthApi: {
         authorization: OauthUrl + '/GTOAuthApi/v1/GTAuthorization',
         captcha: OauthUrl + '/Captcha/v1/create',
         twoFactor: OauthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
-        logout: OauthUrl + '/GTOAuthApi/v1/Logout'
+        logout: OauthUrl + '/GTOAuthApi/v1/Logout',
     },
     User: {
         GetUserInformation: `${CommonUrl}/GTTrader/v1/GetGeneralInformation`,
@@ -42,11 +41,20 @@ const apiRoutes = {
         Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
-    draft :{
+    draft: {
         Create: OrderUrl + '/GTOrderDraft/v1/Create',
         Get: OrderUrl + '/GTOrderDraft/v1/Get',
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
+    WatchList: {
+        Get: PortfolioUrl + '/GTWatchlist/v1/Watchlists',
+        Create: PortfolioUrl + '/GTWatchlist/v1/Create',
+        Delete: PortfolioUrl + '/GTWatchlist/v1/Delete',
+        Update: PortfolioUrl + '/GTWatchlist/v1/Update',
+        GetWatchlistSymbol: PortfolioUrl + '/GTWatchlist/v1/GetWatchlistSymbols',
+        DeleteSymbol: PortfolioUrl + '/GTWatchlist/v1/DeleteSymbol',
+        AddSymbol: PortfolioUrl + '/GTWatchlist/v1/AddSymbol',
+    },
 };
 
 export default apiRoutes;

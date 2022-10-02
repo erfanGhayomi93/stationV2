@@ -31,7 +31,7 @@ interface ITabButtonType {
 const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill, buttonClass, selectedButtonClass }) => {
     //
     return (
-        <div className="w-full h-full flex flex-col rounded-md relative  ">
+        <div className="w-full h-full flex flex-col rounded-md relative text-1.2  ">
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
