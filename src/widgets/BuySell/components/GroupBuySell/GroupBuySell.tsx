@@ -17,8 +17,8 @@ const GroupBuySell = () => {
     } = useAppValues();
 
     return (
-        <div className="flex flex-col text-1.2 p-2 h-full relative">
-            <div className="flex flex-col py-4 gap-2">
+        <div className="flex flex-col text-1.2 p-2 h-full relative justify-between">
+            <div className="flex flex-col py-1 grow justify-around">
                 <div className="flex w-full gap-4 pr-2">
                     <label className="w-full flex items-center justify-center ">
                         <span className="w-[64px] whitespace-nowrap ">مشتری</span>
@@ -42,12 +42,13 @@ const GroupBuySell = () => {
                 </div>
                 <div className="w-5/6 z-40">{/* <SimpleDatepicker onChange={(value) => console.log({ value })} /> */}</div>
             </div>
-
-            <BuySellDetail />
-            <div className="flex gap-3 pt-2 ">
-                <SetOrderAction />
-                <SetDraftAction />
-                <SetBasketAction />
+            <div className="flex flex-col gap-3">
+                <BuySellDetail />
+                <div className="flex gap-3  ">
+                    <SetOrderAction />
+                    <SetDraftAction />
+                    <SetBasketAction />
+                </div>
             </div>
         </div>
     );
