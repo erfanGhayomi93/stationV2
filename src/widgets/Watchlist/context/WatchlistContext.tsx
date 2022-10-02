@@ -7,8 +7,12 @@ const initialState: WathclistState = {
     selectedWatchlist: undefined,
 };
 const useValue = () => useReducer(WatchlistReducer, initialState);
-export const { Provider: WatchListsProvider, useTrackedState: useWatchListsState, useUpdate: useWatchListsDispatch } = createContainer(useValue);
-
+export const { Provider: WatchListsProvider, useTrackedState: useTrackedState, useUpdate: useSetState } = createContainer(useValue);
+export const useWatchListState = () => {
+    const setState = useSetState();
+    const state = useTrackedState();
+    return { state, setState };
+};
 const WatchlistContext = () => {
     return <Watchlists />;
 };
