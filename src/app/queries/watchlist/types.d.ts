@@ -28,6 +28,16 @@ interface IWatchlistSymbolType {
     symbol: ISymbolType;
     key: number;
 }
+interface IWatchlistSymbolRequestType {
+    watchlistId: number;
+    symbolISIN: string;
+}
+
+interface IWatchlistRequestType {
+    id: number;
+    watchlistName: string;
+    isPinned: boolean;
+}
 
 interface ISymbolType {
     insCode: string;

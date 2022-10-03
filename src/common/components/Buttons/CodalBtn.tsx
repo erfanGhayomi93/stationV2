@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useCallback } from 'react';
 import { CodalIcon } from 'src/common/icons';
 
@@ -12,8 +13,12 @@ const CodalBtn = ({ className, symbolTitle, ...rest }: Props) => {
     }, [symbolTitle]);
 
     return (
-        <button onClick={onBtnClick} className={`p-1 rounded-sm hover:bg-L-gray-250 dark:hover:bg-D-gray-250 dark:text-white ${className}`} {...rest}>
-            <CodalIcon />
+        <button
+            onClick={onBtnClick}
+            className={clsx(className || 'flex h-[28px] w-[28px] items-center justify-center rounded-sm  dark:text-white')}
+            {...rest}
+        >
+            <CodalIcon height={24} width={24} />
         </button>
     );
 };
