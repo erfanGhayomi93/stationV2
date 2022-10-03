@@ -34,7 +34,7 @@ export { ReactComponent as CalendarIcon } from 'src/assets/svg/Calendar.svg';
 export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
 export { ReactComponent as CoinIcon } from 'src/assets/svg/coinIcon.svg';
 export { ReactComponent as PlusIcon } from 'src/assets/svg/Plus.svg';
-export { ReactComponent as EditIcon } from 'src/assets/svg/Edit.svg';
+export { ReactComponent as EditIcon2 } from 'src/assets/svg/Edit.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
 
@@ -44,4 +44,7 @@ export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
 export { ReactComponent as MoreDotsIcon } from 'src/assets/svg/MoreDots.svg';
+export { ReactComponent as SendIcon } from 'src/assets/svg/IoMdSend.svg';
+export { ReactComponent as EditIcon } from 'src/assets/svg/MdEdit.svg';
+export { ReactComponent as DeleteIcon } from 'src/assets/svg/FaTrash.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';

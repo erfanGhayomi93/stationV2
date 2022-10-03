@@ -1,6 +1,6 @@
 import { FC, FormEvent } from 'react';
 import { createWatchListMutation, useWatchListsQuery } from 'src/app/queries/watchlist';
-import { EditIcon, GearIcon, PlusIcon } from 'src/common/icons';
+import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../context/WatchlistContext';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -98,7 +98,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                     onClick={openEditModal}
                     className="text-L-primary-50 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
                 >
-                    <EditIcon />
+                    <EditIcon2 />
                 </button>
             </div>
         </div>

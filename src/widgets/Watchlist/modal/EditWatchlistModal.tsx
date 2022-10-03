@@ -1,6 +1,6 @@
 import { useWatchListsQuery } from 'src/app/queries/watchlist';
 import Modal from 'src/common/components/Modal';
-import { CloseIcon, EditIcon, GearIcon } from 'src/common/icons';
+import { CloseIcon, DeleteIcon, EditIcon2, GearIcon } from 'src/common/icons';
 import { useWatchListState } from '../context/WatchlistContext';
 import Switcher from 'src/common/components/SwitchButton';
 
@@ -37,8 +37,8 @@ const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
                                     <Switcher onCheck={(value: any) => console.log(value)} value={watchlist.isPinned} />
                                 </div>
                                 <div className="w-full flex items-center justify-center gap-3">
-                                    <EditIcon />
-                                    <GearIcon />
+                                    <EditIcon2 />
+                                    <DeleteIcon />
                                 </div>
                             </div>
                         ))}
