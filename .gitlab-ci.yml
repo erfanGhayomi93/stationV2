@@ -32,7 +32,7 @@ stage-Job:
     - Import-Module WebAdministration
     - Set-ItemProperty IIS:\Sites\StationUI -name physicalPath -value "D:\Stage\UI\StationUI\Versions\Station.$date.$Env:VersionStation\"
     #- Remove-Item "E:\Station\*" -Recurse
-    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\pyWXt8_4\0\ui\StationUI\build\*" -Destination  "D:\Stage\UI\StationUI\Versions\Station.$date.$Env:VersionStation\"
+    - Copy-item -Force -Recurse -Verbose "D:/GitLab-Runner/builds/pyWXt8_4/0/ui/OnlineStationUI\build\*" -Destination  "D:\Stage\UI\StationUI\Versions\Station.$date.$Env:VersionStation\"
     - Stop-WebSite "StationUI"
     - Start-WebSite "StationUI"
     - ([Environment]::SetEnvironmentVariable("VersionStation", [int64]$Env:VersionStation + 1, "Machine"))
