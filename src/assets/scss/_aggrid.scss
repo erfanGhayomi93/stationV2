@@ -6,9 +6,9 @@
             alpine: (
                 // font
                 --ag-font-family: 'IRANSansEnNum',
-                --ag-font-size: 0.75rem,
+                --ag-font-size: 0.7rem,
                 // header
-                --ag-header-height: 40px,
+                --ag-header-height: 35px,
                 --ag-header-background-color: #f0f5fa,
                 --ag-header-column-separator-display: true,
                 --ag-header-column-separator-color: #ffffff00,
@@ -26,21 +26,21 @@
                 --ag-cell-horizontal-border: solid #d2e3fa00,
                 --ag-borders-critical: 0px solid,
                 // Rows
-                --ag-row-height: 50px,
+                --ag-row-height: 35px,
                 --ag-borders-row: 1px solid,
                 --ag-row-border-color: #c2d6eb,
 
                 // Spacing
                 --ag-grid-size: 3px,
-                --ag-icon-size: 14px,
-                --ag-list-item-height: 40px,
+                --ag-icon-size: 12px,
+                --ag-list-item-height: 35px,
             ),
             alpine-dark: (
                 // font
                 --ag-font-family: 'IRANSansEnNum',
-                --ag-font-size: 0.75rem,
+                --ag-font-size: 0.7rem,
                 // header
-                --ag-header-height: 40px,
+                --ag-header-height: 35px,
                 --ag-header-background-color: #2d3640,
                 --ag-header-column-separator-display: true,
                 --ag-header-column-separator-color: #00000000,
@@ -58,11 +58,11 @@
                 --ag-borders-critical: 0px solid,
                 --ag-borders-row: 1px solid,
                 // Rows
-                --ag-row-height: 50px,
+                --ag-row-height: 35px,
 
                 // Spacing
                 --ag-grid-size: 3px,
-                --ag-icon-size: 14px,
+                --ag-icon-size: 12px,
             ),
         ),
     )

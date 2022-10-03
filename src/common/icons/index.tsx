@@ -47,4 +47,6 @@ export { ReactComponent as MoreDotsIcon } from 'src/assets/svg/MoreDots.svg';
 export { ReactComponent as SendIcon } from 'src/assets/svg/IoMdSend.svg';
 export { ReactComponent as EditIcon } from 'src/assets/svg/MdEdit.svg';
 export { ReactComponent as DeleteIcon } from 'src/assets/svg/FaTrash.svg';
+export { ReactComponent as EyePlusIcon } from 'src/assets/svg/EyePlus.svg';
+export { ReactComponent as EyeMinesIcon } from 'src/assets/svg/EyeMines.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';

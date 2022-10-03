@@ -1,9 +1,11 @@
+import { CellRendererComponent } from 'ag-grid-community/dist/lib/components/framework/componentTypes';
 import { useMemo } from 'react';
 import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import WatchlistController from './components/WatchlistController';
+import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
+import WatchlistController from './components/WatchlistController/WatchlistController';
 import { useWatchListState } from './context/WatchlistContext';
 
 type Props = {};
@@ -24,12 +26,12 @@ const Watchlists = (props: Props) => {
 
     const Columns = useMemo(
         (): ColDefType<IWatchlistSymbolType>[] => [
-            { headerName: 'نماد', field: 'symbolTitle' },
-            { headerName: 'قیمت لحظه ای', field: 'lastTradedPrice', type: 'sepratedNumber' },
-            { headerName: 'قیمت پایانی', field: 'closingPrice', type: 'sepratedNumber' },
-            { headerName: 'حجم معاملات', field: 'totalNumberOfSharesTraded', type: 'abbreviatedNumber' },
-            { headerName: 'ارزش معاملات', field: 'totalTradeValue', type: 'abbreviatedNumber' },
-            { headerName: 'عملیات', field: 'symbolISIN' },
+            { headerName: 'نماد', field: 'symbol.symbolTitle' },
+            { headerName: 'قیمت لحظه ای', field: 'symbol.lastTradedPrice', type: 'sepratedNumber' },
+            { headerName: 'قیمت پایانی', field: 'symbol.closingPrice', type: 'sepratedNumber' },
+            { headerName: 'حجم معاملات', field: 'symbol.totalNumberOfSharesTraded', type: 'abbreviatedNumber' },
+            { headerName: 'ارزش معاملات', field: 'symbol.totalTradeValue', type: 'abbreviatedNumber' },
+            { headerName: 'عملیات', cellRenderer: ({ data }: any) => <ActionCellRenderer {...data} /> },
         ],
         [],
     );

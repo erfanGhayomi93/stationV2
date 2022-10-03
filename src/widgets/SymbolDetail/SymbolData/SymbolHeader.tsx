@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';
+import { EyePlusIcon } from 'src/common/icons';
 import { useAppValues } from 'src/redux/hooks';
 
 const SymbolHeader = () => {
@@ -36,6 +38,7 @@ const SymbolHeader = () => {
             <div className="mr-auto flex items-center">
                 <CodalBtn symbolTitle={data?.symbolTitle || ''} />
                 <TseBtn insCode={data?.insCode || ''} />
+                <AddToWatchlistButton symbolISIN={selectedSymbol} />
             </div>
         </div>
     );
