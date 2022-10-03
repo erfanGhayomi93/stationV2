@@ -26,12 +26,12 @@ const getWatchListSymbols = async (watchlistId: number) => {
 export const useWatchListsQuery = <T=IWatchlistType[],>(
     options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['getWatchLists'], ({ queryKey }) => getWatchLists(), {select:(data)=>data.sort((a,b)=>a.isPinned === b.isPinned ? 0:-1)});
+    return useQuery(['getWatchLists'], ({ queryKey }) => getWatchLists());
 };
 
 // prettier-ignore
 export const useWatchListSymbolsQuery =(watchlistId:number|undefined) => {
-    return useQuery(['getWatchLists', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number),{enabled:!!watchlistId});
+    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), { enabled: !!watchlistId });
 };
 
 export const createWatchListMutation = (
