@@ -36,8 +36,8 @@ stage-Job:
     - Stop-WebSite "StationUI"
     - Start-WebSite "StationUI"
     - ([Environment]::SetEnvironmentVariable("VersionStation", [int64]$Env:VersionStation + 1, "Machine"))
-   # - cd c:\scripts\StationUI\
-   # - .\only4backup
+    - cd c:\scripts\StationUI\
+    - .\only4backup
   tags:
     - StageApp
   artifacts:
