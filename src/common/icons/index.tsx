@@ -44,4 +44,7 @@ export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
 export { ReactComponent as MoreDotsIcon } from 'src/assets/svg/MoreDots.svg';
+export { ReactComponent as SendIcon } from 'src/assets/svg/IoMdSend.svg';
+export { ReactComponent as EditIcon } from 'src/assets/svg/MdEdit.svg';
+export { ReactComponent as DeleteIcon } from 'src/assets/svg/FaTrash.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';

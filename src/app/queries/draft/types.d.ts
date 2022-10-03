@@ -10,3 +10,13 @@ interface IDraftRequsetType {
     orderStrategy : string , 
     orderType : OrderTypeType
 }
+
+type IDraftSelected = {
+    customerTitles: string[];
+    symbolTitle: string;
+    side: string;
+    quantity: number;
+    price: number;
+    validity: string;
+    validityDate: string;
+};
