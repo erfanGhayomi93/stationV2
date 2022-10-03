@@ -1,7 +1,7 @@
 import { FC, FormEvent } from 'react';
 import { createWatchListMutation, useWatchListsQuery } from 'src/app/queries/watchlist';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
-import { useWatchListState } from '../context/WatchlistContext';
+import { useWatchListState } from '../../context/WatchlistContext';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
