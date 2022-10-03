@@ -31,7 +31,7 @@ interface ITabButtonType {
 const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill, buttonClass, selectedButtonClass }) => {
     //
     return (
-        <div className="w-full h-full flex flex-col rounded-md relative  ">
+        <div className="w-full h-full flex flex-col rounded-md relative text-1.2  ">
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
@@ -58,7 +58,7 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
                         {leftNode}
                     </div>
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow bg-L-basic dark:bg-D-basic ">
+                <HeadlessTab.Panels className="grow bg-L-basic dark:bg-D-basic outline-none ">
                     {items ? (
                         items.map((item) => (
                             <HeadlessTab.Panel
@@ -67,7 +67,7 @@ const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill
                                     'p-1 h-full ',
                                     item.tabClass
                                         ? item.tabClass
-                                        : 'border border-t-0  dark:border-D-gray-350 border-L-gray-350 text-L-gray-500 dark:text-D-gray-500',
+                                        : 'border border-t-0  dark:border-D-gray-350 border-L-gray-350 text-L-gray-500 dark:text-D-gray-500 outline-none ',
                                 )}
                             >
                                 <>{item.content}</>

@@ -21,11 +21,14 @@ const initialState: BuySellState = {
 const useValue = () => useReducer(BuySellReducer, initialState);
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);
 
+const BuySellContext = () => {
+    return <BuySell />;
+};
 const BuySellWidget = () => {
     return (
         <>
             <BuySellProvider>
-                <BuySell />
+                <BuySellContext />
             </BuySellProvider>
         </>
     );

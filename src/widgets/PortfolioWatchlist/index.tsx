@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import TabsList from 'src/common/components/TabsList';
 import { GearIcon } from 'src/common/icons';
+import WatchlistWidget from '../Watchlist/context/WatchlistContext';
 import Portfolio from './tabs/Portfolio';
-import Watchlist from './tabs/Watchlist';
 
 const PortfolioWatchlist = () => {
     //
@@ -13,7 +13,7 @@ const PortfolioWatchlist = () => {
             {
                 key: 'Watchlist',
                 title: <>دیده‌بان</>,
-                content: <Watchlist />,
+                content: <WatchlistWidget />,
             },
             {
                 key: 'Portfolio',

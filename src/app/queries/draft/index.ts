@@ -22,15 +22,15 @@ export const useCreateDraft = () => {
 };
 
 ////////////////get draft////////////////////////
-const getDraftFn = async () => {
+const getDraftFn = async (params: string) => {
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<number>>(apiRoutes.draft.Get);
+        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?' + params);
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useGetDraft = () => {
-    return useQuery(['draftList'], getDraftFn);
+export const useGetDraft = (params: string, option: any) => {
+    return useQuery(['draftList'], () => getDraftFn(params), option);
 };

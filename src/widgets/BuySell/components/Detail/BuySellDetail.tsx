@@ -22,7 +22,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
     const { commission, cost, drawValue } = useBuySellDetail({ quantity, price, marketUnit, side });
 
     return (
-        <div className="border-t flex flex-col pt-4 border-L-gray-300  h-full gap-2 ">
+        <div className="border-t flex flex-col pt-2 border-L-gray-300  h-full gap-2 ">
             <div className="flex  text-L-gray-400 px-2 gap-16 min-h-[1.5rem]">
                 {/* <div className="flex justify-between items-center text-L-gray-400 w-full">
                     <span>دارایی فعلی</span>

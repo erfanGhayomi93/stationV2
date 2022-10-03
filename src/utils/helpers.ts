@@ -301,6 +301,19 @@ export const howLongAgo = (timeStamp: any) => {
     return result;
 };
 
+export const valueFormatterSide = (data: any): string => {
+    if (data.value === 'Buy') return 'خرید';
+    else if (data.value === 'Sell') return 'فروش';
+    else return 'نامشخص';
+};
+
+export const valueFormatterValidity = (data: any) => {
+    if (data.value === 'FillAndKill') return 'انجام و حذف';
+    else if (data.value === 'GoodTillCancelled') return 'معتبر تا لغو';
+    else if (data.value === 'GoodTillDate') return getFarsiDate(data.data.validityDate).farsiDate;
+    return data.value;
+};
+
 export const abbreviateNumber = (number: number) => {
     //
 
