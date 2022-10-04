@@ -37,6 +37,7 @@ const apiRoutes = {
     OrderUrl: {
         Create: OrderUrl + '/GTOrder/v1/Create',
         Get: OrderUrl + '/GTOrder/v1/GTOrderList',
+        Delete: OrderUrl + '/GTOrder/v1/SingleDelete',
     },
     SupervisorMessage: {
         Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,

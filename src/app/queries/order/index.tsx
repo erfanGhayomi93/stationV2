@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 
@@ -18,6 +18,34 @@ const getOrderFn = async (param: string) => {
     return data.result || [];
 };
 
-export const useGetOrders = (param: string, option: any) => {
-    return useQuery<IOrderRequestType, Error, IOrderSelected>(['orderList', param], () => getOrderFn(param), option);
+export const useGetOrders = (param: string) => {
+    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', param], () => getOrderFn(param), {
+        select: (data: any) =>
+            data.map((item: IOrderGetType) => {
+                return {
+                    orderId: item.orderId,
+                    customerTitle: item.customerTitle,
+                    symbolTitle: item.symbolTitle,
+                    orderSide: item.orderSide,
+                    quantity: item.quantity,
+                    price: item.price,
+                    value: item.value,
+                    sumExecuted: item.sumExecuted,
+                    position: item.position,
+                    valuePosition: item.valuePosition,
+                    validity: item.validity,
+                    validityDate: item.validityDate,
+                };
+            }),
+    });
+};
+
+//////////////delete Order////////////////////
+const singleDeleteOrderFn = async (id: number) => {
+    let { data } = await AXIOS.post(apiRoutes.OrderUrl.Delete + '?orderId=' + id);
+    return data.result || [];
+};
+
+export const useSingleDeleteOrders = () => {
+    return useMutation(singleDeleteOrderFn);
 };

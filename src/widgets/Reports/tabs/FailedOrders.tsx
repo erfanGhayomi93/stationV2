@@ -7,22 +7,7 @@ import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
 
 const FailedOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Error', {
-        select: (data: IOrderSelected[]) =>
-            data.map((item: IOrderSelected) => ({
-                customerTitle: item.customerTitle,
-                symbolTitle: item.symbolTitle,
-                orderSide: item.orderSide,
-                quantity: item.quantity,
-                price: item.price,
-                value: item.value,
-                sumExecuted: item.sumExecuted,
-                position: item.position,
-                valuePosition: item.valuePosition,
-                validity: item.validity,
-                validityDate: item.validityDate,
-            })),
-    });
+    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Error');
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
 
     const columns = useMemo(
