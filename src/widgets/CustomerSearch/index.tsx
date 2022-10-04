@@ -72,17 +72,19 @@ const CustomerSearch = () => {
                         همه انتخاب شده‌ها
                     </button>
                 </div>
-                <Virtuoso
-                    data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || []}
-                    className="border-L-gray-300 border rounded-lg"
-                    endReached={() => fetchNextPage()}
-                    itemContent={(index, data) => <ResultItem key={index} {...data} />}
-                    components={{
-                        Footer: () => <ResultFooter isFetching={isFetching} />,
-                        Header: ResultHeader,
-                        Item: ItemRenderer,
-                    }}
-                />
+                <div className="h-full flex flex-col">
+                    <ResultHeader />
+                    <Virtuoso
+                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || []}
+                        className="border-L-gray-300 border rounded-lg rounded-t-none"
+                        endReached={() => fetchNextPage()}
+                        itemContent={(index, data) => <ResultItem key={index} {...data} />}
+                        components={{
+                            Footer: () => <ResultFooter isFetching={isFetching} />,
+                            Item: ItemRenderer,
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );
