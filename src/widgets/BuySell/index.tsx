@@ -17,18 +17,18 @@ const BuySell = () => {
                 title: <>خرید</>,
                 content: <GroupBuySell />,
                 tabClass:
-                    'bg-L-success-50 border border-t-0  dark:border-D-gray-350 border-L-gray-350 dark:bg-D-success-50 text-L-gray-500 dark:text-D-gray-500',
+                    'bg-L-success-50 outline-none border border-t-0  dark:border-D-gray-350 border-L-gray-350 dark:bg-D-success-50 text-L-gray-500 dark:text-D-gray-500',
                 selectedButtonClass:
-                    'text-L-success-150 dark:text-L-success-150 bg-L-success-50 dark:bg-D-success-50 after:dark:bg-D-success-50 after:bg-L-success-50 font-semibold border-t-2  border-L-success-150 dark:border-D-success-150 border-l  dark:border-l-D-gray-350 border-l-L-gray-350',
+                    'text-L-success-150 outline-none dark:text-L-success-150 bg-L-success-50 dark:bg-D-success-50 after:dark:bg-D-success-50 after:bg-L-success-50 font-semibold border-t-2  border-L-success-150 dark:border-D-success-150 border-l  dark:border-l-D-gray-350 border-l-L-gray-350',
             },
             {
                 key: 'Sell',
                 title: <>فروش</>,
                 content: <GroupBuySell />,
                 tabClass:
-                    'bg-L-error-50  border border-t-0  dark:border-D-gray-350 border-L-gray-350 dark:bg-D-error-50 text-L-gray-500 dark:text-D-gray-500',
+                    'bg-L-error-50  outline-none border border-t-0  dark:border-D-gray-350 border-L-gray-350 dark:bg-D-error-50 text-L-gray-500 dark:text-D-gray-500',
                 selectedButtonClass:
-                    'text-L-error-150 dark:text-L-error-150 bg-L-error-50 dark:bg-D-error-50 after:dark:bg-D-error-50 after:bg-L-error-50 font-semibold border-t-2  border-L-error-150 dark:border-D-error-150 border-r  dark:border-r-D-gray-350 border-r-L-gray-350',
+                    'text-L-error-150 outline-none dark:text-L-error-150 bg-L-error-50 dark:bg-D-error-50 after:dark:bg-D-error-50 after:bg-L-error-50 font-semibold border-t-2  border-L-error-150 dark:border-D-error-150 border-r  dark:border-r-D-gray-350 border-r-L-gray-350',
             },
         ],
         [],

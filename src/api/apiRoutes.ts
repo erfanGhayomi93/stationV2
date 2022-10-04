@@ -36,7 +36,7 @@ const apiRoutes = {
     },
     OrderUrl: {
         Create: OrderUrl + '/GTOrder/v1/Create',
-        Get : OrderUrl + '/GTOrder/v1/GTOrderList'
+        Get: OrderUrl + '/GTOrder/v1/GTOrderList',
     },
     SupervisorMessage: {
         Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
@@ -45,6 +45,7 @@ const apiRoutes = {
     draft: {
         Create: OrderUrl + '/GTOrderDraft/v1/Create',
         Get: OrderUrl + '/GTOrderDraft/v1/Get',
+        Delete : OrderUrl + '/GTOrderDraft/v1/Delete'
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
     WatchList: {
@@ -55,6 +56,8 @@ const apiRoutes = {
         GetWatchlistSymbol: PortfolioUrl + '/GTWatchlist/v1/GetWatchlistSymbols',
         DeleteSymbol: PortfolioUrl + '/GTWatchlist/v1/DeleteSymbol',
         AddSymbol: PortfolioUrl + '/GTWatchlist/v1/AddSymbol',
+        DefaultWatchlist: PortfolioUrl + '/Watchlist/v1/DefaultWatchlists',
+        GetDefaultWatchlistSymbols: PortfolioUrl + '/Watchlist/v1/DefaultWatchlist',
     },
 };
 

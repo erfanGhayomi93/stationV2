@@ -31,16 +31,8 @@ const GroupBuySell = () => {
                 <BuySellSymbol />
                 <BuySellPrice />
                 <BuySellQuantity />
-
-                <div className="flex w-full gap-4 pr-1 items-start">
-                    <div className="flex w-full gap-4 pr-2">
-                        <BuySellValidity />
-                    </div>
-                    <div className="flex w-full gap-4 ">
-                        <BuySellStrategy />
-                    </div>
-                </div>
-                <div className="w-5/6 z-40">{/* <SimpleDatepicker onChange={(value) => console.log({ value })} /> */}</div>
+                <BuySellValidity />
+                <BuySellStrategy />
             </div>
             <div className="flex flex-col gap-3">
                 <BuySellDetail />

@@ -12,6 +12,7 @@ interface IDraftRequsetType {
 }
 
 type IDraftSelected = {
+    id:  number;
     customerTitles: string[];
     symbolTitle: string;
     side: string;

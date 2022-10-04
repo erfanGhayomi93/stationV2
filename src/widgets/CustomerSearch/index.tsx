@@ -40,8 +40,7 @@ const CustomerSearch = () => {
     };
     //
     return (
-        <div className="w-full h-full grid gap-2 grid-rows-min-one overflow-y-auto text-1.2">
-            <SearchInput />
+        <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2  py-2">
                     {types.map((type, inx) => (

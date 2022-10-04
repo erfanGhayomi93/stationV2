@@ -1,25 +1,18 @@
 import { useMemo } from 'react';
-import { useGetDraft } from 'src/app/queries/draft';
+import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
-import ActionCell from '../components/actionCell';
-
-
+import ActionCell, { TypeActionEnum } from '../components/actionCell';
+import FilterTable from '../components/FilterTable';
+import useHandleFilterDraft from '../components/useHandleFilterDraft';
 
 const Drafts = () => {
-    const { data } = useGetDraft('Side=None', {
-        select: (data: IDraftSelected[]) =>
-            data.map((item: IDraftSelected) => ({
-                customerTitles: item.customerTitles,
-                symbolTitle: item.symbolTitle,
-                side: item.side,
-                quantity: item.quantity,
-                price: item.price,
-                validity: item.validity,
-                validityDate: item.validityDate,
-            })),
-    });
-
+    const { data: dataBeforeFilter } = useGetDraft();
+    const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter });
+    const { mutate } = useDeleteDraft();
+    const handleDelete = (id: number) => {
+        mutate(id);
+    };
 
     const columns = useMemo(
         (): ColDefType<IDraftSelected>[] => [
@@ -28,11 +21,11 @@ const Drafts = () => {
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'اعتبار درخواست', field: 'validity' , valueFormatter : valueFormatterValidity },
+            { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: () => <ActionCell />,
+                cellRenderer: (row: any) => <ActionCell id={row.data.id} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} />,
             },
         ],
         [],
@@ -44,11 +37,14 @@ const Drafts = () => {
 
     //
     return (
-        <div className="w-full h-full p-3">
+        <div className="w-full p-3 h-[calc(100%-50px)]">
+            <FilterTable {...{ FilterData, handleChangeFilterData }} />
+
             <AGTable
-                rowData={data}
+                rowData={dataAfterfilter}
                 columnDefs={columns}
                 rowSelection="multiple"
+                // enableBrowserTooltips={false}
                 // suppressRowClickSelection={true}
                 // onRowSelected={onRowSelected}
             />

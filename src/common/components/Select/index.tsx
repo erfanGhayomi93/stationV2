@@ -44,13 +44,13 @@ const Select: FC<ISelectType> = ({
 }) => {
     return (
         <div className="w-full flex items-center justify-center relative ">
-            <span className="w-[64px] whitespace-nowrap relative ">{title}</span>
+            {title ? <span className="w-[64px] whitespace-nowrap relative ">{title}</span> : <></>}
             <Listbox value={value} onChange={onChange}>
-                <div className="relative mt-1 w-full ">
-                    <Listbox.Button className="relative flex justify-between w-full bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded-lg  py-2 pr-3 pl-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ">
+                <div className="relative  w-full ">
+                    <Listbox.Button className="relative flex justify-between w-full bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded-md  py-2 pr-3 pl-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ">
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
                         {value ? (
-                            <span className="block w-full text-right  truncate">
+                            <span className="block w-full text-right  truncate text-L-gray-400 dark:text-D-gray-400">
                                 <>{label}</>
                                 {value}
                             </span>
