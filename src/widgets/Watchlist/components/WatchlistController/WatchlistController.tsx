@@ -1,10 +1,10 @@
-import { FC, FormEvent } from 'react';
-import { createWatchListMutation, useWatchListsQuery } from 'src/app/queries/watchlist';
+import { FC, FormEvent, useState } from 'react';
+import { createWatchListMutation, useDefaultWatchlistQuery, useDefaultWatchlistSymbolsQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
+import Select, { SelectOption } from 'src/common/components/Select';
 
 interface IWatchlistControllerType {}
 
@@ -14,6 +14,9 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
     const { setState, state } = useWatchListState();
     const [watchlistName, setWatchlistName] = useState('');
     const [isAddActive, setIsAddActive] = useState(false);
+    const [defaultWatchlist, setDefaultWatchlist] = useState<IDefaultWatchlistType>();
+    // const { data: defaultWatchlists } = useDefaultWatchlistQuery();
+    // const { data: defaultWatchlistSymbols } = useDefaultWatchlistSymbolsQuery();
 
     const { mutate } = createWatchListMutation({
         onSuccess: () => {
@@ -100,6 +103,24 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                 >
                     <EditIcon2 />
                 </button>
+            </div>
+            <div>
+                {/* <Select
+                    title="اعتبار"
+                    onChange={(select) => setDefaultWatchlist(select as any)}
+
+                    // value={i18next.t('BSModal.validity_' + validity)}
+                >
+                    {defaultWatchlists?.map((item, inx) => (
+                        <SelectOption
+                            key={inx}
+                            // label={i18next.t('BSModal.validity_' + item.value)}
+                            label={item}
+                            value={item}
+                            className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
+                        />
+                    ))}
+                </Select> */}
             </div>
         </div>
     );

@@ -10,6 +10,18 @@ type GroupState =
     | 'OpeningOrClosing'
     | 'TradingAtLast'
     | null;
+type IDefaultWatchlistType =
+    | 'InBuyQueue'
+    | 'InSellQueue'
+    | 'MostVolume'
+    | 'MostValue'
+    | 'EffectiveOnIndex'
+    | 'MaximumPrice'
+    | 'MinimumPrice'
+    | 'FiveDaysPositive'
+    | 'FiveDaysNegative'
+    | 'BuyQueueThreshold'
+    | 'SellQueueThreshold';
 
 interface IWatchlistType {
     id: number;
