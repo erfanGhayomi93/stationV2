@@ -58,5 +58,25 @@
         "month": "ماه",
         "year": "سال",
         "submit": "تایید"
+    },
+    "defaultWlOption": {
+        "bestDemand": "برترین تقاضا",
+        "bestSupply": "برترین عرضه",
+        "mostLegalBuy": "بیشترین خرید حقوقی",
+        "mostIndividualBuy": "بیشترین خرید حقیقی",
+        "mostLegalSell": "بیشترین فروش حقوقی",
+        "mostIndividualSell": "بیشترین فروش حقیقی",
+        "mostVolumeTraded": "بیشترین حجم معامله",
+        "InBuyQueue": "نمادهای در صف خرید",
+        "InSellQueue": "نماد های در صف فروش",
+        "MostVolume": "نمادهای با بیشترین حجم معامله",
+        "MostValue": "نمادهای با بیشترین ارزش",
+        "EffectiveOnIndex": "نمادهای موثر بر شاخص",
+        "MaximumPrice": "نمادهای با بیشترین قیمت",
+        "MinimumPrice": "نمادهای با کمترین قیمت",
+        "BuyQueueThreshold": "نمادهای در آستانه صف خرید",
+        "SellQueueThreshold": "نمادهای در آستانه صف فروش",
+        "FiveDaysPositive": "نمادهای 5 روز معاملاتی مثبت",
+        "FiveDaysNegative": "نمادهای 5 روز معاملاتی منفی"
     }
 }

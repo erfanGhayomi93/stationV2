@@ -43,14 +43,12 @@ const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
 };
 const getDefaultWatchlist = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(apiRoutes.WatchList.DefaultWatchlist);
-    return data?.result;
+    return data?.result || [];
 };
 const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<ISymbolType & Pick<IWatchlistSymbolType, 'symbolISIN'>>>(
-        apiRoutes.WatchList.GetDefaultWatchlistSymbols,
-        {},
-        { params: watchlistId },
-    );
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(apiRoutes.WatchList.GetDefaultWatchlistSymbols, {
+        params: { watchlistId },
+    });
     return data?.result;
 };
 
@@ -64,8 +62,10 @@ export const useWatchListsQuery = <T=IWatchlistType[],>(
 };
 
 // prettier-ignore
-export const useWatchListSymbolsQuery =(watchlistId:number|undefined) => {
-    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), { enabled: !!watchlistId });
+export const useWatchListSymbolsQuery =<T=IWatchlistSymbolType[],>(watchlistId:number|undefined,
+    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined
+    ) => {
+    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), {...options,enabled:!!watchlistId});
 };
 
 export const createWatchListMutation = (
@@ -88,13 +88,15 @@ export const deleteWatchListSymbolMutation = (
 ) => useMutation(deleteWatchListSymbol, options);
 
 // prettier-ignore
-export const useDefaultWatchlistQuery = () => {
-    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist());
+export const useDefaultWatchlistQuery = (
+) => {
+    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist(), {initialData:[]});
 };
 
 // prettier-ignore
-export const useDefaultWatchlistSymbolsQuery = (watchlistId: IDefaultWatchlistType) => {
-    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getDefaultWatchlistSymbols(watchlistId), {
+export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistType, options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined) => {
+    return useQuery(['getDefaultWatchlistSymbols', watchlistId], ({ queryKey }) => getDefaultWatchlistSymbols(watchlistId as IDefaultWatchlistType), {
+        ...options,
         enabled: !!watchlistId,
     });
 };
