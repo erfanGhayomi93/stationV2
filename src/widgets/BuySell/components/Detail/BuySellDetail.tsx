@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import Switcher from 'src/common/components/SwitchButton';
 import { useBuySellDetail } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -14,7 +14,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
     } = useAppValues();
 
     const dispatch = useBuySellDispatch();
-    const setSequential = (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value });
+    const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
     const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
 
     const { price, quantity, sequential, divide, side } = useBuySellState();
@@ -22,7 +22,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
     const { commission, cost, drawValue } = useBuySellDetail({ quantity, price, marketUnit, side });
 
     return (
-        <div className="border-t flex flex-col pt-4 border-L-gray-300  h-full gap-2 ">
+        <div className="border-t flex flex-col pt-2 border-L-gray-300  h-full gap-2 ">
             <div className="flex  text-L-gray-400 px-2 gap-16 min-h-[1.5rem]">
                 {/* <div className="flex justify-between items-center text-L-gray-400 w-full">
                     <span>دارایی فعلی</span>

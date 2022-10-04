@@ -1,3 +1,4 @@
+import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
 import Input from 'src/common/components/Input';
 import { useAppValues } from 'src/redux/hooks';
 import BuySellDetail from '../Detail/BuySellDetail';
@@ -16,8 +17,8 @@ const GroupBuySell = () => {
     } = useAppValues();
 
     return (
-        <div className="flex flex-col text-1.2 p-2 h-full relative">
-            <div className="flex flex-col py-4 gap-2">
+        <div className="flex flex-col text-1.2 p-2 h-full relative justify-between">
+            <div className="flex flex-col py-1 grow justify-around">
                 <div className="flex w-full gap-4 pr-2">
                     <label className="w-full flex items-center justify-center ">
                         <span className="w-[64px] whitespace-nowrap ">مشتری</span>
@@ -30,22 +31,16 @@ const GroupBuySell = () => {
                 <BuySellSymbol />
                 <BuySellPrice />
                 <BuySellQuantity />
-
-                <div className="flex w-full gap-4 pr-1 items-start">
-                    <div className="flex w-full gap-4 pr-2">
-                        <BuySellValidity />
-                    </div>
-                    <div className="flex w-full gap-4 ">
-                        <BuySellStrategy />
-                    </div>
-                </div>
+                <BuySellValidity />
+                <BuySellStrategy />
             </div>
-
-            <BuySellDetail />
-            <div className="flex gap-3 pt-2 ">
-                <SetOrderAction />
-                <SetDraftAction />
-                <SetBasketAction />
+            <div className="flex flex-col gap-3">
+                <BuySellDetail />
+                <div className="flex gap-3  ">
+                    <SetOrderAction />
+                    <SetDraftAction />
+                    <SetBasketAction />
+                </div>
             </div>
         </div>
     );

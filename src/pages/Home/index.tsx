@@ -8,22 +8,19 @@ const Home = () => {
     //
 
     return (
-        <div className="grid gap-2 h-full grid-cols-12 overflow-y-auto ">
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 grid-rows-60-40  overflow-y-auto ">
+        <div className="grid gap-2 grid-cols-12 overflow-y-auto  ">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 overflow-y-auto ">
                 <div className="col-span-3    overflow-y-auto">
                     <SymbolDetail />
                 </div>
-                <div className="col-span-3 grid h-full overflow-y-auto">
-                    <CustomerSearchWidget />
-                </div>
             </div>
             <div className="col-span-9">
-                <div className="grid h-full grid-cols-9 grid-rows-2 gap-2">
-                    <div className="col-span-3">
-                        <BuySellWidget />
-                    </div>
+                <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2">
                     <div className="col-span-6">
                         <PortfolioWatchlist />
+                    </div>
+                    <div className="col-span-3 min-h-[475px]">
+                        <BuySellWidget />
                     </div>
                     <div className="col-span-9">
                         <Reports />

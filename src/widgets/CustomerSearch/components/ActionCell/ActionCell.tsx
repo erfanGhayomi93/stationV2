@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import { MoreDotsIcon, PortfolioDetailIcon } from 'src/common/icons';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
-const actionCellRenderer = ({ data }: { data: IGoCustomerSearchResult }) => {
+const ActionCellRenderer: FC<IGoCustomerSearchResult> = (data) => {
     const { setState, state } = useCustomerSearchState();
 
     const showDetailModal = (data: IGoCustomerSearchResult) => {
@@ -22,4 +23,4 @@ const actionCellRenderer = ({ data }: { data: IGoCustomerSearchResult }) => {
     );
 };
 
-export default actionCellRenderer;
+export default ActionCellRenderer;

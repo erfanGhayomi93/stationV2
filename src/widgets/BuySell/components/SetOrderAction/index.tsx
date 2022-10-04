@@ -19,6 +19,11 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
+    const handleValidity = () => {
+        if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+        return validity;
+    };
+
     const handleOrder = () => {
         const isins = selectedCustomers.map((c) => c.customerISIN);
         mutate({
@@ -31,7 +36,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             price: price,
             quantity: quantity,
             symbolISIN: symbolISIN,
-            validity: validity,
+            validity: handleValidity(),
             validityDate: validityDate,
         });
     };

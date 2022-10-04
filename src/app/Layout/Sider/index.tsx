@@ -22,7 +22,6 @@ const Sider = () => {
     const { isShowSupervisorMessage, countNumberSupervisorMessage } = useSliderValue();
     const dispatch = useSliderDispatch();
 
-
     const tooggleSlider = () => {
         dispatch({ type: SLiderActionEnum.TOGGLE_MENU });
     };
@@ -128,8 +127,12 @@ const Sider = () => {
 
     return (
         <>
-            <SupervisorMassage flagToggle={isShowSupervisorMessage} setFlagToggle={tooggleSlider} countNumberSupervisorMessage={countNumberSupervisorMessage}/>
-            <div className="w-[5.5rem] min-w-[88px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+            <SupervisorMassage
+                flagToggle={isShowSupervisorMessage}
+                setFlagToggle={tooggleSlider}
+                countNumberSupervisorMessage={countNumberSupervisorMessage}
+            />
+            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
                 <div className="flex flex-col items-center gap-5">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>

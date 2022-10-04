@@ -17,6 +17,7 @@
         "modalTitle_sendOrder": "ارسال سفارش",
         "Buy_side_tn": "خرید",
         "Sell_side_tn": "فروش",
+        "_side_tn": "همه",
         "validity_Day": "روز",
         "validity_Week": "هفته",
         "validity_Month": "ماه",
@@ -51,5 +52,12 @@
         "calculator_bottom_label": "حداقل مبلغ",
         "confirmOverly_title_orderEdit": "ارسال ویرایش",
         "confirmOverly_remove_confirm_box_label": "نیازی به گرفتن تایید هنگام ارسال سفارش نیست."
+    },
+    "datepicker": {
+        "no_date_selected": "تاریخی انتخاب نشده",
+        "day": "روز",
+        "month": "ماه",
+        "year": "سال",
+        "submit": "تایید"
     }
 }
