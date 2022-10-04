@@ -18,6 +18,7 @@ function ActionCell({ type, id, handleDelete }: IActionCell) {
     //         handleDelete && handleDelete(id)
     //     }
     // };
+    console.log(id)
     return (
         <div className="flex items-center justify-center gap-2 py-2 h-full">
             <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md">
