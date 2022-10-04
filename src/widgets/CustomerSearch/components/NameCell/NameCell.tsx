@@ -11,8 +11,8 @@ const NameCellRenderer: FC<Pick<IGoCustomerSearchResult, 'groupName' | 'customer
             <div className="text-slate-400">{bourseCode}</div>
         </div>
     ) : (
-        <div className="flex h-full flex-col leading-relaxed items-center justify-between">
-            <div className="text-center">{customerTitle}</div>
+        <div className="flex h-full  leading-relaxed items-center justify-start gap-2 w-full">
+            <div className="text-center truncate max-w-[7rem]">{customerTitle}</div>
             <div className="text-slate-400">{bourseCode}</div>
         </div>
     );

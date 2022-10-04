@@ -29,8 +29,8 @@ const ResultItem: FC<IGoCustomerSearchResult> = (customer) => {
             <div className="w-full flex items-center justify-center">
                 <NameCellRenderer {...customer} />
             </div>
-            <div className="w-full flex items-center justify-center">{seprateNumber(customer?.balance)}</div>
-            <div className="w-full flex items-center justify-center">
+            <div className="w-3/6  flex items-center justify-center">{seprateNumber(customer?.balance)}</div>
+            <div className="w-3/6  flex items-center justify-center">
                 <ActionCellRenderer {...customer} />
             </div>
         </div>

@@ -18,10 +18,8 @@ export const useCustomerSearchState = () => {
 const CustomerSearchWidget = () => {
     return (
         <>
-            <CustomerSearchProvider>
-                <CustomerSearch />
-                <CustomerDetailModal />
-            </CustomerSearchProvider>
+            <CustomerSearch />
+            <CustomerDetailModal />
         </>
     );
 };

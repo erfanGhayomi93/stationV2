@@ -41,6 +41,18 @@ const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.WatchList.AddSymbol, {}, { params });
     return data?.result;
 };
+const getDefaultWatchlist = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(apiRoutes.WatchList.DefaultWatchlist);
+    return data?.result;
+};
+const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<ISymbolType & Pick<IWatchlistSymbolType, 'symbolISIN'>>>(
+        apiRoutes.WatchList.GetDefaultWatchlistSymbols,
+        {},
+        { params: watchlistId },
+    );
+    return data?.result;
+};
 
 //hooks
 
@@ -74,3 +86,15 @@ export const addWatchListSymbolMutation = (
 export const deleteWatchListSymbolMutation = (
     options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,
 ) => useMutation(deleteWatchListSymbol, options);
+
+// prettier-ignore
+export const useDefaultWatchlistQuery = () => {
+    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist());
+};
+
+// prettier-ignore
+export const useDefaultWatchlistSymbolsQuery = (watchlistId: IDefaultWatchlistType) => {
+    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getDefaultWatchlistSymbols(watchlistId), {
+        enabled: !!watchlistId,
+    });
+};

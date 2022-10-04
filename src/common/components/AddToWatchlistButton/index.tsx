@@ -132,7 +132,7 @@ const AddToWatchlistButton: FC<IAddToWatchlistButtonType> = ({ symbolISIN }) => 
                                     onClick={() => createWatchList(inputValue)}
                                     className="whitespace-nowrap bg-L-primary-50 h-full px-3 rounded-md text-L-basic"
                                 >
-                                    ثبت دیده‌بان{' '}
+                                    ثبت دیده‌بان
                                 </button>
                             </div>
                         ) : (
