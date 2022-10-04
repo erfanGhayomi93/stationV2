@@ -45,6 +45,7 @@ const apiRoutes = {
     draft: {
         Create: OrderUrl + '/GTOrderDraft/v1/Create',
         Get: OrderUrl + '/GTOrderDraft/v1/Get',
+        Delete : OrderUrl + '/GTOrderDraft/v1/Delete'
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
     WatchList: {

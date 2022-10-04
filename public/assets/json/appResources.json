@@ -17,6 +17,7 @@
         "modalTitle_sendOrder": "ارسال سفارش",
         "Buy_side_tn": "خرید",
         "Sell_side_tn": "فروش",
+        "_side_tn": "همه",
         "validity_Day": "روز",
         "validity_Week": "هفته",
         "validity_Month": "ماه",

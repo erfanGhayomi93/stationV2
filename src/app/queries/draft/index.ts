@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { toast } from 'react-toastify';
+import { queryClient } from 'src/app/queryClient';
 
 ///////////////create draft///////////////////
 const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
@@ -16,21 +16,49 @@ const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
 export const useCreateDraft = () => {
     return useMutation(setDraftFn, {
         onSuccess: () => {
-            toast.info('done');
+            queryClient.invalidateQueries(['draftList']);
         },
     });
 };
 
 ////////////////get draft////////////////////////
-const getDraftFn = async (params: string) => {
+export const getDraftFn = async (params: string = '') => {
     try {
-        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?' + params);
+        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?Side=None' + params || '');
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useGetDraft = (params: string, option: any) => {
-    return useQuery(['draftList'], () => getDraftFn(params), option);
+export const useGetDraft = (params?: string) => {
+    return useQuery(['draftList'], () => getDraftFn(params), {
+        select: (data: IDraftSelected[]) =>
+            data.map((item: IDraftSelected) => ({
+                id: item.id,
+                customerTitles: item.customerTitles,
+                symbolTitle: item.symbolTitle,
+                side: item.side,
+                quantity: item.quantity,
+                price: item.price,
+                validity: item.validity,
+                validityDate: item.validityDate,
+            })),
+    });
+};
+////////////////delete draft////////////////////////
+const deleteDraftQuery = async (id: number) : Promise<number | []> => {
+    let { data } = await AXIOS.post(apiRoutes.draft.Delete + '?draftId=' + id);
+    return data.result || [];
+};
+
+export const useDeleteDraft = () => {
+    return useMutation(deleteDraftQuery, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['draftList']);
+        },
+        onError: (err) => {
+            console.log('err', err);
+        },
+    });
 };
