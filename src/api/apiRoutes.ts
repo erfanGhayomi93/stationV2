@@ -57,7 +57,7 @@ const apiRoutes = {
         DeleteSymbol: PortfolioUrl + '/GTWatchlist/v1/DeleteSymbol',
         AddSymbol: PortfolioUrl + '/GTWatchlist/v1/AddSymbol',
         DefaultWatchlist: PortfolioUrl + '/Watchlist/v1/DefaultWatchlists',
-        GetDefaultWatchlistSymbols: PortfolioUrl + '/Watchlist/v1/DefaultWatchlist',
+        GetDefaultWatchlistSymbols: PortfolioUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
     },
 };
 
