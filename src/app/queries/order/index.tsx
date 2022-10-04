@@ -22,7 +22,6 @@ export const useGetOrders = (param: string) => {
     return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', param], () => getOrderFn(param), {
         select: (data: any) =>
             data.map((item: IOrderGetType) => {
-                console.log('Data', data);
                 return {
                     orderId: item.orderId,
                     customerTitle: item.customerTitle,
