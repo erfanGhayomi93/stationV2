@@ -50,3 +50,7 @@ export { ReactComponent as DeleteIcon } from 'src/assets/svg/FaTrash.svg';
 export { ReactComponent as EyePlusIcon } from 'src/assets/svg/EyePlus.svg';
 export { ReactComponent as EyeMinesIcon } from 'src/assets/svg/EyeMines.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';
+export { ReactComponent as KeyboardIcon } from 'src/assets/svg/KeyboardIcon.svg';
+export { ReactComponent as EyeIcon } from 'src/assets/svg/EyeIcon.svg';
+export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
+export { ReactComponent as EyeSlashIcon } from 'src/assets/svg/EyeSlashIcon.svg';

@@ -16,7 +16,7 @@ const WidgetLoading: FC<IWidgetLoading> = ({ children, spining }) => {
                     'duration-200 absolute inset-0 backdrop-blur-sm bg-white bg-opacity-20 flex justify-center items-center z-20',
                 )}
             >
-                <SpinnerIcon className="scale-[2.7] text-menu" />
+                <SpinnerIcon className="scale-[2.7] text-L-primary-50" />
             </div>
 
             {children}

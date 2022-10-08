@@ -32,6 +32,6 @@ const fetchCaptcha = async () => {
     return { key: data.key, base64String: data.base64String };
 };
 
-export const useCaptcha = () => {
-    return useQuery(['Captcha'], fetchCaptcha);
+export const useCaptcha = (refresh?: boolean) => {
+    return useQuery(['Captcha', refresh], fetchCaptcha);
 };
