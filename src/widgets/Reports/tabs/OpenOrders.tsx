@@ -11,8 +11,8 @@ const OpenOrders = () => {
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders();
 
-    const handleDelete = (id: number) => {
-        mutate(id);
+    const handleDelete = (data: IOrderSelected) => {
+        mutate(data.orderId);
     };
 
     const columns = useMemo(
@@ -30,7 +30,7 @@ const OpenOrders = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell id={row.data.orderId} type={TypeActionEnum.OPEN_ORDER} handleDelete={handleDelete} />,
+                cellRenderer: (row: any) => <ActionCell data={row.data} type={TypeActionEnum.OPEN_ORDER} handleDelete={handleDelete} />,
             },
         ],
         [],

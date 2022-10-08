@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
@@ -10,8 +12,13 @@ const Drafts = () => {
     const { data: dataBeforeFilter } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter });
     const { mutate } = useDeleteDraft();
-    const handleDelete = (id: number) => {
-        mutate(id);
+    const handleDelete = (data: IDraftSelected) => {
+        mutate(data.id);
+    };
+
+    const appDispath = useAppDispatch();
+    const handleEdit = (data: IDraftSelected) => {
+        appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
@@ -25,7 +32,9 @@ const Drafts = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell id={row.data.id} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} />,
+                cellRenderer: (row: any) => (
+                    <ActionCell data={row.data} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} handleEdit={handleEdit} />
+                ),
             },
         ],
         [],

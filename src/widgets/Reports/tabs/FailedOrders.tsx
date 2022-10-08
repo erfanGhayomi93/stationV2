@@ -25,7 +25,7 @@ const FailedOrders = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell id={row.data.id} type={TypeActionEnum.OPEN_ORDER} />,
+                cellRenderer: (row: any) => <ActionCell data={row.data} type={TypeActionEnum.OPEN_ORDER} />,
             },
         ],
         [],
