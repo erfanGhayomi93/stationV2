@@ -4,12 +4,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './slices/ui';
 import globalReducer from './slices/global';
 import optionReducer from './slices/option';
+import keepDataBuySellSlice from "./slices/keepDataBuySell"
 
 export const store = configureStore({
     reducer: {
         ui: uiReducer,
         global: globalReducer,
         option: optionReducer,
+        keepDataBuySellSlice : keepDataBuySellSlice 
     },
 });
 

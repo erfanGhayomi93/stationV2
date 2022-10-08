@@ -6,13 +6,14 @@ export enum TypeActionEnum {
     DONE_ORDER = 'DONE_ORDER',
     FAILED_ORDER = 'FAILED_ORDER',
 }
-type IActionCell = {
+type IActionCell<T> = {
     type: TypeActionEnum;
-    id: number;
-    handleDelete?: (id: number) => void;
+    data: T;
+    handleDelete?: (data: T) => void;
+    handleEdit?: (data: T) => void;
 };
 
-function ActionCell({ type, id, handleDelete }: IActionCell) {
+function ActionCell({ type, data, handleDelete, handleEdit }: IActionCell<IOrderSelected & IDraftSelected>) {
     // const handleDelete = () => {
     //     if (type === TypeActionEnum.DRAFt) {
     //         handleDelete && handleDelete(id)
@@ -23,13 +24,13 @@ function ActionCell({ type, id, handleDelete }: IActionCell) {
             <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md">
                 <SendIcon className="text-L-primary-50 dark:text-D-primary-50" />
             </button>
-            <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md">
+            <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md" onClick={() => handleEdit && handleEdit(data)}>
                 <EditIcon className="text-L-primary-50 dark:text-D-primary-50" />
             </button>
             {/* {type === TypeActionEnum.DRAFt && ( */}
-                <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md">
-                    <DeleteIcon className="text-L-primary-50 dark:text-D-primary-50" onClick={() => handleDelete && handleDelete(id)} />
-                </button>
+            <button className="dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md" onClick={() => handleDelete && handleDelete(data)}>
+                <DeleteIcon className="text-L-primary-50 dark:text-D-primary-50" />
+            </button>
             {/* )} */}
         </div>
     );

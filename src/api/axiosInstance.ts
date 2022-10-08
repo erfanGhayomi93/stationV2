@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { NavigateFunction } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
@@ -34,17 +34,18 @@ AXIOS.interceptors.response.use(
         if (response?.data?.succeeded === false) {
             apiErrorHandler(response?.data?.errors);
 
-            const error: any = new Error(response.data.errors);
+            // const error: any = new Error(response.data.errors);
+            const error = new AxiosError('Client Error', '400', response.config, response.request, response);
             // Attach the response instance, in case we would like to access it.
             error.response = response;
-            throw error;
+            return Promise.reject(error);
         }
 
         return response;
     },
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
-
+        console.log({ error });
         if (error.response) {
             // Request made and server responded
 
