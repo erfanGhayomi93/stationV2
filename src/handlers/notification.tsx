@@ -1,5 +1,6 @@
 //
 export const apiErrorHandler = (reqApiError: string[]) => {
+    // console.log({ reqApiError });
     //
     // let errorMessage = '';
     // if (Array.isArray(reqApiError)) {

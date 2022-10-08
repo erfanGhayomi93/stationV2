@@ -8,8 +8,14 @@ import logo from 'src/assets/images/logo.svg';
 import { RefreshIcon } from 'src/common/icons';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { captions } from 'src/constant/captions';
-import { Link } from 'react-router-dom';
-import { unAuthorizedRoutes, UN_AUTHORIZED_ROUTES } from 'src/app/routes/appRoutes';
+import { Link, useNavigate } from 'react-router-dom';
+import { unAuthorizedRoutes } from 'src/app/routes/appRoutes';
+import { setAuthorizeData } from 'src/api/axiosInstance';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setAppUser } from 'src/redux/slices/global';
+import { AxiosResponse, AxiosError } from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 interface ErrorTypes {
     userName?: string;
@@ -20,13 +26,30 @@ const Login = () => {
     //
     const [userString, setUserString] = useState('');
     const [passString, setPassString] = useState('');
-    const [captchaRefreshSignal, setCaptchaRefreshSignal] = useState(false);
     const [captchaValue, setCaptchaValue] = useState('');
     const [errors, setErrors] = useState<ErrorTypes>();
     const { t } = useTranslation();
+    const appDispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
-    const { data: captchaData } = useCaptcha(captchaRefreshSignal);
-    const { isLoading, mutate: loginFormSubmit } = useLoginFormSubmit();
+    const { data: captchaData } = useCaptcha();
+    const { isLoading, mutate: loginFormSubmit } = useLoginFormSubmit({
+        onSuccess: (result) => {
+            if (result.loginResultType === 'Successful') {
+                setAuthorizeData(result?.token);
+                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
+                navigate('/');
+            }
+        },
+        onError: ({ response }: AxiosError<GlobalApiResponseType<IGTAuthorizationResultType>>) => {
+            console.log(response);
+            if (response?.data.result.loginResultType === 'InvalidCaptcha') {
+                queryClient.invalidateQueries(['Captcha']);
+                toast.error(response?.data.result.loginResultType);
+            }
+        },
+    });
 
     const verifyForm = () => {
         setErrors({
@@ -42,11 +65,8 @@ const Login = () => {
             passString &&
             userString &&
             loginFormSubmit({
-                productType: 'Local',
-                requestUri: '',
-                token: '',
                 captchaValue: captchaValue,
-                captchaKey: captchaData?.key,
+                captchaKey: captchaData?.key as string,
                 password: base64.encode(passString),
                 term: userString,
             });
@@ -92,9 +112,7 @@ const Login = () => {
                                         />
                                         <div className="flex w-full justify-between">
                                             <span className="text-rose-400 text-1.3">{errors?.password}</span>
-                                            <Link to={unAuthorizedRoutes.ForgetPassword.path} className="text-[#7E93B4] px-2">
-                                                رمز عبور خود را فراموش کردم
-                                            </Link>
+                                            <button className="text-[#7E93B4] px-2 opacity-0">رمز عبور خود را فراموش کردم</button>
                                         </div>
                                     </div>
                                 </label>
@@ -102,7 +120,7 @@ const Login = () => {
                                     <span className="text-[#35435A] font-semibold pr-0.5">کد امنیتی</span>
                                     <div className="items-center flex  overflow-hidden border bg-white  rounded-lg border-[#A4B2C9]">
                                         <input
-                                            className="h-full w-full px-3 font-semibold text-1.6 tracking-[2rem] text-center"
+                                            className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center"
                                             type="text"
                                             value={captchaValue}
                                             maxLength={5}
@@ -110,13 +128,13 @@ const Login = () => {
                                             onChange={(e) => setCaptchaValue(e?.target?.value || '')}
                                         />
                                         <button
-                                            onClick={() => setCaptchaRefreshSignal(!captchaRefreshSignal)}
+                                            onClick={() => queryClient.invalidateQueries(['Captcha'])}
                                             className="h-full flex items-center justify-center aspect-square hover:bg-slate-200 text-slate-500 p-1"
                                         >
                                             <RefreshIcon />
                                         </button>
                                         <div>
-                                            <img src={captchaData?.base64String || ''} alt="captcha" />
+                                            <img className="min-h-[46px]" src={captchaData?.base64String || ''} alt="captcha" />
                                         </div>
                                     </div>
                                     <span className="text-rose-400 text-1.3">{errors?.captcha}</span>
