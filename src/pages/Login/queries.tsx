@@ -1,11 +1,8 @@
 import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import apiRoutes from 'src/api/apiRoutes';
-import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
-import { useAppDispatch } from 'src/redux/hooks';
-import { setAppUser } from 'src/redux/slices/global';
-import { AxiosError, AxiosResponse } from 'axios';
+import AXIOS from 'src/api/axiosInstance';
+
 import { toast } from 'react-toastify';
 
 const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
