@@ -39,6 +39,7 @@ export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
 
 // Common
+export { ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 export { ReactComponent as Search } from 'src/assets/svg/Search.svg';
 export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
@@ -52,5 +53,6 @@ export { ReactComponent as EyeMinesIcon } from 'src/assets/svg/EyeMines.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';
 export { ReactComponent as KeyboardIcon } from 'src/assets/svg/KeyboardIcon.svg';
 export { ReactComponent as EyeIcon } from 'src/assets/svg/EyeIcon.svg';
+export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
 export { ReactComponent as EyeSlashIcon } from 'src/assets/svg/EyeSlashIcon.svg';

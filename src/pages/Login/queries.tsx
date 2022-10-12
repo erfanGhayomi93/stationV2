@@ -31,5 +31,6 @@ export const useCaptcha = () => {
         onSuccess: (data) => {
             data.result === 'TooRequest' && toast.error(data.result);
         },
+        refetchInterval: 1000 * 60 * 2,
     });
 };

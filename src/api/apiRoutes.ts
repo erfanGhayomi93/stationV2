@@ -30,13 +30,14 @@ const apiRoutes = {
         Search: BackOffice + '/GtCustomer/v1/Search',
         GetCustomerInformation: BackOffice + '/GtCustomer/v1/GetCustomerInformation',
         GetGroupInformation: BackOffice + '/GtCustomer/v1/GetGroupInformation',
+        MultiSearch: BackOffice + '/GTCustomer/v1/MultipleSerach',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
     OrderUrl: {
         Create: OrderUrl + '/GTOrder/v1/Create',
-        Get: OrderUrl + '/GTOrder/v1/GTOrderList',
+        Get: OrderUrl + '/GTOrder/v1/GTTodayOrdersList',
         Delete: OrderUrl + '/GTOrder/v1/SingleDelete',
     },
     SupervisorMessage: {
@@ -46,7 +47,7 @@ const apiRoutes = {
     draft: {
         Create: OrderUrl + '/GTOrderDraft/v1/Create',
         Get: OrderUrl + '/GTOrderDraft/v1/Get',
-        Delete : OrderUrl + '/GTOrderDraft/v1/Delete'
+        Delete: OrderUrl + '/GTOrderDraft/v1/Delete',
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
     WatchList: {

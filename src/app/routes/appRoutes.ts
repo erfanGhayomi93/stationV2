@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import PageCrash from 'src/pages/PageCrash';
 import { safeLazyImport } from 'src/utils/helpers';
 
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
@@ -33,6 +34,12 @@ const authorizedRoutes = {
         name: 'Page404',
         pageTitle: 'صفحه ناموجود',
         component: Page404,
+    },
+    PageCrash: {
+        path: 'PageCrash',
+        name: 'PageCrash',
+        pageTitle: 'صفحه ناموجود',
+        component: PageCrash,
     },
 };
 
