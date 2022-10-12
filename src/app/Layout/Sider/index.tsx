@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import Tooltip from 'src/common/components/Tooltip';
 import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, GearIcon, HomeIcon, MonitorIcon, QMarkIcon, QuitIcon } from 'src/common/icons';
@@ -21,6 +22,7 @@ const Sider = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { isShowSupervisorMessage, countNumberSupervisorMessage } = useSliderValue();
     const dispatch = useSliderDispatch();
+    const navigate = useNavigate();
 
     const tooggleSlider = () => {
         dispatch({ type: SLiderActionEnum.TOGGLE_MENU });
@@ -34,7 +36,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/'),
                 children: [
                     { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },
                     { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined },
@@ -46,7 +48,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/basket'),
             },
             {
                 icon: <BasketIcon height={20} width={20} />,
