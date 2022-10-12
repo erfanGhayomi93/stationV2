@@ -76,7 +76,7 @@ const Sider = () => {
             },
             {
                 icon: <FileIcon height={20} width={20} />,
-                label: 'منو آیتم 6',
+                label: 'گزارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,

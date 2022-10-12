@@ -7,6 +7,7 @@ const Page404 = lazy(() => safeLazyImport(() => import('src/pages/Page404')));
 const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
 const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket')));
 const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword')));
+const Reports = lazy(() => safeLazyImport(() => import('src/pages/Reports')));
 
 const unAuthorizedRoutes = {
     Login: {
@@ -30,7 +31,13 @@ const authorizedRoutes = {
         pageTitle: 'صفحه اصلی',
         component: Home,
     },
-    Basket:{
+    Reports: {
+        path: '/Reports',
+        name: 'Reports',
+        pageTitle: 'صفحه اصلی',
+        component: Reports,
+    },
+    Basket: {
         path: '/basket',
         name: 'basket',
         pageTitle: 'سبد معامله‌گر',
