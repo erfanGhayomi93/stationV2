@@ -4,6 +4,7 @@ import { safeLazyImport } from 'src/utils/helpers';
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
 const Page404 = lazy(() => safeLazyImport(() => import('src/pages/Page404')));
 const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
+const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket')));
 
 const AUTHORIZED_ROUTES = [
     {
@@ -11,6 +12,12 @@ const AUTHORIZED_ROUTES = [
         name: 'Home',
         pageTitle: 'صفحه اصلی',
         component: Home,
+    },
+    {
+        path: '/basket',
+        name: 'basket',
+        pageTitle: 'سبد معامله‌گر',
+        component: Basket,
     },
     {
         path: '*',

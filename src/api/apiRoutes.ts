@@ -46,7 +46,14 @@ const apiRoutes = {
     draft: {
         Create: OrderUrl + '/GTOrderDraft/v1/Create',
         Get: OrderUrl + '/GTOrderDraft/v1/Get',
-        Delete : OrderUrl + '/GTOrderDraft/v1/Delete'
+        Delete: OrderUrl + '/GTOrderDraft/v1/Delete',
+    },
+    Basket: {
+        Get: OrderUrl + '/GTCart/v1/CartList',
+        Create: OrderUrl + '/GTCart/v1/CreateCart',
+        Edit : OrderUrl + '/GTCart/v1/EditCart',
+        Delete : OrderUrl + '/GTCart/v1/DeleteCart',
+        CreateDetail : OrderUrl + '/GTCart/v1/CreateCartDetail'
     },
     Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
     WatchList: {
