@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { setOrder } from 'src/app/queries/order';
 import { useAppValues } from 'src/redux/hooks';
+import { handleValidity } from 'src/utils/helpers';
 import { useBuySellState } from '../../context/BuySellContext';
 
 interface ISetOrderActionType {}
@@ -19,10 +20,6 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const handleValidity = () => {
-        if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
-        return validity;
-    };
 
     const handleOrder = () => {
         const isins = selectedCustomers.map((c) => c.customerISIN);
@@ -36,7 +33,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             price: price,
             quantity: quantity,
             symbolISIN: symbolISIN,
-            validity: handleValidity(),
+            validity: handleValidity(validity),
             validityDate: validityDate,
         });
     };

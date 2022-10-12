@@ -269,6 +269,7 @@ export const getFarsiDate = (timeStamp: string) => {
         farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
             farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
         }`,
+        farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
 
@@ -312,6 +313,11 @@ export const valueFormatterValidity = (data: any) => {
     else if (data.value === 'GoodTillCancelled') return 'معتبر تا لغو';
     else if (data.value === 'GoodTillDate') return getFarsiDate(data.data.validityDate).farsiDate;
     return data.value;
+};
+
+export const handleValidity = (validity : string) : string => {
+    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    return validity;
 };
 
 export const abbreviateNumber = (number: number) => {
