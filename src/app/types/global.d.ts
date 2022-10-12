@@ -11,6 +11,9 @@ declare module '*.svg' {
     export default src;
 }
 
+declare module '*.jpg';
+declare module '*.png';
+
 interface GlobalApiResponseType<T> {
     result: T;
     succeeded: boolean;

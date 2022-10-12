@@ -1,10 +1,16 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes.Customer.Search, { params });
 
+    return data.result || [];
+};
+const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(apiRoutes.Customer.MultiSearch, {
+        params: { ...params, type: params.type?.join() },
+    });
     return data.result || [];
 };
 
@@ -34,6 +40,16 @@ export const useCustomerListInfinit = (
             ...options,
         },
     );
+};
+
+export const useMultiCustomerListQuery = <T,>(
+    params: IGoCustomerRequestType,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType, unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
+        enabled: !!params,
+        ...options,
+    });
 };
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
