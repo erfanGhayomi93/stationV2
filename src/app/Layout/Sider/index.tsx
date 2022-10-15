@@ -80,7 +80,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/Reports'),
             },
 
             {
@@ -105,7 +105,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/Help'),
             },
             {
                 icon: <Envelope2Icon height={20} width={20} />,

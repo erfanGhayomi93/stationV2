@@ -7,4 +7,5 @@ export const ComboSelectContext = createContext<IComboSelectContextType<ComboSta
     setPanel: () => {},
     setValue: () => {},
     setPanelContent: () => {},
+    clearSelected: () => {},
 });

@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { safeLazyImport } from 'src/utils/helpers';
 
 import PageCrash from 'src/pages/PageCrash';
+import Help from 'src/pages/Help';
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
 const Page404 = lazy(() => safeLazyImport(() => import('src/pages/Page404')));
 const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
@@ -50,10 +51,16 @@ const authorizedRoutes = {
         component: Page404,
     },
     PageCrash: {
-        path: 'PageCrash',
+        path: '/PageCrash',
         name: 'PageCrash',
         pageTitle: 'صفحه ناموجود',
         component: PageCrash,
+    },
+    Help: {
+        path: '/Help',
+        name: 'Help',
+        pageTitle: 'کمک',
+        component: Help,
     },
 };
 
