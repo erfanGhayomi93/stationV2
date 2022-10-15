@@ -30,7 +30,7 @@ const OpenOrders = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell data={row.data} type={TypeActionEnum.OPEN_ORDER} handleDelete={handleDelete} />,
+                cellRenderer: (row: any) => <ActionCell data={row.data} type={[TypeActionEnum.DELETE]} handleDelete={handleDelete} />,
             },
         ],
         [],

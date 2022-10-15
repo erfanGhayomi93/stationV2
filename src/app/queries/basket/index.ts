@@ -13,10 +13,10 @@ export const getBasketFn = async () => {
     }
 };
 
-export const useGetBasket = () => useQuery(['BasketList'], getBasketFn);
+export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'], getBasketFn);
 
 ///////////////create Basket///////////////////
-const setBasketFn = async (param: string): Promise<number | []> => {
+const setBasketFn = async (param: string): Promise<number> => {
     try {
         let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.Create + param);
         return data.result || 0;
@@ -25,12 +25,7 @@ const setBasketFn = async (param: string): Promise<number | []> => {
     }
 };
 
-export const useCreateBasket = () =>
-    useMutation(setBasketFn, {
-        onSuccess: (data) => {
-            return queryClient.invalidateQueries(['BasketList']);
-        },
-    });
+export const useCreateBasket = () => useMutation<number, unknown, string>(setBasketFn);
 ///////////////edit Basket///////////////////
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;
@@ -62,7 +57,7 @@ const deleteBasketFn = async (id: number) => {
 export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
         onSuccess: () => {
-           return queryClient.invalidateQueries(['BasketList']);
+            return queryClient.invalidateQueries(['BasketList']);
         },
     });
 
@@ -76,3 +71,33 @@ const createDetailsBasketFn = async (params: any) => {
     }
 };
 export const useCreateDetailsBasket = () => useMutation(createDetailsBasketFn);
+////////////////get Basket////////////////////////
+export const getDetailsBasketFn = async (cartId: number | undefined) => {
+    try {
+        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>(apiRoutes.Basket.GetDetail + '?cartId=' + cartId);
+        return data.result || [];
+    } catch {
+        return [];
+    }
+};
+
+export const useGetDetailsBasket = (cartId: number | undefined) =>
+    useQuery(['BasketDetailsList', cartId], () => getDetailsBasketFn(cartId), {
+        enabled: !!cartId,
+    });
+///////////////delete details Basket///////////////////
+const deleteDetailsBasketFn = async (id: number) => {
+    try {
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.DeleteDetails + `?cartDetailId=` + id);
+        return data.result || 0;
+    } catch {
+        return 0;
+    }
+};
+
+export const useDeleteDetailsBasket = (cartId: number | undefined) =>
+    useMutation(deleteDetailsBasketFn, {
+        onSuccess: () => {
+            return queryClient.invalidateQueries(['BasketDetailsList', cartId]);
+        },
+    });

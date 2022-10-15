@@ -4,12 +4,14 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
 import { FC } from 'react';
 import clsx from 'clsx';
+
+export type DateType = DateObject | DateObject[] | null | string | undefined;
 interface IAdvancedDatePicker<T> {
     value: T;
     onChange: (selectedDates: T) => void;
     className?: any;
 }
-const AdvancedDatePicker: FC<IAdvancedDatePicker<DateObject | DateObject[] | null | string | undefined>> = ({ value, onChange, className, ...props }) => {
+const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange, className, ...props }) => {
     return (
         <DatePicker
             portal
@@ -18,7 +20,7 @@ const AdvancedDatePicker: FC<IAdvancedDatePicker<DateObject | DateObject[] | nul
             containerClassName={'h-full w-full'}
             calendar={persian}
             locale={persian_fa}
-            value={typeof value === "string" ? new DateObject(value) : value}
+            value={typeof value === 'string' ? new DateObject(value) : value}
             onChange={onChange}
             render={
                 <InputIcon
