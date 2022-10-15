@@ -1,5 +1,7 @@
+import { toast } from 'react-toastify';
+
 //
-export const apiErrorHandler = (reqApiError: string[]) => {
+export const apiErrorHandler = (data: string[]) => {
     // console.log({ reqApiError });
     //
     // let errorMessage = '';

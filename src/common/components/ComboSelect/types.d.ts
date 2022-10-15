@@ -6,6 +6,7 @@ interface IComboSelectContextType<T> {
     setPanel: (value: boolean) => void;
     setPanelContent: (value: string) => void;
     setValue: (value: string) => void;
+    clearSelected: () => void;
 }
 
 interface IComboSelectProviderType {

@@ -17,14 +17,17 @@ import App from 'src/app/App';
 import 'src/common/components/LinearRangeChart/build.css';
 import 'src/assets/scss/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-root.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <TranslatorProvider>
-                <QueryClientProvider>
+const Wrapper = () => {
+    const { apiRoutes } = useApiPath();
+
+    return apiRoutes ? (
+        <>
+            <BrowserRouter>
+                <TranslatorProvider>
                     <App />
                     <ToastContainer
                         position="bottom-left"
@@ -36,8 +39,18 @@ root.render(
                         draggable
                         pauseOnHover
                     />
-                </QueryClientProvider>
-            </TranslatorProvider>
-        </BrowserRouter>
+                </TranslatorProvider>
+            </BrowserRouter>
+        </>
+    ) : (
+        <>loading apis</>
+    );
+};
+
+root.render(
+    <Provider store={store}>
+        <QueryClientProvider>
+            <Wrapper />
+        </QueryClientProvider>
     </Provider>,
 );

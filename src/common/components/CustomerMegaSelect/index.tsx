@@ -6,21 +6,20 @@ import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
-interface ICustomerMiniSelectType {}
+interface ICustomerMegaSelectType {}
 
-const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
+const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
     const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
-    const [type, setType] = useState<ICustomerMultiTypeType>('Legal');
 
     const {
         data: qData,
         isLoading,
         isFetching,
     } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
-        { term, type: [type] },
+        { term },
         {
             onSuccess: () => {
                 setPanel(true);
@@ -28,11 +27,6 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
             },
         },
     );
-    const handleSelect = (value: any) => {
-        setSelected(value);
-        console.log({ value });
-        setPanel(false);
-    };
     interface IOptionsType {
         active?: boolean;
         content?: string;
@@ -78,19 +72,19 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو مشتری"
+                placeholder="جستجو حقیقی/حقوقی/گروه مشتری"
                 onInputChange={(value) => setTerm(value)}
-                onSelectionChange={(selected) => handleSelect(selected)}
+                onSelectionChange={(selected) => setSelected(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
+                multiple={true}
                 selections={selected}
                 keyId={'customerISIN'}
                 showPanel={panel}
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isLoading || isFetching} />
-
+                    <InputSearch loading={isLoading || isFetching} />
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
                     </Combo.Panel>
@@ -100,7 +94,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
     );
 };
 
-export default CustomerMiniSelect;
+export default CustomerMegaSelect;
 
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (
@@ -118,5 +112,5 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
 }
 
 export function MinLen({ min }: { min: boolean }) {
-    return <>{min && <div className="p-5 flex items-center justify-center w-full h-full">حداقل سه کاراکتر وارد نمایید.</div>}</>;
+    return <>{min && <div className="p-5 flex items-center justify-center w-full h-full">حداقل دو کاراکتر وارد نمایید.</div>}</>;
 }

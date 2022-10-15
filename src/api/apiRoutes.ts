@@ -1,53 +1,62 @@
 //
-const CommonUrl = 'http://192.168.40.8:12000';
-const PortfolioUrl = 'http://192.168.40.8:11000';
-const MarketData = 'http://192.168.40.8:7000';
-const BackOffice = 'http://192.168.40.8:9500';
-const OrderUrl = 'http://192.168.40.8:8500';
-const OauthUrl = 'http://192.168.40.8:5011';
-
+// const CommonUrl = 'http://192.168.40.8:12000';
+// const PortfolioUrl = 'http://192.168.40.8:11000';
+// const MarketData = 'http://192.168.40.8:7000';
+// const BackOffice = 'http://192.168.40.8:9500';
+// const OrderUrl = 'http://192.168.40.8:8500';
+// const OauthUrl = 'http://192.168.40.8:5011';
+const OrderUrl = window.REACT_APP_ORDER_PATH; // "http://192.168.40.8:8500";
+const PortfolioUrl = window.REACT_APP_PORTFOLIO_PATH; // "http://192.168.40.8:11000";
+const OauthUrl = window.REACT_APP_OAUTH_PATH; // "http://192.168.40.8:5011";
+const CommonUrl = window.REACT_APP_COMMON_PATH; // "http://192.168.40.8:12000";
+const BackOffice = window.REACT_APP_BACKOFFICE_PATH; // "http://192.168.40.8:9500";
+const MarketData = window.REACT_APP_MARKETDATA_PATH; // "http://192.168.40.8:7000";
+// const ResourceUrl = window.REACT_APP_RESOURCE_PATH; // "http://192.168.40.8:5002";
+// const AccountUrl = window.REACT_APP_ACCOUNT_PATH; // "http://192.168.40.8:5020";
+// const PushEngine = window.REACT_APP_PUSHENGINE_PATH; // "http://192.168.40.8:5800";
+// const ClubUrl = window.REACT_APP_CLUB_PATH; //http://192.168.40.8:19000;
 const apiRoutes = {
     OAuthApi: {
-        authorization: OauthUrl + '/GTOAuthApi/v1/GTAuthorization',
-        captcha: OauthUrl + '/Captcha/v1/create',
-        twoFactor: OauthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
-        logout: OauthUrl + '/GTOAuthApi/v1/Logout',
+        authorization: window.REACT_APP_OAUTH_PATH + '/GTOAuthApi/v1/GTAuthorization',
+        captcha: window.REACT_APP_OAUTH_PATH + '/Captcha/v1/create',
+        twoFactor: window.REACT_APP_OAUTH_PATH + '/OAuthApi/v1/TwoFactorAuthorizer',
+        logout: window.REACT_APP_OAUTH_PATH + '/GTOAuthApi/v1/Logout',
     },
     User: {
-        GetUserInformation: `${CommonUrl}/GTTrader/v1/GetGeneralInformation`,
+        GetUserInformation: `${window.REACT_APP_COMMON_PATH}/GTTrader/v1/GetGeneralInformation`,
     },
     Time: {
-        Get: `${CommonUrl}/Time/v1/Get`,
+        Get: `${window.REACT_APP_COMMON_PATH}/Time/v1/Get`,
     },
     Index: {
-        Symbols: `${MarketData}/Index/v1/Symbols`,
+        Symbols: `${window.REACT_APP_MARKETDATA_PATH}/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: CommonUrl + '/GTSymbol/v1/Search',
-        SymbolGeneralInformation: MarketData + '/GTSymbol/v1/SymbolGeneralInformation',
+        Search: window.REACT_APP_COMMON_PATH + '/GTSymbol/v1/Search',
+        SymbolGeneralInformation: window.REACT_APP_MARKETDATA_PATH + '/GTSymbol/v1/SymbolGeneralInformation',
     },
     Customer: {
-        Search: BackOffice + '/GtCustomer/v1/Search',
-        GetCustomerInformation: BackOffice + '/GtCustomer/v1/GetCustomerInformation',
-        GetGroupInformation: BackOffice + '/GtCustomer/v1/GetGroupInformation',
-        MultiSearch: BackOffice + '/GTCustomer/v1/MultipleSerach',
+        Search: window.REACT_APP_BACKOFFICE_PATH + '/GtCustomer/v1/Search',
+        GetCustomerInformation: window.REACT_APP_BACKOFFICE_PATH + '/GtCustomer/v1/GetCustomerInformation',
+        GetGroupInformation: window.REACT_APP_BACKOFFICE_PATH + '/GtCustomer/v1/GetGroupInformation',
+        MultiSearch: window.REACT_APP_BACKOFFICE_PATH + '/GTCustomer/v1/MultipleSerach',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
     OrderUrl: {
-        Create: OrderUrl + '/GTOrder/v1/Create',
-        Get: OrderUrl + '/GTOrder/v1/GTTodayOrdersList',
-        Delete: OrderUrl + '/GTOrder/v1/SingleDelete',
+        Create: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/Create',
+        Get: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/GTTodayOrdersList',
+        Delete: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/SingleDelete',
     },
     SupervisorMessage: {
-        Get: `${MarketData}/SupervisorMessage/v1/TodaySupervisorMessage`,
-        ReadPost: `${MarketData}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+        Get: `${window.REACT_APP_MARKETDATA_PATH}/SupervisorMessage/v1/TodaySupervisorMessage`,
+        ReadPost: `${window.REACT_APP_MARKETDATA_PATH}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     draft: {
-        Create: OrderUrl + '/GTOrderDraft/v1/Create',
-        Get: OrderUrl + '/GTOrderDraft/v1/Get',
-        Delete: OrderUrl + '/GTOrderDraft/v1/Delete',
+        Create: window.REACT_APP_ORDER_PATH + '/GTOrderDraft/v1/Create',
+        Get: window.REACT_APP_ORDER_PATH + '/GTOrderDraft/v1/Get',
+        Delete: window.REACT_APP_ORDER_PATH + '/GTOrderDraft/v1/Delete',
     },
     Basket: {
         Get: OrderUrl + '/GTCart/v1/CartList',
@@ -58,17 +67,20 @@ const apiRoutes = {
         GetDetail : OrderUrl + '/GTCart/v1/CartDetailList',
         DeleteDetails : OrderUrl + '/GTCart/v1/CartDetailDelete',
     },
-    Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
+    Commission: { Get: `${window.REACT_APP_COMMON_PATH}/Commission/v1/Get` },
     WatchList: {
-        Get: PortfolioUrl + '/GTWatchlist/v1/Watchlists',
-        Create: PortfolioUrl + '/GTWatchlist/v1/Create',
-        Delete: PortfolioUrl + '/GTWatchlist/v1/Delete',
-        Update: PortfolioUrl + '/GTWatchlist/v1/Update',
-        GetWatchlistSymbol: PortfolioUrl + '/GTWatchlist/v1/GetWatchlistSymbols',
-        DeleteSymbol: PortfolioUrl + '/GTWatchlist/v1/DeleteSymbol',
-        AddSymbol: PortfolioUrl + '/GTWatchlist/v1/AddSymbol',
-        DefaultWatchlist: PortfolioUrl + '/Watchlist/v1/DefaultWatchlists',
-        GetDefaultWatchlistSymbols: PortfolioUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        Get: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/Watchlists',
+        Create: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/Create',
+        Delete: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/Delete',
+        Update: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/Update',
+        GetWatchlistSymbol: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/GetWatchlistSymbols',
+        DeleteSymbol: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/DeleteSymbol',
+        AddSymbol: window.REACT_APP_PORTFOLIO_PATH + '/GTWatchlist/v1/AddSymbol',
+        DefaultWatchlist: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/DefaultWatchlists',
+        GetDefaultWatchlistSymbols: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+    },
+    Setting: {
+        GetSetting: `${window.REACT_APP_COMMON_PATH}/Setting/v1/GTGetSettings`,
     },
 };
 

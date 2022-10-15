@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface GlobalState {
-    appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed';
+    appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed' | 'Booting';
     userData: { firstName: string; lastName: string; userName: string };
 }
 
 const initialState: GlobalState = {
-    appState: 'Loading',
+    appState: 'Booting',
     userData: { firstName: '', lastName: '', userName: '' },
 };
 

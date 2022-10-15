@@ -15,7 +15,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="col-span-9">
-                <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2">
+                <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
                     <div className="col-span-6">
                         <PortfolioWatchlist />
                     </div>
