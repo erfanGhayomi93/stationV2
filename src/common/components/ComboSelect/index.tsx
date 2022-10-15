@@ -68,6 +68,10 @@ const ComboSelectProvider: FC<IComboSelectProviderType> = ({
         dispatch({ type: 'SET_VALUE', value: value });
         onInputChange && onInputChange(value);
     };
+    const clearSelected = () => {
+        onSelectionChange && onSelectionChange([]);
+        dispatch({ type: 'TOGGLE_SELECTED', value: [] });
+    };
     return (
         <ComboSelectContext.Provider
             value={{
@@ -76,6 +80,7 @@ const ComboSelectProvider: FC<IComboSelectProviderType> = ({
                 setPanelContent,
                 dispatch,
                 setValue,
+                clearSelected,
             }}
         >
             <>{children}</>
