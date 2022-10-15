@@ -5,6 +5,7 @@ import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import gregorian_en from 'react-date-object/locales/gregorian_en';
 import gregorian from 'react-date-object/calendars/gregorian';
+import { queryClient } from 'src/app/queryClient';
 type ICreateBasket = {
     toggleAddBasket: () => void;
 };
@@ -22,11 +23,16 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     };
 
     const AddNewBasket = () => {
-        let dateMiladi = date?.convert(gregorian, gregorian_en).toString();
-        let timeMiladi = time?.convert(gregorian, gregorian_en).toString();
-        let sendDate = `${dateMiladi}T${timeMiladi}.000`;
+        const dateMiladi = date?.convert(gregorian, gregorian_en).toString();
+        const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
+        const sendDate = `${dateMiladi}T${timeMiladi}.000`;
+        const queryParams = '?name=' + name + '&sendDate=' + sendDate;
 
-        mutate('?name=' + name + '&sendDate=' + sendDate);
+        mutate(queryParams, {
+            onSuccess: () => {
+                return queryClient.invalidateQueries(['BasketList']);
+            },
+        });
         clearData();
     };
 

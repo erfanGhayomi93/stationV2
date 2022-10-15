@@ -22,11 +22,11 @@ const FailedOrders = () => {
             { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
-            {
-                headerName: 'عملیات',
-                field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell data={row.data} type={TypeActionEnum.OPEN_ORDER} />,
-            },
+            // {
+            //     headerName: 'عملیات',
+            //     field: 'customTitle',
+            //     cellRenderer: (row: any) => <ActionCell data={row.data} type={[TypeActionEnum.SEND, TypeActionEnum.EDIT]} />,
+            // },
         ],
         [],
     );

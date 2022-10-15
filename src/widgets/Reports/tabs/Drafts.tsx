@@ -33,7 +33,7 @@ const Drafts = () => {
                 headerName: 'عملیات',
                 field: 'customTitle',
                 cellRenderer: (row: any) => (
-                    <ActionCell data={row.data} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} handleEdit={handleEdit} />
+                    <ActionCell data={row.data} type={[TypeActionEnum.DELETE , TypeActionEnum.EDIT]} handleDelete={handleDelete} handleEdit={handleEdit} />
                 ),
             },
         ],

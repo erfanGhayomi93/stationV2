@@ -22,17 +22,17 @@ export const useCreateDraft = () => {
 };
 
 ////////////////get draft////////////////////////
-export const getDraftFn = async (params: string = '') => {
+export const getDraftFn = async () => {
     try {
-        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?Side=None' + params || '');
+        let { data } = await AXIOS.get(apiRoutes.draft.Get);
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useGetDraft = (params?: string) => {
-    return useQuery(['draftList'], () => getDraftFn(params), {
+export const useGetDraft = () => {
+    return useQuery(['draftList'], getDraftFn, {
         select: (data: IDraftSelected[]) =>
             data.map((item: IDraftSelected) => ({
                 id: item.id,
@@ -47,7 +47,7 @@ export const useGetDraft = (params?: string) => {
     });
 };
 ////////////////delete draft////////////////////////
-const deleteDraftQuery = async (id: number) : Promise<number | []> => {
+const deleteDraftQuery = async (id: number): Promise<number | []> => {
     let { data } = await AXIOS.post(apiRoutes.draft.Delete + '?draftId=' + id);
     return data.result || [];
 };

@@ -1,13 +1,28 @@
-import { useState } from 'react';
-import { FilterBasket } from './components/FilterBasket';
+import i18next from 'i18next';
+import { useState, useEffect } from 'react';
+import { useGetDetailsBasket } from 'src/app/queries/basket';
+import { FilterBasket, filterStateType } from './components/FilterBasket';
 import { TableBasket } from './components/TableBasket';
 import TopBasket from './components/TopBasket';
 
 function Basket() {
-    const [activeBasket, setactiveBasket] = useState(0);
+    const [activeBasket, setactiveBasket] = useState<number | undefined>(undefined);
+    const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
+    const [listAfterFilter, setlistAfterFilter] = useState<IListDetailsBasket[] | undefined>(undefined);
 
-    const saveIndexBasketSelected = (ind: number) => {
-        setactiveBasket(ind);
+    useEffect(() => {
+        setlistAfterFilter(dataListDetailsBasket);
+    }, [dataListDetailsBasket]);
+
+    const saveIndexBasketSelected = (id: number) => {
+        setactiveBasket(id);
+    };
+
+    const handleFilter = (dataFilter: filterStateType) => {
+        const { customerTitles, symbolTitle, date } = dataFilter;
+        if (!customerTitles && !symbolTitle && !date) return;
+        else if (!listAfterFilter) return;
+
     };
 
     return (
@@ -15,8 +30,8 @@ function Basket() {
             <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium font-[24px] text-2xl">سبد معامله گر</h1>
 
             <TopBasket {...{ activeBasket, saveIndexBasketSelected }} />
-            <FilterBasket />
-            <TableBasket />
+            <FilterBasket {...{ handleFilter }} />
+            <TableBasket {...{ activeBasket, listAfterFilter }} />
         </div>
     );
 }

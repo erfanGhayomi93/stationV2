@@ -1,4 +1,4 @@
-import { useState, useRef, FC, FormEvent } from 'react';
+import { useState, useRef, FC, FormEvent, useEffect } from 'react';
 import { useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon, EditIcon2, PlusIcon } from 'src/common/icons';
@@ -6,14 +6,18 @@ import { getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from './CreateBasket';
 import EditBasketModal from '../modal/EditBasketModal';
 type ITopBasket = {
-    activeBasket: number;
+    activeBasket: number | undefined;
     saveIndexBasketSelected: (ind: number) => void;
 };
 
 const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) => {
     const [isAddActive, setisAddActive] = useState(false);
-    const [isEditActive, setisEditActive] = useState(true);
+    const [isEditActive, setisEditActive] = useState(false);
     const { data: listBasket } = useGetBasket();
+
+    useEffect(() => {
+        listBasket && saveIndexBasketSelected(listBasket[0].id);
+    }, [listBasket]);
 
     const toggleAddBasket = () => {
         setisAddActive((prev) => !prev);
@@ -29,11 +33,11 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                 {listBasket &&
                     listBasket
                         .filter((item) => item.isPinned)
-                        .map((item, ind) => (
+                        .map((item) => (
                             <div
                                 key={item.id}
-                                data-actived={activeBasket === ind}
-                                onClick={() => saveIndexBasketSelected(ind)}
+                                data-actived={activeBasket === item.id}
+                                onClick={() => saveIndexBasketSelected(item.id)}
                                 className="px-8 py-1 text-center whitespace-nowrap cursor-pointer rounded-3xl text-L-primary-50 dark:text-D-primary-50 bg-L-primary-100 dark:bg-D-primary-100 actived:text-L-basic actived:dark:text-D-basic actived:bg-L-primary-50 actived:dark:bg-D-primary-50"
                             >
                                 <p>{item.name}</p>
