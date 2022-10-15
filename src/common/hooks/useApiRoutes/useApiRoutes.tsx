@@ -148,6 +148,8 @@ export const getApiPath = () => {
                   Edit: OrderUrl + '/GTCart/v1/EditCart',
                   Delete: OrderUrl + '/GTCart/v1/DeleteCart',
                   CreateDetail: OrderUrl + '/GTCart/v1/CreateCartDetail',
+                  GetDetail: OrderUrl + '/GTCart/v1/CartDetailList',
+                  DeleteDetails: OrderUrl + '/GTCart/v1/CartDetailDelete',
               },
               Commission: { Get: `${CommonUrl}/Commission/v1/Get` },
               WatchList: {

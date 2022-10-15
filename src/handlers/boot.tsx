@@ -8,6 +8,7 @@ import jalaliday from 'jalaliday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 // import apiRoutes from 'src/api/apiRoutes';
 import { getApiPath, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+// import apiRoutes from 'src/api/apiRoutes';
 dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
 

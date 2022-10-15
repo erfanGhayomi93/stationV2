@@ -23,7 +23,7 @@ const GroupBuySell = () => {
                     <label className="w-full flex items-center justify-center ">
                         <span className="w-[64px] whitespace-nowrap ">مشتری</span>
                         <div className="w-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
-                            <Input value={selectedCustomers.map((c) => c.customerTitle)} />
+                            <Input value={selectedCustomers.map((c) => c.customerTitle)} onChange={() => {}} />
                         </div>
                     </label>
                 </div>

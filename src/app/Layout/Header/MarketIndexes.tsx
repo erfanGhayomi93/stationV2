@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import PriceView from 'src/common/components/PriceView';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const MarketIndexes = () => {
     //
@@ -37,7 +38,9 @@ type IndexType = {
 };
 
 const fetchIndexes = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IndexType[]>>(apiRoutes.Index.Symbols);
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<IndexType[]>>(apiRoutes?.Index.Symbols as string);
     return data?.result || {};
 };
 

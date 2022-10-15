@@ -1,14 +1,19 @@
 import { InfiniteData, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes.Customer.Search, { params });
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes?.Customer.Search as string, { params });
 
     return data.result || [];
 };
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(apiRoutes.Customer.MultiSearch, {
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(apiRoutes?.Customer.MultiSearch as string, {
         params: { ...params, type: params.type?.join() },
     });
     return data.result || [];
@@ -53,7 +58,11 @@ export const useMultiCustomerListQuery = <T,>(
 };
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(apiRoutes.Customer.GetCustomerInformation, { params });
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(apiRoutes?.Customer.GetCustomerInformation as string, {
+        params,
+    });
     return data.result || [];
 };
 

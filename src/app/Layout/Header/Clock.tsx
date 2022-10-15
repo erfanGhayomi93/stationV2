@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let timerId: NodeJS.Timer | undefined = undefined;
 
@@ -42,7 +43,9 @@ const Clock = () => {
 };
 
 const getTime = async () => {
-    const { data } = await AXIOS.get(apiRoutes.Time.Get);
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get(apiRoutes?.Time.Get as string);
     return data?.result || dayjs();
 };
 
