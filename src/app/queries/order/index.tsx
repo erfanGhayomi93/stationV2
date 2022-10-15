@@ -1,9 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 export const setOrder = async (params: IOrderRequestType) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(apiRoutes.OrderUrl.Create, { ...params });
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(apiRoutes?.OrderUrl.Create as string, { ...params });
     return (
         data.result || {
             successClientKeys: [],
@@ -14,7 +17,9 @@ export const setOrder = async (params: IOrderRequestType) => {
 
 //////////////getOrder////////////////////
 const getOrderFn = async (param: string) => {
-    let { data } = await AXIOS.get(apiRoutes.OrderUrl.Get + '?side=None&' + param);
+    const apiRoutes = getApiPath();
+
+    let { data } = await AXIOS.get((apiRoutes?.OrderUrl.Get as string) + '?side=None&' + param);
     return data.result || [];
 };
 
@@ -42,7 +47,9 @@ export const useGetOrders = (param: string) => {
 
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (id: number) => {
-    let { data } = await AXIOS.post(apiRoutes.OrderUrl.Delete + '?orderId=' + id);
+    const apiRoutes = getApiPath();
+
+    let { data } = await AXIOS.post((apiRoutes?.OrderUrl.Delete as string) + '?orderId=' + id);
     return data.result || [];
 };
 

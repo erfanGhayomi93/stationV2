@@ -1,9 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const GetGroupInformation = async (params: IGetGroupInformationRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGroupInformationResultType>>(apiRoutes.Customer.GetGroupInformation, { params });
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGroupInformationResultType>>(apiRoutes?.Customer.GetGroupInformation as string, {
+        params,
+    });
     return data.result || [];
 };
 

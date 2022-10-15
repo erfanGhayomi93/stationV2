@@ -15,9 +15,6 @@ import { getApiPath, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRout
 import apiRoutes from 'src/api/apiRoutes';
 
 const App = () => {
-    useApiPath();
-    //
-
     const {
         global: { appState },
     } = useAppValues();
@@ -32,7 +29,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        appState !== 'Booting' && fetchUser(appDispatch);
+        appState === 'Loading' && fetchUser(appDispatch);
     }, [appState]);
 
     if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;

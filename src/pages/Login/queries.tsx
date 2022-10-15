@@ -4,9 +4,12 @@ import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 
 import { toast } from 'react-toastify';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
-    const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
+    const apiRoutes = getApiPath();
+
+    const { data } = await AXIOS.post(apiRoutes?.OAuthApi.authorization as string, payload);
     console.log({ data });
     return data?.result || {};
 };
@@ -22,7 +25,8 @@ export const useLoginFormSubmit = <T,>(
 };
 
 const fetchCaptcha = async () => {
-    const res = await axios.get<IGetCaptchaType>(apiRoutes.OAuthApi.captcha);
+    const apiRoutes = getApiPath();
+    const res = await axios.get<IGetCaptchaType>(apiRoutes?.OAuthApi.captcha as string);
     return res.data;
 };
 

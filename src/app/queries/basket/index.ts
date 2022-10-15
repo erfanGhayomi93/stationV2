@@ -2,11 +2,14 @@ import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 ////////////////get Basket////////////////////////
 export const getBasketFn = async () => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<IListBasket[]>>(apiRoutes.Basket.Get);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IListBasket[]>>(apiRoutes?.Basket.Get as string);
         return data.result || [];
     } catch {
         return [];
@@ -17,8 +20,10 @@ export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'
 
 ///////////////create Basket///////////////////
 const setBasketFn = async (param: string): Promise<number> => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.Create + param);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((apiRoutes?.Basket.Create as string) + param);
         return data.result || 0;
     } catch {
         return 0;
@@ -30,8 +35,10 @@ export const useCreateBasket = () => useMutation<number, unknown, string>(setBas
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;
     let queryString = name ? `name=${name}&sendDate=${sendDate}&id=${id}&isPinned=${isPinned}` : `isPinned=${isPinned}&id=${id}`;
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.Edit + `?` + queryString);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((apiRoutes?.Basket.Edit as string) + `?` + queryString);
         return data.result || 0;
     } catch {
         return 0;
@@ -46,8 +53,10 @@ export const useUpdateBasket = () =>
     });
 ///////////////delete Basket///////////////////
 const deleteBasketFn = async (id: number) => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.Delete + `?id=` + id);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((apiRoutes?.Basket.Delete as string) + `?id=` + id);
         return data.result || 0;
     } catch {
         return 0;
@@ -63,8 +72,10 @@ export const useDeleteBasket = () =>
 
 ///////////////Create Cart Detail///////////////////
 const createDetailsBasketFn = async (params: any) => {
+    const apiRoutes = getApiPath();
+
     try {
-        const { data } = await AXIOS.post(apiRoutes.Basket.CreateDetail, params);
+        const { data } = await AXIOS.post(apiRoutes?.Basket.CreateDetail as string, params);
         return data.result || 0;
     } catch {
         return 0;
@@ -73,8 +84,10 @@ const createDetailsBasketFn = async (params: any) => {
 export const useCreateDetailsBasket = () => useMutation(createDetailsBasketFn);
 ////////////////get Basket////////////////////////
 export const getDetailsBasketFn = async (cartId: number | undefined) => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>(apiRoutes.Basket.GetDetail + '?cartId=' + cartId);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>((apiRoutes?.Basket.GetDetail as string) + '?cartId=' + cartId);
         return data.result || [];
     } catch {
         return [];
@@ -87,8 +100,10 @@ export const useGetDetailsBasket = (cartId: number | undefined) =>
     });
 ///////////////delete details Basket///////////////////
 const deleteDetailsBasketFn = async (id: number) => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.Basket.DeleteDetails + `?cartDetailId=` + id);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((apiRoutes?.Basket.DeleteDetails as string) + `?cartDetailId=` + id);
         return data.result || 0;
     } catch {
         return 0;
