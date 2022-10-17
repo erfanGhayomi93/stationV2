@@ -37,6 +37,8 @@ export { ReactComponent as PlusIcon } from 'src/assets/svg/Plus.svg';
 export { ReactComponent as Negetive } from 'src/assets/svg/negetive.svg';
 export { ReactComponent as EditIcon2 } from 'src/assets/svg/Edit.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
+export { ReactComponent as Customers } from 'src/assets/svg/Customers.svg';
+export { ReactComponent as HelpIcon } from 'src/assets/svg/Help.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
 
 // Common

@@ -41,6 +41,7 @@ export const useGetDraft = () => {
         select: (data: IDraftSelected[]) =>
             data.map((item: IDraftSelected) => ({
                 id: item.id,
+                customers : item.customers,
                 customerTitles: item.customerTitles,
                 symbolTitle: item.symbolTitle,
                 side: item.side,

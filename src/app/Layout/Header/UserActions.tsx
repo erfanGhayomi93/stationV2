@@ -19,7 +19,7 @@ const UserActions = () => {
     );
 };
 
-const logOutReq = async () => {
+export const logOutReq = async () => {
     const apiRoutes = getApiPath();
 
     const { data } = await AXIOS.post(apiRoutes?.OAuthApi.logout as string);
