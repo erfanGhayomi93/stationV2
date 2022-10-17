@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useSingleDeleteOrders, useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
@@ -10,9 +12,14 @@ const OpenOrders = () => {
     const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=OnBoard');
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders();
+    const appDispath = useAppDispatch();
 
     const handleDelete = (data: IOrderSelected) => {
         mutate(data.orderId);
+    };
+
+    const handleEdit = (data: IOrderSelected) => {
+        appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
@@ -30,7 +37,14 @@ const OpenOrders = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell data={row.data} type={[TypeActionEnum.DELETE]} handleDelete={handleDelete} />,
+                cellRenderer: (row: any) => (
+                    <ActionCell
+                        data={row.data}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
+                ),
             },
         ],
         [],

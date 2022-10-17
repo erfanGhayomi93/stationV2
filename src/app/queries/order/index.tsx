@@ -19,7 +19,7 @@ export const setOrder = async (params: IOrderRequestType) => {
 const getOrderFn = async (param: string) => {
     const apiRoutes = getApiPath();
 
-    let { data } = await AXIOS.get((apiRoutes?.OrderUrl.Get as string) + '?side=None&' + param);
+    let { data } = await AXIOS.get((apiRoutes?.OrderUrl.Get as string) + '?' + param);
     return data.result || [];
 };
 

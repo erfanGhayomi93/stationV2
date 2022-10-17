@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
-import { useGetOrders } from 'src/app/queries/order';
+import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
@@ -9,6 +11,16 @@ import useHandleFilterOrder from '../components/useHandleFilterOrder';
 const FailedOrders = () => {
     const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Error');
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
+    const { mutate } = useSingleDeleteOrders();
+    const appDispath = useAppDispatch();
+
+    const handleDelete = (data: IOrderSelected) => {
+        mutate(data.orderId);
+    };
+
+    const handleEdit = (data: IOrderSelected) => {
+        appDispath(setDataBuySellAction(data));
+    };
 
     const columns = useMemo(
         (): ColDefType<IOrderSelected>[] => [
@@ -22,11 +34,18 @@ const FailedOrders = () => {
             { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
-            // {
-            //     headerName: 'عملیات',
-            //     field: 'customTitle',
-            //     cellRenderer: (row: any) => <ActionCell data={row.data} type={[TypeActionEnum.SEND, TypeActionEnum.EDIT]} />,
-            // },
+            {
+                headerName: 'عملیات',
+                field: 'customTitle',
+                cellRenderer: (row: any) => (
+                    <ActionCell
+                        data={row.data}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
+                ),
+            },
         ],
         [],
     );
