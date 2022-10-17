@@ -1,75 +1,57 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 // queries
 const getWatchLists = async () => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistType[]>>(apiRoutes?.WatchList.Get as string, undefined);
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistType[]>>(Apis().WatchList.Get as string, undefined);
     return data?.result;
 };
 
 const createWatchList = async (watchlistName: string) => {
-    const apiRoutes = getApiPath();
-
     const { data } = await AXIOS.post<GlobalApiResponseType<ICreateWatchlistResultType>>(
-        apiRoutes?.WatchList.Create as string,
+        Apis().WatchList.Create as string,
         {},
         { params: { watchlistName } },
     );
     return data?.result;
 };
 const deleteWatchList = async (id: number) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(apiRoutes?.WatchList.Delete as string, {}, { params: { id } });
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Delete as string, {}, { params: { id } });
     return data?.result;
 };
 
 const updateWatchList = async ({ id, watchlistName, isPinned }: IWatchlistRequestType) => {
-    const apiRoutes = getApiPath();
-
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(
-        apiRoutes?.WatchList.Update as string,
+        Apis().WatchList.Update as string,
         {},
         { params: { id, watchlistName, isPinned } },
     );
     return data?.result;
 };
 const getWatchListSymbols = async (watchlistId: number) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(apiRoutes?.WatchList.GetWatchlistSymbol as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(Apis().WatchList.GetWatchlistSymbol as string, {
         params: { watchlistId },
     });
     return data?.result || [];
 };
 
 const deleteWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(apiRoutes?.WatchList.DeleteSymbol as string, {}, { params });
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.DeleteSymbol as string, {}, { params });
     return data?.result;
 };
 
 const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes?.WatchList.AddSymbol as string, {}, { params });
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().WatchList.AddSymbol as string, {}, { params });
     return data?.result;
 };
 const getDefaultWatchlist = async () => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(apiRoutes?.WatchList.DefaultWatchlist as string);
+    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.DefaultWatchlist as string);
     return data?.result || [];
 };
 const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(apiRoutes?.WatchList.GetDefaultWatchlistSymbols as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(Apis().WatchList.GetDefaultWatchlistSymbols as string, {
         params: { watchlistId },
     });
     return data?.result;

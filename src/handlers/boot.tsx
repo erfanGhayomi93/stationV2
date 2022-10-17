@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import jalaliday from 'jalaliday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 // import apiRoutes from 'src/api/apiRoutes';
-import { getApiPath, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 // import apiRoutes from 'src/api/apiRoutes';
 dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
@@ -15,9 +15,8 @@ dayjs.extend(relativeTime);
 //
 
 export const fetchUser = async (dispatch: AppDispatch) => {
-    const apiRoutes = getApiPath();
     try {
-        const { data } = await AXIOS.get(apiRoutes?.User.GetUserInformation as string);
+        const { data } = await AXIOS.get(Apis().User.GetUserInformation);
         dispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
     } catch (error: any) {
         if (![401].includes(error?.response?.status)) dispatch(setAppState('Crashed'));

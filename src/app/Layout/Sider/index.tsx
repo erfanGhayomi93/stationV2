@@ -18,11 +18,11 @@ import {
     QMarkIcon,
     QuitIcon,
 } from 'src/common/icons';
-import { logOutReq } from '../Header/UserActions';
 import { useSliderDispatch, useSliderValue } from './context';
 import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
+import { logOutReq } from '../Header/UserActions';
 
 export type MenuItemType = {
     icon: JSX.Element;

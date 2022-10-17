@@ -1,12 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 export const setOrder = async (params: IOrderRequestType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(apiRoutes?.OrderUrl.Create as string, { ...params });
+    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(Apis().OrderUrl.Create as string, { ...params });
     return (
         data.result || {
             successClientKeys: [],
@@ -16,15 +13,13 @@ export const setOrder = async (params: IOrderRequestType) => {
 };
 
 //////////////getOrder////////////////////
-const getOrderFn = async (param: string) => {
-    const apiRoutes = getApiPath();
-
-    let { data } = await AXIOS.get((apiRoutes?.OrderUrl.Get as string) + '?' + param);
+const getOrderFn = async (GtOrderStateRequestType: any) => {
+    let { data } = await AXIOS.get(Apis().OrderUrl.Get as string, { params: { GtOrderStateRequestType } });
     return data.result || [];
 };
 
-export const useGetOrders = (param: string) => {
-    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', param], () => getOrderFn(param), {
+export const useGetOrders = ({ GtOrderStateRequestType }: any) => {
+    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', GtOrderStateRequestType], () => getOrderFn(GtOrderStateRequestType), {
         select: (data: any) =>
             data.map((item: IOrderGetType) => {
                 return {
@@ -47,9 +42,7 @@ export const useGetOrders = (param: string) => {
 
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (id: number) => {
-    const apiRoutes = getApiPath();
-
-    let { data } = await AXIOS.post((apiRoutes?.OrderUrl.Delete as string) + '?orderId=' + id);
+    let { data } = await AXIOS.post((Apis().OrderUrl.Delete as string) + '?orderId=' + id);
     return data.result || [];
 };
 

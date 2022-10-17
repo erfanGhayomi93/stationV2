@@ -7,7 +7,7 @@ import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
 
 const DoneOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Done');
+    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'Done' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
 
     const columns = useMemo(

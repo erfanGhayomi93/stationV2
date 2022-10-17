@@ -8,7 +8,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input = ({ disabled, addonAfter, addonBefore, ...rest }: Props) => {
     //
     return (
-        <div className={`flex items-center w-100 rounded-sm px-2 ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
+        <div className={`flex items-center w-full rounded-sm  ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
             <div>{addonBefore ? addonBefore : null}</div>
             <div className="grow">
                 <input

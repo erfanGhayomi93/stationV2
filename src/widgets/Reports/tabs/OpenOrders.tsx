@@ -9,7 +9,7 @@ import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
 
 const OpenOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=OnBoard');
+    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: "OnBoard" });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders();
     const appDispath = useAppDispatch();
