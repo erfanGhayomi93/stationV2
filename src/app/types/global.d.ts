@@ -38,3 +38,15 @@ interface IPaginateRequest {
     pageNumber?: number;
     pageSize?: number;
 }
+
+interface GlobalPaginatedApiResponse<T> {
+    result: T;
+    succeeded: boolean;
+    errors?: string[] | string;
+    pageNumber: number;
+    totalPages: number;
+    totalCount: number;
+    pageSize: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+}
