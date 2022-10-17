@@ -1,4 +1,4 @@
-import DatePicker, { Value , Calendar, DateObject } from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import InputIcon from 'react-multi-date-picker/components/input_icon';

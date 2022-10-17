@@ -25,6 +25,11 @@ type IListDetailsBasket = {
     customerISINs: string;
     orderStrategy: string;
     orderType: string;
-    customers: string[];
-    symbolTitle: null;
+    customers: ICustomer[];
+    symbolTitle: string;
+};
+
+type ICustomer = {
+    customerISIN: string;
+    customerTitle: string;
 };
