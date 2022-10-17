@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS, { unAuthorized } from 'src/api/axiosInstance';
-import { Apis, getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { PowerOff } from 'src/common/icons';
 
 const UserActions = () => {
@@ -20,8 +20,6 @@ const UserActions = () => {
 };
 
 const logOutReq = async () => {
-    const apiRoutes = getApiPath();
-
     const { data } = await AXIOS.post(Apis().OAuthApi.logout as string);
     return data?.succeeded;
 };

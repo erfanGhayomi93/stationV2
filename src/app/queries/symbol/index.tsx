@@ -1,11 +1,9 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { Apis, getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const getSymbolGeneralInfo = async (symbolISIN: string) => {
-    const apiRoutes = getApiPath();
-
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolGeneralInfoType>>(Apis().Symbol.SymbolGeneralInformation as string, {
         params: { symbolISIN },
     });
@@ -25,8 +23,6 @@ export const useSymbolGeneralInfo = <T,>(
 };
 
 const searchSymbol = async (term: string) => {
-    const apiRoutes = getApiPath();
-
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(Apis().Symbol.Search as string, { params: { term } });
     return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
 };
