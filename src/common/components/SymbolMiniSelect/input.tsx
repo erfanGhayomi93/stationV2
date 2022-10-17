@@ -7,11 +7,9 @@ import GroupAnimationButton from '../GroupButton';
 
 interface IInputSearchType {
     loading: boolean;
-    onTypeChange: Dispatch<SetStateAction<ICustomerMultiTypeType>>;
 }
-type Item = { value: string; label: string };
 
-const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
+const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     const {
         setPanel,
         setValue,
@@ -27,27 +25,15 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
         clearSelected();
         searchRef.current?.focus();
     };
-    const handleLegalInformation = (value: ICustomerMultiTypeType) => {
-        onTypeChange(value);
-        setPanel(true);
-    };
+
     const handleReset = () => {
         searchRef.current?.focus();
         setPanelContent('DATA');
     };
-    const items: Item[] = [
-        { label: 'حقیقی', value: 'Natural' },
-        { label: 'حقوقی', value: 'Legal' },
-        { label: 'گروه', value: 'CustomerTag' },
-    ];
 
     return (
         <div className="bg-L-basic dark:bg-D-basic border dark:border-D-gray-350 border-L-gray-350 rounded-md flex items-center gap-1 pl-1 text-1.3 ">
             <div className="flex items-center gap-1 relative grow">
-                <div className="px-0.5">
-                    <GroupAnimationButton items={items} width={44} onSelect={(value) => handleLegalInformation(value as ICustomerMultiTypeType)} />
-                </div>
-                <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
                 <div className="pr-2">
                     <SearchIcon className="text-L-gray-400 dark:text-D-gray-400" />
                 </div>

@@ -1,38 +1,38 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState, memo, SetStateAction, useEffect } from 'react';
-import { Dispatch } from 'redux';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { FC, Fragment, useMemo, useState, memo, useEffect } from 'react';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
-import CustomerResult from './CustomerResult';
+import SymbolResult from './SymbolResult';
 import InputSearch from './input';
+import { useSymbolSearch } from 'src/app/queries/symbol';
 
-interface ICustomerMiniSelectType {
-    setSelected: (selected: IGoCustomerSearchResult[]) => void;
-    selected: IGoCustomerSearchResult[];
+interface ISymbolMiniSelectType {
+    setSelected: (selected: SymbolSearchResult[]) => void;
+    selected: SymbolSearchResult[];
 }
 
-const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
-    const [type, setType] = useState<ICustomerMultiTypeType>('Legal');
 
     const {
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
-        { term, type: [type] },
-        {
-            onSuccess: () => {
-                setPanel(true);
-                setMin(false);
-            },
+    } = useSymbolSearch(term, {
+        onSuccess: () => {
+            setPanel(true);
+            setMin(false);
         },
-    );
+    });
 
-    const handleSelect = (value: IGoCustomerSearchResult[]) => {
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+        selected.length === 1 && setTerm(selected[0].symbolTitle);
+    }, [selected]);
+
+    const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
         setPanel(false);
     };
@@ -40,12 +40,6 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
         active?: boolean;
         content?: string;
     }
-
-    useEffect(() => {
-        selected.length === 0 && setTerm('');
-        selected.length === 1 && setTerm(selected[0].customerTitle);
-    }, [selected]);
-
     const Options = ({ active, content }: IOptionsType) =>
         useMemo(() => {
             return (
@@ -63,19 +57,19 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
                                         <Combo.DataSet
                                             key={inx}
                                             className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                                            label={item.customerTitle}
+                                            label={item.symbolTitle}
                                             value={item}
                                         >
                                             <div className="flex justify-between w-full">
-                                                {item.customerTitle}
-                                                <span>{item.bourseCode}</span>
+                                                {item.symbolTitle}
+                                                <span>{item.companyISIN}</span>
                                             </div>
                                         </Combo.DataSet>
                                     </Fragment>
                                 ))}
                             </>
                         ) : (
-                            <CustomerResult min={min} qData={qData || []} isLoading={isLoading} />
+                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} />
                         )}
                     </div>
                 </>
@@ -87,18 +81,18 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو مشتری"
+                placeholder="جستجو نماد"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 selections={selected}
-                keyId={'customerISIN'}
+                keyId={'symbolISIN'}
                 showPanel={panel}
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isLoading || isFetching} />
+                    <InputSearch loading={isLoading || isFetching} />
 
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
@@ -109,7 +103,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
     );
 };
 
-export default memo(CustomerMiniSelect);
+export default memo(SymbolMiniSelect);
 
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (

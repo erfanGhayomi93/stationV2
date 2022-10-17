@@ -53,6 +53,8 @@ export const useMultiCustomerListQuery = <T,>(
 ) => {
     return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
         enabled: !!params,
+        staleTime: 0,
+        cacheTime: 0,
         ...options,
     });
 };

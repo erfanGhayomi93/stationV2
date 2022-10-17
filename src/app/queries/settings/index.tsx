@@ -6,6 +6,8 @@ import { setAppState } from 'src/redux/slices/global';
 
 export const getGlobalSettings = async () => {
     const { data } = await AXIOS.get<ISettingsType[]>('http://192.168.40.8:12000/Setting/v1/GTGetSettings');
+    // const { data } = await AXIOS.get<ISettingsType[]>('https://common.ramandtech.com/Setting/v1/GTGetSettings');
+
     // console.log({ data });
     return data || [];
 };

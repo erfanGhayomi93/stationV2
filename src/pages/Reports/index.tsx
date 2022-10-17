@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { FC, useState } from 'react';
 import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
 import GroupAnimationButton from 'src/common/components/GroupButton';
-import { ReportFilter } from './components';
+import { ReportFilter } from './components/ReportFilter';
 
 interface IReportsType {}
 
