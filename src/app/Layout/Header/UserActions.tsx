@@ -19,8 +19,7 @@ const UserActions = () => {
     );
 };
 
-
-const logOutReq = async () => {
+export const logOutReq = async () => {
     const { data } = await AXIOS.post(Apis().OAuthApi.logout as string);
     return data?.succeeded;
 };
