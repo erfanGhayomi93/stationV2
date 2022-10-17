@@ -7,22 +7,7 @@ import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
 
 const DoneOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Done', {
-        select: (data: IOrderSelected[]) =>
-            data.map((item: IOrderSelected) => ({
-                customerTitle: item.customerTitle,
-                symbolTitle: item.symbolTitle,
-                orderSide: item.orderSide,
-                quantity: item.quantity,
-                price: item.price,
-                value: item.value,
-                sumExecuted: item.sumExecuted,
-                position: item.position,
-                valuePosition: item.valuePosition,
-                validity: item.validity,
-                validityDate: item.validityDate,
-            })),
-    });
+    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Done');
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
 
     const columns = useMemo(
@@ -37,11 +22,11 @@ const DoneOrders = () => {
             { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
-            {
-                headerName: 'عملیات',
-                field: 'customTitle',
-                cellRenderer: (row : any) => <ActionCell id={row.data.id} type={TypeActionEnum.OPEN_ORDER}/>,
-            },
+            // {
+            //     headerName: 'عملیات',
+            //     field: 'customTitle',
+            //     cellRenderer: (row : any) => <ActionCell id={row.data.id} type={TypeActionEnum.OPEN_ORDER}/>,
+            // },
         ],
         [],
     );

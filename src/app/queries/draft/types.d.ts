@@ -14,6 +14,7 @@ interface IDraftRequsetType {
 type IDraftSelected = {
     id:  number;
     customerTitles: string[];
+    customers : ICustomer[]
     symbolTitle: string;
     side: string;
     quantity: number;

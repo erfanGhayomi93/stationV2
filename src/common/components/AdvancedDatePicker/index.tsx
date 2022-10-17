@@ -3,28 +3,38 @@ import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
 import { FC } from 'react';
-interface IAdvancedDatePicker {
-    value: Value;
-    onChange?: (selectedDates: DateObject | DateObject[] | null) => void;
-    goToday: () => void;
+import clsx from 'clsx';
+
+export type DateType = DateObject | DateObject[] | null | string | undefined;
+interface IAdvancedDatePicker<T> {
+    value: T;
+    onChange: (selectedDates: T) => void;
+    className?: any;
 }
-const AdvancedDatePicker: FC<IAdvancedDatePicker> = ({ value, onChange, goToday, ...props }) => {
+const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange, className, ...props }) => {
     return (
         <DatePicker
             portal
             style={{ height: '32px' }}
-            containerClassName="h-full w-full"
-            className=""
+            format="YYYY-MM-DD"
+            containerClassName={'h-full w-full'}
             calendar={persian}
             locale={persian_fa}
-            value={value}
+            value={typeof value === 'string' ? new DateObject(value) : value}
             onChange={onChange}
             render={
-                <InputIcon className="py-2  bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded-lg pr-3  " />
+                <InputIcon
+                    className={clsx(
+                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded pr-3 focus-visible:outline-none',
+                        {
+                            [className]: !!className,
+                        },
+                    )}
+                />
             }
             {...props}
         >
-            <button onClick={goToday} className="flex ml-3 bg-transparent text-secondary border-0 text-sm font-medium pb-2">
+            <button onClick={() => onChange(new DateObject())} className="flex ml-3 bg-transparent text-secondary border-0 text-sm font-medium pb-2">
                 تاریخ امروز
             </button>
         </DatePicker>

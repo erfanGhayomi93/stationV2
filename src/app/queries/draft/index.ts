@@ -2,11 +2,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
+import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 ///////////////create draft///////////////////
 const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.draft.Create, { ...param });
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes?.draft.Create as string, { ...param });
         return data.result || [];
     } catch {
         return [];
@@ -22,20 +25,23 @@ export const useCreateDraft = () => {
 };
 
 ////////////////get draft////////////////////////
-export const getDraftFn = async (params: string = '') => {
+export const getDraftFn = async () => {
+    const apiRoutes = getApiPath();
+
     try {
-        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?Side=None' + params || '');
+        let { data } = await AXIOS.get(apiRoutes?.draft.Get as string);
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useGetDraft = (params?: string) => {
-    return useQuery(['draftList'], () => getDraftFn(params), {
+export const useGetDraft = () => {
+    return useQuery(['draftList'], getDraftFn, {
         select: (data: IDraftSelected[]) =>
             data.map((item: IDraftSelected) => ({
                 id: item.id,
+                customers : item.customers,
                 customerTitles: item.customerTitles,
                 symbolTitle: item.symbolTitle,
                 side: item.side,
@@ -47,8 +53,10 @@ export const useGetDraft = (params?: string) => {
     });
 };
 ////////////////delete draft////////////////////////
-const deleteDraftQuery = async (id: number) : Promise<number | []> => {
-    let { data } = await AXIOS.post(apiRoutes.draft.Delete + '?draftId=' + id);
+const deleteDraftQuery = async (id: number): Promise<number | []> => {
+    const apiRoutes = getApiPath();
+
+    let { data } = await AXIOS.post((apiRoutes?.draft.Delete as string) + '?draftId=' + id);
     return data.result || [];
 };
 

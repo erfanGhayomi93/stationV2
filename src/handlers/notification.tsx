@@ -1,5 +1,8 @@
+import { toast } from 'react-toastify';
+
 //
-export const apiErrorHandler = (reqApiError: string[]) => {
+export const apiErrorHandler = (data: string[]) => {
+    // console.log({ reqApiError });
     //
     // let errorMessage = '';
     // if (Array.isArray(reqApiError)) {
@@ -22,11 +25,14 @@ export const apiErrorHandler = (reqApiError: string[]) => {
 //
 //
 // Success
-export const onSuccessNotif: (options?: any) => void = (options = {}) => {};
-
+export const onSuccessNotif = (options: any) => {
+    toast.success(options.title);
+};
 //
 //
 //
 //
 // Error
-export const onErrorNotif: (options?: any) => void = (options = {}) => {};
+export const onErrorNotif = (options: any) => {
+    toast.error(options.title);
+};

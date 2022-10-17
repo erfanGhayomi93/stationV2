@@ -51,7 +51,7 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
 
 export default FilterTable;
 
-const sideOption: {
+export const sideOption: {
     label: string;
     value: string;
 }[] = [

@@ -5,8 +5,9 @@ import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
 
 const initialState: WathclistState = {
-    selectedWatchlist: undefined,
+    selectedWatchlist: 0,
     editMode: false,
+    selectedDefaultWatchlist: 'EffectiveOnIndex',
 };
 const useValue = () => useReducer(WatchlistReducer, initialState);
 export const { Provider: WatchListsProvider, useTrackedState: useTrackedState, useUpdate: useSetState } = createContainer(useValue);

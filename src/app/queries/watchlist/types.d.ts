@@ -91,3 +91,7 @@ interface ISymbolType {
     groupState: GroupState;
     symbolState: string;
 }
+
+interface IWatchlistSymbolTableType extends ISymbolType {
+    symbolISIN: string;
+}

@@ -10,9 +10,11 @@ import RouteWrapper from 'src/common/components/RouteWrapper';
 import AppLayout from 'src/app/Layout';
 import CrashPage from 'src/pages/PageCrash';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { useGlobalSettings } from './queries/settings';
+import { getApiPath, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import apiRoutes from 'src/api/apiRoutes';
 
 const App = () => {
-    //
     const {
         global: { appState },
     } = useAppValues();
@@ -27,10 +29,10 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        fetchUser(appDispatch);
-    }, []);
+        appState === 'Loading' && fetchUser(appDispatch);
+    }, [appState]);
 
-    if (appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
+    if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
     if (appState === 'Crashed') return <CrashPage />;
 
     return (

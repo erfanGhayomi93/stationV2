@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { valueFormatterCustomerTitle, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
@@ -10,13 +12,18 @@ const Drafts = () => {
     const { data: dataBeforeFilter } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter });
     const { mutate } = useDeleteDraft();
-    const handleDelete = (id: number) => {
-        mutate(id);
+    const handleDelete = (data: IDraftSelected) => {
+        mutate(data.id);
+    };
+
+    const appDispath = useAppDispatch();
+    const handleEdit = (data: IDraftSelected) => {
+        appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
         (): ColDefType<IDraftSelected>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitles', checkboxSelection: true },
+            { headerName: 'مشتری یا گروه مشتری', field: 'customers', checkboxSelection: true, valueFormatter: valueFormatterCustomerTitle },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
@@ -25,7 +32,14 @@ const Drafts = () => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => <ActionCell id={row.data.id} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} />,
+                cellRenderer: (row: any) => (
+                    <ActionCell
+                        data={row.data}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
+                ),
             },
         ],
         [],

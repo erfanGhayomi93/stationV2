@@ -6,7 +6,7 @@ import { ChevronIcon, ChevronUpDownIcon } from 'src/common/icons';
 interface ISelectType {
     onChange: (value: any) => void;
     value?: string;
-    children: JSX.Element[];
+    children: JSX.Element[] | JSX.Element;
     placeholder?: string;
     label?: JSX.Element;
     title?: string;
