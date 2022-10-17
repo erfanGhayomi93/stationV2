@@ -1,12 +1,12 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis, getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const getCommission = async () => {
     const apiRoutes = getApiPath();
 
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICommissionTypeResultType>>(apiRoutes?.Commission.Get as string, {});
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICommissionTypeResultType>>(Apis().Commission.Get as string, {});
     return data?.result;
 };
 // prettier-ignore
