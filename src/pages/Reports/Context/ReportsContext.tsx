@@ -6,11 +6,9 @@ import { ReportsReducer } from './ReportsReducer';
 
 const initialState: ReportsState = {
     customerISIN: '',
-    side: '',
-    startDate: '',
-    status: '',
+    FromDate: '',
     symbolISIN: '',
-    tillData: '',
+    ToDate: '',
 };
 const useValue = () => useReducer(ReportsReducer, initialState);
 export const { Provider: ReportsProvider, useTrackedState: useReportsState, useUpdate: useReportsDispatch } = createContainer(useValue);

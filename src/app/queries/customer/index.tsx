@@ -48,7 +48,7 @@ export const useMultiCustomerListQuery = <T,>(
     options?: Omit<UseQueryOptions<IGoMultiCustomerType, unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
     return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
-        enabled: !!params,
+        enabled: !!params.term,
         staleTime: 0,
         cacheTime: 0,
         ...options,
