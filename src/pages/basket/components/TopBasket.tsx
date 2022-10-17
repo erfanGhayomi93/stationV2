@@ -1,7 +1,7 @@
-import { useState, useRef, FC, FormEvent, useEffect } from 'react';
+import { useState, FC, useEffect } from 'react';
 import { useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
-import { CloseIcon, EditIcon2, PlusIcon } from 'src/common/icons';
+import { CalendarIcon, CloseIcon, EditIcon2, FiClock, PlusIcon } from 'src/common/icons';
 import { getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from './CreateBasket';
 import EditBasketModal from '../modal/EditBasketModal';
@@ -28,8 +28,8 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
     };
 
     return (
-        <div className="flex gap-6 items-center">
-            <div className="flex gap-4 my-9">
+        <div className="flex gap-6 items-center w-[100%]">
+            <div className="flex gap-4 my-7 max-w-[1200px] overflow-x-auto py-2">
                 {listBasket &&
                     listBasket
                         .filter((item) => item.isPinned)
@@ -38,10 +38,18 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                                 key={item.id}
                                 data-actived={activeBasket === item.id}
                                 onClick={() => saveIndexBasketSelected(item.id)}
-                                className="px-8 py-1 text-center whitespace-nowrap cursor-pointer rounded-3xl text-L-primary-50 dark:text-D-primary-50 bg-L-primary-100 dark:bg-D-primary-100 actived:text-L-basic actived:dark:text-D-basic actived:bg-L-primary-50 actived:dark:bg-D-primary-50"
+                                className="px-2 py-1 text-center whitespace-nowrap cursor-pointer rounded-lg text-L-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-primary-50 actived:dark:bg-D-primary-50 border border-L-gray-350 dark:border-L-gray-350 actived:border-L-primary-50 actived:dark:border-D-primary-50"
                             >
-                                <p>{item.name}</p>
-                                <p>تاریخ ارسال {getFarsiDate(item.sendDate).farsiDayMonth}</p>
+                                <p className="text-xs">{item.name}</p>
+                                <div
+                                    data-actived={activeBasket === item.id}
+                                    className="flex pt-1 text-L-gray-400 dark:text-D-gray-400 actived:text-L-primary-100 actived:dark:text-D-primary-100"
+                                >
+                                    <FiClock width={13} height={13} />
+                                    <p className="pr-1 pl-2 text-xs">{getFarsiDate(item.sendDate).time}</p>
+                                    <CalendarIcon width={10} height={11} />
+                                    <p className="pr-1 text-xs">{getFarsiDate(item.sendDate).farsiDate}</p>
+                                </div>
                             </div>
                         ))}
             </div>

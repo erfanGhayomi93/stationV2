@@ -63,8 +63,8 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
 
     return (
         <>
-            <Modal isOpen={isEditActive} onClose={toggleEditBasket} className="min-h-[20rem] w-[700px] rounded-md h-full grid">
-                <div className="grid grid-rows-min-one">
+            <Modal isOpen={isEditActive} onClose={toggleEditBasket} className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic">
+                <div className="grid grid-rows-min-one ">
                     <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                         <div>ویرایش سبد</div>
                         <CloseIcon onClick={toggleEditBasket} className="cursor-pointer" />
@@ -72,8 +72,8 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                     <div className="m-4 text-1.2 border-b border-L-gray-350 dark:border-D-gray-350">
                         <div className="flex bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg py-2 text-L-gray-450 dark:text-D-gray-450 font-semibold">
                             <div className="w-full flex items-center justify-center min-w-[160px]">عنوان دیده‌بان</div>
-                            <div className="w-full flex items-center justify-center min-w-[130px]">تاریخ ایجاد</div>
-                            <div className="w-full flex items-center justify-center min-w-[130px]">زمان ایجاد</div>
+                            <div className="w-full flex items-center justify-center min-w-[130px]">تاریخ ارسال</div>
+                            <div className="w-full flex items-center justify-center min-w-[130px]">زمان ارسال</div>
                             <div className="w-full flex items-center justify-center">نمایش</div>
                             <div className="w-full flex items-center justify-center">عملیات</div>
                         </div>

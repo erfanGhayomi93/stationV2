@@ -1,8 +1,9 @@
-import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
+
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 
 ////////////////get Basket////////////////////////
 export const getBasketFn = async () => {
@@ -26,7 +27,16 @@ const setBasketFn = async (param: string): Promise<number> => {
     }
 };
 
-export const useCreateBasket = () => useMutation<number, unknown, string>(setBasketFn);
+export const useCreateBasket = () =>
+    useMutation<number, unknown, string>(setBasketFn, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['BasketList']);
+            onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
+        },
+        onError: () => {
+            onErrorNotif(`متاسفانه انجام نشد`);
+        },
+    });
 ///////////////edit Basket///////////////////
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;
@@ -44,6 +54,10 @@ export const useUpdateBasket = () =>
     useMutation(updateBasketFn, {
         onSuccess: () => {
             queryClient.invalidateQueries(['BasketList']);
+            onSuccessNotif({ title: 'ویرایش سبد با موفقیت حذف شد' });
+        },
+        onError: () => {
+            onErrorNotif(`متاسفانه انجام نشد`);
         },
     });
 ///////////////delete Basket///////////////////
@@ -59,7 +73,11 @@ const deleteBasketFn = async (id: number) => {
 export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
         onSuccess: () => {
+            onSuccessNotif({ title: 'حذف سبد با موفقیت حذف شد' });
             return queryClient.invalidateQueries(['BasketList']);
+        },
+        onError: () => {
+            onErrorNotif(`متاسفانه انجام نشد`);
         },
     });
 
@@ -72,7 +90,15 @@ const createDetailsBasketFn = async (params: any) => {
         return 0;
     }
 };
-export const useCreateDetailsBasket = () => useMutation(createDetailsBasketFn);
+export const useCreateDetailsBasket = () =>
+    useMutation(createDetailsBasketFn, {
+        onSuccess: () => {
+            onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
+        },
+        onError: () => {
+            onErrorNotif(`متاسفانه انجام نشد`);
+        },
+    });
 ////////////////get Basket////////////////////////
 export const getDetailsBasketFn = async (cartId: number | undefined) => {
     try {
@@ -100,6 +126,10 @@ const deleteDetailsBasketFn = async (id: number) => {
 export const useDeleteDetailsBasket = (cartId: number | undefined) =>
     useMutation(deleteDetailsBasketFn, {
         onSuccess: () => {
+            onSuccessNotif({ title: 'حذف مشتری از سبد با موفقیت انجام شد' });
             return queryClient.invalidateQueries(['BasketDetailsList', cartId]);
+        },
+        onError: () => {
+            onErrorNotif(`متاسفانه انجام نشد`);
         },
     });

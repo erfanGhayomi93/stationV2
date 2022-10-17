@@ -1,8 +1,24 @@
+import { useMutation } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import Tooltip from 'src/common/components/Tooltip';
-import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, GearIcon, HomeIcon, MonitorIcon, QMarkIcon, QuitIcon } from 'src/common/icons';
+import {
+    BasketIcon,
+    Customers,
+    Envelope2Icon,
+    EyeFrameIcon,
+    File2Icon,
+    FileIcon,
+    GearIcon,
+    HelpIcon,
+    HomeIcon,
+    MonitorIcon,
+    QMarkIcon,
+    QuitIcon,
+} from 'src/common/icons';
+import { logOutReq } from '../Header/UserActions';
 import { useSliderDispatch, useSliderValue } from './context';
 import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
@@ -28,88 +44,94 @@ const Sider = () => {
         dispatch({ type: SLiderActionEnum.TOGGLE_MENU });
     };
 
+    const { mutate: logOutUser } = useMutation(logOutReq, {
+        onSuccess: (data) => {
+            if (data) unAuthorized();
+        },
+    });
+
     const menuItems = useMemo(
         (): MenuItemType[] => [
             {
                 icon: <HomeIcon height={20} width={20} />,
-                label: 'منو آیتم 1',
+                label: 'صفحه اصلی',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: () => navigate('/'),
-                children: [
-                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },
-                    { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined },
-                ],
             },
             {
                 icon: <BasketIcon height={20} width={20} />,
-                label: 'منو آیتم 2',
+                label: 'سبد معامله گر',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: () => navigate('/basket'),
             },
-            {
-                icon: <BasketIcon height={20} width={20} />,
-                label: 'منو آیتم 3',
-                position: 'top',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: undefined,
-            },
-            {
-                icon: <EyeFrameIcon height={20} width={20} />,
-                label: 'منو آیتم 4',
-                position: 'top',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: undefined,
-            },
-            {
-                icon: <FileIcon height={20} width={20} />,
-                label: 'منو آیتم 5',
-                position: 'top',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: undefined,
-            },
+            // {
+            //     icon: <EyeFrameIcon height={20} width={20} />,
+            //     label: 'دیده بان',
+            //     position: 'top',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     onClick: undefined,
+            // },
             {
                 icon: <FileIcon height={20} width={20} />,
                 label: 'گزارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: () => navigate('/Reports'),
+                onClick: undefined,
             },
+            // {
+            //     icon: <File2Icon height={20} width={20} />,
+            //     label: 'یادداشت ها',
+            //     position: 'top',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     onClick: undefined,
+            // },
+            // {
+            //     icon: <Customers height={20} width={20} />,
+            //     label: 'مشتریان',
+            //     position: 'top',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     onClick: () => navigate('/Reports'),
+            // },
 
+            // {
+            //     icon: <MonitorIcon height={20} width={20} />,
+            //     label: 'تحلیل',
+            //     position: 'bottom',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     onClick: undefined,
+            // },
+            // {
+            //     icon: <GearIcon height={20} width={20} />,
+            //     label: 'تنظیمات',
+            //     position: 'bottom',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     onClick: undefined,
+            //     // children: [
+            //     //     { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 1-1', isActive: false, onClick: undefined },
+            //     //     { icon: <HomeIcon height={20} width={20} />, label: 'زیر منو 2-1', isActive: false, onClick: undefined },
+            //     // ],
+            // },
             {
-                icon: <MonitorIcon height={20} width={20} />,
-                label: 'منو آیتم 8',
+                icon: <HelpIcon height={20} width={20} />,
+                label: 'راهنما',
                 position: 'bottom',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: undefined,
-            },
-            {
-                icon: <GearIcon height={20} width={20} />,
-                label: 'منو آیتم 9',
-                position: 'bottom',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: undefined,
-            },
-            {
-                icon: <QMarkIcon height={20} width={20} />,
-                label: 'منو آیتم 10',
-                position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: () => navigate('/Help'),
             },
             {
                 icon: <Envelope2Icon height={20} width={20} />,
-                label: 'پیام‌ها',
+                label: 'پیام های بازار',
                 position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
@@ -117,11 +139,11 @@ const Sider = () => {
             },
             {
                 icon: <QuitIcon height={20} width={20} />,
-                label: 'منو آیتم 12',
+                label: 'خروج',
                 position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => logOutUser(),
             },
         ],
         [],

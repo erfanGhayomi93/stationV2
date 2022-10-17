@@ -25,11 +25,14 @@ export const apiErrorHandler = (data: string[]) => {
 //
 //
 // Success
-export const onSuccessNotif: (options?: any) => void = (options = {}) => {};
-
+export const onSuccessNotif = (options: any) => {
+    toast.success(options.title);
+};
 //
 //
 //
 //
 // Error
-export const onErrorNotif: (options?: any) => void = (options = {}) => {};
+export const onErrorNotif = (options: any) => {
+    toast.error(options.title);
+};
