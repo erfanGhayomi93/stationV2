@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { pushEngine } from 'src/api/pushEngine';
 import apiRoutes from 'src/api/apiRoutes';
-import { useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let MESSAGE_IDS: any = [];
 
@@ -334,7 +334,7 @@ const useMarketDepth = () => {
     const fetchMarketDepth = (symbolISIN: any) =>
         new Promise((done, reject) => {
             const { apiRoutes } = useApiPath();
-            const url = (apiRoutes?.MarketDepth.Get as string) + '?SymbolISIN=' + symbolISIN;
+            const url = (Apis().MarketDepth.Get as string) + '?SymbolISIN=' + symbolISIN;
             const xhr = new XMLHttpRequest();
             xhr.open('get', url);
 

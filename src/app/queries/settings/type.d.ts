@@ -67,6 +67,8 @@ interface IApiRoutesTypes {
         Edit: string;
         Delete: string;
         CreateDetail: string;
+        GetDetail: string;
+        DeleteDetails: string;
     };
     Commission: { Get: string };
     WatchList: {
