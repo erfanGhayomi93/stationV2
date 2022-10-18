@@ -34,7 +34,7 @@ export const useCreateBasket = () =>
             onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
         },
         onError: () => {
-            onErrorNotif(`متاسفانه انجام نشد`);
+            onErrorNotif();
         },
     });
 ///////////////edit Basket///////////////////
@@ -57,7 +57,7 @@ export const useUpdateBasket = () =>
             onSuccessNotif({ title: 'ویرایش سبد با موفقیت حذف شد' });
         },
         onError: () => {
-            onErrorNotif(`متاسفانه انجام نشد`);
+            onErrorNotif();
         },
     });
 ///////////////delete Basket///////////////////
@@ -77,7 +77,7 @@ export const useDeleteBasket = () =>
             return queryClient.invalidateQueries(['BasketList']);
         },
         onError: () => {
-            onErrorNotif(`متاسفانه انجام نشد`);
+            onErrorNotif();
         },
     });
 
@@ -96,7 +96,7 @@ export const useCreateDetailsBasket = () =>
             onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
         },
         onError: () => {
-            onErrorNotif(`متاسفانه انجام نشد`);
+            onErrorNotif();
         },
     });
 ////////////////get Basket////////////////////////
@@ -130,6 +130,6 @@ export const useDeleteDetailsBasket = (cartId: number | undefined) =>
             return queryClient.invalidateQueries(['BasketDetailsList', cartId]);
         },
         onError: () => {
-            onErrorNotif(`متاسفانه انجام نشد`);
+            onErrorNotif();
         },
     });

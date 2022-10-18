@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { base64 } from 'src/utils/helpers';
 import { useCaptcha, useLoginFormSubmit } from './queries';
@@ -8,14 +8,13 @@ import logo from 'src/assets/images/logo.svg';
 import { RefreshIcon } from 'src/common/icons';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { captions } from 'src/constant/captions';
-import { Link, useNavigate } from 'react-router-dom';
-import { unAuthorizedRoutes } from 'src/app/routes/appRoutes';
+import { useNavigate } from 'react-router-dom';
 import { setAuthorizeData } from 'src/api/axiosInstance';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppUser } from 'src/redux/slices/global';
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { onErrorNotif } from 'src/handlers/notification';
 
 interface ErrorTypes {
     userName?: string;
@@ -47,11 +46,11 @@ const Login = () => {
             if (response?.data.result.loginResultType === 'InvalidCaptcha') {
                 queryClient.invalidateQueries(['Captcha']);
                 setCaptchaValue('');
-                toast.error(response?.data.result.loginResultType);
+                onErrorNotif({ title: response?.data.result.loginResultType });
             } else {
                 queryClient.invalidateQueries(['Captcha']);
                 setCaptchaValue('');
-                toast.error(response?.data.result.loginResultType);
+                onErrorNotif({ title: response?.data.result.loginResultType as string });
             }
         },
     });
