@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import Select, { SelectOption } from 'src/common/components/Select';
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface IWatchlistControllerType {}
 
@@ -49,6 +50,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
     const openEditModal = () => {
         setState({ type: 'TOGGLE_EDIT_MODE', value: true });
     };
+    const { t } = useTranslation();
 
     return (
         <div className="py-2 flex justify-between w-full ">
@@ -119,12 +121,12 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                     <div className="grow min-w-[12.5rem]">
                         <Select
                             onChange={(select) => setDefaultWatchlist(select as any)}
-                            value={i18next.t('defaultWlOption.' + state.selectedDefaultWatchlist)}
+                            value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
                         >
                             {defaultWatchlists?.map((item, inx) => (
                                 <SelectOption
                                     key={inx}
-                                    label={i18next.t('defaultWlOption.' + item)}
+                                    label={t('defaultWlOption.' + item)}
                                     value={item}
                                     className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                                 />

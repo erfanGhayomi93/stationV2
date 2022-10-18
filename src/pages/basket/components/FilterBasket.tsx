@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import { useState, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
 import Select, { SelectOption } from 'src/common/components/Select';
 import { ExcelIcon, FilterIcon } from 'src/common/icons';
@@ -38,6 +39,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
         handleFilter(initialDataFilterBasket);
     };
 
+    const { t } = useTranslation();
     return (
         <div className="gap-6">
             <div className="flex justify-between items-center">
@@ -90,13 +92,13 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                         <div className="mt-2 w-[206px]">
                             <Select
                                 onChange={(selected) => handleChange('side', selected)}
-                                value={i18next.t('BSModal.' + dataFilter.side + '_side_tn')}
+                                value={t('BSModal.' + dataFilter.side + '_side_tn')}
                                 title=""
                             >
                                 {sideOption.map((item, ind) => (
                                     <SelectOption
                                         key={ind}
-                                        label={i18next.t('BSModal.' + item.value + '_side_tn')}
+                                        label={t('BSModal.' + item.value + '_side_tn')}
                                         value={item.value}
                                         className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                                     />

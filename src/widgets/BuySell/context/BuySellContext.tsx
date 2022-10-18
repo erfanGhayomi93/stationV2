@@ -5,7 +5,7 @@ import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
 interface IBuySellWidgetType {}
 
-const initialState: BuySellState = {
+export const BuySellInitialState: BuySellState = {
     price: 0,
     quantity: 0,
     validity: 'Day',
@@ -18,7 +18,7 @@ const initialState: BuySellState = {
     amount: 0,
     side: 'Buy',
 };
-const useValue = () => useReducer(BuySellReducer, initialState);
+const useValue = () => useReducer(BuySellReducer, BuySellInitialState);
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);
 
 const BuySellContext = () => {

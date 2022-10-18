@@ -3,9 +3,19 @@ import CustomerSearchWidget from 'src/widgets/CustomerSearch/context/CustomerSea
 import PortfolioWatchlist from 'src/widgets/PortfolioWatchlist';
 import Reports from 'src/widgets/Reports';
 import SymbolDetail from 'src/widgets/SymbolDetail';
+import { useEffect } from 'react';
+import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { useAppDispatch } from 'src/redux/hooks';
 
 const Home = () => {
     //
+    const appDispatch = useAppDispatch();
+    useEffect(() => {
+        return () => {
+            appDispatch(setSelectedCustomers([]));
+            appDispatch(setSelectedSymbol(''));
+        };
+    }, []);
 
     return (
         <div className="grid gap-2 grid-cols-12 overflow-y-auto  ">

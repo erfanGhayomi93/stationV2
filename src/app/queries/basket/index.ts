@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
 
@@ -90,15 +90,8 @@ const createDetailsBasketFn = async (params: any) => {
         return 0;
     }
 };
-export const useCreateDetailsBasket = () =>
-    useMutation(createDetailsBasketFn, {
-        onSuccess: () => {
-            onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
+export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
+    useMutation(createDetailsBasketFn, { ...options });
 ////////////////get Basket////////////////////////
 export const getDetailsBasketFn = async (cartId: number | undefined) => {
     try {

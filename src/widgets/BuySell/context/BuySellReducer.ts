@@ -1,3 +1,5 @@
+import { BuySellInitialState } from './BuySellContext';
+
 export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuySellState => {
     switch (action.type) {
         case 'SET_PRICE':
@@ -60,6 +62,8 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 side: action.value,
             };
+        case 'RESET':
+            return { ...BuySellInitialState, sequential: true };
         default:
             return state;
     }

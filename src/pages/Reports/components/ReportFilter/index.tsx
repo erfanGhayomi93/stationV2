@@ -12,6 +12,7 @@ import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { useOrderLists } from 'src/app/queries/order';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
     label?: string;
     children: JSX.Element;
@@ -26,6 +27,7 @@ const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
     );
 };
 export const ReportFilter = () => {
+    const { t } = useTranslation();
     const [selectedCustomer, setSelectedCustomer] = useState<IGoCustomerSearchResult[]>([]);
     const [selectedSymbol, setSelectedSymbol] = useState<SymbolSearchResult[]>([]);
     const { setStartDate, setSide, setTillDate, setStatus, setSymbol, setCustomer } = useReportDispatch();
@@ -119,7 +121,7 @@ export const ReportFilter = () => {
                             {REPORT_STATUS_OPTIONS.map((item, inx) => (
                                 <SelectOption
                                     key={inx}
-                                    label={i18next.t('OrderState.' + item.value)}
+                                    label={t('OrderState.' + item.value)}
                                     value={item.value}
                                     className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
                                 />
@@ -137,7 +139,7 @@ export const ReportFilter = () => {
                             {REPORT_SIDE_OPTIONS.map((item, inx) => (
                                 <SelectOption
                                     key={inx}
-                                    label={i18next.t('OrderSide.' + item.value)}
+                                    label={t('OrderSide.' + item.value)}
                                     value={item.value}
                                     className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
                                 />
