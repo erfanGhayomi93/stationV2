@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { useMemo, FC } from 'react';
 import { useSingleDeleteOrders, useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
@@ -7,12 +8,15 @@ import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
-
-const OpenOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: "OnBoard" });
+type IOpenOrders = {
+    ClickLeftNode: any;
+};
+const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
+    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders();
     const appDispath = useAppDispatch();
+    const { isFilter } = ClickLeftNode;
 
     const handleDelete = (data: IOrderSelected) => {
         mutate(data.orderId);
@@ -51,8 +55,15 @@ const OpenOrders = () => {
     );
 
     return (
-        <div className="w-full h-[calc(100%-50px)] p-3">
-            <FilterTable {...{ FilterData, handleChangeFilterData }} />
+        <div
+            className={clsx('w-full p-3', {
+                'h-full': !isFilter,
+                'h-[calc(100%-50px)]': isFilter,
+            })}
+        >
+            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+                <FilterTable {...{ FilterData, handleChangeFilterData }} />
+            </div>
             <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
         </div>
     );

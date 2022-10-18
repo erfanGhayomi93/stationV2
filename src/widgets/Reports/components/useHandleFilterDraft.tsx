@@ -23,10 +23,14 @@ function useHandleFilterDraft({ dataBeforeFilter }: handleFilter) {
 
         if (!dataBeforeFilter) return [];
         return (dataBeforeFilter as any).filter((item: IDraftSelected) => {
-            let customerTitlesStr = String(item.customerTitles)
+            let customerTitlesStr = String(item.customers.map(i => i.customerTitle));
             if (!customerTitle && !symbolTitle && !side) return true;
-            else if (customerTitle && customerTitlesStr.includes(customerTitle)) return true;
-            else if (symbolTitle && item.symbolTitle.includes(symbolTitle)) return true;
+            else if (customerTitle && customerTitlesStr.includes(customerTitle)) {
+                return true;
+            }
+            else if (symbolTitle && item.symbolTitle && item.symbolTitle.includes(symbolTitle)) {
+                return true
+            }
             else if (side && item.side.includes(side)) return true;
             return false;
         });

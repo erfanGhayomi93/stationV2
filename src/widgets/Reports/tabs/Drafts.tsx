@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { useMemo, FC } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
@@ -7,11 +8,15 @@ import { valueFormatterCustomerTitle, valueFormatterSide, valueFormatterValidity
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
-
-const Drafts = () => {
+type IDraft = {
+    ClickLeftNode: any;
+};
+const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter });
     const { mutate } = useDeleteDraft();
+    const { isFilter } = ClickLeftNode;
+
     const handleDelete = (data: IDraftSelected) => {
         mutate(data.id);
     };
@@ -51,9 +56,15 @@ const Drafts = () => {
 
     //
     return (
-        <div className="w-full p-3 h-[calc(100%-50px)]">
-            <FilterTable {...{ FilterData, handleChangeFilterData }} />
-
+        <div
+            className={clsx('w-full p-3', {
+                'h-full': !isFilter,
+                'h-[calc(100%-50px)]': isFilter,
+            })}
+        >
+            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+                <FilterTable {...{ FilterData, handleChangeFilterData }} />
+            </div>
             <AGTable
                 rowData={dataAfterfilter}
                 columnDefs={columns}

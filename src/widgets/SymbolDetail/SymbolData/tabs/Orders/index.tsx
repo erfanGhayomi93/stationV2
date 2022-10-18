@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useMemo, useCallback, useState } from 'react';
 import { useAppValues } from 'src/redux/hooks';
 import useMarketDepth from './useMarketDepth';
 import HalfRowType from './HalfRow';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import clsx from 'clsx';
 
 type HalfRowType = {
     price: number;
@@ -85,9 +86,11 @@ const Orders = () => {
     }, [selectedSymbol]);
 
     return (
-        <div className="w-full h-full flex pt-2 ">
-            <div className="w-1/2 border-l h-full dark:border-D-gray-350 border-L-gray-350">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
+        <div
+            className={clsx('w-full h-[33px] flex pt-2')}
+        >
+            <div className="w-1/2 h-full dark:border-D-gray-350 border-L-gray-350">
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 sticky top-0 right-0">
                     <span className="ml-4">تعداد</span>
                     <span>حجم</span>
                     <span className="mr-auto">قیمت</span>
@@ -110,7 +113,7 @@ const Orders = () => {
                 </div>
             </div>
             <div className="w-1/2 border-r h-full dark:border-D-gray-350 border-L-gray-350">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350 sticky top-0 right-0">
                     <span className="ml-auto">قیمت</span>
                     <span>حجم</span>
                     <span className="mr-4">تعداد</span>
