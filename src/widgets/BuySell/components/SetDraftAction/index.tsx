@@ -1,21 +1,37 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
-import { useCreateDraft, } from 'src/app/queries/draft';
-import { useAppValues } from 'src/redux/hooks';
-import { useBuySellState } from '../../context/BuySellContext';
+import { useCreateDraft } from 'src/app/queries/draft';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { handleValidity } from 'src/utils/helpers';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetDraftActionType {}
 
 const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
-    const { mutate } = useCreateDraft();
+    const { side, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent } = useBuySellState();
+    const queryClient = useQueryClient();
+    const dispatch = useBuySellDispatch();
+    const appDispatch = useAppDispatch();
+    const { mutate } = useCreateDraft({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['draftList']);
+
+            if (sequential) {
+                dispatch({ type: 'RESET' });
+                appDispatch(setSelectedCustomers([]));
+                appDispatch(setSelectedSymbol(''));
+            }
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
     const {
         option: { selectedCustomers },
     } = useAppValues();
-    const { side, price, quantity, strategy, symbolISIN, validity, validityDate, percent } = useBuySellState();
-
-    const handleValidity = () => {
-        if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
-        return validity;
-    };
 
     const handleDraft = () => {
         let isins = selectedCustomers.map((c) => c.customerISIN);
@@ -26,7 +42,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             price: price,
             quantity: quantity,
             side: side,
-            validity: handleValidity(),
+            validity: handleValidity(validity),
             validityDate: validityDate,
             customerISINs: isinsCommaSeparator,
             percent: percent || 0,

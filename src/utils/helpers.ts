@@ -1,4 +1,5 @@
 import { onSuccessNotif } from 'src/handlers/notification';
+import i18next from 'i18next';
 
 //
 export const seprateNumber = (num: number | undefined): any => {
@@ -60,8 +61,7 @@ export const copyTextToClipboard = (text: string) => {
         const successful = document.execCommand('copy');
         successful &&
             onSuccessNotif({
-                message: 'کپی',
-                description: 'متن مورد نظر در حافظه کپی شد',
+                title: 'متن مورد نظر در حافظه کپی شد',
             });
 
         if (!successful) console.error('Fallback: unable to copy', 'document.execCommand');
@@ -269,6 +269,7 @@ export const getFarsiDate = (timeStamp: string) => {
         farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
             farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
         }`,
+        farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
 
@@ -302,16 +303,39 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    if (data.value === 'Buy') return 'خرید';
-    else if (data.value === 'Sell') return 'فروش';
+    if (data.value === 'Buy') return i18next.t('BSModal.Buy_side_tn');
+    else if (data.value === 'Sell') return i18next.t('BSModal.Sell_side_tn');
+    else if (data.value === 'Cross') return i18next.t('BSModal.Cross_side_tn');
     else return 'نامشخص';
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.value === 'FillAndKill') return 'انجام و حذف';
-    else if (data.value === 'GoodTillCancelled') return 'معتبر تا لغو';
+    if (data.value === 'FillAndKill') return i18next.t('BSModal.validity_FillAndKill');
+    else if (data.value === 'GoodTillCancelled') return i18next.t('BSModal.validity_GoodTillCancelled');
     else if (data.value === 'GoodTillDate') return getFarsiDate(data.data.validityDate).farsiDate;
     return data.value;
+};
+
+export const valueFormatterDate = (data: any) => {
+    return getFarsiDate(data.value).farsiDate;
+};
+
+export const valueFormatterCustomerTitle = (data: any) => {
+    const customerTitle = data.value.map((item: any) => item.customerTitle);
+
+    return String(customerTitle);
+};
+
+export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: number): string => {
+    if (pageNumber && pageSize) {
+        return ((pageNumber - 1) * pageSize + (data.node.rowIndex + 1)).toString();
+    }
+    return data.node.rowIndex + 1;
+};
+
+export const handleValidity = (validity: string): string => {
+    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    return validity;
 };
 
 export const abbreviateNumber = (number: number) => {

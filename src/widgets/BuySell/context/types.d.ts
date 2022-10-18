@@ -27,4 +27,5 @@ type BuySellAction =
     | { type: 'SET_PERCENT'; value: number }
     | { type: 'SET_AMOUNT'; value: number }
     | { type: 'TOGGLE_CALCULATOR'; value: boolean }
-    | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide };
+    | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide }
+    | { type: 'RESET' };

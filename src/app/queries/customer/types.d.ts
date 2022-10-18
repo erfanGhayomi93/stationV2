@@ -6,6 +6,15 @@ interface IGoCustomerResult {
     typeCounts: TypeCount[];
 }
 
+interface IGoMultiCustomerType {
+    customerType: string;
+    customerTitle: string;
+    customerISIN: string;
+    nationalCode: string;
+    bourseCode: string;
+    purchasePower: number;
+}
+
 interface PaginatedSearchResult {
     errors: null | string[];
     hasNextPage: boolean;
@@ -22,7 +31,7 @@ interface IGoCustomerSearchResult {
     customerISIN: string;
     balance: number;
     bourseCode: string;
-    nationalCode: string;
+    nationalCode: number;
     groupName: string;
     groupId: number;
 }
@@ -35,6 +44,11 @@ interface TypeCount {
 interface IGoCustomerRequest extends IPaginateRequest {
     term?: string;
     type?: ICustomerTypeType;
+}
+type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag';
+interface IGoCustomerRequestType {
+    term?: string;
+    type?: ICustomerMultiTypeType[];
 }
 
 interface ICustomerInformationResultType {

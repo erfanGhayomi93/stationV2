@@ -1,17 +1,22 @@
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { useMemo, FC } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { valueFormatterCustomerTitle, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
-
-const Drafts = () => {
+type IDraft = {
+    ClickLeftNode: any;
+};
+const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter });
     const { mutate } = useDeleteDraft();
+    const { isFilter } = ClickLeftNode;
+
     const handleDelete = (data: IDraftSelected) => {
         mutate(data.id);
     };
@@ -23,7 +28,7 @@ const Drafts = () => {
 
     const columns = useMemo(
         (): ColDefType<IDraftSelected>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitles', checkboxSelection: true },
+            { headerName: 'مشتری یا گروه مشتری', field: 'customers', checkboxSelection: true, valueFormatter: valueFormatterCustomerTitle },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
@@ -33,7 +38,12 @@ const Drafts = () => {
                 headerName: 'عملیات',
                 field: 'customTitle',
                 cellRenderer: (row: any) => (
-                    <ActionCell data={row.data} type={TypeActionEnum.DRAFt} handleDelete={handleDelete} handleEdit={handleEdit} />
+                    <ActionCell
+                        data={row.data}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                    />
                 ),
             },
         ],
@@ -46,9 +56,15 @@ const Drafts = () => {
 
     //
     return (
-        <div className="w-full p-3 h-[calc(100%-50px)]">
-            <FilterTable {...{ FilterData, handleChangeFilterData }} />
-
+        <div
+            className={clsx('w-full p-3', {
+                'h-full': !isFilter,
+                'h-[calc(100%-50px)]': isFilter,
+            })}
+        >
+            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+                <FilterTable {...{ FilterData, handleChangeFilterData }} />
+            </div>
             <AGTable
                 rowData={dataAfterfilter}
                 columnDefs={columns}

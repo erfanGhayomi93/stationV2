@@ -1,0 +1,22 @@
+export const REPORT_SIDE_OPTIONS = [{ value: 'Cross' }, { value: 'Buy' }, { value: 'Sell' }];
+export const REPORT_STATUS_OPTIONS = [
+    { value: 'InOMSQueue' },
+    { value: 'OnSending' },
+    { value: 'Error' },
+    { value: 'DeleteByEngine' },
+    { value: 'OnBoard' },
+    { value: 'Canceled' },
+    { value: 'OnModifyFrom' },
+    { value: 'OnModifyTo' },
+    { value: 'Modified' },
+    { value: 'OnBoardModify' },
+    { value: 'PartOfTheOrderDone' },
+    { value: 'OrderDone' },
+    { value: 'OnCanceling' },
+    { value: 'OnModifyError' },
+    { value: 'OnCancelError' },
+    { value: 'Expired' },
+    { value: 'RejectByGAP' },
+    { value: 'OnCancelingWithBroker' },
+    { value: 'TradeCancel' },
+];

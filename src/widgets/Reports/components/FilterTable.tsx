@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
 import Select, { SelectOption } from 'src/common/components/Select';
 
@@ -8,11 +9,10 @@ type FilterData = {
         symbolTitle: string;
         side: string;
     };
-    handleChangeFilterData: (type: string, data: string) => void; 
-    
+    handleChangeFilterData: (type: string, data: string) => void;
 };
-
 function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
+    const { t } = useTranslation();
     return (
         <div className="pb-4 flex items-center gap-8">
             <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md w-[136px]">
@@ -32,13 +32,13 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
             <div className="w-[175px]">
                 <Select
                     onChange={(selected) => handleChangeFilterData('side', selected)}
-                    value={i18next.t('BSModal.' + FilterData.side + '_side_tn')}
+                    value={t('BSModal.' + FilterData.side + '_side_tn')}
                     title="سمت:"
                 >
                     {sideOption.map((item, ind) => (
                         <SelectOption
                             key={ind}
-                            label={i18next.t('BSModal.' + item.value + '_side_tn')}
+                            label={t('BSModal.' + item.value + '_side_tn')}
                             value={item.value}
                             className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                         />
@@ -51,7 +51,7 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
 
 export default FilterTable;
 
-const sideOption: {
+export const sideOption: {
     label: string;
     value: string;
 }[] = [

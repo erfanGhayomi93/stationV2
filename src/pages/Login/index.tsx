@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { base64 } from 'src/utils/helpers';
 import { useCaptcha, useLoginFormSubmit } from './queries';
@@ -8,14 +8,13 @@ import logo from 'src/assets/images/logo.svg';
 import { RefreshIcon } from 'src/common/icons';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { captions } from 'src/constant/captions';
-import { Link, useNavigate } from 'react-router-dom';
-import { unAuthorizedRoutes } from 'src/app/routes/appRoutes';
+import { useNavigate } from 'react-router-dom';
 import { setAuthorizeData } from 'src/api/axiosInstance';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppUser } from 'src/redux/slices/global';
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { onErrorNotif } from 'src/handlers/notification';
 
 interface ErrorTypes {
     userName?: string;
@@ -46,7 +45,12 @@ const Login = () => {
             console.log(response);
             if (response?.data.result.loginResultType === 'InvalidCaptcha') {
                 queryClient.invalidateQueries(['Captcha']);
-                toast.error(response?.data.result.loginResultType);
+                setCaptchaValue('');
+                onErrorNotif({ title: response?.data.result.loginResultType });
+            } else {
+                queryClient.invalidateQueries(['Captcha']);
+                setCaptchaValue('');
+                onErrorNotif({ title: response?.data.result.loginResultType as string });
             }
         },
     });
@@ -58,7 +62,8 @@ const Login = () => {
             userName: userString.length === 0 ? 'نام کاربری الزامی است' : undefined,
         });
     };
-    const onSubmitClick = () => {
+    const onSubmitClick = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setErrors({});
         verifyForm();
         captchaValue &&
@@ -89,61 +94,64 @@ const Login = () => {
                         <div className="w-full flex flex-col px-20 gap-6 pt-5 ">
                             <img src={logo} width={170} />
                             <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('Login.title')}</h3>
-                            <div className="w-full flex flex-col gap-6 pt-5">
-                                <label className="flex flex-col gap-2 ">
-                                    <span className="text-[#35435A] font-semibold pr-0.5">نام کاربری</span>
-                                    <input
-                                        name="username"
-                                        placeholder="username"
-                                        className="border bg-white p-3 rounded-lg border-[#A4B2C9]"
-                                        type="text"
-                                        value={userString}
-                                        onChange={(e) => setUserString(e.target.value)}
-                                    />
-                                    <span className="text-rose-400 text-1.3">{errors?.userName}</span>
-                                </label>
-                                <label className="flex flex-col gap-2 -mb-4 ">
-                                    <span className="text-[#35435A] font-semibold pr-0.5">رمز عبور</span>
-                                    <div className="flex flex-col gap-2 items-end">
-                                        <PasswordInput
-                                            onChange={setPassString}
-                                            classname="bg-white  rounded-lg border-[#A4B2C9] w-full overflow-hidden"
-                                            suffixClassName="text-[#7E93B4]"
-                                        />
-                                        <div className="flex w-full justify-between">
-                                            <span className="text-rose-400 text-1.3">{errors?.password}</span>
-                                            <button className="text-[#7E93B4] px-2 opacity-0">رمز عبور خود را فراموش کردم</button>
-                                        </div>
-                                    </div>
-                                </label>
-                                <label className="flex flex-col gap-2 w-full">
-                                    <span className="text-[#35435A] font-semibold pr-0.5">کد امنیتی</span>
-                                    <div className="items-center flex  overflow-hidden border bg-white  rounded-lg border-[#A4B2C9]">
+                            <form onSubmit={(e) => onSubmitClick(e)}>
+                                <div className="w-full flex flex-col gap-6 pt-5">
+                                    <label className="flex flex-col gap-2 ">
+                                        <span className="text-[#35435A] font-semibold pr-0.5">نام کاربری</span>
                                         <input
-                                            className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center"
+                                            name="username"
+                                            placeholder="username"
+                                            className="border bg-white p-3 rounded-lg border-[#A4B2C9]"
                                             type="text"
-                                            value={captchaValue}
-                                            maxLength={5}
-                                            minLength={5}
-                                            onChange={(e) => setCaptchaValue(e?.target?.value || '')}
+                                            value={userString}
+                                            onChange={(e) => setUserString(e.target.value)}
                                         />
-                                        <button
-                                            onClick={() => queryClient.invalidateQueries(['Captcha'])}
-                                            className="h-full flex items-center justify-center aspect-square hover:bg-slate-200 text-slate-500 p-1"
-                                        >
-                                            <RefreshIcon />
-                                        </button>
-                                        <div>
-                                            <img className="min-h-[46px]" src={captchaData?.base64String || ''} alt="captcha" />
+                                        <span className="text-rose-400 text-1.3">{errors?.userName}</span>
+                                    </label>
+                                    <label className="flex flex-col gap-2 -mb-4 ">
+                                        <span className="text-[#35435A] font-semibold pr-0.5">رمز عبور</span>
+                                        <div className="flex flex-col gap-2 items-end">
+                                            <PasswordInput
+                                                onChange={setPassString}
+                                                classname="bg-white  rounded-lg border-[#A4B2C9] w-full overflow-hidden"
+                                                suffixClassName="text-[#7E93B4]"
+                                            />
+                                            <div className="flex w-full justify-between">
+                                                <span className="text-rose-400 text-1.3">{errors?.password}</span>
+                                                <button className="text-[#7E93B4] px-2 opacity-0">رمز عبور خود را فراموش کردم</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <span className="text-rose-400 text-1.3">{errors?.captcha}</span>
-                                </label>
+                                    </label>
+                                    <label className="flex flex-col gap-2 w-full">
+                                        <span className="text-[#35435A] font-semibold pr-0.5">کد امنیتی</span>
+                                        <div className="items-center flex  overflow-hidden border bg-white  rounded-lg border-[#A4B2C9]">
+                                            <input
+                                                className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center"
+                                                type="text"
+                                                value={captchaValue}
+                                                maxLength={5}
+                                                minLength={5}
+                                                onChange={(e) => setCaptchaValue(e?.target?.value || '')}
+                                            />
+                                            <button
+                                                type={'button'}
+                                                onClick={() => queryClient.invalidateQueries(['Captcha'])}
+                                                className="h-full flex items-center justify-center aspect-square hover:bg-slate-200 text-slate-500 p-1"
+                                            >
+                                                <RefreshIcon />
+                                            </button>
+                                            <div>
+                                                <img className="min-h-[46px]" src={captchaData?.base64String || ''} alt="captcha" />
+                                            </div>
+                                        </div>
+                                        <span className="text-rose-400 text-1.3">{errors?.captcha}</span>
+                                    </label>
 
-                                <button className="bg-L-primary-50 hover:bg-opacity-75 py-3 rounded-md text-white" onClick={onSubmitClick}>
-                                    ادامه
-                                </button>
-                            </div>
+                                    <button type={'submit'} className="bg-L-primary-50 hover:bg-opacity-75 py-3 rounded-md text-white">
+                                        ادامه
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                         <div className="grid justify-items-center align-middle">
                             <img src={cover} className="aspect-square " />

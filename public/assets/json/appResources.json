@@ -17,6 +17,7 @@
         "modalTitle_sendOrder": "ارسال سفارش",
         "Buy_side_tn": "خرید",
         "Sell_side_tn": "فروش",
+        "Cross_side_tn": "دوطرفه",
         "_side_tn": "همه",
         "validity_Day": "روز",
         "validity_Week": "هفته",
@@ -79,5 +80,41 @@
         "SellQueueThreshold": "نمادهای در آستانه صف فروش",
         "FiveDaysPositive": "نمادهای 5 روز معاملاتی مثبت",
         "FiveDaysNegative": "نمادهای 5 روز معاملاتی منفی"
+    },
+    "OrderState": {
+        "InOMSQueue": "در حال پردازش",
+        "OnSending": "منتظر جواب از سیستم معاملات",
+        "Error": "خطا",
+        "DeleteByEngine": "حذف شده توسط سیستم معاملات",
+        "OnBoard": "ثبت در سیستم",
+        "Canceled": "حذف شده",
+        "OnModifyFrom": "درخواست ویرایش به",
+        "OnModifyTo": "در انتظار ویرایش",
+        "Modified": "ویرایش انجام شد",
+        "OnBoardModify": "ثبت در سیستم (ویرایش شده)",
+        "PartOfTheOrderDone": "قسمتی از سفارش انجام شد",
+        "OrderDone": "تمام سفارش اجرا شد",
+        "OnCanceling": "درخواست حذف",
+        "OnModifyError": "ویرایش با خطا مواجه شد",
+        "OnCancelError": "دستور حذف با خطا مواجه شد",
+        "Expired": "منقضی شد",
+        "draft": "پیش ‌نویس",
+        "draftSending": "در حال ارسال پیش‌نویس",
+        "draftDeleting": "در حال حذف پیش‌نویس",
+        "draftEditing": "در حال ویرایش پیش‌نویس",
+        "orderDeleting": "در حال حذف سفارش",
+        "orderEditing": "در حال ویرایش سفارش",
+        "OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
+    },
+    "OrderSide": {
+        "Cross": "دوطرفه",
+        "Buy": "خرید",
+        "Sell": "فروش"
+    },
+
+    "CustomerType": {
+        "Legal": "حقوقی",
+        "Natural": "حقیقی",
+        "CustomerTag": "گروه مشتری"
     }
 }

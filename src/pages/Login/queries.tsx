@@ -4,9 +4,10 @@ import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 
 import { toast } from 'react-toastify';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
-    const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
+    const { data } = await AXIOS.post(Apis().OAuthApi.authorization as string, payload);
     console.log({ data });
     return data?.result || {};
 };
@@ -22,7 +23,7 @@ export const useLoginFormSubmit = <T,>(
 };
 
 const fetchCaptcha = async () => {
-    const res = await axios.get<IGetCaptchaType>(apiRoutes.OAuthApi.captcha);
+    const res = await axios.get<IGetCaptchaType>(Apis().OAuthApi.captcha as string);
     return res.data;
 };
 
@@ -31,5 +32,6 @@ export const useCaptcha = () => {
         onSuccess: (data) => {
             data.result === 'TooRequest' && toast.error(data.result);
         },
+        refetchInterval: 1000 * 60 * 2,
     });
 };

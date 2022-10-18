@@ -2,27 +2,35 @@ import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { setOrder } from 'src/app/queries/order';
-import { useAppValues } from 'src/redux/hooks';
-import { useBuySellState } from '../../context/BuySellContext';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { handleValidity } from 'src/utils/helpers';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetOrderActionType {}
 
 const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent } =
         useBuySellState();
+    const dispatch = useBuySellDispatch();
+    const appDispatch = useAppDispatch();
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
-            toast.info('done');
+            onSuccessNotif();
+            if (sequential) {
+                dispatch({ type: 'RESET' });
+                appDispatch(setSelectedCustomers([]));
+                appDispatch(setSelectedSymbol(''));
+            }
+        },
+        onError: () => {
+            onErrorNotif();
         },
     });
     const {
         option: { selectedCustomers },
     } = useAppValues();
-
-    const handleValidity = () => {
-        if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
-        return validity;
-    };
 
     const handleOrder = () => {
         const isins = selectedCustomers.map((c) => c.customerISIN);
@@ -36,7 +44,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             price: price,
             quantity: quantity,
             symbolISIN: symbolISIN,
-            validity: handleValidity(),
+            validity: handleValidity(validity),
             validityDate: validityDate,
         });
     };

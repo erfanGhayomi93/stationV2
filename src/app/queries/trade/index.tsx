@@ -1,9 +1,10 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const getCommission = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICommissionTypeResultType>>(apiRoutes.Commission.Get, {});
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICommissionTypeResultType>>(Apis().Commission.Get as string, {});
     return data?.result;
 };
 // prettier-ignore
