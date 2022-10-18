@@ -1,4 +1,4 @@
-export const REPORT_SIDE_OPTIONS = [{ value: 'Cross' }, { value: 'None' }, { value: 'Buy' }, { value: 'Sell' }];
+export const REPORT_SIDE_OPTIONS = [{ value: 'Cross' }, { value: 'Buy' }, { value: 'Sell' }];
 export const REPORT_STATUS_OPTIONS = [
     { value: 'InOMSQueue' },
     { value: 'OnSending' },

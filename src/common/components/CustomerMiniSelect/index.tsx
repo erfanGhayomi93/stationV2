@@ -42,9 +42,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
     }
 
     useEffect(() => {
-        // FIXME:double request after set term
         selected.length === 0 && setTerm('');
-        selected.length === 1 && setTerm(selected[0].customerTitle);
     }, [selected]);
 
     const Options = ({ active, content }: IOptionsType) =>

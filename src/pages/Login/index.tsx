@@ -46,8 +46,11 @@ const Login = () => {
             console.log(response);
             if (response?.data.result.loginResultType === 'InvalidCaptcha') {
                 queryClient.invalidateQueries(['Captcha']);
+                setCaptchaValue('');
                 toast.error(response?.data.result.loginResultType);
             } else {
+                queryClient.invalidateQueries(['Captcha']);
+                setCaptchaValue('');
                 toast.error(response?.data.result.loginResultType);
             }
         },
@@ -61,6 +64,7 @@ const Login = () => {
         });
     };
     const onSubmitClick = (e: FormEvent<HTMLFormElement>) => {
+        alert('sumbit');
         e.preventDefault();
         setErrors({});
         verifyForm();
@@ -92,7 +96,7 @@ const Login = () => {
                         <div className="w-full flex flex-col px-20 gap-6 pt-5 ">
                             <img src={logo} width={170} />
                             <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('Login.title')}</h3>
-                            <form onSubmit={onSubmitClick}>
+                            <form onSubmit={(e) => onSubmitClick(e)}>
                                 <div className="w-full flex flex-col gap-6 pt-5">
                                     <label className="flex flex-col gap-2 ">
                                         <span className="text-[#35435A] font-semibold pr-0.5">نام کاربری</span>
@@ -132,6 +136,7 @@ const Login = () => {
                                                 onChange={(e) => setCaptchaValue(e?.target?.value || '')}
                                             />
                                             <button
+                                                type={'button'}
                                                 onClick={() => queryClient.invalidateQueries(['Captcha'])}
                                                 className="h-full flex items-center justify-center aspect-square hover:bg-slate-200 text-slate-500 p-1"
                                             >
