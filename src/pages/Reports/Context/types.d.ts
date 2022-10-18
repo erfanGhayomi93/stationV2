@@ -1,5 +1,5 @@
-type ReportSide = string | undefined;
-type ReportStatus = string | undefined;
+type ReportSide = OrderSideType | undefined;
+type ReportStatus = OrderStatus | undefined;
 type ReportCustomer = string | undefined;
 type ReportSymbol = string | undefined;
 type ReportStartDate = string | undefined;
@@ -8,8 +8,8 @@ type ReportTillDate = string | undefined;
 type ReportsState = {
     customerISIN?: ReportCustomer;
     symbolISIN?: ReportSymbol;
-    startDate?: ReportStartDate;
-    tillData?: ReportTillDate;
+    FromDate?: ReportStartDate;
+    ToDate?: ReportTillDate;
     side?: ReportSide;
     status?: ReportStatus;
 };

@@ -43,7 +43,6 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
 
     useEffect(() => {
         selected.length === 0 && setTerm('');
-        selected.length === 1 && setTerm(selected[0].customerTitle);
     }, [selected]);
 
     const Options = ({ active, content }: IOptionsType) =>
@@ -98,7 +97,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isLoading || isFetching} />
+                    <InputSearch onTypeChange={setType} loading={isFetching} />
 
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
@@ -114,7 +113,7 @@ export default memo(CustomerMiniSelect);
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (
         <>
-            {(isLoading || isFetching) && (
+            {isFetching && (
                 <div className="p-5 flex items-center justify-center w-full h-full">
                     <div className="flex items-center justify-center gap-2 text-L-gray-400">
                         <span>در حال بارگذاری</span>

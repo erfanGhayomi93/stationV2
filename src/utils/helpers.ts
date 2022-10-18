@@ -327,7 +327,10 @@ export const valueFormatterCustomerTitle = (data: any) => {
     return String(customerTitle);
 };
 
-export const valueFormatterIndex = (data: any): string => {
+export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: number): string => {
+    if (pageNumber && pageSize) {
+        return ((pageNumber - 1) * pageSize + (data.node.rowIndex + 1)).toString();
+    }
     return data.node.rowIndex + 1;
 };
 

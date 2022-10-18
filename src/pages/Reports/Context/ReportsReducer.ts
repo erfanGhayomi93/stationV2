@@ -13,12 +13,12 @@ export const ReportsReducer = (state: ReportsState, action: ReportsAction): Repo
         case 'SET_START_DATE':
             return {
                 ...state,
-                startDate: action.value,
+                FromDate: action.value,
             };
         case 'SET_TILL_DATE':
             return {
                 ...state,
-                tillData: action.value,
+                ToDate: action.value,
             };
         case 'SET_STATUS':
             return {

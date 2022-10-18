@@ -3,8 +3,8 @@ import { getGlobalSettings, useGlobalSettings } from 'src/app/queries/settings';
 import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
-    const [apiRoutes, setApiRoutes] = useState<IApiRoutesTypes | undefined>();
-    const { data } = useGlobalSettings<IApiRoutesTypes>();
+    const [apiRoutes, setApiRoutes] = useState<any | undefined>();
+    const { data } = useGlobalSettings<any>();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -71,10 +71,12 @@ export const Apis = () => ({
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
-    OrderUrl: {
+    Orders: {
         Create: getOrderUrl() + '/GTOrder/v1/Create',
         Get: getOrderUrl() + '/GTOrder/v1/GTTodayOrdersList',
         Delete: getOrderUrl() + '/GTOrder/v1/SingleDelete',
+        Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
+        GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
     },
     SupervisorMessage: {
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
