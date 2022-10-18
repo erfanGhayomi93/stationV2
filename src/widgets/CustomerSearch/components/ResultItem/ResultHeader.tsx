@@ -7,9 +7,9 @@ const ResultHeader = () => {
                 <span className="pr-12">نام</span>
             </div>
             <div className="w-4/6 flex items-center justify-center">کد بورسی</div>
+            <div className="w-4/6 flex items-center justify-center">کدملی</div>
             <div className="w-4/6 flex items-center justify-center">قدرت خرید</div>
             <div className="w-4/6 flex items-center justify-center">اعتبار</div>
-            <div className="w-4/6 flex items-center justify-center">دارایی</div>
             <div className="w-4/6 flex items-center justify-center">عملیات</div>
         </div>
     );

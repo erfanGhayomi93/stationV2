@@ -1,9 +1,10 @@
-import DatePicker, { DateObject, Value } from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import clsx from 'clsx';
+import { clearAllListeners } from '@reduxjs/toolkit';
 
 export type DateType = DateObject | DateObject[] | null | string | undefined;
 interface IAdvancedDatePicker<T> {
@@ -12,6 +13,19 @@ interface IAdvancedDatePicker<T> {
     className?: any;
 }
 const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange, className, ...props }) => {
+    const calendarRef = useRef<any>();
+
+    useEffect(() => {
+        function handler(e: any) {
+            if (document?.querySelector('.rmdp-wrapper')?.contains(e?.target)) return;
+            else calendarRef.current?.closeCalendar();
+        }
+
+        if (document) document.addEventListener('click', handler, { capture: true });
+
+        return () => document.removeEventListener('click', handler, { capture: true });
+    }, []);
+
     return (
         <DatePicker
             portal
@@ -22,8 +36,10 @@ const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange
             locale={persian_fa}
             value={typeof value === 'string' ? new DateObject(value) : value}
             onChange={onChange}
+            ref={calendarRef}
             render={
                 <InputIcon
+                    onClick={() => calendarRef.current.openCalendar()}
                     className={clsx(
                         'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded pr-3 focus-visible:outline-none',
                         {

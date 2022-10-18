@@ -25,7 +25,7 @@ function useHandleFilterOrder({ dataBeforeFilter }: handleFilter) {
         return (dataBeforeFilter as any).filter((item: IOrderSelected) => {
             if (!customerTitle && !symbolTitle && !side) return true;
             else if (customerTitle && item.customerTitle.includes(customerTitle)) return true;
-            else if (symbolTitle && item.symbolTitle.includes(symbolTitle)) return true;
+            else if (symbolTitle && item.symbolTitle && item.symbolTitle.includes(symbolTitle)) return true;
             else if (side && item.orderSide.includes(side)) return true;
             return false;
         });
