@@ -16,13 +16,8 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
-
     const onSelectionChanged = (customer: IGoCustomerSearchResult[]) => {
-        //    isChecked
-        //        ?
         appDispatch(setSelectedCustomers(customer));
-        //    : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
     };
 
     const {
@@ -83,28 +78,33 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
         }, [active, content, min]);
 
     return (
-        <div>
-            <Combo.Provider
-                value={term}
-                withDebounce={1000}
-                placeholder="جستجو مشتری / گروه مشتری"
-                onInputChange={(value) => setTerm(value)}
-                onSelectionChange={(selected) => onSelectionChanged(selected)}
-                onPanelVisibiltyChange={(value) => setPanel(value)}
-                onMinimumEntered={setMin}
-                multiple={true}
-                selections={selectedCustomers}
-                keyId={'customerISIN'}
-                showPanel={panel}
-                min={3}
-            >
-                <div>
-                    <InputSearch loading={isFetching} />
-                    <Combo.Panel className="relative z-[90]" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                        <Options />
-                    </Combo.Panel>
+        <div className="flex w-full gap-4 pr-2">
+            <label className="w-full flex items-center justify-center ">
+                <span className="w-[64px] whitespace-nowrap ">مشتری</span>
+                <div className="w-full">
+                    <Combo.Provider
+                        value={term}
+                        withDebounce={1000}
+                        placeholder="جستجو مشتری / گروه مشتری"
+                        onInputChange={(value) => setTerm(value)}
+                        onSelectionChange={(selected) => onSelectionChanged(selected)}
+                        onPanelVisibiltyChange={(value) => setPanel(value)}
+                        onMinimumEntered={setMin}
+                        multiple={true}
+                        selections={selectedCustomers}
+                        keyId={'customerISIN'}
+                        showPanel={panel}
+                        min={3}
+                    >
+                        <div>
+                            <InputSearch loading={isFetching} />
+                            <Combo.Panel className="relative z-[90]" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
+                                <Options />
+                            </Combo.Panel>
+                        </div>
+                    </Combo.Provider>
                 </div>
-            </Combo.Provider>
+            </label>
         </div>
     );
 };

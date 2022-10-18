@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
@@ -14,12 +14,8 @@ const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
     }
 };
 
-export const useCreateDraft = () => {
-    return useMutation(setDraftFn, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['draftList']);
-        },
-    });
+export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], unknown, IDraftRequsetType, unknown>, 'mutationFn'> | undefined) => {
+    return useMutation(setDraftFn, { ...options });
 };
 
 ////////////////get draft////////////////////////
@@ -37,7 +33,7 @@ export const useGetDraft = () => {
         select: (data: IDraftSelected[]) =>
             data.map((item: IDraftSelected) => ({
                 id: item.id,
-                customers : item.customers,
+                customers: item.customers,
                 customerTitles: item.customerTitles,
                 symbolTitle: item.symbolTitle,
                 side: item.side,
