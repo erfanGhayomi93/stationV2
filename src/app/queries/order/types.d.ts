@@ -43,7 +43,7 @@ type IOrderSelected = {
     validity: string;
     validityDate?: string;
 };
-type OrderSideType = 'Cross' | 'None' | 'Buy' | 'Sell';
+type OrderSideType = 'Cross' | 'Buy' | 'Sell';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatusType =
     | 'InOMSQueue'

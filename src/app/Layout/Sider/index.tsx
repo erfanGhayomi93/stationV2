@@ -82,7 +82,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/Reports'),
             },
             // {
             //     icon: <File2Icon height={20} width={20} />,
