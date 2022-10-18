@@ -24,11 +24,11 @@ const CustomerSection = () => {
                 title: <>مشتریان</>,
                 content: <CustomerSearchWidget />,
             },
-            {
-                key: 'Watchlist',
-                title: <>دیده‌بان</>,
-                content: <WatchlistWidget />,
-            },
+            // {
+            //     key: 'Watchlist',
+            //     title: <>دیده‌بان</>,
+            //     content: <WatchlistWidget />,
+            // },
             {
                 key: 'Portfolio',
                 title: <>پرتفوی مشتری</>,

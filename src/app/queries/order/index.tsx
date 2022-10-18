@@ -1,5 +1,4 @@
 import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -14,13 +13,14 @@ export const setOrder = async (params: IOrderRequestType) => {
 };
 
 //////////////getOrder////////////////////
-const getOrderFn = async (param: string) => {
-    let { data } = await AXIOS.get((Apis().Orders.Get as string) + '?side=None&' + param);
+const getOrderFn = async (GtOrderStateRequestType: any) => {
+    let { data } = await AXIOS.get(Apis().OrderUrl.Get as string, { params: { GtOrderStateRequestType } });
+
     return data.result || [];
 };
 
-export const useGetOrders = (param: string) => {
-    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', param], () => getOrderFn(param), {
+export const useGetOrders = ({ GtOrderStateRequestType }: any) => {
+    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', GtOrderStateRequestType], () => getOrderFn(GtOrderStateRequestType), {
         select: (data: any) =>
             data.map((item: IOrderGetType) => {
                 return {

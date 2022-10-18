@@ -1,14 +1,19 @@
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
-
-const DoneOrders = () => {
-    const { data: dataBeforeFilter } = useGetOrders('GtOrderStateRequestType=Done');
+type IDoneOrders = {
+    ClickLeftNode: any;
+};
+const DoneOrders : FC<IDoneOrders> = ({ ClickLeftNode }) => {
+    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'Done' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
+    const { isFilter } = ClickLeftNode;
+
 
     const columns = useMemo(
         (): ColDefType<IOrderSelected>[] => [
@@ -18,10 +23,10 @@ const DoneOrders = () => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'تعداد انجام شده', field: 'sumExecuted', type: 'sepratedNumber' },
-            { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
-            { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
-            { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
+            // { headerName: 'تعداد انجام شده', field: 'sumExecuted', type: 'sepratedNumber' },
+            // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
+            // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
+            // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             // {
             //     headerName: 'عملیات',
             //     field: 'customTitle',
@@ -32,8 +37,15 @@ const DoneOrders = () => {
     );
 
     return (
-        <div className="w-full h-[calc(100%-50px)] p-3">
-            <FilterTable {...{ FilterData, handleChangeFilterData }} />
+        <div
+            className={clsx('w-full p-3', {
+                'h-full': !isFilter,
+                'h-[calc(100%-50px)]': isFilter,
+            })}
+        >
+             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+                <FilterTable {...{ FilterData, handleChangeFilterData }} />
+            </div>
             <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
         </div>
     );

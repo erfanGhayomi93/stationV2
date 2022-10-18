@@ -31,7 +31,7 @@ interface IGoCustomerSearchResult {
     customerISIN: string;
     balance: number;
     bourseCode: string;
-    nationalCode: string;
+    nationalCode: number;
     groupName: string;
     groupId: number;
 }
