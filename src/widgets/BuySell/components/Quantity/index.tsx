@@ -48,7 +48,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const dispatch = useBuySellDispatch();
     const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
+    const {} = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
     //
@@ -74,6 +74,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const handleChangeMode = (value: 'AMOUNT' | 'PERCENT') => {
         setMode(value);
         setAmount(0);
+        setPercent(0);
     };
 
     return (
