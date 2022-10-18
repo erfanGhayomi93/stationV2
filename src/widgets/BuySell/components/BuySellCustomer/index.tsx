@@ -3,17 +3,27 @@ import { FC, Fragment, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import { SpinnerIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
 interface IBuySellCustomerType {}
 
 const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
+    const appDispatch = useAppDispatch();
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
+
     const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
+
+    const onSelectionChanged = (customer: IGoCustomerSearchResult[]) => {
+        //    isChecked
+        //        ?
+        appDispatch(setSelectedCustomers(customer));
+        //    : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
+    };
 
     const {
         option: { selectedCustomers },
@@ -48,7 +58,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                     >
                         {content === 'SELECT' ? (
                             <>
-                                {selected?.map((item, inx) => (
+                                {selectedCustomers?.map((item, inx) => (
                                     <Fragment key={inx}>
                                         <Combo.DataSet
                                             key={inx}
@@ -79,11 +89,11 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                 withDebounce={1000}
                 placeholder="جستجو مشتری / گروه مشتری"
                 onInputChange={(value) => setTerm(value)}
-                onSelectionChange={(selected) => setSelected(selected)}
+                onSelectionChange={(selected) => onSelectionChanged(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 multiple={true}
-                selections={selected}
+                selections={selectedCustomers}
                 keyId={'customerISIN'}
                 showPanel={panel}
                 min={3}

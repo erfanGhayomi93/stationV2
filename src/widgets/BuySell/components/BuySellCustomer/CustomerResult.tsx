@@ -33,7 +33,7 @@ const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
                                   <div className="flex gap-3 items-center w-[180px]  justify-between">
                                       <span className="truncate">{item.customerTitle}</span>
                                   </div>
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-4 text-1.2">
                                       <span className="text-L-gray-450 dark:text-D-gray-450">{item.bourseCode}</span>
                                       <span className="text-L-primary-50">{t('CustomerType.' + item.customerType)}</span>
                                   </div>

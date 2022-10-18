@@ -62,7 +62,12 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                 <SpinnerIcon className="text-L-gray-400 dark:text-D-gray-400" />
             </div>
             <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
-            <div className="flex justify-between items-center gap-2 cursor-pointer  z-30" onClick={(e) => handleSetPanelContent(e)}>
+            <button
+                type={'button'}
+                disabled={!selections?.length}
+                className={clsx('flex justify-between items-center gap-2 cursor-pointer  z-30 disabled:opacity-40')}
+                onClick={(e) => handleSetPanelContent(e)}
+            >
                 <div
                     className={clsx(
                         'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative ',
@@ -70,7 +75,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                     )}
                 >
                     <UserCheckIcon
-                        className={clsx(' ', panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400')}
+                        className={clsx(panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400')}
                         width={18}
                         height={18}
                     />
@@ -84,7 +89,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                         {selections?.length ? (selections?.length < 10 ? selections?.length : '9+') : ''}
                     </span>
                 </div>
-            </div>
+            </button>
         </div>
     );
 };
