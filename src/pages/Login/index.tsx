@@ -64,7 +64,6 @@ const Login = () => {
         });
     };
     const onSubmitClick = (e: FormEvent<HTMLFormElement>) => {
-        alert('sumbit');
         e.preventDefault();
         setErrors({});
         verifyForm();

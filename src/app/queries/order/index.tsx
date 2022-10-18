@@ -14,7 +14,7 @@ export const setOrder = async (params: IOrderRequestType) => {
 
 //////////////getOrder////////////////////
 const getOrderFn = async (GtOrderStateRequestType: any) => {
-    let { data } = await AXIOS.get(Apis().OrderUrl.Get as string, { params: { GtOrderStateRequestType } });
+    let { data } = await AXIOS.get(Apis().Orders.Get as string, { params: { GtOrderStateRequestType } });
 
     return data.result || [];
 };
