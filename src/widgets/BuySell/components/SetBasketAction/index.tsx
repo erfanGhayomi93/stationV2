@@ -1,19 +1,40 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FC, useState } from 'react';
 import { useCreateDetailsBasket, useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon, ModalBasketIcon, Negetive, PlusIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
-import { useBuySellState } from '../../context/BuySellContext';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetBasketActionType {}
 
 const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
+    const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
+
     const [isOpen, setisOpen] = useState(false);
+    const queryClient = useQueryClient();
+    const dispatch = useBuySellDispatch();
+    const appDispatch = useAppDispatch();
     // const [isNewBasket, setisNewBasket] = useState(false);
     const { data: listBasket } = useGetBasket();
-    const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket();
-    const { side, price, quantity, symbolISIN, validity, validityDate, percent } = useBuySellState();
+    const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket({
+        onSuccess: () => {
+            onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
+            queryClient.invalidateQueries(['draftList']);
+
+            if (sequential) {
+                dispatch({ type: 'RESET' });
+                appDispatch(setSelectedCustomers([]));
+                appDispatch(setSelectedSymbol(''));
+            }
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
     const {
         option: { selectedCustomers },
     } = useAppValues();
