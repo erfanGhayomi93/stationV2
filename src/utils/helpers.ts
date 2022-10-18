@@ -61,8 +61,7 @@ export const copyTextToClipboard = (text: string) => {
         const successful = document.execCommand('copy');
         successful &&
             onSuccessNotif({
-                message: 'کپی',
-                description: 'متن مورد نظر در حافظه کپی شد',
+                title: 'متن مورد نظر در حافظه کپی شد',
             });
 
         if (!successful) console.error('Fallback: unable to copy', 'document.execCommand');

@@ -1,5 +1,7 @@
-import { toast } from 'react-toastify';
-
+import { toast, ToastOptions } from 'react-toastify';
+interface IonErrorNotifType extends ToastOptions {
+    title: string;
+}
 //
 export const apiErrorHandler = (data: string[]) => {
     // console.log({ reqApiError });
@@ -25,14 +27,15 @@ export const apiErrorHandler = (data: string[]) => {
 //
 //
 // Success
-export const onSuccessNotif = (options: any) => {
-    toast.success(options.title);
+export const onSuccessNotif = (options?: IonErrorNotifType) => {
+    toast.success(options?.title || 'با موقفیت انجام شد', { ...options });
 };
 //
 //
 //
 //
 // Error
-export const onErrorNotif = (options: any) => {
-    toast.error(options.title);
+
+export const onErrorNotif = (options?: IonErrorNotifType) => {
+    toast.error(options?.title || 'متاسفانه انجام نشد', { ...options });
 };
