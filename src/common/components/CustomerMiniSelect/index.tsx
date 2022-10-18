@@ -1,18 +1,21 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState } from 'react';
+import { FC, Fragment, useMemo, useState, memo, SetStateAction, useEffect } from 'react';
+import { Dispatch } from 'redux';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
-interface ICustomerMiniSelectType {}
+interface ICustomerMiniSelectType {
+    setSelected: (selected: IGoCustomerSearchResult[]) => void;
+    selected: IGoCustomerSearchResult[];
+}
 
-const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
+const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
-    const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
     const [type, setType] = useState<ICustomerMultiTypeType>('Legal');
 
     const {
@@ -28,15 +31,20 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
             },
         },
     );
-    const handleSelect = (value: any) => {
+
+    const handleSelect = (value: IGoCustomerSearchResult[]) => {
         setSelected(value);
-        console.log({ value });
         setPanel(false);
     };
     interface IOptionsType {
         active?: boolean;
         content?: string;
     }
+
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+    }, [selected]);
+
     const Options = ({ active, content }: IOptionsType) =>
         useMemo(() => {
             return (
@@ -89,7 +97,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isLoading || isFetching} />
+                    <InputSearch onTypeChange={setType} loading={isFetching} />
 
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
@@ -100,12 +108,12 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({}) => {
     );
 };
 
-export default CustomerMiniSelect;
+export default memo(CustomerMiniSelect);
 
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (
         <>
-            {(isLoading || isFetching) && (
+            {isFetching && (
                 <div className="p-5 flex items-center justify-center w-full h-full">
                     <div className="flex items-center justify-center gap-2 text-L-gray-400">
                         <span>در حال بارگذاری</span>

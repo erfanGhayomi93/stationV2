@@ -18,11 +18,11 @@ import {
     QMarkIcon,
     QuitIcon,
 } from 'src/common/icons';
-import { logOutReq } from '../Header/UserActions';
 import { useSliderDispatch, useSliderValue } from './context';
 import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
+import { logOutReq } from '../Header/UserActions';
 
 export type MenuItemType = {
     icon: JSX.Element;
@@ -68,21 +68,21 @@ const Sider = () => {
                 isActive: false,
                 onClick: () => navigate('/basket'),
             },
-            // {
-            //     icon: <EyeFrameIcon height={20} width={20} />,
-            //     label: 'دیده بان',
-            //     position: 'top',
-            //     placeOfDisplay: 'both',
-            //     isActive: false,
-            //     onClick: undefined,
-            // },
+            {
+                icon: <EyeFrameIcon height={20} width={20} />,
+                label: 'دیده بان',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: () => navigate('/Watchlist'),
+            },
             {
                 icon: <FileIcon height={20} width={20} />,
                 label: 'گزارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                onClick: undefined,
+                onClick: () => navigate('/Reports'),
             },
             // {
             //     icon: <File2Icon height={20} width={20} />,
@@ -176,13 +176,11 @@ const Sider = () => {
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <button
-                                    key={ind}
-                                    className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
-                                    onClick={item.onClick}
-                                >
-                                    {item.icon}
-                                </button>
+                                <Tooltip key={ind} title={item.label}>
+                                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
+                                        {item.icon}
+                                    </button>
+                                </Tooltip>
                             ))}
                     </div>
                 </div>

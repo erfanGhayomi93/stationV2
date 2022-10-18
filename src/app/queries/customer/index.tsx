@@ -1,19 +1,15 @@
 import { InfiniteData, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
-import { getApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes?.Customer.Search as string, { params });
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(Apis().Customer.Search as string, { params });
 
     return data.result || [];
 };
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(apiRoutes?.Customer.MultiSearch as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(Apis().Customer.MultiSearch as string, {
         params: { ...params, type: params.type?.join() },
     });
     return data.result || [];
@@ -52,15 +48,15 @@ export const useMultiCustomerListQuery = <T,>(
     options?: Omit<UseQueryOptions<IGoMultiCustomerType, unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
     return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
-        enabled: !!params,
+        enabled: !!params.term,
+        staleTime: 0,
+        cacheTime: 0,
         ...options,
     });
 };
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
-    const apiRoutes = getApiPath();
-
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(apiRoutes?.Customer.GetCustomerInformation as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(Apis().Customer.GetCustomerInformation as string, {
         params,
     });
     return data.result || [];

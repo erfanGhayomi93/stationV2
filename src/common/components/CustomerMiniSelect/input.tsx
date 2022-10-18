@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Dispatch, FC, SetStateAction, useContext, useRef, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useRef, useState, memo } from 'react';
 import { PlusIcon, Search, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import { ComboSelectContext } from '../ComboSelect/context';
@@ -42,16 +42,18 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
     ];
 
     return (
-        <div className="bg-white border rounded-md flex items-center gap-1 pl-1 ">
-            <div className="flex items-center gap-2 relative">
-                <GroupAnimationButton items={items} width={44} onSelect={(value) => handleLegalInformation(value as ICustomerMultiTypeType)} />
+        <div className="bg-L-basic dark:bg-D-basic border dark:border-D-gray-350 border-L-gray-350 rounded-md flex items-center gap-1 pl-1 text-1.3 ">
+            <div className="flex items-center gap-1 relative grow">
+                <div className="px-0.5">
+                    <GroupAnimationButton items={items} width={44} onSelect={(value) => handleLegalInformation(value as ICustomerMultiTypeType)} />
+                </div>
                 <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
                 <div className="pr-2">
                     <SearchIcon className="text-L-gray-400 dark:text-D-gray-400" />
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="py-2 w-full px-1 outline-none border-b border-transparent focus:border-sky-400 duration-150 "
+                    className="py-1.5 grow w-full px-1 outline-none truncate pl-8 border-b border-transparent focus:border-sky-400 duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
                 />
@@ -69,4 +71,4 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
     );
 };
 
-export default InputSearch;
+export default memo(InputSearch);

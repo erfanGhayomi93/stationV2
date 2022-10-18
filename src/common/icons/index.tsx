@@ -62,4 +62,7 @@ export { ReactComponent as KeyboardIcon } from 'src/assets/svg/KeyboardIcon.svg'
 export { ReactComponent as EyeIcon } from 'src/assets/svg/EyeIcon.svg';
 export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
+export { ReactComponent as CopyIcon } from 'src/assets/svg/Copy.svg';
+export { ReactComponent as FilterListIcon } from 'src/assets/svg/FilterIist.svg';
+export { ReactComponent as HistoryIcon } from 'src/assets/svg/History.svg';
 export { ReactComponent as EyeSlashIcon } from 'src/assets/svg/EyeSlashIcon.svg';

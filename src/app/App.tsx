@@ -11,7 +11,7 @@ import AppLayout from 'src/app/Layout';
 import CrashPage from 'src/pages/PageCrash';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { useGlobalSettings } from './queries/settings';
-import { getApiPath, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import apiRoutes from 'src/api/apiRoutes';
 
 const App = () => {

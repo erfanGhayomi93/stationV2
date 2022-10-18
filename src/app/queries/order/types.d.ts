@@ -43,10 +43,53 @@ type IOrderSelected = {
     validity: string;
     validityDate?: string;
 };
-type OrderSideType = 'Cross' | 'None' | 'Buy' | 'Sell';
+type OrderSideType = 'Cross' | 'Buy' | 'Sell';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
-
+type OrderStatusType =
+    | 'InOMSQueue'
+    | 'OnSending'
+    | 'Error'
+    | 'DeleteByEngine'
+    | 'OnBoard'
+    | 'Canceled'
+    | 'OnModifyFrom'
+    | 'OnModifyTo'
+    | 'Modified'
+    | 'OnBoardModify'
+    | 'PartOfTheOrderDone'
+    | 'OrderDone'
+    | 'OnCanceling'
+    | 'OnModifyError'
+    | 'OnCancelError'
+    | 'Expired'
+    | 'RejectByGAP'
+    | 'OnCancelingWithBroker'
+    | 'TradeCancel';
 interface IOrderResponseType {
     successClientKeys: string[];
     errorNumbers: number;
+}
+
+interface IGTOrderListResultType {
+    customerISIN: string;
+    customerTitle: string;
+    symbolTitle: string;
+    symbolISIN: string;
+    orderSide: OrderSideType;
+    state: OrderStatusType;
+    price: number;
+    quantity: number;
+    value: number;
+    orderDateTime: Date;
+}
+
+interface IGTOrderListRequest {
+    FromDate?: string;
+    ToDate?: string;
+    Side?: OrderSideType;
+    symbolISIN?: string;
+    CustomerISIN?: string;
+    OrderStatus?: OrderStatusType;
+    PageNumber?: number;
+    PageSize?: number;
 }

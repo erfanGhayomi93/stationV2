@@ -44,7 +44,7 @@ const TabsList2: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items }) =
                         {leftNode}
                     </div>
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow p-1 bg-L-basic dark:bg-D-basic">
+                <HeadlessTab.Panels className="grow p-1 h-full overflow-y-auto bg-L-basic dark:bg-D-basic">
                     {items ? (
                         items.map((item) => (
                             <HeadlessTab.Panel key={item.key} as={Fragment}>

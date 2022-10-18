@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { base64 } from 'src/utils/helpers';
 import { useCaptcha, useLoginFormSubmit } from './queries';
@@ -8,14 +8,13 @@ import logo from 'src/assets/images/logo.svg';
 import { RefreshIcon } from 'src/common/icons';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { captions } from 'src/constant/captions';
-import { Link, useNavigate } from 'react-router-dom';
-import { unAuthorizedRoutes } from 'src/app/routes/appRoutes';
+import { useNavigate } from 'react-router-dom';
 import { setAuthorizeData } from 'src/api/axiosInstance';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppUser } from 'src/redux/slices/global';
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { onErrorNotif } from 'src/handlers/notification';
 
 interface ErrorTypes {
     userName?: string;
@@ -46,9 +45,12 @@ const Login = () => {
             console.log(response);
             if (response?.data.result.loginResultType === 'InvalidCaptcha') {
                 queryClient.invalidateQueries(['Captcha']);
-                toast.error(response?.data.result.loginResultType);
+                setCaptchaValue('');
+                onErrorNotif({ title: response?.data.result.loginResultType });
             } else {
-                toast.error(response?.data.result.loginResultType);
+                queryClient.invalidateQueries(['Captcha']);
+                setCaptchaValue('');
+                onErrorNotif({ title: response?.data.result.loginResultType as string });
             }
         },
     });
@@ -92,7 +94,7 @@ const Login = () => {
                         <div className="w-full flex flex-col px-20 gap-6 pt-5 ">
                             <img src={logo} width={170} />
                             <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('Login.title')}</h3>
-                            <form onSubmit={onSubmitClick}>
+                            <form onSubmit={(e) => onSubmitClick(e)}>
                                 <div className="w-full flex flex-col gap-6 pt-5">
                                     <label className="flex flex-col gap-2 ">
                                         <span className="text-[#35435A] font-semibold pr-0.5">نام کاربری</span>
@@ -132,6 +134,7 @@ const Login = () => {
                                                 onChange={(e) => setCaptchaValue(e?.target?.value || '')}
                                             />
                                             <button
+                                                type={'button'}
                                                 onClick={() => queryClient.invalidateQueries(['Captcha'])}
                                                 className="h-full flex items-center justify-center aspect-square hover:bg-slate-200 text-slate-500 p-1"
                                             >

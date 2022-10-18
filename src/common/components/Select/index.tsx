@@ -11,6 +11,7 @@ interface ISelectType {
     label?: JSX.Element;
     title?: string;
     icon?: JSX.Element;
+    inputClassName?: string;
 }
 
 interface ISelectOptionType extends HTMLAttributes<HTMLDivElement> {
@@ -40,6 +41,7 @@ const Select: FC<ISelectType> = ({
     placeholder,
     title,
     label,
+    inputClassName,
     icon = <ChevronIcon width={12} height={12} className="  rotate-180 text-gray-400" aria-hidden="true" />,
 }) => {
     return (
@@ -47,7 +49,14 @@ const Select: FC<ISelectType> = ({
             {title ? <span className="w-[64px] whitespace-nowrap relative ">{title}</span> : <></>}
             <Listbox value={value} onChange={onChange}>
                 <div className="relative  w-full ">
-                    <Listbox.Button className="relative flex justify-between w-full bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded-md  py-2 pr-3 pl-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ">
+                    <Listbox.Button
+                        className={clsx(
+                            'relative flex justify-between w-full cursor-default text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
+                            inputClassName
+                                ? inputClassName
+                                : ' bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md  py-2 pr-3 pl-10  ',
+                        )}
+                    >
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
                         {value ? (
                             <span className="block w-full text-right  truncate text-L-gray-400 dark:text-D-gray-400">
