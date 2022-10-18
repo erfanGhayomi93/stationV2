@@ -41,8 +41,11 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
     return (
         <div className="gap-6">
             <div className="flex justify-between items-center">
-                <div className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer">
-                    <FilterIcon className="text-L-basic dark:text-D-basic" width={20} height={18} onClick={() => setisShowFilter(!isShowFilter)} />
+                <div
+                    className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer"
+                    onClick={() => setisShowFilter(!isShowFilter)}
+                >
+                    <FilterIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
                 </div>
                 <div className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer border border-L-primary-50 dark:border-D-primary-50">
                     <ExcelIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
@@ -54,7 +57,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                 className="opacity-0 actived:opacity-100 h-0 actived:h-auto actived:transition-opacity flex justify-between border border-L-gray-350 dark:border-D-gray-350 bg-L-basic dark:bg-D-basic p-0 actived:p-4 rounded-lg my-6"
             >
                 <div className="flex gap-16">
-                <div>
+                    <div>
                         <label className="text-L-gray-500 dark:text-D-gray-500" htmlFor="customer">
                             مشتری :
                         </label>
@@ -79,7 +82,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                                 onChange={(e) => handleChange('symbolTitle', e.target.value)}
                             />
                         </div>
-                    </div>      
+                    </div>
                     <div>
                         <label className="inline-block text-L-gray-500 dark:text-D-gray-500" htmlFor="customer">
                             سمت سفارش :

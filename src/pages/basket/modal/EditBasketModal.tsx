@@ -63,7 +63,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
 
     return (
         <>
-            <Modal isOpen={isEditActive} onClose={toggleEditBasket} className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic">
+            <Modal isOpen={isEditActive} onClose={toggleEditBasket} className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic overflow-visible">
                 <div className="grid grid-rows-min-one ">
                     <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                         <div>ویرایش سبد</div>
