@@ -16,7 +16,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
     const { data: listBasket } = useGetBasket();
 
     useEffect(() => {
-        listBasket && saveIndexBasketSelected(listBasket[0].id);
+        listBasket && saveIndexBasketSelected(listBasket[0]?.id);
     }, [listBasket]);
 
     const toggleAddBasket = () => {

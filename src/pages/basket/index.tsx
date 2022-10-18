@@ -9,7 +9,7 @@ function Basket() {
     const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
     const [listAfterFilter, setlistAfterFilter] = useState<IListDetailsBasket[] | undefined>(undefined);
     const [dataFilter, setdataFilter] = useState<filterStateType>(initialDataFilterBasket);
-    const [isShowFilter, setisShowFilter] = useState<boolean>(true);
+    const [isShowFilter, setisShowFilter] = useState<boolean>(false);
 
     useEffect(() => {
         setlistAfterFilter(dataListDetailsBasket);
