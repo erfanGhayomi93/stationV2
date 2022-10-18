@@ -13,7 +13,7 @@ const BuySellStrategy: FC<IBuySellStrategyType> = ({}) => {
         <div className="pr-2">
             <Select
                 onChange={(selected: typeof STRATEGY_OPTIONS[0]) => setStrategy(selected.value as strategy)}
-                // value={i18next.t('BSModal.strategy_' + strategy)}
+                // value={t(BSModal.strategy_' + strategy)}
                 value={'عادی'}
                 title="استراتژی"
             >

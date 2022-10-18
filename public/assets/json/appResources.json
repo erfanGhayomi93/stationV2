@@ -110,5 +110,11 @@
         "Cross": "دوطرفه",
         "Buy": "خرید",
         "Sell": "فروش"
+    },
+
+    "CustomerType": {
+        "Legal": "حقوقی",
+        "Natural": "حقیقی",
+        "CustomerTag": "گروه مشتری"
     }
 }

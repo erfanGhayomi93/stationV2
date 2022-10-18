@@ -42,7 +42,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                 <>
                     <div
                         className={clsx(
-                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-10 top-0  origin-top shadow-md ',
+                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-[90] top-0  origin-top shadow-md ',
                             !active && 'scale-y-0',
                         )}
                     >
@@ -90,7 +90,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
             >
                 <div>
                     <InputSearch loading={isFetching} />
-                    <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
+                    <Combo.Panel className="relative z-[90]" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
                     </Combo.Panel>
                 </div>
