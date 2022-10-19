@@ -7,7 +7,7 @@ interface OptionState {
 }
 
 const initialState: OptionState = {
-    selectedSymbol: 'IRO1TAMN0001',
+    selectedSymbol: '',
     selectedCustomers: [],
 };
 
