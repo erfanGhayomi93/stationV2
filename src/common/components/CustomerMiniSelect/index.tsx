@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
-import CustomerResult from './CustomerResult';
+import CustomerResult from '../SearchResult/CustomerSearchResult/CustomerResult';
 import InputSearch from './input';
 
 interface ICustomerMiniSelectType {
@@ -114,7 +114,7 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {isFetching && (
-                <div className="p-5 flex items-center justify-center w-full h-full">
+                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
                     <div className="flex items-center justify-center gap-2 text-L-gray-400">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
@@ -126,5 +126,13 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
 }
 
 export function MinLen({ min }: { min: boolean }) {
-    return <>{min && <div className="p-5 flex items-center justify-center w-full h-full">حداقل سه کاراکتر وارد نمایید.</div>}</>;
+    return (
+        <>
+            {min && (
+                <div className="p-5 flex items-center text-1.2 justify-center w-full h-full bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
+                    حداقل سه کاراکتر وارد نمایید.
+                </div>
+            )}
+        </>
+    );
 }

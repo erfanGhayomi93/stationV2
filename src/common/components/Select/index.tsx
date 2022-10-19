@@ -21,7 +21,13 @@ interface ISelectOptionType extends HTMLAttributes<HTMLDivElement> {
 export const SelectOption: FC<ISelectOptionType> = ({ value, label, className = 'cursor-default select-none py-2 pl-10 pr-4' }) => {
     return (
         <Listbox.Option
-            className={({ active }) => clsx('relative ', className, active ? 'bg-amber-100 text-amber-900' : 'text-gray-900')}
+            className={({ active }) =>
+                clsx(
+                    'relative   ',
+                    className,
+                    active ? 'bg-L-primary-50 dark:bg-D-primary-50 text-L-basic  ' : 'text-L-gray-500 dark:text-D-gray-500',
+                )
+            }
             value={value}
         >
             {({ selected }) => (
@@ -68,7 +74,7 @@ const Select: FC<ISelectType> = ({
                         )}
                     </Listbox.Button>
                     <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-                        <Listbox.Options className="absolute  z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text">
+                        <Listbox.Options className="absolute  z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic dark:border dark:border-D-gray-300  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text">
                             {children}
                         </Listbox.Options>
                     </Transition>
