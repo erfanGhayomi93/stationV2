@@ -21,7 +21,6 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
-                appDispatch(setSelectedSymbol(''));
             }
         },
         onError: () => {

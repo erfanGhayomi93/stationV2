@@ -22,7 +22,6 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
-                appDispatch(setSelectedSymbol(''));
             }
         },
         onError: () => {

@@ -17,6 +17,7 @@ const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
     //FIXME:please make sure you create a reusable symbol selector component !!!
     useEffect(() => {
         setSymbolISIN(selectedSymbol);
+        dispatch({ type: 'SOFT_RESET' });
     }, [selectedSymbol]);
 
     return (

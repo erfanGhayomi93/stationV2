@@ -28,7 +28,6 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
             if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
-                appDispatch(setSelectedSymbol(''));
             }
         },
         onError: () => {
