@@ -1,6 +1,6 @@
 import { RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
 import clsx from 'clsx';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'src/common/hooks/useDebounce';
 import SearchInput from './components/SearchInput';
@@ -19,12 +19,18 @@ import { SpinnerIcon } from 'src/common/icons';
 const CustomerSearch = () => {
     const { t } = useTranslation();
     const { setState, state } = useCustomerSearchState();
-    const debouncedParams = useDebounce(state.params, 500);
+    const debouncedTerm = useDebounce(state.params.term, 500);
     const {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const { data: data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useCustomerListInfinit(debouncedParams);
+    const {
+        data: data,
+        isLoading,
+        hasNextPage,
+        fetchNextPage,
+        isFetchingNextPage,
+    } = useCustomerListInfinit({ ...state.params, term: debouncedTerm });
     const { data: defaultCustomer } = useDefaultCustomerList();
 
     const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
