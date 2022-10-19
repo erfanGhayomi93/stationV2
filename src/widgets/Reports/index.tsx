@@ -17,7 +17,6 @@ const Reports = () => {
     });
     const navigate = useNavigate();
 
-
     const handleChangeLeftNode = (type: string) => {
         setClickLeftNode((prev: any) => ({
             ...prev,
@@ -40,17 +39,17 @@ const Reports = () => {
             {
                 key: 'DoneOrders',
                 title: 'سفارشات انجام شده',
-                content: <DoneOrders  {...{ ClickLeftNode }}/>,
+                content: <DoneOrders {...{ ClickLeftNode }} />,
             },
             {
                 key: 'FailedOrders',
                 title: 'سفارشات خطا دار',
-                content: <FailedOrders {...{ ClickLeftNode }}/>,
+                content: <FailedOrders {...{ ClickLeftNode }} />,
             },
             {
                 key: 'Drafts',
                 title: 'پیش نویس ها',
-                content: <Drafts  {...{ ClickLeftNode }}/>,
+                content: <Drafts {...{ ClickLeftNode }} />,
             },
             {
                 key: 'GroupOrders',
@@ -70,16 +69,16 @@ const Reports = () => {
                 <ExcelIcon width={12} height={14} />
             </button>
             <button
-                // onClick={() => setisOpen(true)}
+                onClick={() => handleChangeLeftNode('isFilter')}
                 className="ml-2 flex items-center p-1 justify-center bg-L-gray-150 dark:bg-D-gray-150 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
             >
-                <FilterListIcon width={12} height={14} onClick={() => handleChangeLeftNode('isFilter')} />
+                <FilterListIcon width={12} height={14} />
             </button>
             <button
-                // onClick={() => setisOpen(true)}
+                onClick={() => navigate('/Reports')}
                 className="ml-4 flex items-center p-1 justify-center bg-L-gray-150 dark:bg-D-gray-150 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
             >
-                <HistoryIcon width={12} height={14} onClick={() => navigate("/Reports")}/>
+                <HistoryIcon width={12} height={14} />
             </button>
         </>
     );

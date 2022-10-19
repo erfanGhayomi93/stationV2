@@ -108,6 +108,7 @@ export const Apis = () => ({
         AddSymbol: getPortfolioUrl() + '/GTWatchlist/v1/AddSymbol',
         DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
         GetDefaultWatchlistSymbols: getPortfolioUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        GetSymbolInWatchlist : getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
     },
     Setting: {
         GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,
