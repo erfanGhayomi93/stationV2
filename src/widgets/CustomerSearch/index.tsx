@@ -8,11 +8,12 @@ import { useCustomerSearchState } from './context/CustomerSearchContext';
 import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
-import { useCustomerListInfinit } from 'src/app/queries/customer';
+import { useCustomerListInfinit, useDefaultCustomerList } from 'src/app/queries/customer';
 import { Virtuoso } from 'react-virtuoso';
 import ResultItem from './components/ResultItem/ResultItem';
 import ResultHeader from './components/ResultItem/ResultHeader';
 import ResultFooter from './components/ResultItem/ResultFooter';
+import { useEffect } from 'react';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -23,6 +24,11 @@ const CustomerSearch = () => {
     } = useAppValues();
 
     const { data: data, isFetching, hasNextPage, fetchNextPage } = useCustomerListInfinit(debouncedParams);
+    const { data: defaultCustomer } = useDefaultCustomerList();
+
+    useEffect(() => {
+        console.log({ defaultCustomer });
+    }, [defaultCustomer]);
 
     const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
     const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
@@ -75,7 +81,7 @@ const CustomerSearch = () => {
                 <div className="h-full flex flex-col">
                     <ResultHeader />
                     <Virtuoso
-                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || []}
+                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || defaultCustomer}
                         className="border-L-gray-300 border rounded-lg rounded-t-none"
                         endReached={() => fetchNextPage()}
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}

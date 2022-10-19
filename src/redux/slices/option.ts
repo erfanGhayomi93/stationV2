@@ -7,7 +7,7 @@ interface OptionState {
 }
 // IRO1TAMN0001
 const initialState: OptionState = {
-    selectedSymbol: 'IRO1IKCO0001',
+    selectedSymbol: '',
     selectedCustomers: [],
 };
 
