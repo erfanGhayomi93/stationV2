@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useCreateDraft } from 'src/app/queries/draft';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -33,7 +33,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     } = useAppValues();
 
     const handleDraft = () => {
-        let isins = selectedCustomers.map((c) => c.customerISIN);
+        let isins = selectedCustomers.map((c: any) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
 
         mutate({
