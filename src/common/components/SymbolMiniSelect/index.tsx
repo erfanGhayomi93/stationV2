@@ -5,6 +5,7 @@ import Combo from '../ComboSelect';
 import InputSearch from './input';
 import { useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
+import SymbolSelected from '../SearchResult/SymbolSelected';
 
 interface ISymbolMiniSelectType {
     setSelected: (selected: SymbolSearchResult[]) => void;
@@ -51,23 +52,24 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
                         )}
                     >
                         {content === 'SELECT' ? (
-                            <>
-                                {selected?.map((item, inx) => (
-                                    <Fragment key={inx}>
-                                        <Combo.DataSet
-                                            key={inx}
-                                            className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                                            label={item.symbolTitle}
-                                            value={item}
-                                        >
-                                            <div className="flex justify-between w-full">
-                                                {item.symbolTitle}
-                                                <span>{item.companyISIN}</span>
-                                            </div>
-                                        </Combo.DataSet>
-                                    </Fragment>
-                                ))}
-                            </>
+                            // <>
+                            //     {selected?.map((item, inx) => (
+                            //         <Fragment key={inx}>
+                            //             <Combo.DataSet
+                            //                 key={inx}
+                            //                 className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                            //                 label={item.symbolTitle}
+                            //                 value={item}
+                            //             >
+                            //                 <div className="flex justify-between w-full">
+                            //                     {item.symbolTitle}
+                            //                     <span>{item.companyISIN}</span>
+                            //                 </div>
+                            //             </Combo.DataSet>
+                            //         </Fragment>
+                            //     ))}
+                            // </>
+                            <SymbolSelected selected={selected} />
                         ) : (
                             <SymbolResult min={min} qData={qData || []} isLoading={isLoading} />
                         )}
