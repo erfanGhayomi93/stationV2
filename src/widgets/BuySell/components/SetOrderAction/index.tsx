@@ -54,14 +54,14 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             {side === 'Buy' ? (
                 <button
                     onClick={handleOrder}
-                    className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic dark:text-D-basic flex items-center justify-center grow"
+                    className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic flex items-center justify-center grow"
                 >
                     ارسال خرید
                 </button>
             ) : (
                 <button
                     onClick={handleOrder}
-                    className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic dark:text-D-basic flex items-center justify-center grow"
+                    className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic flex items-center justify-center grow"
                 >
                     ارسال فروش
                 </button>
