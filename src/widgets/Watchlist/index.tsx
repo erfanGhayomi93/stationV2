@@ -45,9 +45,9 @@ const Watchlists = (props: Props) => {
     );
 
     return (
-        <div className="px-3 py-1 flex flex-col h-full">
+        <div className="px-3 py-1 h-[calc(100%-120px)]">
             <WatchlistController />
-            <div className="grow">
+            <div className="h-full">
                 <AGTable
                     rowData={selectedWatchlist === 0 ? defaultWatchlistSymbols : watchlistSymbols}
                     columnDefs={Columns}
