@@ -1,10 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
-import { toast } from 'react-toastify';
 import { setOrder } from 'src/app/queries/order';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -32,7 +31,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     } = useAppValues();
 
     const handleOrder = () => {
-        const isins = selectedCustomers.map((c) => c.customerISIN);
+        const isins = selectedCustomers.map((c: any) => c.customerISIN);
         mutate({
             customerISIN: isins,
             orderSide: side,

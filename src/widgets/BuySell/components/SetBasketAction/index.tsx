@@ -2,10 +2,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FC, useState } from 'react';
 import { useCreateDetailsBasket, useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
-import { CloseIcon, ModalBasketIcon, Negetive, PlusIcon } from 'src/common/icons';
+import { CloseIcon, ModalBasketIcon, PlusIcon } from 'src/common/icons';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -43,7 +43,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
     };
 
     const handleSetBasket = (id: number) => {
-        let isins = selectedCustomers.map((c) => c.customerISIN);
+        let isins = selectedCustomers.map((c: any) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
         const result = {
             cartID: id,
