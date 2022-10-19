@@ -6,17 +6,17 @@ import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
 
 // Providers
+import { ToastContainer } from 'react-toastify';
 import TranslatorProvider from 'src/app/i18n';
 import QueryClientProvider from 'src/app/queryClient';
-import { ToastContainer } from 'react-toastify';
 
 // Components
 import App from 'src/app/App';
 
 // Styles
-import 'src/common/components/LinearRangeChart/build.css';
-import 'src/assets/scss/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import 'src/assets/scss/main.scss';
+import 'src/common/components/LinearRangeChart/build.css';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
