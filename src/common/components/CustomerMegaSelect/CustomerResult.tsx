@@ -1,13 +1,15 @@
 import { FC } from 'react';
 import Combo from '../ComboSelect';
-import { SearchLoading, MinLen } from './index';
+import NotFoundResult from '../SearchResult/SearchNotFound';
+
+import MinLen from 'src/common/components/SearchResult/MinLen';
+import SearchLoading from 'src/common/components/SearchResult/SearchLoading';
 interface ICustomerResultType {
     isLoading: boolean;
     min: boolean;
     qData: IGoMultiCustomerType[];
 }
 const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
-    const NotFoundResult = <div className="py-5 flex items-center justify-center text-L-gray-450">نتیجه ای یافت نشد.</div>;
     if (min) {
         return <MinLen min={min} />;
     }

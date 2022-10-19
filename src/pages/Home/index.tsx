@@ -13,7 +13,6 @@ const Home = () => {
     useEffect(() => {
         return () => {
             appDispatch(setSelectedCustomers([]));
-            appDispatch(setSelectedSymbol(''));
         };
     }, []);
 

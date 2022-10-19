@@ -21,7 +21,7 @@ interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
 const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
     return (
         <div className={clsx('flex flex-col gap-2 text-1.4 grow', className)}>
-            <span className="text-1.3 pr-0.5">{label}</span>
+            <span className="text-1.3 pr-0.5 text-L-gray-500 dark:text-D-gray-500">{label}</span>
             <div className="grow ">{children}</div>
         </div>
     );
@@ -40,7 +40,7 @@ export const ReportFilter = () => {
         FromDate: FromDate,
         OrderStatus: status,
         PageNumber: 1,
-        PageSize: 5,
+        PageSize: 10,
         Side: side,
         symbolISIN,
         ToDate,
@@ -123,7 +123,7 @@ export const ReportFilter = () => {
                                     key={inx}
                                     label={t('OrderState.' + item.value)}
                                     value={item.value}
-                                    className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
+                                    className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
                                 />
                             ))}
                         </Select>

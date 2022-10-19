@@ -41,7 +41,7 @@ const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange
                 <InputIcon
                     onClick={() => calendarRef.current.openCalendar()}
                     className={clsx(
-                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded pr-3 focus-visible:outline-none',
+                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350  text-L-gray-500 dark:text-D-gray-500 border cursor-default rounded pr-3 focus-visible:outline-none',
                         {
                             [className]: !!className,
                         },

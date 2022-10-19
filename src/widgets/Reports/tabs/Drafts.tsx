@@ -40,7 +40,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 cellRenderer: (row: any) => (
                     <ActionCell
                         data={row.data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT , TypeActionEnum.SEND]}
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                     />

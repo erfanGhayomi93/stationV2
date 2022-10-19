@@ -28,4 +28,5 @@ type BuySellAction =
     | { type: 'SET_AMOUNT'; value: number }
     | { type: 'TOGGLE_CALCULATOR'; value: boolean }
     | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide }
+    | { type: 'SOFT_RESET' }
     | { type: 'RESET' };
