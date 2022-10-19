@@ -37,6 +37,11 @@ const getWatchListSymbols = async (watchlistId: number) => {
     return data?.result || [];
 };
 
+const GetSymbolInWatchlist = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<ISymbolInWatchlist[]>>(Apis().WatchList.GetSymbolInWatchlist as string);
+    return data?.result || [];
+};
+
 const deleteWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.DeleteSymbol as string, {}, { params });
     return data?.result;
@@ -71,6 +76,13 @@ export const useWatchListSymbolsQuery =<T=IWatchlistSymbolType[],>(watchlistId:n
     options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined
     ) => {
     return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), {...options,enabled:!!watchlistId});
+};
+
+// prettier-ignore
+export const useSymbolInWatchlistQuery =<T=ISymbolInWatchlist[],>(
+    options?: (Omit<UseQueryOptions<ISymbolInWatchlist[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined
+    ) => {
+    return useQuery(['GetSymbolInWatchlist'], ({ queryKey }) => GetSymbolInWatchlist(), options);
 };
 
 export const createWatchListMutation = (

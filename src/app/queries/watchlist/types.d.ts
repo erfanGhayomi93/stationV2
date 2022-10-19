@@ -95,3 +95,8 @@ interface ISymbolType {
 interface IWatchlistSymbolTableType extends ISymbolType {
     symbolISIN: string;
 }
+
+interface ISymbolInWatchlist {
+    symbolISIN: string;
+    watchlistId: number;
+}
