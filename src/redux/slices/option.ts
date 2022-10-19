@@ -5,7 +5,7 @@ interface OptionState {
     selectedSymbol: string;
     selectedCustomers: IGoCustomerSearchResult[];
 }
-
+// IRO1TAMN0001
 const initialState: OptionState = {
     selectedSymbol: '',
     selectedCustomers: [],
