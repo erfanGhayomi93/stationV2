@@ -19,7 +19,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             onSuccessNotif();
             queryClient.invalidateQueries(['draftList']);
 
-            if (sequential) {
+            if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
                 appDispatch(setSelectedSymbol(''));

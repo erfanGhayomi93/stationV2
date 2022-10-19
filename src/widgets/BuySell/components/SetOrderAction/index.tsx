@@ -18,7 +18,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
-            if (sequential) {
+            if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
                 appDispatch(setSelectedSymbol(''));

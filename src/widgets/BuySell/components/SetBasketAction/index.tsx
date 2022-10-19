@@ -25,7 +25,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
             onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
             queryClient.invalidateQueries(['draftList']);
 
-            if (sequential) {
+            if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
                 appDispatch(setSelectedSymbol(''));

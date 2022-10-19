@@ -3,6 +3,7 @@ import { FC, Fragment, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
+import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
@@ -52,23 +53,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                         )}
                     >
                         {content === 'SELECT' ? (
-                            <>
-                                {selectedCustomers?.map((item, inx) => (
-                                    <Fragment key={inx}>
-                                        <Combo.DataSet
-                                            key={inx}
-                                            className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                                            label={item.customerTitle}
-                                            value={item}
-                                        >
-                                            <div className="flex justify-between w-full">
-                                                {item.customerTitle}
-                                                <span>{item.bourseCode}</span>
-                                            </div>
-                                        </Combo.DataSet>
-                                    </Fragment>
-                                ))}
-                            </>
+                            <CustomerSelected selected={selectedCustomers} />
                         ) : (
                             <CustomerResult min={min} qData={qData || []} isLoading={isLoading} />
                         )}
