@@ -1,18 +1,17 @@
-import { useState, FormEvent } from 'react';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
-import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
-import { ExcelIcon, FilterIcon } from 'src/common/icons';
-import { useReportsState } from '../../Context/ReportsContext';
-import useReportDispatch from '../../hooks/useReportDispatch';
-import Select, { SelectOption } from 'src/common/components/Select';
-import { REPORT_SIDE_OPTIONS, REPORT_STATUS_OPTIONS } from 'src/constant/report';
 import clsx from 'clsx';
-import { HTMLAttributes } from 'react';
-import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
-import { useOrderLists } from 'src/app/queries/order';
 import dayjs from 'dayjs';
 import i18next from 'i18next';
+import { FormEvent, HTMLAttributes, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useOrderLists } from 'src/app/queries/order';
+import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
+import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
+import Select, { SelectOption } from 'src/common/components/Select';
+import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
+import { ExcelIcon, FilterIcon } from 'src/common/icons';
+import { REPORT_SIDE_OPTIONS, REPORT_STATUS_OPTIONS } from 'src/constant/report';
+import { useReportsState } from '../../Context/ReportsContext';
+import useReportDispatch from '../../hooks/useReportDispatch';
 interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
     label?: string;
     children: JSX.Element;
@@ -101,14 +100,14 @@ export const ReportFilter = () => {
                         <AdvancedDatePicker
                             value={FromDate}
                             onChange={(selectedDates) => setStartDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full"
+                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full duration-250 dark:focus-visible:border-D-secondary-50 focus-visible:border-L-secondary-50"
                         />
                     </FilterBlock>
                     <FilterBlock label="تا تاریخ :">
                         <AdvancedDatePicker
                             value={ToDate}
                             onChange={(selectedDates) => setTillDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full"
+                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full duration-250 dark:focus-visible:border-D-secondary-50 focus-visible:border-L-secondary-50"
                         />
                     </FilterBlock>
                     <FilterBlock label="وضعیت سفارش :">
@@ -147,7 +146,7 @@ export const ReportFilter = () => {
                         </Select>
                     </FilterBlock>
                 </div>
-                <div className="grid   text-1.3  gap-2 grid-cols-2 auto-rows-min  ">
+                <div className="grid   text-1.3  gap-2 grid-cols-2 auto-rows-min 2xl:w-2/12 md:w-3/12  ">
                     <FilterAction />
                 </div>
             </div>
@@ -159,14 +158,14 @@ export const ReportFilter = () => {
             <>
                 <button
                     onClick={handleSubmit}
-                    className="bg-L-primary-50  w-full dark:bg-D-primary-50 py-1.5 px-10 ml-4 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
+                    className="bg-L-primary-50  w-full dark:bg-D-primary-50 py-1.5  ml-4 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                 >
                     جستجو
                 </button>
 
                 <button
                     onClick={resetForm}
-                    className="bg-L-primary-100  whitespace-nowrap w-full dark:bg-D-primary-100 py-1.5 px-4 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
+                    className="bg-L-primary-100  whitespace-nowrap w-full dark:bg-D-primary-100 py-1.5 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
                 >
                     پیش فرض
                 </button>

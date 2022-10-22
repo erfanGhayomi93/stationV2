@@ -1,6 +1,6 @@
 import { RadioGroup, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, Fragment, useState, useMemo, memo } from 'react';
+import { FC, Fragment, memo, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -79,7 +79,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
 
     return (
         <>
-            <div className="flex w-full gap-4 pr-2">
+            <div className="flex w-full gap-4 pr-2 ">
                 <ControllerInput
                     title="تعداد"
                     highValue={symbolData?.maxTradeQuantity || 0}

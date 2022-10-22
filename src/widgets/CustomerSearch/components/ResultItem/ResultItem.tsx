@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
@@ -13,7 +13,7 @@ const ResultItem: FC<IGoCustomerSearchResult> = (customer) => {
     const onSelectionChanged = (isChecked: boolean, customer: IGoCustomerSearchResult) => {
         isChecked
             ? appDispatch(setSelectedCustomers([...selectedCustomers, customer]))
-            : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
+            : appDispatch(setSelectedCustomers(selectedCustomers.filter((item: any) => item.customerISIN !== customer?.customerISIN)));
     };
 
     return (
@@ -22,7 +22,7 @@ const ResultItem: FC<IGoCustomerSearchResult> = (customer) => {
                 <input
                     type="checkbox"
                     className=" cursor-pointer"
-                    checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
+                    checked={selectedCustomers.some((item: any) => item.customerISIN === customer?.customerISIN)}
                     onChange={(event) => onSelectionChanged(event.target.checked, customer)}
                 />
                 {customer?.customerTitle || customer.groupName}

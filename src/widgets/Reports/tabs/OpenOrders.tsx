@@ -18,16 +18,16 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
-    const handleDelete = (data: IOrderSelected) => {
+    const handleDelete = (data: IOrderGetType) => {
         mutate(data.orderId);
     };
 
-    const handleEdit = (data: IOrderSelected) => {
+    const handleEdit = (data: IOrderGetType) => {
         appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
-        (): ColDefType<IOrderSelected>[] => [
+        (): ColDefType<IOrderGetType>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },

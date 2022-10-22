@@ -33,3 +33,8 @@ type ICustomer = {
     customerISIN: string;
     customerTitle: string;
 };
+
+type ICreateBasket = {
+    name: string;
+    sendDate: string;
+};

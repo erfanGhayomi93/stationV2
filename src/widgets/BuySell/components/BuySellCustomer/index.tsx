@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';

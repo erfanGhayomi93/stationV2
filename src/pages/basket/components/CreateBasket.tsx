@@ -26,7 +26,8 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
         const dateMiladi = date?.convert(gregorian, gregorian_en).toString();
         const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
         const sendDate = `${dateMiladi}T${timeMiladi}.000`;
-        const queryParams = '?name=' + name + '&sendDate=' + sendDate;
+        // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
+        const queryParams = { name, sendDate };
 
         mutate(queryParams, {
             onSuccess: () => {

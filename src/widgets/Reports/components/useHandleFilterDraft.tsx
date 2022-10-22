@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 type handleFilter = {
-    dataBeforeFilter: IDraftSelected[] | undefined;
+    dataBeforeFilter: IDraftRequsetType[] | undefined;
 };
 
 function useHandleFilterDraft({ dataBeforeFilter }: handleFilter) {
@@ -22,7 +22,7 @@ function useHandleFilterDraft({ dataBeforeFilter }: handleFilter) {
         const { customerTitle, symbolTitle, side } = FilterData;
 
         if (!dataBeforeFilter) return [];
-        return (dataBeforeFilter as any).filter((item: IDraftSelected) => {
+        return (dataBeforeFilter as any).filter((item: IDraftRequsetType) => {
             let customerTitlesStr = String(item.customers.map(i => i.customerTitle));
             if (!customerTitle && !symbolTitle && !side) return true;
             else if (customerTitle && customerTitlesStr.includes(customerTitle)) {

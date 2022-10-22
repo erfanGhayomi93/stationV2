@@ -20,7 +20,7 @@ const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputV
     return (
         <label className="w-full flex items-center justify-center ">
             <span className="w-[64px] whitespace-nowrap ">{title}</span>
-            <div className="w-full flex border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
+            <div className="w-full flex border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md duration-250 dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50">
                 <div className="w-full">
                     <TradeInput onChange={onChange} value={inputValue} placeholder={placeholder} unit={unit} max={max} />
                 </div>
