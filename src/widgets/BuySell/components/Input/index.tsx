@@ -1,4 +1,4 @@
-import { FC, ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { seprateNumber, validNumber } from 'src/utils/helpers';
 
 interface ITradeInputType {
@@ -18,7 +18,7 @@ const TradeInput: FC<ITradeInputType> = ({ disabled, value, onChange, placeholde
     };
     return (
         <div className={`flex items-center w-100 rounded-sm px-2 ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
-            <div className="grow flex items-center justify-center flex-row-reverse">
+            <div className="grow flex items-center justify-center flex-row-reverse ">
                 <input
                     dir="ltr"
                     disabled={disabled}
