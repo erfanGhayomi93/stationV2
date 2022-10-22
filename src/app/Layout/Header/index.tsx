@@ -1,3 +1,4 @@
+import WorkflowChanger from 'src/common/components/WorkFlow/components/WorkflowChanger';
 import BrokerData from './BrokerData';
 import Clock from './Clock';
 import MarketIndexes from './MarketIndexes';
@@ -18,6 +19,10 @@ const Header = () => {
             </div>
             <div className="mr-auto">
                 <MarketIndexes />
+            </div>
+            <div className="h-1/2  mx-1 " />
+            <div>
+                <WorkflowChanger />
             </div>
             <div className="h-1/2  mx-1 " />
             <div>

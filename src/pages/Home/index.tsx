@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useWorkflowState } from 'src/common/components/WorkFlow/context/WorkflowContext';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
@@ -9,14 +10,26 @@ import SymbolDetail from 'src/widgets/SymbolDetail';
 const Home = () => {
     //
     const appDispatch = useAppDispatch();
+    const { space } = useWorkflowState();
     useEffect(() => {
         return () => {
             appDispatch(setSelectedCustomers([]));
         };
     }, []);
 
-    return (
-        <div className="grid gap-2 grid-cols-12 overflow-y-auto  ">
+    const Components = {
+        PortfolioWatchlist: () => <PortfolioWatchlist />,
+        BuySellWidget: () => <BuySellWidget />,
+        Reports: () => <Reports />,
+        SymbolDetail: () => <SymbolDetail />,
+    };
+
+    const getComponents = (name: IWorkFlowType) => {
+        return Components[name]();
+    };
+
+    const Layouts = {
+        PortfolioWatchlist: () => (
             <div className="col-span-9">
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
                     <div className="col-span-6">
@@ -30,11 +43,21 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+        ),
+        BuySellWidget: () => (
             <div className="col-span-3 gap-2 grid h-full grid-cols-3 overflow-y-auto ">
                 <div className="col-span-3    overflow-y-auto">
                     <SymbolDetail />
                 </div>
             </div>
+        ),
+        Reports: () => <></>,
+        SymbolDetail: () => <></>,
+    };
+    return (
+        <div className="grid gap-2 grid-cols-12 overflow-y-auto  ">
+            <>{Layouts[space[0]]()}</>
+            <>{Layouts[space[1]]()}</>
         </div>
     );
 };
