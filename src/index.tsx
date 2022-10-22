@@ -14,9 +14,9 @@ import QueryClientProvider from 'src/app/queryClient';
 import App from 'src/app/App';
 
 // Styles
+//prettier-ignore
 import 'react-toastify/dist/ReactToastify.css';
 import 'src/assets/scss/main.scss';
-import 'src/common/components/LinearRangeChart/build.css';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

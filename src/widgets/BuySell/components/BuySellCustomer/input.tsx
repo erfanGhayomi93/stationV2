@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import { FC, useContext, useRef, useState, MouseEvent } from 'react';
+import { FC, MouseEvent, useContext, useRef } from 'react';
 import Combo from 'src/common/components/ComboSelect';
 import { ComboSelectContext } from 'src/common/components/ComboSelect/context';
-import { PlusIcon, Search, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
+import { PlusIcon, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
 
 interface IInputSearchType {
     loading: boolean;
@@ -37,14 +37,14 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     };
 
     return (
-        <div className="bg-L-basic dark:bg-D-basic border border-L-gray-350 dark:border-D-gray-350 rounded-md flex items-center gap-2 pl-3 ">
+        <div className="bg-L-basic dark:bg-D-basic border duration-250 duration-250 dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50 border-L-gray-350 dark:border-D-gray-350 rounded-md flex items-center gap-2 pl-3 ">
             <div className="pr-2">
                 <SearchIcon className="text-L-gray-400 dark:text-D-gray-400" />
             </div>
             <div className="flex items-center w-full relative">
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="py-2 bg-L-basic dark:bg-D-basic w-full px-1 outline-none border-b border-transparent focus:border-sky-400 duration-150 "
+                    className="py-2 bg-L-basic dark:bg-D-basic w-full px-1 outline-none border-b border-transparent duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={(e) => handleReset(e)}
 

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { pushEngine } from 'src/api/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppValues } from 'src/redux/hooks';
@@ -79,7 +79,7 @@ const SymbolDetail = () => {
 
     return (
         <div className="w-full h-full flex flex-col">
-            <div className="pb-2">
+            <div className="pb-2 ">
                 <SymbolSearch placeholder="جستجوی نماد" />
             </div>
             {/*  apply loading wrapper here */}
