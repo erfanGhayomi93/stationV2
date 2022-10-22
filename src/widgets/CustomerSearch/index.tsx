@@ -1,6 +1,6 @@
 import { RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
 import clsx from 'clsx';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'src/common/hooks/useDebounce';
 import SearchInput from './components/SearchInput';
@@ -8,21 +8,30 @@ import { useCustomerSearchState } from './context/CustomerSearchContext';
 import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
-import { useCustomerListInfinit } from 'src/app/queries/customer';
+import { useCustomerListInfinit, useDefaultCustomerList } from 'src/app/queries/customer';
 import { Virtuoso } from 'react-virtuoso';
 import ResultItem from './components/ResultItem/ResultItem';
 import ResultHeader from './components/ResultItem/ResultHeader';
 import ResultFooter from './components/ResultItem/ResultFooter';
+import { useEffect } from 'react';
+import { SpinnerIcon } from 'src/common/icons';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
     const { setState, state } = useCustomerSearchState();
-    const debouncedParams = useDebounce(state.params, 500);
+    const debouncedTerm = useDebounce(state.params.term, 500);
     const {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const { data: data, isFetching, hasNextPage, fetchNextPage } = useCustomerListInfinit(debouncedParams);
+    const {
+        data: data,
+        isLoading,
+        hasNextPage,
+        fetchNextPage,
+        isFetchingNextPage,
+    } = useCustomerListInfinit({ ...state.params, term: debouncedTerm });
+    const { data: defaultCustomer } = useDefaultCustomerList();
 
     const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
     const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
@@ -42,45 +51,50 @@ const CustomerSearch = () => {
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
-                <div className="flex gap-2  py-2">
-                    {types.map((type, inx) => (
+                <div className="flex gap-2 justify-between py-2 w-full">
+                    <div className="flex gap-2 ">
+                        {types.map((type, inx) => (
+                            <button
+                                key={inx}
+                                onClick={() => setParams(type)}
+                                disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
+                                className={clsx(
+                                    ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
+                                    !state.isSelectedActive && state.params.type === type
+                                        ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
+                                        : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
+                                )}
+                            >
+                                <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} />
+                                {t('CustomerTypes.' + type)}
+                            </button>
+                        ))}
                         <button
-                            key={inx}
-                            onClick={() => setParams(type)}
-                            disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
+                            onClick={() => toggleSelection(true)}
                             className={clsx(
-                                ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
-                                !state.isSelectedActive && state.params.type === type
+                                ' duration-200 relative outline-none border-solid border px-2 py-1 rounded-md',
+                                state.isSelectedActive
                                     ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
                                     : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
                             )}
                         >
-                            <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} />
-                            {t('CustomerTypes.' + type)}
+                            <CounterBalloon count={selectedCustomers.length} />
+                            همه انتخاب شده‌ها
                         </button>
-                    ))}
-                    <button
-                        onClick={() => toggleSelection(true)}
-                        className={clsx(
-                            ' duration-200 relative outline-none border-solid border px-2 py-1 rounded-md',
-                            state.isSelectedActive
-                                ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
-                                : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
-                        )}
-                    >
-                        <CounterBalloon count={selectedCustomers.length} />
-                        همه انتخاب شده‌ها
-                    </button>
+                    </div>
+                    <div className={clsx('duration-200', isLoading ? '' : 'scale-0')}>
+                        <SpinnerIcon className="animate-spin text-L-primary-50 dark:text-D-primary-50" />
+                    </div>
                 </div>
                 <div className="h-full flex flex-col">
                     <ResultHeader />
                     <Virtuoso
-                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || []}
+                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || defaultCustomer}
                         className="border-L-gray-300 border rounded-lg rounded-t-none"
                         endReached={() => fetchNextPage()}
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{
-                            Footer: () => <ResultFooter isFetching={isFetching} />,
+                            Footer: () => (hasNextPage ? <ResultFooter isFetching={isFetchingNextPage} /> : <></>),
                             Item: ItemRenderer,
                         }}
                     />

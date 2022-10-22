@@ -3,6 +3,7 @@ import { Fragment, useCallback, useMemo, useState, FC } from 'react';
 import { useSymbolGeneralInfo, useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolState from 'src/common/components/SymbolState';
 import useDebounce from 'src/common/hooks/useDebounce';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { Search } from 'src/common/icons';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
@@ -12,6 +13,7 @@ interface ISymbolSearchType {
     placeholder?: string;
 }
 const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
+    const [localSymbolISIN, setLocalSymbolISIN] = useLocalStorage<string>('symbolISIN', '');
     const {
         option: { selectedSymbol },
     } = useAppValues();
@@ -58,6 +60,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
 
     const onSymbolSelect = useCallback((selected: any) => {
         selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
+        selected?.symbolISIN && setLocalSymbolISIN(selected.symbolISIN);
     }, []);
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {

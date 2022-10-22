@@ -1,10 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
-import { toast } from 'react-toastify';
 import { setOrder } from 'src/app/queries/order';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -18,10 +17,9 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
-            if (sequential) {
+            if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
-                appDispatch(setSelectedSymbol(''));
             }
         },
         onError: () => {
@@ -33,7 +31,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     } = useAppValues();
 
     const handleOrder = () => {
-        const isins = selectedCustomers.map((c) => c.customerISIN);
+        const isins = selectedCustomers.map((c: any) => c.customerISIN);
         mutate({
             customerISIN: isins,
             orderSide: side,
@@ -54,14 +52,14 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             {side === 'Buy' ? (
                 <button
                     onClick={handleOrder}
-                    className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic dark:text-D-basic flex items-center justify-center grow"
+                    className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic flex items-center justify-center grow"
                 >
                     ارسال خرید
                 </button>
             ) : (
                 <button
                     onClick={handleOrder}
-                    className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic dark:text-D-basic flex items-center justify-center grow"
+                    className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic flex items-center justify-center grow"
                 >
                     ارسال فروش
                 </button>

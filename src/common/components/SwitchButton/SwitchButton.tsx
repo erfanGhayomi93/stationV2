@@ -5,7 +5,9 @@ export const SwitchButton = () => {
     const { checked } = useSwitchValue();
     return (
         <span
-            className={`${checked ? 'bg-[#2B84FF]' : 'bg-L-gray-350 '} relative outline-none inline-flex h-[24px] w-[42px] items-center rounded-full`}
+            className={`${
+                checked ? 'bg-[#2B84FF]' : 'bg-L-gray-350 dark:bg-D-gray-350'
+            } relative outline-none inline-flex h-[24px] w-[42px] items-center rounded-full`}
         >
             <span
                 className={`${
