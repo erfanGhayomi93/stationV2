@@ -29,20 +29,7 @@ interface IOrderGetType {
     valuePosition: number;
 }
 
-type IOrderSelected = {
-    orderId: number;
-    customerTitle: string;
-    symbolTitle: string;
-    orderSide: OrderSideType;
-    quantity: number;
-    price: number;
-    value: number;
-    sumExecuted: number;
-    position: number;
-    valuePosition: number;
-    validity: string;
-    validityDate?: string;
-};
+
 type OrderSideType = 'Cross' | 'Buy' | 'Sell';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatus =

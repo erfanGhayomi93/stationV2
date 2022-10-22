@@ -14,7 +14,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
-    const { mutate } = useCreateDraft({
+    const { mutate: mutateCreateDraft } = useCreateDraft({
         onSuccess: () => {
             onSuccessNotif();
             queryClient.invalidateQueries(['draftList']);
@@ -33,11 +33,11 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const handleDraft = () => {
+    const handleCreateDraft = () => {
         let isins = selectedCustomers.map((c) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
 
-        mutate({
+        mutateCreateDraft({
             symbolISIN: symbolISIN,
             price: price,
             quantity: quantity,
@@ -54,7 +54,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     return (
         <>
             <button
-                onClick={handleDraft}
+                onClick={handleCreateDraft}
                 className="flex items-center h-8 justify-center w-2/6 rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border "
             >
                 پیش نویس

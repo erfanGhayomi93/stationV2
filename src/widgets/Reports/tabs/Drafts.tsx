@@ -17,17 +17,17 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { mutate } = useDeleteDraft();
     const { isFilter } = ClickLeftNode;
 
-    const handleDelete = (data: IDraftSelected) => {
-        mutate(data.id);
+    const handleDelete = (data: IDraftRequsetType) => {
+        mutate(data?.id);
     };
 
     const appDispath = useAppDispatch();
-    const handleEdit = (data: IDraftSelected) => {
+    const handleEdit = (data: IDraftRequsetType) => {
         appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
-        (): ColDefType<IDraftSelected>[] => [
+        (): ColDefType<IDraftRequsetType>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customers', checkboxSelection: true, valueFormatter: valueFormatterCustomerTitle },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
@@ -50,7 +50,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         [],
     );
 
-    // const onRowSelected = (event: RowSelectedEvent<IDraftSelected>) => {
+    // const onRowSelected = (event: RowSelectedEvent<IDraftRequsetType>) => {
     //     console.log(event);
     // };
 

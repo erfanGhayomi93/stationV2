@@ -20,25 +20,7 @@ const getOrderFn = async (GtOrderStateRequestType: any) => {
 };
 
 export const useGetOrders = ({ GtOrderStateRequestType }: any) => {
-    return useQuery<IOrderGetType[], Error, IOrderSelected>(['orderList', GtOrderStateRequestType], () => getOrderFn(GtOrderStateRequestType), {
-        select: (data: any) =>
-            data.map((item: IOrderGetType) => {
-                return {
-                    orderId: item.orderId,
-                    customerTitle: item.customerTitle,
-                    symbolTitle: item.symbolTitle,
-                    orderSide: item.orderSide,
-                    quantity: item.quantity,
-                    price: item.price,
-                    value: item.value,
-                    sumExecuted: item.sumExecuted,
-                    position: item.position,
-                    valuePosition: item.valuePosition,
-                    validity: item.validity,
-                    validityDate: item.validityDate,
-                };
-            }),
-    });
+    return useQuery<IOrderGetType[], Error>(['orderList', GtOrderStateRequestType], () => getOrderFn(GtOrderStateRequestType));
 };
 
 //////////////delete Order////////////////////

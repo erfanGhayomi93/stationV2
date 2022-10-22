@@ -16,7 +16,7 @@ type IActionCell<T> = {
     handleSend?: (data: T) => void;
 };
 
-function ActionCell({ type, data, handleDelete, handleEdit, handleSend, handleCopy }: IActionCell<IOrderSelected & IDraftSelected>) {
+function ActionCell({ type, data, handleDelete, handleEdit, handleSend, handleCopy }: IActionCell<IOrderGetType & IDraftRequsetType>) {
     const isSend = type.includes(TypeActionEnum.SEND);
     const isEdit = type.includes(TypeActionEnum.EDIT);
     const isDelete = type.includes(TypeActionEnum.DELETE);

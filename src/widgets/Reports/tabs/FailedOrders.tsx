@@ -18,12 +18,12 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
-    const handleCopy = (data: IOrderSelected) => {
+    const handleCopy = (data: IOrderGetType) => {
         appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
-        (): ColDefType<IOrderSelected>[] => [
+        (): ColDefType<IOrderGetType>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },

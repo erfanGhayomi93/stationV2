@@ -4,7 +4,7 @@ import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 ///////////////create draft///////////////////
-const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
+const setDraftFn = async (param: IDraftCreateType): Promise<number | []> => {
     try {
         let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().draft.Create as string, { ...param });
         return data.result || [];
@@ -13,7 +13,7 @@ const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
     }
 };
 
-export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], unknown, IDraftRequsetType, unknown>, 'mutationFn'> | undefined) => {
+export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], unknown, IDraftCreateType, unknown>, 'mutationFn'> | undefined) => {
     return useMutation(setDraftFn, { ...options });
 };
 
@@ -28,20 +28,7 @@ export const getDraftFn = async () => {
 };
 
 export const useGetDraft = () => {
-    return useQuery(['draftList'], getDraftFn, {
-        select: (data: IDraftSelected[]) =>
-            data.map((item: IDraftSelected) => ({
-                id: item.id,
-                customers: item.customers,
-                customerTitles: item.customerTitles,
-                symbolTitle: item.symbolTitle,
-                side: item.side,
-                quantity: item.quantity,
-                price: item.price,
-                validity: item.validity,
-                validityDate: item.validityDate,
-            })),
-    });
+    return useQuery(['draftList'], getDraftFn);
 };
 ////////////////delete draft////////////////////////
 const deleteDraftQuery = async (draftId: number): Promise<number | []> => {
