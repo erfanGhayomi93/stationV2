@@ -1,24 +1,29 @@
 interface IDraftRequsetType {
+    id: number;
     symbolISIN: string;
-    price: number
-    quantity: number
+    symbolTitle: string;
+    price: number;
+    percent: number;
+    quantity: number;
     side: string;
     validity: string;
     validityDate: string | undefined;
-    customerISINs: string,
-    percent : number ,
-    orderStrategy : string , 
-    orderType : OrderTypeType
+    date: string;
+    customerISINs: string;
+    customers: ICustomer[];
+    orderStrategy?: string;
+    orderType?: OrderTypeType;
 }
 
-type IDraftSelected = {
-    id:  number;
-    customerTitles: string[];
-    customers : ICustomer[]
-    symbolTitle: string;
-    side: string;
-    quantity: number;
+interface IDraftCreateType {
+    symbolISIN: string;
     price: number;
+    quantity: number;
+    side: string;
     validity: string;
-    validityDate: string;
-};
+    validityDate: string | undefined;
+    customerISINs: string;
+    percent: number;
+    orderStrategy: string;
+    orderType: OrderTypeType;
+}

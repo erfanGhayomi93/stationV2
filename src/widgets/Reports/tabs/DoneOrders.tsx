@@ -16,7 +16,7 @@ const DoneOrders : FC<IDoneOrders> = ({ ClickLeftNode }) => {
 
 
     const columns = useMemo(
-        (): ColDefType<IOrderSelected>[] => [
+        (): ColDefType<IOrderGetType>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
