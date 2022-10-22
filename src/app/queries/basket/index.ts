@@ -18,9 +18,9 @@ export const getBasketFn = async () => {
 export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'], getBasketFn);
 
 ///////////////create Basket///////////////////
-const setBasketFn = async (param: string): Promise<number> => {
+const setBasketFn = async ({ name, sendDate }: ICreateBasket): Promise<number> => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((Apis().Basket.Create as string) + param);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Create as string, {}, { params: { name, sendDate } });
         return data.result || 0;
     } catch {
         return 0;
@@ -28,9 +28,9 @@ const setBasketFn = async (param: string): Promise<number> => {
 };
 
 export const useCreateBasket = () =>
-    useMutation<number, unknown, string>(setBasketFn, {
+    useMutation<number, unknown, ICreateBasket>(setBasketFn, {
         onSuccess: () => {
-            queryClient.invalidateQueries(['BasketList']);
+            // queryClient.invalidateQueries(['BasketList']);
             onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
         },
         onError: () => {
@@ -40,10 +40,11 @@ export const useCreateBasket = () =>
 ///////////////edit Basket///////////////////
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;
-    let queryString = name ? `name=${name}&sendDate=${sendDate}&id=${id}&isPinned=${isPinned}` : `isPinned=${isPinned}&id=${id}`;
+    // let queryString = name ? `name=${name}&sendDate=${sendDate}&id=${id}&isPinned=${isPinned}` : `isPinned=${isPinned}&id=${id}`;
+    let Qparams = name ? { name, sendDate, id, isPinned } : { id, isPinned };
 
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((Apis().Basket.Edit as string) + `?` + queryString);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Edit as string, {}, { params: Qparams });
         return data.result || 0;
     } catch {
         return 0;
@@ -63,7 +64,7 @@ export const useUpdateBasket = () =>
 ///////////////delete Basket///////////////////
 const deleteBasketFn = async (id: number) => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((Apis().Basket.Delete as string) + `?id=` + id);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Delete as string, {}, { params: { id } });
         return data.result || 0;
     } catch {
         return 0;
@@ -95,7 +96,7 @@ export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, un
 ////////////////get Basket////////////////////////
 export const getDetailsBasketFn = async (cartId: number | undefined) => {
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>((Apis().Basket.GetDetail as string) + '?cartId=' + cartId);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>(Apis().Basket.GetDetail as string, { params: { cartId } });
         return data.result || [];
     } catch {
         return [];
@@ -107,9 +108,9 @@ export const useGetDetailsBasket = (cartId: number | undefined) =>
         enabled: !!cartId,
     });
 ///////////////delete details Basket///////////////////
-const deleteDetailsBasketFn = async (id: number) => {
+const deleteDetailsBasketFn = async (cartDetailId: number) => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>((Apis().Basket.DeleteDetails as string) + `?cartDetailId=` + id);
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.DeleteDetails as string, {}, { params: { cartDetailId } });
         return data.result || 0;
     } catch {
         return 0;

@@ -1,5 +1,4 @@
 import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -45,8 +44,8 @@ export const useGetDraft = () => {
     });
 };
 ////////////////delete draft////////////////////////
-const deleteDraftQuery = async (id: number): Promise<number | []> => {
-    let { data } = await AXIOS.post((Apis().draft.Delete as string) + '?draftId=' + id);
+const deleteDraftQuery = async (draftId: number): Promise<number | []> => {
+    let { data } = await AXIOS.post(Apis().draft.Delete as string, {}, { params: { draftId } });
     return data.result || [];
 };
 

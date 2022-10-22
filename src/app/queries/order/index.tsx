@@ -42,8 +42,8 @@ export const useGetOrders = ({ GtOrderStateRequestType }: any) => {
 };
 
 //////////////delete Order////////////////////
-const singleDeleteOrderFn = async (id: number) => {
-    let { data } = await AXIOS.post((Apis().Orders.Delete as string) + '?orderId=' + id);
+const singleDeleteOrderFn = async (orderId: number) => {
+    let { data } = await AXIOS.post(Apis().Orders.Delete as string, {}, { params: { orderId } });
     return data.result || [];
 };
 
