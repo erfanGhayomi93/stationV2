@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useDefaultCustomerList, useMultiCustomerListQuery } from 'src/app/queries/customer';
@@ -13,23 +14,43 @@ import { useCustomerSearchState } from './context/CustomerSearchContext';
 const CustomerSearch = () => {
     const { t } = useTranslation();
     const { setState, state } = useCustomerSearchState();
+    const [type, setType] = useState<ICustomerMultiTypeType>('Natural');
     const debouncedTerm = useDebounce(state.params.term, 500);
     const {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const { data: data, isLoading } = useMultiCustomerListQuery({ term: debouncedTerm });
+    const { data: groupedCustomer, isFetching } = useMultiCustomerListQuery(
+        { term: debouncedTerm },
+        {
+            select: (data) => {
+                const Legal = data.filter((item) => item.customerType === 'Legal');
+                const Natural = data.filter((item) => item.customerType === 'Natural');
+                const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
+                return {
+                    Legal,
+                    Natural,
+                    CustomerTag,
+                };
+            },
+        },
+    );
     const { data: defaultCustomer } = useDefaultCustomerList();
 
-    const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
+    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag'];
     // const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
-    const setParams = (type: ICustomerTypeType) => {
-        setState((prev) => ({ ...prev, params: { ...prev.params, type: type }, isSelectedActive: false }));
-    };
+    // const setParams = (type: ICustomerMultiTypeType) => {
+    //     setState((prev) => ({ ...prev, params: { ...prev.params, type: type }, isSelectedActive: false }));
+    // };
 
     const toggleSelection = (isActive: boolean) => {
         setState((prev) => ({ ...prev, isSelectedActive: isActive }));
+    };
+
+    const handleSetType = (value: ICustomerMultiTypeType) => {
+        setType(value);
+        setState((prev) => ({ ...prev, isSelectedActive: false }));
     };
 
     const ItemRenderer = (props: any) => {
@@ -41,20 +62,20 @@ const CustomerSearch = () => {
             <div className="bg-L-basic dark:bg-D-basic h-full rounded py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2 justify-between py-2 w-full">
                     <div className="flex gap-2 ">
-                        {types.map((type, inx) => (
+                        {types.map((itemType, inx) => (
                             <button
                                 key={inx}
-                                onClick={() => setParams(type)}
-                                // disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
+                                onClick={() => handleSetType(itemType)}
+                                disabled={!(groupedCustomer ? groupedCustomer[itemType].length : 0)}
                                 className={clsx(
                                     ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
-                                    !state.isSelectedActive && state.params.type === type
+                                    !state.isSelectedActive && itemType === type
                                         ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
                                         : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
                                 )}
                             >
-                                {/* <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} /> */}
-                                {t('CustomerTypes.' + type)}
+                                <CounterBalloon count={groupedCustomer ? groupedCustomer[itemType].length : 0} />
+                                {t('CustomerType.' + itemType)}
                             </button>
                         ))}
                         <button
@@ -70,14 +91,14 @@ const CustomerSearch = () => {
                             همه انتخاب شده‌ها
                         </button>
                     </div>
-                    <div className={clsx('duration-200', isLoading ? '' : 'scale-0')}>
+                    <div className={clsx('duration-200', isFetching ? '' : 'scale-0')}>
                         <SpinnerIcon className="animate-spin text-L-primary-50 dark:text-D-primary-50" />
                     </div>
                 </div>
                 <div className="h-full flex flex-col">
                     <ResultHeader />
                     <Virtuoso
-                        data={state.isSelectedActive ? selectedCustomers : data || defaultCustomer}
+                        data={state.isSelectedActive ? selectedCustomers : (groupedCustomer && groupedCustomer[type]) || defaultCustomer}
                         className="border-L-gray-300 border rounded-lg rounded-t-none"
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{

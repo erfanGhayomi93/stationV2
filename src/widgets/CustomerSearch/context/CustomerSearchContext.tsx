@@ -7,7 +7,7 @@ interface ICustomerSearchWidgetType {
     detailModalData?: IGoCustomerSearchResult;
     isSelectedActive?: boolean;
 }
-const useValue = () => useState<ICustomerSearchWidgetType>({ params: { type: 'Customer' } });
+const useValue = () => useState<ICustomerSearchWidgetType>({ params: {} });
 
 export const { Provider: CustomerSearchProvider, useTrackedState, useUpdate: useSetState } = createContainer(useValue);
 export const useCustomerSearchState = () => {
