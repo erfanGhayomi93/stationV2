@@ -69,6 +69,8 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 quantity: 0,
                 amount: 0,
             };
+        case 'SET_ALL':
+            return action.value;
         case 'RESET':
             return { ...BuySellInitialState, side: state.side, isCalculatorEnabled: state.isCalculatorEnabled, symbolISIN: state.symbolISIN };
         default:

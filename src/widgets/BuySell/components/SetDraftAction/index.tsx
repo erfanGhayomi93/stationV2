@@ -32,7 +32,6 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
-   
     const handleCreateDraft = () => {
         let isins = selectedCustomers.map((c: any) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
@@ -48,6 +47,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             percent: percent || 0,
             orderStrategy: strategy,
             orderType: 'MarketOrder',
+            customerTitles: '',
         });
     };
 
