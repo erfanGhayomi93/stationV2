@@ -4,7 +4,7 @@ import CustomerSearch from '..';
 import CustomerDetailModal from '../modal/CustomerDetailModal';
 interface ICustomerSearchWidgetType {
     params: IGoCustomerRequest;
-    detailModalData?: IGoCustomerSearchResult;
+    detailModalData?: IGoMultiCustomerType;
     isSelectedActive?: boolean;
 }
 const useValue = () => useState<ICustomerSearchWidgetType>({ params: {} });
