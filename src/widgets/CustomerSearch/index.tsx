@@ -1,20 +1,14 @@
-import { RowSelectedEvent, SelectionChangedEvent } from 'ag-grid-community';
 import clsx from 'clsx';
-import { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useDebounce from 'src/common/hooks/useDebounce';
-import SearchInput from './components/SearchInput';
-import { useCustomerSearchState } from './context/CustomerSearchContext';
-import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
-import { useCustomerListInfinit, useDefaultCustomerList } from 'src/app/queries/customer';
 import { Virtuoso } from 'react-virtuoso';
-import ResultItem from './components/ResultItem/ResultItem';
-import ResultHeader from './components/ResultItem/ResultHeader';
-import ResultFooter from './components/ResultItem/ResultFooter';
-import { useEffect } from 'react';
+import { useDefaultCustomerList, useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
+import useDebounce from 'src/common/hooks/useDebounce';
 import { SpinnerIcon } from 'src/common/icons';
+import { useAppValues } from 'src/redux/hooks';
+import ResultHeader from './components/ResultItem/ResultHeader';
+import ResultItem from './components/ResultItem/ResultItem';
+import { useCustomerSearchState } from './context/CustomerSearchContext';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -24,17 +18,11 @@ const CustomerSearch = () => {
         option: { selectedCustomers },
     } = useAppValues();
 
-    const {
-        data: data,
-        isLoading,
-        hasNextPage,
-        fetchNextPage,
-        isFetchingNextPage,
-    } = useCustomerListInfinit({ ...state.params, term: debouncedTerm });
+    const { data: data, isLoading } = useMultiCustomerListQuery({ term: debouncedTerm });
     const { data: defaultCustomer } = useDefaultCustomerList();
 
     const types: ICustomerTypeType[] = ['Customer', 'Group', 'Mine'];
-    const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
+    // const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
     const setParams = (type: ICustomerTypeType) => {
         setState((prev) => ({ ...prev, params: { ...prev.params, type: type }, isSelectedActive: false }));
@@ -57,7 +45,7 @@ const CustomerSearch = () => {
                             <button
                                 key={inx}
                                 onClick={() => setParams(type)}
-                                disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
+                                // disabled={!typeCounts?.find((countType) => countType.type === type)?.count}
                                 className={clsx(
                                     ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
                                     !state.isSelectedActive && state.params.type === type
@@ -65,7 +53,7 @@ const CustomerSearch = () => {
                                         : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
                                 )}
                             >
-                                <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} />
+                                {/* <CounterBalloon count={typeCounts?.find((countType) => countType.type === type)?.count || 0} /> */}
                                 {t('CustomerTypes.' + type)}
                             </button>
                         ))}
@@ -89,12 +77,10 @@ const CustomerSearch = () => {
                 <div className="h-full flex flex-col">
                     <ResultHeader />
                     <Virtuoso
-                        data={state.isSelectedActive ? selectedCustomers : data?.pages.flatMap((page) => page.searchResult.result) || defaultCustomer}
+                        data={state.isSelectedActive ? selectedCustomers : data || defaultCustomer}
                         className="border-L-gray-300 border rounded-lg rounded-t-none"
-                        endReached={() => fetchNextPage()}
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{
-                            Footer: () => (hasNextPage ? <ResultFooter isFetching={isFetchingNextPage} /> : <></>),
                             Item: ItemRenderer,
                         }}
                     />

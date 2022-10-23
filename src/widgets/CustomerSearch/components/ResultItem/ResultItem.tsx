@@ -18,7 +18,7 @@ const ResultItem: FC<IGoCustomerSearchResult> = (customer) => {
 
     return (
         <div className="flex py-1.5 text-L-gray-450 dark:text-D-gray-450 h-[35px]">
-            <div className="w-full flex items-center gap-4 justify-start pr-3">
+            <div className="w-full flex items-center gap-4 justify-start pr-3  truncate">
                 <input
                     type="checkbox"
                     className=" cursor-pointer"

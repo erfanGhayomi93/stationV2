@@ -1,20 +1,19 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { base64 } from 'src/utils/helpers';
-import { useCaptcha, useLoginFormSubmit } from './queries';
-import cover from 'src/assets/images/login-image-1.png';
-import PasswordInput from 'src/common/components/PasswordInput';
-import logo from 'src/assets/images/logo.svg';
-import { RefreshIcon } from 'src/common/icons';
-import WidgetLoading from 'src/common/components/WidgetLoading';
-import { captions } from 'src/constant/captions';
 import { useNavigate } from 'react-router-dom';
 import { setAuthorizeData } from 'src/api/axiosInstance';
+import cover from 'src/assets/images/login-image-1.png';
+import PasswordInput from 'src/common/components/PasswordInput';
+import WidgetLoading from 'src/common/components/WidgetLoading';
+import { RefreshIcon } from 'src/common/icons';
+import { captions } from 'src/constant/captions';
+import { onErrorNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppUser } from 'src/redux/slices/global';
-import { AxiosError } from 'axios';
-import { useQueryClient } from '@tanstack/react-query';
-import { onErrorNotif } from 'src/handlers/notification';
+import { base64 } from 'src/utils/helpers';
+import { useCaptcha, useLoginFormSubmit } from './queries';
 
 interface ErrorTypes {
     userName?: string;
@@ -77,6 +76,8 @@ const Login = () => {
             });
     };
 
+    const BrokerCode = +window.REACT_APP_BROKER_CODE;
+
     return (
         <WidgetLoading spining={isLoading}>
             <div className="bg-[#f8f8f8] w-screen h-screen flex flex-col min-w-[1200px] min-h-[700px] ">
@@ -92,7 +93,10 @@ const Login = () => {
                         }}
                     >
                         <div className="w-full flex flex-col px-20 gap-6 pt-5 ">
-                            <img src={logo} width={170} />
+                            <h5 className="text-1.6 font-semibold text-[#35435A] flex items-center ">
+                                <img className="-mr-5" src={`/assets/images/logo_189.svg`} width={55} height={55} />
+                                <span>کارگزاری {t('brokerName.' + BrokerCode)}</span>
+                            </h5>
                             <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('Login.title')}</h3>
                             <form onSubmit={(e) => onSubmitClick(e)}>
                                 <div className="w-full flex flex-col gap-6 pt-5">
