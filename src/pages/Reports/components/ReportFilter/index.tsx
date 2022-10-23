@@ -27,7 +27,7 @@ const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
 };
 export const ReportFilter = () => {
     const { t } = useTranslation();
-    const [selectedCustomer, setSelectedCustomer] = useState<IGoCustomerSearchResult[]>([]);
+    const [selectedCustomer, setSelectedCustomer] = useState<IGoMultiCustomerType[]>([]);
     const [selectedSymbol, setSelectedSymbol] = useState<SymbolSearchResult[]>([]);
     const { setStartDate, setSide, setTillDate, setStatus, setSymbol, setCustomer } = useReportDispatch();
 
@@ -65,7 +65,7 @@ export const ReportFilter = () => {
         }, 300);
     };
 
-    const handleCustomerSelected = (value: IGoCustomerSearchResult[]) => {
+    const handleCustomerSelected = (value: IGoMultiCustomerType[]) => {
         setSelectedCustomer(value);
         setCustomer(value.length ? value[0].customerISIN : undefined);
     };

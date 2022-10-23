@@ -2,7 +2,7 @@ import { FC, Fragment } from 'react';
 import Combo from '../../ComboSelect';
 
 interface ICustomerSelectedType {
-    selected: IGoCustomerSearchResult[];
+    selected: IGoMultiCustomerType[];
 }
 
 const CustomerSelected: FC<ICustomerSelectedType> = ({ selected }) => {

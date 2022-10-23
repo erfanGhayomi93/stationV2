@@ -2,13 +2,13 @@ import { FC } from 'react';
 import { MoreDotsIcon, PortfolioDetailIcon } from 'src/common/icons';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
-const ActionCellRenderer: FC<IGoCustomerSearchResult> = (data) => {
+const ActionCellRenderer: FC<IGoMultiCustomerType> = (data) => {
     const { setState, state } = useCustomerSearchState();
 
-    const showDetailModal = (data: IGoCustomerSearchResult) => {
+    const showDetailModal = (data: IGoMultiCustomerType) => {
         setState((prev) => ({ ...prev, detailModalData: data }));
     };
-    const showActionModal = (data: IGoCustomerSearchResult) => {
+    const showActionModal = (data: IGoMultiCustomerType) => {
         setState((prev) => ({ ...prev, actionModalData: data }));
     };
     return (

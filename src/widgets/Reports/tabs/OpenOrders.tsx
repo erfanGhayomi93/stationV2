@@ -1,6 +1,7 @@
+import { ICellRendererParams } from 'ag-grid-community';
 import clsx from 'clsx';
-import { useMemo, FC } from 'react';
-import { useSingleDeleteOrders, useGetOrders } from 'src/app/queries/order';
+import { FC, useMemo } from 'react';
+import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
@@ -18,11 +19,11 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
-    const handleDelete = (data: IOrderGetType) => {
-        mutate(data.orderId);
+    const handleDelete = (data: IOrderGetType | undefined) => {
+        data && mutate(data?.orderId);
     };
 
-    const handleEdit = (data: IOrderGetType) => {
+    const handleEdit = (data: IOrderGetType | undefined) => {
         appDispath(setDataBuySellAction(data));
     };
 
@@ -41,7 +42,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: any) => (
+                cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}

@@ -1,5 +1,5 @@
-import { onSuccessNotif } from 'src/handlers/notification';
 import i18next from 'i18next';
+import { onSuccessNotif } from 'src/handlers/notification';
 
 //
 export const seprateNumber = (num: number | undefined): any => {

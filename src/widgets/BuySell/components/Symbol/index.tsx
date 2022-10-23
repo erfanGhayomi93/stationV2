@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import Input from 'src/common/components/Input';
 import { useAppValues } from 'src/redux/hooks';
 import SymbolSearch from 'src/widgets/SymbolDetail/SymbolSearch';
 import { useBuySellDispatch } from '../../context/BuySellContext';
@@ -17,7 +16,7 @@ const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
     //FIXME:please make sure you create a reusable symbol selector component !!!
     useEffect(() => {
         setSymbolISIN(selectedSymbol);
-        dispatch({ type: 'SOFT_RESET' });
+        // dispatch({ type: 'SOFT_RESET' });
     }, [selectedSymbol]);
 
     return (

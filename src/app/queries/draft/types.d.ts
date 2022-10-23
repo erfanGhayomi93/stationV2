@@ -10,7 +10,6 @@ interface IDraftRequsetType {
     validityDate: string | undefined;
     date: string;
     customerISINs: string;
-    customers: ICustomer[];
     orderStrategy?: string;
     orderType?: OrderTypeType;
 }
@@ -23,6 +22,7 @@ interface IDraftCreateType {
     validity: string;
     validityDate: string | undefined;
     customerISINs: string;
+    customerTitles: string;
     percent: number;
     orderStrategy: string;
     orderType: OrderTypeType;

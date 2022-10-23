@@ -1,10 +1,9 @@
 import clsx from 'clsx';
-import React, { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useCustomerListInfinit } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import { ComboSelectContext } from 'src/common/components/ComboSelect/context';
 import PasswordInput from 'src/common/components/PasswordInput';
-import { useRef } from 'react';
 
 const Page404 = () => {
     //
@@ -13,11 +12,7 @@ const Page404 = () => {
     const [panel, setPanel] = useState(false);
     const [selected, setSelected] = useState([]);
 
-    const {
-        data: qData,
-        isLoading,
-        isFetching,
-    } = useCustomerListInfinit({ term, pageNumber: 1, pageSize: 10, type: 'Customer' }, { onSuccess: () => setPanel(true) });
+    const { data: qData, isLoading, isFetching } = useCustomerListInfinit({ term, pageNumber: 1, pageSize: 10 }, { onSuccess: () => setPanel(true) });
 
     const Options = ({ active }: { active?: boolean }) => {
         return (

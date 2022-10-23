@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useGroupInformation } from 'src/app/queries/group';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
@@ -7,7 +7,8 @@ type IGroupDetailType = {};
 
 const GroupDetail = ({}: IGroupDetailType) => {
     const { state } = useCustomerSearchState();
-    const { data: groupInformation } = useGroupInformation({ groupId: state.detailModalData?.groupId });
+    const { data: groupInformation } = useGroupInformation({ groupId: state.detailModalData?.customerISIN });
+    // FIXME:group and group tag is diffrent
     const Columns = useMemo<ColDefType<ICustomerInformationResultType>[]>(
         () => [
             { field: 'customerTitle', headerName: 'نام و نام خانوادگی' },
