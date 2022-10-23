@@ -55,7 +55,7 @@ export const useUpdateBasket = () =>
     useMutation(updateBasketFn, {
         onSuccess: () => {
             queryClient.invalidateQueries(['BasketList']);
-            onSuccessNotif({ title: 'ویرایش سبد با موفقیت حذف شد' });
+            onSuccessNotif({ title: 'ویرایش سبد با موفقیت انجام شد' });
         },
         onError: () => {
             onErrorNotif();
