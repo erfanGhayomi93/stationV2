@@ -95,22 +95,3 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
 };
 
 export default CustomerMegaSelect;
-
-export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
-    return (
-        <>
-            {(isLoading || isFetching) && (
-                <div className="p-5 flex items-center justify-center w-full h-full">
-                    <div className="flex items-center justify-center gap-2 text-L-gray-400">
-                        <span>در حال بارگذاری</span>
-                        <SpinnerIcon width={25} height={25} />
-                    </div>
-                </div>
-            )}
-        </>
-    );
-}
-
-export function MinLen({ min }: { min: boolean }) {
-    return <>{min && <div className="p-5 flex items-center justify-center w-full h-full">حداقل دو کاراکتر وارد نمایید.</div>}</>;
-}

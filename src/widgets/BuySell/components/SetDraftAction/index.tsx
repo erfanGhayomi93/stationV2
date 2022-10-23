@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useCreateDraft } from 'src/app/queries/draft';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -19,10 +19,9 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             onSuccessNotif();
             queryClient.invalidateQueries(['draftList']);
 
-            if (sequential) {
+            if (!sequential) {
                 dispatch({ type: 'RESET' });
                 appDispatch(setSelectedCustomers([]));
-                appDispatch(setSelectedSymbol(''));
             }
         },
         onError: () => {
@@ -33,8 +32,9 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
+   
     const handleCreateDraft = () => {
-        let isins = selectedCustomers.map((c) => c.customerISIN);
+        let isins = selectedCustomers.map((c: any) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
 
         mutateCreateDraft({

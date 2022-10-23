@@ -53,7 +53,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="py-1.5 grow w-full px-1 outline-none truncate pl-8 border-b border-transparent focus:border-sky-400 duration-150 "
+                    className="py-1.5 grow w-full px-1 outline-none truncate pl-8 border-b border-transparent bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500 focus:border-sky-400 duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
                 />

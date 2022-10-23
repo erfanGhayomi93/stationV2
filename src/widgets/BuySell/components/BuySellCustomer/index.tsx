@@ -2,10 +2,11 @@ import clsx from 'clsx';
 import { FC, Fragment, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
+import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
+import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
-import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
 interface IBuySellCustomerType {}
@@ -52,23 +53,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                         )}
                     >
                         {content === 'SELECT' ? (
-                            <>
-                                {selectedCustomers?.map((item, inx) => (
-                                    <Fragment key={inx}>
-                                        <Combo.DataSet
-                                            key={inx}
-                                            className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                                            label={item.customerTitle}
-                                            value={item}
-                                        >
-                                            <div className="flex justify-between w-full">
-                                                {item.customerTitle}
-                                                <span>{item.bourseCode}</span>
-                                            </div>
-                                        </Combo.DataSet>
-                                    </Fragment>
-                                ))}
-                            </>
+                            <CustomerSelected selected={selectedCustomers} />
                         ) : (
                             <CustomerResult min={min} qData={qData || []} isLoading={isLoading} />
                         )}
@@ -115,7 +100,7 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {(isLoading || isFetching) && (
-                <div className="p-5 flex items-center justify-center w-full h-full">
+                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-450 bg-L-basic dark:bg-D-basic">
                     <div className="flex items-center justify-center gap-2 text-L-gray-400">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
@@ -127,5 +112,13 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
 }
 
 export function MinLen({ min }: { min: boolean }) {
-    return <>{min && <div className="p-5 flex items-center justify-center w-full h-full">حداقل دو کاراکتر وارد نمایید.</div>}</>;
+    return (
+        <>
+            {min && (
+                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-450 bg-L-basic dark:bg-D-basic">
+                    حداقل دو کاراکتر وارد نمایید.
+                </div>
+            )}
+        </>
+    );
 }

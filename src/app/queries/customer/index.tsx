@@ -8,6 +8,15 @@ const searchCustomer = async (params: IGoCustomerRequest) => {
 
     return data.result || [];
 };
+const getDefaultCustomer = async () => {
+    const { data } = await AXIOS.get<IGoCustomerSearchResult[]>(Apis().Customer.Get as string);
+    return data || [];
+};
+
+export const useDefaultCustomerList = () => {
+    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer());
+};
+
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(Apis().Customer.MultiSearch as string, {
         params: { ...params, type: params.type?.join() },

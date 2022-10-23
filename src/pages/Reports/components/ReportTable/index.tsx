@@ -10,7 +10,7 @@ interface IReportTableType {}
 
 const ReportTable: FC<IReportTableType> = ({}) => {
     const [active, setActive] = useState(1);
-    const PageSize = 5;
+    const PageSize = 10;
     const { FromDate: FromDate, customerISIN: CustomerISIN, side: Side, status: OrderStatus, symbolISIN, ToDate: ToDate } = useReportsState();
 
     const {
@@ -51,13 +51,7 @@ const ReportTable: FC<IReportTableType> = ({}) => {
                 <AGTable rowData={reportList?.result || []} columnDefs={Columns} />
             </WidgetLoading>
             <div className="border-t flex justify-end items-center  pt-4 ">
-                <Paginator
-                    loading={isFetching}
-                    current={active}
-                    hasNextPage={reportList?.hasNextPage}
-                    hasPreviousPage={reportList?.hasPreviousPage}
-                    onChange={handlePaginate}
-                />
+                <Paginator loading={isFetching} current={active} total={reportList?.totalPages} onChange={handlePaginate} />
             </div>
         </>
     );
