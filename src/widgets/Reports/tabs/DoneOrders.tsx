@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -9,11 +8,10 @@ import useHandleFilterOrder from '../components/useHandleFilterOrder';
 type IDoneOrders = {
     ClickLeftNode: any;
 };
-const DoneOrders : FC<IDoneOrders> = ({ ClickLeftNode }) => {
+const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'Done' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { isFilter } = ClickLeftNode;
-
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
@@ -37,15 +35,11 @@ const DoneOrders : FC<IDoneOrders> = ({ ClickLeftNode }) => {
     );
 
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
-             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+        <div className={'grid grid-rows-min-one h-full p-3'}>
+            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
+
             <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
         </div>
     );

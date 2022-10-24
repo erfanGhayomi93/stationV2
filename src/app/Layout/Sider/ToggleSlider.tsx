@@ -21,8 +21,7 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
                 {type === 'close' && <span className="pr-2">کارگزاری {t('brokerName.' + BrokerCode)}</span>}
             </button>
             <div
-                className={clsx({
-                    'w-full flex items-center': true,
+                className={clsx('w-full flex items-center', {
                     relative: type === 'open',
                 })}
             >

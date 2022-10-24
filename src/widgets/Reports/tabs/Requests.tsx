@@ -46,7 +46,7 @@ const Requests = () => {
     );
 
     return (
-        <div className="w-full h-full p-3">
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <AGTable rowData={[]} columnDefs={columns} />
         </div>
     );

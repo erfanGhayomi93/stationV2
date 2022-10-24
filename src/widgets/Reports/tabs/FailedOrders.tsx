@@ -42,12 +42,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
         [],
     );
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
