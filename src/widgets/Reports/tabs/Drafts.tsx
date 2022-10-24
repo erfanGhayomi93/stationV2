@@ -18,27 +18,27 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { mutate } = useDeleteDraft();
     const { isFilter } = ClickLeftNode;
 
-    const handleDelete = (data?: IDraftRequsetType) => {
-        data && mutate(data?.id);
+    const handleDelete = (data?: IDraftResponseType) => {
+        data && mutate(data?.orderId);
     };
 
     const appDispath = useAppDispatch();
-    const handleEdit = (data?: IDraftRequsetType) => {
+    const handleEdit = (data?: IDraftResponseType) => {
         appDispath(setDataBuySellAction(data));
     };
 
     const columns = useMemo(
-        (): ColDefType<IDraftRequsetType>[] => [
+        (): ColDefType<IDraftResponseType>[] => [
             { headerName: 'مشتری یا گروه مشتری', field: 'customerTitles', checkboxSelection: true },
             { headerName: 'نام نماد', field: 'symbolTitle' },
-            { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
+            { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: ICellRendererParams<IDraftRequsetType>) => (
+                cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
@@ -51,7 +51,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         [],
     );
 
-    // const onRowSelected = (event: RowSelectedEvent<IDraftRequsetType>) => {
+    // const onRowSelected = (event: RowSelectedEvent<IDraftResponseType>) => {
     //     console.log(event);
     // };
 

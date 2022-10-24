@@ -1,12 +1,11 @@
-import { FC } from 'react';
-import Select, { SelectOption } from 'src/common/components/Select';
-import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
-import { VALIDITY_OPTIONS } from 'src/constant/validity';
-import i18next from 'i18next';
-import dayjs from 'dayjs';
 import clsx from 'clsx';
-import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
+import dayjs from 'dayjs';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
+import Select, { SelectOption } from 'src/common/components/Select';
+import { VALIDITY_OPTIONS } from 'src/constant/validity';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface IBuySellValidityType {}
 
@@ -41,6 +40,8 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
             <div className={clsx('h-full flex items-center grow z-10', validity === 'GoodTillDate' ? '' : 'opacity-60 ')}>
                 <SimpleDatepicker
                     disable={validity !== 'GoodTillDate'}
+                    // defaultValue={validity === 'GoodTillDate' && validityDate ? (validityDate as any) : undefined}
+
                     onChange={(value) =>
                         setValidityDate(
                             dayjs(value as any)
