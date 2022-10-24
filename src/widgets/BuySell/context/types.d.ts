@@ -1,4 +1,4 @@
-type BuySellState = {
+interface BuySellState {
     price: number;
     quantity: number;
     validity: validity;
@@ -11,7 +11,7 @@ type BuySellState = {
     percent?: number;
     amount: number;
     side: BuySellSide;
-};
+}
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
 type BuySellSide = 'Buy' | 'Sell';
@@ -28,5 +28,6 @@ type BuySellAction =
     | { type: 'SET_AMOUNT'; value: number }
     | { type: 'TOGGLE_CALCULATOR'; value: boolean }
     | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide }
+    | { type: 'SET_ALL'; value: BuySellState }
     | { type: 'SOFT_RESET' }
     | { type: 'RESET' };

@@ -9,14 +9,14 @@ export enum TypeActionEnum {
 
 type IActionCell<T> = {
     type: string[];
-    data: T;
-    handleDelete?: (data: T) => void;
-    handleCopy?: (data: T) => void;
-    handleEdit?: (data: T) => void;
-    handleSend?: (data: T) => void;
+    data: T | undefined;
+    handleDelete?: (data: T | undefined) => void;
+    handleCopy?: (data: T | undefined) => void;
+    handleEdit?: (data: T | undefined) => void;
+    handleSend?: (data: T | undefined) => void;
 };
 
-function ActionCell({ type, data, handleDelete, handleEdit, handleSend, handleCopy }: IActionCell<IOrderGetType & IDraftRequsetType>) {
+function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handleCopy }: IActionCell<T>) {
     const isSend = type.includes(TypeActionEnum.SEND);
     const isEdit = type.includes(TypeActionEnum.EDIT);
     const isDelete = type.includes(TypeActionEnum.DELETE);

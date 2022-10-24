@@ -11,6 +11,12 @@ interface IOrderRequestType {
     orderType: OrderTypeType;
     orderStrategy: string;
 }
+interface ITodayOpenOrderType {
+    side?: OrderSideType;
+    symbolISIN?: string;
+    CustomerISIN?: string;
+    GtOrderStateRequestType?: 'OnBoard' | 'Done' | 'Error';
+}
 interface IOrderGetType {
     orderId: number;
     customerISIN: string;

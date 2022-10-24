@@ -17,7 +17,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    const onSelectionChanged = (customer: IGoCustomerSearchResult[]) => {
+    const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
         appDispatch(setSelectedCustomers(customer));
     };
 

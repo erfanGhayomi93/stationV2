@@ -5,7 +5,7 @@ import { WorkflowReducer } from './WorkflowReducer';
 interface IWorkflowWidgetType {}
 
 export const WorkflowInitialState: WorkflowState = {
-    space: ['PortfolioWatchlist', 'BuySellWidget', 'Reports', 'SymbolDetail'],
+    space: ['BuySellWidget', 'PortfolioWatchlist', 'Reports', 'SymbolDetail'],
 };
 const useValue = () => useReducer(WorkflowReducer, WorkflowInitialState);
 export const { Provider: WorkflowProvider, useTrackedState: useWorkflowState, useUpdate: useWorkflowDispatch } = createContainer(useValue);

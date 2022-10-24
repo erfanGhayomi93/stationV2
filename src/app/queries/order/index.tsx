@@ -13,14 +13,14 @@ export const setOrder = async (params: IOrderRequestType) => {
 };
 
 //////////////getOrder////////////////////
-const getOrderFn = async (GtOrderStateRequestType: any) => {
-    let { data } = await AXIOS.get(Apis().Orders.Get as string, { params: { GtOrderStateRequestType } });
+const getOrderFn = async (params: ITodayOpenOrderType) => {
+    let { data } = await AXIOS.get<GlobalApiResponseType<IOrderGetType[]>>(Apis().Orders.Get as string, { params });
 
     return data.result || [];
 };
 
-export const useGetOrders = ({ GtOrderStateRequestType }: any) => {
-    return useQuery<IOrderGetType[], Error>(['orderList', GtOrderStateRequestType], () => getOrderFn(GtOrderStateRequestType));
+export const useGetOrders = (params: ITodayOpenOrderType) => {
+    return useQuery(['orderList', params.GtOrderStateRequestType], () => getOrderFn(params));
 };
 
 //////////////delete Order////////////////////

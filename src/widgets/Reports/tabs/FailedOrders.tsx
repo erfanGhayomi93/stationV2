@@ -2,10 +2,9 @@ import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import DataSet from 'src/common/components/ComboSelect/components/Options/DataSet';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
@@ -18,7 +17,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
-    const handleCopy = (data: IOrderGetType) => {
+    const handleCopy = (data?: IOrderGetType) => {
         appDispath(setDataBuySellAction(data));
     };
 
@@ -30,7 +29,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'توضیحات', field: '' , valueFormatter : () => "-" },
+            { headerName: 'توضیحات', field: '', valueFormatter: () => '-' },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
@@ -43,12 +42,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
         [],
     );
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>

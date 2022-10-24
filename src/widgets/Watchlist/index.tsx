@@ -45,15 +45,16 @@ const Watchlists = (props: Props) => {
     );
 
     return (
-        <div className="px-3 py-1 h-[calc(100%-120px)]">
-            <WatchlistController />
-            <div className="h-full">
-                <AGTable
-                    rowData={selectedWatchlist === 0 ? defaultWatchlistSymbols : watchlistSymbols}
-                    columnDefs={Columns}
-                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
-                />
+        <div className="h-full grid grid-rows-min-one py-3 px-6">
+            <div>
+                <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium text-2xl py-4">دیده‌بان</h1>
+                <WatchlistController />
             </div>
+            <AGTable
+                rowData={selectedWatchlist === 0 ? defaultWatchlistSymbols : watchlistSymbols}
+                columnDefs={Columns}
+                onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
+            />
         </div>
     );
 };
