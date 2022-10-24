@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState, memo, SetStateAction, useEffect } from 'react';
-import { Dispatch } from 'redux';
+import { FC, memo, useEffect, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
@@ -9,8 +8,8 @@ import CustomerSelected from '../SearchResult/CustomerSelected';
 import InputSearch from './input';
 
 interface ICustomerMiniSelectType {
-    setSelected: (selected: IGoCustomerSearchResult[]) => void;
-    selected: IGoCustomerSearchResult[];
+    setSelected: (selected: IGoMultiCustomerType[]) => void;
+    selected: IGoMultiCustomerType[];
 }
 
 const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected }) => {
@@ -33,7 +32,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
         },
     );
 
-    const handleSelect = (value: IGoCustomerSearchResult[]) => {
+    const handleSelect = (value: IGoMultiCustomerType[]) => {
         setSelected(value);
         setPanel(false);
     };

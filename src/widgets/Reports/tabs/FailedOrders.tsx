@@ -2,10 +2,9 @@ import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import DataSet from 'src/common/components/ComboSelect/components/Options/DataSet';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
@@ -18,7 +17,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
-    const handleCopy = (data: IOrderGetType) => {
+    const handleCopy = (data?: IOrderGetType) => {
         appDispath(setDataBuySellAction(data));
     };
 

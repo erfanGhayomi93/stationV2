@@ -20,7 +20,7 @@ export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], un
 ////////////////get draft////////////////////////
 export const getDraftFn = async () => {
     try {
-        let { data } = await AXIOS.get(Apis().draft.Get as string);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IDraftCreateType[]>>(Apis().draft.Get as string);
         return data.result || [];
     } catch {
         return [];

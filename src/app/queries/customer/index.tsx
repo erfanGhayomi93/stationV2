@@ -1,5 +1,4 @@
-import { InfiniteData, useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -9,7 +8,7 @@ const searchCustomer = async (params: IGoCustomerRequest) => {
     return data.result || [];
 };
 const getDefaultCustomer = async () => {
-    const { data } = await AXIOS.get<IGoCustomerSearchResult[]>(Apis().Customer.Get as string);
+    const { data } = await AXIOS.get<IGoMultiCustomerType[]>(Apis().Customer.Get as string);
     return data || [];
 };
 
@@ -18,10 +17,20 @@ export const useDefaultCustomerList = () => {
 };
 
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType>>(Apis().Customer.MultiSearch as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiSearch as string, {
         params: { ...params, type: params.type?.join() },
     });
     return data.result || [];
+};
+const searchMultiMultiCustomer = async (customerISINs: string[]) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
+        params: { customerISINs },
+    });
+    return data.result || [];
+};
+
+export const useMutationMultiMultiCustomer = () => {
+    return useMutation(searchMultiMultiCustomer);
 };
 
 export const useCustomerList = (params: IGoCustomerRequest) => {
@@ -51,10 +60,10 @@ export const useCustomerListInfinit = (
         },
     );
 };
-
-export const useMultiCustomerListQuery = <T,>(
+// prettier-ignore
+export const useMultiCustomerListQuery = <T=IGoMultiCustomerType,>(
     params: IGoCustomerRequestType,
-    options?: Omit<UseQueryOptions<IGoMultiCustomerType, unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
     return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
         enabled: !!params.term,

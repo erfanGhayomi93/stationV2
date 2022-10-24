@@ -1,4 +1,4 @@
-import { configureStore, Store } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 // slices
 import globalReducer from './slices/global';
@@ -6,7 +6,7 @@ import keepDataBuySellSlice from './slices/keepDataBuySell';
 import optionReducer from './slices/option';
 import uiReducer from './slices/ui';
 
-export const store: Store = configureStore({
+export const store = configureStore({
     reducer: {
         ui: uiReducer,
         global: globalReducer,

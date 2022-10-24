@@ -1,13 +1,11 @@
-type ICustomerTypeType = 'Total' | 'Customer' | 'Group' | 'Mine';
-
 interface IGoCustomerResult {
-    type: ICustomerTypeType;
+    type: ICustomerMultiTypeType;
     searchResult: PaginatedSearchResult;
     typeCounts: TypeCount[];
 }
 
 interface IGoMultiCustomerType {
-    customerType: string;
+    customerType: ICustomerMultiTypeType;
     customerTitle: string;
     customerISIN: string;
     nationalCode: string;
@@ -37,13 +35,13 @@ interface IGoCustomerSearchResult {
 }
 
 interface TypeCount {
-    type: ICustomerTypeType;
+    type: ICustomerMultiTypeType;
     count: number;
 }
 
 interface IGoCustomerRequest extends IPaginateRequest {
     term?: string;
-    type?: ICustomerTypeType;
+    type?: ICustomerMultiTypeType;
 }
 type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag';
 interface IGoCustomerRequestType {
