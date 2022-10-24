@@ -63,6 +63,7 @@ interface ICustomerInformationResultType {
     stationCredit: number;
     brokerCredit: number;
     blocked: number;
+    customerType ?: string
 }
 
 interface IGetCustomerInformationRequestType {

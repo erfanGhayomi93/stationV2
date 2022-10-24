@@ -35,6 +35,10 @@ const CustomerDetail = ({}: ICustomerDetailType) => {
                             <Block value={customerInformation?.nationalCode} label="کد ملی / شناسه ملی" />
                             <Block value={customerInformation?.customerISIN} label="شماره ثبت" />
                         </DescriptionRow>
+                        <DescriptionRow>
+                        <Block value={customerInformation?.customerType} label="نوع مشتری" />
+
+                        </DescriptionRow>
                     </div>
                 </div>
             </div>
