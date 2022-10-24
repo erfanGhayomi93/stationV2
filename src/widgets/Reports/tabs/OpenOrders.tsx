@@ -1,5 +1,4 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
