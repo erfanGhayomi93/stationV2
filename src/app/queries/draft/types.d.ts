@@ -5,7 +5,7 @@ interface IDraftRequsetType {
     price: number;
     percent: number;
     quantity: number;
-    side: string;
+    orderSide: string;
     validity: string;
     validityDate: string | undefined;
     date: string;
@@ -26,4 +26,19 @@ interface IDraftCreateType {
     percent: number;
     orderStrategy: string;
     orderType: OrderTypeType;
+}
+
+interface IDraftResponseType {
+    orderId: number;
+    symbolISIN: string;
+    symbolTitle: string;
+    price: number;
+    percent: number;
+    quantity: number;
+    orderSide: OrderSideType;
+    validity: validity;
+    validityDate: string;
+    date: string;
+    customerISINs: string;
+    customerTitles: string[];
 }

@@ -1,4 +1,5 @@
-import { InfiniteData, useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { stringify } from 'qs';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -25,12 +26,17 @@ const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
 const searchMultiMultiCustomer = async (customerISINs: string[]) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
         params: { customerISINs },
+        paramsSerializer: (params) => {
+            return stringify(params);
+        },
     });
     return data.result || [];
 };
 
-export const useMutationMultiMultiCustomer = () => {
-    return useMutation(searchMultiMultiCustomer);
+export const useMutationMultiMultiCustomer = (
+    options?: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, string[], unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(searchMultiMultiCustomer, options);
 };
 
 export const useCustomerList = (params: IGoCustomerRequest) => {
