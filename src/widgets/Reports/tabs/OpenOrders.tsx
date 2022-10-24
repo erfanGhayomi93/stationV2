@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useMemo, FC } from 'react';
 import { useSingleDeleteOrders, useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -55,12 +54,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     );
 
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>

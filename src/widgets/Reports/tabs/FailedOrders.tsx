@@ -30,7 +30,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'توضیحات', field: '' , valueFormatter : () => "-" },
+            { headerName: 'توضیحات', field: '', valueFormatter: () => '-' },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
@@ -43,12 +43,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
         [],
     );
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>

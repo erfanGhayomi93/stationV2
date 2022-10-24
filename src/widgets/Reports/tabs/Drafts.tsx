@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useMemo, FC } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -40,7 +39,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 cellRenderer: (row: any) => (
                     <ActionCell
                         data={row.data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT , TypeActionEnum.SEND]}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                     />
@@ -56,12 +55,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
 
     //
     return (
-        <div
-            className={clsx('w-full p-3', {
-                'h-full': !isFilter,
-                'h-[calc(100%-50px)]': isFilter,
-            })}
-        >
+        <div className={'grid grid-rows-min-one h-full p-3'}>
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
