@@ -20,7 +20,11 @@ const CustomerDetailModal = ({}: ICustomerDetailModalType) => {
                         <div>{state.detailModalData?.customerTitle}</div>
                         <CloseIcon onClick={closeModal} className="cursor-pointer" />
                     </div>
-                    {state.detailModalData?.customerType === 'CustomerTag' ? <GroupDetail /> : <CustomerDetail />}
+                    {state.detailModalData?.customerType === 'CustomerTag' || state.detailModalData?.customerType === 'GTCustomerGroup' ? (
+                        <GroupDetail />
+                    ) : (
+                        <CustomerDetail />
+                    )}
                 </div>
             </Modal>
         </>

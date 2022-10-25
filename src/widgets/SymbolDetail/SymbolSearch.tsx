@@ -37,7 +37,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
             <Combobox.Option
                 key={symbol.symbolISIN}
                 className={({ active }) =>
-                    `relative cursor-default   select-none py-2 px-3 border-b last:border-none border-L-gray-350 dark:border-D-gray-350 ${
+                    `relative cursor-default text-1.2   select-none py-1 px-3 border-b last:border-none border-L-gray-350 dark:border-D-gray-350 ${
                         active
                             ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-500 dark:text-D-gray-500'
                             : 'text-L-gray-500 dark:text-D-gray-500 dark:odd:bg-D-gray-300 odd:bg-L-gray-300'
