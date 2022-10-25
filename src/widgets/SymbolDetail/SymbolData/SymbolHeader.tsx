@@ -18,6 +18,7 @@ const SymbolHeader = () => {
             companyName: data?.symbolData?.companyName,
             symbolState: data?.symbolData?.symbolState,
             insCode: data?.symbolData?.insCode,
+            companyCode: data?.symbolData?.companyCode,
         }),
     });
 
@@ -25,8 +26,9 @@ const SymbolHeader = () => {
         <div className="flex items-center w-full ">
             <div className="flex gap-1">
                 <div className="">
-                    {/* <img src="" alt="" /> */}
-                    <div className="w-[40px] h-[40px] bg-sky-400 rounded-full "></div>
+                    <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
+                        <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={data?.companyName} />
+                    </div>
                 </div>
                 <div className=" flex items-center gap-2">
                     <SymbolState symbolState={data?.symbolState || ''} />
