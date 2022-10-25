@@ -23,18 +23,21 @@ const SymbolHeader = () => {
     });
 
     return (
-        <div className="flex items-center">
-            <div className="ml-2">
-                <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
-                    <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={data?.companyName} />
+        <div className="flex items-center w-full ">
+            <div className="flex gap-1">
+                <div className="">
+                    <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
+                        <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={data?.companyName} />
+                    </div>
                 </div>
-            </div>
-            <div className="ml-2">
-                <SymbolState symbolState={data?.symbolState || ''} />
-            </div>
-            <div className="flex flex-col">
-                <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+                <div className=" flex items-center gap-2">
+                    <SymbolState symbolState={data?.symbolState || ''} />
+
+                    <div className="flex flex-col">
+                        <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
+                        <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+                    </div>
+                </div>
             </div>
             <div className="mr-auto flex items-center">
                 <CodalBtn symbolTitle={data?.symbolTitle || ''} />
