@@ -10,7 +10,7 @@ interface ITabType {
     fill?: boolean;
     buttonClass?: string;
     selectedButtonClass?: string;
-    containerClassName?: string;
+    pannelClassName?: string;
     className?: string;
 }
 
@@ -38,8 +38,8 @@ const TabsList: FC<ITabType> = ({
     fill,
     buttonClass,
     selectedButtonClass,
-    containerClassName,
-    className = 'w-full h-full flex flex-col rounded-md relative text-1.2 ',
+    pannelClassName = ' grow bg-L-basic dark:bg-D-basic outline-none ',
+    className = ' w-full h-full flex flex-col rounded-md relative text-1.2 ',
 }) => {
     //
     return (
@@ -71,7 +71,7 @@ const TabsList: FC<ITabType> = ({
                     </div>
                     <hr className="h-[1px] border-L-gray-350 dark:border-D-gray-350 absolute -z-[1] bottom-0 w-full" />
                 </HeadlessTab.List>
-                <HeadlessTab.Panels className="grow bg-L-basic dark:bg-D-basic outline-none ">
+                <HeadlessTab.Panels className={pannelClassName}>
                     {items ? (
                         items.map((item) => (
                             <HeadlessTab.Panel
