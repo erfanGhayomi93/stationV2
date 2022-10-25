@@ -66,8 +66,8 @@ export const Apis = () => ({
         Search: getBackOffice() + '/GtCustomer/v1/Search',
         GetCustomerInformation: getBackOffice() + '/GtCustomer/v1/GetCustomerInformation',
         GetGroupInformation: getBackOffice() + '/GtCustomer/v1/GetGroupInformation',
-        MultiSearch: getBackOffice() + '/GTCustomer/v1/MultipleSerach',
-        MultiMultiSearch: getBackOffice() + '/GTCustomer/v1/MultiMultipleSerach',
+        MultiSearch: getBackOffice() + '/GTCustomer/v1/MultipleSearch',
+        MultiMultiSearch: getBackOffice() + '/GTCustomer/v1/MultiMultipleSearch',
         Get: getBackOffice() + '/GTCustomer/v1/GetCustomersV2',
     },
     MarketDepth: {
