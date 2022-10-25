@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';
-import { EyePlusIcon } from 'src/common/icons';
 import { useAppValues } from 'src/redux/hooks';
 
 const SymbolHeader = () => {
@@ -19,14 +18,16 @@ const SymbolHeader = () => {
             companyName: data?.symbolData?.companyName,
             symbolState: data?.symbolData?.symbolState,
             insCode: data?.symbolData?.insCode,
+            companyCode: data?.symbolData?.companyCode,
         }),
     });
 
     return (
         <div className="flex items-center">
             <div className="ml-2">
-                {/* <img src="" alt="" /> */}
-                <div className="w-[40px] h-[40px] bg-sky-400 rounded-full "></div>
+                <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
+                    <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={data?.companyName} />
+                </div>
             </div>
             <div className="ml-2">
                 <SymbolState symbolState={data?.symbolState || ''} />
