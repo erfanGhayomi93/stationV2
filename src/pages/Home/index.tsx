@@ -45,8 +45,8 @@ const Home = () => {
             </div>
         ),
         BuySellWidget: () => (
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 overflow-y-auto ">
-                <div className="col-span-3    overflow-y-auto">
+            <div className="col-span-3 gap-2 grid h-full grid-cols-3 overflow-y-hidden ">
+                <div className="col-span-3   overflow-y-hidden">
                     <SymbolDetail />
                 </div>
             </div>

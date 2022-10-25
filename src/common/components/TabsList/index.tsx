@@ -10,6 +10,8 @@ interface ITabType {
     fill?: boolean;
     buttonClass?: string;
     selectedButtonClass?: string;
+    containerClassName?: string;
+    className?: string;
 }
 
 export interface ITabItemType {
@@ -28,10 +30,20 @@ interface ITabButtonType {
     selectedButtonClass?: string;
 }
 
-const TabsList: FC<ITabType> = ({ leftNode, onChange, selectedIndex, items, fill, buttonClass, selectedButtonClass }) => {
+const TabsList: FC<ITabType> = ({
+    leftNode,
+    onChange,
+    selectedIndex,
+    items,
+    fill,
+    buttonClass,
+    selectedButtonClass,
+    containerClassName,
+    className = 'w-full h-full flex flex-col rounded-md relative text-1.2 ',
+}) => {
     //
     return (
-        <div className="w-full h-full flex flex-col rounded-md relative text-1.2  ">
+        <div className={className}>
             <HeadlessTab.Group
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
@@ -94,7 +106,7 @@ const TabButton: FC<ITabButtonType> = ({
             {({ selected }) => (
                 <div
                     className={clsx(
-                        ' py-2 px-5 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute ',
+                        ' py-2 px-4 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute ',
                         fill ? 'w-full' : '',
                         selected ? selectedButtonClass : buttonClass,
                     )}
