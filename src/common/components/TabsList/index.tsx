@@ -12,6 +12,7 @@ interface ITabType {
     selectedButtonClass?: string;
     pannelClassName?: string;
     className?: string;
+    tabListClassName?: string;
 }
 
 export interface ITabItemType {
@@ -36,6 +37,7 @@ const TabsList: FC<ITabType> = ({
     selectedIndex,
     items,
     fill,
+    tabListClassName = 'bg-L-basic dark:bg-D-basic border  border-L-gray-350 dark:border-D-gray-350 border-b-0 relative z-[0]',
     buttonClass,
     selectedButtonClass,
     pannelClassName = ' grow bg-L-basic dark:bg-D-basic outline-none ',
@@ -48,7 +50,7 @@ const TabsList: FC<ITabType> = ({
                 onChange={(index) => onChange(items[index].key)}
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
-                <HeadlessTab.List className=" bg-L-basic dark:bg-D-basic border  border-L-gray-350 dark:border-D-gray-350 border-b-0 relative z-[0] ">
+                <HeadlessTab.List className={tabListClassName}>
                     <div className="flex justify-between items-center overflow-x-auto overflow-y-hidden">
                         <div className="w-full flex">
                             {items ? (
