@@ -34,7 +34,7 @@ const AppLayout = () => {
                     </ProviderSlider>
                     <div className="grid grid-rows-min-one-min h-full overflow-y-auto  ">
                         <Header />
-                        <div className="px-4 py-2 grid overflow-y-auto ">
+                        <div className="px-4 py-2 grid overflow-y-auto grid-rows-1 ">
                             <Outlet />
                         </div>
                         <Footer />

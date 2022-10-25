@@ -3,16 +3,19 @@ import React from 'react';
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     addonBefore?: JSX.Element;
     addonAfter?: JSX.Element;
+    containerClassName?: string;
 }
 
-const Input = ({ disabled, addonAfter, addonBefore, ...rest }: Props) => {
+const Input = ({
+    disabled,
+    addonAfter,
+    addonBefore,
+    containerClassName = 'flex items-center w-full rounded-sm duration-250 dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50',
+    ...rest
+}: Props) => {
     //
     return (
-        <div
-            className={`flex items-center w-full rounded-sm duration-250 dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50 ${
-                disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'
-            }`}
-        >
+        <div className={` ${containerClassName} ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
             <div>{addonBefore ? addonBefore : null}</div>
             <div className="grow">
                 <input

@@ -25,7 +25,7 @@ const PriceView = ({
     );
 
     return (
-        <div className="flex flex-nowrap whitespace-nowrap snap-center">
+        <div className="flex flex-nowrap whitespace-nowrap snap-center gap-3">
             {label ? <span className="ml-1">{label}:</span> : null}
             <div className={textColorClassName} style={{ direction: 'ltr' }}>
                 {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}

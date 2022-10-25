@@ -78,14 +78,10 @@ const SymbolDetail = () => {
     }, [selectedSymbol]);
 
     return (
-        <div className="w-full grid grid-rows-min-one gap-2">
-            <div>
-                <SymbolSearch placeholder="جستجوی نماد" />
-            </div>
-            {/*  apply loading wrapper here */}
-            <div>
-                <SymbolData />
-            </div>
+        <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">
+            <SymbolSearch placeholder="جستجوی نماد" />
+
+            <SymbolData />
         </div>
     );
 };
