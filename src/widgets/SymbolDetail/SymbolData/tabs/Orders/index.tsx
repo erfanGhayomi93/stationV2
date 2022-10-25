@@ -86,7 +86,7 @@ const Orders = () => {
     }, [selectedSymbol]);
 
     return (
-        <div className={clsx('w-full pt-2  h-full grid   grid-rows-min-one relative   ')}>
+        <div className={clsx('w-full pt-2  h-full grid   grid-rows-min-one relative  text-1.2  ')}>
             <div className=" grid grid-cols-2 grid-rows-1 sticky top-0">
                 <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 sticky top-0 right-0">
                     <span className="ml-4">تعداد</span>

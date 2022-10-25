@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';
-import { EyePlusIcon } from 'src/common/icons';
 import { useAppValues } from 'src/redux/hooks';
 
 const SymbolHeader = () => {
@@ -23,17 +22,20 @@ const SymbolHeader = () => {
     });
 
     return (
-        <div className="flex items-center">
-            <div className="ml-2">
-                {/* <img src="" alt="" /> */}
-                <div className="w-[40px] h-[40px] bg-sky-400 rounded-full "></div>
-            </div>
-            <div className="ml-2">
-                <SymbolState symbolState={data?.symbolState || ''} />
-            </div>
-            <div className="flex flex-col">
-                <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+        <div className="flex items-center w-full ">
+            <div className="flex gap-1">
+                <div className="">
+                    {/* <img src="" alt="" /> */}
+                    <div className="w-[40px] h-[40px] bg-sky-400 rounded-full "></div>
+                </div>
+                <div className=" flex items-center gap-2">
+                    <SymbolState symbolState={data?.symbolState || ''} />
+
+                    <div className="flex flex-col">
+                        <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
+                        <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+                    </div>
+                </div>
             </div>
             <div className="mr-auto flex items-center">
                 <CodalBtn symbolTitle={data?.symbolTitle || ''} />
