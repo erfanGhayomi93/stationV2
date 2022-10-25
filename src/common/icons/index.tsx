@@ -53,6 +53,7 @@ export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioD
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
+export { ReactComponent as TimeIcon } from 'src/assets/svg/Time.svg';
 export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
