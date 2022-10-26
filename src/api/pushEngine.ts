@@ -1,4 +1,4 @@
-import { Subscription, LightstreamerClient, ConnectionSharing } from 'lightstreamer-client-web';
+import { ConnectionSharing, LightstreamerClient, Subscription } from 'lightstreamer-client-web';
 
 interface IConnect {
     DomainName: string;
@@ -7,18 +7,18 @@ interface IConnect {
     User: string;
     Password: string;
 }
-
-interface ISubscribe {
+type IChangedField = { [key: string]: any };
+interface ISubscribe<T = IChangedField> {
     id: string;
     mode: 'MERGE' | 'RAW';
     items: string[];
     fields: string[];
     adapterName: string;
     isSnapShot: 'no' | 'yes';
-    onFieldsUpdate: (updatedFields: UpdatedFieldsType) => void;
+    onFieldsUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
 }
 
-type UpdatedFieldsType = { itemName: string; changedFields: { [key: string]: any } };
+type UpdatedFieldsType<T = IChangedField> = { itemName: string; changedFields: T };
 
 const client = new LightstreamerClient();
 const subscriptions: { [subId: string]: Subscription | null } = {};
@@ -41,7 +41,7 @@ const connect = ({ DomainName, DomainPort, AdapterSet, User, Password }: IConnec
 
 const disConnect = () => client.disconnect();
 
-const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsUpdate }: ISubscribe) => {
+const subscribe = <T = IChangedField>({ id, mode, items, fields, adapterName, isSnapShot, onFieldsUpdate }: ISubscribe<T>) => {
     //
     if (!mode || !Array.isArray(items) || !Array.isArray(fields) || !adapterName || !isSnapShot || !onFieldsUpdate) return;
     if (items?.length === 0 || fields?.length === 0) return;
@@ -60,7 +60,7 @@ const subscribe = ({ id, mode, items, fields, adapterName, isSnapShot, onFieldsU
                 value !== null && (updatedFields.changedFields[name] = isNaN(value as any) ? value : +value);
             });
 
-            if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0) onFieldsUpdate(updatedFields);
+            if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0) onFieldsUpdate(updatedFields as any);
         },
     });
 

@@ -1,6 +1,6 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-
 // Redux
 import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
@@ -17,6 +17,7 @@ import App from 'src/app/App';
 //prettier-ignore
 import 'react-toastify/dist/ReactToastify.css';
 import 'src/assets/scss/main.scss';
+import { GlobalSetterProvider } from './common/context/globalSetterContext';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -28,17 +29,19 @@ const Wrapper = () => {
         <>
             <BrowserRouter>
                 <TranslatorProvider>
-                    <App />
-                    <ToastContainer
-                        position="bottom-left"
-                        autoClose={5000}
-                        hideProgressBar={true}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        draggable
-                        pauseOnHover
-                    />
+                    <GlobalSetterProvider>
+                        <App />
+                        <ToastContainer
+                            position="bottom-left"
+                            autoClose={5000}
+                            hideProgressBar={true}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                        />
+                    </GlobalSetterProvider>
                 </TranslatorProvider>
             </BrowserRouter>
         </>
@@ -51,6 +54,7 @@ root.render(
     <Provider store={store}>
         <QueryClientProvider>
             <Wrapper />
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </Provider>,
 );
