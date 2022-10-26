@@ -82,7 +82,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                         min={3}
                     >
                         <div>
-                            <InputSearch loading={isFetching} />
+                            <InputSearch loading={isFetching} selectionCount={selectedCustomers.length} />
                             <Combo.Panel className="relative z-[90]" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                                 <Options />
                             </Combo.Panel>
