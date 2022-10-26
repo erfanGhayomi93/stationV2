@@ -3039,18 +3039,33 @@
     "@svgr/plugin-svgo" "^5.5.0"
     "loader-utils" "^2.0.0"
 
-"@tanstack/query-core@^4.0.0-beta.1":
-  "integrity" "sha512-UOyOhHKLS/5i9qG2iUnZNVV3R9riJJmG9eG+hnMFIPT/oRh5UzAfjxCtBneNgPQZLDuP8y6YtRYs/n4qVAD5Ng=="
-  "resolved" "https://registry.npmjs.org/@tanstack/query-core/-/query-core-4.2.1.tgz"
-  "version" "4.2.1"
-
-"@tanstack/react-query@^4.2.1":
-  "integrity" "sha512-w02oTOYpoxoBzD/onAGRQNeLAvggLn7WZjS811cT05WAE/4Q3br0PTp388M7tnmyYGbgOOhFq0MkhH0wIfAKqA=="
-  "resolved" "https://registry.npmjs.org/@tanstack/react-query/-/react-query-4.2.1.tgz"
-  "version" "4.2.1"
+"@tanstack/match-sorter-utils@^8.1.1":
+  "integrity" "sha512-lVNhzTcOJ2bZ4IU+PeCPQ36vowBHvviJb2ZfdRFX5uhy7G0jM8N34zAMbmS5ZmVH8D2B7oU82OWo0e/5ZFzQrw=="
+  "resolved" "https://registry.npmjs.org/@tanstack/match-sorter-utils/-/match-sorter-utils-8.5.14.tgz"
+  "version" "8.5.14"
   dependencies:
-    "@tanstack/query-core" "^4.0.0-beta.1"
-    "@types/use-sync-external-store" "^0.0.3"
+    "remove-accents" "0.4.2"
+
+"@tanstack/query-core@4.13.0":
+  "integrity" "sha512-PzmLQcEgC4rl2OzkiPHYPC9O79DFcMGaKsOzDEP+U4PJ+tbkcEP+Z+FQDlfvX8mCwYC7UNH7hXrQ5EdkGlJjVg=="
+  "resolved" "https://registry.npmjs.org/@tanstack/query-core/-/query-core-4.13.0.tgz"
+  "version" "4.13.0"
+
+"@tanstack/react-query-devtools@^4.13.0":
+  "integrity" "sha512-Gv33auVlcUMrnj5qXJuhhTJtBs8bKp7v3TFRysnS+VlLOmdj9gwl5bc0e0/URL7m+PQoR1Rr55yzQ5bmZcWm1g=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-query-devtools/-/react-query-devtools-4.13.0.tgz"
+  "version" "4.13.0"
+  dependencies:
+    "@tanstack/match-sorter-utils" "^8.1.1"
+    "superjson" "^1.10.0"
+    "use-sync-external-store" "^1.2.0"
+
+"@tanstack/react-query@^4.13.0", "@tanstack/react-query@4.13.0":
+  "integrity" "sha512-dI/5hJ/pGQ74P5hxBLC9h6K0/Cap2T3k0ZjjjFLBCNnohDYgl7LNmMopzrRzBHk2mMjf2hgXHIzcKNG8GOZ5hg=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-query/-/react-query-4.13.0.tgz"
+  "version" "4.13.0"
+  dependencies:
+    "@tanstack/query-core" "4.13.0"
     "use-sync-external-store" "^1.2.0"
 
 "@testing-library/dom@^8.3.0", "@testing-library/dom@^8.5.0", "@testing-library/dom@>=7.21.4":
@@ -5809,6 +5824,13 @@
   "integrity" "sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw=="
   "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   "version" "0.5.0"
+
+"copy-anything@^3.0.2":
+  "integrity" "sha512-CzATjGXzUQ0EvuvgOCI6A4BGOo2bcVx8B+eC2nF862iv9fopnPQwlrbACakNCHRIJbCSBj+J/9JeDf60k64MkA=="
+  "resolved" "https://registry.npmjs.org/copy-anything/-/copy-anything-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "is-what" "^4.1.6"
 
 "copy-concurrently@^1.0.0":
   "integrity" "sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A=="
@@ -9274,6 +9296,11 @@
   "version" "1.0.2"
   dependencies:
     "call-bind" "^1.0.2"
+
+"is-what@^4.1.6":
+  "integrity" "sha512-DBVOQNiPKnGMxRMLIYSwERAS5MVY1B7xYiGnpgctsOFvVDz9f9PFXXxMcTOHuoqYp4NK9qFYQaIC1NRRxLMpBQ=="
+  "resolved" "https://registry.npmjs.org/is-what/-/is-what-4.1.7.tgz"
+  "version" "4.1.7"
 
 "is-whitespace-character@^1.0.0":
   "integrity" "sha512-SDweEzfIZM0SJV0EUga669UTKlmL0Pq8Lno0QDQsPnvECB3IM2aP0gdx5TrU0A01MAPfViaZiI2V1QMZLaKK5w=="
@@ -13364,6 +13391,11 @@
   dependencies:
     "mdast-squeeze-paragraphs" "^4.0.0"
 
+"remove-accents@0.4.2":
+  "integrity" "sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA=="
+  "resolved" "https://registry.npmjs.org/remove-accents/-/remove-accents-0.4.2.tgz"
+  "version" "0.4.2"
+
 "remove-trailing-separator@^1.0.1":
   "integrity" "sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw=="
   "resolved" "https://registry.npmjs.org/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz"
@@ -14524,6 +14556,13 @@
   dependencies:
     "browserslist" "^4.16.6"
     "postcss-selector-parser" "^6.0.4"
+
+"superjson@^1.10.0":
+  "integrity" "sha512-6PfAg1FKhqkwWvPb2uXhH4MkMttdc17eJ91+Aoz4s1XUEDZFmLfFx/xVA3wgkPxAGy5dpozgGdK6V/n20Wj9yg=="
+  "resolved" "https://registry.npmjs.org/superjson/-/superjson-1.11.0.tgz"
+  "version" "1.11.0"
+  dependencies:
+    "copy-anything" "^3.0.2"
 
 "supports-color@^5.3.0":
   "integrity" "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="

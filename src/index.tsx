@@ -1,6 +1,6 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-
 // Redux
 import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
@@ -54,6 +54,7 @@ root.render(
     <Provider store={store}>
         <QueryClientProvider>
             <Wrapper />
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </Provider>,
 );
