@@ -69,7 +69,7 @@ export const Apis = () => ({
         MultiSearch: getBackOffice() + '/GTCustomer/v1/MultipleSearch',
         MultiMultiSearch: getBackOffice() + '/GTCustomer/v1/MultiMultipleSearch',
         GroupCustomerDetail: getBackOffice() + '/GTCustomer/v1/GroupCustomerDetail',
-        Get: getBackOffice() + '/GTCustomer/v1/GetCustomersV2',
+        Get: getBackOffice() + '/GTCustomer/v1/GetCustomers',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',

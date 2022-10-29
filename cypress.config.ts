@@ -1,8 +1,8 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-    viewportHeight: 667,
-    viewportWidth: 375,
+    viewportHeight: 882,
+    viewportWidth: 1300,
     component: {
         setupNodeEvents(on, config) {},
         specPattern: 'src/**/*.test.{js,ts,jsx,tsx}',
@@ -17,7 +17,7 @@ export default defineConfig({
             require('@cypress/code-coverage/task')(on, config);
             return config;
         },
-        specPattern: 'src/**/*.cy.{js,ts,jsx,tsx}',
+        specPattern: 'cypress/e2e/**/*.cy.{js,ts,jsx,tsx}',
         baseUrl: 'http://localhost:3001/',
     },
 });
