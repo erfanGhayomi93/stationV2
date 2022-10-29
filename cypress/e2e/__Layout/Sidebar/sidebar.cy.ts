@@ -2,11 +2,19 @@
 
 describe('toggle sidebar', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3001');
+        cy.visit('/login');
     });
 
-    it('it has to open sidebar', () => {
-        cy.get('[data-cy="toggle-sider"]').click();
-        cy.contains('expanded-sider');
+    it('it has to visit login page', () => {
+        cy.contains('ورود به سامانه معاملاتی آنلاین گروهی');
+    });
+
+    it('it has to login', () => {
+        cy.get('[data-cy="username"]').type('testuser');
+        cy.get('[data-cy="password"]').type('Tgs10001#');
+        // captcha
+        cy.contains('ورود به سامانه معاملاتی آنلاین گروهی');
     });
 });
+
+export {};
