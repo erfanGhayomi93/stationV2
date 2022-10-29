@@ -30,6 +30,10 @@ const updateWatchList = async ({ id, watchlistName, isPinned }: IWatchlistReques
     );
     return data?.result;
 };
+const sortWatchList = async (srrtID: number[]) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Sort as string, srrtID);
+    return data?.result;
+};
 const getWatchListSymbols = async (watchlistId: number) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(Apis().WatchList.GetWatchlistSymbol as string, {
         params: { watchlistId },
@@ -95,6 +99,9 @@ export const deleteWatchListMutation = (options?: Omit<UseMutationOptions<boolea
 export const updateWatchListMutation = (
     options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistRequestType, unknown>, 'mutationFn'> | undefined,
 ) => useMutation(updateWatchList, options);
+
+export const sortWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number[], unknown>, 'mutationFn'> | undefined) =>
+    useMutation(sortWatchList, options);
 
 export const addWatchListSymbolMutation = (
     options?: Omit<UseMutationOptions<number, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,

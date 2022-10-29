@@ -4,7 +4,6 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
 import { FC, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { clearAllListeners } from '@reduxjs/toolkit';
 
 export type DateType = DateObject | DateObject[] | null | string | undefined;
 interface IAdvancedDatePicker<T> {

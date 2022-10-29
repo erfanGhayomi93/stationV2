@@ -105,6 +105,7 @@ export const Apis = () => ({
         Create: getPortfolioUrl() + '/GTWatchlist/v1/Create',
         Delete: getPortfolioUrl() + '/GTWatchlist/v1/Delete',
         Update: getPortfolioUrl() + '/GTWatchlist/v1/Update',
+        Sort: getPortfolioUrl() + '/GTWatchlist/v1/Sort',
         GetWatchlistSymbol: getPortfolioUrl() + '/GTWatchlist/v1/GetWatchlistSymbols',
         DeleteSymbol: getPortfolioUrl() + '/GTWatchlist/v1/DeleteSymbol',
         AddSymbol: getPortfolioUrl() + '/GTWatchlist/v1/AddSymbol',

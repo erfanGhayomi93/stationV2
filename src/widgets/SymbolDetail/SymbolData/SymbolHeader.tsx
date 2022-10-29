@@ -27,7 +27,9 @@ const SymbolHeader = () => {
             <div className="flex gap-1">
                 <div className="">
                     <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
-                        <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={data?.companyName} />
+                        {data?.companyCode && (
+                            <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={""} />
+                        )}
                     </div>
                 </div>
                 <div className=" flex items-center gap-2">
