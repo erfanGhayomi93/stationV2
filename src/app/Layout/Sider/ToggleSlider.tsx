@@ -15,10 +15,10 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
     const { t } = useTranslation();
     return (
         <>
-            <button className="p-3 rounded-md flex items-center outline-none" onClick={onOpen}>
+            <button className="p-3 rounded-md flex items-center outline-none" onClick={onOpen} data-cy="toggle-sider">
                 <img className="h-[45px] aspect-square brightness-0 invert" src={'/assets/images/' + src} />
 
-                {type === 'close' && <span className="pr-2">کارگزاری {t('brokerName.' + BrokerCode)}</span>}
+                {type === 'close' && <span className="pr-2"> {t('headerSec.' + BrokerCode + '_LogoTitle')}</span>}
             </button>
             <div
                 className={clsx('w-full flex items-center', {

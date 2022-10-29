@@ -95,7 +95,7 @@ const Login = () => {
                         <div className="w-full flex flex-col px-20 gap-6 pt-5 ">
                             <h5 className="text-1.6 font-semibold text-[#35435A] flex items-center ">
                                 <img className="-mr-5" src={`/assets/images/logo_189.svg`} width={55} height={55} />
-                                <span>کارگزاری {t('brokerName.' + BrokerCode)}</span>
+                                <span>کارگزاری {t('headerSec.' + BrokerCode + '_LogoTitle')}</span>
                             </h5>
                             <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('Login.title')}</h3>
                             <form onSubmit={(e) => onSubmitClick(e)}>
@@ -104,6 +104,7 @@ const Login = () => {
                                         <span className="text-[#35435A] font-semibold pr-0.5">نام کاربری</span>
                                         <input
                                             name="username"
+                                            data-cy="username"
                                             placeholder="username"
                                             className="border bg-white p-3 rounded-lg border-[#A4B2C9]"
                                             type="text"
@@ -116,6 +117,7 @@ const Login = () => {
                                         <span className="text-[#35435A] font-semibold pr-0.5">رمز عبور</span>
                                         <div className="flex flex-col gap-2 items-end">
                                             <PasswordInput
+                                                data-cy="password"
                                                 onChange={setPassString}
                                                 classname="bg-white  rounded-lg border-[#A4B2C9] w-full overflow-hidden"
                                                 suffixClassName="text-[#7E93B4]"
