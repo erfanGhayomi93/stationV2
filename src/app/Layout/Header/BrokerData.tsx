@@ -32,7 +32,7 @@ const BrokerData = () => {
             <span className="ml-2">
                 <img className="h-[45px] aspect-square" src={'/assets/images/' + userBroker.src} />
             </span>
-            <span className="font-semibold">کارگزاری {t('brokerName.' + BrokerCode)}</span>
+            <span className="font-semibold">{t('headerSec.' + BrokerCode + '_LogoTitle')}</span>
         </div>
     );
 };

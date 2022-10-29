@@ -1,14 +1,13 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 // Initialize i18next
 i18n.use(initReactI18next)
     .use(HttpApi)
     .init({
         backend: {
-            loadPath: './assets/json/appResources.json',
+            loadPath: 'https://resource.ramandtech.com/JsonResource/RamandTrader_Fa_00.json',
         },
         load: 'languageOnly',
         lng: 'fa',

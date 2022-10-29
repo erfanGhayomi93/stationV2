@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
+import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
@@ -25,6 +26,8 @@ export const BuySellInitialState: BuySellState = {
 const useValue = () => useReducer(BuySellReducer, BuySellInitialState);
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);
 const BuySellContext = () => {
+    const dispatchSetter = useGlobalSetterDispatch();
+
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
         appDispatch(setSelectedCustomers(customer));
     };
@@ -36,6 +39,12 @@ const BuySellContext = () => {
 
     const appDispatch = useAppDispatch();
     const dispatch = useBuySellDispatch();
+
+    useEffect(() => {
+        const resetBuySellState = () => dispatch({ type: 'RESET' });
+
+        dispatchSetter({ resetBuySellState: resetBuySellState });
+    }, [dispatch, dispatchSetter]);
 
     const {
         keepDataBuySellSlice: { data: keepData },
@@ -61,7 +70,7 @@ const BuySellContext = () => {
                         quantity: keepData.quantity,
                         side: keepData.orderSide as BuySellSide,
                         // strategy: keepData.orderStrategy as strategy,
-                        symbolISIN: '',
+                        symbolISIN: keepData.symbolISIN,
                         validity: keepData.validity as validity,
                         validityDate: keepData.validityDate,
                         percent: keepData.percent,
@@ -84,7 +93,7 @@ const BuySellContext = () => {
                         quantity: keepData.quantity,
                         side: keepData.orderSide as BuySellSide,
                         strategy: 'normal',
-                        symbolISIN: '',
+                        symbolISIN: keepData.symbolISIN,
                         validity: keepData.validity as validity,
                         validityDate: keepData.validityDate,
                     },
