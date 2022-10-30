@@ -11,7 +11,7 @@ const ChangeCellRenderer = ({ value, valueFormatted, tooltip = false }: ChangeCe
     const [changedValue, setChangedValue] = useState<number>(cellValue);
 
     useEffect(() => {
-        console.log({ changedValue, cellValue });
+        // console.log({ changedValue, cellValue });
         if (changedValue === cellValue) return;
 
         timer.current = setTimeout(() => setChangedValue(cellValue || 0), 2000);

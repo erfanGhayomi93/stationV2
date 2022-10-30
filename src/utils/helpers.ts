@@ -303,17 +303,17 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    if (data.value === 'Buy') return i18next.t('BSModal.Buy_side_tn');
-    else if (data.value === 'Sell') return i18next.t('BSModal.Sell_side_tn');
-    else if (data.value === 'Cross') return i18next.t('BSModal.Cross_side_tn');
-    else return 'نامشخص';
+    return i18next.t('OrderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.value === 'FillAndKill') return i18next.t('BSModal.validity_FillAndKill');
-    else if (data.value === 'GoodTillCancelled') return i18next.t('BSModal.validity_GoodTillCancelled');
-    else if (data.value === 'GoodTillDate') return getFarsiDate(data.data.validityDate).farsiDate;
-    return data.value;
+    if (data.value === 'Day' || data.value === 'Week' || data.value === 'Month' || data.value === 'GoodTillDate')
+        return getFarsiDate(data.data.validityDate).farsiDate;
+    return i18next.t('BSModal.validity_' + data.value);
+};
+
+export const valueFormatterState = (data: any) => {
+    return i18next.t('OrderState.' + data.value);
 };
 
 export const valueFormatterDate = (data: any) => {

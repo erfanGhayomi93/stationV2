@@ -1,6 +1,7 @@
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
@@ -9,7 +10,7 @@ type IDoneOrders = {
     ClickLeftNode: any;
 };
 const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'Done' });
+    const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Done' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { isFilter } = ClickLeftNode;
 
@@ -39,8 +40,9 @@ const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
-
-            <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+            <WidgetLoading spining={isFetching}>
+                <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+            </WidgetLoading>
         </div>
     );
 };

@@ -52,7 +52,6 @@ const WatchlistContext = () => {
                                     ...changedFields,
                                 },
                             };
-
                             updatedWatchList[inx] = updatedSymbol;
 
                             return [...updatedWatchList];

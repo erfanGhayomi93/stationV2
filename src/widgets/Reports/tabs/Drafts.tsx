@@ -1,8 +1,8 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
@@ -13,7 +13,7 @@ type IDraft = {
     ClickLeftNode: any;
 };
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter } = useGetDraft();
+    const { data: dataBeforeFilter , isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const { mutate } = useDeleteDraft();
     const { isFilter } = ClickLeftNode;
@@ -61,6 +61,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
+            <WidgetLoading spining={isFetching}>
             <AGTable
                 rowData={dataAfterfilter}
                 columnDefs={columns}
@@ -69,6 +70,8 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 // suppressRowClickSelection={true}
                 // onRowSelected={onRowSelected}
             />
+                            </WidgetLoading>
+
         </div>
     );
 };
