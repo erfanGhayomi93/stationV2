@@ -32,13 +32,13 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
             <div className="w-[175px]">
                 <Select
                     onChange={(selected) => handleChangeFilterData('side', selected)}
-                    value={t('BSModal.' + FilterData.side + '_side_tn')}
+                    value={t('OrderSide.' + FilterData.side)}
                     title="سمت:"
                 >
                     {sideOption.map((item, ind) => (
                         <SelectOption
                             key={ind}
-                            label={t('BSModal.' + item.value + '_side_tn')}
+                            label={t('OrderSide.' + item.value)}
                             value={item.value}
                             className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                         />
@@ -52,10 +52,10 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
 export default FilterTable;
 
 export const sideOption: {
-    label: string;
     value: string;
 }[] = [
-    { label: 'همه', value: '' },
-    { label: 'خرید', value: 'Buy' },
-    { label: 'فروش', value: 'Sell' },
-];
+    {value : "All"},
+    {value : "Buy"},
+    {value : "Sell"},
+]
+

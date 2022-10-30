@@ -10,10 +10,10 @@ type ITableType = {
     activeBasket: number | undefined;
     listAfterFilter: IListDetailsBasket[] | undefined;
     dataFilter: filterStateType;
-    isShowFilter : boolean
+    isShowFilter: boolean;
 };
 
-export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter , isShowFilter }) => {
+export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter }) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const { customerTitles, symbolTitle, side } = dataFilter;
 
@@ -48,7 +48,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
         >
             <AGTable
                 rowData={listAfterFilter?.filter((item) => {
-                    if (!customerTitles && !symbolTitle && !side) return true;
+                    if (!customerTitles && !symbolTitle && side === 'All') return true;
                     else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
                     else if (side && item?.side.includes(side)) return true;
                     else if (customerTitles) {

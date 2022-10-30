@@ -3,7 +3,7 @@ import { useOrderLists } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { valueFormatterIndex } from 'src/utils/helpers';
+import { valueFormatterIndex, valueFormatterSide, valueFormatterState } from 'src/utils/helpers';
 import { useReportsState } from '../../Context/ReportsContext';
 
 interface IReportTableType {}
@@ -34,11 +34,11 @@ const ReportTable: FC<IReportTableType> = ({}) => {
             { headerName: 'ردیف', field: 'customerTitles', valueFormatter: (data) => valueFormatterIndex(data, active, PageSize), width: 20 },
             { headerName: 'مشتری', field: 'customerTitle' },
             { headerName: 'نماد', field: 'symbolTitle' },
-            { headerName: 'سمت', field: 'orderSide', type: 'sepratedNumber' },
+            { headerName: 'سمت', field: 'orderSide', type: 'sepratedNumber', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'وضعیت', field: 'state', type: 'sepratedNumber' },
+            { headerName: 'وضعیت', field: 'state', type: 'sepratedNumber', valueFormatter: valueFormatterState },
             { headerName: 'تاریخ', field: 'orderDateTime', type: 'date' },
             // { headerName: 'کارمزد معامله', field: 'lastTradedPrice', type: 'sepratedNumber' },
         ],

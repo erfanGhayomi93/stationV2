@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide } from 'src/utils/helpers';
@@ -12,7 +13,7 @@ type IFailedOrders = {
     ClickLeftNode: any;
 };
 const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'Error' });
+    const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Error' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
@@ -46,7 +47,9 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
-            <AGTable rowData={dataAfterfilter as undefined} columnDefs={columns} enableBrowserTooltips={false} />
+            <WidgetLoading spining={isFetching}>
+                <AGTable rowData={dataAfterfilter as undefined} columnDefs={columns} enableBrowserTooltips={false} />
+            </WidgetLoading>
         </div>
     );
 };
