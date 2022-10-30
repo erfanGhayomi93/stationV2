@@ -1,8 +1,8 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
@@ -13,7 +13,7 @@ type IOpenOrders = {
     ClickLeftNode: any;
 };
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
+    const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders();
     const appDispath = useAppDispatch();
@@ -60,7 +60,9 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
-            <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+            <WidgetLoading spining={isFetching}>
+                <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+            </WidgetLoading>
         </div>
     );
 };

@@ -1,11 +1,13 @@
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { ColGroupDef, ColDef } from 'ag-grid-community';
+import ReactDOMServer from 'react-dom/server';
 
 import { seprateNumber, abbreviateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
 import { useAppValues } from 'src/redux/hooks';
 import dayjs from 'dayjs';
+import { DragIcon } from 'src/common/icons';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
     type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date';
@@ -73,6 +75,9 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
                 defaultColDef={DefaultColDef}
                 //
                 rowData={rowData}
+                icons={{
+                    rowDrag: ReactDOMServer.renderToString(<DragIcon />),
+                }}
                 {...rest}
             />
         </div>

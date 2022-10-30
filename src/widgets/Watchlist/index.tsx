@@ -1,13 +1,14 @@
-import { CellRendererComponent } from 'ag-grid-community/dist/lib/components/framework/componentTypes';
+import { ICellRendererParams } from 'ag-grid-community';
 import { useMemo } from 'react';
 import { useDefaultWatchlistSymbolsQuery, useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
+import { seprateNumber } from 'src/utils/helpers';
 import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
 import WatchlistController from './components/WatchlistController/WatchlistController';
 import { useWatchListState } from './context/WatchlistContext';
-import { useEffect } from 'react';
 
 type Props = {};
 type WatchlistData = {
@@ -35,11 +36,35 @@ const Watchlists = (props: Props) => {
     const Columns = useMemo(
         (): ColDefType<IWatchlistSymbolTableType>[] => [
             { headerName: 'نماد', field: 'symbolTitle' },
-            { headerName: 'قیمت لحظه ای', field: 'lastTradedPrice', type: 'sepratedNumber' },
-            { headerName: 'قیمت پایانی', field: 'closingPrice', type: 'sepratedNumber' },
-            { headerName: 'حجم معاملات', field: 'totalNumberOfSharesTraded', type: 'abbreviatedNumber' },
-            { headerName: 'ارزش معاملات', field: 'totalTradeValue', type: 'abbreviatedNumber' },
-            { headerName: 'عملیات', cellRenderer: ({ data }: any) => <ActionCellRenderer {...data} /> },
+            {
+                headerName: 'قیمت لحظه ای',
+                field: 'lastTradedPrice',
+                // type: 'sepratedNumber',
+                valueFormatter: ({ value }) => seprateNumber(value),
+                cellRenderer: ChangeCellRenderer,
+            },
+            {
+                headerName: 'قیمت پایانی',
+                field: 'closingPrice',
+                type: 'sepratedNumber',
+                cellRenderer: ChangeCellRenderer,
+            },
+            {
+                headerName: 'حجم معاملات',
+                field: 'totalNumberOfSharesTraded',
+                type: 'abbreviatedNumber',
+                cellRenderer: ChangeCellRenderer,
+            },
+            {
+                headerName: 'ارزش معاملات',
+                field: 'totalTradeValue',
+                type: 'abbreviatedNumber',
+                cellRenderer: ChangeCellRenderer,
+            },
+            {
+                headerName: 'عملیات',
+                cellRenderer: ({ data }: ICellRendererParams<IWatchlistSymbolTableType>) => <ActionCellRenderer {...(data as any)} />,
+            },
         ],
         [],
     );

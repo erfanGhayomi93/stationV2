@@ -6,8 +6,9 @@ import { PlusIcon, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/ico
 
 interface IInputSearchType {
     loading: boolean;
+    selectionCount: number;
 }
-const InputSearch: FC<IInputSearchType> = ({ loading }) => {
+const InputSearch: FC<IInputSearchType> = ({ loading, selectionCount }) => {
     const {
         setPanel,
         setValue,
@@ -64,7 +65,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
             <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
             <button
                 type={'button'}
-                disabled={!selections?.length}
+                disabled={!selectionCount}
                 className={clsx('flex justify-between items-center gap-2 cursor-pointer  z-30 disabled:opacity-40')}
                 onClick={(e) => handleSetPanelContent(e)}
             >
@@ -81,12 +82,12 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                     />
                     <span
                         className={clsx(
-                            selections?.length
+                            selectionCount
                                 ? 'absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full'
                                 : 'hidden',
                         )}
                     >
-                        {selections?.length ? (selections?.length < 10 ? selections?.length : '9+') : ''}
+                        {selectionCount ? (selectionCount < 10 ? selectionCount : '9+') : ''}
                     </span>
                 </div>
             </button>

@@ -3,6 +3,7 @@ import { FC, FormEvent } from 'react';
 import AXIOS from 'src/api/axiosInstance';
 import { SpinnerIcon } from 'src/common/icons';
 import { queryClient } from 'src/app/queryClient';
+import { toast } from 'react-toastify';
 
 interface IHelpType {}
 
@@ -21,14 +22,24 @@ interface IRes {
 }
 
 const Help: FC<IHelpType> = ({}) => {
-    const { data, isLoading } = useQuery(['res'], () => AXIOS.get<ResJson>('https://resource.ramandtech.com/JsonResource/MobileTrader_Fa_01.json'), {
+    const { data, isLoading } = useQuery(['res'], () => AXIOS.get<ResJson>('https://resource.ramandtech.com/JsonResource/RamandTrader_Fa_00.json'), {
         select: (data) => data.data,
         cacheTime: 0,
         staleTime: 0,
     });
 
     const { mutate } = useMutation((data: IRes) => AXIOS.post('https://resource.ramandtech.com/Resource', data), {
-        onSuccess: () => queryClient.invalidateQueries(['res']),
+        onSuccess: (data) => {
+            if (data.data === 'Success') {
+                toast.success('ثبت شد');
+                queryClient.invalidateQueries(['res']);
+            } else {
+                toast.error('ثبت نشد');
+            }
+        },
+        onError: () => {
+            toast.error('ثبت نشد');
+        },
     });
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -78,8 +89,8 @@ const Help: FC<IHelpType> = ({}) => {
                     <label className="w-full items-center justify-between  gap-2 flex">
                         applicationName:
                         <select name="applicationName" className="border w-[42rem] rounded-sm py-2 px-2">
-                            <option value={'Admin'}>Admin</option>
                             <option value={'RamandTrader'}>RamandTrader</option>
+                            <option value={'Admin'}>Admin</option>
                             <option value={'RamandExchangeTrader'}>RamandExchangeTrader</option>
                             <option value={'RamandExchangeAdmin'}>RamandExchangeAdmin</option>
                             <option value={'MobileTrader'}>MobileTrader</option>

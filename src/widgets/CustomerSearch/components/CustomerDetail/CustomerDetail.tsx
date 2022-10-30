@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCustomerInformation } from 'src/app/queries/customer';
 import { seprateNumber } from 'src/utils/helpers';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
@@ -8,6 +9,7 @@ type ICustomerDetailType = {};
 const CustomerDetail = ({}: ICustomerDetailType) => {
     const { state } = useCustomerSearchState();
     const { data: customerInformation } = useCustomerInformation({ customerISIN: state.detailModalData?.customerISIN });
+    const { t } = useTranslation();
 
     return (
         <>
@@ -34,6 +36,9 @@ const CustomerDetail = ({}: ICustomerDetailType) => {
                         <DescriptionRow>
                             <Block value={customerInformation?.nationalCode} label="کد ملی / شناسه ملی" />
                             <Block value={customerInformation?.customerISIN} label="شماره ثبت" />
+                        </DescriptionRow>
+                        <DescriptionRow>
+                            <Block value={t('CustomerType.' + customerInformation?.customerType)} label="نوع مشتری" />
                         </DescriptionRow>
                     </div>
                 </div>

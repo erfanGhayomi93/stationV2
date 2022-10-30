@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import DataDisplay from 'src/common/components/DataDisplay';
 import { useAppValues } from 'src/redux/hooks';
@@ -11,10 +12,11 @@ const Details = () => {
     const {
         option: { selectedSymbol },
     } = useAppValues();
+    const { t } = useTranslation();
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
-            bourseKey: data?.symbolData?.bourseKey,
+            marketUnit: data?.symbolData?.marketUnit,
             lastTradeDateTime: data?.symbolData?.lastTradeDateTime,
             firstTradedPrice: data?.symbolData?.firstTradedPrice,
             baseVolume: data?.symbolData?.baseVolume,
@@ -35,7 +37,7 @@ const Details = () => {
     });
 
     const items = [
-        { key: 1, label: 'نوع بازار', value: data?.bourseKey || '-' },
+        { key: 1, label: 'نوع بازار', value: t('marketUnit.' + data?.marketUnit) || '-' },
         {
             key: 2,
             label: 'آخرین معامله',

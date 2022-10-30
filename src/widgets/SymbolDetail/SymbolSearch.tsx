@@ -2,6 +2,7 @@ import { Combobox, Transition } from '@headlessui/react';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo, useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolState from 'src/common/components/SymbolState';
+import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import useDebounce from 'src/common/hooks/useDebounce';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { Search } from 'src/common/icons';
@@ -17,9 +18,10 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const {
         option: { selectedSymbol },
     } = useAppValues();
+    const { resetBuySellState } = useGlobalSetterState();
     const [term, setTerm] = useState<string>('');
     const debouncedTerm = useDebounce(term, 500);
-    const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm);
+    const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm, {});
     const appDispatch = useAppDispatch();
 
     const TextDisplay = useCallback(
@@ -37,7 +39,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
             <Combobox.Option
                 key={symbol.symbolISIN}
                 className={({ active }) =>
-                    `relative cursor-default   select-none py-2 px-3 border-b last:border-none border-L-gray-350 dark:border-D-gray-350 ${
+                    `relative cursor-default text-1.2   select-none py-1 px-3 border-b last:border-none border-L-gray-350 dark:border-D-gray-350 ${
                         active
                             ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-500 dark:text-D-gray-500'
                             : 'text-L-gray-500 dark:text-D-gray-500 dark:odd:bg-D-gray-300 odd:bg-L-gray-300'
@@ -58,10 +60,15 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
         ));
     }, [term, debouncedTerm, isSearchLoading, searchResult]);
 
-    const onSymbolSelect = useCallback((selected: any) => {
-        selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
-        selected?.symbolISIN && setLocalSymbolISIN(selected.symbolISIN);
-    }, []);
+    const onSymbolSelect = useCallback(
+        (selected: any) => {
+            resetBuySellState();
+
+            selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
+            selected?.symbolISIN && setLocalSymbolISIN(selected.symbolISIN);
+        },
+        [resetBuySellState],
+    );
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => data.symbolData,

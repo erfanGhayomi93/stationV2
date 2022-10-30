@@ -16,7 +16,11 @@ export const REPORT_STATUS_OPTIONS = [
     { value: 'OnModifyError' },
     { value: 'OnCancelError' },
     { value: 'Expired' },
-    { value: 'RejectByGAP' },
+    { value: 'draft' },
+    { value: 'draftSending' },
+    { value: 'draftDeleting' },
+    { value: 'draftEditing' },
+    { value: 'orderDeleting' },
+    { value: 'orderEditing' },
     { value: 'OnCancelingWithBroker' },
-    { value: 'TradeCancel' },
 ];

@@ -22,7 +22,7 @@ export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
         if (!isRead) {
             mutate(data.id);
             setisRead(true);
-            dispatch({ type: REadSupervisorEnum.READ_MESSAGE });
+            dispatch && dispatch({ type: REadSupervisorEnum.READ_MESSAGE });
         }
     };
 

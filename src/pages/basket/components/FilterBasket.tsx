@@ -21,7 +21,7 @@ export type filterStateType = {
 export const initialDataFilterBasket = {
     symbolTitle: '',
     customerTitles: '',
-    side: '',
+    side: 'All',
 };
 
 export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter, setisShowFilter }) => {
@@ -92,13 +92,13 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                         <div className="mt-2 w-[206px]">
                             <Select
                                 onChange={(selected) => handleChange('side', selected)}
-                                value={t('BSModal.' + dataFilter.side + '_side_tn')}
+                                value={t('OrderSide.' + dataFilter.side)}
                                 title=""
                             >
                                 {sideOption.map((item, ind) => (
                                     <SelectOption
                                         key={ind}
-                                        label={t('BSModal.' + item.value + '_side_tn')}
+                                        label={t('OrderSide.' + item.value)}
                                         value={item.value}
                                         className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                                     />

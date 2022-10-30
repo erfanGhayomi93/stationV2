@@ -30,7 +30,7 @@ const Home = () => {
 
     const Layouts = {
         PortfolioWatchlist: () => (
-            <div className="col-span-9">
+            <div className="col-span-9 grid-rows-1">
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
                     <div className="col-span-6">
                         <PortfolioWatchlist />
@@ -45,17 +45,15 @@ const Home = () => {
             </div>
         ),
         BuySellWidget: () => (
-            <div className="col-span-3 gap-2 grid h-full grid-cols-3 overflow-y-auto ">
-                <div className="col-span-3    overflow-y-auto">
-                    <SymbolDetail />
-                </div>
+            <div className="col-span-3 grid-rows-1 grid   h-full  ">
+                <SymbolDetail />
             </div>
         ),
         Reports: () => <></>,
         SymbolDetail: () => <></>,
     };
     return (
-        <div className="grid gap-2 grid-cols-12 overflow-y-auto  ">
+        <div className="grid gap-2 grid-cols-12 grid-rows-1 ">
             <>{Layouts[space[0]]()}</>
             <>{Layouts[space[1]]()}</>
         </div>

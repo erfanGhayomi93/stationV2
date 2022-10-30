@@ -1,10 +1,10 @@
-import DatePicker, { DateObject } from 'react-multi-date-picker';
+import clsx from 'clsx';
+import { FC, useEffect, useRef } from 'react';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import InputIcon from 'react-multi-date-picker/components/input_icon';
-import { FC, useEffect, useRef } from 'react';
-import clsx from 'clsx';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import AnalogTimePicker from 'react-multi-date-picker/plugins/analog_time_picker';
+import InputIconTime from './InputIconTime';
 interface IAdvancedTimePickerAnalog<T> {
     value: T;
     onChange: (selectedDates: T) => void;
@@ -44,10 +44,13 @@ const AdvancedTimePickerAnalog: FC<IAdvancedTimePickerAnalog<DateObject | DateOb
             calendarPosition="bottom-right"
             ref={calendarRef}
             render={
-                <InputIcon
-                    onClick={() => calendarRef.current.openCalendar()}
+                <InputIconTime
+                    onClick={(e : Event) => {
+                        e.preventDefault();
+                        calendarRef.current.openCalendar();
+                    }}
                     className={clsx(
-                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded-lg pr-3 focus-visible:outline-none',
+                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded pr-3 focus-visible:outline-none',
                         {
                             [className]: !!className,
                         },

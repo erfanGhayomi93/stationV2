@@ -27,17 +27,19 @@ const CustomerSearch = () => {
                 const Legal = data.filter((item) => item.customerType === 'Legal');
                 const Natural = data.filter((item) => item.customerType === 'Natural');
                 const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
+                const GTCustomerGroup = data.filter((item) => item.customerType === 'GTCustomerGroup');
                 return {
                     Legal,
                     Natural,
                     CustomerTag,
+                    GTCustomerGroup,
                 };
             },
         },
     );
     const { data: defaultCustomer } = useDefaultCustomerList();
 
-    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag'];
+    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag', 'GTCustomerGroup'];
     // const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
     // const setParams = (type: ICustomerMultiTypeType) => {
@@ -66,7 +68,7 @@ const CustomerSearch = () => {
                             <button
                                 key={inx}
                                 onClick={() => handleSetType(itemType)}
-                                disabled={!(groupedCustomer ? groupedCustomer[itemType].length : 0)}
+                                // disabled={!(groupedCustomer ? groupedCustomer[itemType].length : 0)}
                                 className={clsx(
                                     ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
                                     !state.isSelectedActive && itemType === type

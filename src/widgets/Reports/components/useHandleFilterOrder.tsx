@@ -8,7 +8,7 @@ function useHandleFilterOrder({ dataBeforeFilter }: handleFilter) {
     const [FilterData, setFilterData] = useState({
         customerTitle: '',
         symbolTitle: '',
-        side: '',
+        side: 'All',
     });
 
     const handleChangeFilterData = (type: string, data: string) => {
@@ -23,7 +23,7 @@ function useHandleFilterOrder({ dataBeforeFilter }: handleFilter) {
 
         if (!dataBeforeFilter) return [];
         return (dataBeforeFilter as any).filter((item: IOrderGetType) => {
-            if (!customerTitle && !symbolTitle && !side) return true;
+            if (!customerTitle && !symbolTitle && side === "All") return true;
             else if (customerTitle && item.customerTitle.includes(customerTitle)) return true;
             else if (symbolTitle && item.symbolTitle && item.symbolTitle.includes(symbolTitle)) return true;
             else if (side && item.orderSide.includes(side)) return true;

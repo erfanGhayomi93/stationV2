@@ -19,8 +19,8 @@ const SymbolPricePreview = () => {
     });
 
     return (
-        <div className="px-3 py-2 rounded-md bg-L-gray-150 dark:bg-D-gray-150 dark:text-L-basic text-D-basic">
-            <div className="flex justify-between items-center">
+        <div className="px-3 py-2 text-1.2 rounded-md bg-L-gray-150 dark:bg-D-gray-150 dark:text-L-basic text-D-basic">
+            <div className="grid gap-1 2xl:grid-cols-2 justify-items-center ">
                 <PriceView label="قیمت پایانی" price={data?.closingPrice || 0} percentage={data?.closingPriceVarPercent || 0} />
                 <PriceView label="آخرین قیمت" price={data?.lastTradedPrice || 0} percentage={data?.lastTradedPriceVarPercent || 0} />
             </div>

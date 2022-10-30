@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { createContext, FC, useState, useRef, useEffect } from 'react';
+import { createContext, FC, useEffect, useRef, useState } from 'react';
 import { EyeIcon, EyeSlashIcon, KeyboardIcon } from 'src/common/icons';
 import Keyboard from './Keyboard';
 
@@ -18,7 +18,7 @@ interface IPasswordInputProviderType {
     value?: string;
 }
 
-const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, inputClassName, defaultValue, value, suffixClassName }) => {
+const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, inputClassName, defaultValue, value, suffixClassName, ...rest }) => {
     const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
     const inputRef = useRef<HTMLDivElement>(null);
     const [showPass, setShowPass] = useState(false);
@@ -50,6 +50,7 @@ const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, in
             <div className="w-full relative" ref={inputRef}>
                 <div className={clsx('flex border ', classname)}>
                     <input
+                        {...rest}
                         name="password"
                         placeholder="password"
                         className={clsx('py-3 w-full px-3', inputClassName)}
