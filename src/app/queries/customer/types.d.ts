@@ -44,6 +44,7 @@ interface IGoCustomerRequest extends IPaginateRequest {
     type?: ICustomerMultiTypeType;
 }
 type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag' | 'GTCustomerGroup';
+
 interface IGoCustomerRequestType {
     term?: string;
     type?: ICustomerMultiTypeType[];
@@ -63,7 +64,7 @@ interface ICustomerInformationResultType {
     stationCredit: number;
     brokerCredit: number;
     blocked: number;
-    customerType ?: string
+    customerType?: string;
 }
 
 interface IGetCustomerInformationRequestType {

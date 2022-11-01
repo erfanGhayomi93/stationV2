@@ -1,8 +1,11 @@
+import { useMutation } from '@tanstack/react-query';
 import { ICellRendererParams } from 'ag-grid-community';
 import { FC, useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
+import { setOrder } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
@@ -17,10 +20,41 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const { mutate } = useDeleteDraft();
     const { isFilter } = ClickLeftNode;
+    const { mutate : mutateSend } = useMutation(setOrder, {
+        onSuccess: () => {
+            onSuccessNotif();
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
 
     const handleDelete = (data?: IDraftResponseType) => {
         data && mutate(data?.orderId);
     };
+
+    const handleSend = (data?: IDraftResponseType) =>{
+        console.log("data" , data)
+        let customerISIN: ICustomerIsins = [];
+        let CustomerTagId: ICustomerIsins = [];
+        let GTTraderGroupId: ICustomerIsins = [];
+
+        // mutateSend({
+        //     customerISIN,
+        //     CustomerTagId,
+        //     GTTraderGroupId,
+        //     orderSide: side,
+        //     orderDraftId: undefined,
+        //     orderStrategy: strategy,
+        //     orderType: 'MarketOrder',
+        //     percent: percent || 0,
+        //     price: price,
+        //     quantity: quantity,
+        //     symbolISIN: symbolISIN,
+        //     validity: handleValidity(validity),
+        //     validityDate: validityDate,
+        // });
+    }
 
     const appDispath = useAppDispatch();
     const handleEdit = (data?: IDraftResponseType) => {
@@ -44,6 +78,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                         type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
+                        handleSend={handleSend}
                     />
                 ),
             },
@@ -70,7 +105,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 // suppressRowClickSelection={true}
                 // onRowSelected={onRowSelected}
             />
-                            </WidgetLoading>
+                 </WidgetLoading>
 
         </div>
     );

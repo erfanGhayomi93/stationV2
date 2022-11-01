@@ -37,7 +37,7 @@ const WatchlistContext = () => {
                 isSnapShot: 'yes',
                 adapterName: 'RamandRLCDData',
                 items: data.map((watchlist) => watchlist.symbolISIN),
-                fields: ['lastTradedPrice', 'closingPrice', 'totalNumberOfSharesTraded', 'totalTradeValue'],
+                fields: ['lastTradedPrice', 'closingPrice','bestSellLimitPrice_1','bestBuyLimitPrice_1', 'totalNumberOfSharesTraded', 'totalTradeValue','highestTradePriceOfTradingDay','lowestTradePriceOfTradingDay'],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
                     queryClient.setQueryData(['getWatchListSymbols', selectedWatchlist], (oldData: IWatchlistSymbolType[] | undefined) => {
                         // //
