@@ -16,6 +16,8 @@ interface IDraftRequsetType {
 
 interface IDraftCreateType {
     symbolISIN: string;
+    customerTagTitles: string;
+    gtTraderGroupId: string;
     price: number;
     quantity: number;
     side: string;

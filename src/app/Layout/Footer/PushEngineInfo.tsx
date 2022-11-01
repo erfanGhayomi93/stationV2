@@ -26,9 +26,9 @@ const PushEngineInfo = () => {
     const greenStatus = useMemo(() => ['CONNECTED:WS-STREAMING', 'CONNECTED:HTTP-STREAMING', 'CONNECTED:WS-POLLING', 'CONNECTED:HTTP-POLLING'], []);
 
     const signalData = useMemo(() => {
-        if (redStatus.includes(pushEngineState)) return { colorClass: 'text-red-500', text: t('PushEngine.Disconnected') };
-        else if (greenStatus.includes(pushEngineState)) return { colorClass: 'text-green-500', text: t('PushEngine.Connected') };
-        else return { colorClass: 'text-yellow-500', text: t('PushEngine.Stalled') };
+        if (redStatus.includes(pushEngineState)) return { colorClass: 'text-red-500', text: t('headerSec.psIcon_DISCONNECTED_tooltip') };
+        else if (greenStatus.includes(pushEngineState)) return { colorClass: 'text-green-500', text: t('headerSec.psIcon_CONNECTED_tooltip') };
+        else return { colorClass: 'text-yellow-500', text: t('headerSec.psIcon_CONNECTING_tooltip') };
     }, [pushEngineState]);
 
     useEffect(() => {

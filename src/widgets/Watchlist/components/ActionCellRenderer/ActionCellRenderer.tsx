@@ -2,9 +2,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 import { deleteWatchListSymbolMutation } from 'src/app/queries/watchlist';
+import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
-import { DeleteIcon, EditIcon, EditIcon2, FileIcon } from 'src/common/icons';
+import { DeleteIcon, EditIcon, EditIcon2, FileIcon, NoteIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 
 interface IActionCellRendererType extends IWatchlistSymbolTableType {}
@@ -32,20 +33,25 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
                 <CodalBtn symbolTitle={symbol.symbolTitle} className="" />
                 <TseBtn insCode={symbol.insCode} />
             </div>
-            {selectedWatchlist ? (
-                <div className="flex items-center justify-center gap-1 text-L-primary-50 dark:text-D-primary-50 border-r pr-1">
+
+            <div className="flex items-center justify-center gap-1 text-L-primary-50 dark:text-D-primary-50 border-r pr-1">
+                {selectedWatchlist ? (
+                    <>
+                        <button>
+                            <NoteIcon />
+                        </button>
+                        <button>
+                            <DeleteIcon
+                                onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlist as number })}
+                            />
+                        </button>
+                    </>
+                ) : (
                     <button>
-                        <EditIcon2 />
+                          <AddToWatchlistButton symbolISIN={symbol.symbolISIN} />
                     </button>
-                    <button>
-                        <DeleteIcon
-                            onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlist as number })}
-                        />
-                    </button>
-                </div>
-            ) : (
-                <></>
-            )}
+                )}
+            </div>
         </div>
     );
 };

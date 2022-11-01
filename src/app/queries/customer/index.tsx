@@ -13,8 +13,10 @@ const getDefaultCustomer = async () => {
     return data || [];
 };
 
-export const useDefaultCustomerList = () => {
-    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer());
+export const useDefaultCustomerList =<T=IGoMultiCustomerType,>(
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer(), options);
 };
 
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
