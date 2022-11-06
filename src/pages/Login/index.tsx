@@ -135,6 +135,7 @@ const Login = () => {
                                                 className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center"
                                                 type="text"
                                                 value={captchaValue}
+                                                data-cy="captcha"
                                                 maxLength={5}
                                                 minLength={5}
                                                 onChange={(e) => setCaptchaValue(e?.target?.value || '')}

@@ -4,30 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import Tooltip from 'src/common/components/Tooltip';
-import {
-    BasketIcon,
-    Customers,
-    Envelope2Icon,
-    EyeFrameIcon,
-    File2Icon,
-    FileIcon,
-    GearIcon,
-    HelpIcon,
-    HomeIcon,
-    MonitorIcon,
-    QMarkIcon,
-    QuitIcon,
-} from 'src/common/icons';
+import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, QuitIcon } from 'src/common/icons';
+import { logOutReq } from '../Header/UserActions';
 import { useSliderDispatch, useSliderValue } from './context';
 import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
-import { logOutReq } from '../Header/UserActions';
 
 export type MenuItemType = {
     icon: JSX.Element;
     label: string | JSX.Element;
     position: 'top' | 'bottom';
+    id?: string;
     placeOfDisplay: 'closed' | 'opened' | 'both';
     isActive: boolean;
     onClick: (() => void) | undefined;
@@ -66,6 +54,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
+                id: 'basket',
                 onClick: () => navigate('/basket'),
             },
             {
@@ -74,6 +63,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
+                id: 'Watchlist',
                 onClick: () => navigate('/Watchlist'),
             },
             {
@@ -82,6 +72,7 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
+                id: 'Reports',
                 onClick: () => navigate('/Reports'),
             },
             // {
@@ -166,7 +157,11 @@ const Sider = () => {
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
                                 <Tooltip key={ind} title={item.label}>
-                                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
+                                    <button
+                                        data-cy={item.id}
+                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
+                                        onClick={item.onClick}
+                                    >
                                         <>{item.icon}</>
                                     </button>
                                 </Tooltip>
@@ -177,7 +172,11 @@ const Sider = () => {
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
                                 <Tooltip key={ind} title={item.label}>
-                                    <button className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
+                                    <button
+                                        data-cy={item.id}
+                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
+                                        onClick={item.onClick}
+                                    >
                                         {item.icon}
                                     </button>
                                 </Tooltip>
