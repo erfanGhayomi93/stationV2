@@ -1,12 +1,11 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FC, FormEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
+import Select, { SelectOption } from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
-import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
-import Select, { SelectOption } from 'src/common/components/Select';
-import i18next from 'i18next';
-import { useTranslation } from 'react-i18next';
 
 interface IWatchlistControllerType {}
 
@@ -67,6 +66,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                         (watchlist) =>
                             watchlist.isPinned && (
                                 <button
+                                    data-cy={'watchlist-items-' + watchlist.watchListName}
                                     onClick={() => setActiveWatchlist(watchlist.id)}
                                     key={watchlist.id}
                                     data-actived={watchlist.id === state.selectedWatchlist}
@@ -82,6 +82,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                         <button
                             onClick={() => setIsAddActive(true)}
                             data-actived={isAddActive}
+                            data-cy="add-watchlist"
                             className="text-L-primary-50 actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
                         >
                             <PlusIcon />
@@ -99,6 +100,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                             <PlusIcon />
                         </button> */}
                             <input
+                                data-cy="add-watchlist-input"
                                 className="border p-1 rounded-xl outline-L-primary-100 "
                                 value={watchlistName}
                                 onBlur={() => setIsAddActive(false)}
@@ -108,6 +110,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                         </form>
                     </div>
                     <button
+                        data-cy="edit-watchlist"
                         onClick={openEditModal}
                         className="text-L-primary-50 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
                     >

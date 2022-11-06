@@ -97,7 +97,9 @@ const Login = () => {
                                 <img className="-mr-5" src={`/assets/images/logo_189.svg`} width={55} height={55} />
                                 <span>کارگزاری {t('headerSec.' + BrokerCode + '_LogoTitle')}</span>
                             </h5>
-                            <h3 className="text-2.4 font-semibold text-[#35435A]">ورود به سامانه معاملاتی {t('headerSec.' + BrokerCode + '_LogoTitle')}</h3>
+                            <h3 className="text-2.4 font-semibold text-[#35435A]">
+                                ورود به سامانه معاملاتی {t('headerSec.' + BrokerCode + '_LogoTitle')}
+                            </h3>
                             <form onSubmit={(e) => onSubmitClick(e)}>
                                 <div className="w-full flex flex-col gap-6 pt-5">
                                     <label className="flex flex-col gap-2 ">
@@ -105,7 +107,7 @@ const Login = () => {
                                         <input
                                             name="username"
                                             data-cy="username"
-                                            placeholder={t("FormSide.Input.GtUsername.Placeholder")}
+                                            placeholder={t('FormSide.Input.GtUsername.Placeholder')}
                                             className="border bg-white p-3 rounded-lg border-[#A4B2C9]"
                                             type="text"
                                             value={userString}
@@ -136,6 +138,7 @@ const Login = () => {
                                                 type="text"
                                                 value={captchaValue}
                                                 // placeholder={t("FormSide.Input.Captcha.Placeholder")}
+                                                data-cy="captcha"
                                                 maxLength={5}
                                                 minLength={5}
                                                 onChange={(e) => setCaptchaValue(e?.target?.value || '')}

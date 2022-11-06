@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { queryClient } from 'src/app/queryClient';
-
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -40,19 +38,14 @@ import { queryClient } from 'src/app/queryClient';
 // }
 
 Cypress.Commands.add('login', () => {
-    beforeEach(() => {
-        cy.visit('/login');
-    });
-
-    it('it has to visit login page', () => {
-        cy.contains('ورود به سامانه معاملاتی آنلاین گروهی');
-    });
-
-    it('it has to login', () => {
-        cy.get('[data-cy="username"]').type('testuser');
-        cy.get('[data-cy="password"]').type('Tgs10001#');
-        const captcha = queryClient.getQueryData(['Captcha']) as IGetCaptchaType;
-        // captcha
-        cy.contains('ورود به سامانه معاملاتی آنلاین گروهی');
-    });
+    // beforeEach(() => {
+    // });
+    cy.visit('/login');
+    cy.dataCy('username').type('testuser');
+    // cy.get('[data-cy="username"]').type('testuser');
+    cy.dataCy('password').type('Tgs10001#');
+    cy.dataCy('captcha').type('000000');
+    cy.dataCy('captcha').type('{enter}');
 });
+Cypress.Commands.add('dataCy', (value: string) => cy.get(`[data-cy="${value}"]`));
+Cypress.Commands.add('cyEnter', (value: string) => cy.dataCy(value).type('{enter}'));

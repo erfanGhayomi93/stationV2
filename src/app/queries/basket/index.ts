@@ -31,7 +31,7 @@ export const useCreateBasket = () =>
     useMutation<number, unknown, ICreateBasket>(setBasketFn, {
         onSuccess: () => {
             // queryClient.invalidateQueries(['BasketList']);
-            onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
+            onSuccessNotif({ title: 'سبد با موفقیت ایجاد شد' });
         },
         onError: () => {
             onErrorNotif();
@@ -74,7 +74,7 @@ const deleteBasketFn = async (id: number) => {
 export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
         onSuccess: () => {
-            onSuccessNotif({ title: 'حذف سبد با موفقیت حذف شد' });
+            onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
             return queryClient.invalidateQueries(['BasketList']);
         },
         onError: () => {
