@@ -9,6 +9,7 @@ declare namespace Cypress {
          * Custom command to select DOM element by data-cy attribute.
          * @example cy.dataCy('greeting')
          */
-        dataCy(value: string): Chainable<Element>;
+        dataCy<E extends Node = HTMLElement>(value: string): Chainable<JQuery<E>>;
+        cyEnter(value: string): void;
     }
 }

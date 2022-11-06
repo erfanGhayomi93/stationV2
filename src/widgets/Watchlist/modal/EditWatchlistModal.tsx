@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { deleteWatchListMutation, sortWatchListMutation, updateWatchListMutation, useWatchListsQuery } from 'src/app/queries/watchlist';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import Modal from 'src/common/components/Modal';
-import { CloseIcon, DeleteIcon, DragIcon, EditIcon2 } from 'src/common/icons';
+import { CloseIcon, DeleteIcon, EditIcon2 } from 'src/common/icons';
 import { useWatchListState } from '../context/WatchlistContext';
 
 type IEditWatchlistModalType = {};
@@ -92,15 +92,16 @@ const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
     return (
         <>
             <Modal isOpen={state.editMode} onClose={closeModal} className="min-h-[25rem] w-[500px] rounded-md h-full grid ">
-                <div className="grid grid-rows-min-one">
+                <div className="grid grid-rows-min-one" data-cy="wl-edit-modal">
                     <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                         <div>ویرایش گروه‌های دیده‌بان</div>
-                        <CloseIcon onClick={closeModal} className="cursor-pointer" />
+                        <CloseIcon onClick={closeModal} data-cy="wl-edit-modal-close" className="cursor-pointer" />
                     </div>
                     <div className="p-4 text-1.2">
                         <AGTable
                             rowData={watchlists}
                             columnDefs={columns}
+                            rowClass="data-cy-row"
                             rowDragManaged={true}
                             animateRows={true}
                             onRowDragEnd={(e) => {
@@ -137,9 +138,10 @@ const ActionName: FC<IActionName> = ({ row, editMode, setEditMode, handleEditWat
                     onChange={(e) => setEditMode({ ...editMode, watchListName: e.target.value })}
                     onKeyDownCapture={(e) => handleEditWatchlistName(e)}
                     autoFocus={true}
+                    data-cy={'wl-edit-input-' + watchlist?.watchListName}
                 />
             ) : (
-                <span>{watchlist?.watchListName}</span>
+                <span data-cy={'wl-title-' + watchlist?.watchListName}>{watchlist?.watchListName}</span>
             )}
         </div>
     );
@@ -155,6 +157,7 @@ const ActionShow: FC<{ row: ICellRendererParams<IWatchlistType>; editWatchlist: 
                 value={watchlist?.isPinned}
             /> */}
             <input
+                data-cy="wl-edit-check"
                 className="w-[16px] h-[16px] cursor-pointer"
                 type={'checkbox'}
                 checked={watchlist?.isPinned}
@@ -182,8 +185,18 @@ const ActionED: FC<{ row: ICellRendererParams<IWatchlistType>; setEditMode: any 
 
     return (
         <div className="w-full h-full flex justify-center items-center">
-            <EditIcon2 className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer" onClick={() => setEditMode(watchlist)} />
-            <DeleteIcon className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer" onClick={() => deleteWatchlist(id)} />
+            {/* <LockIcon />
+            <LockIcon /> */}
+            <EditIcon2
+                data-cy={'wl-edit-' + watchlist?.watchListName}
+                className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer"
+                onClick={() => setEditMode(watchlist)}
+            />
+            <DeleteIcon
+                data-cy={'wl-delete-' + watchlist?.watchListName}
+                className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer"
+                onClick={() => deleteWatchlist(id)}
+            />
         </div>
     );
 };
