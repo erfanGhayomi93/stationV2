@@ -5,10 +5,11 @@ import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import { setOrder } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
@@ -16,11 +17,11 @@ type IDraft = {
     ClickLeftNode: any;
 };
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter , isFetching } = useGetDraft();
+    const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const { mutate } = useDeleteDraft();
     const { isFilter } = ClickLeftNode;
-    const { mutate : mutateSend } = useMutation(setOrder, {
+    const { mutate: mutateSend } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
         },
@@ -33,37 +34,37 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         data && mutate(data?.orderId);
     };
 
-    const handleSend = (data?: IDraftResponseType) =>{
-        console.log("data" , data)
-        let customerISIN: ICustomerIsins = [];
-        let CustomerTagId: ICustomerIsins = [];
-        let GTTraderGroupId: ICustomerIsins = [];
-
-        // mutateSend({
-        //     customerISIN,
-        //     CustomerTagId,
-        //     GTTraderGroupId,
-        //     orderSide: side,
-        //     orderDraftId: undefined,
-        //     orderStrategy: strategy,
-        //     orderType: 'MarketOrder',
-        //     percent: percent || 0,
-        //     price: price,
-        //     quantity: quantity,
-        //     symbolISIN: symbolISIN,
-        //     validity: handleValidity(validity),
-        //     validityDate: validityDate,
-        // });
-    }
+    const handleSend = (data?: IDraftResponseType) => {
+        const { customers, customerTags, gtGroups, orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
+        mutateSend({
+            customerISIN: customers?.map((item) => item?.customerISIN) || [],
+            CustomerTagId: customerTags?.map((item) => item?.customerTagTitle) || [],
+            GTTraderGroupId: gtGroups?.map((item) => item?.traderGroupId) || [],
+            orderSide: orderSide || 'Buy',
+            orderDraftId: orderId,
+            orderStrategy: 'normal',
+            orderType: 'MarketOrder',
+            percent: percent || 0,
+            price: price || 0,
+            quantity: quantity || 0,
+            symbolISIN: symbolISIN || '',
+            validity: handleValidity(validity || ''),
+            validityDate: validityDate,
+        });
+    };
 
     const appDispath = useAppDispatch();
     const handleEdit = (data?: IDraftResponseType) => {
-        appDispath(setDataBuySellAction(data));
+        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.Draft }));
+    };
+
+    const valueFormatterCustomers = (value: ICustomers[]) => {
+        return String(value?.map((item) => item.customerTitle));
     };
 
     const columns = useMemo(
         (): ColDefType<IDraftResponseType>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitles', checkboxSelection: true },
+            { headerName: 'مشتری یا گروه مشتری', field: 'customers', valueFormatter: ({ value }) => valueFormatterCustomers(value) },
             { headerName: 'نام نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
@@ -97,16 +98,15 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
             <WidgetLoading spining={isFetching}>
-            <AGTable
-                rowData={dataAfterfilter}
-                columnDefs={columns}
-                rowSelection="multiple"
-                // enableBrowserTooltips={false}
-                // suppressRowClickSelection={true}
-                // onRowSelected={onRowSelected}
-            />
-                 </WidgetLoading>
-
+                <AGTable
+                    rowData={dataAfterfilter}
+                    columnDefs={columns}
+                    rowSelection="multiple"
+                    // enableBrowserTooltips={false}
+                    // suppressRowClickSelection={true}
+                    // onRowSelected={onRowSelected}
+                />
+            </WidgetLoading>
         </div>
     );
 };

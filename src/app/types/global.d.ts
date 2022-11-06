@@ -50,3 +50,8 @@ interface GlobalPaginatedApiResponse<T> {
     hasPreviousPage: boolean;
     hasNextPage: boolean;
 }
+
+interface ICustomers {
+    customerISIN: string;
+    customerTitle: string;
+};

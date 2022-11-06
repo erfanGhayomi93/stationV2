@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
@@ -24,7 +25,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     };
 
     const handleEdit = (data: IOrderGetType | undefined) => {
-        appDispath(setDataBuySellAction(data));
+        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
 
     const columns = useMemo(

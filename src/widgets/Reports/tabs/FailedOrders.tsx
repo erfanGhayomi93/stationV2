@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide } from 'src/utils/helpers';
@@ -19,7 +20,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const { isFilter } = ClickLeftNode;
 
     const handleCopy = (data?: IOrderGetType) => {
-        appDispath(setDataBuySellAction(data));
+        appDispath(setDataBuySellAction({data , comeFrom : ComeFromKeepDataEnum.FailedOrder}));
     };
 
     const columns = useMemo(
