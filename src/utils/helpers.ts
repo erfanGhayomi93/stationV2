@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
 
 //
@@ -20,6 +21,10 @@ export const downloadBlobFile = (blob: Blob, fileName: string) => {
     link.href = url;
     link.setAttribute('download', fileName);
     link.click();
+};
+
+export const isPrimaryComeFrom = (comeFrom: string | undefined): boolean => {
+    return !comeFrom || comeFrom === ComeFromKeepDataEnum.FailedOrder;
 };
 
 export const makeArrayUniqueByKey = (arr: any[], key: string) => {

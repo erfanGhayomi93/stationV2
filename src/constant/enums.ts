@@ -2,5 +2,11 @@ export enum ICustomerTypeEnum {
     Legal = 'Legal',
     Natural = 'Natural',
     CustomerTag = 'CustomerTag',
-    GTCustomerGroup = 'GTCustomerGroup',
+    TraderGroup = 'TraderGroup',
+}
+
+export enum ComeFromKeepDataEnum {
+    Draft = 'Draft',
+    FailedOrder = "FailedOrder" , 
+    OpenOrder = "openOrder"
 }

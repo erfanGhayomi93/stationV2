@@ -25,9 +25,9 @@ const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
     });
     return data.result || [];
 };
-const searchMultiMultiCustomer = async (customerISINs: string[]) => {
+const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
-        params: { customerISINs },
+        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
         paramsSerializer: (params) => {
             return stringify(params);
         },
@@ -36,7 +36,7 @@ const searchMultiMultiCustomer = async (customerISINs: string[]) => {
 };
 
 export const useMutationMultiMultiCustomer = (
-    options?: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, string[], unknown>, 'mutationFn'> | undefined,
+    options :Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, stateCustomer , unknown>, 'mutationFn'> | undefined,
 ) => {
     return useMutation(searchMultiMultiCustomer, options);
 };

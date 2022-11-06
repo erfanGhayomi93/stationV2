@@ -2,16 +2,22 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitState {
-    data?: IDraftResponseType | IOrderGetType;
+    data: IDraftResponseType | IOrderGetType | undefined;
+    comeFrom?: string;
 }
-const initialState: InitState = {};
+
+const initialState: InitState = {
+    data: undefined,
+    comeFrom: "",
+};
 
 const keepDataBuySellSlice = createSlice({
     name: 'buySell',
     initialState: initialState,
     reducers: {
-        setDataBuySellAction: (state, action: PayloadAction<IDraftResponseType | IOrderGetType | undefined>) => {
-            state.data = action.payload;
+        setDataBuySellAction: (state, action: PayloadAction<InitState | undefined>) => {
+            state.data = action?.payload ? action.payload?.data : undefined;
+            state.comeFrom = action?.payload?.comeFrom ? action.payload.comeFrom : "";
         },
     },
 });

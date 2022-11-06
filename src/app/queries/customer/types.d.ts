@@ -43,7 +43,7 @@ interface IGoCustomerRequest extends IPaginateRequest {
     term?: string;
     type?: ICustomerMultiTypeType;
 }
-type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag' | 'GTCustomerGroup';
+type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag' | 'TraderGroup';
 
 interface IGoCustomerRequestType {
     term?: string;

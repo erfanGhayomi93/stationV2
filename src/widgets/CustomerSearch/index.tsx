@@ -27,12 +27,12 @@ const CustomerSearch = () => {
                 const Legal = data.filter((item) => item.customerType === 'Legal');
                 const Natural = data.filter((item) => item.customerType === 'Natural');
                 const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
-                const GTCustomerGroup = data.filter((item) => item.customerType === 'GTCustomerGroup');
+                const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
                 return {
                     Legal,
                     Natural,
                     CustomerTag,
-                    GTCustomerGroup,
+                    TraderGroup,
                 };
             },
         },
@@ -42,17 +42,17 @@ const CustomerSearch = () => {
             const Legal = data.filter((item) => item.customerType === 'Legal');
             const Natural = data.filter((item) => item.customerType === 'Natural');
             const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
-            const GTCustomerGroup = data.filter((item) => item.customerType === 'GTCustomerGroup');
+            const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
             return {
                 Legal,
                 Natural,
                 CustomerTag,
-                GTCustomerGroup,
+                TraderGroup,
             };
         },
     });
 
-    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag', 'GTCustomerGroup'];
+    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag', 'TraderGroup'];
     // const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
     // const setParams = (type: ICustomerMultiTypeType) => {

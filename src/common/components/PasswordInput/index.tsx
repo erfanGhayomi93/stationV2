@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { createContext, FC, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { EyeIcon, EyeSlashIcon, KeyboardIcon } from 'src/common/icons';
 import Keyboard from './Keyboard';
 
@@ -23,6 +24,9 @@ const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, in
     const inputRef = useRef<HTMLDivElement>(null);
     const [showPass, setShowPass] = useState(false);
     const [showKeyboard, setShowKeyboard] = useState(false);
+
+    const { t } = useTranslation();
+
 
     const clickOutSide = (e: MouseEvent) => {
         if (!inputRef.current?.contains(e.target as Node)) {
@@ -52,7 +56,7 @@ const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, in
                     <input
                         {...rest}
                         name="password"
-                        placeholder="password"
+                        placeholder={t("FormSide.Input.Password.Placeholder")}
                         className={clsx('py-3 w-full px-3', inputClassName)}
                         type={showPass ? 'text' : 'password'}
                         value={inputValue}
