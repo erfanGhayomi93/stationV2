@@ -1,6 +1,5 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { EyePlusIcon } from 'src/common/icons';
-import { useState } from 'react';
 import { AddToWatchlistModal } from './AddToWatchlistModal';
 
 interface IAddToWatchlistButtonType {
@@ -13,7 +12,7 @@ const AddToWatchlistButton: FC<IAddToWatchlistButtonType> = ({ symbolISIN }) => 
     return (
         <div>
             <button className="flex items-center justify-center p-1 text-L-primary-50 dark:text-D-primary-50">
-                <EyePlusIcon width={23} height={23} onClick={() => setIsOpen(true)} />
+                <EyePlusIcon width={23} height={23} onClick={() => setIsOpen(true)} data-cy="add-symbol-to-watchlist" />
             </button>
             {isOpen && <AddToWatchlistModal {...{ isOpen, setIsOpen, symbolISIN }} />}
         </div>

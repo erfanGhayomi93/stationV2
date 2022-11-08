@@ -93,10 +93,10 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="min-h-[20rem] w-1/4 rounded-md h-full grid text-1.2 ">
-            <div className="grid grid-rows-min-one">
+            <div className="grid grid-rows-min-one" data-cy="add-to-wl-modal">
                 <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                     <div>ویرایش گروه‌های دیده‌بان</div>
-                    <CloseIcon onClick={closeModal} className="cursor-pointer" />
+                    <CloseIcon onClick={closeModal} className="cursor-pointer" data-cy="close-add-to-wl-modal" />
                 </div>
                 <div className="p-4 text-1.2 ">
                     <div className="flex bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg py-2 text-L-gray-450 dark:text-D-gray-450 font-semibold">
@@ -125,6 +125,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                             />
                                         ) : (
                                             <EyePlusIcon
+                                                data-cy={'add-symbol-btn-to-wl-' + watchlist.watchListName}
                                                 width={23}
                                                 height={23}
                                                 onClick={() => addWatchListSymbol({ symbolISIN, watchlistId: watchlist.id })}
