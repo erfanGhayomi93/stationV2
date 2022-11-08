@@ -15,6 +15,16 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 ...state,
                 editMode: action.value,
             };
+        case 'SET_COLUMN':
+            return {
+                ...state,
+                column: action.value,
+            };
+        case 'CHANGE_IS_SHOW_COLUMN':
+            return {
+                ...state,
+                listShowColumn: action.value,
+            };
 
         default:
             return state;

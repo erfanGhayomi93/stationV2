@@ -23,7 +23,7 @@ export const BuySellInitialState: BuySellState = {
     isCalculatorEnabled: false,
     amount: 0,
     side: 'Buy',
-    comeFrom : ""
+    comeFrom: '',
 };
 const useValue = () => useReducer(BuySellReducer, BuySellInitialState);
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);
@@ -82,7 +82,8 @@ const BuySellContext = () => {
                         validityDate: keepData.validityDate,
                         percent: keepData.percent,
                         strategy: 'normal',
-                        comeFrom
+                        comeFrom,
+                        id: keepData.orderId,
                         // FIXME:startegy not found in instanse
                     },
                 });
@@ -107,7 +108,8 @@ const BuySellContext = () => {
                         symbolISIN: keepData.symbolISIN,
                         validity: keepData.validity as validity,
                         validityDate: keepData.validityDate,
-                        comeFrom
+                        comeFrom,
+                        id: keepData.orderId,
                     },
                 });
             }

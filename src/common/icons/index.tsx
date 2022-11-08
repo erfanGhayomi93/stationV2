@@ -11,6 +11,7 @@ export { ReactComponent as BrokerWhite_173 } from 'src/assets/svg/Broker_white_1
 export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
 export { ReactComponent as CalendarIcon } from 'src/assets/svg/Calendar.svg';
 export { ReactComponent as Check } from 'src/assets/svg/check.svg';
+export { ReactComponent as CheckListIcon } from 'src/assets/svg/CheckListIcon.svg';
 export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
 export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDown.svg';
 export { ReactComponent as CloseIcon } from 'src/assets/svg/Close.svg';
@@ -18,6 +19,8 @@ export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as CoinIcon } from 'src/assets/svg/coinIcon.svg';
 export { ReactComponent as CopyIcon } from 'src/assets/svg/Copy.svg';
 export { ReactComponent as Customers } from 'src/assets/svg/Customers.svg';
+export { ReactComponent as DefalutRefreshIcon } from 'src/assets/svg/DefalutRefresh.svg';
+export { ReactComponent as DragIcon } from 'src/assets/svg/DragIcon.svg';
 export { ReactComponent as EditIcon2 } from 'src/assets/svg/Edit.svg';
 export { ReactComponent as Envelope } from 'src/assets/svg/Envelope.svg';
 export { ReactComponent as Envelope2Icon } from 'src/assets/svg/Envelope2.svg';
@@ -47,22 +50,22 @@ export { ReactComponent as MenuIcon } from 'src/assets/svg/Menu.svg';
 export { ReactComponent as MonitorIcon } from 'src/assets/svg/Monitor.svg';
 export { ReactComponent as MoreDotsIcon } from 'src/assets/svg/MoreDots.svg';
 export { ReactComponent as Negetive } from 'src/assets/svg/negetive.svg';
+export { ReactComponent as NoteIcon } from 'src/assets/svg/NoteIcon.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
 export { ReactComponent as PlusIcon } from 'src/assets/svg/Plus.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
-export { ReactComponent as TimeIcon } from 'src/assets/svg/Time.svg';
-export { ReactComponent as DragIcon } from 'src/assets/svg/DragIcon.svg';
-export { ReactComponent as NoteIcon } from 'src/assets/svg/NoteIcon.svg';
 export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
+export { ReactComponent as TimeIcon } from 'src/assets/svg/Time.svg';
 export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
 export { ReactComponent as UnCheck } from 'src/assets/svg/unCheck.svg';
 export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
+
