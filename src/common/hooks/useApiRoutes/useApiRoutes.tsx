@@ -80,6 +80,7 @@ export const Apis = () => ({
         Delete: getOrderUrl() + '/GTOrder/v1/SingleDelete',
         Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
         GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
+        Modify: getOrderUrl() + '/GTOrder/v1/Modify',
     },
     SupervisorMessage: {
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
@@ -89,6 +90,7 @@ export const Apis = () => ({
         Create: getOrderUrl() + '/GTOrderDraft/v1/Create',
         Get: getOrderUrl() + '/GTOrderDraft/v1/Get',
         Delete: getOrderUrl() + '/GTOrderDraft/v1/Delete',
+        Update: getOrderUrl() + '/GTOrderDraft/v1/Update',
     },
     Basket: {
         Get: getOrderUrl() + '/GTCart/v1/CartList',

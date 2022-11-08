@@ -158,7 +158,7 @@ const Login = () => {
                                     </label>
 
                                     <button type={'submit'} className="bg-L-primary-50 hover:bg-opacity-75 py-3 rounded-md text-white">
-                                        ادامه
+                                        ورود
                                     </button>
                                 </div>
                             </form>

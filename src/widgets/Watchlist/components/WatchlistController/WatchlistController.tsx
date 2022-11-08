@@ -3,13 +3,17 @@ import { FC, FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
+import { ColDefType } from 'src/common/components/AGTable';
 import Select, { SelectOption } from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
+import CheckColumnShow from '../CheckColumnShow';
 
-interface IWatchlistControllerType {}
+interface IWatchlistControllerType {
+    columns: ColDefType<IWatchlistSymbolTableType>[];
+}
 
-const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
+const WatchlistController: FC<IWatchlistControllerType> = ({columns}) => {
     const queryClient = useQueryClient();
     const { data: watchlists } = useWatchListsQuery();
     const { setState, state } = useWatchListState();
@@ -118,28 +122,30 @@ const WatchlistController: FC<IWatchlistControllerType> = ({}) => {
                     </button>
                 </div>
             </div>
-            {state.selectedWatchlist === 0 ? (
-                <div className="flex  gap-2 items-center justify-center">
-                    <span>نمایش بر اساس :</span>
-                    <div className="grow min-w-[12.5rem]">
-                        <Select
-                            onChange={(select) => setDefaultWatchlist(select as any)}
-                            value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
-                        >
-                            {defaultWatchlists?.map((item, inx) => (
-                                <SelectOption
-                                    key={inx}
-                                    label={t('defaultWlOption.' + item)}
-                                    value={item}
-                                    className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
-                                />
-                            ))}
-                        </Select>
-                    </div>
-                </div>
-            ) : (
-                <></>
-            )}
+
+            <div className="flex  gap-2 items-center">
+                {state.selectedWatchlist === 0 && (
+                    <>
+                        <span>نمایش بر اساس :</span>
+                        <div className="grow min-w-[12.5rem]">
+                            <Select
+                                onChange={(select) => setDefaultWatchlist(select as any)}
+                                value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
+                            >
+                                {defaultWatchlists?.map((item, inx) => (
+                                    <SelectOption
+                                        key={inx}
+                                        label={t('defaultWlOption.' + item)}
+                                        value={item}
+                                        className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
+                                    />
+                                ))}
+                            </Select>
+                        </div>
+                    </>
+                )}
+                <CheckColumnShow {...{columns}}/>
+            </div>
         </div>
     );
 };

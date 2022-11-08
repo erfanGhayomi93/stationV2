@@ -12,6 +12,7 @@ interface BuySellState {
     amount: number;
     side: BuySellSide;
     comeFrom ?: string
+    id ?: number
 }
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
