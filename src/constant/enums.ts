@@ -7,6 +7,7 @@ export enum ICustomerTypeEnum {
 
 export enum ComeFromKeepDataEnum {
     Draft = 'Draft',
-    FailedOrder = "FailedOrder" , 
-    OpenOrder = "openOrder"
+    FailedOrder = 'FailedOrder',
+    OpenOrder = 'openOrder',
+    Basket = 'Basket',
 }
