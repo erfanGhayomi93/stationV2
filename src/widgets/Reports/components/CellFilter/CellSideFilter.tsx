@@ -1,7 +1,6 @@
 import { FC, memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import GroupAnimationButton from 'src/common/components/GroupButton';
-import { PlusIcon, SearchIcon } from 'src/common/icons';
+import { SearchIcon } from 'src/common/icons';
 
 interface ICellSideFilterType {
     field?: string;
@@ -12,7 +11,7 @@ interface ICellSideFilterType {
 type Item = { value: string; label: string };
 
 const CellSideFilter: FC<ICellSideFilterType> = ({ handleChangeFilterData, field = 'side', placeholder = 'سمت:', columnName = 'سمت' }) => {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     const handleChange = (value: string) => {
         handleChangeFilterData(field, value);
     };
@@ -28,12 +27,32 @@ const CellSideFilter: FC<ICellSideFilterType> = ({ handleChangeFilterData, field
         { label: t('OrderSide.Buy'), value: 'Buy' },
         { label: t('OrderSide.Sell'), value: 'Sell' },
     ];
+    const people = [
+        { name: 'Wade Cooper' },
+        { name: 'Arlene Mccoy' },
+        { name: 'Devon Webb' },
+        { name: 'Tom Cook' },
+        { name: 'Tanya Fox' },
+        { name: 'Hellen Schmidt' },
+    ];
+    const [selected, setSelected] = useState(people[0]);
     return (
         <div>
             {show ? (
-                <div className="w-full flex gap-1 items-center justify-center ">
-                    <GroupAnimationButton items={sideOption} width={44} onSelect={(value) => handleChange(value)} />
-                    <PlusIcon width={18} height={18} className="rotate-45" onClick={() => handleToggle()} />
+                // <div className="w-full flex gap-1 items-center justify-center ">
+                //     <GroupAnimationButton items={sideOption} width={44} onSelect={(value) => handleChange(value)} />
+                //     <PlusIcon width={18} height={18} className="rotate-45" onClick={() => handleToggle()} />
+                // </div>
+                <div>
+                    <select>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                        <option>yoyo54365</option>
+                    </select>
                 </div>
             ) : (
                 <div className="w-full flex items-center justify-center gap-1" onClick={() => handleToggle()}>

@@ -5,7 +5,7 @@ import { deleteWatchListSymbolMutation } from 'src/app/queries/watchlist';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
-import { DeleteIcon, EditIcon, EditIcon2, FileIcon, NoteIcon } from 'src/common/icons';
+import { DeleteIcon, NoteIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 
 interface IActionCellRendererType extends IWatchlistSymbolTableType {}
@@ -42,13 +42,14 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
                         </button>
                         <button>
                             <DeleteIcon
+                                data-cy="delete-symbol-from-wl"
                                 onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlist as number })}
                             />
                         </button>
                     </>
                 ) : (
                     <button>
-                          <AddToWatchlistButton symbolISIN={symbol.symbolISIN} />
+                        <AddToWatchlistButton symbolISIN={symbol.symbolISIN} />
                     </button>
                 )}
             </div>

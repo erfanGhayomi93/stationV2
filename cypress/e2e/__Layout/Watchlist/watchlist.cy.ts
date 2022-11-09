@@ -17,7 +17,7 @@ describe('watchlist flow', () => {
         cy.cyEnter('add-watchlist-input');
     });
 
-    it('it has to  find watchlist with cypress_test title', () => {
+    it('it has to find watchlist with cypress_test title', () => {
         cy.dataCy('edit-watchlist').click();
         cy.dataCy('wl-edit-modal').should('be.visible');
         cy.contains('cypress_test');
@@ -40,12 +40,23 @@ describe('watchlist flow', () => {
 
         cy.dataCy('wl-title-cypress_wl_test').contains('cypress_wl_test');
     });
+
     it('it has to close modal and select test wathclist', () => {
         cy.dataCy('wl-edit-modal-close').click();
         cy.should('not.contain', 'ویرایش');
     });
+
+    it('it has add first default symbol to test watchlist and close modal ', () => {
+        cy.wait(4000);
+        cy.dataCy('add-symbol-to-watchlist').first().click();
+        cy.dataCy('add-to-wl-modal').should('be.visible');
+        cy.dataCy('add-symbol-btn-to-wl-cypress_wl_test').click();
+        cy.dataCy('close-add-to-wl-modal').click();
+    });
+
     it('it has to select test watchlist', () => {
         cy.dataCy('watchlist-items-cypress_wl_test').click();
+        cy.dataCy('delete-symbol-from-wl').click();
     });
 
     it('it has to  delele watchlist wit cypress_wl_test name', () => {
@@ -53,6 +64,10 @@ describe('watchlist flow', () => {
         cy.dataCy('wl-edit-modal').should('be.visible');
         cy.dataCy('wl-delete-cypress_wl_test').click();
         cy.should('not.contain', 'cypress_wl_test');
+    });
+    it('it has to close modal and select test wathclist', () => {
+        cy.dataCy('wl-edit-modal-close').click();
+        cy.should('not.contain', 'ویرایش');
     });
 });
 
