@@ -67,11 +67,7 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 side: action.value,
             };
-        case 'SET_EXTRA':
-            return {
-                ...state,
-                extra: action.value,
-            };
+
         case 'SOFT_RESET':
             return {
                 ...state,
@@ -87,7 +83,6 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 side: state.side,
                 isCalculatorEnabled: state.isCalculatorEnabled,
                 symbolISIN: state.symbolISIN,
-                extra: state.extra,
             };
 
         default:

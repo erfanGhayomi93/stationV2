@@ -4,20 +4,22 @@ import { FilterBasket, filterStateType, initialDataFilterBasket } from './compon
 import InsertBasketItem from './components/InsertBasketItem';
 import { TableBasket } from './components/TableBasket';
 import TopBasket from './components/TopBasket';
+import { useBasketDispatch } from './context/BasketContext';
 
-function Basket() {
+function BasketPage() {
     const [activeBasket, setactiveBasket] = useState<number | undefined>(undefined);
     const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
     const [listAfterFilter, setlistAfterFilter] = useState<IListDetailsBasket[] | undefined>(undefined);
     const [dataFilter, setdataFilter] = useState<filterStateType>(initialDataFilterBasket);
     const [isShowFilter, setisShowFilter] = useState<boolean>(false);
-
+    const dispatch = useBasketDispatch();
     useEffect(() => {
         setlistAfterFilter(dataListDetailsBasket);
     }, [dataListDetailsBasket]);
 
     const saveIndexBasketSelected = (id: number) => {
         setactiveBasket(id);
+        dispatch({ type: 'SET_ID', value: id });
     };
 
     const handleFilter = (dataFilter: filterStateType) => {
@@ -35,4 +37,4 @@ function Basket() {
     );
 }
 
-export default Basket;
+export default BasketPage;

@@ -1,12 +1,12 @@
 import { lazy } from 'react';
-import { safeLazyImport } from 'src/utils/helpers';
-import PageCrash from 'src/pages/PageCrash';
 import Help from 'src/pages/Help';
+import PageCrash from 'src/pages/PageCrash';
+import { safeLazyImport } from 'src/utils/helpers';
 
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
 const Page404 = lazy(() => safeLazyImport(() => import('src/pages/Page404')));
 const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
-const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket')));
+const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket/context/BasketContext')));
 const Watchlist = lazy(() => safeLazyImport(() => import('src/pages/Watchlist')));
 const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword')));
 const Reports = lazy(() => safeLazyImport(() => import('src/pages/Reports/Context/ReportsContext')));

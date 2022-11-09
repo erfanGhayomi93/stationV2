@@ -44,11 +44,7 @@ const BuySellContext = () => {
 
     useEffect(() => {
         const resetBuySellState = () => dispatch({ type: 'RESET' });
-        const setBuySellModalExtra = (value: unknown) => {
-            dispatch({ type: 'SET_EXTRA', value });
-        };
-
-        dispatchSetter({ resetBuySellState: resetBuySellState, setBuySellModalExtra: setBuySellModalExtra });
+        dispatchSetter({ resetBuySellState: resetBuySellState });
     }, [dispatch, dispatchSetter]);
 
     const {
