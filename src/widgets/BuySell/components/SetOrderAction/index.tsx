@@ -1,11 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
-import { setOrder } from 'src/app/queries/order';
+import { useUpdateDraft } from 'src/app/queries/draft';
+import { setOrder, useUpdateOrders } from 'src/app/queries/order';
+import { queryClient } from 'src/app/queryClient';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
+import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetOrderActionType {}
@@ -25,16 +28,34 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         validityDate,
         percent,
         comeFrom,
+        id,
     } = useBuySellState();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
-            if (!sequential) {
-                dispatch({ type: 'RESET' });
-                appDispatch(setSelectedCustomers([]));
-            }
+            if (sequential) resetByeSellData(dispatch, appDispatch);
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+    const { mutate: mutateUpdateOrder } = useUpdateOrders({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['orderList', 'OnBoard']);
+            if (sequential) resetByeSellData(dispatch, appDispatch);
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+    const { mutate: mutateUpdateDraft } = useUpdateDraft({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['draftList']);
+            if (sequential) resetByeSellData(dispatch, appDispatch);
         },
         onError: () => {
             onErrorNotif();
@@ -44,8 +65,54 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
+    const handleUpdateDraft = () => {
+        mutateUpdateDraft({
+            customers: selectedCustomers.map((item) => ({
+                customerType: item.customerType,
+                customerTitle: item.customerTitle,
+                customerISIN: item.customerISIN,
+            })),
+            id,
+            symbolISIN,
+            orderSide: side,
+            price,
+            quantity,
+            percent,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+            orderType: 'MarketOrder',
+            orderStrategy: 'Normal',
+        });
+    };
+
+    const handleUpdateOrder = () => {
+        mutateUpdateOrder({
+            customers: selectedCustomers.map((item) => ({
+                customerType: item.customerType,
+                customerTitle: item.customerTitle,
+                customerISIN: item.customerISIN,
+            })),
+            id,
+            symbolISIN,
+            orderSide: side,
+            price,
+            quantity,
+            percent,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+            orderType: 'MarketOrder',
+            orderStrategy: 'Normal',
+        });
+    };
+
     const handleSubmit = () => {
-        handleOrder();
+        if (comeFrom === ComeFromKeepDataEnum.Draft) {
+            handleUpdateDraft();
+        } else if (comeFrom === ComeFromKeepDataEnum.OpenOrder) {
+            handleUpdateOrder();
+        } else {
+            handleOrder();
+        }
     };
 
     const handleOrder = () => {

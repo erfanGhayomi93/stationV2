@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 import { useCreateDraft } from 'src/app/queries/draft';
-import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
+import { ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
+import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetDraftActionType {}
@@ -15,17 +15,11 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
-    const resetContextData = () => {
-        if (!sequential) {
-            dispatch({ type: 'RESET' });
-            appDispatch(setSelectedCustomers([]));
-        }
-    };
     const { mutate: mutateCreateDraft } = useCreateDraft({
         onSuccess: () => {
             onSuccessNotif();
             queryClient.invalidateQueries(['draftList']);
-            resetContextData();
+            if (sequential) resetByeSellData(dispatch, appDispatch);
         },
         onError: () => {
             onErrorNotif();
@@ -37,7 +31,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
 
     const handleClick = () => {
         if (!isPrimaryComeFrom(comeFrom)) {
-            resetContextData();
+            resetByeSellData(dispatch, appDispatch);
             return;
         }
         handleCreateDraft();

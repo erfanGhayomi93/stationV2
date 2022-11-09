@@ -46,3 +46,13 @@ export const useDeleteDraft = () => {
         },
     });
 };
+////////////////update draft///////////////////////////
+
+const updateDraftQuery = async (params: any) => {
+    let { data } = await AXIOS.post(Apis().draft.Update as string, params);
+    return data.result || [];
+};
+
+export const useUpdateDraft = (option?: Omit<UseMutationOptions<number[], Error , any , unknown>, 'mutationKey' | 'mutationFn'>) => {
+    return useMutation(updateDraftQuery, option);
+};

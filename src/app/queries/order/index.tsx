@@ -1,4 +1,4 @@
-import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -45,4 +45,15 @@ export const getOrderLists = async (params: IGTOrderListRequest) => {
 export const useOrderLists = <T=GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(param: IGTOrderListRequest,
     options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTOrderListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTOrderListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
     return useQuery(['getOrderLists'], ({ queryKey }) => getOrderLists(param as IGTOrderListRequest), { ...options,enabled:false });
+};
+
+//////////////Modify////////////////////
+
+const updateOrderFn = async (params: any) => {
+    let { data } = await AXIOS.post(Apis().Orders.Modify as string, params);
+    return data.result || [];
+};
+
+export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Error, any, unknown>, 'mutationKey' | 'mutationFn'>) => {
+    return useMutation(updateOrderFn, options);
 };

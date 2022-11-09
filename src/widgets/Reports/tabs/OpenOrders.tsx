@@ -1,12 +1,11 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Cell } from 'rsuite-table';
-import 'rsuite-table/dist/css/rsuite-table.css'; // or 'rsuite-table/dist/css/rsuite-table.css'
+// import { Cell } from 'rsuite-table';
+// import 'rsuite-table/dist/css/rsuite-table.css'; // or 'rsuite-table/dist/css/rsuite-table.css'
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { PlusIcon } from 'src/common/icons';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
@@ -95,25 +94,25 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     );
 
     const rowKey = 'orderId';
-    const ExpandCell = ({ rowData, dataKey, expandedRowKeys, onChange, ...props }: any) => (
-        <Cell {...props}>
-            <button
-                onClick={() => {
-                    onChange(rowData);
-                }}
-            >
-                {expandedRowKeys.some((key: any) => key === rowData[rowKey]) ? (
-                    <button className="border h-[20px] w-[20px] flex items-center justify-center rounded-md">
-                        <PlusIcon className="rotate-45" />
-                    </button>
-                ) : (
-                    <button className="border h-[20px] w-[20px] flex items-center justify-center rounded-md">
-                        <PlusIcon />
-                    </button>
-                )}
-            </button>
-        </Cell>
-    );
+    // const ExpandCell = ({ rowData, dataKey, expandedRowKeys, onChange, ...props }: any) => (
+    //     <Cell {...props}>
+    //         <button
+    //             onClick={() => {
+    //                 onChange(rowData);
+    //             }}
+    //         >
+    //             {expandedRowKeys.some((key: any) => key === rowData[rowKey]) ? (
+    //                 <button className="border h-[20px] w-[20px] flex items-center justify-center rounded-md">
+    //                     <PlusIcon className="rotate-45" />
+    //                 </button>
+    //             ) : (
+    //                 <button className="border h-[20px] w-[20px] flex items-center justify-center rounded-md">
+    //                     <PlusIcon />
+    //                 </button>
+    //             )}
+    //         </button>
+    //     </Cell>
+    // );
     const [expandedRowKeys, setExpandedRowKeys] = useState([0]);
 
     const handleExpanded = (rowData: any, dataKey: any) => {
