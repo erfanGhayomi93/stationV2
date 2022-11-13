@@ -114,6 +114,8 @@ export const Apis = () => ({
         DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
         GetDefaultWatchlistSymbols: getPortfolioUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
         GetSymbolInWatchlist: getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
+        GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
+        GetSector : getMarketData() + '/Sector/v1/Sectors',
     },
     Setting: {
         GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,

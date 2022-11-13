@@ -1,5 +1,4 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -65,6 +64,18 @@ const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) =>
     });
     return data?.result;
 };
+export const getMarketSymbol = async (params?: IMarketSymbol) => {
+    const { PageNumber, marketUnit, SectorCode } = params || {};
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
+        params: { PageNumber: PageNumber ? PageNumber - 1 : undefined, marketUnit: marketUnit || undefined, SectorCode: SectorCode || undefined },
+    });
+    return data;
+};
+
+const getSectorList = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<ISectorList[]>>(Apis().WatchList.GetSector);
+    return data?.result;
+};
 
 //hooks
 
@@ -123,4 +134,15 @@ export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistT
         ...options,
         enabled: !!watchlistId,
     });
+};
+
+export const useGetMarketSymbolQuery = (
+    params?: IMarketSymbol,
+    options?:any,
+) => {
+    return useQuery(['GetMarketSymbol', params?.PageNumber], () => getMarketSymbol(params), { ...options, enabled: false });
+};
+
+export const UseGetSector = () => {
+    return useQuery(['sectors'], getSectorList);
 };

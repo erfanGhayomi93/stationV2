@@ -23,7 +23,7 @@ export const ClosingPrice = ({ data }: any) => {
     const colorClass = (change: number) => {
         if (+change > 0) return 'text-L-success-150 dark:text-D-success-150';
 
-        if (+change < 0) return 'text-L-error-150 dark:text-D-error-150';
+        if (+change < 0) return 'text-L-error-150 dark:text-D-error-150 ltr';
 
         return 'text-L-gray-400 dark:text-D-gray-400';
     };
