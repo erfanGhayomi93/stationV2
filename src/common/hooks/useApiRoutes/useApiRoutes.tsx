@@ -98,6 +98,7 @@ export const Apis = () => ({
         Edit: getOrderUrl() + '/GTCart/v1/EditCart',
         Delete: getOrderUrl() + '/GTCart/v1/DeleteCart',
         CreateDetail: getOrderUrl() + '/GTCart/v1/CreateCartDetail',
+        EditDetail: getOrderUrl() + '/GTCart/v1/EditCartDetail',
         GetDetail: getOrderUrl() + '/GTCart/v1/CartDetailList',
         DeleteDetails: getOrderUrl() + '/GTCart/v1/CartDetailDelete',
     },

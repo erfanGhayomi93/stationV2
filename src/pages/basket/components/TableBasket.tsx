@@ -20,7 +20,7 @@ type ITableType = {
 export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter }) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const { customerTitles, symbolTitle, side } = dataFilter;
-    const appDispath = useAppDispatch();
+    const appDispatch = useAppDispatch();
     const dispatch = useBasketDispatch();
 
     const handleDelete = (data: any): void => {
@@ -28,7 +28,8 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
     };
     const handleEdit = (data: any): void => {
         dispatch({ type: 'SET_BUY_SELL_MODALL', value: true });
-        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.Basket }));
+        dispatch({ type: 'SET_ORDER_ID', value: data.id });
+        appDispatch(setDataBuySellAction({ data: { ...data, orderSide: data.side }, comeFrom: ComeFromKeepDataEnum.Basket }));
     };
 
     const columns = useMemo(

@@ -93,6 +93,16 @@ const createDetailsBasketFn = async (params: any) => {
 };
 export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(createDetailsBasketFn, { ...options });
+
+//Edit Basket Information
+const EditCartDetail = async (params: ICreateCartDetailType) => {
+    const { data } = await AXIOS.post(Apis().Basket.EditDetail as string, params);
+    return data.result || 0;
+};
+export const useEditDetailsBasket = (
+    options?: Omit<UseMutationOptions<ICreateCartDetailType, unknown, ICreateCartDetailType, unknown>, 'mutationFn'> | undefined,
+) => useMutation(EditCartDetail, { ...options });
+
 ////////////////get Basket////////////////////////
 export const getDetailsBasketFn = async (cartId: number | undefined) => {
     try {

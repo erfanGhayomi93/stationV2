@@ -19,7 +19,7 @@ function BasketPage() {
 
     const saveIndexBasketSelected = (id: number) => {
         setactiveBasket(id);
-        dispatch({ type: 'SET_ID', value: id });
+        dispatch({ type: 'SET_BASKET_ID', value: id });
     };
 
     const handleFilter = (dataFilter: filterStateType) => {

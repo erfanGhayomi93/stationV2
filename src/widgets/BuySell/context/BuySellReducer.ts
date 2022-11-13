@@ -80,7 +80,7 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
         case 'RESET':
             return {
                 ...BuySellInitialState,
-                side: state.side,
+                // side: state.side,
                 isCalculatorEnabled: state.isCalculatorEnabled,
                 symbolISIN: state.symbolISIN,
             };

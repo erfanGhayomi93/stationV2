@@ -1,7 +1,10 @@
 import clsx from 'clsx';
 import { FC } from 'react';
 import { useGetBasket } from 'src/app/queries/basket';
+import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { BasketPlusIcon, CloseIcon } from 'src/common/icons';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
 import { useBasketDispatch, useBasketState } from '../context/BasketContext';
 
@@ -13,12 +16,20 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket }) => {
     const dispatch = useBasketDispatch();
     const { visible } = useBasketState();
     const { data: listBasket } = useGetBasket();
+    const appDispatch = useAppDispatch();
+    const { resetBuySellState } = useGlobalSetterState();
+    const resetSelectedCustomer = () => {
+        appDispatch(setSelectedCustomers([]));
+    };
     const setBuySellModalVisible = () => {
+        appDispatch(setSelectedSymbol(''));
         dispatch({ type: 'SET_BUY_SELL_MODALL', value: true });
     };
 
     const setBuySellModalInVisible = () => {
-        dispatch({ type: 'SET_BUY_SELL_MODALL', value: false });
+        dispatch({ type: 'RESET' });
+        resetBuySellState();
+        resetSelectedCustomer();
     };
     return (
         <div>

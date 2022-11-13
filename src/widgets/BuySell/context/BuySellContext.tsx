@@ -54,6 +54,9 @@ const BuySellContext = () => {
     function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
         return comeFrom === ComeFromKeepDataEnum.Draft;
     }
+    function isBasket(keepOrder: IOrderGetType | IDraftResponseType | IListDetailsBasket, comeFrom?: string): keepOrder is IListDetailsBasket {
+        return comeFrom === ComeFromKeepDataEnum.Basket;
+    }
 
     useEffect(() => {
         if (keepData?.symbolISIN) {
@@ -84,6 +87,31 @@ const BuySellContext = () => {
                         comeFrom,
                         id: keepData.orderId,
                         // FIXME:startegy not found in instanse
+                    },
+                });
+            } else if (isBasket(keepData, comeFrom)) {
+                let dataMulti = {
+                    CustomerISINs: keepData?.customerISINs.split(','),
+                };
+                getCustomers(dataMulti);
+
+                dispatch({
+                    type: 'SET_ALL',
+                    value: {
+                        amount: 0,
+                        percent: 0,
+                        divide: false,
+                        isCalculatorEnabled: false,
+                        sequential: false,
+                        price: keepData.price,
+                        quantity: keepData.quantity,
+                        side: keepData.orderSide as BuySellSide,
+                        strategy: 'normal',
+                        symbolISIN: keepData.symbolISIN,
+                        validity: keepData.validity as validity,
+                        validityDate: keepData.validityDate,
+                        comeFrom,
+                        id: keepData.orderId,
                     },
                 });
             } else {

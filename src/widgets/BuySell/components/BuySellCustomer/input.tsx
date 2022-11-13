@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { FC, MouseEvent, useContext, useRef } from 'react';
+import { FC, MouseEvent, useContext, useEffect, useRef } from 'react';
 import Combo from 'src/common/components/ComboSelect';
 import { ComboSelectContext } from 'src/common/components/ComboSelect/context';
 import { PlusIcon, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
+import { useAppValues } from 'src/redux/hooks';
 
 interface IInputSearchType {
     loading: boolean;
@@ -13,8 +14,13 @@ const InputSearch: FC<IInputSearchType> = ({ loading, selectionCount }) => {
         setPanel,
         setValue,
         setPanelContent,
+        clearSelected,
         state: { selections, value, panelContent, showPanel },
     } = useContext(ComboSelectContext);
+
+    const {
+        option: { selectedCustomers },
+    } = useAppValues();
 
     const searchRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +28,12 @@ const InputSearch: FC<IInputSearchType> = ({ loading, selectionCount }) => {
         setValue('');
         searchRef.current?.focus();
     };
+    useEffect(() => {
+        if (selectedCustomers.length === 0 && selections?.length !== 0) {
+            clearSelected();
+            handleClear();
+        }
+    }, [selectedCustomers]);
 
     const handleReset = (e: MouseEvent) => {
         e.preventDefault();
