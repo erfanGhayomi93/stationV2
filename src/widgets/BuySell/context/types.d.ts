@@ -1,4 +1,4 @@
-interface BuySellState<T = unknown> {
+interface BuySellState {
     price: number;
     quantity: number;
     validity: validity;
@@ -12,7 +12,6 @@ interface BuySellState<T = unknown> {
     amount: number;
     side: BuySellSide;
     comeFrom?: string;
-    extra?: T;
     id?: number;
 }
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
@@ -29,7 +28,6 @@ type BuySellAction =
     | { type: 'SET_DIVIDE'; value: boolean }
     | { type: 'SET_COME_FROM'; value: string }
     | { type: 'SET_PERCENT'; value: number }
-    | { type: 'SET_EXTRA'; value: unknown }
     | { type: 'SET_AMOUNT'; value: number }
     | { type: 'TOGGLE_CALCULATOR'; value: boolean }
     | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide }

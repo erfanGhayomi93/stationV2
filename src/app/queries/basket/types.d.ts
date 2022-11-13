@@ -29,6 +29,25 @@ type IListDetailsBasket = {
     symbolTitle: string;
 };
 
+interface ICreateCartDetailType {
+    id: number;
+    cartID: number;
+    traderISIN?: string;
+    symbolISIN: string;
+    price: number;
+    quantity: number;
+    percent: number;
+    side: string;
+    deleted?: boolean;
+    date?: Date;
+    userId?: number;
+    validity: string;
+    validityDate: Date;
+    customerISINs: string;
+    orderStrategy: string;
+    orderType: OrderTypeType;
+}
+
 type ICustomer = {
     customerISIN: string;
     customerTitle: string;

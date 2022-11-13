@@ -3,10 +3,9 @@ import { createContainer } from 'react-tracked';
 
 interface GlobalSetterState {
     resetBuySellState: () => void;
-    setBuySellModalExtra: <T = unknown>(value: T) => void;
 }
 
-export const GlobalSetterInitialState: GlobalSetterState = { resetBuySellState: () => {}, setBuySellModalExtra: () => {} };
+export const GlobalSetterInitialState: GlobalSetterState = { resetBuySellState: () => {} };
 const useValue = () => useState<GlobalSetterState>(GlobalSetterInitialState);
 export const {
     Provider: GlobalSetterProvider,

@@ -6,6 +6,7 @@ export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
 // Sidebar
 export { ReactComponent as BasketIcon } from 'src/assets/svg/Basket.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
+export { ReactComponent as BasketPlusIcon } from 'src/assets/svg/BasketPlusIcon.svg';
 export { ReactComponent as Broker_173 } from 'src/assets/svg/Broker_173.svg';
 export { ReactComponent as BrokerWhite_173 } from 'src/assets/svg/Broker_white_173.svg';
 export { ReactComponent as CalculatorIcon } from 'src/assets/svg/Calculator.svg';
@@ -68,4 +69,3 @@ export { ReactComponent as TseIcon } from 'src/assets/svg/TseIcon.svg';
 export { ReactComponent as UnCheck } from 'src/assets/svg/unCheck.svg';
 export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
-
