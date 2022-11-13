@@ -15,12 +15,10 @@ export const FilterAllMarket = () => {
         setState,
     } = useWatchListState();
     const {
-        data: dataMarketSymbol,
         refetch,
         remove,
     } = useGetMarketSymbolQuery({ PageNumber, marketUnit: data.marketUnit, SectorCode: data.sector.id });
     const [isCallApi, setisCallApi] = useState(false);
-    console.log('dataMarketSymbol', dataMarketSymbol);
 
     useEffect(() => {
         refetch();

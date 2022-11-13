@@ -1,7 +1,7 @@
 import { seprateNumber } from 'src/utils/helpers';
 
 export const LastTradedPrice = ({ data }: any) => {
-    const colorClass = (change: any) => {
+    const colorClass = (change: number) => {
         if (+change > 0) return 'text-L-success-150 dark:text-D-success-150';
 
         if (+change < 0) return 'text-L-error-150 dark:text-D-error-150';
