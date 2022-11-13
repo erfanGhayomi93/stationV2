@@ -31,7 +31,6 @@ const Watchlists = (props: Props) => {
     });
     const { data, isFetching } = useGetMarketSymbolQuery({PageNumber});
     const { symbols, totalCount } = data?.result || {};
-    console.log("data",data)
 
     const handleChangePaginator = (PageNumber: number) => {
         setState({ value: PageNumber, type: 'SET_PageNumber' });
