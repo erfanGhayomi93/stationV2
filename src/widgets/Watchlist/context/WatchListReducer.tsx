@@ -25,6 +25,11 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 ...state,
                 listShowColumn: action.value,
             };
+        case 'SET_PageNumber':
+            return {
+                ...state,
+                PageNumber: action.value,
+            };
 
         default:
             return state;

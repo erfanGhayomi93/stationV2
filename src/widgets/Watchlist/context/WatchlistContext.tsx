@@ -12,7 +12,8 @@ const initialState: WathclistState = {
     editMode: false,
     selectedDefaultWatchlist: 'EffectiveOnIndex',
     column : [],
-    listShowColumn : []
+    listShowColumn : [],
+    PageNumber : 1
 };
 
 type ISocketAnswerType = Pick<ISymbolType, 'lastTradedPrice' | 'closingPrice' | 'totalNumberOfSharesTraded' | 'totalTradeValue'>;

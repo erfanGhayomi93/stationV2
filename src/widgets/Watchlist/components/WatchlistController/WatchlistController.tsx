@@ -8,12 +8,13 @@ import Select, { SelectOption } from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import CheckColumnShow from '../CheckColumnShow';
+import { FilterAllMarket } from '../FilterAllMarket';
 
 interface IWatchlistControllerType {
     columns: ColDefType<IWatchlistSymbolTableType>[];
 }
 
-const WatchlistController: FC<IWatchlistControllerType> = ({columns}) => {
+const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
     const queryClient = useQueryClient();
     const { data: watchlists } = useWatchListsQuery();
     const { setState, state } = useWatchListState();
@@ -64,7 +65,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({columns}) => {
                         data-actived={state.selectedWatchlist === 0}
                         className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
                     >
-                        دیده‌بان پیشفرض
+                        کل بازار
+                    </button>
+                    <button
+                        onClick={() => setActiveWatchlist(1)}
+                        data-actived={state.selectedWatchlist === 1}
+                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                    >
+                        دیده بان رامند
                     </button>
                     {watchlists?.map(
                         (watchlist) =>
@@ -123,8 +131,13 @@ const WatchlistController: FC<IWatchlistControllerType> = ({columns}) => {
                 </div>
             </div>
 
-            <div className="flex  gap-2 items-center">
-                {state.selectedWatchlist === 0 && (
+            <div className="flex gap-2 items-center">
+                {
+                    state.selectedWatchlist === 0 && (
+                      <FilterAllMarket />    
+                    )
+                }
+                {state.selectedWatchlist === 1 && (
                     <>
                         <span>نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
@@ -144,7 +157,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({columns}) => {
                         </div>
                     </>
                 )}
-                <CheckColumnShow {...{columns}}/>
+                <CheckColumnShow {...{ columns }} />
             </div>
         </div>
     );

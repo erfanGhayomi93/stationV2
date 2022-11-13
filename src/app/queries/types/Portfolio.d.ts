@@ -95,3 +95,9 @@ type IDefaultWatchlistType =
     | 'FiveDaysNegative'
     | 'BuyQueueThreshold'
     | 'SellQueueThreshold';
+
+type IMarketSymbol = {
+    SectorCode ?: string ;
+    PageNumber : number ;
+    marketUnit ?: string;
+}

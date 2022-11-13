@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { FC, MutableRefObject, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { ColDefType } from 'src/common/components/AGTable';
 import { CheckListIcon, DefalutRefreshIcon } from 'src/common/icons';
 import { useSetState, useWatchListState } from '../../context/WatchlistContext';
@@ -68,7 +68,7 @@ type Item = {
 
 const Item: FC<Item> = ({ item, listShowColumn }) => {
     const setState = useSetState();
-    const InputRef = useRef() as MutableRefObject<HTMLInputElement>;
+    const InputRef = useRef<HTMLInputElement>(null);
 
     const handleChangeCheckbox = (checked: boolean, field: string): void => {
         if (checked) setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: [...listShowColumn, field] });
@@ -89,7 +89,7 @@ const Item: FC<Item> = ({ item, listShowColumn }) => {
 
             <label
                 onClick={() => {
-                    InputRef?.current?.click();
+                    InputRef.current && InputRef.current.click();
                 }}
                 htmlFor={item.field}
                 className={`pr-2 cursor-pointer`}

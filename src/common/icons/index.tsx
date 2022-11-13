@@ -2,6 +2,7 @@
 
 // Header
 export { ReactComponent as ArrowLeft } from 'src/assets/svg/arrowLeft.svg';
+export { ReactComponent as ArrowLeftAlt } from 'src/assets/svg/arrowLeftAlt.svg';
 export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
 // Sidebar
 export { ReactComponent as BasketIcon } from 'src/assets/svg/Basket.svg';
