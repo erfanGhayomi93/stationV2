@@ -9,7 +9,7 @@ describe('watchlist flow', () => {
 
     it('it has to  routes to watchlist', () => {
         cy.dataCy('Watchlist').click();
-        cy.contains('دیده‌بان پیشفرض');
+        cy.location('pathname').should('include', '/Watchlist');
     });
     it('it has to  create new watchlist name cypress_test', () => {
         cy.dataCy('add-watchlist').click();

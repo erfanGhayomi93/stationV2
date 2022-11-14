@@ -1,15 +1,15 @@
-import Modal from 'src/common/components/Modal';
-import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
-import Switcher from 'src/common/components/SwitchButton';
-import { useState, FC } from 'react';
-import { getFarsiDate } from 'src/utils/helpers';
+import { FC, useState } from 'react';
+import gregorian from 'react-date-object/calendars/gregorian';
+import gregorian_en from 'react-date-object/locales/gregorian_en';
+import { DateObject } from 'react-multi-date-picker';
 import { useDeleteBasket, useUpdateBasket } from 'src/app/queries/basket';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
-import Input from 'src/common/components/Input';
 import AdvancedTimePickerAnalog from 'src/common/components/AdvancedTimePickerAnalog';
-import { DateObject } from 'react-multi-date-picker';
-import gregorian_en from 'react-date-object/locales/gregorian_en';
-import gregorian from 'react-date-object/calendars/gregorian';
+import Input from 'src/common/components/Input';
+import Modal from 'src/common/components/Modal';
+import Switcher from 'src/common/components/SwitchButton';
+import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
+import { getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from '../components/CreateBasket';
 
 type IEditBasketModalType = {
@@ -63,11 +63,15 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
 
     return (
         <>
-            <Modal isOpen={isEditActive} onClose={toggleEditBasket} className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic overflow-visible">
+            <Modal
+                isOpen={isEditActive}
+                onClose={toggleEditBasket}
+                className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic overflow-visible"
+            >
                 <div className="grid grid-rows-min-one ">
                     <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                         <div>ویرایش سبد</div>
-                        <CloseIcon onClick={toggleEditBasket} className="cursor-pointer" />
+                        <CloseIcon data-cy="basket-edit-close" onClick={toggleEditBasket} className="cursor-pointer" />
                     </div>
                     <div className="m-4 text-1.2 border-b border-L-gray-350 dark:border-D-gray-350">
                         <div className="flex bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg py-2 text-L-gray-450 dark:text-D-gray-450 font-semibold">
@@ -88,6 +92,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                             {editMode?.id === basket.id ? (
                                                 <div className="w-full h-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded mt-[2px]">
                                                     <Input
+                                                        data-cy={'basket-item-edit-input-' + basket.name}
                                                         // className="text-center border border-L-gray-350 w-full h-full outline-L-primary-50"
                                                         value={editMode?.name}
                                                         onChange={(e) => handleChangeEditMode('name', e.target.value)}
@@ -97,7 +102,9 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                                     />
                                                 </div>
                                             ) : (
-                                                <span className="py-1.5 inline-block">{basket.name}</span>
+                                                <span data-cy={'basket-item-title-' + basket.name} className="py-1.5 inline-block">
+                                                    {basket.name}
+                                                </span>
                                             )}
                                         </div>
                                         <div className="min-w-[130px] w-full flex items-center justify-center ">
@@ -117,7 +124,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                                 <span className="py-1.5  w-100 block">{getFarsiDate(basket.sendDate).time}</span>
                                             )}
                                         </div>
-                                        <div className="w-full flex items-center justify-center py-1.5">
+                                        <div data-cy={'basket-item-toggle-' + basket.name} className="w-full flex items-center justify-center py-1.5">
                                             <Switcher
                                                 onCheck={(value: boolean) => {
                                                     editMode?.id === basket.id
@@ -133,12 +140,14 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                                     <div
                                                         className="p-1 border border-L-success-150 dark:border-D-success-150 rounded-xl cursor-pointer"
                                                         onClick={handleEditBasket}
+                                                        data-cy={'basket-item-edit-submit-' + basket.name}
                                                     >
                                                         <Check className="text-L-success-150 dark:text-D-success-150" />
                                                     </div>
                                                     <div
                                                         className="p-1 border border-L-error-150 dark:border-D-error-150 rounded-xl cursor-pointer"
                                                         onClick={() => setEditMode(undefined)}
+                                                        data-cy={'basket-item-edit-cancel-' + basket.name}
                                                     >
                                                         <UnCheck className="text-L-error-150 dark:text-D-error-150" />
                                                     </div>
@@ -146,13 +155,18 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                             ) : (
                                                 <>
                                                     <EditIcon2
+                                                        data-cy={'basket-item-edit-' + basket.name}
                                                         onClick={() => {
                                                             setEditMode(basket);
                                                             setTime(new Date(basket.sendDate));
                                                         }}
                                                         className="cursor-pointer"
                                                     />
-                                                    <DeleteIcon onClick={() => mutateDelete(basket.id)} className="cursor-pointer" />
+                                                    <DeleteIcon
+                                                        data-cy={'basket-item-delete-' + basket.name}
+                                                        onClick={() => mutateDelete(basket.id)}
+                                                        className="cursor-pointer"
+                                                    />
                                                 </>
                                             )}
                                         </div>
