@@ -43,3 +43,22 @@ stage-Job:
   artifacts:
   rules:
     - if: $CI_COMMIT_BRANCH == "Stage"
+Production-Job01:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build)
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcData\"
+    #- Stop-Service "StationUI"
+    #- Copy-item -Force -Recurse -Verbose "D:/GitLab-Runner/builds/pyWXt8_4/0/ui/OnlineStationUI\build\*" -Destination  "D:\Stage\UI\StationUI\Versions\Station.$date.$Env:VersionRlcData\"
+    #- Stop-WebSite "StationUI"
+    #- Start-WebSite "StationUI"
+    - ([Environment]::SetEnvironmentVariable("VersionRlcData", [int64]$Env:VersionRlcData + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - Web01
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production"
