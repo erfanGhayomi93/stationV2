@@ -43,3 +43,44 @@ stage-Job:
   artifacts:
   rules:
     - if: $CI_COMMIT_BRANCH == "Stage"
+Production-Job01:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build)
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - Stop-Service -Name "Uionlinestaition"
+    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\Ka-RHRf8\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - sc.exe config Uionlinestaition binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p6020 -aD:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - Start-Service -Name "Uionlinestaition" 
+    - ([Environment]::SetEnvironmentVariable("VersionRlcDataApi", [int64]$Env:VersionRlcDataApi + 1, "Machine"))
+    - cd c:\scripts\StationUI\
+    - .\only4backup
+  tags:
+    - Web01
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production"
+Production-Job02:
+  stage: deploy
+  script:
+    - $date = get-date -format  "dd-MM-yyyy"
+    - Start-Sleep -Seconds 250
+    - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - $User = "RAMANDTECH\copycicd"
+    - $PWord = ConvertTo-SecureString -String "CiCd@123456789" -AsPlainText -Force
+    - $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord 
+    - $MYSESSION = New-PSSession -ComputerName "Srv-WebApi01" -Credential $Credential
+    - Stop-Service -Name "Uionlinestaition"
+    - Copy-item -Force -Recurse -Verbose -FromSession $MYSESSION -Path D:\GitLab-Runner\builds\Ka-RHRf8\0\ui\OnlineStationUI\build\* -Destination  D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\
+    - sc.exe config Uionlinestaition binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p6020 -aD:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - Start-Service -Name "Uionlinestaition" 
+    - ([Environment]::SetEnvironmentVariable("VersionRlcDataApi", [int64]$Env:VersionRlcDataApi + 1, "Machine"))
+    - cd c:\scripts\StationUI\
+    - .\only4backup
+  tags:
+    - Web02
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production"
