@@ -12,7 +12,7 @@ const GroupDetail = ({}: IGroupDetailType) => {
         state.detailModalData?.customerType === 'CustomerTag' ? { groupId: state.detailModalData?.customerISIN } : {},
     );
     const { data: groupInformationDetail } = useGroupCustomerDetail(
-        state.detailModalData?.customerType === 'GTCustomerGroup' ? { groupId: state.detailModalData?.customerISIN } : {},
+        state.detailModalData?.customerType === 'TraderGroup' ? { groupId: state.detailModalData?.customerISIN } : {},
     );
 
     // FIXME:group and group tag is diffrent

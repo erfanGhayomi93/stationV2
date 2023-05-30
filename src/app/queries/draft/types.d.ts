@@ -16,6 +16,8 @@ interface IDraftRequsetType {
 
 interface IDraftCreateType {
     symbolISIN: string;
+    customerTagTitles: string;
+    gtTraderGroupId: string;
     price: number;
     quantity: number;
     side: string;
@@ -29,16 +31,24 @@ interface IDraftCreateType {
 }
 
 interface IDraftResponseType {
+    customerTags :any[]
+    customers : ICustomer[]
+    gtGroups : any[]
+    date: string;
     orderId: number;
+    orderSide: OrderSideType;
+    percent: number;
+    price: number;
+    quantity: number;
     symbolISIN: string;
     symbolTitle: string;
-    price: number;
-    percent: number;
-    quantity: number;
-    orderSide: OrderSideType;
     validity: validity;
     validityDate: string;
-    date: string;
-    customerISINs: string;
-    customerTitles: string[];
+    // customerISINs: string;
+    // customerTitles: string[];
 }
+type stateCustomer = {
+    CustomerISINs: string[];
+    CustomerTagTitles?: string[];
+    GtTraderGroupId?: string[];
+};

@@ -80,6 +80,7 @@ export const Apis = () => ({
         Delete: getOrderUrl() + '/GTOrder/v1/SingleDelete',
         Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
         GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
+        Modify: getOrderUrl() + '/GTOrder/v1/Modify',
     },
     SupervisorMessage: {
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
@@ -89,6 +90,7 @@ export const Apis = () => ({
         Create: getOrderUrl() + '/GTOrderDraft/v1/Create',
         Get: getOrderUrl() + '/GTOrderDraft/v1/Get',
         Delete: getOrderUrl() + '/GTOrderDraft/v1/Delete',
+        Update: getOrderUrl() + '/GTOrderDraft/v1/Update',
     },
     Basket: {
         Get: getOrderUrl() + '/GTCart/v1/CartList',
@@ -96,6 +98,7 @@ export const Apis = () => ({
         Edit: getOrderUrl() + '/GTCart/v1/EditCart',
         Delete: getOrderUrl() + '/GTCart/v1/DeleteCart',
         CreateDetail: getOrderUrl() + '/GTCart/v1/CreateCartDetail',
+        EditDetail: getOrderUrl() + '/GTCart/v1/EditCartDetail',
         GetDetail: getOrderUrl() + '/GTCart/v1/CartDetailList',
         DeleteDetails: getOrderUrl() + '/GTCart/v1/CartDetailDelete',
     },
@@ -112,6 +115,8 @@ export const Apis = () => ({
         DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
         GetDefaultWatchlistSymbols: getPortfolioUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
         GetSymbolInWatchlist: getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
+        GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
+        GetSector : getMarketData() + '/Sector/v1/Sectors',
     },
     Setting: {
         GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,

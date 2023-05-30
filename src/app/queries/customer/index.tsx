@@ -1,5 +1,5 @@
 import { InfiniteData, useInfiniteQuery, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { stringify } from 'qs';
+import { stringify } from 'querystring';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -12,9 +12,11 @@ const getDefaultCustomer = async () => {
     const { data } = await AXIOS.get<IGoMultiCustomerType[]>(Apis().Customer.Get as string);
     return data || [];
 };
-
-export const useDefaultCustomerList = () => {
-    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer());
+// prettier-ignore
+export const useDefaultCustomerList = <T=IGoMultiCustomerType,>(
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer(), options);
 };
 
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
@@ -23,9 +25,9 @@ const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
     });
     return data.result || [];
 };
-const searchMultiMultiCustomer = async (customerISINs: string[]) => {
+const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
-        params: { customerISINs },
+        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
         paramsSerializer: (params) => {
             return stringify(params);
         },
@@ -34,7 +36,7 @@ const searchMultiMultiCustomer = async (customerISINs: string[]) => {
 };
 
 export const useMutationMultiMultiCustomer = (
-    options?: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, string[], unknown>, 'mutationFn'> | undefined,
+    options: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, stateCustomer, unknown>, 'mutationFn'> | undefined,
 ) => {
     return useMutation(searchMultiMultiCustomer, options);
 };

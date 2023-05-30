@@ -24,6 +24,7 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
+
         "paths": {
             "*": ["*", "components/*"]
         },

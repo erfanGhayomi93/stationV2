@@ -1,12 +1,10 @@
-import { ICellRendererParams } from 'ag-grid-community';
-import { useMemo } from 'react';
-import { useDefaultWatchlistSymbolsQuery, useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
-import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
+import { useDefaultWatchlistSymbolsQuery, useGetMarketSymbolQuery, useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
+import AGTable from 'src/common/components/AGTable';
+import { Paginator } from 'src/common/components/Paginator/Paginator';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import { seprateNumber } from 'src/utils/helpers';
-import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
+import { UseHandleShowColumn } from './components/UseHandleShowColumn';
 import WatchlistController from './components/WatchlistController/WatchlistController';
 import { useWatchListState } from './context/WatchlistContext';
 
@@ -22,64 +20,55 @@ type WatchlistData = {
 const Watchlists = (props: Props) => {
     const appDispatch = useAppDispatch();
     const {
-        state: { selectedWatchlist, selectedDefaultWatchlist },
+        state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber },
+        setState,
     } = useWatchListState();
+    const { columns } = UseHandleShowColumn();
 
     const { data: defaultWatchlistSymbols } = useDefaultWatchlistSymbolsQuery(selectedDefaultWatchlist);
     const { data: watchlistSymbols } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlist, {
-        select: (data) =>
-            data.map((item) => {
-                return { symbolISIN: item.symbolISIN, ...item.symbol };
-            }),
+        select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol }))
     });
+    const { data, isFetching } = useGetMarketSymbolQuery({PageNumber});
+    const { symbols, totalCount } = data?.result || {};
 
-    const Columns = useMemo(
-        (): ColDefType<IWatchlistSymbolTableType>[] => [
-            { headerName: 'نماد', field: 'symbolTitle' },
-            {
-                headerName: 'قیمت لحظه ای',
-                field: 'lastTradedPrice',
-                // type: 'sepratedNumber',
-                valueFormatter: ({ value }) => seprateNumber(value),
-                cellRenderer: ChangeCellRenderer,
-            },
-            {
-                headerName: 'قیمت پایانی',
-                field: 'closingPrice',
-                type: 'sepratedNumber',
-                cellRenderer: ChangeCellRenderer,
-            },
-            {
-                headerName: 'حجم معاملات',
-                field: 'totalNumberOfSharesTraded',
-                type: 'abbreviatedNumber',
-                cellRenderer: ChangeCellRenderer,
-            },
-            {
-                headerName: 'ارزش معاملات',
-                field: 'totalTradeValue',
-                type: 'abbreviatedNumber',
-                cellRenderer: ChangeCellRenderer,
-            },
-            {
-                headerName: 'عملیات',
-                cellRenderer: ({ data }: ICellRendererParams<IWatchlistSymbolTableType>) => <ActionCellRenderer {...(data as any)} />,
-            },
-        ],
-        [],
-    );
+    const handleChangePaginator = (PageNumber: number) => {
+        setState({ value: PageNumber, type: 'SET_PageNumber' });
+    };
+
+    const defaultCols = {
+        lockPinned: true,
+        flex: 1,
+        cellClass: 'text-center dir-ltr',
+        headerClass: 'px-1 font-semibold',
+    };
 
     return (
         <div className="h-full grid grid-rows-min-one py-3 px-6">
             <div>
                 <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium text-2xl py-4">دیده‌بان</h1>
-                <WatchlistController />
+                <WatchlistController {...{ columns }} />
             </div>
-            <AGTable
-                rowData={selectedWatchlist === 0 ? defaultWatchlistSymbols : watchlistSymbols}
-                columnDefs={Columns}
-                onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
-            />
+            <WidgetLoading spining={isFetching}>
+                <AGTable
+                    rowData={selectedWatchlist === 0 ? symbols : selectedWatchlist === 1 ? defaultWatchlistSymbols : watchlistSymbols}
+                    columnDefs={columns}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
+                    defaultColDef={defaultCols}
+                    rowSelection="single"
+                />
+            </WidgetLoading>
+
+            {selectedWatchlist === 0 && (totalCount as number) > 0 && (
+                <div className="border-t flex justify-end items-center pt-4">
+                    <Paginator
+                        loading={isFetching}
+                        current={PageNumber}
+                        total={totalCount ? Math.ceil(totalCount / 20) : 0}
+                        onChange={handleChangePaginator}
+                    />
+                </div>
+            )}
         </div>
     );
 };

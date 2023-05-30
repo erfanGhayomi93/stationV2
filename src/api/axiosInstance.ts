@@ -1,9 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { NavigateFunction } from 'react-router-dom';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
-import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
-import { AppDispatch } from 'src/redux/store';
+import { NavigateFunction } from 'react-router-dom';
+import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
+import { AppDispatch } from 'src/redux/store';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatch | undefined;
@@ -35,7 +35,13 @@ AXIOS.interceptors.response.use(
             apiErrorHandler(response?.data?.errors);
 
             // const error: any = new Error(response.data.errors);
-            const error = new AxiosError('Client Error', '400', response.config, response.request, response);
+            const error = new AxiosError(
+                response.data.errors ? response.data.errors : 'Client Error',
+                '400',
+                response.config,
+                response.request,
+                response,
+            );
             // Attach the response instance, in case we would like to access it.
             error.response = response;
             return Promise.reject(error);

@@ -1,0 +1,34 @@
+{
+    "top": {
+        "BasketItems": "basket-item-",
+        "createBasket": "basket-create",
+        "EditBasket": "basket-edit",
+        "createModal": {
+            "createNewBasket": "basket-create-new",
+            "cancelNewBasket": "basket-create-cancel",
+            "inputName": "basket-create-input-name",
+            "inputDate": "basket-create-input-date",
+            "inputTime": "basket-create-input-time"
+        },
+        "editModal": {
+            "closeModal": "basket-edit-close",
+            "title": "basket-item-title-",
+            "toggle": "basket-item-toggle-",
+            "edit": "basket-item-edit-",
+            "editInput": "basket-item-edit-input-",
+            "editCancel": "basket-item-edit-cancel-",
+            "editSubmit": "basket-item-edit-submit-",
+            "delete": "basket-item-delete-"
+        }
+    },
+    "filter": {
+        "excel": "basket-excel",
+        "toggleButton": "basket-filter-button",
+        "inputCustomer": "basket-filter-input-customer",
+        "inputSymbol": "basket-filter-input-symbol",
+        "inputSide": "basket-filter-input-side",
+        "submitButton": "basket-filter-button-submit",
+        "defaultButton": "basket-filter-button-default"
+    },
+    "table": {}
+}

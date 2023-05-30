@@ -1,26 +1,61 @@
 import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
-import { setOrder } from 'src/app/queries/order';
+import { useUpdateDraft } from 'src/app/queries/draft';
+import { setOrder, useUpdateOrders } from 'src/app/queries/order';
+import { queryClient } from 'src/app/queryClient';
+import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
-import { handleValidity } from 'src/utils/helpers';
+import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
+import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetOrderActionType {}
 
 const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
-    const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent } =
-        useBuySellState();
+    const {
+        side,
+        amount,
+        divide,
+        isCalculatorEnabled,
+        price,
+        quantity,
+        sequential,
+        strategy,
+        symbolISIN,
+        validity,
+        validityDate,
+        percent,
+        comeFrom,
+        id,
+    } = useBuySellState();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
-            if (!sequential) {
-                dispatch({ type: 'RESET' });
-                appDispatch(setSelectedCustomers([]));
-            }
+            if (sequential) resetByeSellData(dispatch, appDispatch);
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+    const { mutate: mutateUpdateOrder } = useUpdateOrders({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['orderList', 'OnBoard']);
+            if (sequential) resetByeSellData(dispatch, appDispatch);
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+    const { mutate: mutateUpdateDraft } = useUpdateDraft({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['draftList']);
+            if (sequential) resetByeSellData(dispatch, appDispatch);
         },
         onError: () => {
             onErrorNotif();
@@ -30,10 +65,69 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         option: { selectedCustomers },
     } = useAppValues();
 
+    const handleUpdateDraft = () => {
+        mutateUpdateDraft({
+            customers: selectedCustomers.map((item) => ({
+                customerType: item.customerType,
+                customerTitle: item.customerTitle,
+                customerISIN: item.customerISIN,
+            })),
+            id,
+            symbolISIN,
+            orderSide: side,
+            price,
+            quantity,
+            percent,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+            orderType: 'MarketOrder',
+            orderStrategy: 'Normal',
+        });
+    };
+
+    const handleUpdateOrder = () => {
+        mutateUpdateOrder({
+            customers: selectedCustomers.map((item) => ({
+                customerType: item.customerType,
+                customerTitle: item.customerTitle,
+                customerISIN: item.customerISIN,
+            })),
+            id,
+            symbolISIN,
+            orderSide: side,
+            price,
+            quantity,
+            percent,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+            orderType: 'MarketOrder',
+            orderStrategy: 'Normal',
+        });
+    };
+
+    const handleSubmit = () => {
+        if (comeFrom === ComeFromKeepDataEnum.Draft) {
+            handleUpdateDraft();
+        } else if (comeFrom === ComeFromKeepDataEnum.OpenOrder) {
+            handleUpdateOrder();
+        } else {
+            handleOrder();
+        }
+    };
+
     const handleOrder = () => {
-        const isins = selectedCustomers.map((c: any) => c.customerISIN);
+        let customerISIN: ICustomerIsins = [];
+        let CustomerTagId: ICustomerIsins = [];
+        let GTTraderGroupId: ICustomerIsins = [];
+        selectedCustomers.forEach((c: IGoMultiCustomerType) => {
+            if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
+            else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.customerTitle);
+            else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
+        });
         mutate({
-            customerISIN: isins,
+            customerISIN,
+            CustomerTagId,
+            GTTraderGroupId,
             orderSide: side,
             orderDraftId: undefined,
             orderStrategy: strategy,
@@ -51,17 +145,17 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         <>
             {side === 'Buy' ? (
                 <button
-                    onClick={handleOrder}
+                    onClick={handleSubmit}
                     className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic flex items-center justify-center grow"
                 >
-                    ارسال خرید
+                    {isPrimaryComeFrom(comeFrom) ? 'ارسال خرید' : 'ثبت تغییرات'}
                 </button>
             ) : (
                 <button
-                    onClick={handleOrder}
+                    onClick={handleSubmit}
                     className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic flex items-center justify-center grow"
                 >
-                    ارسال فروش
+                    {isPrimaryComeFrom(comeFrom) ? ' ارسال فروش' : 'ثبت تغییرات'}
                 </button>
             )}
         </>

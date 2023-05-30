@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
 
 //
@@ -20,6 +21,10 @@ export const downloadBlobFile = (blob: Blob, fileName: string) => {
     link.href = url;
     link.setAttribute('download', fileName);
     link.click();
+};
+
+export const isPrimaryComeFrom = (comeFrom: string | undefined): boolean => {
+    return !comeFrom || comeFrom === ComeFromKeepDataEnum.FailedOrder;
 };
 
 export const makeArrayUniqueByKey = (arr: any[], key: string) => {
@@ -307,7 +312,7 @@ export const valueFormatterSide = (data: any): string => {
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.value === 'Day' || data.value === 'Week' || data.value === 'Month' || data.value === 'GoodTillDate')
+    if (data.data.validity === 'Day' || data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
         return getFarsiDate(data.data.validityDate).farsiDate;
     return i18next.t('BSModal.validity_' + data.value);
 };

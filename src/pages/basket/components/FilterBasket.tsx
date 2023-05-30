@@ -1,5 +1,4 @@
-import i18next from 'i18next';
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
 import Select, { SelectOption } from 'src/common/components/Select';
@@ -45,6 +44,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
             <div className="flex justify-between items-center">
                 <div
                     className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer"
+                    data-cy="basket-filter-button"
                     onClick={() => setisShowFilter(!isShowFilter)}
                 >
                     <FilterIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
@@ -67,6 +67,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                             <Input
                                 placeholder="نام"
                                 id="customer"
+                                data-cy="basket-filter-input-customer"
                                 value={dataFilter.customerTitles}
                                 onChange={(e) => handleChange('customerTitles', e.target.value)}
                             />
@@ -80,6 +81,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                             <Input
                                 placeholder="نام"
                                 id="symbol"
+                                data-cy="basket-filter-input-symbol"
                                 value={dataFilter.symbolTitle}
                                 onChange={(e) => handleChange('symbolTitle', e.target.value)}
                             />
@@ -91,6 +93,7 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                         </label>
                         <div className="mt-2 w-[206px]">
                             <Select
+                                data-cy="basket-filter-input-side"
                                 onChange={(selected) => handleChange('side', selected)}
                                 value={t('OrderSide.' + dataFilter.side)}
                                 title=""
@@ -109,12 +112,14 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                 </div>
                 <div className="flex items-end">
                     <button
+                        data-cy="basket-filter-button-submit"
                         onClick={() => handleFilter(dataFilter)}
                         className="bg-L-primary-50 dark:bg-D-primary-50 py-1 px-10 ml-4 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                     >
                         جستجو
                     </button>
                     <button
+                        data-cy="basket-filter-button-default"
                         onClick={handleDefaultState}
                         className="bg-L-primary-100 dark:bg-D-primary-100 py-1 px-4 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
                     >

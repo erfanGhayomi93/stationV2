@@ -42,6 +42,11 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 divide: action.value,
             };
+        case 'SET_COME_FROM':
+            return {
+                ...state,
+                comeFrom: action.value,
+            };
         case 'SET_PERCENT':
             return {
                 ...state,
@@ -62,6 +67,7 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 side: action.value,
             };
+
         case 'SOFT_RESET':
             return {
                 ...state,
@@ -72,7 +78,13 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
         case 'SET_ALL':
             return action.value;
         case 'RESET':
-            return { ...BuySellInitialState, side: state.side, isCalculatorEnabled: state.isCalculatorEnabled, symbolISIN: state.symbolISIN };
+            return {
+                ...BuySellInitialState,
+                // side: state.side,
+                isCalculatorEnabled: state.isCalculatorEnabled,
+                symbolISIN: state.symbolISIN,
+            };
+
         default:
             return state;
     }

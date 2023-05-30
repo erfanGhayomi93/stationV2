@@ -1,8 +1,8 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-    viewportHeight: 882,
-    viewportWidth: 1300,
+    viewportHeight: 900,
+    viewportWidth: 1440,
     component: {
         setupNodeEvents(on, config) {},
         specPattern: 'src/**/*.test.{js,ts,jsx,tsx}',

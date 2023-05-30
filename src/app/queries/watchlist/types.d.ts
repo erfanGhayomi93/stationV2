@@ -100,3 +100,10 @@ interface ISymbolInWatchlist {
     symbolISIN: string;
     watchlistId: number;
 }
+
+interface ISectorList {
+    id: string;
+    title: string;
+}
+
+type IResponseMarket = { symbols: any; totalCount: number };

@@ -49,11 +49,12 @@ const Select: FC<ISelectType> = ({
     label,
     inputClassName,
     icon = <ChevronIcon width={12} height={12} className="  rotate-180 text-gray-400" aria-hidden="true" />,
+    ...rest
 }) => {
     return (
         <div className="w-full flex items-center justify-center relative ">
             {title ? <span className="w-[64px] whitespace-nowrap relative ">{title}</span> : <></>}
-            <Listbox value={value} onChange={onChange}>
+            <Listbox value={value} onChange={onChange} {...rest}>
                 <div className="relative  w-full ">
                     <Listbox.Button
                         className={clsx(

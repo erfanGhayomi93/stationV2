@@ -1,10 +1,8 @@
+import ActionManager from '../ActionManager';
 import BuySellCustomer from '../BuySellCustomer';
 import BuySellDetail from '../Detail/BuySellDetail';
 import BuySellPrice from '../Price';
 import BuySellQuantity from '../Quantity';
-import SetBasketAction from '../SetBasketAction';
-import SetDraftAction from '../SetDraftAction';
-import SetOrderAction from '../SetOrderAction';
 import BuySellStrategy from '../Strategy';
 import BuySellSymbol from '../Symbol';
 import BuySellValidity from '../Validity';
@@ -22,11 +20,7 @@ const GroupBuySell = () => {
             </div>
             <div className="flex flex-col gap-3">
                 <BuySellDetail />
-                <div className="flex gap-3  ">
-                    <SetOrderAction />
-                    <SetDraftAction />
-                    <SetBasketAction />
-                </div>
+                <ActionManager />
             </div>
         </div>
     );

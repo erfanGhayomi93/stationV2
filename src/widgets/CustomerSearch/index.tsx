@@ -27,19 +27,32 @@ const CustomerSearch = () => {
                 const Legal = data.filter((item) => item.customerType === 'Legal');
                 const Natural = data.filter((item) => item.customerType === 'Natural');
                 const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
-                const GTCustomerGroup = data.filter((item) => item.customerType === 'GTCustomerGroup');
+                const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
                 return {
                     Legal,
                     Natural,
                     CustomerTag,
-                    GTCustomerGroup,
+                    TraderGroup,
                 };
             },
         },
     );
-    const { data: defaultCustomer } = useDefaultCustomerList();
+    const { data: defaultCustomer } = useDefaultCustomerList({
+        select: (data) => {
+            const Legal = data.filter((item) => item.customerType === 'Legal');
+            const Natural = data.filter((item) => item.customerType === 'Natural');
+            const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
+            const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
+            return {
+                Legal,
+                Natural,
+                CustomerTag,
+                TraderGroup,
+            };
+        },
+    });
 
-    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag', 'GTCustomerGroup'];
+    const types: ICustomerMultiTypeType[] = ['Natural', 'Legal', 'CustomerTag', 'TraderGroup'];
     // const typeCounts = useMemo(() => data?.pages[data?.pages.length - 1].typeCounts, [data]);
 
     // const setParams = (type: ICustomerMultiTypeType) => {
@@ -100,7 +113,11 @@ const CustomerSearch = () => {
                 <div className="h-full flex flex-col">
                     <ResultHeader />
                     <Virtuoso
-                        data={state.isSelectedActive ? selectedCustomers : (groupedCustomer && groupedCustomer[type]) || defaultCustomer}
+                        data={
+                            state.isSelectedActive
+                                ? selectedCustomers
+                                : (groupedCustomer && groupedCustomer[type]) || (defaultCustomer && defaultCustomer[type])
+                        }
                         className="border-L-gray-300 border rounded-lg rounded-t-none"
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{
