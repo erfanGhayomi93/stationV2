@@ -25,6 +25,7 @@ Deploy-Job:
 stage-Job:
   stage: deploy
   script:
+    - npm audit fix 
     - npm install 
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
