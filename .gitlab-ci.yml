@@ -25,8 +25,8 @@ Deploy-Job:
 stage-Job:
   stage: deploy
   script:
-    - npm audit fix --force
     - npm install 
+    - npm audit fix --force
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
     - mkdir -p "D:\Stage\UI\StationUI\Versions\Station.$date.$Env:VersionStation\"
