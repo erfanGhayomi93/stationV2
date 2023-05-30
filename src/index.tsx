@@ -1,11 +1,12 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-
 // Redux
 import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
 
 // Providers
+import { ToastContainer } from 'react-toastify';
 import TranslatorProvider from 'src/app/i18n';
 import QueryClientProvider from 'src/app/queryClient';
 
@@ -13,19 +14,47 @@ import QueryClientProvider from 'src/app/queryClient';
 import App from 'src/app/App';
 
 // Styles
-import 'src/common/components/LinearRangeChart/build.css';
+//prettier-ignore
+import 'react-toastify/dist/ReactToastify.css';
 import 'src/assets/scss/main.scss';
+import { GlobalSetterProvider } from './common/context/globalSetterContext';
+import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+const Wrapper = () => {
+    const { apiRoutes } = useApiPath();
+
+    return apiRoutes ? (
+        <>
+            <BrowserRouter>
+                <TranslatorProvider>
+                    <GlobalSetterProvider>
+                        <App />
+                        <ToastContainer
+                            position="bottom-left"
+                            autoClose={5000}
+                            hideProgressBar={true}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover
+                        />
+                    </GlobalSetterProvider>
+                </TranslatorProvider>
+            </BrowserRouter>
+        </>
+    ) : (
+        <>loading apis</>
+    );
+};
+
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <TranslatorProvider>
-                <QueryClientProvider>
-                    <App />
-                </QueryClientProvider>
-            </TranslatorProvider>
-        </BrowserRouter>
+        <QueryClientProvider>
+            <Wrapper />
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     </Provider>,
 );

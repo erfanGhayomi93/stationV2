@@ -1,11 +1,44 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
+import { InfiniteData, useInfiniteQuery, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { stringify } from 'querystring';
 import AXIOS from 'src/api/axiosInstance';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(apiRoutes.Customer.Search, { params });
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(Apis().Customer.Search as string, { params });
 
     return data.result || [];
+};
+const getDefaultCustomer = async () => {
+    const { data } = await AXIOS.get<IGoMultiCustomerType[]>(Apis().Customer.Get as string);
+    return data || [];
+};
+// prettier-ignore
+export const useDefaultCustomerList = <T=IGoMultiCustomerType,>(
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer(), options);
+};
+
+const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiSearch as string, {
+        params: { ...params, type: params.type?.join() },
+    });
+    return data.result || [];
+};
+const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
+        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
+        paramsSerializer: (params) => {
+            return stringify(params);
+        },
+    });
+    return data.result || [];
+};
+
+export const useMutationMultiMultiCustomer = (
+    options: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, stateCustomer, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(searchMultiMultiCustomer, options);
 };
 
 export const useCustomerList = (params: IGoCustomerRequest) => {
@@ -35,9 +68,23 @@ export const useCustomerListInfinit = (
         },
     );
 };
+// prettier-ignore
+export const useMultiCustomerListQuery = <T=IGoMultiCustomerType,>(
+    params: IGoCustomerRequestType,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
+        enabled: !!params.term,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(apiRoutes.Customer.GetCustomerInformation, { params });
+    const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(Apis().Customer.GetCustomerInformation as string, {
+        params,
+    });
     return data.result || [];
 };
 

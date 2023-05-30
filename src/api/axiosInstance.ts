@@ -1,9 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { NavigateFunction } from 'react-router-dom';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
-import { onErrorNotif, apiErrorHandler } from 'src/handlers/notification';
-import { AppDispatch } from 'src/redux/store';
+import { NavigateFunction } from 'react-router-dom';
+import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
+import { AppDispatch } from 'src/redux/store';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatch | undefined;
@@ -34,17 +34,24 @@ AXIOS.interceptors.response.use(
         if (response?.data?.succeeded === false) {
             apiErrorHandler(response?.data?.errors);
 
-            const error: any = new Error(response.data.errors);
+            // const error: any = new Error(response.data.errors);
+            const error = new AxiosError(
+                response.data.errors ? response.data.errors : 'Client Error',
+                '400',
+                response.config,
+                response.request,
+                response,
+            );
             // Attach the response instance, in case we would like to access it.
             error.response = response;
-            throw error;
+            return Promise.reject(error);
         }
 
         return response;
     },
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
-
+        console.log({ error });
         if (error.response) {
             // Request made and server responded
 
@@ -56,38 +63,38 @@ AXIOS.interceptors.response.use(
                     unAuthorized();
                     break;
                 case 403: // Forbidden
-                    onErrorNotif({ description: 'دسترسی غیرمجاز' });
+                    onErrorNotif({ title: 'دسترسی غیرمجاز' });
                     break;
                 case 404: // Not Found
-                    if (process.env.NODE_ENV === 'development') onErrorNotif({ description: 'یافت نشد' });
+                    if (process.env.NODE_ENV === 'development') onErrorNotif({ title: 'یافت نشد' });
                     else unAuthorized();
                     break;
                 case 405: // Method Not Allowed
-                    onErrorNotif({ description: 'عدم تطابق اطلاعات' });
+                    onErrorNotif({ title: 'عدم تطابق اطلاعات' });
                     break;
                 case 408: // Request Timeout
-                    onErrorNotif({ description: 'سرعت اینترنت خود را چک کنید' });
+                    onErrorNotif({ title: 'سرعت اینترنت خود را چک کنید' });
                     break;
                 case 429: // Too Many Requests
-                    onErrorNotif({ description: 'درخواست‌ها بیش از حد شمار' });
+                    onErrorNotif({ title: 'درخواست‌ها بیش از حد شمار' });
                     break;
                 case 500: // Internal Server Error
-                    onErrorNotif({ description: 'خطا در ارتباط با سرور' });
+                    onErrorNotif({ title: 'خطا در ارتباط با سرور' });
                     break;
                 case 502: // Bad Gateway
-                    onErrorNotif({ description: 'پاسخ نامعتبر است' });
+                    onErrorNotif({ title: 'پاسخ نامعتبر است' });
                     break;
                 case 503: // Service Unavailable
-                    onErrorNotif({ description: 'سرویس‌ها در دسترسی نمی‌باشند' });
+                    onErrorNotif({ title: 'سرویس‌ها در دسترسی نمی‌باشند' });
                     break;
                 case 504: // Gateway Timeout
-                    onErrorNotif({ description: 'پاسخی دریافت نشد' });
+                    onErrorNotif({ title: 'پاسخی دریافت نشد' });
                     break;
                 case 511: // Network Authentication Required
-                    onErrorNotif({ description: 'عدم توانایی در احراز هویت برای دسترسی به اینترنت' });
+                    onErrorNotif({ title: 'عدم توانایی در احراز هویت برای دسترسی به اینترنت' });
                     break;
                 default:
-                    onErrorNotif({ description: 'خطا در پردازش اطلاعات' });
+                    onErrorNotif({ title: 'خطا در پردازش اطلاعات' });
                     break;
             }
         } else if (error.request) {
@@ -95,10 +102,10 @@ AXIOS.interceptors.response.use(
 
             switch (error.message) {
                 case 'Network Error':
-                    onErrorNotif({ description: 'دسترسی خود به اینترنت را چک کنید' });
+                    onErrorNotif({ title: 'دسترسی خود به اینترنت را چک کنید' });
                     break;
                 default:
-                    onErrorNotif({ description: 'خطا در پردازش اطلاعات' });
+                    onErrorNotif({ title: 'خطا در پردازش اطلاعات' });
                     break;
             }
         } else {

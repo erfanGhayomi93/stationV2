@@ -1,6 +1,6 @@
 //
 interface IGetGroupInformationRequestType {
-    groupId: number | undefined;
+    groupId?: string | undefined;
 }
 
 interface IGroupInformationResultType {

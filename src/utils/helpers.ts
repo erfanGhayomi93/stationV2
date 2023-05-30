@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
 
 //
@@ -19,6 +21,10 @@ export const downloadBlobFile = (blob: Blob, fileName: string) => {
     link.href = url;
     link.setAttribute('download', fileName);
     link.click();
+};
+
+export const isPrimaryComeFrom = (comeFrom: string | undefined): boolean => {
+    return !comeFrom || comeFrom === ComeFromKeepDataEnum.FailedOrder;
 };
 
 export const makeArrayUniqueByKey = (arr: any[], key: string) => {
@@ -60,8 +66,7 @@ export const copyTextToClipboard = (text: string) => {
         const successful = document.execCommand('copy');
         successful &&
             onSuccessNotif({
-                message: 'کپی',
-                description: 'متن مورد نظر در حافظه کپی شد',
+                title: 'متن مورد نظر در حافظه کپی شد',
             });
 
         if (!successful) console.error('Fallback: unable to copy', 'document.execCommand');
@@ -269,6 +274,7 @@ export const getFarsiDate = (timeStamp: string) => {
         farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
             farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
         }`,
+        farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
 
@@ -302,16 +308,39 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    if (data.value === 'Buy') return 'خرید';
-    else if (data.value === 'Sell') return 'فروش';
-    else return 'نامشخص';
+    return i18next.t('OrderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.value === 'FillAndKill') return 'انجام و حذف';
-    else if (data.value === 'GoodTillCancelled') return 'معتبر تا لغو';
-    else if (data.value === 'GoodTillDate') return getFarsiDate(data.data.validityDate).farsiDate;
-    return data.value;
+    if (data.data.validity === 'Day' || data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
+        return getFarsiDate(data.data.validityDate).farsiDate;
+    return i18next.t('BSModal.validity_' + data.value);
+};
+
+export const valueFormatterState = (data: any) => {
+    return i18next.t('OrderState.' + data.value);
+};
+
+export const valueFormatterDate = (data: any) => {
+    return getFarsiDate(data.value).farsiDate;
+};
+
+export const valueFormatterCustomerTitle = (data: any) => {
+    const customerTitle = data.value.map((item: any) => item.customerTitle);
+
+    return String(customerTitle);
+};
+
+export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: number): string => {
+    if (pageNumber && pageSize) {
+        return ((pageNumber - 1) * pageSize + (data.node.rowIndex + 1)).toString();
+    }
+    return data.node.rowIndex + 1;
+};
+
+export const handleValidity = (validity: string): string => {
+    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    return validity;
 };
 
 export const abbreviateNumber = (number: number) => {

@@ -30,7 +30,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                 leaveFrom="opacity-100 "
                 leaveTo="opacity-0  translate-x-10"
             >
-                <Disclosure.Panel className="pr-3 w-full">
+                <Disclosure.Panel className="pr-3 w-full" data-cy="expanded-sider">
                     <div className=" w-full border-solid border-r-2 border-L-secondary-150">
                         {item.children &&
                             item.children.map((itemChild: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>, ind: number) => (

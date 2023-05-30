@@ -10,15 +10,17 @@ import RouteWrapper from 'src/common/components/RouteWrapper';
 import AppLayout from 'src/app/Layout';
 import CrashPage from 'src/pages/PageCrash';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 
 const App = () => {
-    //
     const {
         global: { appState },
     } = useAppValues();
 
     const navigate = useNavigate();
     const appDispatch = useAppDispatch();
+    const [localSymbolISIN] = useLocalStorage<string>('symbolISIN', '');
 
     const { ready: isTranslationResourceReady } = useTranslation();
 
@@ -27,10 +29,11 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        fetchUser(appDispatch);
-    }, []);
+        appState === 'Loading' && fetchUser(appDispatch);
+        appState === 'LoggedIn' && localSymbolISIN && appDispatch(setSelectedSymbol(localSymbolISIN));
+    }, [appState]);
 
-    if (appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
+    if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
     if (appState === 'Crashed') return <CrashPage />;
 
     return (

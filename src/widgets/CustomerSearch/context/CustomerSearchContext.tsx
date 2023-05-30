@@ -4,10 +4,10 @@ import CustomerSearch from '..';
 import CustomerDetailModal from '../modal/CustomerDetailModal';
 interface ICustomerSearchWidgetType {
     params: IGoCustomerRequest;
-    detailModalData?: IGoCustomerSearchResult;
+    detailModalData?: IGoMultiCustomerType;
     isSelectedActive?: boolean;
 }
-const useValue = () => useState<ICustomerSearchWidgetType>({ params: { type: 'Customer' } });
+const useValue = () => useState<ICustomerSearchWidgetType>({ params: {} });
 
 export const { Provider: CustomerSearchProvider, useTrackedState, useUpdate: useSetState } = createContainer(useValue);
 export const useCustomerSearchState = () => {
@@ -18,10 +18,8 @@ export const useCustomerSearchState = () => {
 const CustomerSearchWidget = () => {
     return (
         <>
-            <CustomerSearchProvider>
-                <CustomerSearch />
-                <CustomerDetailModal />
-            </CustomerSearchProvider>
+            <CustomerSearch />
+            <CustomerDetailModal />
         </>
     );
 };

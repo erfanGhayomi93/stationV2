@@ -10,6 +10,18 @@ type GroupState =
     | 'OpeningOrClosing'
     | 'TradingAtLast'
     | null;
+type IDefaultWatchlistType =
+    | 'InBuyQueue'
+    | 'InSellQueue'
+    | 'MostVolume'
+    | 'MostValue'
+    | 'EffectiveOnIndex'
+    | 'MaximumPrice'
+    | 'MinimumPrice'
+    | 'FiveDaysPositive'
+    | 'FiveDaysNegative'
+    | 'BuyQueueThreshold'
+    | 'SellQueueThreshold';
 
 interface IWatchlistType {
     id: number;
@@ -79,3 +91,19 @@ interface ISymbolType {
     groupState: GroupState;
     symbolState: string;
 }
+
+interface IWatchlistSymbolTableType extends ISymbolType {
+    symbolISIN: string;
+}
+
+interface ISymbolInWatchlist {
+    symbolISIN: string;
+    watchlistId: number;
+}
+
+interface ISectorList {
+    id: string;
+    title: string;
+}
+
+type IResponseMarket = { symbols: any; totalCount: number };

@@ -1,5 +1,5 @@
-import { FC, useMemo } from 'react';
-import { useGroupInformation } from 'src/app/queries/group';
+import { useMemo } from 'react';
+import { useGroupCustomerDetail, useGroupInformation } from 'src/app/queries/group';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
@@ -7,7 +7,15 @@ type IGroupDetailType = {};
 
 const GroupDetail = ({}: IGroupDetailType) => {
     const { state } = useCustomerSearchState();
-    const { data: groupInformation } = useGroupInformation({ groupId: state.detailModalData?.groupId });
+
+    const { data: groupInformation } = useGroupInformation(
+        state.detailModalData?.customerType === 'CustomerTag' ? { groupId: state.detailModalData?.customerISIN } : {},
+    );
+    const { data: groupInformationDetail } = useGroupCustomerDetail(
+        state.detailModalData?.customerType === 'TraderGroup' ? { groupId: state.detailModalData?.customerISIN } : {},
+    );
+
+    // FIXME:group and group tag is diffrent
     const Columns = useMemo<ColDefType<ICustomerInformationResultType>[]>(
         () => [
             { field: 'customerTitle', headerName: 'نام و نام خانوادگی' },
@@ -26,7 +34,12 @@ const GroupDetail = ({}: IGroupDetailType) => {
                     </div>
                 </div>
                 <div className=" px-5 py-7 h-full w-full ">
-                    <AGTable rowData={groupInformation?.customer || []} columnDefs={Columns} rowSelection={'multiple'} rowHeight={50} />
+                    <AGTable
+                        rowData={groupInformation?.customer || groupInformationDetail?.customer || []}
+                        columnDefs={Columns}
+                        rowSelection={'multiple'}
+                        rowHeight={50}
+                    />
                 </div>
             </div>
         </>

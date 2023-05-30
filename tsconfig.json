@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"],
+        "lib": ["ES6", "dom", "dom.iterable", "esnext", "WebWorker"],
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -14,8 +14,23 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "checkJs": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "declarationMap": true,
+        "outDir": "dist",
+        "skipDefaultLibCheck": true,
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+
+        "paths": {
+            "*": ["*", "components/*"]
+        },
+        "types": ["node", "jest"],
+        "typeRoots": ["node_modules/@types", "./typings"]
     },
-    "include": ["src"]
+    "include": ["src", "src/**/*", "./cypress.d.ts", "cypress", "src/**/*.d.ts"],
+    "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*"]
 }

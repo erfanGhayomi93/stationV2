@@ -1,3 +1,5 @@
+import { BuySellInitialState } from './BuySellContext';
+
 export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuySellState => {
     switch (action.type) {
         case 'SET_PRICE':
@@ -40,6 +42,11 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 divide: action.value,
             };
+        case 'SET_COME_FROM':
+            return {
+                ...state,
+                comeFrom: action.value,
+            };
         case 'SET_PERCENT':
             return {
                 ...state,
@@ -60,6 +67,24 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 side: action.value,
             };
+
+        case 'SOFT_RESET':
+            return {
+                ...state,
+                price: 0,
+                quantity: 0,
+                amount: 0,
+            };
+        case 'SET_ALL':
+            return action.value;
+        case 'RESET':
+            return {
+                ...BuySellInitialState,
+                // side: state.side,
+                isCalculatorEnabled: state.isCalculatorEnabled,
+                symbolISIN: state.symbolISIN,
+            };
+
         default:
             return state;
     }

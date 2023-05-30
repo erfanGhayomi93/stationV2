@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface OptionState {
     selectedSymbol: string;
-    selectedCustomers: IGoCustomerSearchResult[];
+    selectedCustomers: IGoMultiCustomerType[];
 }
-
+// IRO1TAMN0001
 const initialState: OptionState = {
-    selectedSymbol: 'IRO1TAMN0001',
+    selectedSymbol: '',
     selectedCustomers: [],
 };
 

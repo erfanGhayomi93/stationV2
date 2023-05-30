@@ -35,6 +35,7 @@ type SimpleDatepickerProps = {
     defaultValue?: Date | Record<'y' | 'm' | 'd', string | number | null>;
     open?: boolean;
     yearRange?: [number, number];
+    disable?: boolean;
     classes?: Record<
         | 'datepicker'
         | 'select'
@@ -55,7 +56,7 @@ type SimpleDatepickerProps = {
 };
 
 const monthsOfYear = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_');
-const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, onChange }: SimpleDatepickerProps) => {
+const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, disable, onChange }: SimpleDatepickerProps) => {
     const dialog = useRef<HTMLUListElement>(null);
 
     const { t } = useTranslation();
@@ -214,13 +215,18 @@ const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, onChange }: 
         });
     }, []);
 
+    useEffect(() => {
+        setIsModifiedMode(false);
+        setInput(null);
+    }, [disable]);
+
     if (!isModifiedMode)
         return (
             <StaticComponent
                 label={input ? `${input.y} / ${zeroPad(String(input.m + 1))} / ${zeroPad(String(input.d))}` : t('datepicker.no_date_selected')}
                 classes={classes}
                 disabled={!input}
-                onClick={() => setIsModifiedMode(true)}
+                onClick={() => !disable && setIsModifiedMode(true)}
             />
         );
 

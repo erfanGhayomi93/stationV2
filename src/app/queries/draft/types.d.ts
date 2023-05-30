@@ -1,22 +1,54 @@
 interface IDraftRequsetType {
+    id: number;
     symbolISIN: string;
-    price: number
-    quantity: number
+    symbolTitle: string;
+    price: number;
+    percent: number;
+    quantity: number;
+    orderSide: string;
+    validity: string;
+    validityDate: string | undefined;
+    date: string;
+    customerISINs: string;
+    orderStrategy?: string;
+    orderType?: OrderTypeType;
+}
+
+interface IDraftCreateType {
+    symbolISIN: string;
+    customerTagTitles: string;
+    gtTraderGroupId: string;
+    price: number;
+    quantity: number;
     side: string;
     validity: string;
     validityDate: string | undefined;
-    customerISINs: string,
-    percent : number ,
-    orderStrategy : string , 
-    orderType : OrderTypeType
+    customerISINs: string;
+    customerTitles: string;
+    percent: number;
+    orderStrategy: string;
+    orderType: OrderTypeType;
 }
 
-type IDraftSelected = {
-    customerTitles: string[];
-    symbolTitle: string;
-    side: string;
-    quantity: number;
+interface IDraftResponseType {
+    customerTags :any[]
+    customers : ICustomer[]
+    gtGroups : any[]
+    date: string;
+    orderId: number;
+    orderSide: OrderSideType;
+    percent: number;
     price: number;
-    validity: string;
+    quantity: number;
+    symbolISIN: string;
+    symbolTitle: string;
+    validity: validity;
     validityDate: string;
+    // customerISINs: string;
+    // customerTitles: string[];
+}
+type stateCustomer = {
+    CustomerISINs: string[];
+    CustomerTagTitles?: string[];
+    GtTraderGroupId?: string[];
 };

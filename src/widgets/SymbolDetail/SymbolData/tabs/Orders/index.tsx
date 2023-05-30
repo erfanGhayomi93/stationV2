@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useCallback } from 'react';
-import { useAppValues } from 'src/redux/hooks';
-import useMarketDepth from './useMarketDepth';
-import HalfRowType from './HalfRow';
+import clsx from 'clsx';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import { useAppValues } from 'src/redux/hooks';
+import HalfRowType from './HalfRow';
+import useMarketDepth from './useMarketDepth';
 
 type HalfRowType = {
     price: number;
@@ -85,14 +86,21 @@ const Orders = () => {
     }, [selectedSymbol]);
 
     return (
-        <div className="w-full h-full flex pt-2 ">
-            <div className="w-1/2 border-l h-full dark:border-D-gray-350 border-L-gray-350">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
+        <div className={clsx('w-full pt-2  h-full grid   grid-rows-min-one relative  text-1.2  ')}>
+            <div className=" grid grid-cols-2 grid-rows-1 sticky top-0">
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 sticky top-0 right-0">
                     <span className="ml-4">تعداد</span>
                     <span>حجم</span>
                     <span className="mr-auto">قیمت</span>
                 </div>
-                <div>
+                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 sticky top-0 right-0">
+                    <span className="ml-auto">قیمت</span>
+                    <span>حجم</span>
+                    <span className="mr-4">تعداد</span>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 grid-rows-1 overflow-auto  h-full" style={{ overflow: 'overlay' }}>
+                <div className=" dark:border-D-gray-350 border-L-gray-350   ">
                     {buyData.map(({ count, price, volume, percent }, inx) => {
                         return (
                             <HalfRowType
@@ -108,14 +116,7 @@ const Orders = () => {
                         );
                     })}
                 </div>
-            </div>
-            <div className="w-1/2 border-r h-full dark:border-D-gray-350 border-L-gray-350">
-                <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-400 dark:text-D-gray-400 dark:border-D-gray-350 border-L-gray-350">
-                    <span className="ml-auto">قیمت</span>
-                    <span>حجم</span>
-                    <span className="mr-4">تعداد</span>
-                </div>
-                <div>
+                <div className="w-full border-r h-full dark:border-D-gray-350 border-L-gray-350   ">
                     {sellData.map(({ count, price, volume, percent }, inx) => {
                         return (
                             <HalfRowType

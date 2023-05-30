@@ -82,3 +82,22 @@ interface ICreateWatchlistResultType {
     id: number;
     isPinned: boolean;
 }
+
+type IDefaultWatchlistType =
+    | 'InBuyQueue'
+    | 'InSellQueue'
+    | 'MostVolume'
+    | 'MostValue'
+    | 'EffectiveOnIndex'
+    | 'MaximumPrice'
+    | 'MinimumPrice'
+    | 'FiveDaysPositive'
+    | 'FiveDaysNegative'
+    | 'BuyQueueThreshold'
+    | 'SellQueueThreshold';
+
+type IMarketSymbol = {
+    SectorCode ?: string ;
+    PageNumber : number ;
+    marketUnit ?: string;
+}

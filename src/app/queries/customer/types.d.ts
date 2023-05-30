@@ -1,9 +1,16 @@
-type ICustomerTypeType = 'Total' | 'Customer' | 'Group' | 'Mine';
-
 interface IGoCustomerResult {
-    type: ICustomerTypeType;
+    type: ICustomerMultiTypeType;
     searchResult: PaginatedSearchResult;
     typeCounts: TypeCount[];
+}
+
+interface IGoMultiCustomerType {
+    customerType: ICustomerMultiTypeType;
+    customerTitle: string;
+    customerISIN: string;
+    nationalCode: string;
+    bourseCode: string;
+    purchasePower: number;
 }
 
 interface PaginatedSearchResult {
@@ -22,19 +29,25 @@ interface IGoCustomerSearchResult {
     customerISIN: string;
     balance: number;
     bourseCode: string;
-    nationalCode: string;
+    nationalCode: number;
     groupName: string;
     groupId: number;
 }
 
 interface TypeCount {
-    type: ICustomerTypeType;
+    type: ICustomerMultiTypeType;
     count: number;
 }
 
 interface IGoCustomerRequest extends IPaginateRequest {
     term?: string;
-    type?: ICustomerTypeType;
+    type?: ICustomerMultiTypeType;
+}
+type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag' | 'TraderGroup';
+
+interface IGoCustomerRequestType {
+    term?: string;
+    type?: ICustomerMultiTypeType[];
 }
 
 interface ICustomerInformationResultType {
@@ -51,6 +64,7 @@ interface ICustomerInformationResultType {
     stationCredit: number;
     brokerCredit: number;
     blocked: number;
+    customerType?: string;
 }
 
 interface IGetCustomerInformationRequestType {

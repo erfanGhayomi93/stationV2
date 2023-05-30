@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import { ArrowLeft, ArrowRight, BrokerWhite_173 } from 'src/common/icons';
 import clsx from 'clsx';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ArrowLeft, ArrowRight } from 'src/common/icons';
 
 type TOggleSlider = {
     onOpen?: () => void;
@@ -9,16 +10,19 @@ type TOggleSlider = {
 };
 
 const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
+    const BrokerCode = +window.REACT_APP_BROKER_CODE;
+    const src = `logo_${BrokerCode}.svg`;
+    const { t } = useTranslation();
     return (
         <>
-            <button className="p-3 rounded-md flex items-center" onClick={onOpen}>
-                <BrokerWhite_173 />
-                {type === 'close' && <span className="pr-2">کارگزاری تدبیرگر سرمایه</span>}
+            <button className="p-3 rounded-md flex items-center outline-none" onClick={onOpen} data-cy="toggle-sider">
+                <img className="h-[45px] aspect-square brightness-0 invert" src={'/assets/images/' + src} />
+
+                {type === 'close' && <span className="pr-2"> {t('headerSec.' + BrokerCode + '_LogoTitle')}</span>}
             </button>
             <div
-                className={clsx({
-                    'w-full flex items-center': true,
-                    'relative': type === 'open',
+                className={clsx('w-full flex items-center', {
+                    relative: type === 'open',
                 })}
             >
                 <span className="bg-gray-500 w-[calc(100%-16px)] h-[1px] block ml-1" />

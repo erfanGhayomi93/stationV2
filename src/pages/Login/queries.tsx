@@ -1,37 +1,40 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import apiRoutes from 'src/api/apiRoutes';
-import AXIOS, { setAuthorizeData } from 'src/api/axiosInstance';
-import { useAppDispatch } from 'src/redux/hooks';
-import { setAppUser } from 'src/redux/slices/global';
+import AXIOS from 'src/api/axiosInstance';
 
-const loginFormSubmitReq = async (payload: any) => {
-    const { data } = await AXIOS.post(apiRoutes.OAuthApi.authorization, payload);
+import { toast } from 'react-toastify';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+
+const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
+    const { data } = await AXIOS.post(Apis().OAuthApi.authorization as string, payload, {
+        headers: {
+            'X-TestEnv': process.env.NODE_ENV === 'development' ? '@!F4NYBkG^Y203LobM}6Kj#jYU&5uE1oJ&xR%tBGugO#I0pPfw' : '',
+        },
+    });
+    console.log({ data });
     return data?.result || {};
 };
 
-export const useLoginFormSubmit = () => {
+export const useLoginFormSubmit = <T,>(
+    options?: Omit<UseMutationOptions<IGTAuthorizationResultType, T, IGTAuthorizationRequestType, unknown>, 'mutationFn'>,
+) => {
     //
-    const appDispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     return useMutation(loginFormSubmitReq, {
-        onSuccess: (result) => {
-            if (result) {
-                setAuthorizeData(result?.token);
-                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
-                navigate('/');
-            }
-        },
+        ...options,
     });
 };
 
 const fetchCaptcha = async () => {
-    const { data } = await axios.get<{ key: string; base64String: string }>(apiRoutes.OAuthApi.captcha);
-    return { key: data.key, base64String: data.base64String };
+    const res = await axios.get<IGetCaptchaType>(Apis().OAuthApi.captcha as string);
+    return res.data;
 };
 
 export const useCaptcha = () => {
-    return useQuery(['Captcha'], fetchCaptcha);
+    return useQuery(['Captcha'], fetchCaptcha, {
+        onSuccess: (data) => {
+            data.result === 'TooRequest' && toast.error(data.result);
+        },
+        refetchInterval: 1000 * 60 * 2,
+    });
 };

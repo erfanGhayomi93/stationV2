@@ -1,6 +1,6 @@
 .datepicker {
     background-color: theme('colors.white');
-    border-radius: theme('borderRadius.lg');
+    border-radius: theme('borderRadius.md');
     border: 1px solid;
     border-color: theme('colors.L.gray.350');
     width: 100%;
@@ -13,8 +13,8 @@
         width: 100%;
 
         &.noDate {
-            max-height: 36px;
-            min-height: 36px;
+            max-height: 34px;
+            min-height: 34px;
             padding: 0 0.8rem;
             cursor: pointer;
 
@@ -48,7 +48,7 @@
 
             .input {
                 position: relative;
-                min-height: 36px;
+                min-height: 34px;
                 flex: 1;
 
                 &:nth-child(2) {
@@ -125,7 +125,7 @@
                 padding: 0.2rem;
 
                 button {
-                    padding: 0 1.4rem;
+                    padding: 0 0.6rem;
                     height: 100%;
                     background-color: theme('colors.L.primary.50');
                     display: flex;

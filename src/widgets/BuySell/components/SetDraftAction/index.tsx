@@ -1,47 +1,77 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 import { useCreateDraft } from 'src/app/queries/draft';
-import { useAppValues } from 'src/redux/hooks';
-import { useBuySellState } from '../../context/BuySellContext';
+import { ICustomerTypeEnum } from 'src/constant/enums';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
+import { resetByeSellData } from '../..';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
 interface ISetDraftActionType {}
 
 const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
-    const { mutate } = useCreateDraft();
+    const { side, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, comeFrom } = useBuySellState();
+    const queryClient = useQueryClient();
+    const dispatch = useBuySellDispatch();
+    const appDispatch = useAppDispatch();
+    const { mutate: mutateCreateDraft } = useCreateDraft({
+        onSuccess: () => {
+            onSuccessNotif();
+            queryClient.invalidateQueries(['draftList']);
+            if (sequential) resetByeSellData(dispatch, appDispatch);
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
     const {
         option: { selectedCustomers },
     } = useAppValues();
-    const { side, price, quantity, strategy, symbolISIN, validity, validityDate, percent } = useBuySellState();
 
-    const handleValidity = () => {
-        if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
-        return validity;
+    const handleClick = () => {
+        if (!isPrimaryComeFrom(comeFrom)) {
+            resetByeSellData(dispatch, appDispatch);
+            return;
+        }
+        handleCreateDraft();
     };
 
-    const handleDraft = () => {
-        let isins = selectedCustomers.map((c) => c.customerISIN);
-        let isinsCommaSeparator = String(isins);
+    const handleCreateDraft = () => {
+        let customerISINs: ICustomerIsins = [];
+        let customerTagTitles: ICustomerIsins = [];
+        let gtTraderGroupId: ICustomerIsins = [];
 
-        mutate({
+        selectedCustomers.forEach((c: IGoMultiCustomerType) => {
+            if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISINs.push(c.customerISIN);
+            else if (c.customerType === ICustomerTypeEnum.CustomerTag) customerTagTitles.push(c.customerTitle);
+            else if (c.customerType === ICustomerTypeEnum.TraderGroup) gtTraderGroupId.push(c.customerISIN);
+        });
+
+        mutateCreateDraft({
+            customerISINs: String(customerISINs),
+            customerTagTitles: String(customerTagTitles),
+            gtTraderGroupId: String(gtTraderGroupId),
             symbolISIN: symbolISIN,
             price: price,
             quantity: quantity,
             side: side,
-            validity: handleValidity(),
+            validity: handleValidity(validity),
             validityDate: validityDate,
-            customerISINs: isinsCommaSeparator,
             percent: percent || 0,
             orderStrategy: strategy,
             orderType: 'MarketOrder',
+            customerTitles: '',
         });
     };
 
     return (
         <>
             <button
-                onClick={handleDraft}
+                onClick={handleClick}
                 className="flex items-center h-8 justify-center w-2/6 rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border "
             >
-                پیش نویس
+                {isPrimaryComeFrom(comeFrom) ? 'پیش نویس' : 'انصراف'}
             </button>
         </>
     );

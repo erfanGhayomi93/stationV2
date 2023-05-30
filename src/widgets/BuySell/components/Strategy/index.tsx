@@ -10,16 +10,18 @@ const BuySellStrategy: FC<IBuySellStrategyType> = ({}) => {
 
     const setStrategy = (value: strategy) => dispatch({ type: 'SET_STRATEGY', value });
     return (
-        <Select
-            onChange={(selected: typeof STRATEGY_OPTIONS[0]) => setStrategy(selected.value as strategy)}
-            // value={i18next.t('BSModal.strategy_' + strategy)}
-            value={'عادی'}
-            title="استراتژی"
-        >
-            {STRATEGY_OPTIONS.map((item, inx) => (
-                <SelectOption key={inx} label={item.name} value={item} className="text-1.2 cursor-default select-none py-1 pl-10 pr-4" />
-            ))}
-        </Select>
+        <div className="pr-2">
+            <Select
+                onChange={(selected: typeof STRATEGY_OPTIONS[0]) => setStrategy(selected.value as strategy)}
+                // value={t(BSModal.strategy_' + strategy)}
+                value={'عادی'}
+                title="استراتژی"
+            >
+                {STRATEGY_OPTIONS.map((item, inx) => (
+                    <SelectOption key={inx} label={item.name} value={item} className="text-1.2 cursor-default select-none py-1 pl-10 pr-4" />
+                ))}
+            </Select>
+        </div>
     );
 };
 

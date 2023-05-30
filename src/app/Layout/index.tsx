@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { pushEngine } from 'src/api/pushEngine';
+import WorkflowWidget from 'src/common/components/WorkFlow/context/WorkflowContext';
 import Footer from './Footer';
 import Header from './Header';
 import Sider from './Sider';
@@ -19,30 +20,28 @@ const AppLayout = () => {
             Password: 'This is My Password', // get from app context
         });
 
-
-
         return () => {
-
             pushEngine.disConnect();
         };
     }, []);
 
-
     return (
-        <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50">
-            <div className="h-full w-full grid grid-cols-one-min">
-                <ProviderSlider>
-                    <Sider />
-                </ProviderSlider>
-                <div className="grid grid-rows-min-one-min overflow-y-auto ">
-                    <Header />
-                    <div className="h-full px-4 py-2 grid overflow-y-auto overflow-x-auto min-w-[1230px]">
-                        <Outlet />
+        <WorkflowWidget>
+            <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50 min-w-[1330px] overflow-x-auto">
+                <div className="h-full w-full grid grid-cols-one-min">
+                    <ProviderSlider>
+                        <Sider />
+                    </ProviderSlider>
+                    <div className="grid grid-rows-min-one-min h-full overflow-y-auto  ">
+                        <Header />
+                        <div className="px-4 py-2 grid overflow-y-auto grid-rows-1 ">
+                            <Outlet />
+                        </div>
+                        <Footer />
                     </div>
-                    <Footer />
                 </div>
             </div>
-        </div>
+        </WorkflowWidget>
     );
 };
 

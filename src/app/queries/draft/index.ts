@@ -1,36 +1,58 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
+import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
-import { toast } from 'react-toastify';
+import { queryClient } from 'src/app/queryClient';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 ///////////////create draft///////////////////
-const setDraftFn = async (param: IDraftRequsetType): Promise<number | []> => {
+const setDraftFn = async (param: IDraftCreateType): Promise<number | []> => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(apiRoutes.draft.Create, { ...param });
+        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().draft.Create as string, { ...param });
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useCreateDraft = () => {
-    return useMutation(setDraftFn, {
-        onSuccess: () => {
-            toast.info('done');
-        },
-    });
+export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], unknown, IDraftCreateType, unknown>, 'mutationFn'> | undefined) => {
+    return useMutation(setDraftFn, { ...options });
 };
 
 ////////////////get draft////////////////////////
-const getDraftFn = async (params: string) => {
+export const getDraftFn = async () => {
     try {
-        let { data } = await AXIOS.get(apiRoutes.draft.Get + '?' + params);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IDraftCreateType[]>>(Apis().draft.Get as string);
         return data.result || [];
     } catch {
         return [];
     }
 };
 
-export const useGetDraft = (params: string, option: any) => {
-    return useQuery(['draftList'], () => getDraftFn(params), option);
+export const useGetDraft = () => {
+    return useQuery(['draftList'], getDraftFn);
+};
+////////////////delete draft////////////////////////
+const deleteDraftQuery = async (draftId: number): Promise<number | []> => {
+    let { data } = await AXIOS.post(Apis().draft.Delete as string, {}, { params: { draftId } });
+    return data.result || [];
+};
+
+export const useDeleteDraft = () => {
+    return useMutation(deleteDraftQuery, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['draftList']);
+        },
+        onError: (err) => {
+            console.log('err', err);
+        },
+    });
+};
+////////////////update draft///////////////////////////
+
+const updateDraftQuery = async (params: any) => {
+    let { data } = await AXIOS.post(Apis().draft.Update as string, params);
+    return data.result || [];
+};
+
+export const useUpdateDraft = (option?: Omit<UseMutationOptions<number[], Error , any , unknown>, 'mutationKey' | 'mutationFn'>) => {
+    return useMutation(updateDraftQuery, option);
 };

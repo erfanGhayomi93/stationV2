@@ -1,6 +1,6 @@
 import { RadioGroup, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, Fragment, useState, useMemo, memo } from 'react';
+import { FC, Fragment, memo, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -48,7 +48,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const dispatch = useBuySellDispatch();
     const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
+    const {} = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
     //
@@ -74,11 +74,12 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const handleChangeMode = (value: 'AMOUNT' | 'PERCENT') => {
         setMode(value);
         setAmount(0);
+        setPercent(0);
     };
 
     return (
         <>
-            <div className="flex w-full gap-4 pr-2">
+            <div className="flex w-full gap-4 pr-2 ">
                 <ControllerInput
                     title="تعداد"
                     highValue={symbolData?.maxTradeQuantity || 0}
