@@ -133,7 +133,7 @@ export const setAuthorizeData = (client_id: string) => {
         path: '/',
     };
 
-    if (window.APP_ENV === 'production') {
+    if (window.REACT_APP_ENV === 'Production') {
         options.secure = true;
         options.sameSite = 'Lax';
     }
