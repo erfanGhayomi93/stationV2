@@ -7,16 +7,16 @@ const safelySaveValueInWindowObj = (name, value) => Object.defineProperty(window
 const urlHost = window.location.host;
 
 if (urlHost.includes('localhost')) {
-
     safelySaveValueInWindowObj("baseURL", 'mockApi')
     safelySaveValueInWindowObj("APP_ENV", "development")
-
 }
 else if (urlHost.includes('40.8:')) {
-
     safelySaveValueInWindowObj("baseURL", 'mockApi')
     safelySaveValueInWindowObj("APP_ENV", "development")
-
+}
+else if (urlHost.includes('gt')) {
+    safelySaveValueInWindowObj("baseURL", 'mockApi')
+    safelySaveValueInWindowObj("APP_ENV", "Production")
 }
 // else if (urlHost.includes('rts-stage')) {
 
