@@ -102,7 +102,7 @@ export const Apis = () => ({
         GetDetail: getOrderUrl() + '/GTCart/v1/CartDetailList',
         DeleteDetails: getOrderUrl() + '/GTCart/v1/CartDetailDelete',
     },
-    Commission: { Get: getCommonUrl() + `/Commission/v1/Get` },
+    Commission: { Get: getCommonUrl() + `/Commission/v1/GetBuyAndSellCommision` },
     WatchList: {
         Get: getPortfolioUrl() + '/GTWatchlist/v1/Watchlists',
         Create: getPortfolioUrl() + '/GTWatchlist/v1/Create',
