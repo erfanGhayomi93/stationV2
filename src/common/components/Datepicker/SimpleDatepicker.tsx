@@ -1,20 +1,23 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
-import styles from './Datepicker.module.scss';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CalendarIcon } from 'src/common/icons';
 import { zeroPad } from 'src/utils/helpers';
+import styles from './Datepicker.module.scss';
 
 type StaticComponentProps = Pick<SimpleDatepickerProps, 'classes'> & {
     label: string;
     disabled: boolean;
     onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    disable: boolean | undefined
 };
 
-const StaticComponent = ({ classes, label, disabled, onClick }: StaticComponentProps) => (
+const StaticComponent = ({ classes, label, disabled, onClick, disable }: StaticComponentProps) => (
     <div className={clsx(styles.datepicker, classes?.datepicker)}>
-        <div data-testid="datepicker-toggler" className={clsx(styles.container, styles.noDate, classes?.container)} onClick={onClick}>
+        <div data-testid="datepicker-toggler" className={clsx(styles.container, styles.noDate, classes?.container, {
+            "cursor-pointer": !disable
+        })} onClick={onClick}>
             <span
                 data-testid="datepicker-label"
                 className={clsx(styles.label, classes?.disabled, classes?.label, {
@@ -227,6 +230,7 @@ const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, disable, onC
                 classes={classes}
                 disabled={!input}
                 onClick={() => !disable && setIsModifiedMode(true)}
+                disable={disable}
             />
         );
 
