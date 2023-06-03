@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { handleValidity, valueFormatterSide } from 'src/utils/helpers';
+import { valueFormatterSide } from 'src/utils/helpers';
 
 type RequestData = {
     customerTitle: string;
@@ -46,7 +46,7 @@ const Requests = () => {
     );
 
     return (
-        <div className={'grid grid-rows-min-one h-full p-3'}>
+        <div className={'grid h-full p-3'}>
             <AGTable rowData={[]} columnDefs={columns} />
         </div>
     );

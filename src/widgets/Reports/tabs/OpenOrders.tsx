@@ -11,7 +11,6 @@ import { useAppDispatch } from 'src/redux/hooks';
 import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
-import CellSideFilter from '../components/CellFilter/CellSideFilter';
 import CellTextFilter from '../components/CellFilter/CellTextFilter';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
@@ -40,35 +39,35 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             {
                 headerName: 'مشتری یا گروه مشتری',
                 field: 'customerTitle',
-                width: 360,
-                headerComponent: () => (
-                    <CellTextFilter
-                        handleChangeFilterData={handleChangeFilterData}
-                        columnName="مشتری یا گروه مشتری"
-                        field="customerTitle"
-                        placeholder="مشتری :"
-                    />
-                ),
+                // width: 360,
+                // headerComponent: () => (
+                //     <CellTextFilter
+                //         handleChangeFilterData={handleChangeFilterData}
+                //         columnName="مشتری یا گروه مشتری"
+                //         field="customerTitle"
+                //         placeholder="مشتری :"
+                //     />
+                // ),
             },
             {
                 headerName: 'نام نماد',
                 field: 'symbolTitle',
-                width: 350,
-                headerComponent: () => (
-                    <CellTextFilter
-                        handleChangeFilterData={handleChangeFilterData}
-                        columnName="نام نماد"
-                        field="symbolTitle"
-                        placeholder="نام نماد:"
-                    />
-                ),
+                // width: 350,
+                // headerComponent: () => (
+                //     <CellTextFilter
+                //         handleChangeFilterData={handleChangeFilterData}
+                //         columnName="نام نماد"
+                //         field="symbolTitle"
+                //         placeholder="نام نماد:"
+                //     />
+                // ),
             },
             {
                 headerName: 'سمت',
                 field: 'orderSide',
-                width: 380,
+                // width: 380,
                 valueFormatter: valueFormatterSide,
-                headerComponent: () => <CellSideFilter handleChangeFilterData={handleChangeFilterData} />,
+                // headerComponent: () => <CellSideFilter handleChangeFilterData={handleChangeFilterData} />,
             },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },

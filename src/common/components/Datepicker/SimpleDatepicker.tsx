@@ -1,10 +1,10 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
-import styles from './Datepicker.module.scss';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CalendarIcon } from 'src/common/icons';
 import { zeroPad } from 'src/utils/helpers';
+import styles from './Datepicker.module.scss';
 
 type StaticComponentProps = Pick<SimpleDatepickerProps, 'classes'> & {
     label: string;
