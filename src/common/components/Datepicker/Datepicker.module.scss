@@ -16,7 +16,7 @@
             max-height: 34px;
             min-height: 34px;
             padding: 0 0.8rem;
-            cursor: pointer;
+            // cursor: pointer;
 
             .label {
                 direction: ltr;
@@ -37,7 +37,7 @@
             height: 100%;
             display: flex;
             align-items: center;
-            color: theme('colors.L.gray.350');
+            color: theme('colors.L.gray.450');
         }
 
         .inputGroup {
