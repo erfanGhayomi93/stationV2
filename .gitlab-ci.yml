@@ -84,3 +84,22 @@ Production-Job02:
   artifacts:
   rules:
     - if: $CI_COMMIT_BRANCH == "Production"
+Dr-Srv-Job01:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build)
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - Stop-Service -Name "Uionlinestaition"
+    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\v4pe4pNy\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - sc.exe config Uionlinestaition binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p6034 -aD:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:VersionRlcDataApi\"
+    - Start-Service -Name "Uionlinestaition" 
+    - ([Environment]::SetEnvironmentVariable("VersionRlcDataApi", [int64]$Env:VersionRlcDataApi + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - DR-Web01
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production"
