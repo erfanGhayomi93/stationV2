@@ -24,31 +24,46 @@ const CustomerSearch = () => {
         { term: debouncedTerm },
         {
             select: (data) => {
-                const Legal = data.filter((item) => item.customerType === 'Legal');
-                const Natural = data.filter((item) => item.customerType === 'Natural');
-                const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
-                const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
-                return {
-                    Legal,
-                    Natural,
-                    CustomerTag,
-                    TraderGroup,
+                if (!data) {
+                    return {
+                        Legal: [],
+                        Natural: [],
+                        CustomerTag: [],
+                        TraderGroup: [],
+                    };
+                }
+
+                const filteredData = {
+                    Legal: data.filter((item) => item?.customerType === 'Legal'),
+                    Natural: data.filter((item) => item?.customerType === 'Natural'),
+                    CustomerTag: data.filter((item) => item?.customerType === 'CustomerTag'),
+                    TraderGroup: data.filter((item) => item?.customerType === 'TraderGroup'),
                 };
+
+                return filteredData;
             },
-        },
+        }
     );
+
     const { data: defaultCustomer } = useDefaultCustomerList({
         select: (data) => {
-            const Legal = data.filter((item) => item.customerType === 'Legal');
-            const Natural = data.filter((item) => item.customerType === 'Natural');
-            const CustomerTag = data.filter((item) => item.customerType === 'CustomerTag');
-            const TraderGroup = data.filter((item) => item.customerType === 'TraderGroup');
-            return {
-                Legal,
-                Natural,
-                CustomerTag,
-                TraderGroup,
+            if (!data) {
+                return {
+                    Legal: [],
+                    Natural: [],
+                    CustomerTag: [],
+                    TraderGroup: [],
+                };
+            }
+
+            const filteredData = {
+                Legal: data.filter((item) => item?.customerType === 'Legal'),
+                Natural: data.filter((item) => item?.customerType === 'Natural'),
+                CustomerTag: data.filter((item) => item?.customerType === 'CustomerTag'),
+                TraderGroup: data.filter((item) => item?.customerType === 'TraderGroup'),
             };
+
+            return filteredData;
         },
     });
 
