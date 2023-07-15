@@ -57,7 +57,7 @@ const PasswordInput: FC<IPasswordInputProviderType> = ({ onChange, classname, in
                         {...rest}
                         name="password"
                         placeholder={t("FormSide.Input.Password.Placeholder")}
-                        className={clsx('py-3 w-full px-3', inputClassName)}
+                        className={clsx('py-3 w-full px-3 focus:outline-none', inputClassName)}
                         type={showPass ? 'text' : 'password'}
                         value={inputValue}
                         onChange={(e) => setInput(e.target.value)}

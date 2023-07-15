@@ -23,6 +23,7 @@
         "lightstreamer-client-web": "^8.0.5",
         "localstorage-slim": "^2.3.0",
         "qs": "^6.11.0",
+        "querystring": "^0.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-i18next": "^11.18.4",
