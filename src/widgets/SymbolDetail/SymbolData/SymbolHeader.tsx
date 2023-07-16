@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
@@ -27,9 +28,7 @@ const SymbolHeader = () => {
             <div className="flex gap-1">
                 <div className="">
                     <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
-                        {data?.companyCode && (
-                            <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={""} />
-                        )}
+                        {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
                     </div>
                 </div>
                 <div className=" flex items-center gap-2">
@@ -42,9 +41,9 @@ const SymbolHeader = () => {
                 </div>
             </div>
             <div className="mr-auto flex items-center">
-                <CodalBtn symbolTitle={data?.symbolTitle || ''} />
-                <TseBtn insCode={data?.insCode || ''} />
-                <AddToWatchlistButton symbolISIN={selectedSymbol} />
+                    <AddToWatchlistButton symbolISIN={selectedSymbol} />
+                    <CodalBtn symbolTitle={data?.symbolTitle || ''} />
+                    <TseBtn insCode={data?.insCode || ''} />
             </div>
         </div>
     );

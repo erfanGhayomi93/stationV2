@@ -1,3 +1,4 @@
+import Tippy from '@tippyjs/react';
 import React, { useCallback } from 'react';
 import { TseIcon } from 'src/common/icons';
 
@@ -12,9 +13,11 @@ const TseBtn = ({ insCode, className, ...rest }: Props) => {
     }, [insCode]);
 
     return (
-        <button onClick={onBtnClick} className={`flex items-center justify-center p-1 rounded-sm  ${className}`} {...rest}>
-            <TseIcon />
-        </button>
+        <Tippy content="سایت TSE" className="text-xs">
+            <button onClick={onBtnClick} className={`flex items-center justify-center p-1 rounded-sm  ${className}`} {...rest}>
+                <TseIcon />
+            </button>
+        </Tippy>
     );
 };
 

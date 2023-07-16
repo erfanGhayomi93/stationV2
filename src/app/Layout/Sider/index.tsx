@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
+import Tippy from '@tippyjs/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
-import Tooltip from 'src/common/components/Tooltip';
 import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, QuitIcon } from 'src/common/icons';
 import { logOutReq } from '../Header/UserActions';
-import { useSliderDispatch, useSliderValue } from './context';
-import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
+import { useSliderDispatch, useSliderValue } from './context';
+import { SLiderActionEnum } from './context/types';
 
 export type MenuItemType = {
     icon: JSX.Element;
@@ -156,7 +156,7 @@ const Sider = () => {
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy key={ind} content={item.label} className="text-xs" placement='left'>
                                     <button
                                         data-cy={item.id}
                                         className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
@@ -164,14 +164,14 @@ const Sider = () => {
                                     >
                                         <>{item.icon}</>
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                     <div className="flex flex-col items-center gap-5 ">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy key={ind} content={item.label} className="text-xs" placement='left'>
                                     <button
                                         data-cy={item.id}
                                         className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
@@ -179,7 +179,7 @@ const Sider = () => {
                                     >
                                         {item.icon}
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                 </div>
