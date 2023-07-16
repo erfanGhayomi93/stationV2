@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
-import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/app/routes/appRoutes';
 import { transferFunctions } from 'src/api/axiosInstance';
+import { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES } from 'src/app/routes/appRoutes';
 import { fetchUser } from 'src/handlers/boot';
 
-import RouteWrapper from 'src/common/components/RouteWrapper';
 import AppLayout from 'src/app/Layout';
+import RouteWrapper from 'src/common/components/RouteWrapper';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import CrashPage from 'src/pages/PageCrash';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 
 const App = () => {
@@ -20,9 +20,12 @@ const App = () => {
 
     const navigate = useNavigate();
     const appDispatch = useAppDispatch();
-    const [localSymbolISIN] = useLocalStorage<string>('symbolISIN', '');
+    const [localSymbolISIN] = useLocalStorage<string>('symbolISIN', 'IRO1ATIR0001');
 
-    const { ready: isTranslationResourceReady } = useTranslation();
+    const {
+        ready: isTranslationResourceReady,
+        i18n: { resolvedLanguage },
+    } = useTranslation();
 
     useEffect(() => {
         transferFunctions(navigate, appDispatch);
@@ -34,7 +37,7 @@ const App = () => {
     }, [appState]);
 
     if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
-    if (appState === 'Crashed') return <CrashPage />;
+    if (appState === 'Crashed' || resolvedLanguage !== 'fa') return <CrashPage />;
 
     return (
         <Routes>
