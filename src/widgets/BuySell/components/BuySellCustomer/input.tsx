@@ -1,3 +1,4 @@
+import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { FC, MouseEvent, useContext, useEffect, useRef } from 'react';
 import Combo from 'src/common/components/ComboSelect';
@@ -81,27 +82,29 @@ const InputSearch: FC<IInputSearchType> = ({ loading, selectionCount }) => {
                 className={clsx('flex justify-between items-center gap-2 cursor-pointer  z-30 disabled:opacity-40')}
                 onClick={(e) => handleSetPanelContent(e)}
             >
-                <div
-                    className={clsx(
-                        'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative ',
-                        panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
-                    )}
-                >
-                    <UserCheckIcon
-                        className={clsx(panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400')}
-                        width={18}
-                        height={18}
-                    />
-                    <span
+                <Tippy content="مشتریان انتخاب شده" className="text-xs">
+                    <div
                         className={clsx(
-                            selectionCount
-                                ? 'absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full'
-                                : 'hidden',
+                            'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative ',
+                            panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
                         )}
                     >
-                        {selectionCount ? (selectionCount < 10 ? selectionCount : '9+') : ''}
-                    </span>
-                </div>
+                        <UserCheckIcon
+                            className={clsx(panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400')}
+                            width={18}
+                            height={18}
+                        />
+                        <span
+                            className={clsx(
+                                selectionCount
+                                    ? 'absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full'
+                                    : 'hidden',
+                            )}
+                        >
+                            {selectionCount ? (selectionCount < 10 ? selectionCount : '9+') : ''}
+                        </span>
+                    </div>
+                </Tippy>
             </button>
         </div>
     );
