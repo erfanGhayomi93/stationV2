@@ -97,7 +97,7 @@ type IDefaultWatchlistType =
     | 'SellQueueThreshold';
 
 type IMarketSymbol = {
-    SectorCode ?: string ;
-    PageNumber : number ;
-    marketUnit ?: string;
-}
+    SectorCode: string;
+    PageNumber: number;
+    marketUnit: string;
+};
