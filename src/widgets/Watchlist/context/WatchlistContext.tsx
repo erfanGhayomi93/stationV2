@@ -15,7 +15,7 @@ const initialState: WathclistState = {
     listShowColumn: [],
     PageNumber: 1,
     marketUnit: "",
-    sector: { id: "", title: "" }
+    sector: { id: "", title: "همه" }
 };
 
 type ISocketAnswerType = Pick<ISymbolType, 'lastTradedPrice' | 'closingPrice' | 'totalNumberOfSharesTraded' | 'totalTradeValue'>;
