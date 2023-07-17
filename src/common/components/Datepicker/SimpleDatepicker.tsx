@@ -5,19 +5,24 @@ import { useTranslation } from 'react-i18next';
 import { CalendarIcon } from 'src/common/icons';
 import { zeroPad } from 'src/utils/helpers';
 import styles from './Datepicker.module.scss';
+import { onErrorNotif } from 'src/handlers/notification';
 
 type StaticComponentProps = Pick<SimpleDatepickerProps, 'classes'> & {
     label: string;
     disabled: boolean;
     onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-    disable: boolean | undefined
+    disable: boolean | undefined;
 };
 
 const StaticComponent = ({ classes, label, disabled, onClick, disable }: StaticComponentProps) => (
     <div className={clsx(styles.datepicker, classes?.datepicker)}>
-        <div data-testid="datepicker-toggler" className={clsx(styles.container, styles.noDate, classes?.container, {
-            "cursor-pointer": !disable
-        })} onClick={onClick}>
+        <div
+            data-testid="datepicker-toggler"
+            className={clsx(styles.container, styles.noDate, classes?.container, {
+                'cursor-pointer': !disable,
+            })}
+            onClick={onClick}
+        >
             <span
                 data-testid="datepicker-label"
                 className={clsx(styles.label, classes?.disabled, classes?.label, {
@@ -35,7 +40,7 @@ const StaticComponent = ({ classes, label, disabled, onClick, disable }: StaticC
 );
 
 type SimpleDatepickerProps = {
-    defaultValue?: Date | Record<'y' | 'm' | 'd', string | number | null>;
+    defaultValue?: string | Date | Record<'y' | 'm' | 'd', string | number | null>;
     open?: boolean;
     yearRange?: [number, number];
     disable?: boolean;
@@ -55,7 +60,7 @@ type SimpleDatepickerProps = {
         | 'icon',
         ClassesValue | undefined
     >;
-    onChange: (v: Date) => void;
+    onChange: (v: Date | Dayjs) => void;
 };
 
 const monthsOfYear = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_');
@@ -67,6 +72,7 @@ const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, disable, onC
     const [isModifiedMode, setIsModifiedMode] = useState(open ?? false);
 
     const [input, setInput] = useState<null | Record<'y' | 'm' | 'd', number>>(null);
+    const [dateValue, setDateValue] = useState<Dayjs | Date | null>(null)
 
     const [openedList, setOpenedList] = useState<'month' | 'day' | 'year' | null>(null);
 
@@ -92,7 +98,7 @@ const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, disable, onC
         setInput(res);
         setOpenedList(null);
 
-        onChange(d.toDate());
+        setDateValue(d);
     };
 
     const closeListOnDocumentClick = (e: MouseEvent, name: Exclude<typeof openedList, null>) => {
@@ -189,38 +195,52 @@ const SimpleDatepicker = ({ open, defaultValue, yearRange, classes, disable, onC
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>, v: Date) => {
         e.preventDefault();
+        const today = dayjs()
+        const isDateValid = today.diff(dateValue, 'day') <= 0
+        if(dateValue && isDateValid){
+            onChange(dateValue)
+            setIsModifiedMode(false);
+            return;
+        }
 
-        console.log(v);
+        onErrorNotif({
+            title: 'تاریخ وارد شده صحیح نمیباشد'
+        })
 
-        setIsModifiedMode(false);
     };
 
     useEffect(() => {
-        if (!defaultValue) return;
-
-        let d: Date | Dayjs;
-        if (defaultValue instanceof Date) {
-            d = defaultValue;
-        } else {
-            const date = new Date();
-            if (defaultValue.d) date.setDate(+defaultValue.d);
-            if (defaultValue.m) date.setMonth(+defaultValue.m);
-            if (defaultValue.y) date.setFullYear(+defaultValue.y);
-
-            d = date;
+        if (!defaultValue) {
+            setInput(null);
+            return;
         }
+        let d: Date | Dayjs;
+        // if (defaultValue instanceof Date) {
+        //     d = defaultValue;
+        // }
+        //  else {
+        //     const date = new Date();
+        //     if (defaultValue.d) date.setDate(+defaultValue.d);
+        //     if (defaultValue.m) date.setMonth(+defaultValue.m);
+        //     if (defaultValue.y) date.setFullYear(+defaultValue.y);
 
-        d = dayjs(d).calendar('jalali');
+        //     d = date;
+        // }
+
+        d = dayjs(defaultValue as string).calendar('jalali');
         setInput({
             y: d.year(),
             m: d.month(),
             d: d.date(),
         });
-    }, []);
+    }, [defaultValue]);
 
     useEffect(() => {
         setIsModifiedMode(false);
-        setInput(null);
+        if (!disable) {
+            setInput(null);
+            setIsModifiedMode(true);
+        }
     }, [disable]);
 
     if (!isModifiedMode)
