@@ -339,7 +339,7 @@ export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: n
 };
 
 export const handleValidity = (validity: string): string => {
-    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
     return validity;
 };
 
