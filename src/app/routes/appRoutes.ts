@@ -34,7 +34,7 @@ const authorizedRoutes = {
         component: Home,
     },
     Reports: {
-        path: '/Reports',
+        path: '/Reports/:activeTab',
         name: 'Reports',
         pageTitle: 'صفحه اصلی',
         component: Reports,
