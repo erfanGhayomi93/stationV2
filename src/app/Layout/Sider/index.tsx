@@ -73,7 +73,7 @@ const Sider = () => {
                 placeOfDisplay: 'both',
                 isActive: false,
                 id: 'Reports',
-                onClick: () => navigate('/Reports'),
+                onClick: () => navigate('/Reports/orders'),
                 children: [
                     {
                         label: 'سفارشات',

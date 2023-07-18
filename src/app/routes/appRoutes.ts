@@ -9,7 +9,7 @@ const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
 const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket/context/BasketContext')));
 const Watchlist = lazy(() => safeLazyImport(() => import('src/pages/Watchlist')));
 const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword')));
-const Reports = lazy(() => safeLazyImport(() => import('src/pages/Reports/Context/ReportsContext')));
+const Reports = lazy(() => safeLazyImport(() => import('src/pages/Reports')));
 
 const unAuthorizedRoutes = {
     Login: {
@@ -76,3 +76,4 @@ const AUTHORIZED_ROUTES = Object.values(authorizedRoutes);
 const UN_AUTHORIZED_ROUTES = Object.values(unAuthorizedRoutes);
 
 export { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES, unAuthorizedRoutes };
+
