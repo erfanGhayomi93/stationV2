@@ -10,8 +10,8 @@ import Select, { SelectOption } from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { ExcelIcon, FilterIcon } from 'src/common/icons';
 import { REPORT_SIDE_OPTIONS, REPORT_STATUS_OPTIONS } from 'src/constant/report';
-import { useReportsState } from '../../Context/ReportsContext';
-import useReportDispatch from '../../hooks/useReportDispatch';
+import { useOrdersState } from '../../Context/OrdersContext';
+import useOrderDispatch from '../../hooks/useOrderDispatch';
 interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
     label?: string;
     children: JSX.Element;
@@ -25,13 +25,13 @@ const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
         </div>
     );
 };
-export const ReportFilter = () => {
+export const OrderFilter = () => {
     const { t } = useTranslation();
     const [selectedCustomer, setSelectedCustomer] = useState<IGoMultiCustomerType[]>([]);
     const [selectedSymbol, setSelectedSymbol] = useState<SymbolSearchResult[]>([]);
-    const { setStartDate, setSide, setTillDate, setStatus, setSymbol, setCustomer } = useReportDispatch();
+    const { setStartDate, setSide, setTillDate, setStatus, setSymbol, setCustomer } = useOrderDispatch();
 
-    const { FromDate, customerISIN, side, status, symbolISIN, ToDate } = useReportsState();
+    const { FromDate, customerISIN, side, status, symbolISIN, ToDate } = useOrdersState();
 
     const [isShowFilter, setisShowFilter] = useState(true);
     const { refetch } = useOrderLists({
