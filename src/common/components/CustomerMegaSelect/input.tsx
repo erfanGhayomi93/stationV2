@@ -47,7 +47,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
 
                     // onDoubleClick={(e) => setPanel(true)}
                 />
-                <div
+                {/* <div
                     className={clsx(
                         'duration-300 delay-300 text-1.1 items-center justify-center text-gray-500 flex gap-1 absolute left-0',
                         Kbd ? 'opacity-50 hover:opacity-100' : 'opacity-0',
@@ -57,7 +57,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                         <div className="bg-gradient-to-b from-slate-400 to-slate-50 rounded-sm px-1 shadow-xl drop-shadow-lg text-gray-600">ctrl</div>
                     </kbd>
                     <span className="whitespace-nowrap">ادامه جستجو</span>
-                </div>
+                </div> */}
             </div>
             <div
                 onClick={() => handleClear()}

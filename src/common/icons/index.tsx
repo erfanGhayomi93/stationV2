@@ -4,6 +4,11 @@
 export { ReactComponent as ArrowLeft } from 'src/assets/svg/arrowLeft.svg';
 export { ReactComponent as ArrowLeftAlt } from 'src/assets/svg/arrowLeftAlt.svg';
 export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
+
+export { ReactComponent as FilterPlusIcon } from 'src/assets/svg/filterPlus.svg';
+export { ReactComponent as FilterMinusIcon } from 'src/assets/svg/filterMinus.svg';
+export { ReactComponent as Excel2Icon } from 'src/assets/svg/Excel2.svg';
+export { ReactComponent as Refresh2Icon } from 'src/assets/svg/refresh2.svg';
 // Sidebar
 export { ReactComponent as BasketIcon } from 'src/assets/svg/Basket.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
