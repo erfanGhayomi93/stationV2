@@ -70,6 +70,7 @@ interface ISymbolType {
     marketUnit: string;
     orderPriceTickSize: number;
     baseVolume: number;
+    yesterdayClosingPrice: number;
     symbolOrderState: SymbolOrderState;
     symbolTradeState: SymbolTradeState;
     groupState: GroupState;

@@ -107,7 +107,7 @@ const Login = () => {
                                         <input
                                             name="username"
                                             data-cy="username"
-                                            placeholder={t('FormSide.Input.GtUsername.Placeholder')}
+                                            placeholder={t('FormSide.Input.Username.Placeholder')}
                                             className="border bg-white p-3 rounded-lg border-[#A4B2C9] focus:outline-none"
                                             type="text"
                                             value={userString}

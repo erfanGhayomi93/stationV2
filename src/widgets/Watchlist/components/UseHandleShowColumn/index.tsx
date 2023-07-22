@@ -93,13 +93,13 @@ export const UseHandleShowColumn = () => {
                 cellRenderer: ChangeCellRenderer,
                 hide: handleIsSHowColumn('lowestTradePriceOfTradingDay'),
             },
-            {
-                headerName: 'نام بازار',
-                field: 'marketUnit',
-                valueFormatter: ({ data }) => t('marketUnit.' + data?.marketUnit) || '-',
-                cellRenderer: ChangeCellRenderer,
-                hide: handleIsSHowColumn('marketUnit'),
-            },
+            // {
+            //     headerName: 'نوع بازار',
+            //     field: 'exchange',
+            //     valueFormatter: ({ data }) => t('exchange_type.' + data?.exchange) || '-',
+            //     cellRenderer: ChangeCellRenderer,
+            //     hide: handleIsSHowColumn('exchange'),
+            // },
             {
                 headerName: 'عملیات',
                 cellRenderer: ({ data }: ICellRendererParams<IWatchlistSymbolTableType>) => <ActionCellRenderer {...(data as any)} />,

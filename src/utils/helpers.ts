@@ -10,6 +10,8 @@ export const seprateNumber = (num: number | undefined): any => {
     } else return num;
 };
 
+export const isBetween = (min: number, value: number, max: number): boolean => value >= min && value <= max;
+
 export const validNumber = (value: string | number) => {
     return +String(value).replace(/[^0-9]/gi, '');
 };

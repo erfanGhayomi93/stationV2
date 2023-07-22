@@ -41,5 +41,27 @@
         "year": "سال",
         "day": "روز",
         "month": "ماه"
-    }
+    },
+    "price_range_slider": {
+		"closing_price": "پایانی",
+		"last_traded_price": "آخرین",
+		"lowest_trade_price": "کمترین",
+		"highest_trade_price": "بیشترین"
+	},
+    "FormSide": {
+        "Input.Username.Placeholder": "کدملی / شماره‌همراه / نام‌کاربری خود را وارد نمایید",
+        "Input.Password.Placeholder": "رمزعبور خود را وارد نمایید"
+    },
+    "exchange_type": {
+		"Exchange": "بازار بورس",
+		"CommodityExchange": "بورس کالا",
+		"Future": "آتی",
+		"BaseFaraBourse": "بازار پایه فرابورس",
+		"BaseFaraBourseNoPublish": "پایه فرابورس (منتشر نمی شود)",
+		"Bourse": "بازار بورس",
+		"FaraBourse": "فرابورس",
+		"EnergyExchange": "بورس انرژی",
+		"undefined": "تعریف نشده",
+		"null": "تعریف نشده"
+	}
 }
