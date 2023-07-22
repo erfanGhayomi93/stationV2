@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState, memo, useEffect } from 'react';
+import { FC, useMemo, useState, memo, useEffect } from 'react';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import InputSearch from './input';
@@ -10,9 +10,10 @@ import SymbolSelected from '../SearchResult/SymbolSelected';
 interface ISymbolMiniSelectType {
     setSelected: (selected: SymbolSearchResult[]) => void;
     selected: SymbolSearchResult[];
+    multiple?: boolean;
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
@@ -30,12 +31,11 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
 
     useEffect(() => {
         selected.length === 0 && setTerm('');
-        selected.length === 1 && setTerm(selected[0].symbolTitle);
     }, [selected]);
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
-        setPanel(false);
+        !multiple && setPanel(false);
     };
     interface IOptionsType {
         active?: boolean;
@@ -81,6 +81,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
     return (
         <div>
             <Combo.Provider
+                multiple={multiple}
                 value={term}
                 withDebounce={1000}
                 placeholder="جستجو نماد"
