@@ -1,17 +1,58 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
+import { useAppValues } from 'src/redux/hooks';
 import SymbolHeader from './SymbolHeader';
-import SymbolPriceBar from './SymbolPriceBar';
 import SymbolPricePreview from './SymbolPricePreview';
+import SymbolPriceSlider from './SymbolPriceSlider';
 import AdditionalData from './tabs/AdditionalData';
 import Charts from './tabs/Charts';
 import Details from './tabs/Details';
 import Messages from './tabs/Messages';
 import Orders from './tabs/Orders';
 
+type ISocketAnswerSymbolData = Pick<ISymbolType, 'yesterdayClosingPrice' | 'highThreshold' | 'lastTradedPrice' | 'highestTradePriceOfTradingDay' | 'lowThreshold' | 'closingPrice' | 'lowestTradePriceOfTradingDay'>;
+
+
 const SymbolData = () => {
     //
     const [activeTab, setActiveTab] = useState('Orders');
+
+    const {
+        option: { selectedSymbol },
+    } = useAppValues();
+
+    const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
+        // select: (data) => ({
+        //     lastTradedPrice: data?.symbolData?.lastTradedPrice,
+        //     lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,
+        //     closingPrice: data?.symbolData?.closingPrice,
+        //     closingPriceVarPercent: data?.symbolData?.closingPriceVarPercent,
+        // }),
+        select: (data: SymbolGeneralInfoType) => ({
+            yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
+            highThreshold: data?.symbolData?.highThreshold,
+            lastTradedPrice: data?.symbolData?.lastTradedPrice,
+            highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
+            lowThreshold: data?.symbolData?.lowThreshold,
+            closingPrice: data?.symbolData?.closingPrice,
+            lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
+        }),
+        // onSuccess(data) {
+        //     pushEngine.subscribe<ISocketAnswerSymbolData>({
+        //         id : "SymbolPriceSlider" , 
+        //         mode : "MERGE" , 
+        //         isSnapShot : 'yes' ,
+        //         adapterName : "RamandRLCDData" ,
+        //     })
+        // },
+    });
+
+    useEffect(() => {
+        console.log("component", symbolData)
+    }, [symbolData])
+
+
 
     const items = useMemo<ITabItemType[]>(
         () => [
@@ -61,7 +102,13 @@ const SymbolData = () => {
                     <SymbolHeader />
                     <SymbolPricePreview />
                 </div>
-                <SymbolPriceBar />
+                <SymbolPriceSlider
+                    yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
+                    thresholdData={[symbolData?.lowThreshold ?? 0, symbolData?.highThreshold ?? 0]}
+                    exchangeData={[symbolData?.closingPrice ?? 0, symbolData?.lastTradedPrice ?? 0]}
+                    boundaryData={[symbolData?.lowestTradePriceOfTradingDay ?? 0, symbolData?.highestTradePriceOfTradingDay ?? 0]}
+                />
+                {/* <SymbolPriceBar /> */}
             </div>
             <TabsList
                 fill={true}

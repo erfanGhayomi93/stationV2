@@ -30,6 +30,19 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 ...state,
                 PageNumber: action.value,
             };
+        case 'SET_MarketUnit_Filter':
+            return {
+                ...state,
+                PageNumber: 1,
+                marketUnit: action.value,
+            };
+        case 'SET_Sector_Filter':
+            return {
+                ...state,
+                PageNumber: 1,
+                sector: action.value,
+            };
+
 
         default:
             return state;

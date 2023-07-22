@@ -1,18 +1,23 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState } from 'react';
+import { FC, Fragment, useEffect, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
-import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
-interface ICustomerMegaSelectType {}
+interface ICustomerMegaSelectType {
+    onChange?: (x: IGoCustomerSearchResult[]) => void;
+}
 
-const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
+const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
     const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
+
+    useEffect(() => {
+        onChange && onChange(selected);
+    }, [selected]);
 
     const {
         data: qData,

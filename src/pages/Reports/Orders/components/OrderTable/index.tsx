@@ -4,14 +4,14 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { valueFormatterIndex, valueFormatterSide, valueFormatterState } from 'src/utils/helpers';
-import { useReportsState } from '../../Context/ReportsContext';
+import { useOrdersState } from '../../Context/OrdersContext';
 
 interface IReportTableType {}
 
-const ReportTable: FC<IReportTableType> = ({}) => {
+const OrderTable: FC<IReportTableType> = ({}) => {
     const [active, setActive] = useState(1);
     const PageSize = 10;
-    const { FromDate: FromDate, customerISIN: CustomerISIN, side: Side, status: OrderStatus, symbolISIN, ToDate: ToDate } = useReportsState();
+    const { FromDate: FromDate, customerISIN: CustomerISIN, side: Side, status: OrderStatus, symbolISIN, ToDate: ToDate } = useOrdersState();
 
     const {
         data: reportList,
@@ -57,4 +57,4 @@ const ReportTable: FC<IReportTableType> = ({}) => {
     );
 };
 
-export default ReportTable;
+export default OrderTable;

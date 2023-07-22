@@ -8,6 +8,7 @@ import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import Tippy from '@tippyjs/react';
 
 interface ISetBasketActionType {}
 
@@ -62,12 +63,14 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
 
     return (
         <>
-            <button
-                onClick={() => setisOpen(true)}
-                className="flex items-center h-8 justify-center w-[32px] bg-L-primary-100  rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
-            >
-                <ModalBasketIcon />
-            </button>
+            <Tippy content='ثبت در سند' className='text-xs'>
+                <button
+                    onClick={() => setisOpen(true)}
+                    className="flex items-center h-8 justify-center w-[32px] bg-L-primary-100  rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                >
+                    <ModalBasketIcon />
+                </button>
+            </Tippy>
             <Modal isOpen={isOpen} onClose={toggleOpen} className="min-h-[31rem] w-[500px] rounded-md h-full grid">
                 <div className="grid grid-rows-min-one bg-L-basic dark:bg-D-basic">
                     <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">

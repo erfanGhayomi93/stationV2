@@ -6,6 +6,7 @@ import { queryClient } from 'src/app/queryClient';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
+import { onSuccessNotif } from 'src/handlers/notification';
 type ICreateBasket = {
     toggleAddBasket: () => void;
 };
@@ -14,7 +15,18 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     const [name, setname] = useState<string>('');
     const [date, setdata] = useState<any>(null);
     const [time, settime] = useState<any>(null);
-    const { mutate } = useCreateBasket();
+
+    const { mutate: AddNewBasketReq } = useCreateBasket({
+        onSuccess: (result) => {
+            if (result) {
+                queryClient.invalidateQueries(['BasketList']);
+                toggleAddBasket();
+                onSuccessNotif({
+                    title: 'سبد با موفقیت اضافه شد.'
+                })
+            }
+        },
+    });
 
     const clearData = () => {
         setname('');
@@ -29,11 +41,7 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
         // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
         const queryParams = { name, sendDate };
 
-        mutate(queryParams, {
-            onSuccess: () => {
-                return queryClient.invalidateQueries(['BasketList']);
-            },
-        });
+        AddNewBasketReq(queryParams);
         clearData();
     };
 

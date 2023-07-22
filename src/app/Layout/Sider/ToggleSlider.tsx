@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ArrowRight } from 'src/common/icons';
+import { ChevronIcon } from 'src/common/icons';
 
 type TOggleSlider = {
     onOpen?: () => void;
@@ -25,9 +25,16 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
                     relative: type === 'open',
                 })}
             >
-                <span className="bg-gray-500 w-[calc(100%-16px)] h-[1px] block ml-1" />
-                {type === 'open' && <ArrowLeft className="absolute left-[-12px] cursor-pointer z-10" width={24} height={24} onClick={onOpen} />}
-                {type === 'close' && <ArrowRight className="absolute left-0 cursor-pointer z-50" width={24} height={24} onClick={onClose} />}
+                <span className="bg-gray-500 w-[calc(100%-16px)] h-[1px] block ml-1 relative">
+                    <span
+                        onClick={type === 'close' ? onClose : onOpen}
+                        className="cursor-pointer bg-L-primary-50 w-5 h-6 absolute -left-6 -top-[12px] rounded-lg flex items-center justify-center"
+                    >
+                        <ChevronIcon className={`-rotate-90 ${type === 'close' ? 'rotate-90' : ''}`} />
+                    </span>
+                </span>
+                {/* {type === 'open' && <ArrowLeft className="absolute left-[-12px] cursor-pointer z-10" width={24} height={24} onClick={onOpen} />} */}
+                {/* {type === 'close' && <ArrowRight className="absolute left-0 cursor-pointer z-50" width={24} height={24} onClick={onClose} />} */}
             </div>
         </>
     );

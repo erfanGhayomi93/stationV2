@@ -2,7 +2,7 @@
 
 context('Window', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3001/login');
+        cy.visit('http://localhost:3008/login');
     });
 
     it('cy.window() - get the global window object', () => {

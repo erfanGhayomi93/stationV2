@@ -8,6 +8,7 @@ import jalaliday from 'jalaliday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 // import apiRoutes from 'src/api/apiRoutes';
 import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import i18next from 'i18next';
 // import apiRoutes from 'src/api/apiRoutes';
 dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
@@ -30,3 +31,10 @@ export const setPrimaryLoadingState = (loadingState: boolean) => {
     if (loadingState) loadingWrapper.classList.remove('hide');
     else loadingWrapper.classList.add('hide');
 };
+
+
+export const getResourceValue = (section: string, key: string) => {
+    const resKey = `${section}.${key}`
+
+    return i18next.exists(resKey) ? i18next.t(resKey) : null
+}

@@ -14,19 +14,20 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     const { validity, validityDate } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
     const setValidityDate = (value: string | undefined) => dispatch({ type: 'SET_VALIDITY_DATE', value });
+    const { t } = useTranslation();
 
     const handleValidityState = (select: any) => {
         setValidity(select.value);
         // select.value !== 'GoodTillDate' && setValidityDate(undefined);
-        if (select.value !== 'GoodTillDate') setValidityDate(select.validityDate);
-        else setValidityDate(undefined);
+        setValidityDate(select.validityDate);
+        // else setValidityDate(undefined);
     };
-    const { t } = useTranslation();
+
     return (
         <div className="flex  gap-2 w-full  ">
             <div className="flex pr-2 items-center gap-2 w-6/12">
                 <span className="w-[64px]">اعتبار</span>
-                <Select onChange={(select: typeof VALIDITY_OPTIONS[0]) => handleValidityState(select)} value={t('BSModal.validity_' + validity)}>
+                <Select onChange={(select: (typeof VALIDITY_OPTIONS)[0]) => handleValidityState(select)} value={t('BSModal.validity_' + validity)}>
                     {VALIDITY_OPTIONS.map((item, inx) => (
                         <SelectOption
                             key={inx}
@@ -37,11 +38,15 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
                     ))}
                 </Select>
             </div>
-            <div className={clsx('h-full flex items-center grow z-10', validity === 'GoodTillDate' ? '' : 'opacity-60 ')}>
+            <div
+                className={clsx(
+                    'h-full flex items-center grow z-10',
+                    ['Day', 'Week', 'Month', 'FillAndKill', 'GoodTillCancelled'].includes(validity) ? 'opacity-60 cursor-not-allowed' : '',
+                )}
+            >
                 <SimpleDatepicker
-                    disable={validity !== 'GoodTillDate'}
-                    // defaultValue={validity === 'GoodTillDate' && validityDate ? (validityDate as any) : undefined}
-
+                    disable={['Day', 'Week', 'Month', 'FillAndKill', 'GoodTillCancelled'].includes(validity)}
+                    defaultValue={validityDate}
                     onChange={(value) =>
                         setValidityDate(
                             dayjs(value as any)

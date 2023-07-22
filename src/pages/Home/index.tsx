@@ -17,16 +17,16 @@ const Home = () => {
         };
     }, []);
 
-    const Components = {
-        PortfolioWatchlist: () => <PortfolioWatchlist />,
-        BuySellWidget: () => <BuySellWidget />,
-        Reports: () => <Reports />,
-        SymbolDetail: () => <SymbolDetail />,
-    };
-
-    const getComponents = (name: IWorkFlowType) => {
-        return Components[name]();
-    };
+//     const Components = {
+//         PortfolioWatchlist: () => <PortfolioWatchlist />,
+//         BuySellWidget: () => <BuySellWidget />,
+//         Reports: () => <Reports />,
+//         SymbolDetail: () => <SymbolDetail />,
+//     };
+// 
+//     const getComponents = (name: IWorkFlowType) => {
+//         return Components[name]();
+//     };
 
     const Layouts = {
         PortfolioWatchlist: () => (

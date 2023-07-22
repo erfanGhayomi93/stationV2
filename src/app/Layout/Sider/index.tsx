@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
+import Tippy from '@tippyjs/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
-import Tooltip from 'src/common/components/Tooltip';
-import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, QuitIcon } from 'src/common/icons';
+import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, OrdersIcon, QuitIcon, TradesIcon, TurnoverIcon } from 'src/common/icons';
 import { logOutReq } from '../Header/UserActions';
-import { useSliderDispatch, useSliderValue } from './context';
-import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
+import { useSliderDispatch, useSliderValue } from './context';
+import { SLiderActionEnum } from './context/types';
 
 export type MenuItemType = {
     icon: JSX.Element;
@@ -19,7 +19,7 @@ export type MenuItemType = {
     placeOfDisplay: 'closed' | 'opened' | 'both';
     isActive: boolean;
     onClick: (() => void) | undefined;
-    children?: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>[];
+    children?: Omit<MenuItemType, 'position' | 'placeOfDisplay'>[];
 };
 
 const Sider = () => {
@@ -73,7 +73,30 @@ const Sider = () => {
                 placeOfDisplay: 'both',
                 isActive: false,
                 id: 'Reports',
-                onClick: () => navigate('/Reports'),
+                onClick: () => navigate('/Reports/orders'),
+                children: [
+                    {
+                        label: 'سفارشات',
+                        icon: <OrdersIcon height={20} width={20} />,
+                        isActive: false,
+                        id: 'Reports',
+                        onClick: () => navigate('/Reports/orders'),
+                    },
+                    {
+                        label: 'معاملات',
+                        icon: <TradesIcon height={20} width={20} />,
+                        isActive: false,
+                        id: 'Reports',
+                        onClick: () => navigate('/Reports/trades'),
+                    },
+                    {
+                        label: 'گردش حساب',
+                        icon: <TurnoverIcon height={20} width={20} />,
+                        isActive: false,
+                        id: 'Reports',
+                        onClick: () => navigate('/Reports/turnover'),
+                    },
+                ],
             },
             // {
             //     icon: <File2Icon height={20} width={20} />,
@@ -113,20 +136,20 @@ const Sider = () => {
             //     // ],
             // },
             {
-                icon: <HelpIcon height={20} width={20} />,
-                label: 'راهنما',
-                position: 'bottom',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: () => navigate('/Help'),
-            },
-            {
                 icon: <Envelope2Icon height={20} width={20} />,
                 label: 'پیام های بازار',
                 position: 'bottom',
                 placeOfDisplay: 'both',
                 isActive: false,
                 onClick: tooggleSlider,
+            },
+            {
+                icon: <HelpIcon height={20} width={20} />,
+                label: 'راهنما',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                isActive: false,
+                onClick: () => navigate('/Help'),
             },
             {
                 icon: <QuitIcon height={20} width={20} />,
@@ -156,7 +179,7 @@ const Sider = () => {
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
                                         className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
@@ -164,14 +187,14 @@ const Sider = () => {
                                     >
                                         <>{item.icon}</>
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                     <div className="flex flex-col items-center gap-5 ">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
                                         className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
@@ -179,7 +202,7 @@ const Sider = () => {
                                     >
                                         {item.icon}
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                 </div>

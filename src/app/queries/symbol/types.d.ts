@@ -5,6 +5,7 @@ type SymbolData = {
     companyISIN: string;
     symbolTitle: string;
     companyName: string;
+    exchange : string;
     enCompanyName?: any;
     highestTradePriceOfTradingDay: number;
     lowestTradePriceOfTradingDay: number;

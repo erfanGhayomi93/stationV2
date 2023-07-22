@@ -1,0 +1,2 @@
+type TradesState = {}
+type TradesAction = {}

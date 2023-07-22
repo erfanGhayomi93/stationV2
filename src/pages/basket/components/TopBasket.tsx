@@ -64,7 +64,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                 <p>ایجاد سبد جدید</p>
             </button>
 
-            <Modal isOpen={isAddActive} onClose={toggleAddBasket} className="min-h-[31rem] w-[500px] rounded-md h-full grid">
+            <Modal isOpen={isAddActive} onClose={toggleAddBasket} className="w-[500px] rounded-md h-full grid">
                 <div className="grid grid-rows-min-one bg-L-basic dark:bg-D-basic">
                     <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                         <p>ایجاد سبد جدید</p>

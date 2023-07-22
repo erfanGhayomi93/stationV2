@@ -10,6 +10,8 @@ export const seprateNumber = (num: number | undefined): any => {
     } else return num;
 };
 
+export const isBetween = (min: number, value: number, max: number): boolean => value >= min && value <= max;
+
 export const validNumber = (value: string | number) => {
     return +String(value).replace(/[^0-9]/gi, '');
 };
@@ -339,7 +341,7 @@ export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: n
 };
 
 export const handleValidity = (validity: string): string => {
-    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
     return validity;
 };
 

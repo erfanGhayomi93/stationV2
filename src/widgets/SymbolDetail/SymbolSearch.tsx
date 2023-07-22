@@ -76,7 +76,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
 
     return (
         <div className="w-full  ">
-            <Combobox value={symbolData} onChange={onSymbolSelect}>
+            <Combobox value={symbolData || ''} onChange={onSymbolSelect}>
                 <div className="relative  ">
                     <div className="relative w-full cursor-default border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md bg-L-basic dark:bg-D-basic text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 text-1.2  duration-250 dark:focus-visible:border-D-secondary-50 focus-visible:border-L-secondary-50">
                         <div className="flex items-center px-2 ">
