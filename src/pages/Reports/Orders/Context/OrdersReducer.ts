@@ -1,4 +1,4 @@
-export const ReportsReducer = (state: ReportsState, action: ReportsAction): ReportsState => {
+export const OrdersReducer = (state: OrdersState, action: OrdersAction): OrdersState => {
     switch (action.type) {
         case 'SET_CUSTOMER':
             return {

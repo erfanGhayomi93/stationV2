@@ -1,14 +1,14 @@
-import { FC, Fragment, useEffect, useMemo, useState } from 'react';
-import Modal from 'src/common/components/Modal';
-import { CloseIcon } from 'src/common/icons';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
-import SearchInput from './components/SearchInput';
-import { WatcherMessages } from './components/WatcherMessages';
-import { useMessagesSuppervisor } from 'src/app/queries/messages';
+import { FC, Fragment, useEffect, useState } from 'react';
+import { pushEngine } from 'src/api/pushEngine';
 import { useSliderDispatch } from 'src/app/Layout/Sider/context';
 import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
-import { pushEngine } from 'src/api/pushEngine';
+import { useMessagesSuppervisor } from 'src/app/queries/messages';
+import Modal from 'src/common/components/Modal';
+import { CloseIcon } from 'src/common/icons';
+import SearchInput from './components/SearchInput';
+import { WatcherMessages } from './components/WatcherMessages';
 
 type SUpervisorMassage = {
     flagToggle: boolean;
@@ -16,7 +16,7 @@ type SUpervisorMassage = {
     countNumberSupervisorMessage: number;
 };
 
-const tabList = [{ tab: 'پیام های ناظر دیدبان' }, { tab: 'پیام های ناظر بازار' }, { tab: 'پیام های مدیر سیستم' }];
+const tabList = [{ tab: 'پیام های ناظر بازار' }, { tab: 'پیام های ناظر دیدبان' }, { tab: 'پیام های مدیر سیستم' }];
 
 export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagToggle, countNumberSupervisorMessage }) => {
     // const [selectedIndex, setSelectedIndex] = useState(0); 17390069635676
@@ -48,7 +48,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
     }, [MessagesSuppervisor.data]);
 
     return (
-        <Modal isOpen={flagToggle} onClose={setFlagToggle} className="min-h-[40rem] w-[600px] rounded-md h-full grid">
+        <Modal isOpen={flagToggle} onClose={setFlagToggle} className="min-h-[40rem] w-[800px] h-[500] rounded-md grid">
             <div className="grid grid-rows-min-one">
                 <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
                     <p>پیام ها</p>
@@ -72,9 +72,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                                     'border-transparent text-L-gray-500 dark:text-D-gray-500': !selected,
                                                 })}
                                             >
-                                                {`${item.tab}(
-                                                    ${ind === 0 || ind === 2 ? '0' : countNumberSupervisorMessage}
-                                                    )`}
+                                                {item.tab} ({ind === 1 || ind === 2 ? '0' : countNumberSupervisorMessage})
                                             </button>
                                         )}
                                     </Tab>
@@ -87,12 +85,11 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                         </div>
 
                         <Tab.Panels>
-                            <Tab.Panel>1 </Tab.Panel>
                             <Tab.Panel>
-                                {' '}
                                 <WatcherMessages data={MessagesSuppervisor.data} searchValue={searchValue} />
                             </Tab.Panel>
-                            <Tab.Panel>Content 3</Tab.Panel>
+                            <Tab.Panel>پیاده سازی نشده</Tab.Panel>
+                            <Tab.Panel>پیاده سازی نشده</Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
                 </div>

@@ -1,0 +1,67 @@
+{
+    "headerSec": {
+        "showUserInfo": "نمایش اطلاعات",
+        "userFullName": "نام کاربر",
+        "userTotalRemaining": "مانده مشتری",
+        "userCreditValue": "مبلغ اعتبار",
+        "userRemaining": "قدرت خرید",
+        "userBlockedRemaining": "مبلغ بلوکه شده",
+        "logOutIcon_tooltip": "خروج",
+        "warningIcon_tooltip": "هشدارها",
+        "shakhesKol_title": "شاخص کل",
+        "hideUserInfo_tooltip": "پنهان‌کردن اطلاعات",
+        "psIcon_CONNECTING_tooltip": "درحال اتصال به سرور",
+        "psIcon_DISCONNECTED_tooltip": "عدم اتصال به سرور",
+        "psIcon_CONNECTED_tooltip": "متصل به سرور",
+        "173_LogoTitle": "کارگزاری تدبیرگر سرمایه",
+        "189_LogoTitle": "کارگزاری فارابی",
+        "1_LogoTitle": "رامند",
+        "serCreditValue": "اعتبار"
+    },
+    "CustomerType": {
+        "CustomerTag": "گروه مشتریان",
+        "Legal": "حقوقی",
+        "Natural": "حقیقی",
+        "GTCustomerGroup 0": "گروه من",
+        "GTCustomerGroup": "گروه من",
+        "TraderGroup": "گروه من"
+    },
+    "BSModal": {
+        "validity_Week": "هفته",
+        "validity_Month": "ماه",
+        "validity_GoodTillDate": "معتبر تا تاریخ",
+        "validity_FillAndKill": "انجام و حذف",
+        "validity_option_GoodTillCancelled": "معتبر تا لغو",
+        "validity_Day": "روز",
+        "validity_GoodTillCancelled": "معتبر تا لغو"
+    },
+    "datepicker": {
+        "no_date_selected": " ",
+        "submit": " تایید",
+        "year": "سال",
+        "day": "روز",
+        "month": "ماه"
+    },
+    "price_range_slider": {
+		"closing_price": "پایانی",
+		"last_traded_price": "آخرین",
+		"lowest_trade_price": "کمترین",
+		"highest_trade_price": "بیشترین"
+	},
+    "FormSide": {
+        "Input.Username.Placeholder": "کدملی / شماره‌همراه / نام‌کاربری خود را وارد نمایید",
+        "Input.Password.Placeholder": "رمزعبور خود را وارد نمایید"
+    },
+    "exchange_type": {
+		"Exchange": "بازار بورس",
+		"CommodityExchange": "بورس کالا",
+		"Future": "آتی",
+		"BaseFaraBourse": "بازار پایه فرابورس",
+		"BaseFaraBourseNoPublish": "پایه فرابورس (منتشر نمی شود)",
+		"Bourse": "بازار بورس",
+		"FaraBourse": "فرابورس",
+		"EnergyExchange": "بورس انرژی",
+		"undefined": "تعریف نشده",
+		"null": "تعریف نشده"
+	}
+}

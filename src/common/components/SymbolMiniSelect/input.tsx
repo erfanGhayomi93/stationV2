@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC, memo, useContext, useRef } from 'react';
-import { PlusIcon, SearchIcon } from 'src/common/icons';
+import { PlusIcon, SearchIcon, SearchPlusIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import { ComboSelectContext } from '../ComboSelect/context';
 
@@ -14,20 +14,25 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
         setValue,
         setPanelContent,
         clearSelected,
-        state: { value },
+        state: { value, selections, showPanel, panelContent, multiple },
     } = useContext(ComboSelectContext);
 
     const searchRef = useRef<HTMLInputElement>(null);
 
     const handleClear = () => {
         setValue('');
-        clearSelected();
+        !multiple && clearSelected();
         searchRef.current?.focus();
     };
 
     const handleReset = () => {
         searchRef.current?.focus();
         setPanelContent('DATA');
+    };
+
+    const handleSetPanelContent = () => {
+        setPanel(true);
+        setPanelContent('SELECT');
     };
 
     return (
@@ -52,6 +57,37 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                     <PlusIcon className="rotate-45 text-white " />
                 </div>
             </div>
+            {multiple ? (
+                <>
+                    <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
+                    <div className="flex justify-between items-center gap-2 cursor-pointer" onClick={() => handleSetPanelContent()}>
+                        {/* <span hidden={!selections?.length} className="whitespace-nowrap bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg px-2 text-1.2">
+                        {selections?.length && selections?.length < 10 ? selections?.length : '+9'} مورد انتخاب شده
+                    </span> */}
+
+                        <div
+                            className={clsx(
+                                'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative',
+                                panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
+                            )}
+                        >
+                            <SearchPlusIcon
+                                className={clsx(
+                                    ' ',
+                                    panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400',
+                                )}
+                                width={18}
+                                height={18}
+                            />
+                            {selections?.length ? (
+                                <span className="ltr absolute -right-2 -top-2 bg-L-primary-50 text-L-basic text-xs px-1.5 py-0.5 rounded-full">
+                                    {selections?.length && selections?.length < 10 ? selections?.length : '+9'}
+                                </span>
+                            ) : null}
+                        </div>
+                    </div>
+                </>
+            ) : null}
         </div>
     );
 };

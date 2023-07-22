@@ -20,23 +20,15 @@ export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'
 ///////////////create Basket///////////////////
 const setBasketFn = async ({ name, sendDate }: ICreateBasket): Promise<number> => {
     try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Create as string, {}, { params: { name, sendDate } });
+        const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Create as string, null, { params: { name, sendDate } });
         return data.result || 0;
     } catch {
         return 0;
     }
 };
 
-export const useCreateBasket = () =>
-    useMutation<number, unknown, ICreateBasket>(setBasketFn, {
-        onSuccess: () => {
-            // queryClient.invalidateQueries(['BasketList']);
-            onSuccessNotif({ title: 'سبد با موفقیت ایجاد شد' });
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
+export const useCreateBasket = (options?: UseMutationOptions<number, unknown, ICreateBasket>) =>
+    useMutation<number, unknown, ICreateBasket>(setBasketFn, options);
 ///////////////edit Basket///////////////////
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;

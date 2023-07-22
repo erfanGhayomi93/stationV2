@@ -70,6 +70,7 @@ interface ISymbolType {
     marketUnit: string;
     orderPriceTickSize: number;
     baseVolume: number;
+    yesterdayClosingPrice: number;
     symbolOrderState: SymbolOrderState;
     symbolTradeState: SymbolTradeState;
     groupState: GroupState;
@@ -97,7 +98,7 @@ type IDefaultWatchlistType =
     | 'SellQueueThreshold';
 
 type IMarketSymbol = {
-    SectorCode ?: string ;
-    PageNumber : number ;
-    marketUnit ?: string;
-}
+    SectorCode: string;
+    PageNumber: number;
+    marketUnit: string;
+};

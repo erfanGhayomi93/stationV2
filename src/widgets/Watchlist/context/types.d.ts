@@ -5,12 +5,16 @@ type WathclistAction =
     | { type: 'CHANGE_IS_SHOW_COLUMN'; value: string[] }
     | { type: 'SET_COLUMN'; value: ColDefType<IWatchlistSymbolTableType>[] }
     | { type: 'SET_PageNumber'; value: number }
-    SET_COLUMN
+    | { type: 'SET_MarketUnit_Filter'; value: string }
+    | { type: 'SET_Sector_Filter'; value: { id: string; title: string } };
+SET_COLUMN;
 type WathclistState = {
     selectedWatchlist: number | undefined;
     editMode: boolean;
     selectedDefaultWatchlist: IDefaultWatchlistType;
-    listShowColumn : string[]
-    column : ColDefType<IWatchlistSymbolTableType>[]
-    PageNumber : number
-}
+    listShowColumn: string[];
+    column: ColDefType<IWatchlistSymbolTableType>[];
+    PageNumber: number;
+    marketUnit: string;
+    sector: { id: string; title: string };
+};

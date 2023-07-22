@@ -24,6 +24,9 @@ const SymbolDetail = () => {
                 adapterName: 'RamandRLCDData',
                 items: [selectedSymbol],
                 fields: [
+                    'yesterdayClosingPrice',
+                    'lowThreshold',
+                    'highThreshold',
                     'individualBuyVolume',
                     'numberOfIndividualSellers',
                     'individualSellVolume',
@@ -47,9 +50,9 @@ const SymbolDetail = () => {
                     'symbolState',
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
-                    //
+    
                     queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
-                        //
+                        
                         const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };
                         const { symbolData, individualLegal } = oldData || tempObj;
 
@@ -63,7 +66,7 @@ const SymbolDetail = () => {
 
                         tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
                         tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
-
+                        console.log("symbolData", symbolData);
                         return { ...oldData, ...tempObj };
                     });
                 },

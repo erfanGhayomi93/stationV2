@@ -8,7 +8,7 @@ type ISearchInputType = {
 const SearchInput = ({ state, setState }: ISearchInputType) => {
     return (
         <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
-            <Input placeholder="جستجو پیام ها" addonBefore={<Search className="text-L-gray-400 dark:text-D-gray-400" />} value={state} onChange={(e) => setState(e.target.value)} />
+            <Input placeholder="جستجو پیام ها" addonBefore={<Search className="text-L-gray-400 dark:text-D-gray-400 mr-2" />} value={state} onChange={(e) => setState(e.target.value)} />
         </div>
     );
 };

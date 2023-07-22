@@ -1,21 +1,14 @@
-import { FC } from 'react';
-import { ReportFilter } from './components/ReportFilter';
-import ReportTable from './components/ReportTable';
+import { Navigate, useParams } from 'react-router-dom';
+import OrdersPage from './Orders/Context/OrdersContext';
+import TradesPage from './Trades/context/TradesContext';
 
-interface IReportsType {}
-
-const Reports: FC<IReportsType> = ({}) => {
-    return (
-        <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
-            <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium font-[24px] text-2xl">گزارشات</h1>
-            <div className="grid  grid-rows-min-one">
-                <ReportFilter />
-                <div className="grid grid-rows-one-min">
-                    <ReportTable />
-                </div>
-            </div>
-        </div>
-    );
+const Reports = () => {
+    //
+    const { activeTab } = useParams();
+    if (activeTab === 'orders') return <OrdersPage />;
+    if (activeTab === 'trades') return <TradesPage />;
+    if (activeTab === 'turnover') return <div>turnover</div>;
+    return <Navigate to={'/Reports/orders'} />;
 };
 
 export default Reports;

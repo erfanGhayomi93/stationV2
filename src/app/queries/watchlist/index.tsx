@@ -64,10 +64,10 @@ const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) =>
     });
     return data?.result;
 };
-export const getMarketSymbol = async (params?: IMarketSymbol) => {
+export const getMarketSymbol = async (params: IMarketSymbol) => {
     const { PageNumber, marketUnit, SectorCode } = params || {};
     const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
-        params: { PageNumber: PageNumber ? PageNumber - 1 : undefined, marketUnit: marketUnit || undefined, SectorCode: SectorCode || undefined },
+        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null },
     });
     return data;
 };
@@ -80,23 +80,23 @@ const getSectorList = async () => {
 //hooks
 
 // prettier-ignore
-export const useWatchListsQuery = <T=IWatchlistType[],>(
+export const useWatchListsQuery = <T = IWatchlistType[],>(
     options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
     return useQuery(['getWatchLists'], ({ queryKey }) => getWatchLists());
 };
 
 // prettier-ignore
-export const useWatchListSymbolsQuery =<T=IWatchlistSymbolType[],>(watchlistId:number|undefined,
-    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined
-    ) => {
-    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), {...options,enabled:!!watchlistId});
+export const useWatchListSymbolsQuery = <T = IWatchlistSymbolType[],>(watchlistId: number | undefined,
+    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+) => {
+    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), { ...options, enabled: !!watchlistId });
 };
 
 // prettier-ignore
-export const useSymbolInWatchlistQuery =<T=ISymbolInWatchlist[],>(
-    options?: (Omit<UseQueryOptions<ISymbolInWatchlist[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined
-    ) => {
+export const useSymbolInWatchlistQuery = <T = ISymbolInWatchlist[],>(
+    options?: (Omit<UseQueryOptions<ISymbolInWatchlist[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+) => {
     return useQuery(['GetSymbolInWatchlist'], ({ queryKey }) => GetSymbolInWatchlist(), options);
 };
 
@@ -125,11 +125,11 @@ export const deleteWatchListSymbolMutation = (
 // prettier-ignore
 export const useDefaultWatchlistQuery = (
 ) => {
-    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist(), {initialData:[]});
+    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist(), { initialData: [] });
 };
 
 // prettier-ignore
-export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistType, options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined) => {
+export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistType, options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
     return useQuery(['getDefaultWatchlistSymbols', watchlistId], ({ queryKey }) => getDefaultWatchlistSymbols(watchlistId as IDefaultWatchlistType), {
         ...options,
         enabled: !!watchlistId,
@@ -137,10 +137,11 @@ export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistT
 };
 
 export const useGetMarketSymbolQuery = (
-    params?: IMarketSymbol,
-    options?:any,
+    params: IMarketSymbol,
+    options?: any,
 ) => {
-    return useQuery(['GetMarketSymbol', params?.PageNumber], () => getMarketSymbol(params), { ...options, enabled: false });
+    const { PageNumber, SectorCode, marketUnit } = params
+    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { ...options });
 };
 
 export const UseGetSector = () => {

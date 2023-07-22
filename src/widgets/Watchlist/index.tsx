@@ -9,18 +9,18 @@ import WatchlistController from './components/WatchlistController/WatchlistContr
 import { useWatchListState } from './context/WatchlistContext';
 
 type Props = {};
-type WatchlistData = {
-    symbolISIN: string;
-    symbolTitle: string;
-    lastTradedPrice: number;
-    closingPrice: number;
-    totalNumberOfSharesTraded: number;
-    totalTradeValue: number;
-};
+// type WatchlistData = {
+//     symbolISIN: string;
+//     symbolTitle: string;
+//     lastTradedPrice: number;
+//     closingPrice: number;
+//     totalNumberOfSharesTraded: number;
+//     totalTradeValue: number;
+// };
 const Watchlists = (props: Props) => {
     const appDispatch = useAppDispatch();
     const {
-        state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber },
+        state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber , marketUnit , sector },
         setState,
     } = useWatchListState();
     const { columns } = UseHandleShowColumn();
@@ -29,8 +29,9 @@ const Watchlists = (props: Props) => {
     const { data: watchlistSymbols } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlist, {
         select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol }))
     });
-    const { data, isFetching } = useGetMarketSymbolQuery({PageNumber});
+    const { data, isFetching } = useGetMarketSymbolQuery({ PageNumber , marketUnit: marketUnit, SectorCode: sector.id });
     const { symbols, totalCount } = data?.result || {};
+
 
     const handleChangePaginator = (PageNumber: number) => {
         setState({ value: PageNumber, type: 'SET_PageNumber' });
@@ -55,7 +56,7 @@ const Watchlists = (props: Props) => {
                     columnDefs={columns}
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                     defaultColDef={defaultCols}
-                    rowSelection="single"
+                    rowSelection="single" 
                 />
             </WidgetLoading>
 

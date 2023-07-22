@@ -10,22 +10,26 @@
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.3.0",
         "@testing-library/user-event": "^13.5.0",
+        "@tippyjs/react": "^4.2.6",
         "ag-grid-community": "^28.1.0",
         "ag-grid-react": "^28.1.0",
         "axios": "^0.27.2",
         "axios-mock-adapter": "^1.21.2",
         "clsx": "^1.2.1",
         "dayjs": "^1.11.5",
-        "i18next": "^21.9.1",
-        "i18next-http-backend": "^1.4.1",
+        "i18next": "^23.2.11",
+        "i18next-chained-backend": "^4.4.0",
+        "i18next-http-backend": "^2.2.1",
+        "i18next-resources-to-backend": "^1.1.4",
         "jalaliday": "^2.3.0",
         "js-cookie": "^3.0.1",
         "lightstreamer-client-web": "^8.0.5",
         "localstorage-slim": "^2.3.0",
         "qs": "^6.11.0",
+        "querystring": "^0.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^11.18.4",
+        "react-i18next": "^13.0.2",
         "react-multi-date-picker": "^3.3.0",
         "react-redux": "^8.0.2",
         "react-router-dom": "^6.3.0",
@@ -34,7 +38,7 @@
         "react-toastify": "^9.0.8",
         "react-tracked": "^1.7.10",
         "react-virtuoso": "^2.19.0",
-        "typescript": "^4.7.4",
+        "typescript": "^5.1.6",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
@@ -58,6 +62,9 @@
                 ],
                 "rules": {
                     "import/no-anonymous-default-export": "off"
+                },
+                "react-scripts" : {
+                    "typescript": "^5"
                 }
             }
         ]
@@ -106,7 +113,12 @@
         "prettier": "^2.7.1",
         "prop-types": "^15.8.1",
         "sass": "^1.54.5",
-        "tailwindcss": "^3.1.8",
+        "tailwindcss": "^3.3.3",
         "webpack": "^5.74.0"
-    }
+    },
+    "engines": {
+		"node": ">=18.17.0",
+		"npm": ">=9.8.0",
+		"typescript": ">=5.1.6"
+	}
 }

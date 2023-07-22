@@ -16,6 +16,7 @@ import App from 'src/app/App';
 // Styles
 //prettier-ignore
 import 'react-toastify/dist/ReactToastify.css';
+import 'tippy.js/dist/tippy.css';
 import 'src/assets/scss/main.scss';
 import { GlobalSetterProvider } from './common/context/globalSetterContext';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';

@@ -1,5 +1,4 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -27,7 +26,7 @@ const searchSymbol = async (term: string) => {
     return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
 };
 //prettier-ignore
-export const useSymbolSearch = <T=SymbolSearchResult[]>(
+export const useSymbolSearch = <T = SymbolSearchResult[]>(
     term: string,
     options?:
         | Omit<UseQueryOptions<SymbolSearchResult[], unknown, T, string[]>, 'initialData' | 'queryFn' | 'queryKey'>
