@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC, useContext, useRef, useState } from 'react';
-import { PlusIcon, Search, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
+import { PlusIcon, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import { ComboSelectContext } from '../ComboSelect/context';
 
@@ -47,7 +47,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
 
                     // onDoubleClick={(e) => setPanel(true)}
                 />
-                <div
+                {/* <div
                     className={clsx(
                         'duration-300 delay-300 text-1.1 items-center justify-center text-gray-500 flex gap-1 absolute left-0',
                         Kbd ? 'opacity-50 hover:opacity-100' : 'opacity-0',
@@ -57,7 +57,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                         <div className="bg-gradient-to-b from-slate-400 to-slate-50 rounded-sm px-1 shadow-xl drop-shadow-lg text-gray-600">ctrl</div>
                     </kbd>
                     <span className="whitespace-nowrap">ادامه جستجو</span>
-                </div>
+                </div> */}
             </div>
             <div
                 onClick={() => handleClear()}
@@ -71,13 +71,13 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
             </div>
             <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
             <div className="flex justify-between items-center gap-2 cursor-pointer" onClick={() => handleSetPanelContent()}>
-                <span hidden={!selections?.length} className="whitespace-nowrap bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg px-2 text-1.2">
+                {/* <span hidden={!selections?.length} className="whitespace-nowrap bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg px-2 text-1.2">
                     {selections?.length && selections?.length < 10 ? selections?.length : '+9'} مورد انتخاب شده
-                </span>
+                </span> */}
 
                 <div
                     className={clsx(
-                        'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center ',
+                        'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative',
                         panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
                     )}
                 >
@@ -86,6 +86,11 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                         width={18}
                         height={18}
                     />
+                    {selections?.length ? (
+                        <span className="ltr absolute -right-2 -top-2 bg-L-primary-50 text-L-basic text-xs px-1.5 py-0.5 rounded-full">
+                            {selections?.length && selections?.length < 10 ? selections?.length : '+9'}
+                        </span>
+                    ) : null}
                 </div>
             </div>
         </div>
