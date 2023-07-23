@@ -21,7 +21,7 @@ const Input = ({
                 <input
                     disabled={disabled}
                     type="text"
-                    className="w-full  h-full px-2 py-2 outline-none bg-L-basic dark:bg-D-basic text-L-gray-400 dark:text-L-gray-400"
+                    className="w-full  px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-400 dark:text-L-gray-400"
                     {...rest}
                 />
             </div>
