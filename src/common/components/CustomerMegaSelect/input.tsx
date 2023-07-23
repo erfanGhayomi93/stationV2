@@ -34,14 +34,14 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     };
 
     return (
-        <div className="bg-white border rounded-md flex items-center gap-2 pl-3 ">
+        <div className="bg-white border rounded-md flex items-center gap-1 h-8 pl-1 text-1.3  dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50">
             <div className="pr-2">
                 <SearchIcon className="text-L-gray-400 dark:text-D-gray-400" />
             </div>
             <div onMouseOver={() => setKbd(true)} onMouseLeave={() => setKbd(false)} className="flex items-center w-full relative">
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="py-2 w-full px-1 outline-none border-b border-transparent focus:border-sky-400 duration-150 "
+                    className="h-full w-full px-1 outline-none border-b border-transparent"
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
 
@@ -77,7 +77,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
 
                 <div
                     className={clsx(
-                        'bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg flex items-center justify-center relative',
+                        'bg-L-gray-200 dark:bg-D-gray-200 p-1  rounded-lg flex items-center justify-center relative',
                         panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
                     )}
                 >
@@ -87,7 +87,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                         height={18}
                     />
                     {selections?.length ? (
-                        <span className="ltr absolute -right-2 -top-2 bg-L-primary-50 text-L-basic text-xs px-1.5 py-0.5 rounded-full">
+                        <span className="ltr absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full">
                             {selections?.length && selections?.length < 10 ? selections?.length : '+9'}
                         </span>
                     ) : null}

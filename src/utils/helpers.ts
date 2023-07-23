@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
@@ -367,4 +368,40 @@ export const abbreviateNumber = (number: number) => {
 
     // format number and add suffix
     return scaled.toFixed(2) + suffix;
+};
+
+
+export const toEnglishNumber = (str: string): string => {
+    const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+    const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+
+    for (let i = 0; i < 10; i++) {
+        str = str.replace(persianNumbers[i], String(i)).replace(arabicNumbers[i], String(i));
+    }
+
+    return str;
+};
+
+export const dateFormatter = (value: string) => {
+    const dateRegex = /([0-9]{4})([0-9]{1,2})?([0-9]{1,2})?/g;
+
+    value = toEnglishNumber(value).replace(/[^0-9]/g, '');
+    const res = dateRegex.exec(value);
+    if (!res) return value;
+
+    const [, ...matchs] = res;
+
+    if (matchs[1] === '00' || Number(matchs[1]) > 12) {
+        return matchs[0];
+    } else if (
+        matchs[2] === '00' ||
+        Number(matchs[2]) >
+            dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
+                .calendar('jalali')
+                .daysInMonth()
+    ) {
+        return [matchs[0], matchs[1]].filter(Boolean).join('/');
+    }
+
+    return matchs.filter(Boolean).join('/');
 };
