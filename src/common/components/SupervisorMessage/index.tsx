@@ -31,7 +31,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                 items: ['173_1890078169235', '173_All'],
                 fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
                 onFieldsUpdate: (item) => {
-                    console.log('item', item);
+                    // console.log('item', item);
                 },
             });
         },

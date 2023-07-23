@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import { useAppValues } from 'src/redux/hooks';
@@ -48,11 +48,6 @@ const SymbolData = () => {
         // },
     });
 
-    useEffect(() => {
-        console.log("component", symbolData)
-    }, [symbolData])
-
-
 
     const items = useMemo<ITabItemType[]>(
         () => [
@@ -96,7 +91,7 @@ const SymbolData = () => {
     );
 
     return (
-        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  ">
+        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto overflow-x-hidden h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic">
             <div className=" sticky top-0 z-10  bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
                 <div className="grid grid-rows-2 gap-2 text-1.2">
                     <SymbolHeader />
