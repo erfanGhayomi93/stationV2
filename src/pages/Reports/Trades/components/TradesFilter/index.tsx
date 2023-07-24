@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
+import AdvancedDatePicker, { DateType } from 'src/common/components/AdvancedDatePicker';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import Select, { SelectOption } from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
@@ -11,6 +11,8 @@ const TradesFilter = () => {
     //
     const { t } = useTranslation();
     const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
+    const [date, setDate] = useState<DateType>('')
+    console.log(date)
     return (
         <div className="bg-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-10 gap-4">
@@ -22,15 +24,15 @@ const TradesFilter = () => {
                 </FilterBlock>
                 <FilterBlock label="از تاریخ :">
                     <AdvancedDatePicker
-                        value={''}
-                        onChange={(selectedDates) => {}}
+                        value={date}
+                        onChange={(selectedDates) => setDate(selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
                 <FilterBlock label="تا تاریخ :">
                     <AdvancedDatePicker
-                        value={''}
-                        onChange={(selectedDates) => {}}
+                        value={date}
+                        onChange={(selectedDates: any) => setDate(selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
