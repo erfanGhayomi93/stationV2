@@ -45,12 +45,12 @@ const AdvancedTimePickerAnalog: FC<IAdvancedTimePickerAnalog<DateObject | DateOb
             ref={calendarRef}
             render={
                 <InputIconTime
-                    onClick={(e : Event) => {
+                    onClick={(e: Event) => {
                         e.preventDefault();
                         calendarRef.current.openCalendar();
                     }}
                     className={clsx(
-                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border cursor-default rounded pr-3 focus-visible:outline-none',
+                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border cursor-default rounded pr-3 focus-visible:outline-none',
                         {
                             [className]: !!className,
                         },

@@ -9,12 +9,12 @@ const Trades = () => {
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
-                <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium text-2xl">معاملات</h1>
-                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-250">
-                    <Tippy content="بروزرسانی" className='text-xs'>
+                <h1 className="text-L-gray-500 dark:text-D-gray-700 font-medium text-2xl">معاملات</h1>
+                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300">
+                    <Tippy content="بروزرسانی" className="text-xs">
                         <Refresh2Icon className="cursor-pointer outline-none" />
                     </Tippy>
-                    <Tippy content="خروجی اکسل" className='text-xs'>
+                    <Tippy content="خروجی اکسل" className="text-xs">
                         <Excel2Icon className="cursor-pointer outline-none" />
                     </Tippy>
                 </div>

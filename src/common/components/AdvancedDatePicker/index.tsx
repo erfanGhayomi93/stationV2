@@ -1,9 +1,9 @@
-import DatePicker, { DateObject } from 'react-multi-date-picker';
+import clsx from 'clsx';
+import { FC, useEffect, useRef } from 'react';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import InputIcon from 'react-multi-date-picker/components/input_icon';
-import { FC, useEffect, useRef } from 'react';
-import clsx from 'clsx';
 
 export type DateType = DateObject | DateObject[] | null | string | undefined;
 interface IAdvancedDatePicker<T> {
@@ -40,7 +40,7 @@ const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange
                 <InputIcon
                     onClick={() => calendarRef.current.openCalendar()}
                     className={clsx(
-                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350  text-L-gray-500 dark:text-D-gray-500 border cursor-default rounded pr-3 focus-visible:outline-none',
+                        'w-full py-2 bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400  text-L-gray-500 dark:text-D-gray-700 border cursor-default rounded pr-3 focus-visible:outline-none',
                         {
                             [className]: !!className,
                         },

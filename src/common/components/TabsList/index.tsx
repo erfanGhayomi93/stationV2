@@ -37,7 +37,7 @@ const TabsList: FC<ITabType> = ({
     selectedIndex,
     items,
     fill,
-    tabListClassName = 'bg-L-basic dark:bg-D-basic border  border-L-gray-350 dark:border-D-gray-350 border-b-0 relative z-[0]',
+    tabListClassName = 'bg-L-basic dark:bg-D-basic border  border-L-gray-400 dark:border-D-gray-400 border-b-0 relative z-[0]',
     buttonClass,
     selectedButtonClass,
     pannelClassName = ' grow bg-L-basic dark:bg-D-basic outline-none ',
@@ -71,7 +71,7 @@ const TabsList: FC<ITabType> = ({
                         </div>
                         {leftNode}
                     </div>
-                    <hr className="h-[1px] border-L-gray-350 dark:border-D-gray-350 absolute -z-[1] bottom-0 w-full" />
+                    <hr className="h-[1px] border-L-gray-400 dark:border-D-gray-400 absolute -z-[1] bottom-0 w-full" />
                 </HeadlessTab.List>
                 <HeadlessTab.Panels className={pannelClassName}>
                     {items ? (
@@ -82,7 +82,7 @@ const TabsList: FC<ITabType> = ({
                                     'p-1 h-full ',
                                     item.tabClass
                                         ? item.tabClass
-                                        : 'border border-t-0  dark:border-D-gray-350 border-L-gray-350 text-L-gray-500 dark:text-D-gray-500 outline-none ',
+                                        : 'border border-t-0  dark:border-D-gray-400 border-L-gray-400 text-L-gray-500 dark:text-D-gray-700 outline-none ',
                                 )}
                             >
                                 <>{item.content}</>
@@ -100,8 +100,8 @@ const TabsList: FC<ITabType> = ({
 const TabButton: FC<ITabButtonType> = ({
     children,
     fill,
-    buttonClass = 'border-l border-b dark:text-D-gray-450 text-L-gray-450 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-150 dark:bg-D-gray-150  dark:border-D-gray-350 border-L-gray-350',
-    selectedButtonClass = 'after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-350 border-l-L-gray-350 ',
+    buttonClass = 'border-l border-b dark:text-D-gray-600 text-L-gray-600 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-300 dark:bg-D-gray-300  dark:border-D-gray-400 border-L-gray-400',
+    selectedButtonClass = 'after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-400 border-l-L-gray-400 ',
 }) => {
     return (
         <HeadlessTab as={Fragment}>

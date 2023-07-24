@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { FC, useMemo, useState, memo, useEffect } from 'react';
+import { FC, memo, useEffect, useMemo, useState } from 'react';
+import { useSymbolSearch } from 'src/app/queries/symbol';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
-import InputSearch from './input';
-import { useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
+import InputSearch from './input';
 
 interface ISymbolMiniSelectType {
     setSelected: (selected: SymbolSearchResult[]) => void;
@@ -57,7 +57,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             //         <Fragment key={inx}>
                             //             <Combo.DataSet
                             //                 key={inx}
-                            //                 className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                            //                 className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                             //                 label={item.symbolTitle}
                             //                 value={item}
                             //             >
@@ -112,8 +112,8 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {(isLoading || isFetching) && (
-                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
-                    <div className="flex items-center justify-center gap-2 text-L-gray-400">
+                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700">
+                    <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
                     </div>
@@ -127,7 +127,7 @@ export function MinLen({ min }: { min: boolean }) {
     return (
         <>
             {min && (
-                <div className="p-5 flex items-center text-1.2 bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500 justify-center w-full h-full">
+                <div className="p-5 flex items-center text-1.2 bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700 justify-center w-full h-full">
                     حداقل سه کاراکتر وارد نمایید.
                 </div>
             )}

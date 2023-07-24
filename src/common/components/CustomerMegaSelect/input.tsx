@@ -34,9 +34,9 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     };
 
     return (
-        <div className="bg-white border rounded-md flex items-center gap-1 h-8 pl-1 text-1.3  dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50">
+        <div className="bg-white border rounded-md flex items-center gap-1 h-8 pl-1 text-1.3  dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
             <div className="pr-2">
-                <SearchIcon className="text-L-gray-400 dark:text-D-gray-400" />
+                <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
             </div>
             <div onMouseOver={() => setKbd(true)} onMouseLeave={() => setKbd(false)} className="flex items-center w-full relative">
                 <Combo.SearchBox
@@ -62,27 +62,27 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
             <div
                 onClick={() => handleClear()}
                 hidden={!value?.length || loading}
-                className=" scale-[0.6] rounded-full bg-L-gray-350 dark:bg-D-gray-350"
+                className=" scale-[0.6] rounded-full bg-L-gray-400 dark:bg-D-gray-400"
             >
                 <PlusIcon className="rotate-45 text-white " />
             </div>
             <div hidden={!loading}>
-                <SpinnerIcon className="text-L-gray-400 dark:text-D-gray-400" />
+                <SpinnerIcon className="text-L-gray-500 dark:text-D-gray-500" />
             </div>
-            <hr className="bg-L-gray-350 dark:bg-D-gray-350  w-[1px] ml-1  h-7" />
+            <hr className="bg-L-gray-400 dark:bg-D-gray-400  w-[1px] ml-1  h-7" />
             <div className="flex justify-between items-center gap-2 cursor-pointer" onClick={() => handleSetPanelContent()}>
-                {/* <span hidden={!selections?.length} className="whitespace-nowrap bg-L-gray-200 dark:bg-D-gray-200 p-1 rounded-lg px-2 text-1.2">
+                {/* <span hidden={!selections?.length} className="whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300 p-1 rounded-lg px-2 text-1.2">
                     {selections?.length && selections?.length < 10 ? selections?.length : '+9'} مورد انتخاب شده
                 </span> */}
 
                 <div
                     className={clsx(
-                        'bg-L-gray-200 dark:bg-D-gray-200 p-1  rounded-lg flex items-center justify-center relative',
+                        'bg-L-gray-300 dark:bg-D-gray-300 p-1  rounded-lg flex items-center justify-center relative',
                         panelContent === 'SELECT' && showPanel && 'bg-L-primary-100',
                     )}
                 >
                     <UserCheckIcon
-                        className={clsx(' ', panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-400 dark:text-D-gray-400')}
+                        className={clsx(' ', panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-500 dark:text-D-gray-500')}
                         width={18}
                         height={18}
                     />

@@ -23,7 +23,7 @@ const TradeInput: FC<ITradeInputType> = ({ disabled, value, onChange, placeholde
                     dir="ltr"
                     disabled={disabled}
                     type={type === 'percent' ? 'number' : 'text'}
-                    className="w-full text-left h-full px-2 py-2 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500"
+                    className="w-full text-left h-full px-2 py-2 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700"
                     onChange={handleChange}
                     value={type === 'percent' ? value : seprateNumber(value)}
                     step={type === 'percent' ? '.01' : undefined}

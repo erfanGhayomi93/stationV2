@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import Tippy from '@tippyjs/react';
 import { FC, useState } from 'react';
 import { useCreateDetailsBasket, useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
@@ -8,7 +9,6 @@ import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
-import Tippy from '@tippyjs/react';
 
 interface ISetBasketActionType {}
 
@@ -63,7 +63,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
 
     return (
         <>
-            <Tippy content='ثبت در سند' className='text-xs'>
+            <Tippy content="ثبت در سند" className="text-xs">
                 <button
                     onClick={() => setisOpen(true)}
                     className="flex items-center h-8 justify-center w-[32px] bg-L-primary-100  rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
@@ -73,7 +73,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
             </Tippy>
             <Modal isOpen={isOpen} onClose={toggleOpen} className="min-h-[31rem] w-[500px] rounded-md h-full grid">
                 <div className="grid grid-rows-min-one bg-L-basic dark:bg-D-basic">
-                    <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                    <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                         <p>انتخاب سبد</p>
                         <CloseIcon onClick={toggleOpen} className="cursor-pointer" />
                     </div>
@@ -85,7 +85,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
                                     .map((item) => (
                                         <div
                                             key={item.id}
-                                            className="flex items-center justify-between my-4 text-L-gray-500 dark:text-D-gray-500 bg-L-gray-100 dark:bg-D-gray-100 border border-solid border-L-gray-350 dark:border-D-gray-350 rounded-lg p-2"
+                                            className="flex items-center justify-between my-4 text-L-gray-500 dark:text-D-gray-700 bg-L-gray-100 dark:bg-D-gray-100 border border-solid border-L-gray-400 dark:border-D-gray-400 rounded-lg p-2"
                                         >
                                             <p>{item.name}</p>
                                             <div

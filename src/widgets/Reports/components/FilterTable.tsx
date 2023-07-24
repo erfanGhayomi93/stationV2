@@ -1,4 +1,3 @@
-import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
 import Select, { SelectOption } from 'src/common/components/Select';
@@ -15,14 +14,14 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
     const { t } = useTranslation();
     return (
         <div className="pb-4 flex items-center gap-8">
-            <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md w-[136px]">
+            <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md w-[136px]">
                 <Input
                     placeholder="مشتری:"
                     value={FilterData.customerTitle}
                     onChange={(e) => handleChangeFilterData('customerTitle', e.target.value)}
                 />
             </div>
-            <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md w-[136px]">
+            <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md w-[136px]">
                 <Input
                     placeholder="نام نماد:"
                     value={FilterData.symbolTitle}
@@ -30,11 +29,7 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
                 />
             </div>
             <div className="w-[175px]">
-                <Select
-                    onChange={(selected) => handleChangeFilterData('side', selected)}
-                    value={t('OrderSide.' + FilterData.side)}
-                    title="سمت:"
-                >
+                <Select onChange={(selected) => handleChangeFilterData('side', selected)} value={t('OrderSide.' + FilterData.side)} title="سمت:">
                     {sideOption.map((item, ind) => (
                         <SelectOption
                             key={ind}
@@ -53,9 +48,4 @@ export default FilterTable;
 
 export const sideOption: {
     value: string;
-}[] = [
-    {value : "All"},
-    {value : "Buy"},
-    {value : "Sell"},
-]
-
+}[] = [{ value: 'All' }, { value: 'Buy' }, { value: 'Sell' }];
