@@ -55,10 +55,10 @@ const Select: FC<ISelectType> = ({
         <div className="w-full flex items-center justify-center relative ">
             {title ? <span className="w-[64px] whitespace-nowrap relative ">{title}</span> : <></>}
             <Listbox value={value} onChange={onChange} {...rest}>
-                <div className="relative  w-full ">
+                <div className="relative w-full ">
                     <Listbox.Button
                         className={clsx(
-                            'relative flex justify-between w-full dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50 cursor-default text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
+                            'relative flex justify-between h-8 w-full dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50 cursor-default text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
                             inputClassName
                                 ? inputClassName
                                 : ' bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md  py-2 pr-3 pl-10  ',
