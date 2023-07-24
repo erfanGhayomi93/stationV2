@@ -12,7 +12,7 @@
 	width: 100%;
 	height: 0.25rem;
 	border-radius: 1px;
-	@apply bg-L-gray-500 dark:bg-D-gray-500;
+	@apply bg-L-gray-400 dark:bg-D-gray-400;
 }
 
 .container {
@@ -46,36 +46,36 @@
 			width: 2px;
 			height: 0.6rem;
 			top: 0.62rem;
-			@apply bg-L-gray-500 dark:bg-D-gray-700;
+			@apply bg-L-gray-400 dark:bg-D-gray-400;
 		}
 		// bg-L-gray-50 dark:bg-D-gray-50
 
 		.number {
 			font-size: 0.62rem;
-			@apply text-L-gray-500 dark:text-D-gray-700;
+			@apply text-L-gray-700 dark:text-D-gray-700;
 		}
 
 		&:not(:nth-child(4)) {
 			.rhombus {
-				@apply border-L-gray-500 dark:border-D-gray-700 bg-white dark:bg-black;
+				@apply border-L-gray-400 dark:border-D-gray-400 bg-L-basic dark:bg-D-basic;
 			}
 		}
 
 		&:nth-child(4) {
 			.rhombus {
-				@apply border-white dark:border-black bg-L-gray-500 dark:bg-D-gray-700;
+				@apply border-L-basic dark:border-D-basic bg-L-gray-400 dark:bg-D-gray-400;
 			}
 		}
 
 		&:nth-child(-n + 3).active {
 			.rhombus {
-				@apply bg-D-error-200 border-white dark:border-black;
+				@apply bg-D-error-200 border-L-basic dark:border-D-basic;
 			}
 		}
 
 		&:nth-last-child(-n + 3).active {
 			.rhombus {
-				@apply bg-L-success-200 border-white dark:border-black;
+				@apply bg-L-success-200 border-L-basic dark:border-D-basic;
 			}
 		}
 
@@ -118,7 +118,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			@apply text-L-gray-500 dark:text-D-gray-700;
+			@apply text-L-gray-600 dark:text-D-gray-600;
 		}
 	}
 }
@@ -137,7 +137,7 @@
 	transition: opacity 250ms;
 	-webkit-transition: opacity 250ms;
 	-moz-transition: opacity 250ms;
-	@apply bg-L-gray-500 dark:bg-D-gray-500;
+	@apply bg-L-gray-700 dark:bg-D-gray-700;
 }
 
 .sliders {
@@ -154,6 +154,7 @@
 		position: relative;
 		display: flex;
 		align-items: center;
+
 
 		.section {
 			position: relative;
@@ -175,7 +176,7 @@
 
 			&.sell {
 				justify-content: flex-end;
-				@apply text-D-error-200;
+				@apply text-L-error-200;
 
 				.slider {
 					right: 4px;
@@ -199,19 +200,20 @@
 				position: absolute;
 				pointer-events: fill;
 
+
 				&.buy {
 					@apply text-L-success-200;
 				}
 
 				&.sell {
-					@apply text-D-error-200;
+					@apply text-L-error-200;
 				}
 
 				&::after {
 					content: "";
 					position: absolute;
-					width: 0.31rem;
-					height: 0.31rem;
+					width: 0.5rem;
+					height: 0.5rem;
 					border-radius: 2px;
 					background-color: currentColor;
 					transform: rotate(45deg);

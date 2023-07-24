@@ -118,14 +118,16 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
             else if (price < thresholdData[0]) price = thresholdData[0];
             const priceAsPercent = Number((((price - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)) * 1;
 
-            const spanChild = tooltipElement.querySelector('span') as Element;
-            spanChild.textContent = `${sepNumbers(price)} (${priceAsPercent}%)`;
+            const spanChild1 = tooltipElement.querySelectorAll('span')[0] as Element;
+            const spanChild2 = tooltipElement.querySelectorAll('span')[1] as Element;
+            spanChild1.textContent = `${sepNumbers(price)}`;
+            spanChild2.textContent = ` (${priceAsPercent}%) `;
             if (priceAsPercent < 0) {
-                spanChild.classList.remove('text-success-400');
-                spanChild.classList.add('text-error-300');
+                spanChild2.classList.remove('text-L-success-200');
+                spanChild2.classList.add('text-L-error-200');
             } else {
-                spanChild.classList.remove('text-error-300');
-                spanChild.classList.add('text-success-400');
+                spanChild2.classList.remove('text-L-error-200');
+                spanChild2.classList.add('text-L-success-200');
             }
         } catch (e) {
             //
@@ -241,20 +243,23 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                 <div className={styles.inner}>
                     <Tippy
                         content={
-                            <div dir="ltr" className="flex items-center gap-4">
+                            <div dir="ltr" className="flex items-center gap-1">
+                                <span
+                                    className={clsx(
+                                        'transition duration-300 text-xs font-medium text-L-gray-50 dark:text-D-gray-50')}>
+                                    {sepNumbers(exchangeData[0])}
+                                </span>
                                 <span
                                     className={clsx(
                                         'transition duration-300 text-xs font-medium',
-                                        config.firstTradedPriceAsPercent >= 0 ? 'text-L-success-200' : 'text-L-error-200',
-                                    )}
-                                >
-                                    {sepNumbers(exchangeData[0])} ({config.firstTradedPriceAsPercent}%)
+                                        config.firstTradedPriceAsPercent >= 0 ? 'text-L-success-200' : 'text-L-error-200')}>
+                                    ({config.firstTradedPriceAsPercent}%)
                                 </span>
-                                <span className="text-black dark:text-white text-xs">:{t('price_range_slider.closing_price')}</span>
+                                <span className="text-L-gray-50 dark:text-D-gray-50 text-xs pl-1">:{t('price_range_slider.closing_price')}</span>
                             </div>
                         }
                         arrow={false}
-                        className={clsx('text-gray-400 dark:text-dark-gray-500 top-4 bg-gray-400 dark:bg-dark-gray-400', theme)}
+                        className={clsx('bg-gray-700 dark:bg-D-gray-700 top-4', theme)}
                     >
                         <div
                             style={{ transform: `translateX(${config.firstTradedPrice}px)` }}
@@ -281,20 +286,26 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
 
                     <Tippy
                         content={
-                            <div dir="ltr" className="flex items-center gap-4">
+                            <div dir="ltr" className="flex items-center gap-1">
+                                <span
+                                    className={clsx(
+                                        'transition duration-300 text-xs font-medium text-L-gray-50 dark:text-D-gray-50')}>
+                                    {sepNumbers(exchangeData[1])}
+                                </span>
+
                                 <span
                                     className={clsx(
                                         'transition duration-300 text-xs font-medium',
-                                        config.lastTradedPriceAsPercent >= 0 ? 'text-success-400' : 'text-error-300',
-                                    )}
-                                >
-                                    {sepNumbers(exchangeData[1])} ({config.lastTradedPriceAsPercent}%)
+                                        config.lastTradedPriceAsPercent >= 0 ? 'text-L-success-200' : 'text-L-error-200')}>
+                                    ({config.lastTradedPriceAsPercent}%)
                                 </span>
-                                <span className="text-black dark:text-white text-xs">:{t('price_range_slider.last_traded_price')}</span>
+
+
+                                <span className="text-L-gray-50 dark:text-D-gray-50 text-xs pl-1">:{t('price_range_slider.last_traded_price')}</span>
                             </div>
                         }
                         arrow={false}
-                        className={clsx('text-gray-400 dark:text-dark-gray-500 top-4 bg-gray-400 dark:bg-dark-gray-400', theme)}
+                        className={clsx('bg-gray-700 dark:bg-D-gray-700 top-4', theme)}
                     >
                         <div
                             style={{ transform: `translateX(${config.lastTradedPrice}px)` }}
@@ -323,6 +334,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
             </div>
 
             <div ref={tooltipRef} style={{ opacity: '0' }} className={styles.tooltip}>
+                <span className="font-medium text-xs text-L-gray-50 dark:text-D-gray-50" />
                 <span className="font-medium text-xs" />
             </div>
 
@@ -339,29 +351,32 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
 
                         <Tippy
                             content={
-                                <div dir="ltr" className="flex items-center gap-4">
+                                <div dir="ltr" className="flex items-center gap-1">
                                     <span
                                         className={clsx(
-                                            'font-medium text-xs',
-                                            config.lowestTradePriceOfTradingDayAsPercent >= 0 ? 'text-success-400' : 'text-error-300',
-                                        )}
-                                    >
-                                        {sepNumbers(boundaryData[0])} ({config.lowestTradePriceOfTradingDayAsPercent}%)
+                                            'transition duration-300 text-xs font-medium text-L-gray-50 dark:text-D-gray-50')}>
+                                        {sepNumbers(boundaryData[0])}
                                     </span>
-                                    <span className="text-black dark:text-white text-xs font-normal">
+
+                                    <span
+                                        className={clsx(
+                                            'transition duration-300 text-xs font-medium',
+                                            config.lowestTradePriceOfTradingDayAsPercent >= 0 ? 'text-L-success-200' : 'text-L-error-200')}>
+                                        ({config.lowestTradePriceOfTradingDayAsPercent}%)
+                                    </span>
+                                    <span className="text-L-gray-50 dark:text-D-gray-50 text-xs pl-1">
                                         :{t('price_range_slider.lowest_trade_price')}
                                     </span>
                                 </div>
                             }
-                            className={clsx('text-gray-400 dark:text-dark-gray-500 bg-gray-400 dark:bg-dark-gray-400 bg-current custom-arrow', theme)}
+                            className={clsx('bg-gray-700 dark:bg-D-gray-700 bg-current custom-arrow', theme)}
                         >
                             <div
                                 style={{
-                                    transform: `translateX(${
-                                        boundaryData[0] > yesterdayClosingPrice
-                                            ? config.offsetLeft
-                                            : -(config.sellSliderWidth + Math.abs(config.offsetRight))
-                                    }px)`,
+                                    transform: `translateX(${boundaryData[0] > yesterdayClosingPrice
+                                        ? config.offsetLeft
+                                        : -(config.sellSliderWidth + Math.abs(config.offsetRight))
+                                        }px)`,
                                 }}
                                 className={clsx('transition duration-300', styles.mark, boundaryData[0] > yesterdayClosingPrice && styles.buy)}
                             />
@@ -379,29 +394,34 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
 
                         <Tippy
                             content={
-                                <div dir="ltr" className="flex items-center gap-4">
+                                <div dir="ltr" className="flex items-center gap-1">
+
                                     <span
                                         className={clsx(
-                                            'font-medium text-xs',
-                                            config.highestTradePriceOfTradingDayAsPercent >= 0 ? 'text-success-400' : 'text-error-300',
-                                        )}
-                                    >
-                                        {sepNumbers(boundaryData[1])} ({config.highestTradePriceOfTradingDayAsPercent}%)
+                                            'transition duration-300 text-xs font-medium text-L-gray-50 dark:text-D-gray-50')}>
+                                        {sepNumbers(boundaryData[1])}
                                     </span>
-                                    <span className="text-black dark:text-white text-xs font-normal">
+
+                                    <span
+                                        className={clsx(
+                                            'transition duration-300 text-xs font-medium',
+                                            config.highestTradePriceOfTradingDayAsPercent >= 0 ? 'text-L-success-200' : 'text-L-error-200')}>
+                                        ({config.highestTradePriceOfTradingDayAsPercent}%)
+                                    </span>
+
+                                    <span className="text-L-gray-50 dark:text-D-gray-50 text-xs pl-1">
                                         :{t('price_range_slider.highest_trade_price')}
                                     </span>
                                 </div>
                             }
-                            className={clsx('text-gray-400 dark:text-dark-gray-500 bg-gray-400 dark:bg-dark-gray-400 custom-arrow', theme)}
+                            className={clsx('bg-gray-700 dark:bg-D-gray-700 custom-arrow', theme)}
                         >
                             <div
                                 style={{
-                                    transform: `translateX(${
-                                        boundaryData[1] < yesterdayClosingPrice
-                                            ? -config.offsetRight
-                                            : config.buySliderWidth + Math.abs(config.offsetLeft)
-                                    }px)`,
+                                    transform: `translateX(${boundaryData[1] < yesterdayClosingPrice
+                                        ? -config.offsetRight
+                                        : config.buySliderWidth + Math.abs(config.offsetLeft)
+                                        }px)`,
                                 }}
                                 className={clsx('transition duration-300', styles.mark, boundaryData[1] < yesterdayClosingPrice && styles.sell)}
                             />
@@ -421,8 +441,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
 
                 <div
                     style={{ left: '16.667%' }}
-                    className={clsx(styles.div, isBetween(boundaryData[0], averageNumbers[1], boundaryData[1]) && styles.active)}
-                >
+                    className={clsx(styles.div, isBetween(boundaryData[0], averageNumbers[1], boundaryData[1]) && styles.active)}>
                     <div className={styles.inner}>
                         <span className={clsx(styles.rhombus)} />
                         <span className={clsx(styles.line)} />

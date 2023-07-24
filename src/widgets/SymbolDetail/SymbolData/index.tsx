@@ -75,7 +75,7 @@ const SymbolData = () => {
     );
 
     return (
-        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
+        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto overflow-x-hidden h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
             <div className=" sticky top-0 z-10  bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
                 <div className="grid grid-rows-2 gap-2 text-1.2">
                     <SymbolHeader />
