@@ -13,13 +13,7 @@ interface ComboboxComponentProps<T> {
     classSelect?: string;
 }
 
-const SelectType: FC<ComboboxComponentProps<valueType>> = ({
-    options,
-    value,
-    onChange,
-    placeholder,
-    classSelect,
-}) => {
+const SelectType: FC<ComboboxComponentProps<valueType>> = ({ options, value, onChange, placeholder, classSelect }) => {
     const [query, setQuery] = useState('');
 
     const optionPerfect = useMemo(() => {
@@ -28,9 +22,7 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({
 
     const filteredOptions = useMemo(() => {
         if (query === '') return optionPerfect;
-        return optionPerfect.filter((option) =>
-            option.title.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))
-        );
+        return optionPerfect.filter((option) => option.title.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, '')));
     }, [optionPerfect, query]);
 
     const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,14 +38,15 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({
                             className={clsx(
                                 'relative w-full cursor-default overflow-hidden rounded-lg bg-white text-right shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-1 sm:text-sm border py-2 pr-3 pl-8',
                                 {
-                                    'bg-L-basic dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 focus-visible:border-L-primary-50 dark:focus-visible:border-D-primary-50 ': !classSelect,
+                                    'bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 focus-visible:border-L-primary-50 dark:focus-visible:border-D-primary-50 ':
+                                        !classSelect,
                                     [classSelect as string]: !!classSelect,
-                                }
+                                },
                             )}
                             onChange={handleInputChange}
                             displayValue={(value: valueType) => value.title}
                             placeholder={placeholder}
-                            autoComplete = "off"
+                            autoComplete="off"
                         />
                     </Combobox.Button>
                     <Combobox.Button className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -69,9 +62,7 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({
                 >
                     <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                         {filteredOptions.length === 0 && query !== '' ? (
-                            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                                موردی یافت نشد
-                            </div>
+                            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">موردی یافت نشد</div>
                         ) : (
                             filteredOptions.map((option) => (
                                 <Combobox.Option

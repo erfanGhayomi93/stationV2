@@ -28,7 +28,7 @@ function BasketPage() {
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
-            <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium text-2xl">سبد معامله گر</h1>
+            <h1 className="text-L-gray-500 dark:text-D-gray-700 font-medium text-2xl">سبد معامله گر</h1>
             <TopBasket {...{ activeBasket, saveIndexBasketSelected }} />
             <FilterBasket {...{ handleFilter, isShowFilter, setisShowFilter }} />
             <TableBasket {...{ activeBasket, listAfterFilter, dataFilter, isShowFilter }} />

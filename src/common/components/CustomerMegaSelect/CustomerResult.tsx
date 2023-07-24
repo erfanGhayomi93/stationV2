@@ -22,7 +22,7 @@ const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
                 ? qData.map((item, inx) => (
                       <Combo.DataSet
                           key={inx}
-                          className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                          className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                           label={item.customerTitle}
                           value={item}
                       >
@@ -32,7 +32,7 @@ const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
                                       <span>{item.customerTitle}</span>
                                       <span className="text-L-primary-50">{item.customerType}</span>
                                   </div>
-                                  <span className="text-L-gray-450 dark:text-D-gray-450">{item.bourseCode}</span>
+                                  <span className="text-L-gray-600 dark:text-D-gray-600">{item.bourseCode}</span>
                               </div>
                               <span>{item.nationalCode}</span>
                           </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
@@ -36,14 +35,14 @@ const SymbolHeader = () => {
 
                     <div className="flex flex-col">
                         <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                        <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+                        <small className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</small>
                     </div>
                 </div>
             </div>
             <div className="mr-auto flex items-center">
-                    <AddToWatchlistButton symbolISIN={selectedSymbol} />
-                    <CodalBtn symbolTitle={data?.symbolTitle || ''} />
-                    <TseBtn insCode={data?.insCode || ''} />
+                <AddToWatchlistButton symbolISIN={selectedSymbol} />
+                <CodalBtn symbolTitle={data?.symbolTitle || ''} />
+                <TseBtn insCode={data?.insCode || ''} />
             </div>
         </div>
     );

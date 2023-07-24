@@ -9,7 +9,7 @@ type WHacherMesaage = {
 export const WatcherMessages: FC<WHacherMesaage> = ({ data, searchValue }) => {
     return (
         <div className="px-4">
-            <div className="border border-L-gray-300 dark:border-D-gray-300 rounded-lg w-full h-[29rem] overflow-auto">
+            <div className="border   dark:  rounded-lg w-full h-[29rem] overflow-auto">
                 {data &&
                     data.filter((item) => item.messageTitle.includes(searchValue.trim())).map((item) => <CardMessage data={item} key={item.id} />)}
             </div>

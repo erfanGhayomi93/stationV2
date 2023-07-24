@@ -2,8 +2,8 @@ import { Disclosure } from '@headlessui/react';
 import { FC, Fragment, memo } from 'react';
 import { ColDefType } from 'src/common/components/AGTable';
 import { ChevronIcon } from 'src/common/icons';
-import ActionCell, { TypeActionEnum } from '../actionCell';
 import InnerTable from '../InnerTable';
+import ActionCell, { TypeActionEnum } from '../actionCell';
 interface IOrderItemType {
     data: IOrderGetType;
     columns: ColDefType<IOrderGetType>[];
@@ -15,7 +15,7 @@ const OrderItem: FC<IOrderItemType> = ({ columns, data, deleteFn, editFn }) => {
         <Disclosure as={Fragment}>
             <div
                 style={{ gridTemplateColumns: `repeat(${columns.length}, 1fr)` }}
-                className="grid grid-rows-1 py-1.5 text-L-gray-450 dark:text-D-gray-450 h-[35px] "
+                className="grid grid-rows-1 py-1.5 text-L-gray-600 dark:text-D-gray-600 h-[35px] "
             >
                 {columns.map((col, inx) => {
                     return inx < columns.length - 1 ? (

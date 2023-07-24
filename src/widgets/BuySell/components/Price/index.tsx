@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, memo } from 'react';
+import { FC, memo, useEffect, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -9,7 +9,7 @@ interface IBuySellPriceType {}
 
 const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
     const dispatch = useBuySellDispatch();
-    const lockIcon = useMemo(() => <LockIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
+    const lockIcon = useMemo(() => <LockIcon className="text-L-gray-500 dark:text-D-gray-500" />, []);
 
     const { price, symbolISIN, isCalculatorEnabled, amount, quantity, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });

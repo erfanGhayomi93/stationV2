@@ -12,7 +12,7 @@
 	width: 100%;
 	height: 0.25rem;
 	border-radius: 1px;
-	@apply bg-L-gray-400 dark:bg-D-gray-400;
+	@apply bg-L-gray-500 dark:bg-D-gray-500;
 }
 
 .container {
@@ -46,36 +46,36 @@
 			width: 2px;
 			height: 0.6rem;
 			top: 0.62rem;
-			@apply bg-L-gray-500 dark:bg-D-gray-500;
+			@apply bg-L-gray-500 dark:bg-D-gray-700;
 		}
 		// bg-L-gray-50 dark:bg-D-gray-50
 
 		.number {
 			font-size: 0.62rem;
-			@apply text-L-gray-500 dark:text-D-gray-500;
+			@apply text-L-gray-500 dark:text-D-gray-700;
 		}
 
 		&:not(:nth-child(4)) {
 			.rhombus {
-				@apply border-L-gray-500 dark:border-D-gray-500 bg-white dark:bg-black;
+				@apply border-L-gray-500 dark:border-D-gray-700 bg-white dark:bg-black;
 			}
 		}
 
 		&:nth-child(4) {
 			.rhombus {
-				@apply border-white dark:border-black bg-L-gray-500 dark:bg-D-gray-500;
+				@apply border-white dark:border-black bg-L-gray-500 dark:bg-D-gray-700;
 			}
 		}
 
 		&:nth-child(-n + 3).active {
 			.rhombus {
-				@apply bg-D-error-150 border-white dark:border-black;
+				@apply bg-D-error-200 border-white dark:border-black;
 			}
 		}
 
 		&:nth-last-child(-n + 3).active {
 			.rhombus {
-				@apply bg-L-success-150 border-white dark:border-black;
+				@apply bg-L-success-200 border-white dark:border-black;
 			}
 		}
 
@@ -118,7 +118,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			@apply text-L-gray-500 dark:text-D-gray-500;
+			@apply text-L-gray-500 dark:text-D-gray-700;
 		}
 	}
 }
@@ -137,7 +137,7 @@
 	transition: opacity 250ms;
 	-webkit-transition: opacity 250ms;
 	-moz-transition: opacity 250ms;
-	@apply bg-L-gray-400 dark:bg-D-gray-400;
+	@apply bg-L-gray-500 dark:bg-D-gray-500;
 }
 
 .sliders {
@@ -162,7 +162,7 @@
 
 			&.buy {
 				justify-content: flex-start;
-				@apply text-L-success-150;
+				@apply text-L-success-200;
 
 				.slider {
 					left: 4px;
@@ -175,7 +175,7 @@
 
 			&.sell {
 				justify-content: flex-end;
-				@apply text-D-error-150;
+				@apply text-D-error-200;
 
 				.slider {
 					right: 4px;
@@ -200,11 +200,11 @@
 				pointer-events: fill;
 
 				&.buy {
-					@apply text-L-success-150;
+					@apply text-L-success-200;
 				}
 
 				&.sell {
-					@apply text-D-error-150;
+					@apply text-D-error-200;
 				}
 
 				&::after {

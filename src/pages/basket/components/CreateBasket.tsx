@@ -22,8 +22,8 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
                 queryClient.invalidateQueries(['BasketList']);
                 toggleAddBasket();
                 onSuccessNotif({
-                    title: 'سبد با موفقیت اضافه شد.'
-                })
+                    title: 'سبد با موفقیت اضافه شد.',
+                });
             }
         },
     });
@@ -52,28 +52,28 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     }, []);
 
     return (
-        <div dir="rtl" className="rounded-md border-L-gray-350 dark:border-D-gray-350 border p-4 text-right mb-4">
+        <div dir="rtl" className="rounded-md border-L-gray-400 dark:border-D-gray-400 border p-4 text-right mb-4">
             <div className="flex items-center mb-4">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-500">نام سبد :</p>
-                <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded flex-1">
+                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">نام سبد :</p>
+                <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded flex-1">
                     <Input data-cy="basket-create-input-name" value={name} onChange={(e) => setname(e.target.value)} />
                 </div>
             </div>
             <div className="flex items-center mb-4">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-500">تاریخ ارسال :</p>
+                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
                 <div className="flex-1" data-cy="basket-create-input-date">
-                    <AdvancedDatePicker value={date} onChange={(date) => setdata(date)} className="text-L-gray-400 dark:text-D-gray-400" />
+                    <AdvancedDatePicker value={date} onChange={(date) => setdata(date)} className="text-L-gray-500 dark:text-D-gray-500" />
                 </div>
             </div>
             <div className="flex items-center">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-500">زمان ارسال :</p>
+                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">زمان ارسال :</p>
                 <div className="flex-1" data-cy="basket-create-input-time">
                     <AdvancedTimePicker
                         value={time}
                         onChange={(date) => {
                             settime(date);
                         }}
-                        className="text-L-gray-400 dark:text-D-gray-400"
+                        className="text-L-gray-500 dark:text-D-gray-500"
                     />
                 </div>
             </div>

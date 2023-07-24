@@ -11,8 +11,16 @@ import Details from './tabs/Details';
 import Messages from './tabs/Messages';
 import Orders from './tabs/Orders';
 
-type ISocketAnswerSymbolData = Pick<ISymbolType, 'yesterdayClosingPrice' | 'highThreshold' | 'lastTradedPrice' | 'highestTradePriceOfTradingDay' | 'lowThreshold' | 'closingPrice' | 'lowestTradePriceOfTradingDay'>;
-
+type ISocketAnswerSymbolData = Pick<
+    ISymbolType,
+    | 'yesterdayClosingPrice'
+    | 'highThreshold'
+    | 'lastTradedPrice'
+    | 'highestTradePriceOfTradingDay'
+    | 'lowThreshold'
+    | 'closingPrice'
+    | 'lowestTradePriceOfTradingDay'
+>;
 
 const SymbolData = () => {
     //
@@ -40,8 +48,8 @@ const SymbolData = () => {
         }),
         // onSuccess(data) {
         //     pushEngine.subscribe<ISocketAnswerSymbolData>({
-        //         id : "SymbolPriceSlider" , 
-        //         mode : "MERGE" , 
+        //         id : "SymbolPriceSlider" ,
+        //         mode : "MERGE" ,
         //         isSnapShot : 'yes' ,
         //         adapterName : "RamandRLCDData" ,
         //     })
@@ -49,10 +57,8 @@ const SymbolData = () => {
     });
 
     useEffect(() => {
-        console.log("component", symbolData)
-    }, [symbolData])
-
-
+        console.log('component', symbolData);
+    }, [symbolData]);
 
     const items = useMemo<ITabItemType[]>(
         () => [
@@ -60,35 +66,35 @@ const SymbolData = () => {
                 key: 'Orders',
                 title: 'صف',
                 content: <Orders />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
+                tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'AdditionalData',
                 title: 'حقیقی حقوقی',
                 content: <AdditionalData />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
+                tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'Details',
                 title: 'جزییات نماد',
                 content: <Details />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
+                tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'Charts',
                 title: 'نمودار نماد',
                 content: <Charts />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
+                tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'Messages',
                 title: 'پیام ها',
                 content: <Messages />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
+                tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
         ],
@@ -96,7 +102,7 @@ const SymbolData = () => {
     );
 
     return (
-        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  ">
+        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
             <div className=" sticky top-0 z-10  bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
                 <div className="grid grid-rows-2 gap-2 text-1.2">
                     <SymbolHeader />
@@ -115,7 +121,7 @@ const SymbolData = () => {
                 onChange={(idx) => setActiveTab(idx)}
                 selectedIndex={activeTab}
                 items={items}
-                buttonClass=" text-L-gray-500 dark:text-D-gray-500 "
+                buttonClass=" text-L-gray-500 dark:text-D-gray-700 "
                 className="w-full grid rounded-md relative text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
                 pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
                 tabListClassName="bg-L-basic dark:bg-D-basic  relative z-[0] text-1.2"

@@ -18,7 +18,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                     <Disclosure.Button as={Fragment}>
                         <button
                             // onClick={item.onClick}
-                            className="hover:bg-L-secondary-150 hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
+                            className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
                         >
                             {item.icon}
                             {item.label}
@@ -37,12 +37,12 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                         leaveTo="opacity-0  translate-x-10"
                     >
                         <Disclosure.Panel className="pr-3 w-full" data-cy="expanded-sider">
-                            <div className=" w-full border-solid border-r-2 border-L-secondary-150">
+                            <div className=" w-full border-solid border-r-2 border- ">
                                 {item.children &&
                                     item.children.map((itemChild: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>, ind: number) => (
                                         <button
                                             key={ind}
-                                            className="hover:bg-L-secondary-150 hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
+                                            className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
                                             onClick={itemChild.onClick}
                                         >
                                             {itemChild.icon}
@@ -85,7 +85,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                 leaveTo="opacity-0  translate-x-40"
                             >
                                 <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0">
-                                    <div className="w-[18rem] h-screen overflow-visible bar rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+                                    <div className="w-[18rem] h-screen overflow-visible bar rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
                                         <div className="flex flex-col items-center gap-5">
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
@@ -104,7 +104,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                                             return (
                                                                 <button
                                                                     key={ind}
-                                                                    className="hover:bg-L-secondary-150 hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
+                                                                    className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
                                                                     onClick={item.onClick}
                                                                 >
                                                                     {item.icon}
@@ -129,7 +129,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                                             return (
                                                                 <button
                                                                     key={ind}
-                                                                    className="hover:bg-L-secondary-150 hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
+                                                                    className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
                                                                     onClick={item.onClick}
                                                                 >
                                                                     {item.icon}

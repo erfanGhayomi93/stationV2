@@ -1,6 +1,6 @@
-import { Children, cloneElement, FC, Fragment, ReactElement } from 'react';
 import { Tab as HeadlessTab } from '@headlessui/react';
 import clsx from 'clsx';
+import { cloneElement, FC, Fragment } from 'react';
 
 interface ITabType {
     leftNode?: JSX.Element;
@@ -68,7 +68,7 @@ const TabButton: FC<ITabButtonType> = ({ children }) => {
                     'border-b-2 py-1 px-3 border-solid outline-none',
                     selected
                         ? ' text-L-primary-50  border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50  bg-L-basic dark:bg-D-basic font-semibold'
-                        : '   dark:text-D-gray-450 text-L-gray-450  dark:border-t-transparent border-t-transparent   dark:border-D-gray-350 border-L-gray-350 ',
+                        : '   dark:text-D-gray-600 text-L-gray-600  dark:border-t-transparent border-t-transparent   dark:border-D-gray-400 border-L-gray-400 ',
                 )
             }
         >

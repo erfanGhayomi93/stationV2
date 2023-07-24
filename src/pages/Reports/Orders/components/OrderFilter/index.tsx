@@ -20,7 +20,7 @@ interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
 const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
     return (
         <div className={clsx('flex flex-col gap-2 text-1.4 grow', className)}>
-            <span className="text-1.3 pr-0.5 text-L-gray-500 dark:text-D-gray-500">{label}</span>
+            <span className="text-1.3 pr-0.5 text-L-gray-500 dark:text-D-gray-700">{label}</span>
             <div className="grow ">{children}</div>
         </div>
     );
@@ -87,7 +87,7 @@ export const OrderFilter = () => {
 
             <div
                 data-actived={isShowFilter}
-                className="actived:opacity-100 opacity-0 actived:static  absolute duration-100  actived:scale-100 scale-y-0 origin-top  gap-14 py-2.5 flex justify-between items-end border border-L-gray-350 dark:border-D-gray-350 bg-L-basic dark:bg-D-basic px-4 rounded-lg my-6"
+                className="actived:opacity-100 opacity-0 actived:static  absolute duration-100  actived:scale-100 scale-y-0 origin-top  gap-14 py-2.5 flex justify-between items-end border border-L-gray-400 dark:border-D-gray-400 bg-L-basic dark:bg-D-basic px-4 rounded-lg my-6"
             >
                 <div className="grow h-full grid grid-cols-7 gap-3">
                     <FilterBlock label="نماد">
@@ -100,21 +100,21 @@ export const OrderFilter = () => {
                         <AdvancedDatePicker
                             value={FromDate}
                             onChange={(selectedDates) => setStartDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full duration-250 dark:focus-visible:border-D-secondary-50 focus-visible:border-L-secondary-50"
+                            className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                         />
                     </FilterBlock>
                     <FilterBlock label="تا تاریخ :">
                         <AdvancedDatePicker
                             value={ToDate}
                             onChange={(selectedDates) => setTillDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-400 dark:text-D-gray-400 py-1.5 w-full duration-250 dark:focus-visible:border-D-secondary-50 focus-visible:border-L-secondary-50"
+                            className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                         />
                     </FilterBlock>
                     <FilterBlock label="وضعیت سفارش :">
                         <Select
                             onChange={(selected: string) => setStatus(selected as unknown as OrderStatus)}
                             value={status ? i18next.t('OrderState.' + status) : undefined}
-                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md py-1.5 pr-3 pl-10"
+                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md py-1.5 pr-3 pl-10"
                             // value={status}
                         >
                             {REPORT_STATUS_OPTIONS.map((item, inx) => (
@@ -133,7 +133,7 @@ export const OrderFilter = () => {
                             onChange={(selected: string) => setSide(selected as unknown as OrderSideType)}
                             value={side ? i18next.t('OrderSide.' + side) : undefined}
                             // value={side}
-                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md  py-1.5 pr-3 pl-10"
+                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-1.5 pr-3 pl-10"
                         >
                             {REPORT_SIDE_OPTIONS.map((item, inx) => (
                                 <SelectOption

@@ -94,12 +94,12 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="min-h-[20rem] w-1/4 rounded-md h-full grid text-1.2 ">
             <div className="grid grid-rows-min-one" data-cy="add-to-wl-modal">
-                <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                     <div>ویرایش گروه‌های دیده‌بان</div>
                     <CloseIcon onClick={closeModal} className="cursor-pointer" data-cy="close-add-to-wl-modal" />
                 </div>
                 <div className="p-4 text-1.2 ">
-                    <div className="flex bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg py-2 text-L-gray-450 dark:text-D-gray-450 font-semibold">
+                    <div className="flex bg-L-gray-300 dark:bg-D-gray-300 rounded-t-lg py-2 text-L-gray-600 dark:text-D-gray-600 font-semibold">
                         <div className="w-full flex items-center justify-center">عنوان دیده‌بان</div>
                         <div className="w-full flex items-center justify-center">عملیات</div>
                     </div>
@@ -109,7 +109,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                             return (
                                 <div
                                     key={watchlist.id}
-                                    className="flex  py-1.5 even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 text-L-gray-450 dark:text-D-gray-450"
+                                    className="flex  py-1.5 even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   text-L-gray-600 dark:text-D-gray-600"
                                 >
                                     <div className="w-full flex items-center justify-center">
                                         <span>{watchlist.watchListName}</span>
@@ -121,7 +121,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                                 width={23}
                                                 height={23}
                                                 onClick={() => deleteWatchListSymbol({ symbolISIN, watchlistId: watchlist.id })}
-                                                className="cursor-pointer text-L-error-150 dark:text-D-error-150 "
+                                                className="cursor-pointer text-L-error-200 dark:text-D-error-200 "
                                             />
                                         ) : (
                                             <EyePlusIcon
@@ -142,13 +142,13 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                     {isEditActive ? (
                         <div className="flex justify-center items-center w-full px-5 gap-2 h-full py-2">
                             <input
-                                className=" border w-full border-L-gray-350 h-full outline-L-primary-50 px-2"
+                                className=" border w-full border-L-gray-400 h-full outline-L-primary-50 px-2"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDownCapture={(e) => handleEditWatchlistName(e)}
                                 autoFocus={true}
                             />
-                            <button className=" bg-L-gray-250 h-full px-3 rounded-md " onClick={() => setIsEditActive(false)}>
+                            <button className=" bg-L-gray-300 h-full px-3 rounded-md " onClick={() => setIsEditActive(false)}>
                                 انصراف
                             </button>
                             <button

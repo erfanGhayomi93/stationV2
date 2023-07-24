@@ -52,7 +52,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
                                     <Fragment key={inx}>
                                         <Combo.DataSet
                                             key={inx}
-                                            className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                                            className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                                             label={item.customerTitle}
                                             value={item}
                                         >
