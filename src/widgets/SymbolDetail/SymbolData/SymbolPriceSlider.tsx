@@ -265,7 +265,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                             style={{ transform: `translateX(${config.firstTradedPrice}px)` }}
                             className={clsx('transition duration-300', styles.value)}
                         >
-                            <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="0.875rem" height="1.062rem" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.97656 11.0645L2.19958 6.43259L6.97656 1.80073L11.7535 6.43259L6.97656 11.0645Z"
                                     stroke="currentColor"
@@ -311,7 +311,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                             style={{ transform: `translateX(${config.lastTradedPrice}px)` }}
                             className={clsx('transition duration-300', styles.value)}
                         >
-                            <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="0.875rem" height="1.062rem" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6.97656 11.0645L2.19958 6.43259L6.97656 1.80073L11.7535 6.43259L6.97656 11.0645Z"
                                     fill="currentColor"
