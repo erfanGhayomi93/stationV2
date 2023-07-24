@@ -11,8 +11,6 @@ import Details from './tabs/Details';
 import Messages from './tabs/Messages';
 import Orders from './tabs/Orders';
 
-type ISocketAnswerSymbolData = Pick<ISymbolType, 'yesterdayClosingPrice' | 'highThreshold' | 'lastTradedPrice' | 'highestTradePriceOfTradingDay' | 'lowThreshold' | 'closingPrice' | 'lowestTradePriceOfTradingDay'>;
-
 
 const SymbolData = () => {
     //
@@ -23,12 +21,6 @@ const SymbolData = () => {
     } = useAppValues();
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
-        // select: (data) => ({
-        //     lastTradedPrice: data?.symbolData?.lastTradedPrice,
-        //     lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,
-        //     closingPrice: data?.symbolData?.closingPrice,
-        //     closingPriceVarPercent: data?.symbolData?.closingPriceVarPercent,
-        // }),
         select: (data: SymbolGeneralInfoType) => ({
             yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
             highThreshold: data?.symbolData?.highThreshold,
@@ -38,14 +30,6 @@ const SymbolData = () => {
             closingPrice: data?.symbolData?.closingPrice,
             lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
         }),
-        // onSuccess(data) {
-        //     pushEngine.subscribe<ISocketAnswerSymbolData>({
-        //         id : "SymbolPriceSlider" , 
-        //         mode : "MERGE" , 
-        //         isSnapShot : 'yes' ,
-        //         adapterName : "RamandRLCDData" ,
-        //     })
-        // },
     });
 
 

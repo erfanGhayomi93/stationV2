@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { pushEngine } from 'src/api/pushEngine';
-import apiRoutes from 'src/api/apiRoutes';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let MESSAGE_IDS: any = [];
@@ -251,6 +250,8 @@ const useMarketDepth = () => {
 
         if (hasMsgID(row[0])) return;
         storeMsgID(row[0]);
+
+        console.log("changedFields",changedFields)
 
         try {
             /**
