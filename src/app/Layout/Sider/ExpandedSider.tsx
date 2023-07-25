@@ -43,7 +43,10 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                         <button
                                             key={ind}
                                             className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                            onClick={itemChild.onClick}
+                                            onClick={() => {
+                                                itemChild?.onClick?.();
+                                                onClose(false);
+                                            }}
                                         >
                                             {itemChild.icon}
                                             {itemChild.label}
@@ -105,7 +108,10 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                                                 <button
                                                                     key={ind}
                                                                     className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                                                    onClick={item.onClick}
+                                                                    onClick={() => {
+                                                                        item?.onClick?.();
+                                                                        onClose(false);
+                                                                    }}
                                                                 >
                                                                     {item.icon}
                                                                     {item.label}
@@ -130,7 +136,10 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                                                 <button
                                                                     key={ind}
                                                                     className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                                                    onClick={item.onClick}
+                                                                    onClick={() => {
+                                                                        item?.onClick?.();
+                                                                        onClose(false);
+                                                                    }}
                                                                 >
                                                                     {item.icon}
                                                                     {item.label}
