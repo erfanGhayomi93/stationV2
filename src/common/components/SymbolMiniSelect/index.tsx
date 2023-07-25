@@ -84,7 +84,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 multiple={multiple}
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو نماد"
+                placeholder="جستجوی نماد"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
