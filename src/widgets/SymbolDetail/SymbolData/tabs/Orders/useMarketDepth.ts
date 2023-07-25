@@ -253,8 +253,6 @@ const useMarketDepth = () => {
         if (hasMsgID(row[0])) return;
         storeMsgID(row[0]);
 
-        console.log('rowBeatify', row);
-
         try {
             /**
              * Commands:
