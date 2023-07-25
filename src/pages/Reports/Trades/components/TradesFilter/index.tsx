@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AdvancedDatePicker, { DateType } from 'src/common/components/AdvancedDatePicker';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
-import Select, { SelectOption } from 'src/common/components/Select';
+import MultiSelect from 'src/common/components/MultiSelect';
+import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { FilterMinusIcon, FilterPlusIcon } from 'src/common/icons';
 
@@ -11,8 +12,8 @@ const TradesFilter = () => {
     //
     const { t } = useTranslation();
     const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
-    const [date, setDate] = useState<DateType>('')
-    console.log(date)
+    const [date, setDate] = useState<DateType>('');
+    console.log(date);
     return (
         <div className="bg-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-10 gap-4">
@@ -37,38 +38,29 @@ const TradesFilter = () => {
                     />
                 </FilterBlock>
                 <FilterBlock label="سمت :">
-                    <Select
-                        onChange={(selected: string) => {}}
+                    <MultiSelect
+                        onChange={(selected) => {}}
                         value={undefined}
                         // value={side}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-1.5 pr-3 pl-10"
-                    >
-                        {['buy', 'sell'].map((item: any, inx) => (
-                            <SelectOption
-                                key={inx}
-                                label={t('OrderSide.' + item)}
-                                value={item}
-                                className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
-                            />
-                        ))}
-                    </Select>
+                        options={[
+                            { value: 'buy', label: t('orderSide.buy') },
+                            { value: 'sell', label: t('orderSide.sell') },
+                        ]}
+                    />
                 </FilterBlock>
                 <FilterBlock label="زمان :">
                     <Select
-                        onChange={(selected: string) => {}}
+                        onChange={(selected) => {}}
                         value={undefined}
                         // value={side}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-1.5 pr-3 pl-10"
-                    >
-                        {['day', 'month', 'year', 'week', 'option'].map((item: any, inx) => (
-                            <SelectOption
-                                key={inx}
-                                label={t('OrderSide.' + item)}
-                                value={item}
-                                className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
-                            />
-                        ))}
-                    </Select>
+                        options={[
+                            { value: 'day', label: t('timeSheet.day') },
+                            { value: 'week', label: t('timeSheet.week') },
+                            { value: 'month', label: t('timeSheet.month') },
+                            { value: 'year', label: t('timeSheet.year') },
+                            { value: 'custom', label: t('timeSheet.custom') },
+                        ]}
+                    />
                 </FilterBlock>
                 <div className="col-span-2">
                     <FilterAction />

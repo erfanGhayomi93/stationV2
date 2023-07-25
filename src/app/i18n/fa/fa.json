@@ -42,6 +42,13 @@
         "day": "روز",
         "month": "ماه"
     },
+    "timeSheet": {
+        "day": "روز",
+        "week": "هفته",
+        "month": "ماه",
+        "year": "سال",
+        "custom": "دلخواه"
+    },
     "price_range_slider": {
 		"closing_price": "پایانی",
 		"last_traded_price": "آخرین",
@@ -83,5 +90,9 @@
         "SellQueueThreshold": "نمادهای در آستانه صف فروش",
         "FiveDaysPositive": "نمادهای 5 روز معاملاتی مثبت",
         "FiveDaysNegative": "نمادهای 5 روز معاملاتی منفی"
+    },
+    "orderSide": {
+        "buy": "خرید",
+        "sell": "فروش"
     }
 }

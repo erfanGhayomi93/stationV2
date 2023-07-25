@@ -1,9 +1,8 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 import { ExcelIcon, FilterIcon } from 'src/common/icons';
-import { sideOption } from 'src/widgets/Reports/components/FilterTable';
 
 type filterBasketType = {
     handleFilter: (data: filterStateType) => void;
@@ -95,18 +94,12 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                             <Select
                                 data-cy="basket-filter-input-side"
                                 onChange={(selected) => handleChange('side', selected)}
-                                value={t('OrderSide.' + dataFilter.side)}
-                                title=""
-                            >
-                                {sideOption.map((item, ind) => (
-                                    <SelectOption
-                                        key={ind}
-                                        label={t('OrderSide.' + item.value)}
-                                        value={item.value}
-                                        className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
-                                    />
-                                ))}
-                            </Select>
+                                value={dataFilter.side}
+                                options={[
+                                    { value: 'buy', label: t('orderSide.buy') },
+                                    { value: 'sell', label: t('orderSide.sell') },
+                                ]}
+                            />
                         </div>
                     </div>
                 </div>

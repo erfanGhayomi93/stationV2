@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 
 type FilterData = {
     FilterData: {
@@ -29,8 +29,16 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
                 />
             </div>
             <div className="w-[175px]">
-                <Select onChange={(selected) => handleChangeFilterData('side', selected)} value={t('OrderSide.' + FilterData.side)} title="سمت:">
-                    {sideOption.map((item, ind) => (
+                <Select
+                    onChange={(selected) => handleChangeFilterData('side', selected)}
+                    value={FilterData.side}
+                    title="سمت:"
+                    options={[
+                        { value: 'buy', label: t('orderSide.buy') },
+                        { value: 'sell', label: t('orderSide.sell') },
+                    ]}
+                />
+                {/* {sideOption.map((item, ind) => (
                         <SelectOption
                             key={ind}
                             label={t('OrderSide.' + item.value)}
@@ -38,7 +46,7 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
                             className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                         />
                     ))}
-                </Select>
+                </Select> */}
             </div>
         </div>
     );
