@@ -77,7 +77,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو حقیقی/حقوقی/گروه مشتری"
+                placeholder="جستجوی مشتری"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => setSelected(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}

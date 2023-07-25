@@ -94,5 +94,19 @@
     "orderSide": {
         "buy": "خرید",
         "sell": "فروش"
+    },
+    "FilterBoxAction": {
+        "Search": "جستجو",
+        "Remove": "حذف"
+    },
+    "FilterFieldLabel": {
+        "Customer": "مشتری",
+        "Symbol": "نماد",
+        "FromDate": "از تاریخ",
+        "ToDate": "تا تاریخ",
+        "Side": "سمت",
+        "CustomerType": "نوع مشتری",
+        "Time": "زمان"
     }
+    
 }

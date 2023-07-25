@@ -57,7 +57,7 @@ const MultiSelect: FC<IMultiSelectType> = ({
                         )}
                     </Listbox.Button>
                     <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-                        <Listbox.Options className="absolute  z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic dark:border dark:   py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text">
+                        <Listbox.Options className="absolute border border-L-gray-400 dark:border-D-gray-400 z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic shadow-md py-1 text-base focus:outline-none">
                             {options?.map((x, ind) => (
                                 <Listbox.Option
                                     key={ind}
@@ -65,7 +65,7 @@ const MultiSelect: FC<IMultiSelectType> = ({
                                         clsx(
                                             'relative',
                                             listClassName,
-                                            active ? 'bg-L-primary-50 dark:bg-D-primary-50 text-L-basic  ' : 'text-L-gray-500 dark:text-D-gray-700',
+                                            active ? 'bg-L-primary-50 dark:bg-D-primary-50 text-L-basic  ' : 'text-L-gray-500 dark:text-D-gray-700 even:bg-L-gray-100 dark:even:bg-D-gray-100',
                                         )
                                     }
                                     value={x.value}

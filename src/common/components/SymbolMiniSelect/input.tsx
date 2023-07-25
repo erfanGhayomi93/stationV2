@@ -43,7 +43,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="h-full grow w-full px-1 outline-none truncate pl-8 border-b border-transparent  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700  duration-150 "
+                    className="h-full text-xs grow w-full px-1 outline-none truncate pl-8 border-b border-transparent  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700  duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
                 />

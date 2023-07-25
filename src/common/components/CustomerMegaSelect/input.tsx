@@ -34,14 +34,14 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     };
 
     return (
-        <div className="bg-white border rounded-md flex items-center gap-1 h-8 pl-1 text-1.3  dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
+        <div className="bg-L-basic dark:bg-D-basic border rounded-md flex items-center border-L-gray-400 dark:border-D-gray-400 gap-1 h-8 pl-1 text-xs  dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
             <div className="pr-2">
                 <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
             </div>
             <div onMouseOver={() => setKbd(true)} onMouseLeave={() => setKbd(false)} className="flex items-center w-full relative">
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="h-full w-full px-1 outline-none border-b border-transparent"
+                    className="bg-L-basic dark:bg-D-basic h-full text-xs w-full px-1 outline-none border-transparent text-D-basic dark:text-L-basic"
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
 
@@ -66,7 +66,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
             >
                 <PlusIcon className="rotate-45 text-white " />
             </div>
-            <div hidden={!loading}>
+            <div hidden={loading}>
                 <SpinnerIcon className="text-L-gray-500 dark:text-D-gray-500" />
             </div>
             <hr className="bg-L-gray-400 dark:bg-D-gray-400  w-[1px] ml-1  h-7" />
