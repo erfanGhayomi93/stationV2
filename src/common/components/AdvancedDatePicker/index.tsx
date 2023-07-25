@@ -74,7 +74,7 @@ const DatePickerInput = ({ value, openCalendar, handleValueChange, closeCalendar
         handleValueChange && handleValueChange(e);
     }, []);
     return (
-        <div className="w-full flex items-center rounded-md border overflow-hidden dark:focus-within:border-D-secondary-50 focus-within:border-L-secondary-50">
+        <div className="w-full flex text-xs items-center rounded-md border border-L-gray-400 dark:border-D-gray-400 overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
             <Input
                 disabled={disabled}
                 value={value}

@@ -127,6 +127,10 @@ module.exports = {
                 2.4: '1.5rem',
             },
             gridTemplateColumns: {
+                '14': 'repeat(14, minmax(0, 1fr))',
+                '16': 'repeat(16, minmax(0, 1fr))',
+                '18': 'repeat(18, minmax(0, 1fr))',
+                '20': 'repeat(20, minmax(0, 1fr))',
                 'min-one': '1fr min-content;',
                 'one-min': 'min-content 1fr;',
             },

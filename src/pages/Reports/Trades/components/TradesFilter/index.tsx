@@ -15,40 +15,15 @@ const TradesFilter = () => {
     const [date, setDate] = useState<DateType>('');
     console.log(date);
     return (
-        <div className="bg-gray-100 rounded-md px-4 py-2 flex">
-            <div className="w-full h-full grid grid-cols-10 gap-4">
-                <FilterBlock label="مشتری" className="col-span-2">
+        <div className="bg-gray-100 dark:bg-L-gray-700 rounded-md px-4 py-2 flex">
+            <div className="w-full h-full grid grid-cols-20 gap-4">
+                <FilterBlock label={t("FilterFieldLabel.Customer")} className="col-span-3">
                     <CustomerMegaSelect onChange={(v) => console.log(v)} />
                 </FilterBlock>
-                <FilterBlock label="نماد" className="col-span-2">
+                <FilterBlock label={t("FilterFieldLabel.Symbol")} className="col-span-3">
                     <SymbolMiniSelect setSelected={() => {}} selected={[]} />
                 </FilterBlock>
-                <FilterBlock label="از تاریخ :">
-                    <AdvancedDatePicker
-                        value={date}
-                        onChange={(selectedDates) => setDate(selectedDates)}
-                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                    />
-                </FilterBlock>
-                <FilterBlock label="تا تاریخ :">
-                    <AdvancedDatePicker
-                        value={date}
-                        onChange={(selectedDates: any) => setDate(selectedDates)}
-                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                    />
-                </FilterBlock>
-                <FilterBlock label="سمت :">
-                    <MultiSelect
-                        onChange={(selected) => {}}
-                        value={undefined}
-                        // value={side}
-                        options={[
-                            { value: 'buy', label: t('orderSide.buy') },
-                            { value: 'sell', label: t('orderSide.sell') },
-                        ]}
-                    />
-                </FilterBlock>
-                <FilterBlock label="زمان :">
+                <FilterBlock label={t("FilterFieldLabel.Time")}>
                     <Select
                         onChange={(selected) => {}}
                         value={undefined}
@@ -62,7 +37,47 @@ const TradesFilter = () => {
                         ]}
                     />
                 </FilterBlock>
-                <div className="col-span-2">
+                <FilterBlock label={t("FilterFieldLabel.FromDate")}>
+                    <AdvancedDatePicker
+                        value={date}
+                        onChange={(selectedDates) => setDate(selectedDates)}
+                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
+                    />
+                </FilterBlock>
+                <FilterBlock label={t("FilterFieldLabel.ToDate")}>
+                    <AdvancedDatePicker
+                        value={date}
+                        onChange={(selectedDates: any) => setDate(selectedDates)}
+                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
+                    />
+                </FilterBlock>
+                <FilterBlock label={t("FilterFieldLabel.Side")}>
+                    <MultiSelect
+                        onChange={(selected) => {}}
+                        value={undefined}
+                        // value={side}
+                        options={[
+                            { value: 'buy', label: t('orderSide.buy') },
+                            { value: 'sell', label: t('orderSide.sell') },
+                        ]}
+                    />
+                </FilterBlock>
+                <FilterBlock label={t("FilterFieldLabel.CustomerType")} className="col-span-3">
+                    <MultiSelect
+                        onChange={(selected) => {}}
+                        value={undefined}
+                        // value={side}
+                        options={[
+                            { value: 'CustomerTag', label: t('CustomerType.CustomerTag') },
+                            { value: 'Legal', label: t('CustomerType.Legal') },
+                            { value: 'Natural', label: t('CustomerType.Natural') },
+                            { value: 'GTCustomerGroup 0', label: t('CustomerType.GTCustomerGroup 0') },
+                            { value: 'GTCustomerGroup', label: t('CustomerType.GTCustomerGroup') },
+                            { value: 'TraderGroup', label: t('CustomerType.TraderGroup') },
+                        ]}
+                    />
+                </FilterBlock>
+                <div className="col-span-3">
                     <FilterAction />
                 </div>
             </div>
@@ -77,16 +92,16 @@ const TradesFilter = () => {
                 </button>
                 <button
                     onClick={() => {}}
-                    className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1.5 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
+                    className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                 >
-                    جستجو
+                    {t("FilterBoxAction.Search")}
                 </button>
 
                 <button
                     onClick={() => {}}
-                    className="bg-L-primary-100  whitespace-nowrap w-[72px] dark:bg-D-primary-100 py-1.5 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
+                    className="bg-L-primary-100  whitespace-nowrap w-[72px] dark:bg-D-primary-100 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
                 >
-                    حذف
+                    {t("FilterBoxAction.Remove")}
                 </button>
             </div>
         );
@@ -97,8 +112,8 @@ export default TradesFilter;
 
 const FilterBlock = ({ children, label, className }: any) => {
     return (
-        <div className={clsx('flex gap-2 items-center text-1.4 grow', className)}>
-            <span className="text-1.3 pr-0.5 text-L-gray-500 dark:text-D-gray-700">{label}</span>
+        <div className={clsx('flex gap-2 items-center grow col-span-2', className)}>
+            <span className="text-xs pr-0.5 text-L-gray-500 dark:text-D-gray-700">{label}:</span>
             <div className="flex-1">{children}</div>
         </div>
     );
