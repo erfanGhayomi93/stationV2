@@ -1,32 +1,41 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AdvancedDatePicker, { DateType } from 'src/common/components/AdvancedDatePicker';
+import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { FilterMinusIcon, FilterPlusIcon } from 'src/common/icons';
+import { TradesFilterTypes } from '../..';
 
-const TradesFilter = () => {
+interface IProps {
+    params: TradesFilterTypes;
+    setParams: React.Dispatch<React.SetStateAction<TradesFilterTypes>>;
+}
+
+const TradesFilter = ({ params, setParams }: IProps) => {
     //
     const { t } = useTranslation();
-    const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false);
-    const [date, setDate] = useState<DateType>('');
-    console.log(date);
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
+
+    const handleValueCahnge = (part: keyof TradesFilterTypes, value: any) => {
+        setParams((pre) => ({ ...pre, [part]: value }));
+    };
+
     return (
         <div className="bg-gray-100 dark:bg-L-gray-700 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
-                <FilterBlock label={t("FilterFieldLabel.Customer")} className="col-span-3">
-                    <CustomerMegaSelect onChange={(v) => console.log(v)} />
+                <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
+                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge("customers", selected)}/>
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.Symbol")} className="col-span-3">
-                    <SymbolMiniSelect setSelected={() => {}} selected={[]} />
+                <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
+                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge("symbols", selected)} selected={params.symbols} />
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.Time")}>
+                <FilterBlock label={t('FilterFieldLabel.Time')}>
                     <Select
-                        onChange={(selected) => {}}
-                        value={undefined}
+                        onChange={(selected) => handleValueCahnge('time', selected)}
+                        value={params.time}
                         // value={side}
                         options={[
                             { value: 'day', label: t('timeSheet.day') },
@@ -37,24 +46,24 @@ const TradesFilter = () => {
                         ]}
                     />
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.FromDate")}>
+                <FilterBlock label={t('FilterFieldLabel.FromDate')}>
                     <AdvancedDatePicker
-                        value={date}
-                        onChange={(selectedDates) => setDate(selectedDates)}
+                        value={params.fromDate}
+                        onChange={(selectedDates) => handleValueCahnge('fromDate', selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.ToDate")}>
+                <FilterBlock label={t('FilterFieldLabel.ToDate')}>
                     <AdvancedDatePicker
-                        value={date}
-                        onChange={(selectedDates: any) => setDate(selectedDates)}
+                        value={params.toDate}
+                        onChange={(selectedDates: any) => handleValueCahnge('toDate', selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.Side")}>
+                <FilterBlock label={t('FilterFieldLabel.Side')}>
                     <MultiSelect
-                        onChange={(selected) => {}}
-                        value={undefined}
+                        onChange={(selected) => handleValueCahnge('side', selected)}
+                        value={params.side}
                         // value={side}
                         options={[
                             { value: 'buy', label: t('orderSide.buy') },
@@ -62,10 +71,10 @@ const TradesFilter = () => {
                         ]}
                     />
                 </FilterBlock>
-                <FilterBlock label={t("FilterFieldLabel.CustomerType")} className="col-span-3">
+                <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
                     <MultiSelect
-                        onChange={(selected) => {}}
-                        value={undefined}
+                        onChange={(selected) => handleValueCahnge('customerType', selected)}
+                        value={params.customerType}
                         // value={side}
                         options={[
                             { value: 'CustomerTag', label: t('CustomerType.CustomerTag') },
@@ -94,14 +103,14 @@ const TradesFilter = () => {
                     onClick={() => {}}
                     className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                 >
-                    {t("FilterBoxAction.Search")}
+                    {t('FilterBoxAction.Search')}
                 </button>
 
                 <button
                     onClick={() => {}}
                     className="bg-L-primary-100  whitespace-nowrap w-[72px] dark:bg-D-primary-100 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
                 >
-                    {t("FilterBoxAction.Remove")}
+                    {t('FilterBoxAction.Remove')}
                 </button>
             </div>
         );
