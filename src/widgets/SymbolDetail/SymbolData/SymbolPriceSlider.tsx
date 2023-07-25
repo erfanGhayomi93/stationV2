@@ -45,10 +45,6 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
         offsetRight: 0,
     });
 
-    useEffect(() => {
-        console.log('config', config);
-    }, [config]);
-
     const sepNumbers = (num: number | string): string => {
         if (typeof num === 'number') num = String(num);
 
