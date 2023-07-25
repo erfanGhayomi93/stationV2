@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import CheckColumnShow from '../CheckColumnShow';
@@ -139,9 +139,10 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                         <div className="grow min-w-[12.5rem]">
                             <Select
                                 onChange={(select) => setDefaultWatchlist(select as any)}
-                                value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
-                            >
-                                {defaultWatchlists?.map((item, inx) => (
+                                value={state.selectedDefaultWatchlist}
+                                options={defaultWatchlists?.map((item) => ({value: item, label: t('defaultWlOption.' + item)}))}
+                            />
+                                {/* {defaultWatchlists?.map((item, inx) => (
                                     <SelectOption
                                         key={inx}
                                         label={t('defaultWlOption.' + item)}
@@ -149,7 +150,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                                         className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                                     />
                                 ))}
-                            </Select>
+                            </Select> */}
                         </div>
                     </>
                 )}

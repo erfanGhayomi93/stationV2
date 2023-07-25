@@ -17,7 +17,7 @@ interface IMultiSelectType {
 
 interface ISelectOptionType {
     value: number | string;
-    label: string | JSX.Element;
+    label: string;
 }
 
 const MultiSelect: FC<IMultiSelectType> = ({
@@ -39,7 +39,7 @@ const MultiSelect: FC<IMultiSelectType> = ({
                 <div className="relative  w-full ">
                     <Listbox.Button
                         className={clsx(
-                            'h-full relative flex justify-between w-full dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100 cursor-default text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
+                            'h-8 text-xs cursor-pointer relative flex justify-between w-full dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
                             inputClassName
                                 ? inputClassName
                                 : ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-1.5 pr-3 pl-10  ',
@@ -50,7 +50,7 @@ const MultiSelect: FC<IMultiSelectType> = ({
                             <span className="block w-full text-right ltr truncate text-L-gray-500 dark:text-D-gray-500">
                                 <>{label}</>
                                 {value.length > 1 && <span className="mr-1">{value.length - 1}+</span>}
-                                <span className="">{value[0]}</span>
+                                <span className="">{options.find((op) => op.value === value[0])?.label}</span>
                             </span>
                         ) : (
                             <span className="block  w-full text-right truncate text-L-gray-500 dark:text-D-gray-500">{placeholder || ' '}</span>
@@ -73,7 +73,7 @@ const MultiSelect: FC<IMultiSelectType> = ({
                                     {({ selected }) => {
                                         return (
                                             <div className="flex gap-1 p-2 select-none cursor-pointer">
-                                                <input id={`${x.value}`} type="checkbox" checked={selected} onChange={() => {}} />
+                                                <input type="checkbox" checked={selected} onChange={() => {}} />
 
                                                 <span className={`block truncate text-xs`}>{x.label}</span>
                                             </div>

@@ -1,12 +1,11 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import i18next from 'i18next';
 import { FormEvent, HTMLAttributes, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOrderLists } from 'src/app/queries/order';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { ExcelIcon, FilterIcon } from 'src/common/icons';
 import { REPORT_SIDE_OPTIONS, REPORT_STATUS_OPTIONS } from 'src/constant/report';
@@ -113,37 +112,18 @@ export const OrderFilter = () => {
                     <FilterBlock label="وضعیت سفارش :">
                         <Select
                             onChange={(selected: string) => setStatus(selected as unknown as OrderStatus)}
-                            value={status ? i18next.t('OrderState.' + status) : undefined}
-                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md py-1.5 pr-3 pl-10"
+                            value={status}
+                            options={REPORT_STATUS_OPTIONS.map((item) => ({ ...item, label: t('orderState.' + item.value) }))}
                             // value={status}
-                        >
-                            {REPORT_STATUS_OPTIONS.map((item, inx) => (
-                                <SelectOption
-                                    key={inx}
-                                    label={t('OrderState.' + item.value)}
-                                    value={item.value}
-                                    className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
-                                />
-                            ))}
-                        </Select>
+                        />
                     </FilterBlock>
 
                     <FilterBlock label="سمت سفارش :">
                         <Select
                             onChange={(selected: string) => setSide(selected as unknown as OrderSideType)}
-                            value={side ? i18next.t('OrderSide.' + side) : undefined}
-                            // value={side}
-                            inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-1.5 pr-3 pl-10"
-                        >
-                            {REPORT_SIDE_OPTIONS.map((item, inx) => (
-                                <SelectOption
-                                    key={inx}
-                                    label={t('OrderSide.' + item.value)}
-                                    value={item.value}
-                                    className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4"
-                                />
-                            ))}
-                        </Select>
+                            value={side}
+                            options={REPORT_SIDE_OPTIONS.map((item) => ({ ...item, label: t('orderSide.' + item.value) }))}
+                        />
                     </FilterBlock>
                 </div>
                 <div className="grid   text-1.3  gap-2 grid-cols-2 auto-rows-min 2xl:w-2/12 md:w-3/12  ">
