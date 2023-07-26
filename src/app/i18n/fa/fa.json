@@ -106,7 +106,18 @@
         "ToDate": "تا تاریخ",
         "Side": "سمت",
         "CustomerType": "نوع مشتری",
-        "Time": "زمان"
+        "Time": "زمان",
+        "MarketUnit": "نوع اوراق",
+        "FromCost": "از مبلغ",
+        "ToCost": "تا مبلغ",
+        "TransactionType": "نوع تراکنش",
+        "AggregateAble": "تجمیعی"
+    },
+    "TransactionTypes" :{
+        "buy": "خرید",
+        "sell": "فروش",
+        "deposit": "واریز",
+        "withdrawal": "برداشت"
     }
     
 }

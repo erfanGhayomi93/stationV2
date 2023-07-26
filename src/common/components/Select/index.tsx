@@ -5,7 +5,7 @@ import { ChevronIcon } from 'src/common/icons';
 
 interface ISelectType {
     onChange: (value: any) => void;
-    value?: string;
+    value?: string | boolean | number;
     placeholder?: string;
     label?: JSX.Element;
     title?: string;
@@ -15,7 +15,7 @@ interface ISelectType {
 }
 
 interface ISelectOptionType {
-    value: string | number;
+    value: string | number | boolean;
     label: string;
 }
 
@@ -44,7 +44,7 @@ const Select: FC<ISelectType> = ({
                         )}
                     >
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
-                        {value ? (
+                        {value !== null && value !== undefined ? (
                             <span className="block w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500">
                                 <>{label}</>
                                 {options?.find((op) => op.value === value)?.label}

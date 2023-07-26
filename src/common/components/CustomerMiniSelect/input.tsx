@@ -8,10 +8,11 @@ import GroupAnimationButton from '../GroupButton';
 interface IInputSearchType {
     loading: boolean;
     onTypeChange: Dispatch<SetStateAction<ICustomerMultiTypeType>>;
+    filterCustomerType?: boolean;
 }
 type Item = { value: string; label: string };
 
-const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
+const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange, filterCustomerType }) => {
     const {
         setPanel,
         setValue,
@@ -42,18 +43,29 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange }) => {
     ];
 
     return (
-        <div className="bg-L-basic dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
+        <div className="bg-L-basic h-8 dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
             <div className="flex items-center gap-1 relative grow">
-                <div className="px-0.5">
-                    <GroupAnimationButton items={items} width={44} onSelect={(value) => handleLegalInformation(value as ICustomerMultiTypeType)} />
-                </div>
-                <hr className="bg-L-gray-400 dark:bg-D-gray-400  w-[1px] ml-1  h-7" />
+                {filterCustomerType ? (
+                    <>
+                        <div className="px-0.5">
+                            <GroupAnimationButton
+                                items={items}
+                                width={44}
+                                onSelect={(value) => handleLegalInformation(value as ICustomerMultiTypeType)}
+                            />
+                        </div>
+                        <hr className="bg-L-gray-400 dark:bg-D-gray-400  w-[1px] ml-1  h-7" />
+                    </>
+                ) : (
+                    <></>
+                )}
+
                 <div className="pr-2">
                     <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}
-                    className="py-1.5 grow w-full px-1 outline-none truncate pl-8 border-b border-transparent bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700  duration-150 "
+                    className="text-xs h-full grow w-full px-1 outline-none truncate pl-8 border-b border-transparent bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700  duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
                 />

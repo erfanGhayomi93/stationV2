@@ -8,11 +8,12 @@ import CustomerSelected from '../SearchResult/CustomerSelected';
 import InputSearch from './input';
 
 interface ICustomerMiniSelectType {
+    filterCustomerType?: boolean;
     setSelected: (selected: IGoMultiCustomerType[]) => void;
     selected: IGoMultiCustomerType[];
 }
 
-const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected }) => {
+const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected, filterCustomerType= true }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
@@ -23,7 +24,10 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
         isLoading,
         isFetching,
     } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
-        { term, type: [type] },
+        {
+            term,
+            ...(filterCustomerType ? { type: [type] } : {}),
+        },
         {
             onSuccess: () => {
                 setPanel(true);
@@ -70,7 +74,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو مشتری"
+                placeholder="جستجوی مشتری"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
@@ -81,7 +85,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isFetching} />
+                    <InputSearch onTypeChange={setType} loading={isFetching} filterCustomerType={filterCustomerType}/>
 
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />

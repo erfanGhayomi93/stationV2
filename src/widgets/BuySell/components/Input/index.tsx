@@ -17,13 +17,13 @@ const TradeInput: FC<ITradeInputType> = ({ disabled, value, onChange, placeholde
         value <= max && onChange(value);
     };
     return (
-        <div className={`flex items-center w-100 rounded-sm px-2 ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
+        <div className={`flex items-center h-full rounded-sm px-2 ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
             <div className="grow flex items-center justify-center flex-row-reverse ">
                 <input
                     dir="ltr"
                     disabled={disabled}
                     type={type === 'percent' ? 'number' : 'text'}
-                    className="w-full text-left h-full px-2 py-2 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700"
+                    className="w-full text-left h-full px-2 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700"
                     onChange={handleChange}
                     value={type === 'percent' ? value : seprateNumber(value)}
                     step={type === 'percent' ? '.01' : undefined}
