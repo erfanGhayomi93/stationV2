@@ -42,7 +42,7 @@ const CustomerSearch = () => {
 
                 return filteredData;
             },
-        }
+        },
     );
 
     const { data: defaultCustomer } = useDefaultCustomerList({
@@ -84,7 +84,7 @@ const CustomerSearch = () => {
     };
 
     const ItemRenderer = (props: any) => {
-        return <div className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300" {...props}></div>;
+        return <div className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none  " {...props}></div>;
     };
     //
     return (
@@ -100,8 +100,8 @@ const CustomerSearch = () => {
                                 className={clsx(
                                     ' outline-none duration-200 disabled:opacity-60 relative  border-solid  border px-2 py-1 rounded-md',
                                     !state.isSelectedActive && itemType === type
-                                        ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
-                                        : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
+                                        ? 'bg-L-gray-300 dark:bg-D-gray-300 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
+                                        : 'bg-L-gray-300 dark:bg-D-gray-300 border-transparent dark:text-D-gray-600 text-L-gray-600',
                                 )}
                             >
                                 <CounterBalloon count={groupedCustomer ? groupedCustomer[itemType].length : 0} />
@@ -113,8 +113,8 @@ const CustomerSearch = () => {
                             className={clsx(
                                 ' duration-200 relative outline-none border-solid border px-2 py-1 rounded-md',
                                 state.isSelectedActive
-                                    ? 'bg-L-gray-250 dark:bg-D-gray-250 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
-                                    : 'bg-L-gray-250 dark:bg-D-gray-250 border-transparent dark:text-D-gray-450 text-L-gray-450',
+                                    ? 'bg-L-gray-300 dark:bg-D-gray-300 border-L-primary-50 text-L-primary-50 dark:text-D-primary-50'
+                                    : 'bg-L-gray-300 dark:bg-D-gray-300 border-transparent dark:text-D-gray-600 text-L-gray-600',
                             )}
                         >
                             <CounterBalloon count={selectedCustomers.length} />
@@ -133,7 +133,7 @@ const CustomerSearch = () => {
                                 ? selectedCustomers
                                 : (groupedCustomer && groupedCustomer[type]) || (defaultCustomer && defaultCustomer[type])
                         }
-                        className="border-L-gray-300 border rounded-lg rounded-t-none"
+                        className="  border rounded-lg rounded-t-none"
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{
                             Item: ItemRenderer,

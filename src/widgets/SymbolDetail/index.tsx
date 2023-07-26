@@ -66,7 +66,6 @@ const SymbolDetail = () => {
 
                         tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
                         tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
-                        console.log("symbolData", symbolData);
                         return { ...oldData, ...tempObj };
                     });
                 },

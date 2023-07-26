@@ -58,8 +58,8 @@ const ChangeCellRenderer = ({ value, valueFormatted, tooltip = false }: ChangeCe
     return (
         <div
             className={clsx('flex justify-center items-center dir-ltr w-full gap-8', {
-                'text-L-success-150 dark:text-D-success-150': cellValue > changedValue,
-                'text-L-error-150 dark:text-D-error-150': cellValue < changedValue,
+                'text-L-success-200 dark:text-D-success-200': cellValue > changedValue,
+                'text-L-error-200 dark:text-D-error-200': cellValue < changedValue,
             })}
         >
             <span

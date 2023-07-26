@@ -1,7 +1,6 @@
-import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 
 type FilterData = {
     FilterData: {
@@ -15,14 +14,14 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
     const { t } = useTranslation();
     return (
         <div className="pb-4 flex items-center gap-8">
-            <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md w-[136px]">
+            <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md w-[136px]">
                 <Input
                     placeholder="مشتری:"
                     value={FilterData.customerTitle}
                     onChange={(e) => handleChangeFilterData('customerTitle', e.target.value)}
                 />
             </div>
-            <div className="border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md w-[136px]">
+            <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md w-[136px]">
                 <Input
                     placeholder="نام نماد:"
                     value={FilterData.symbolTitle}
@@ -32,10 +31,14 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
             <div className="w-[175px]">
                 <Select
                     onChange={(selected) => handleChangeFilterData('side', selected)}
-                    value={t('OrderSide.' + FilterData.side)}
+                    value={FilterData.side}
                     title="سمت:"
-                >
-                    {sideOption.map((item, ind) => (
+                    options={[
+                        { value: 'buy', label: t('orderSide.buy') },
+                        { value: 'sell', label: t('orderSide.sell') },
+                    ]}
+                />
+                {/* {sideOption.map((item, ind) => (
                         <SelectOption
                             key={ind}
                             label={t('OrderSide.' + item.value)}
@@ -43,7 +46,7 @@ function FilterTable({ FilterData, handleChangeFilterData }: FilterData) {
                             className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                         />
                     ))}
-                </Select>
+                </Select> */}
             </div>
         </div>
     );
@@ -53,9 +56,4 @@ export default FilterTable;
 
 export const sideOption: {
     value: string;
-}[] = [
-    {value : "All"},
-    {value : "Buy"},
-    {value : "Sell"},
-]
-
+}[] = [{ value: 'All' }, { value: 'Buy' }, { value: 'Sell' }];

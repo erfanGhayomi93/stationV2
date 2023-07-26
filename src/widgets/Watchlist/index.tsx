@@ -20,18 +20,17 @@ type Props = {};
 const Watchlists = (props: Props) => {
     const appDispatch = useAppDispatch();
     const {
-        state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber , marketUnit , sector },
+        state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber, marketUnit, sector },
         setState,
     } = useWatchListState();
     const { columns } = UseHandleShowColumn();
 
     const { data: defaultWatchlistSymbols } = useDefaultWatchlistSymbolsQuery(selectedDefaultWatchlist);
     const { data: watchlistSymbols } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlist, {
-        select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol }))
+        select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol })),
     });
-    const { data, isFetching } = useGetMarketSymbolQuery({ PageNumber , marketUnit: marketUnit, SectorCode: sector.id });
+    const { data, isFetching } = useGetMarketSymbolQuery({ PageNumber, marketUnit: marketUnit, SectorCode: sector.id });
     const { symbols, totalCount } = data?.result || {};
-
 
     const handleChangePaginator = (PageNumber: number) => {
         setState({ value: PageNumber, type: 'SET_PageNumber' });
@@ -47,7 +46,7 @@ const Watchlists = (props: Props) => {
     return (
         <div className="h-full grid grid-rows-min-one py-3 px-6">
             <div>
-                <h1 className="text-L-gray-500 dark:text-D-gray-500 font-medium text-2xl py-4">دیده‌بان</h1>
+                <h1 className="text-L-gray-500 dark:text-D-gray-700 font-medium text-2xl py-4">دیده‌بان</h1>
                 <WatchlistController {...{ columns }} />
             </div>
             <WidgetLoading spining={isFetching}>
@@ -56,7 +55,7 @@ const Watchlists = (props: Props) => {
                     columnDefs={columns}
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                     defaultColDef={defaultCols}
-                    rowSelection="single" 
+                    rowSelection="single"
                 />
             </WidgetLoading>
 

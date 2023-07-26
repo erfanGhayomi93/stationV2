@@ -31,7 +31,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                 items: ['173_1890078169235', '173_All'],
                 fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
                 onFieldsUpdate: (item) => {
-                    console.log('item', item);
+                    // console.log('item', item);
                 },
             });
         },
@@ -50,7 +50,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
     return (
         <Modal isOpen={flagToggle} onClose={setFlagToggle} className="min-h-[40rem] w-[800px] h-[500] rounded-md grid">
             <div className="grid grid-rows-min-one">
-                <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                     <p>پیام ها</p>
                     <CloseIcon onClick={setFlagToggle} className="cursor-pointer" />
                 </div>
@@ -60,7 +60,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                     //  onChange={setSelectedIndex}
                     >
                         <Tab.List>
-                            <div className="border-b border-L-gray-350 dark:border-D-gray-350 flex px-5">
+                            <div className="border-b border-L-gray-400 dark:border-D-gray-400 flex px-5">
                                 {tabList.map((item, ind) => (
                                     <Tab as={Fragment} key={ind}>
                                         {({ selected }) => (
@@ -69,7 +69,7 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                                     'ml-4 border-b-2 pb-2': true,
                                                     'border-L-primary-50 dark:border-D-primary-50  text-L-primary-50 pb-2 dark:text-D-primary-50':
                                                         selected,
-                                                    'border-transparent text-L-gray-500 dark:text-D-gray-500': !selected,
+                                                    'border-transparent text-L-gray-500 dark:text-D-gray-700': !selected,
                                                 })}
                                             >
                                                 {item.tab} ({ind === 1 || ind === 2 ? '0' : countNumberSupervisorMessage})

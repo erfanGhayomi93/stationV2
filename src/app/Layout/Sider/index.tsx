@@ -4,7 +4,18 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
-import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, OrdersIcon, QuitIcon, TradesIcon, TurnoverIcon } from 'src/common/icons';
+import {
+    BasketIcon,
+    Envelope2Icon,
+    EyeFrameIcon,
+    FileIcon,
+    HelpIcon,
+    HomeIcon,
+    OrdersIcon,
+    QuitIcon,
+    TradesIcon,
+    TurnoverIcon,
+} from 'src/common/icons';
 import { logOutReq } from '../Header/UserActions';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
@@ -68,7 +79,7 @@ const Sider = () => {
             },
             {
                 icon: <FileIcon height={20} width={20} />,
-                label: 'گزارشات',
+                label: 'سفارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
@@ -170,7 +181,7 @@ const Sider = () => {
                 setFlagToggle={tooggleSlider}
                 countNumberSupervisorMessage={countNumberSupervisorMessage}
             />
-            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
                 <div className="flex flex-col items-center gap-5">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>
@@ -180,11 +191,7 @@ const Sider = () => {
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
                                 <Tippy key={ind} content={item.label} className="text-xs" placement="left">
-                                    <button
-                                        data-cy={item.id}
-                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
-                                        onClick={item.onClick}
-                                    >
+                                    <button data-cy={item.id} className="hover:bg-  hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
                                         <>{item.icon}</>
                                     </button>
                                 </Tippy>
@@ -195,11 +202,7 @@ const Sider = () => {
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
                                 <Tippy key={ind} content={item.label} className="text-xs" placement="left">
-                                    <button
-                                        data-cy={item.id}
-                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
-                                        onClick={item.onClick}
-                                    >
+                                    <button data-cy={item.id} className="hover:bg-  hover:text-white text-menu p-3 rounded-md" onClick={item.onClick}>
                                         {item.icon}
                                     </button>
                                 </Tippy>

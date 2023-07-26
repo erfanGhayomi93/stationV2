@@ -8,11 +8,12 @@ import CustomerSelected from '../SearchResult/CustomerSelected';
 import InputSearch from './input';
 
 interface ICustomerMiniSelectType {
+    filterCustomerType?: boolean;
     setSelected: (selected: IGoMultiCustomerType[]) => void;
     selected: IGoMultiCustomerType[];
 }
 
-const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected }) => {
+const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected, filterCustomerType= true }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
@@ -23,7 +24,10 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
         isLoading,
         isFetching,
     } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
-        { term, type: [type] },
+        {
+            term,
+            ...(filterCustomerType ? { type: [type] } : {}),
+        },
         {
             onSuccess: () => {
                 setPanel(true);
@@ -70,7 +74,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو مشتری"
+                placeholder="جستجوی مشتری"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
@@ -81,7 +85,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
                 min={3}
             >
                 <div>
-                    <InputSearch onTypeChange={setType} loading={isFetching} />
+                    <InputSearch onTypeChange={setType} loading={isFetching} filterCustomerType={filterCustomerType}/>
 
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
@@ -98,8 +102,8 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {isFetching && (
-                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
-                    <div className="flex items-center justify-center gap-2 text-L-gray-400">
+                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700">
+                    <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
                     </div>
@@ -113,7 +117,7 @@ export function MinLen({ min }: { min: boolean }) {
     return (
         <>
             {min && (
-                <div className="p-5 flex items-center text-1.2 justify-center w-full h-full bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
+                <div className="p-5 flex items-center text-1.2 justify-center w-full h-full bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700">
                     حداقل سه کاراکتر وارد نمایید.
                 </div>
             )}

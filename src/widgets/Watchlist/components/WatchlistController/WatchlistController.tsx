@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import CheckColumnShow from '../CheckColumnShow';
@@ -63,14 +63,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                     <button
                         onClick={() => setActiveWatchlist(0)}
                         data-actived={state.selectedWatchlist === 0}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
                     >
                         کل بازار
                     </button>
                     <button
                         onClick={() => setActiveWatchlist(1)}
                         data-actived={state.selectedWatchlist === 1}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
                     >
                         دیده بان رامند
                     </button>
@@ -82,7 +82,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                                     onClick={() => setActiveWatchlist(watchlist.id)}
                                     key={watchlist.id}
                                     data-actived={watchlist.id === state.selectedWatchlist}
-                                    className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                                    className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
                                 >
                                     {watchlist.watchListName}
                                 </button>
@@ -95,7 +95,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                             onClick={() => setIsAddActive(true)}
                             data-actived={isAddActive}
                             data-cy="add-watchlist"
-                            className="text-L-primary-50 actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                            className="text-L-primary-50 actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-primary-50 hover:bg-L-gray-300 dark:hover:bg-D-gray-300 outline-none"
                         >
                             <PlusIcon />
                         </button>
@@ -107,7 +107,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                         >
                             {/* <button
                             type={'submit'}
-                            className="text-L-success-150 rounded-md dark:text-D-success-150 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                            className="text-L-success-200 rounded-md dark:text-D-success-200 hover:bg-L-gray-300 dark:hover:bg-D-gray-300 outline-none"
                         >
                             <PlusIcon />
                         </button> */}
@@ -124,7 +124,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                     <button
                         data-cy="edit-watchlist"
                         onClick={openEditModal}
-                        className="text-L-primary-50 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                        className="text-L-primary-50 rounded-md dark:text-D-primary-50 hover:bg-L-gray-300 dark:hover:bg-D-gray-300 outline-none"
                     >
                         <EditIcon2 />
                     </button>
@@ -132,20 +132,17 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
             </div>
 
             <div className="flex gap-2 items-center">
-                {
-                    state.selectedWatchlist === 0 && (
-                      <FilterAllMarket />    
-                    )
-                }
+                {state.selectedWatchlist === 0 && <FilterAllMarket />}
                 {state.selectedWatchlist === 1 && (
                     <>
                         <span>نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
                             <Select
                                 onChange={(select) => setDefaultWatchlist(select as any)}
-                                value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
-                            >
-                                {defaultWatchlists?.map((item, inx) => (
+                                value={state.selectedDefaultWatchlist}
+                                options={defaultWatchlists?.map((item) => ({value: item, label: t('defaultWlOption.' + item)}))}
+                            />
+                                {/* {defaultWatchlists?.map((item, inx) => (
                                     <SelectOption
                                         key={inx}
                                         label={t('defaultWlOption.' + item)}
@@ -153,7 +150,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                                         className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
                                     />
                                 ))}
-                            </Select>
+                            </Select> */}
                         </div>
                     </>
                 )}
