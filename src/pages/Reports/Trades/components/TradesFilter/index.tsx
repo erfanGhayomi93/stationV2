@@ -1,12 +1,12 @@
-import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
+import FilterActions from 'src/common/components/FilterActions';
+import FilterBlock from 'src/common/components/FilterBlock';
 import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
-import { FilterMinusIcon, FilterPlusIcon } from 'src/common/icons';
 import { TradesFilterTypes } from '../..';
 
 interface IProps {
@@ -23,14 +23,20 @@ const TradesFilter = ({ params, setParams }: IProps) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
+    const toggleFilterBox = () => setIsOpenFilter(!isOpenFilter);
+
+    const onSubmit = () => {};
+
+    const onClear = () => {};
+
     return (
-        <div className="bg-gray-100 dark:bg-L-gray-700 rounded-md px-4 py-2 flex">
+        <div className="bg-L-gray-100 dark:bg-L-gray-700 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
-                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge("customers", selected)}/>
+                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge("symbols", selected)} selected={params.symbols} />
+                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge('symbols', selected)} selected={params.symbols} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
                     <Select
@@ -87,43 +93,11 @@ const TradesFilter = ({ params, setParams }: IProps) => {
                     />
                 </FilterBlock>
                 <div className="col-span-3">
-                    <FilterAction />
+                    <FilterActions isFilterBoxOpen={isOpenFilter} toggleFilterBox={toggleFilterBox} onSubmit={onSubmit} onClear={onClear} />
                 </div>
             </div>
         </div>
     );
-
-    function FilterAction() {
-        return (
-            <div className="flex gap-1">
-                <button onClick={() => setIsOpenFilter(!isOpenFilter)} className="p-2 border border-gray-400 rounded-md max-w-[40px]">
-                    {isOpenFilter ? <FilterMinusIcon /> : <FilterPlusIcon />}
-                </button>
-                <button
-                    onClick={() => {}}
-                    className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
-                >
-                    {t('FilterBoxAction.Search')}
-                </button>
-
-                <button
-                    onClick={() => {}}
-                    className="bg-L-primary-100  whitespace-nowrap w-[72px] dark:bg-D-primary-100 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
-                >
-                    {t('FilterBoxAction.Remove')}
-                </button>
-            </div>
-        );
-    }
 };
 
 export default TradesFilter;
-
-const FilterBlock = ({ children, label, className }: any) => {
-    return (
-        <div className={clsx('flex gap-2 items-center grow col-span-2', className)}>
-            <span className="text-xs pr-0.5 text-L-gray-500 dark:text-D-gray-700">{label}:</span>
-            <div className="flex-1">{children}</div>
-        </div>
-    );
-};
