@@ -79,6 +79,7 @@ const DatePickerInput = ({ value, openCalendar, handleValueChange, closeCalendar
                 disabled={disabled}
                 value={value}
                 onFocus={openCalendar}
+                onBlur={() => setTimeout(() => closeCalendar(), 100)}
                 onChange={onInputChange}
                 onKeyDown={(e) => ['Enter', 'Tab'].includes(e.key) && closeCalendar()}
             />
