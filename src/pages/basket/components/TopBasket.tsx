@@ -38,12 +38,12 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                                 key={item.id}
                                 data-actived={activeBasket === item.id}
                                 onClick={() => saveIndexBasketSelected(item.id)}
-                                className="px-2 py-1 text-center whitespace-nowrap cursor-pointer rounded-lg text-L-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-primary-50 actived:dark:bg-D-primary-50 border border-L-gray-350 dark:border-L-gray-350 actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                                className="px-2 py-1 text-center whitespace-nowrap cursor-pointer rounded-lg text-L-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-primary-50 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
                             >
                                 <p className="text-xs">{item.name}</p>
                                 <div
                                     data-actived={activeBasket === item.id}
-                                    className="flex pt-1 text-L-gray-400 dark:text-D-gray-400 actived:text-L-primary-100 actived:dark:text-D-primary-100"
+                                    className="flex pt-1 text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-100 actived:dark:text-D-primary-100"
                                 >
                                     <FiClock width={13} height={13} />
                                     <p className="pr-1 pl-2 text-xs">{getFarsiDate(item.sendDate).time}</p>
@@ -56,7 +56,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
             <button
                 data-cy="basket-create"
                 onClick={toggleAddBasket}
-                className="flex items-center mr-4 w-[180px] text-L-primary-50 dark:text-D-primary-50 duration-150 rounded-md hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                className="flex items-center mr-4 w-[180px] text-L-primary-50 dark:text-D-primary-50 duration-150 rounded-md hover:bg-L-gray-300 dark:hover:bg-D-gray-300 outline-none"
             >
                 <div className="bg-L-basic dark:bg-D-basic drop-shadow ml-2 rounded">
                     <PlusIcon />
@@ -66,7 +66,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
 
             <Modal isOpen={isAddActive} onClose={toggleAddBasket} className="w-[500px] rounded-md h-full grid">
                 <div className="grid grid-rows-min-one bg-L-basic dark:bg-D-basic">
-                    <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                    <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                         <p>ایجاد سبد جدید</p>
                         <CloseIcon data-cy="basket-create-cancel" onClick={toggleAddBasket} className="cursor-pointer" />
                     </div>
@@ -79,7 +79,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
             <button
                 onClick={toggleEditBasket}
                 data-cy="basket-edit"
-                className="flex items-center text-L-primary-50 dark:text-D-primary-50 rounded-md hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                className="flex items-center text-L-primary-50 dark:text-D-primary-50 rounded-md hover:bg-L-gray-300 dark:hover:bg-D-gray-300 outline-none"
             >
                 <div className="bg-L-basic dark:bg-D-basic drop-shadow ml-2 rounded">
                     <EditIcon2 />

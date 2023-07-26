@@ -11,7 +11,6 @@ const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
             'X-TestEnv': process.env.NODE_ENV === 'development' ? '@!F4NYBkG^Y203LobM}6Kj#jYU&5uE1oJ&xR%tBGugO#I0pPfw' : '',
         },
     });
-    console.log({ data });
     return data?.result || {};
 };
 

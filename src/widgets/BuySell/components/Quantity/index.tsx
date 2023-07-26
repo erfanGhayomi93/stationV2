@@ -17,7 +17,7 @@ const ToggleButton = () => {
                     <span
                         className={clsx(
                             '  w-full  flex items-center justify-center gap-1 ',
-                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : 'text-L-gray-400 dark:text-D-gray-400 ',
+                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : 'text-L-gray-500 dark:text-D-gray-500 ',
                         )}
                     >
                         <CoinIcon />
@@ -26,14 +26,14 @@ const ToggleButton = () => {
                 )}
             </RadioGroup.Option>
             <RadioGroup.Option
-                className="w-full flex items-center cursor-pointer justify-center border-r border-L-gray-400 dark:border-D-gray-400"
+                className="w-full flex items-center cursor-pointer justify-center border-r border-L-gray-500 dark:border-D-gray-500"
                 value="PERCENT"
             >
                 {({ checked }) => (
                     <span
                         className={clsx(
                             '  w-full   flex items-center justify-center gap-1',
-                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : ' text-L-gray-400 dark:text-D-gray-400',
+                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : ' text-L-gray-500 dark:text-D-gray-500',
                         )}
                     >
                         <PercentIcon />
@@ -49,7 +49,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const {} = useCommissionValue({ marketUnit: symbolData?.marketUnit });
-    const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-400 dark:text-D-gray-400" />, []);
+    const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-500 dark:text-D-gray-500" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
@@ -107,7 +107,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
                 <div className={'flex w-full gap-4 pr-2 duration-150'}>
                     <label className="w-full flex items-center justify-center ">
                         <span className="w-[64px] whitespace-nowrap "> {mode === 'AMOUNT' ? 'مبلغ' : 'درصد'}</span>
-                        <div className="w-full flex border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded-md">
+                        <div className="w-full flex border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md">
                             <div className="w-full">
                                 <TradeInput
                                     onChange={(value) => (mode === 'AMOUNT' ? calculateQuantity(value) : setPercentage(value))}
@@ -117,7 +117,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
                                     unit={mode === 'AMOUNT' ? <>ريال</> : <>%</>}
                                 />
                             </div>
-                            <div className=" w-48  bg-L-gray-150 dark:bg-D-gray-150 border-r border-L-gray-400 dark:border-D-gray-400">
+                            <div className=" w-48  bg-L-gray-300 dark:bg-D-gray-300 border-r border-L-gray-500 dark:border-D-gray-500">
                                 <RadioGroup
                                     value={mode}
                                     onChange={handleChangeMode}

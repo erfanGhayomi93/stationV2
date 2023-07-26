@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { pushEngine } from 'src/api/pushEngine';
-import apiRoutes from 'src/api/apiRoutes';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let MESSAGE_IDS: any = [];
@@ -154,7 +153,7 @@ const useMarketDepth = () => {
             const newData = { ...data };
 
             const price = row[3];
-            const priceRow = newData[price];
+            const priceRow = newData[price]; ///old row data
 
             if (!priceRow) return { data, totalQuantity };
 
@@ -248,6 +247,8 @@ const useMarketDepth = () => {
         if (!('mddata' in changedFields)) return;
 
         const row = beautifyMarketRow(changedFields.mddata);
+
+        console.log('beautify-row', row);
 
         if (hasMsgID(row[0])) return;
         storeMsgID(row[0]);
@@ -351,6 +352,7 @@ const useMarketDepth = () => {
         new Promise((done, reject) => {
             fetchMarketDepth(symbolISIN)
                 .then((data) => {
+                    console.log('fetchProcess.data', data);
                     onLoadData(data);
                     done(symbolISIN);
                 })

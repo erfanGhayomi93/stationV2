@@ -17,7 +17,6 @@ export const FilterAllMarket = () => {
         };
     }, []);
 
-
     return (
         <div className="flex items-stretch">
             <div className="flex items-center ml-7">
@@ -25,7 +24,7 @@ export const FilterAllMarket = () => {
                 <ArrowLeftAlt />
             </div>
 
-            <div className="flex items-center gap-3 pl-3 border-l-2 border-L-gray-350 dark:border-D-gray-350">
+            <div className="flex items-center gap-3 pl-3 border-l-2 border-L-gray-400 dark:border-D-gray-400">
                 <p className="pl-1">نوع بازار:</p>
 
                 {typeMarket.map((item, ind) => (
@@ -36,7 +35,7 @@ export const FilterAllMarket = () => {
                             type="radio"
                             checked={marketUnit === item.type}
                             // onChange={() => handleOnchange('SET_MarketUnit_Filter', item.type)}
-                            onChange={() => setState({ type: "SET_MarketUnit_Filter", value: item.type })}
+                            onChange={() => setState({ type: 'SET_MarketUnit_Filter', value: item.type })}
                         />
                         <label htmlFor={item.type} className="pr-1.5 cursor-pointer">
                             {item.label}
@@ -50,7 +49,7 @@ export const FilterAllMarket = () => {
                 <div className="min-w-[12.5rem]">
                     <SelectType
                         value={sector}
-                        onChange={(data) => setState({ type: "SET_Sector_Filter", value: data as ISectorList })}
+                        onChange={(data) => setState({ type: 'SET_Sector_Filter', value: data as ISectorList })}
                         options={dataSector || []}
                         placeholder="انواع صنعت"
                     />
@@ -62,7 +61,7 @@ export const FilterAllMarket = () => {
                 <div className=" min-w-[8.5rem]">
                     <Select
                         onChange={() => null}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md py-1.5 pr-3 pl-10"
+                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md py-1.5 pr-3 pl-10"
                         placeholder="همه"
                     >
                         {industry.map((item, inx) => (

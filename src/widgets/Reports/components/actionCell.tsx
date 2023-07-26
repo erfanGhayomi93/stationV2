@@ -57,11 +57,11 @@ function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handl
                 return (
                     <>
                         {isActived && (
-                            <Tippy content={title} className='text-xs'>
+                            <Tippy content={title} className="text-xs">
                                 <button
                                     key={ind}
                                     data-actived={isActived}
-                                    className="hidden actived:inline-block dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md"
+                                    className="hidden actived:inline-block dark:bg-D-gray-300 bg-L-gray-300 px-1.5 py-1.5 rounded-md"
                                     onClick={() => onClick && onClick(data)}
                                 >
                                     <Icon className="text-L-primary-50 dark:text-D-primary-50" />

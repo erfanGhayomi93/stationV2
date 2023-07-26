@@ -23,7 +23,7 @@ const CheckColumnShow: FC<ICheckColumnShowType> = ({ columns }) => {
             {({ open }) => (
                 <div className="z-50 flex items-center">
                     <Menu.Button>
-                        <div className="p-[6px] border border-L-gray-350 dark:border-D-gray-350 rounded mr-6 cursor-pointer">
+                        <div className="p-[6px] border border-L-gray-400 dark:border-D-gray-400 rounded mr-6 cursor-pointer">
                             <CheckListIcon className="text-L-primary-50 dark:text-D-primary-50" />
                         </div>
                     </Menu.Button>
