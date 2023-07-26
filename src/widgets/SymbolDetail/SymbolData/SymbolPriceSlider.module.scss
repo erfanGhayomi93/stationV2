@@ -21,11 +21,11 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
-	border-radius: 1px;
+	border-radius: 0.0625rem;
 	height: 0.25rem;
 
 	.div {
-		top: -2px;
+		top: -0.12rem;
 		position: absolute;
 		transform: translateX(-50%);
 		-webkit-transform: translateX(-50%);
@@ -35,7 +35,7 @@
 		.rhombus {
 			width: 0.5rem;
 			height: 0.5rem;
-			border-radius: 2px;
+			border-radius: 0.12rem;
 			border: 2px solid;
 			transform: rotateZ(45deg);
 			-webkit-transform: rotateZ(45deg);
@@ -43,39 +43,43 @@
 		}
 
 		.line {
-			width: 2px;
-			height: 0.6rem;
-			top: 0.62rem;
-			@apply bg-L-gray-500 dark:bg-D-gray-500;
+			width: 0.125rem;
+			height: 0.375rem;
+			top: 0.625rem;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			gap: 0.25rem;
+			@apply bg-L-gray-400 dark:bg-D-gray-400;
 		}
 		// bg-L-gray-50 dark:bg-D-gray-50
 
 		.number {
 			font-size: 0.62rem;
-			@apply text-L-gray-500 dark:text-D-gray-500;
+			@apply text-L-gray-700 dark:text-D-gray-700;
 		}
 
 		&:not(:nth-child(4)) {
 			.rhombus {
-				@apply border-L-gray-500 dark:border-D-gray-500 bg-white dark:bg-black;
+				@apply border-L-gray-400 dark:border-D-gray-400 bg-L-basic dark:bg-D-basic;
 			}
 		}
 
 		&:nth-child(4) {
 			.rhombus {
-				@apply border-white dark:border-black bg-L-gray-500 dark:bg-D-gray-500;
+				@apply border-L-basic dark:border-D-basic bg-L-gray-400 dark:bg-D-gray-400;
 			}
 		}
 
 		&:nth-child(-n + 3).active {
 			.rhombus {
-				@apply bg-D-error-150 border-white dark:border-black;
+				@apply bg-D-error-200 border-L-basic dark:border-D-basic;
 			}
 		}
 
 		&:nth-last-child(-n + 3).active {
 			.rhombus {
-				@apply bg-L-success-150 border-white dark:border-black;
+				@apply bg-L-success-200 border-L-basic dark:border-D-basic;
 			}
 		}
 
@@ -118,7 +122,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			@apply text-L-gray-500 dark:text-D-gray-500;
+			@apply text-L-gray-600 dark:text-D-gray-600;
 		}
 	}
 }
@@ -133,27 +137,29 @@
 	top: -0.31rem;
 	left: 0;
 	display: flex;
-	gap: 4px;
+	gap: 0.25px;
 	transition: opacity 250ms;
 	-webkit-transition: opacity 250ms;
 	-moz-transition: opacity 250ms;
-	@apply bg-L-gray-400 dark:bg-D-gray-400;
+	@apply bg-L-gray-700 dark:bg-D-gray-700;
 }
 
 .sliders {
 	position: absolute;
-	left: -4px;
-	top: calc(50% - 6px);
+	left: -0.25rem;
+	top: calc(50% - 0.375rem);
 	direction: ltr;
-	width: calc(100% + 8px);
+	width: calc(100% + 0.5rem);
 	overflow: hidden;
-	height: 12px;
+	height: 75rem;
 	pointer-events: none;
+
 
 	.sliderInner {
 		position: relative;
 		display: flex;
 		align-items: center;
+
 
 		.section {
 			position: relative;
@@ -162,57 +168,58 @@
 
 			&.buy {
 				justify-content: flex-start;
-				@apply text-L-success-150;
+				@apply text-L-success-200;
 
 				.slider {
-					left: 4px;
+					left: 0.25rem;
 				}
 
 				.mark::after {
-					left: -4px;
+					left: -0.25rem;
 				}
 			}
 
 			&.sell {
 				justify-content: flex-end;
-				@apply text-D-error-150;
+				@apply text-L-error-200;
 
 				.slider {
-					right: 4px;
+					right: 0.25rem;
 				}
 
 				.mark::after {
-					right: -4px;
+					right: -0.25rem;
 				}
 			}
 
 			.slider {
 				background-color: currentColor;
-				height: 4px;
-				top: 4px;
+				height: 0.25rem;
+				top: 0.25rem;
 				position: absolute;
 			}
 
 			.mark {
 				z-index: 99;
-				top: 2px;
+				top: 0.125rem;
 				position: absolute;
 				pointer-events: fill;
 
+
 				&.buy {
-					@apply text-L-success-150;
+					@apply text-L-success-200;
 				}
 
 				&.sell {
-					@apply text-D-error-150;
+					@apply text-L-error-200;
 				}
 
 				&::after {
 					content: "";
 					position: absolute;
-					width: 0.31rem;
-					height: 0.31rem;
-					border-radius: 2px;
+					width: 0.5rem;
+					height: 0.5rem;
+					border-radius: 0.125rem;
 					background-color: currentColor;
 					transform: rotate(45deg);
 					-webkit-transform: rotate(45deg);

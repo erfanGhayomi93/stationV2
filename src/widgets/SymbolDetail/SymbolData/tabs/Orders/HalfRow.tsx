@@ -18,8 +18,8 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent }: Prop
         return (
             <div
                 className={clsx(
-                    'text-xs text-L-gray-500 dark:text-D-gray-500 rounded m-1',
-                    isOdd ? 'bg-L-gray-150 dark:bg-D-gray-150' : '',
+                    'text-xs text-L-gray-500 dark:text-D-gray-700 rounded m-1',
+                    isOdd ? 'bg-L-gray-300 dark:bg-D-gray-300' : '',
                     isInRange ? '' : 'hidden',
                 )}
             >
@@ -44,8 +44,8 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent }: Prop
         return (
             <div
                 className={clsx(
-                    'text-xs text-L-gray-500 dark:text-D-gray-500 rounded m-1',
-                    isOdd ? 'bg-L-gray-150 dark:bg-D-gray-150' : '',
+                    'text-xs text-L-gray-500 dark:text-D-gray-700 rounded m-1',
+                    isOdd ? 'bg-L-gray-300 dark:bg-D-gray-300' : '',
                     isInRange ? '' : 'hidden',
                 )}
             >

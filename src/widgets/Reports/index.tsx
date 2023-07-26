@@ -66,7 +66,7 @@ const Reports = () => {
             <Tippy content="خروجی اکسل" className="text-xs">
                 <button
                     // onClick={() => setisOpen(true)}
-                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-150 dark:bg-D-gray-150 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
                 >
                     <ExcelIcon width={12} height={14} />
                 </button>
@@ -74,7 +74,7 @@ const Reports = () => {
             {/* <Tooltip title='' position='top'> 
                 <button
                     onClick={() => handleChangeLeftNode('isFilter')}
-                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-150 dark:bg-D-gray-150 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
                 >
                     <FilterListIcon width={12} height={14} />
                 </button>
@@ -82,7 +82,7 @@ const Reports = () => {
             <Tippy content="گزارشات" className="text-xs">
                 <button
                     onClick={() => navigate('/Reports')}
-                    className="ml-4 flex items-center p-1 justify-center bg-L-gray-150 dark:bg-D-gray-150 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                    className="ml-4 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
                 >
                     <HistoryIcon width={12} height={14} />
                 </button>

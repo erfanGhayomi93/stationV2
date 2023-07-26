@@ -2,11 +2,11 @@ import { seprateNumber } from 'src/utils/helpers';
 
 export const LastTradedPrice = ({ data }: any) => {
     const colorClass = (change: number) => {
-        if (+change > 0) return 'text-L-success-150 dark:text-D-success-150';
+        if (+change > 0) return 'text-L-success-200 dark:text-D-success-200';
 
-        if (+change < 0) return 'text-L-error-150 dark:text-D-error-150';
+        if (+change < 0) return 'text-L-error-200 dark:text-D-error-200';
 
-        return 'text-L-gray-400 dark:text-D-gray-400';
+        return 'text-L-gray-500 dark:text-D-gray-500';
     };
 
     return (
@@ -21,11 +21,11 @@ export const LastTradedPrice = ({ data }: any) => {
 
 export const ClosingPrice = ({ data }: any) => {
     const colorClass = (change: number) => {
-        if (+change > 0) return 'text-L-success-150 dark:text-D-success-150';
+        if (+change > 0) return 'text-L-success-200 dark:text-D-success-200';
 
-        if (+change < 0) return 'text-L-error-150 dark:text-D-error-150 ltr';
+        if (+change < 0) return 'text-L-error-200 dark:text-D-error-200 ltr';
 
-        return 'text-L-gray-400 dark:text-D-gray-400';
+        return 'text-L-gray-500 dark:text-D-gray-500';
     };
 
     return (

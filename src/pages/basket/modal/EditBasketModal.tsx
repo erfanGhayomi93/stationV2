@@ -69,12 +69,12 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                 className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic overflow-visible"
             >
                 <div className="grid grid-rows-min-one ">
-                    <div className="w-full text-white font-semibold rounded-t-md bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                    <div className="w-full text-white font-semibold rounded-t-md bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                         <div>ویرایش سبد</div>
                         <CloseIcon data-cy="basket-edit-close" onClick={toggleEditBasket} className="cursor-pointer" />
                     </div>
-                    <div className="m-4 text-1.2 border-b border-L-gray-350 dark:border-D-gray-350">
-                        <div className="flex bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg py-2 text-L-gray-450 dark:text-D-gray-450 font-semibold">
+                    <div className="m-4 text-1.2 border-b border-L-gray-400 dark:border-D-gray-400">
+                        <div className="flex bg-L-gray-300 dark:bg-D-gray-300 rounded-t-lg py-2 text-L-gray-600 dark:text-D-gray-600 font-semibold">
                             <div className="w-full flex items-center justify-center min-w-[160px]">عنوان دیده‌بان</div>
                             <div className="w-full flex items-center justify-center min-w-[130px]">تاریخ ارسال</div>
                             <div className="w-full flex items-center justify-center min-w-[130px]">زمان ارسال</div>
@@ -86,14 +86,14 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                 listBasket.map((basket: any) => (
                                     <div
                                         key={basket.id}
-                                        className="flex items-center gap-1 even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 text-L-gray-450 dark:text-D-gray-450"
+                                        className="flex items-center gap-1 even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   text-L-gray-600 dark:text-D-gray-600"
                                     >
                                         <div className="min-w-[160px] w-full h-full flex items-center justify-center">
                                             {editMode?.id === basket.id ? (
-                                                <div className="w-full h-full border-L-gray-350 dark:border-D-gray-350 border overflow-hidden rounded mt-[2px]">
+                                                <div className="w-full h-full border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded mt-[2px]">
                                                     <Input
                                                         data-cy={'basket-item-edit-input-' + basket.name}
-                                                        // className="text-center border border-L-gray-350 w-full h-full outline-L-primary-50"
+                                                        // className="text-center border border-L-gray-400 w-full h-full outline-L-primary-50"
                                                         value={editMode?.name}
                                                         onChange={(e) => handleChangeEditMode('name', e.target.value)}
                                                         // onKeyDownCapture={(e) => clickEnterName(e)}
@@ -138,18 +138,18 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                             {editMode?.id === basket.id ? (
                                                 <>
                                                     <div
-                                                        className="p-1 border border-L-success-150 dark:border-D-success-150 rounded-xl cursor-pointer"
+                                                        className="p-1 border border-L-success-200 dark:border-D-success-200 rounded-xl cursor-pointer"
                                                         onClick={handleEditBasket}
                                                         data-cy={'basket-item-edit-submit-' + basket.name}
                                                     >
-                                                        <Check className="text-L-success-150 dark:text-D-success-150" />
+                                                        <Check className="text-L-success-200 dark:text-D-success-200" />
                                                     </div>
                                                     <div
-                                                        className="p-1 border border-L-error-150 dark:border-D-error-150 rounded-xl cursor-pointer"
+                                                        className="p-1 border border-L-error-200 dark:border-D-error-200 rounded-xl cursor-pointer"
                                                         onClick={() => setEditMode(undefined)}
                                                         data-cy={'basket-item-edit-cancel-' + basket.name}
                                                     >
-                                                        <UnCheck className="text-L-error-150 dark:text-D-error-150" />
+                                                        <UnCheck className="text-L-error-200 dark:text-D-error-200" />
                                                     </div>
                                                 </>
                                             ) : (

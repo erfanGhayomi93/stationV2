@@ -6,7 +6,6 @@ import { queryClient } from 'src/app/queryClient';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
@@ -146,14 +145,14 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             {side === 'Buy' ? (
                 <button
                     onClick={handleSubmit}
-                    className="bg-L-success-150 h-8 dark:bg-D-success-150 rounded text-L-basic flex items-center justify-center grow"
+                    className="bg-L-success-200 h-8 dark:bg-D-success-200 rounded text-L-basic flex items-center justify-center grow"
                 >
                     {isPrimaryComeFrom(comeFrom) ? 'ارسال خرید' : 'ثبت تغییرات'}
                 </button>
             ) : (
                 <button
                     onClick={handleSubmit}
-                    className="bg-L-error-150 h-8 dark:bg-D-error-150 rounded text-L-basic flex items-center justify-center grow"
+                    className="bg-L-error-200 h-8 dark:bg-D-error-200 rounded text-L-basic flex items-center justify-center grow"
                 >
                     {isPrimaryComeFrom(comeFrom) ? ' ارسال فروش' : 'ثبت تغییرات'}
                 </button>

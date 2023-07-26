@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { useSwitchValue } from '.';
 
 export const SwitchButton = () => {
@@ -6,7 +5,7 @@ export const SwitchButton = () => {
     return (
         <span
             className={`${
-                checked ? 'bg-[#2B84FF]' : 'bg-L-gray-350 dark:bg-D-gray-350'
+                checked ? 'bg-[#2B84FF]' : 'bg-L-gray-400 dark:bg-D-gray-400'
             } relative outline-none inline-flex h-[24px] w-[42px] items-center rounded-full`}
         >
             <span

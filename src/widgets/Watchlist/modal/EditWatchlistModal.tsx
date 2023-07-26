@@ -93,7 +93,7 @@ const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
         <>
             <Modal isOpen={state.editMode} onClose={closeModal} className="min-h-[25rem] w-[500px] rounded-md h-full grid ">
                 <div className="grid grid-rows-min-one" data-cy="wl-edit-modal">
-                    <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-350 h-10 flex items-center justify-between px-5">
+                    <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
                         <div>ویرایش گروه‌های دیده‌بان</div>
                         <CloseIcon onClick={closeModal} data-cy="wl-edit-modal-close" className="cursor-pointer" />
                     </div>
@@ -133,7 +133,7 @@ const ActionName: FC<IActionName> = ({ row, editMode, setEditMode, handleEditWat
         <div className="w-full h-full">
             {editMode?.id === watchlist?.id ? (
                 <input
-                    className="w-full h-full text-center border border-L-gray-350 outline-L-primary-50"
+                    className="w-full h-full text-center border border-L-gray-400 outline-L-primary-50"
                     value={editMode?.watchListName}
                     onChange={(e) => setEditMode({ ...editMode, watchListName: e.target.value })}
                     onKeyDownCapture={(e) => handleEditWatchlistName(e)}
