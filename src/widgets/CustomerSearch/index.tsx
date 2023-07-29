@@ -84,7 +84,7 @@ const CustomerSearch = () => {
     };
 
     const ItemRenderer = (props: any) => {
-        return <div className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none  " {...props}></div>;
+        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
     };
     //
     return (
@@ -133,7 +133,7 @@ const CustomerSearch = () => {
                                 ? selectedCustomers
                                 : (groupedCustomer && groupedCustomer[type]) || (defaultCustomer && defaultCustomer[type])
                         }
-                        className="  border rounded-lg rounded-t-none"
+                        className="rounded-lg rounded-t-none"
                         itemContent={(index, data) => <ResultItem key={index} {...data} />}
                         components={{
                             Item: ItemRenderer,
