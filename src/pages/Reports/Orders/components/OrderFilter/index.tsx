@@ -1,155 +1,94 @@
-import clsx from 'clsx';
-import dayjs from 'dayjs';
-import { FormEvent, HTMLAttributes, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOrderLists } from 'src/app/queries/order';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
-import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
+import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
+import FilterActions from 'src/common/components/FilterActions';
+import FilterBlock from 'src/common/components/FilterBlock';
+import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
-import { ExcelIcon, FilterIcon } from 'src/common/icons';
-import { REPORT_SIDE_OPTIONS, REPORT_STATUS_OPTIONS } from 'src/constant/report';
-import { useOrdersState } from '../../Context/OrdersContext';
-import useOrderDispatch from '../../hooks/useOrderDispatch';
-interface IFilterBlockType extends HTMLAttributes<HTMLLabelElement> {
-    label?: string;
-    children: JSX.Element;
+import { OrdersFilterTypes } from '../..';
+
+interface IProps {
+    params: OrdersFilterTypes;
+    setParams: React.Dispatch<React.SetStateAction<OrdersFilterTypes>>;
 }
 
-const FilterBlock = ({ children, label, className }: IFilterBlockType) => {
-    return (
-        <div className={clsx('flex flex-col gap-2 text-1.4 grow', className)}>
-            <span className="text-1.3 pr-0.5 text-L-gray-500 dark:text-D-gray-700">{label}</span>
-            <div className="grow ">{children}</div>
-        </div>
-    );
-};
-export const OrderFilter = () => {
+const OrdersFilter = ({ params, setParams }: IProps) => {
+    //
     const { t } = useTranslation();
-    const [selectedCustomer, setSelectedCustomer] = useState<IGoMultiCustomerType[]>([]);
-    const [selectedSymbol, setSelectedSymbol] = useState<SymbolSearchResult[]>([]);
-    const { setStartDate, setSide, setTillDate, setStatus, setSymbol, setCustomer } = useOrderDispatch();
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
 
-    const { FromDate, customerISIN, side, status, symbolISIN, ToDate } = useOrdersState();
-
-    const [isShowFilter, setisShowFilter] = useState(true);
-    const { refetch } = useOrderLists({
-        CustomerISIN: customerISIN,
-        FromDate: FromDate,
-        OrderStatus: status,
-        PageNumber: 1,
-        PageSize: 10,
-        Side: side,
-        symbolISIN,
-        ToDate,
-    });
-
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        refetch();
+    const handleValueCahnge = (part: keyof OrdersFilterTypes, value: any) => {
+        setParams((pre) => ({ ...pre, [part]: value }));
     };
 
-    const resetForm = () => {
-        setStartDate(undefined);
-        setSide(undefined);
-        setTillDate(undefined);
-        setStatus(undefined);
-        setSymbol(undefined);
-        setCustomer(undefined);
-        setSelectedCustomer([]);
-        setSelectedSymbol([]);
-        const timeout = setTimeout(() => {
-            refetch();
-            clearTimeout(timeout);
-        }, 300);
-    };
+    const toggleFilterBox = () => setIsOpenFilter(!isOpenFilter);
 
-    const handleCustomerSelected = (value: IGoMultiCustomerType[]) => {
-        setSelectedCustomer(value);
-        setCustomer(value.length ? value[0].customerISIN : undefined);
-    };
-    const handleSymbolSelected = (value: SymbolSearchResult[]) => {
-        setSelectedSymbol(value);
-        setSymbol(value.length ? value[0].symbolISIN : undefined);
-    };
+    const onSubmit = () => {};
+
+    const onClear = () => {};
 
     return (
-        <div className="gap-6 py-2.5 relative z-40">
-            <div className="flex justify-between items-center">
-                <div className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer">
-                    <FilterIcon className="text-L-basic dark:text-D-basic" width={20} height={18} onClick={() => setisShowFilter((prev) => !prev)} />
-                </div>
-                <div className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer border border-L-primary-50 dark:border-D-primary-50">
-                    <ExcelIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
-                </div>
-            </div>
-
-            <div
-                data-actived={isShowFilter}
-                className="actived:opacity-100 opacity-0 actived:static  absolute duration-100  actived:scale-100 scale-y-0 origin-top  gap-14 py-2.5 flex justify-between items-end border border-L-gray-400 dark:border-D-gray-400 bg-L-basic dark:bg-D-basic px-4 rounded-lg my-6"
-            >
-                <div className="grow h-full grid grid-cols-7 gap-3">
-                    <FilterBlock label="نماد">
-                        <SymbolMiniSelect setSelected={handleSymbolSelected} selected={selectedSymbol} />
-                    </FilterBlock>
-                    <FilterBlock label="مشتری :" className="col-span-2">
-                        <CustomerMiniSelect setSelected={handleCustomerSelected} selected={selectedCustomer} />
-                    </FilterBlock>
-                    <FilterBlock label="از تاریخ :">
-                        <AdvancedDatePicker
-                            value={FromDate}
-                            onChange={(selectedDates) => setStartDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                        />
-                    </FilterBlock>
-                    <FilterBlock label="تا تاریخ :">
-                        <AdvancedDatePicker
-                            value={ToDate}
-                            onChange={(selectedDates) => setTillDate(dayjs(selectedDates as any).format('YYYY-MM-DDTHH:mm:ss'))}
-                            className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                        />
-                    </FilterBlock>
-                    <FilterBlock label="وضعیت سفارش :">
-                        <Select
-                            onChange={(selected: string) => setStatus(selected as unknown as OrderStatus)}
-                            value={status}
-                            options={REPORT_STATUS_OPTIONS.map((item) => ({ ...item, label: t('orderState.' + item.value) }))}
-                            // value={status}
-                        />
-                    </FilterBlock>
-
-                    <FilterBlock label="سمت سفارش :">
-                        <Select
-                            onChange={(selected: string) => setSide(selected as unknown as OrderSideType)}
-                            value={side}
-                            options={REPORT_SIDE_OPTIONS.map((item) => ({ ...item, label: t('orderSide.' + item.value) }))}
-                        />
-                    </FilterBlock>
-                </div>
-                <div className="grid   text-1.3  gap-2 grid-cols-2 auto-rows-min 2xl:w-2/12 md:w-3/12  ">
-                    <FilterAction />
+        <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
+            <div className="w-full h-full grid grid-cols-20 gap-4">
+                <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
+                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
+                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge('symbols', selected)} selected={params.symbols} />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.FromDate')}>
+                    <AdvancedDatePicker
+                        value={params.fromDate}
+                        onChange={(selectedDates) => handleValueCahnge('fromDate', selectedDates)}
+                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
+                    />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.ToDate')}>
+                    <AdvancedDatePicker
+                        value={params.toDate}
+                        onChange={(selectedDates: any) => handleValueCahnge('toDate', selectedDates)}
+                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
+                    />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Side')}>
+                    <MultiSelect
+                        onChange={(selected) => handleValueCahnge('side', selected)}
+                        value={params.side}
+                        options={[
+                            { value: 'buy', label: t('orderSide.buy') },
+                            { value: 'sell', label: t('orderSide.sell') },
+                        ]}
+                    />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
+                    <MultiSelect
+                        onChange={(selected) => handleValueCahnge('customerType', selected)}
+                        value={params.customerType}
+                        options={[
+                            { value: 'CustomerTag', label: t('CustomerType.CustomerTag') },
+                            { value: 'Legal', label: t('CustomerType.Legal') },
+                            { value: 'Natural', label: t('CustomerType.Natural') },
+                            { value: 'GTCustomerGroup 0', label: t('CustomerType.GTCustomerGroup 0') },
+                            { value: 'GTCustomerGroup', label: t('CustomerType.GTCustomerGroup') },
+                            { value: 'TraderGroup', label: t('CustomerType.TraderGroup') },
+                        ]}
+                    />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Status')}>
+                    <MultiSelect
+                        onChange={(selected) => handleValueCahnge('status', selected)}
+                        value={params.status}
+                        options={[]}
+                    />
+                </FilterBlock>
+                <div className="col-span-3">
+                    <FilterActions isFilterBoxOpen={isOpenFilter} toggleFilterBox={toggleFilterBox} onSubmit={onSubmit} onClear={onClear} />
                 </div>
             </div>
         </div>
     );
-
-    function FilterAction() {
-        return (
-            <>
-                <button
-                    onClick={handleSubmit}
-                    className="bg-L-primary-50  w-full dark:bg-D-primary-50 py-1.5  ml-4 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
-                >
-                    جستجو
-                </button>
-
-                <button
-                    onClick={resetForm}
-                    className="bg-L-primary-100  whitespace-nowrap w-full dark:bg-D-primary-100 py-1.5 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
-                >
-                    پیش فرض
-                </button>
-            </>
-        );
-    }
 };
+
+export default OrdersFilter;

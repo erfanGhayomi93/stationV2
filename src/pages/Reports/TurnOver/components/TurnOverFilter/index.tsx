@@ -32,7 +32,7 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
 
 
     return (
-        <div className="bg-L-gray-100 dark:bg-L-gray-700 rounded-md px-4 py-2 flex">
+        <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
                     <CustomerMiniSelect
