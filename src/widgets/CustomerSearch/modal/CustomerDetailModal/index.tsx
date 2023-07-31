@@ -1,6 +1,6 @@
 import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
-import CustomerDetail from '../../components/CustomerDetail/CustomerDetail';
+import CustomerDetail from '../../components/CustomerDetail';
 import GroupDetail from '../../components/GroupDetail/GroupDetail';
 
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
