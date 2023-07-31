@@ -27,13 +27,13 @@ const FinancialTab = () => {
                     </div>
                 ) : null}
                 <div className="border-L-gray-400 dark:border-D-gray-400 border rounded-lg overflow-hidden">
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className="bg-L-gray-100 dark:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400">
                         <div className="flex justify-between w-full">
                             <span>{t('customer_financial_situation.negotiable_balance_option_1')}</span>
                             <span>32156</span>
                         </div>
                     </div>
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className="dark:text-L-basic text-D-basic py-2 px-4">
                         <div className="flex justify-between w-full">
                             <span>{t('customer_financial_situation.negotiable_balance_option_2')}</span>
                             <span>32156</span>
@@ -52,7 +52,7 @@ const FinancialTab = () => {
                     </div>
                 ) : null}
                 <div className="border-L-gray-400 dark:border-D-gray-400 border rounded-lg overflow-hidden">
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className="bg-L-gray-100 dark:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400">
                         <div className="flex justify-between w-full">
                             <span>
                                 {t('customer_financial_situation.withdrawal_balance_option_1', {
@@ -63,7 +63,7 @@ const FinancialTab = () => {
                             <span>32156</span>
                         </div>
                     </div>
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className=" dark:text-L-basic text-D-basic py-2 px-4">
                         <div className="flex justify-between w-full">
                             <span>
                                 {t('customer_financial_situation.withdrawal_balance_option_2', {
@@ -87,13 +87,13 @@ const FinancialTab = () => {
                     </div>
                 ) : null}
                 <div className="border-L-gray-400 dark:border-D-gray-400 border rounded-lg overflow-hidden">
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className="bg-L-gray-100 dark:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400">
                         <div className="flex justify-between w-full">
                             <span>{t('customer_financial_situation.broker_balance_option_1')}</span>
                             <span>32156</span>
                         </div>
                     </div>
-                    <div className="odd:bg-L-gray-100 dark:odd:bg-D-gray-100 dark:text-L-basic text-D-basic py-2 px-4 border-b border-L-gray-400 dark:border-D-gray-400 last:border-none">
+                    <div className="dark:text-L-basic text-D-basic py-2 px-4">
                         <div className="flex justify-between w-full">
                             <span>{t('customer_financial_situation.broker_balance_option_2')}</span>
                             <span>32156</span>

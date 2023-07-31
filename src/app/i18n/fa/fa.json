@@ -95,9 +95,11 @@
         "buy": "خرید",
         "sell": "فروش"
     },
-    "FilterBoxAction": {
+    "Action_Button": {
         "Search": "جستجو",
-        "Remove": "حذف"
+        "Remove": "حذف",
+        "Update": "بروز رسانی",
+        "ExportExcel": "خروجی اکسل"
     },
     "FilterFieldLabel": {
         "Customer": "مشتری",
@@ -111,7 +113,9 @@
         "FromCost": "از مبلغ",
         "ToCost": "تا مبلغ",
         "TransactionType": "نوع تراکنش",
-        "AggregateAble": "تجمیعی"
+        "AggregateAble": "تجمیعی",
+        "Status": "وضعیت",
+        "TradeStation": "ایستگاه معاملاتی"
     },
     "TransactionTypes" :{
         "buy": "خرید",
@@ -132,6 +136,30 @@
 		"broker_balance_option_1": "مانده نهایی",
 		"broker_balance_option_2": "مجموع اعتبارات باشگاه",
 		"broker_balance_information": "مانده گردش حساب مشتری، پس از اعمال تمامی تراکنش های خرید، فروش، دریافت و پرداخت است. در این مانده تاریخ های تسویه و اعتبارات و مسدودی ها در نظر گرفته نخواهد شد."
-	}
+	},
+    "page_title": {
+        "orders": "سفارشات",
+        "trades": "معاملات",
+        "turnOver": "گردش حساب"
+    },
+    "ag_columns_headerName":{
+        "row":"ردیف",
+        "customer":"مشتری",
+        "bourseCode":"کد بورسی",
+        "symbol":"نماد",
+        "side":"سمت",
+        "time":"زمان",
+        "date":"تاریخ",
+        "count":"تعداد",
+        "price":"قیمت",
+        "finalCost":"بهای تمام شده",
+        "actions":"عملیات",
+        "transactionDesc":"شرح تراکنش",
+        "debit":"بدهکار (ریال)",
+        "credit":"بستانکار(ریال)",
+        "remain":"مانده (ریال)",
+        "tradeValue": "ارزش معامله",
+        "status": "وضعیت"
+    }
     
 }

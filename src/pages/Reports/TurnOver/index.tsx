@@ -6,6 +6,7 @@ import { DateType } from 'src/common/components/AdvancedDatePicker';
 import dayjs from 'dayjs';
 import TurnOverFilter from './components/TurnOverFilter';
 import TurnOverTable from './components/TurnOverTable';
+import { useTranslation } from 'react-i18next';
 
 export interface TurnoverFilterTypes {
     customer: IGoMultiCustomerType[];
@@ -22,6 +23,8 @@ export interface TurnoverFilterTypes {
 
 const TurnOver = () => {
     //
+    const { t } = useTranslation()
+
     const [params, setParams] = useState<TurnoverFilterTypes>({
         customer: [],
         symbols: [],
@@ -38,12 +41,12 @@ const TurnOver = () => {
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
-                <h1 className="dark:text-D-gray-700 font-medium text-2xl">گردش حساب</h1>
-                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300">
-                    <Tippy content="بروزرسانی" className="text-xs">
+                <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t("page_title.turnOver")}</h1>
+                <div className="flex gap-2 px-2 py-1 rounded-md text-L-gray-600 dark:text-D-gray-600 bg-L-gray-300 dark:bg-D-gray-300">
+                    <Tippy content={t("Action_Button.Update")} className="text-xs">
                         <Refresh2Icon className="cursor-pointer outline-none" />
                     </Tippy>
-                    <Tippy content="خروجی اکسل" className="text-xs">
+                    <Tippy content={t("Action_Button.ExportExcel")} className="text-xs">
                         <Excel2Icon className="cursor-pointer outline-none" />
                     </Tippy>
                 </div>
