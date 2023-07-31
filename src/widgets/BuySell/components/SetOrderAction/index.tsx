@@ -79,7 +79,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             percent,
             validity: handleValidity(validity),
             validityDate: validityDate,
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder ',
             orderStrategy: 'Normal',
         });
     };
@@ -99,7 +99,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             percent,
             validity: handleValidity(validity),
             validityDate: validityDate,
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder ',
             orderStrategy: 'Normal',
         });
     };
@@ -130,7 +130,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             orderSide: side,
             orderDraftId: undefined,
             orderStrategy: strategy,
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder',
             percent: percent || 0,
             price: price,
             quantity: quantity,
