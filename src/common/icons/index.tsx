@@ -72,6 +72,8 @@ export { ReactComponent as ArrowRightSlider } from 'src/assets/svg/arrowRightSli
 export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
+export { ReactComponent as InfoIcon} from 'src/assets/svg/infoIcon.svg';
+export { ReactComponent as InfoFillIcon} from 'src/assets/svg/infoFillIcon.svg';
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';

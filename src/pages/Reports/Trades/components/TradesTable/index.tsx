@@ -1,21 +1,24 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const TradesTable = () => {
     //
+    const { t } = useTranslation()
+
     const Columns = useMemo(
         (): ColDefType<any>[] => [
-            { headerName: 'ردیف', field: 'index', width: 20 },
-            { headerName: 'مشتری', field: 'customerTitle' },
-            { headerName: 'کد بورسی', field: 'bourceCode' },
-            { headerName: 'نماد', field: 'symboTitle', type: 'sepratedNumber' },
-            { headerName: 'سمت', field: 'orderSide', type: 'sepratedNumber'},
-            { headerName: 'زمان', field: 'date', type: 'date' },
-            { headerName: 'تعداد', field: 'count', type: 'abbreviatedNumber' },
-            { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'بهای تمام شده', field: 'cost', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.row"), field: 'index', width: 20 },
+            { headerName: t("ag_columns_headerName.customer"), field: 'customerTitle' },
+            { headerName: t("ag_columns_headerName.bourseCode"), field: 'bourceCode' },
+            { headerName: t("ag_columns_headerName.symbol"), field: 'symboTitle', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.side"), field: 'orderSide', type: 'sepratedNumber'},
+            { headerName: t("ag_columns_headerName.date"), field: 'date', type: 'date' },
+            { headerName: t("ag_columns_headerName.count"), field: 'count', type: 'abbreviatedNumber' },
+            { headerName: t("ag_columns_headerName.price"), field: 'price', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.finalCost"), field: 'cost', type: 'sepratedNumber' },
             // { headerName: 'کارمزد معامله', field: 'lastTradedPrice', type: 'sepratedNumber' },
         ],
         [],
