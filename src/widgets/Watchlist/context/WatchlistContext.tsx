@@ -21,12 +21,15 @@ const initialState: WathclistState = {
 type ISocketAnswerType = Pick<ISymbolType, 'lastTradedPrice' | 'closingPrice' | 'totalNumberOfSharesTraded' | 'totalTradeValue'>;
 
 const useValue = () => useReducer(WatchlistReducer, initialState);
+
 export const { Provider: WatchListsProvider, useTrackedState: useTrackedState, useUpdate: useSetState } = createContainer(useValue);
+
 export const useWatchListState = () => {
     const setState = useSetState();
     const state = useTrackedState();
     return { state, setState };
 };
+
 const WatchlistContext = () => {
     const {
         state: { selectedWatchlist },
