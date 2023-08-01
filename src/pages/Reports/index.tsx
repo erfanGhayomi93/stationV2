@@ -1,14 +1,14 @@
 import { Navigate, useParams } from 'react-router-dom';
-import OrdersPage from './Orders/Context/OrdersContext';
-import TradesPage from './Trades/context/TradesContext';
+
 import TurnOver from './TurnOver';
+import Trades from './Trades';
+import Orders from './Orders';
 
 const Reports = () => {
     //
     const { activeTab } = useParams();
-    // if (activeTab === 'orders') return <OrdersPage />;
-    if (activeTab === 'orders') return <h1>سفارشات</h1>;
-    if (activeTab === 'trades') return <TradesPage />;
+    if (activeTab === 'orders') return <Orders />;
+    if (activeTab === 'trades') return <Trades />;
     if (activeTab === 'turnover') return <TurnOver />;
     return <Navigate to={'/Reports/orders'} />;
 };
