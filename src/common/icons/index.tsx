@@ -68,6 +68,8 @@ export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
 export { ReactComponent as OrdersIcon } from 'src/assets/svg/orders.svg';
 export { ReactComponent as TradesIcon } from 'src/assets/svg/trades.svg';
 export { ReactComponent as TurnoverIcon } from 'src/assets/svg/turnover.svg';
+export { ReactComponent as ArrowRightSlider } from 'src/assets/svg/arrowRightSlider.svg';
+export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 // Footer

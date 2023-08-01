@@ -1,6 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useMemo } from 'react';
-import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import PriceView from 'src/common/components/PriceView';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';

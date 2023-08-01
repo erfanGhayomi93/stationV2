@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
@@ -9,6 +9,7 @@ import { EditIcon2, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import CheckColumnShow from '../CheckColumnShow';
 import { FilterAllMarket } from '../FilterAllMarket';
+import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 
 interface IWatchlistControllerType {
     columns: ColDefType<IWatchlistSymbolTableType>[];
@@ -56,40 +57,52 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
     };
     const { t } = useTranslation();
 
+    const itemsScrollableSlider = useMemo(() => (
+        <ScrollableSlider pixelsToScroll={200} >
+            <>
+                <button
+                    onClick={() => setActiveWatchlist(0)}
+                    data-actived={state.selectedWatchlist === 0}
+                    className="py-1 px-2 ml-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                >
+                    کل بازار
+                </button>
+                <button
+                    onClick={() => setActiveWatchlist(1)}
+                    data-actived={state.selectedWatchlist === 1}
+                    className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                >
+                    دیده بان رامند
+                </button>
+
+                {watchlists?.map(
+                    (watchlist) =>
+                        watchlist.isPinned && (
+                            <button
+                                data-cy={'watchlist-itemScrollableSliders-' + watchlist.watchListName}
+                                onClick={() => setActiveWatchlist(watchlist.id)}
+                                key={watchlist.id}
+                                data-actived={watchlist.id === state.selectedWatchlist}
+                                className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                            >
+                                {watchlist.watchListName}
+                            </button>
+                        ),
+                )}
+            </>
+        </ScrollableSlider>
+    ),
+        [state.selectedWatchlist, watchlists],
+    )
+
     return (
-        <div className="py-2 flex justify-between w-full ">
-            <div className="flex gap-3 ">
-                <div className="flex gap-2  overflow-x-auto py-1 px-1">
-                    <button
-                        onClick={() => setActiveWatchlist(0)}
-                        data-actived={state.selectedWatchlist === 0}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                    >
-                        کل بازار
-                    </button>
-                    <button
-                        onClick={() => setActiveWatchlist(1)}
-                        data-actived={state.selectedWatchlist === 1}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                    >
-                        دیده بان رامند
-                    </button>
-                    {watchlists?.map(
-                        (watchlist) =>
-                            watchlist.isPinned && (
-                                <button
-                                    data-cy={'watchlist-items-' + watchlist.watchListName}
-                                    onClick={() => setActiveWatchlist(watchlist.id)}
-                                    key={watchlist.id}
-                                    data-actived={watchlist.id === state.selectedWatchlist}
-                                    className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                                >
-                                    {watchlist.watchListName}
-                                </button>
-                            ),
-                    )}
+        <div className="py-2 grid grid-cols-min-one w-full ">
+            <div className="flex gap-3">
+                <div className="py-1 w-[700px]">
+                    {itemsScrollableSlider}
                 </div>
-                <div className="flex gap-3 items-center justify-center">
+
+                <div className="flex gap-3 items-center">
                     <div className="flex gap-3 items-center justify-center">
                         <button
                             onClick={() => setIsAddActive(true)}
@@ -130,8 +143,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                     </button>
                 </div>
             </div>
-
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center whitespace-nowrap">
                 {state.selectedWatchlist === 0 && <FilterAllMarket />}
                 {state.selectedWatchlist === 1 && (
                     <>
@@ -140,9 +152,9 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                             <Select
                                 onChange={(select) => setDefaultWatchlist(select as any)}
                                 value={state.selectedDefaultWatchlist}
-                                options={defaultWatchlists?.map((item) => ({value: item, label: t('defaultWlOption.' + item)}))}
+                                options={defaultWatchlists?.map((item) => ({ value: item, label: t('defaultWlOption.' + item) }))}
                             />
-                                {/* {defaultWatchlists?.map((item, inx) => (
+                            {/* {defaultWatchlists?.map((item, inx) => (
                                     <SelectOption
                                         key={inx}
                                         label={t('defaultWlOption.' + item)}
@@ -156,7 +168,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                 )}
                 <CheckColumnShow {...{ columns }} />
             </div>
-        </div>
+        </div >
     );
 };
 
