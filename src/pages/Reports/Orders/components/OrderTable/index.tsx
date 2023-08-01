@@ -1,60 +1,38 @@
-import { FC, useMemo, useState } from 'react';
-import { useOrderLists } from 'src/app/queries/order';
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { valueFormatterIndex, valueFormatterSide, valueFormatterState } from 'src/utils/helpers';
-import { useOrdersState } from '../../Context/OrdersContext';
 
-interface IReportTableType {}
+const OrdersTable = () => {
+    //
+    const { t } = useTranslation()
 
-const OrderTable: FC<IReportTableType> = ({}) => {
-    const [active, setActive] = useState(1);
-    const PageSize = 10;
-    const { FromDate: FromDate, customerISIN: CustomerISIN, side: Side, status: OrderStatus, symbolISIN, ToDate: ToDate } = useOrdersState();
-
-    const {
-        data: reportList,
-        isFetching,
-        refetch,
-    } = useOrderLists(
-        { CustomerISIN, FromDate, OrderStatus, PageNumber: active, PageSize, Side, symbolISIN, ToDate },
-        { onSuccess: (data) => setActive(data.pageNumber) },
-    );
-
-    const handlePaginate = (inx: number) => {
-        setActive(inx);
-        const timeout = setTimeout(() => {
-            refetch();
-            clearTimeout(timeout);
-        }, 200);
-    };
     const Columns = useMemo(
-        (): ColDefType<IGTOrderListResultType>[] => [
-            { headerName: 'ردیف', field: 'customerTitles', valueFormatter: (data) => valueFormatterIndex(data, active, PageSize), width: 20 },
-            { headerName: 'مشتری', field: 'customerTitle' },
-            { headerName: 'نماد', field: 'symbolTitle' },
-            { headerName: 'سمت', field: 'orderSide', type: 'sepratedNumber', valueFormatter: valueFormatterSide },
-            { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
-            { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'وضعیت', field: 'state', type: 'sepratedNumber', valueFormatter: valueFormatterState },
-            { headerName: 'تاریخ', field: 'orderDateTime', type: 'date' },
+        (): ColDefType<any>[] => [
+            { headerName: t("ag_columns_headerName.row"), field: 'index', width: 20 },
+            { headerName: t("ag_columns_headerName.customer"), field: 'customerTitle' },
+            { headerName: t("ag_columns_headerName.symbol"), field: 'symboTitle', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.side"), field: 'orderSide', type: 'sepratedNumber'},
+            { headerName: t("ag_columns_headerName.count"), field: 'count', type: 'abbreviatedNumber' },
+            { headerName: t("ag_columns_headerName.price"), field: 'price', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.tradeValue"), field: 'price', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.status"), field: 'price', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.date"), field: 'date', type: 'date' },
             // { headerName: 'کارمزد معامله', field: 'lastTradedPrice', type: 'sepratedNumber' },
         ],
-        [active],
+        [],
     );
-
     return (
         <>
-            <WidgetLoading spining={isFetching}>
-                <AGTable rowData={reportList?.result || []} columnDefs={Columns} />
+            <WidgetLoading spining={false}>
+                <AGTable rowData={[]} columnDefs={Columns} />
             </WidgetLoading>
             <div className="border-t flex justify-end items-center  pt-4 ">
-                <Paginator loading={isFetching} current={active} total={reportList?.totalPages} onChange={handlePaginate} />
+                <Paginator loading={false} current={1} total={50} onChange={()=>{}} />
             </div>
         </>
     );
-};
+}
 
-export default OrderTable;
+export default OrdersTable

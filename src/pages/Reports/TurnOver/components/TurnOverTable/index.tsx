@@ -1,19 +1,22 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const TurnOverTable = () => {
     //
+    const { t } = useTranslation()
+
     const Columns = useMemo(
         (): ColDefType<any>[] => [
-            { headerName: 'ردیف', field: 'index', width: 20 },
-            { headerName: 'تاریخ', field: 'customerTitle' },
-            { headerName: 'عملیات', field: 'bourceCode' },
-            { headerName: 'شرح تراکنش', field: 'symboTitle', type: 'sepratedNumber' },
-            { headerName: 'بدهکار(ریال )', field: 'orderSide', type: 'sepratedNumber'},
-            { headerName: 'بستانکار (ریال)', field: 'date', type: 'date' },
-            { headerName: 'مانده (ریال)', field: 'count', type: 'abbreviatedNumber' },
+            { headerName: t("ag_columns_headerName.row"), field: 'index', width: 20 },
+            { headerName: t("ag_columns_headerName.date"), field: 'customerTitle' },
+            { headerName: t("ag_columns_headerName.actions"), field: 'bourceCode' },
+            { headerName: t("ag_columns_headerName.transactionDesc"), field: 'symboTitle', type: 'sepratedNumber' },
+            { headerName: t("ag_columns_headerName.debit"), field: 'orderSide', type: 'sepratedNumber'},
+            { headerName: t("ag_columns_headerName.credit"), field: 'date', type: 'date' },
+            { headerName: t("ag_columns_headerName.remain"), field: 'count', type: 'abbreviatedNumber' },
         ],
         [],
     );

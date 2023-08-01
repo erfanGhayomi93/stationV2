@@ -5,6 +5,7 @@ import TradesTable from './components/TradesTable';
 import { useState } from 'react';
 import { DateType } from 'src/common/components/AdvancedDatePicker';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 export interface TradesFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -14,10 +15,13 @@ export interface TradesFilterTypes {
     toDate: DateType;
     side: string[];
     customerType: string[];
+    stations: string;
 }
 
 const Trades = () => {
     //
+    const { t } = useTranslation()
+
     const [params, setParams] = useState<TradesFilterTypes>({
         customers: [],
         symbols: [],
@@ -25,18 +29,19 @@ const Trades = () => {
         fromDate: dayjs().subtract(1, "day").format(),
         toDate: '',
         side: [],
-        customerType: []
+        customerType: [],
+        stations: '',
     })
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
-                <h1 className="dark:text-D-gray-700 font-medium text-2xl">معاملات</h1>
-                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300">
-                    <Tippy content="بروزرسانی" className="text-xs">
+                <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t("page_title.trades")}</h1>
+                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                    <Tippy content={t("Action_Button.Update")} className="text-xs">
                         <Refresh2Icon className="cursor-pointer outline-none" />
                     </Tippy>
-                    <Tippy content="خروجی اکسل" className="text-xs">
+                    <Tippy content={t("Action_Button.ExportExcel")} className="text-xs">
                         <Excel2Icon className="cursor-pointer outline-none" />
                     </Tippy>
                 </div>

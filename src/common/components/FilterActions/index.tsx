@@ -18,14 +18,14 @@ const FilterActions = ({ onSubmit, onClear, toggleFilterBox, isFilterBoxOpen }: 
                 onClick={onSubmit}
                 className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
             >
-                {t('FilterBoxAction.Search')}
+                {t('Action_Button.Search')}
             </button>
 
             <button
                 onClick={onClear}
                 className="bg-L-primary-100  whitespace-nowrap w-[72px] dark:bg-D-primary-100 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
             >
-                {t('FilterBoxAction.Remove')}
+                {t('Action_Button.Remove')}
             </button>
         </div>
     );
