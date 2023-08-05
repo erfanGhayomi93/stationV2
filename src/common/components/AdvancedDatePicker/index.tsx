@@ -6,6 +6,7 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 import { dateFormatter } from 'src/utils/helpers';
 import Input from '../Input';
+import { CalendarIcon } from 'src/common/icons';
 
 export type DateType = Date | DateObject | DateObject[] | null | string | undefined;
 interface IAdvancedDatePicker<T> {
@@ -28,7 +29,7 @@ const AdvancedDatePicker: FC<IAdvancedDatePicker<DateType>> = ({ value, onChange
             ref={calendarRef}
             style={{ height: '32px' }}
             format="YYYY/MM/DD"
-            containerClassName={'h-full w-full'}
+            containerClassName={'w-full'}
             calendar={persian}
             locale={persian_fa}
             value={typeof value === 'string' ? new DateObject(value) : value}
@@ -74,14 +75,15 @@ const DatePickerInput = ({ value, openCalendar, handleValueChange, closeCalendar
         handleValueChange && handleValueChange(e);
     }, []);
     return (
-        <div className="w-full flex text-xs items-center rounded-md border border-L-gray-400 dark:border-D-gray-400 overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
+        <div className="w-full h-8 flex text-xs items-center rounded-md border border-L-gray-400 dark:border-D-gray-400 overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
             <Input
+                placeholder='تاریخ'
                 disabled={disabled}
                 value={value}
                 onFocus={openCalendar}
-                onBlur={() => setTimeout(() => closeCalendar(), 100)}
                 onChange={onInputChange}
                 onKeyDown={(e) => ['Enter', 'Tab'].includes(e.key) && closeCalendar()}
+                addonAfter={<CalendarIcon className='ml-2'/>}
             />
         </div>
     );
