@@ -160,6 +160,12 @@
         "remain":"مانده (ریال)",
         "tradeValue": "ارزش معامله",
         "status": "وضعیت"
-    }
+    },
+    "Input" : {
+        "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
+    } ,
+     "Watchlist" : {
+        "title" : "دیده‌بان"
+     }
     
 }

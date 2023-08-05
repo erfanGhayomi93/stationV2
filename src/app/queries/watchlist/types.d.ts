@@ -23,12 +23,22 @@ type IDefaultWatchlistType =
     | 'BuyQueueThreshold'
     | 'SellQueueThreshold';
 
+// interface IWatchlistType {
+//     id: number;
+//     createDate: string;
+//     watchListName: string;
+//     nullable: true;
+//     isPinned: boolean;
+// }
+
 interface IWatchlistType {
     id: number;
     createDate: string;
     watchListName: string;
-    nullable: true;
-    isPinned: boolean;
+    isDefault: boolean;
+    isSpecial: boolean;
+    hasSectorFilter: boolean;
+    isEditable: boolean;
 }
 
 interface IWatchlistSymbolType {

@@ -8,7 +8,7 @@ import {
     createWatchListMutation,
     deleteWatchListSymbolMutation,
     useSymbolInWatchlistQuery,
-    useWatchListsQuery,
+    useWatchlistsQuery,
 } from 'src/app/queries/watchlist';
 import Modal from '../Modal';
 
@@ -23,7 +23,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const [isEditActive, setIsEditActive] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const closeModal = () => setIsOpen(false);
-    const { data: watchlists } = useWatchListsQuery();
+    const { data: watchlists } = useWatchlistsQuery();
     const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {

@@ -1,7 +1,6 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import styles from "./ScrollableSlider.module.scss";
 import { ArrowLeftSlider, ArrowRightSlider } from "src/common/icons";
-import clsx from "clsx";
 
 
 type IScrollableSliderType = {
@@ -11,7 +10,6 @@ type IScrollableSliderType = {
 
 const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, children }) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [isDisable, setIsDisable] = useState({ left: false, right: true })
 
     const calcPixelsToScroll = (): number => {
         const container = containerRef.current;
@@ -25,7 +23,7 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
     };
 
     const nextStock = () => {
-        scrollToRight(calcPixelsToScroll()); 
+        scrollToRight(calcPixelsToScroll());
     };
 
     const handleMouseScroll = (event: React.WheelEvent<HTMLDivElement>) => {
@@ -59,9 +57,7 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
             previousElementSibling?.classList.remove("opacity-1")
             previousElementSibling?.classList.add("opacity-0")
         }
-    },
-        [],
-    )
+    }, [])
 
     useEffect(() => {
         handleClassForOverflow();
@@ -70,7 +66,9 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
     const scrollToRight = (pixels: number) => {
         const container = containerRef.current;
         if (!container) return;
-
+        
+        const nextElementSiblingSvg = container?.nextElementSibling?.firstElementChild
+        const previousElementSiblingSvg = container?.previousElementSibling?.firstElementChild
         const scrollLeft = (container.scrollLeft) + (pixels)
 
         container.scrollLeft += pixels
@@ -78,8 +76,15 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
         const isRightDisabled = scrollLeft + 1 >= 0;
         const isLeftDisabled = Math.abs(scrollLeft) >= container.scrollWidth - container.clientWidth - 1;
 
+        const updateSvgClass = (svgElement: Element | null, isDisabled: boolean) => {
+            svgElement?.classList.toggle("text-L-primary-100", isDisabled);
+            svgElement?.classList.toggle("dark:text-D-primary-100", isDisabled);
+            svgElement?.classList.toggle("text-L-primary-50", !isDisabled);
+            svgElement?.classList.toggle("dark:text-D-primary-50", !isDisabled);
+        };
 
-        setIsDisable({ left: isLeftDisabled, right: isRightDisabled });
+        updateSvgClass(previousElementSiblingSvg as Element, isRightDisabled);
+        updateSvgClass(nextElementSiblingSvg as Element, isLeftDisabled);
     };
 
     return (
@@ -90,10 +95,7 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
                 <ArrowRightSlider
                     width="1.5rem"
                     height="1.5rem"
-                    className={clsx("mx-2 cursor-pointer", {
-                        "text-L-primary-100 dark:text-D-primary-100": isDisable.right,
-                        "text-L-primary-50 dark:text-D-primary-50": !isDisable.right,
-                    })}
+                    className={"mx-2 cursor-pointer text-L-primary-100 dark:text-D-primary-100"}
                     onClick={nextStock}
                 />
             </div>
@@ -110,10 +112,7 @@ const ScrollableSlider: React.FC<IScrollableSliderType> = ({ pixelsToScroll, chi
                 <ArrowLeftSlider
                     width="1.5rem"
                     height="1.5rem"
-                    className={clsx("cursor-pointer mx-2", {
-                        "text-L-primary-100 dark:text-D-primary-100": isDisable.left,
-                        "text-L-primary-50 dark:text-D-primary-50": !isDisable.left,
-                    })}
+                    className={"cursor-pointer mx-2 text-L-primary-50 dark:text-D-primary-50"}
                     onClick={prevStock} />
             </div>
         </div>
