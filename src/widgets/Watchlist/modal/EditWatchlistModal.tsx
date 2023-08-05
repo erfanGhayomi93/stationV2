@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ICellRendererParams } from 'ag-grid-community';
 import { FC, KeyboardEvent, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { deleteWatchListMutation, sortWatchListMutation, updateWatchListMutation, useWatchListsQuery } from 'src/app/queries/watchlist';
+import { deleteWatchListMutation, sortWatchListMutation, updateWatchListMutation, useWatchlistsQuery } from 'src/app/queries/watchlist';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon, DeleteIcon, EditIcon2 } from 'src/common/icons';
@@ -12,7 +12,7 @@ type IEditWatchlistModalType = {};
 
 const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
     const { setState, state } = useWatchListState();
-    const { data: watchlists } = useWatchListsQuery();
+    const { data: watchlists } = useWatchlistsQuery();
     const [editMode, setEditMode] = useState();
     const queryClient = useQueryClient();
     const [sortWatchlist, setSortWatchlist] = useState<Array<number> | []>([]);

@@ -7,25 +7,22 @@ import { setSelectedSymbol } from 'src/redux/slices/option';
 import { UseHandleShowColumn } from './components/UseHandleShowColumn';
 import WatchlistController from './components/WatchlistController/WatchlistController';
 import { useWatchListState } from './context/WatchlistContext';
+import { useTranslation } from 'react-i18next';
 
 type Props = {};
-// type WatchlistData = {
-//     symbolISIN: string;
-//     symbolTitle: string;
-//     lastTradedPrice: number;
-//     closingPrice: number;
-//     totalNumberOfSharesTraded: number;
-//     totalTradeValue: number;
-// };
+
 const Watchlists = (props: Props) => {
+    const { t } = useTranslation()
     const appDispatch = useAppDispatch();
     const {
         state: { selectedWatchlist, selectedDefaultWatchlist, PageNumber, marketUnit, sector },
         setState,
     } = useWatchListState();
+
     const { columns } = UseHandleShowColumn();
 
     const { data: defaultWatchlistSymbols } = useDefaultWatchlistSymbolsQuery(selectedDefaultWatchlist);
+
     const { data: watchlistSymbols } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlist, {
         select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol })),
     });
@@ -46,9 +43,10 @@ const Watchlists = (props: Props) => {
     return (
         <div className="h-full grid grid-rows-min-one py-3 px-6">
             <div>
-                <h1 className="text-L-gray-500 dark:text-D-gray-700 font-medium text-2xl py-4">دیده‌بان</h1>
+                <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t("Watchlist.title")}</h1>
                 <WatchlistController {...{ columns }} />
             </div>
+
             <WidgetLoading spining={isFetching}>
                 <AGTable
                     rowData={selectedWatchlist === 0 ? symbols : selectedWatchlist === 1 ? defaultWatchlistSymbols : watchlistSymbols}
