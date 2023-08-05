@@ -3,5 +3,10 @@
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": false,
 		"source.sortImports": false
-	}
+	},
+	"cSpell.words": [
+		"actived",
+		"Watchlist",
+		"Watchlists"
+	]
 }

@@ -2,11 +2,25 @@ import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tan
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
-// queries
+// get watchlists
 const getWatchLists = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistType[]>>(Apis().WatchList.Get as string, undefined);
     return data?.result;
 };
+
+// prettier-ignore
+export const useWatchlistsQuery = <T = IWatchlistType[],>(
+    options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+) => {
+    return useQuery(['getWatchLists'], () => getWatchLists());
+};
+
+
+
+
+
+
+
 
 const createWatchList = async (watchlistName: string) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<ICreateWatchlistResultType>>(
@@ -79,12 +93,6 @@ const getSectorList = async () => {
 
 //hooks
 
-// prettier-ignore
-export const useWatchListsQuery = <T = IWatchlistType[],>(
-    options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
-) => {
-    return useQuery(['getWatchLists'], ({ queryKey }) => getWatchLists());
-};
 
 // prettier-ignore
 export const useWatchListSymbolsQuery = <T = IWatchlistSymbolType[],>(watchlistId: number | undefined,
