@@ -1,5 +1,6 @@
 type WathclistAction =
-    | { type: 'SET_SELECTED_WATCHLIST'; value: number }
+    | { type: 'SET_SELECTED_WATCHLIST'; value: {id : number , type : WatchlistType } }
+    | { type: 'SET_SELECTED_WATCHLIST_TYPE'; value: WatchlistType }
     | { type: 'SET_SELECTED_DEFAULT_WATCHLIST'; value: IDefaultWatchlistType }
     | { type: 'TOGGLE_EDIT_MODE'; value: boolean }
     | { type: 'CHANGE_IS_SHOW_COLUMN'; value: string[] }
@@ -9,7 +10,8 @@ type WathclistAction =
     | { type: 'SET_Sector_Filter'; value: { id: string; title: string } };
 SET_COLUMN;
 type WathclistState = {
-    selectedWatchlist: number | undefined;
+    selectedWatchlistId: number | undefined;
+    watchlistType: WatchlistType;
     editMode: boolean;
     selectedDefaultWatchlist: IDefaultWatchlistType;
     listShowColumn: string[];

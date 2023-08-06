@@ -12,12 +12,12 @@ interface IActionCellRendererType extends IWatchlistSymbolTableType {}
 
 const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
     const {
-        state: { selectedWatchlist },
+        state: { selectedWatchlistId },
     } = useWatchListState();
     const queryClient = useQueryClient();
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {
-            queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlist]);
+            queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId]);
             toast.success('دیده‌بان با موفقیت اضافه شد');
 
             //FIXME:connect to toast adaptor
@@ -35,7 +35,7 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
             </div>
 
             <div className="flex items-center justify-center gap-1 text-L-primary-50 dark:text-D-primary-50 border-r pr-1">
-                {selectedWatchlist ? (
+                {selectedWatchlistId ? (
                     <>
                         <button>
                             <NoteIcon />
@@ -43,7 +43,7 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
                         <button>
                             <DeleteIcon
                                 data-cy="delete-symbol-from-wl"
-                                onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlist as number })}
+                                onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlistId as number })}
                             />
                         </button>
                     </>

@@ -5,7 +5,7 @@ import { CheckListIcon, DefalutRefreshIcon } from 'src/common/icons';
 import { useSetState, useWatchListState } from '../../context/WatchlistContext';
 
 interface ICheckColumnShowType {
-    columns: ColDefType<IWatchlistSymbolTableType>[];
+    columns: ColDefType<ISymbolType>[];
 }
 
 const CheckColumnShow: FC<ICheckColumnShowType> = ({ columns }) => {
@@ -62,7 +62,7 @@ const CheckColumnShow: FC<ICheckColumnShowType> = ({ columns }) => {
 export default CheckColumnShow;
 
 type Item = {
-    item: ColDefType<IWatchlistSymbolTableType>;
+    item: ColDefType<ISymbolType>;
     listShowColumn: string[];
 };
 

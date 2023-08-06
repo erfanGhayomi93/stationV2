@@ -3,6 +3,7 @@ import { UseGetSector } from 'src/app/queries/watchlist';
 import SelectType from 'src/common/components/SelectType';
 import { ArrowLeftAlt } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
+import Select from 'src/common/components/Select';
 
 export const FilterAllMarket = () => {
     const { data: dataSector } = UseGetSector();
@@ -20,14 +21,14 @@ export const FilterAllMarket = () => {
     return (
         <div className="flex items-stretch">
             <div className="flex items-center ml-7">
-                <p className="ml-1">نمایش بر اساس </p>
-                <ArrowLeftAlt />
+                <p className="ml-1 text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس: </p>
+                {/* <ArrowLeftAlt /> */}
             </div>
 
-            <div className="flex items-center gap-3 pl-3 border-l-2 border-L-gray-400 dark:border-D-gray-400">
-                <p className="pl-1">نوع بازار:</p>
+            <div className="flex items-center gap-3 pl-3 my-1 border-l-2 border-L-gray-400 dark:border-D-gray-400">
+                <p className="pl-1 text-L-gray-600 dark:text-D-gray-600">نوع بازار:</p>
 
-                {typeMarket.map((item, ind) => (
+                {marketTypeOptions.map((item, ind) => (
                     <div key={ind} className="flex">
                         <input
                             name="marketUnit"
@@ -37,15 +38,15 @@ export const FilterAllMarket = () => {
                             // onChange={() => handleOnchange('SET_MarketUnit_Filter', item.type)}
                             onChange={() => setState({ type: 'SET_MarketUnit_Filter', value: item.type })}
                         />
-                        <label htmlFor={item.type} className="pr-1.5 cursor-pointer">
+                        <label htmlFor={item.type} className="pr-1.5 cursor-pointer text-L-gray-700 dark:text-D-gray-700">
                             {item.label}
                         </label>
                     </div>
                 ))}
             </div>
 
-            <div className="flex items-center gap-1 px-3">
-                <span>صنایع :</span>
+            <div className="flex items-center gap-1 px-3 ">
+                <span className='text-L-gray-600 dark:text-D-gray-600'>صنایع :</span>
                 <div className="min-w-[12.5rem]">
                     <SelectType
                         value={sector}
@@ -56,32 +57,23 @@ export const FilterAllMarket = () => {
                 </div>
             </div>
 
-            {/* <div className="flex items-center gap-1 px-3">
+            {/* <div className="flex items-center gap-1 px-3 my-1  border-r-2 border-L-gray-400 dark:border-D-gray-400">
                 <span>اوراق :</span>
-                <div className=" min-w-[8.5rem]">
-                    <Select
-                        onChange={() => null}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md py-1.5 pr-3 pl-10"
-                        placeholder="همه"
-                    >
-                        {industry.map((item, inx) => (
-                            <SelectOption
-                                key={inx}
-                                // label={t('OrderState.' + item.value)}
-                                // value={item.value}
-                                label={item.label}
-                                value=""
-                                className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
-                            />
-                        ))}
-                    </Select>
+                <div className="min-w-[12.5rem]">
+                    <SelectType
+                        value={sector}
+                        onChange={(data) => setState({ type: 'SET_Sector_Filter', value: data as ISectorList })}
+                        options={oraghOptions || []}
+                        placeholder="انواع صنعت"
+                    />
                 </div>
             </div> */}
+
         </div>
     );
 };
 
-const typeMarket = [
+const marketTypeOptions = [
     {
         label: 'همه',
         type: '',
@@ -95,3 +87,19 @@ const typeMarket = [
         type: 'FaraBourse',
     },
 ];
+
+// const oraghOptions = [
+//     {
+//         title: 'خزانه',
+//         id: '',
+//     },
+//     {
+//         title: 'تبعی',
+//         id: '',
+//     },
+//     {
+//         title: 'در اختیار',
+//         id: '',
+//     },
+// ];
+

@@ -31,14 +31,14 @@ type IDefaultWatchlistType =
 //     isPinned: boolean;
 // }
 
+type WatchlistType = 'Market' | 'Ramand' | 'Pinned' | 'User';
 interface IWatchlistType {
     id: number;
     createDate: string;
     watchListName: string;
     isDefault: boolean;
-    isSpecial: boolean;
-    hasSectorFilter: boolean;
     isEditable: boolean;
+    type: WatchlistType;
 }
 
 interface IWatchlistSymbolType {
@@ -57,8 +57,7 @@ interface IWatchlistSymbolRequestType {
 
 interface IWatchlistRequestType {
     id: number;
-    watchlistName: string;
-    isPinned: boolean;
+    watchListName: string;
 }
 
 interface ISymbolType {
@@ -116,4 +115,7 @@ interface ISectorList {
     title: string;
 }
 
-type IResponseMarket = { symbols: any; totalCount: number };
+type IResponseMarket = {
+    symbols: ISymbolType[];
+    totalCount: number;
+};
