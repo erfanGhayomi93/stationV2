@@ -102,3 +102,31 @@ interface IGTOrderListRequest {
     PageNumber?: number;
     PageSize?: number;
 }
+
+
+interface IGTTradesListRequest {
+    FromDate?: string;
+    ToDate?: string;
+    Side?: OrderSideType;
+    SymbolISIN?: string[];
+    CustomerISIN?: string[];
+    OrderStatus?: OrderStatusType;
+    PageNumber?: number;
+    PageSize?: number;
+}
+
+
+interface IGTTradesListResultType {
+    customerISIN: string;
+    customerTitle: string;
+    symbolTitle: string;
+    symbolISIN: string;
+    bourseCode: string;
+    nationalCode: string;
+    orderSide: OrderSideType;
+    customerType: string;
+    tradeDate: string;
+    tradeQuantity: number;
+    tradePrice: number;
+    totalPrice: number;
+}

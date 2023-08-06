@@ -38,7 +38,7 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({ options, value, onC
                             className={clsx(
                                 'relative w-full cursor-default overflow-hidden rounded-lg bg-white text-right shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-1 sm:text-sm border py-2 pr-3 pl-8',
                                 {
-                                    'bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 focus-visible:border-L-primary-50 dark:focus-visible:border-D-primary-50 ':
+                                    'bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 focus-visible:border-L-primary-50 dark:focus-visible:border-D-primary-50 text-L-gray-500 dark:text-D-gray-500':
                                         !classSelect,
                                     [classSelect as string]: !!classSelect,
                                 },
@@ -60,7 +60,7 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({ options, value, onC
                     leaveTo="opacity-0"
                     afterLeave={() => setQuery('')}
                 >
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                         {filteredOptions.length === 0 && query !== '' ? (
                             <div className="relative cursor-default select-none py-2 px-4 text-gray-700">موردی یافت نشد</div>
                         ) : (
@@ -68,7 +68,7 @@ const SelectType: FC<ComboboxComponentProps<valueType>> = ({ options, value, onC
                                 <Combobox.Option
                                     key={option.id}
                                     className={({ active }) =>
-                                        clsx('relative cursor-default select-none py-2 px-4', {
+                                        clsx('text-L-gray-700 dark:text-D-gray-700 relative cursor-default select-none py-2 px-4', {
                                             'bg-L-primary-50 text-white': active,
                                         })
                                     }

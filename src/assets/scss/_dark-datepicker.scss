@@ -1,0 +1,37 @@
+@import "tailwindcss/tailwind.css";
+
+
+.rmdp-ep-arrow[direction=top] {
+    @apply dark:border-b-0;
+
+    &::after{
+        @apply dark:bg-D-gray-100 dark:border-none;
+    }
+}
+
+.rmdp-wrapper{
+    @apply dark:bg-D-gray-100 dark:text-L-basic;
+
+    .rmdp-header-values {
+        @apply dark:text-L-basic;
+    }
+
+    .rmdp-year-picker, .rmdp-month-picker, .rmdp-day-picker {
+        @apply dark:bg-D-gray-100 dark:text-L-basic;
+
+        .rmdp-day{
+            @apply dark:text-L-basic
+        }
+
+        .rmdp-week-day{
+            @apply dark:text-L-info-50;
+        }
+    }
+
+}
+  
+.rmdp-time-picker {
+    input {
+        @apply dark:text-L-basic dark:bg-D-gray-100
+    }
+}

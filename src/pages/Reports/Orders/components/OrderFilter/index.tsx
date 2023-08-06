@@ -36,7 +36,7 @@ const OrdersFilter = ({ params, setParams }: IProps) => {
                     <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge('symbols', selected)} selected={params.symbols} />
+                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('symbols', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
                     <AdvancedDatePicker

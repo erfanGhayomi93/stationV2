@@ -2,18 +2,72 @@ import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tan
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
-// get watchlists
+// get watchlists//
 const getWatchLists = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistType[]>>(Apis().WatchList.Get as string, undefined);
     return data?.result;
 };
 
-// prettier-ignore
 export const useWatchlistsQuery = <T = IWatchlistType[],>(
     options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
     return useQuery(['getWatchLists'], () => getWatchLists());
 };
+
+{/* get watchlists List user */ }
+const getWatchListSymbols = async (watchlistId: number) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(Apis().WatchList.GetWatchListSymbols as string, {
+        params: { watchlistId },
+    });
+    return data?.result || [];
+};
+
+export const useWatchListSymbolsQuery = <T = IWatchlistSymbolType[],>(watchlistId: number | undefined, watchlistType: WatchlistType,
+    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+) => {
+    return useQuery(['getWatchListSymbols', watchlistId], () => getWatchListSymbols(watchlistId as number), { enabled: watchlistType !== 'Market' && watchlistType !== "Ramand", ...options });
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// get watchlist symbol market//
+export const getMarketSymbol = async (params: IMarketSymbol) => {
+    const { PageNumber, marketUnit, SectorCode } = params || {};
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
+        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null },
+    });
+    return data;
+};
+
+
+export const useGetMarketSymbolQuery = (
+    params: IMarketSymbol,
+    watchlistType: WatchlistType
+    // options?: any,
+) => {
+    const { PageNumber, SectorCode, marketUnit } = params
+    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { enabled: watchlistType === "Market" });
+};
+
+
+//get watchlist symbol default ramand //
+const getDefaultWatchlistSymbols = async (selectedDefaultWatchlist: IDefaultWatchlistType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(Apis().WatchList.GetDefaultWatchlistSymbols as string, {
+        params: { watchlistId: selectedDefaultWatchlist },
+    });
+    return data?.result;
+};
+
+export const useDefaultWatchlistSymbolsQuery = (
+    selectedDefaultWatchlist: IDefaultWatchlistType,
+    watchlistType: WatchlistType
+    // options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+) => {
+    return useQuery(['getDefaultWatchlistSymbols', selectedDefaultWatchlist], () => getDefaultWatchlistSymbols(selectedDefaultWatchlist as IDefaultWatchlistType), {
+        enabled: !!selectedDefaultWatchlist && watchlistType === 'Ramand',
+    });
+};
+
+
 
 
 
@@ -35,11 +89,11 @@ const deleteWatchList = async (id: number) => {
     return data?.result;
 };
 
-const updateWatchList = async ({ id, watchlistName, isPinned }: IWatchlistRequestType) => {
+const updateWatchList = async ({ id, watchListName }: IWatchlistRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(
         Apis().WatchList.Update as string,
         {},
-        { params: { id, watchlistName, isPinned } },
+        { params: { id, watchListName } },
     );
     return data?.result;
 };
@@ -47,12 +101,7 @@ const sortWatchList = async (srrtID: number[]) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Sort as string, srrtID);
     return data?.result;
 };
-const getWatchListSymbols = async (watchlistId: number) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(Apis().WatchList.GetWatchlistSymbol as string, {
-        params: { watchlistId },
-    });
-    return data?.result || [];
-};
+
 
 const GetSymbolInWatchlist = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<ISymbolInWatchlist[]>>(Apis().WatchList.GetSymbolInWatchlist as string);
@@ -72,19 +121,8 @@ const getDefaultWatchlist = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.DefaultWatchlist as string);
     return data?.result || [];
 };
-const getDefaultWatchlistSymbols = async (watchlistId: IDefaultWatchlistType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(Apis().WatchList.GetDefaultWatchlistSymbols as string, {
-        params: { watchlistId },
-    });
-    return data?.result;
-};
-export const getMarketSymbol = async (params: IMarketSymbol) => {
-    const { PageNumber, marketUnit, SectorCode } = params || {};
-    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
-        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null },
-    });
-    return data;
-};
+
+
 
 const getSectorList = async () => {
     const { data } = await AXIOS.get<GlobalApiResponseType<ISectorList[]>>(Apis().WatchList.GetSector);
@@ -94,12 +132,6 @@ const getSectorList = async () => {
 //hooks
 
 
-// prettier-ignore
-export const useWatchListSymbolsQuery = <T = IWatchlistSymbolType[],>(watchlistId: number | undefined,
-    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
-) => {
-    return useQuery(['getWatchListSymbols', watchlistId], ({ queryKey }) => getWatchListSymbols(watchlistId as number), { ...options, enabled: !!watchlistId });
-};
 
 // prettier-ignore
 export const useSymbolInWatchlistQuery = <T = ISymbolInWatchlist[],>(
@@ -136,21 +168,8 @@ export const useDefaultWatchlistQuery = (
     return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist(), { initialData: [] });
 };
 
-// prettier-ignore
-export const useDefaultWatchlistSymbolsQuery = (watchlistId?: IDefaultWatchlistType, options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
-    return useQuery(['getDefaultWatchlistSymbols', watchlistId], ({ queryKey }) => getDefaultWatchlistSymbols(watchlistId as IDefaultWatchlistType), {
-        ...options,
-        enabled: !!watchlistId,
-    });
-};
 
-export const useGetMarketSymbolQuery = (
-    params: IMarketSymbol,
-    options?: any,
-) => {
-    const { PageNumber, SectorCode, marketUnit } = params
-    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { ...options });
-};
+
 
 export const UseGetSector = () => {
     return useQuery(['sectors'], getSectorList);
