@@ -8,15 +8,15 @@ import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
 
 interface ISymbolMiniSelectType {
-    setSelected: (selected: SymbolSearchResult[]) => void;
-    selected: SymbolSearchResult[];
+    onChange: (selected: string[]) => void;
     multiple?: boolean;
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ onChange, multiple }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
+    const [selected, setSelected] = useState<SymbolSearchResult[]>([]);
 
     const {
         data: qData,
@@ -29,12 +29,13 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
         },
     });
 
-    useEffect(() => {
-        selected.length === 0 && setTerm('');
-    }, [selected]);
+    // useEffect(() => {
+    //     selected.length === 0 && setTerm('');
+    // }, [selected]);
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
+        onChange && onChange(value.map(({ symbolISIN }) => symbolISIN));
         !multiple && setPanel(false);
     };
     interface IOptionsType {
