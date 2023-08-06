@@ -42,7 +42,7 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge('symbols', selected)} selected={params.symbols} />
+                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('symbols', selected)}  />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.MarketUnit')}>
                     <Select onChange={(selected) => handleValueCahnge('marketUnit', selected)} value={params.marketUnit} options={[]} />

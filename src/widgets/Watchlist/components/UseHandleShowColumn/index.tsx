@@ -12,16 +12,35 @@ export const UseHandleShowColumn = () => {
     const {
         state: { listShowColumn },
     } = useWatchListState();
+
     const setState = useSetState();
+
     const { t } = useTranslation();
+
     const [watchListTableLocal, setWatchListTableLocal] = useLocalStorage<string[] | null>('watchListTable', null);
 
     const handleIsSHowColumn = (field: string) => {
         return !listShowColumn.includes(field);
     };
 
+      ////////////////////initialState listShowColumn//////////////////////////////////////////
+      const setDefaultColumn = () => {
+        setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: Columns.filter((item) => item.hasOwnProperty('hide')).map((item: any) => item?.field) });
+    };
+    
+    useEffect(() => {
+        if (!watchListTableLocal) setDefaultColumn();
+        else setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: watchListTableLocal });
+    }, []);
+
+    ///////////////////////listener for set localStorage///////////////////////
+    useEffect(() => {
+        setWatchListTableLocal(listShowColumn);
+    }, [listShowColumn]);
+
+
     const Columns = useMemo(
-        (): ColDefType<IWatchlistSymbolTableType>[] => [
+        (): ColDefType<ISymbolType>[] => [
             { headerName: 'نماد', field: 'symbolTitle' },
             {
                 headerName: 'آخرین قیمت',
@@ -102,26 +121,13 @@ export const UseHandleShowColumn = () => {
             // },
             {
                 headerName: 'عملیات',
-                cellRenderer: ({ data }: ICellRendererParams<IWatchlistSymbolTableType>) => <ActionCellRenderer {...(data as any)} />,
+                cellRenderer: ({ data }: ICellRendererParams<ISymbolType>) => <ActionCellRenderer {...(data as any)} />,
                 field: 'actions',
             },
         ],
         [listShowColumn],
     );
 
-    ////////////////////initialState listShowColumn//////////////////////////////////////////
-    const setDefaultColumn = () => {
-        setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: Columns.filter((item) => item.hasOwnProperty('hide')).map((item: any) => item?.field) });
-    };
-    useEffect(() => {
-        if (!watchListTableLocal) setDefaultColumn();
-        else setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: watchListTableLocal });
-    }, []);
-
-    ///////////////////////listener for set localStorage///////////////////////
-    useEffect(() => {
-        setWatchListTableLocal(listShowColumn);
-    }, [listShowColumn]);
 
     return { columns: Columns };
 };

@@ -82,6 +82,7 @@ export const Apis = () => ({
         Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
         GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
         Modify: getOrderUrl() + '/GTOrder/v1/Modify',
+        Trades: getOrderUrl() + '/GTOrder/v1/Trades',
     },
     SupervisorMessage: {
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
@@ -110,7 +111,8 @@ export const Apis = () => ({
         Delete: getPortfolioUrl() + '/GTWatchlist/v1/Delete',
         Update: getPortfolioUrl() + '/GTWatchlist/v1/Update',
         Sort: getPortfolioUrl() + '/GTWatchlist/v1/Sort',
-        GetWatchlistSymbol: getPortfolioUrl() + '/GTWatchlist/v1/GetWatchlistSymbols',
+        // GetWatchlistSymbol: getPortfolioUrl() + '/GTWatchlist/v1/GetWatchlistSymbols',
+        GetWatchListSymbols: getPortfolioUrl() + '/GtWatchlist/v1/GetWatchListSymbols',
         DeleteSymbol: getPortfolioUrl() + '/GTWatchlist/v1/DeleteSymbol',
         AddSymbol: getPortfolioUrl() + '/GTWatchlist/v1/AddSymbol',
         DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
