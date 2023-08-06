@@ -165,7 +165,12 @@
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
     } ,
      "Watchlist" : {
-        "title" : "دیده‌بان"
+        "title" : "دیده‌بان" , 
+        "management" : "مدیریت گروه های دیده بان" ,
+        "addNewWatchlist" : "ایجاد دیده بان جدید" , 
+        "titleColumn" : "عنوان دیده‌بان" , 
+        "submitAdd" : "ثبت دیده بان" , 
+        "cancelAdd" : "انصراف"
      }
     
 }

@@ -3,7 +3,8 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
         case 'SET_SELECTED_WATCHLIST':
             return {
                 ...state,
-                selectedWatchlist: action.value,
+                selectedWatchlistId: action.value.id,
+                watchlistType : action.value.type
             };
         case 'SET_SELECTED_DEFAULT_WATCHLIST':
             return {

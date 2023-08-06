@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FC, FormEvent, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { createWatchListMutation, useDefaultWatchlistQuery, useWatchlistsQuery } from 'src/app/queries/watchlist';
+import { createWatchListMutation, useDefaultWatchlistQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
 import Select from 'src/common/components/Select';
 import { EditIcon2, PlusIcon } from 'src/common/icons';
@@ -13,59 +13,41 @@ import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableS
 import { AddWatchList } from '../AddWatchlist';
 
 interface IWatchlistControllerType {
-    columns: ColDefType<IWatchlistSymbolTableType>[];
+    columns: ColDefType<ISymbolType>[];
+    watchlists: IWatchlistType[] | undefined
 }
 
-const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
-
-    const { data: watchlists } = useWatchlistsQuery();
-
+const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists }) => {
     const { setState, state } = useWatchListState();
 
+    const [isAddActive, setIsAddActive] = useState(false);
 
-    const [isAddActive, setIsAddActive] = useState(true);
-    // const { data: defaultWatchlists } = useDefaultWatchlistQuery();
+    const { data: defaultWatchlists } = useDefaultWatchlistQuery();
 
-   
 
-    const setActiveWatchlist = (id: number) => {
-        setState({ value: id, type: 'SET_SELECTED_WATCHLIST' });
+    const setActiveWatchlist = ({ id, type }: { id: number, type: WatchlistType }) => {
+        setState({ value: { id, type }, type: 'SET_SELECTED_WATCHLIST' });
     };
 
     const setDefaultWatchlist = (key: IDefaultWatchlistType) => {
         setState({ value: key, type: 'SET_SELECTED_DEFAULT_WATCHLIST' });
     };
 
-   
+
     const openEditModal = () => {
         setState({ type: 'TOGGLE_EDIT_MODE', value: true });
     };
     const { t } = useTranslation();
 
     const itemsScrollableSlider = useMemo(() => (
-        <ScrollableSlider pixelsToScroll={200} >
+        <ScrollableSlider>
             <>
-                {/* <button
-                    onClick={() => setActiveWatchlist(0)}
-                    data-actived={state.selectedWatchlist === 0}
-                    className="py-1 px-2 ml-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                >
-                    کل بازار
-                </button>
-                <button
-                    onClick={() => setActiveWatchlist(1)}
-                    data-actived={state.selectedWatchlist === 1}
-                    className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                >
-                    دیده بان رامند
-                </button> */}
-
                 {watchlists?.map((watchlist) => (
                     <button
                         data-cy={'watchlist-itemScrollableSliders-' + watchlist.watchListName}
-                        onClick={() => setActiveWatchlist(watchlist.id)}
+                        onClick={() => setActiveWatchlist({ id: watchlist.id, type: watchlist.type })}
                         key={watchlist.id}
-                        data-actived={watchlist.id === state.selectedWatchlist}
+                        data-actived={watchlist.id === state.selectedWatchlistId}
                         className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
                     >
                         {watchlist.watchListName}
@@ -74,7 +56,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
             </>
         </ScrollableSlider>
     ),
-        [state.selectedWatchlist],
+        [state.selectedWatchlistId, watchlists],
     )
 
     return (
@@ -96,8 +78,8 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
                         </button>
 
                         <AddWatchList
-                           isAddActive={isAddActive}
-                           setIsAddActive={setIsAddActive}
+                            isAddActive={isAddActive}
+                            setIsAddActive={setIsAddActive}
                         />
                     </div>
                     <button
@@ -112,17 +94,17 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
 
 
             <div className="flex gap-2 items-center whitespace-nowrap">
-                {state.selectedWatchlist === 0 && <FilterAllMarket />}
+                {state.watchlistType === "Market" && <FilterAllMarket />}
 
-                {state.selectedWatchlist === 1 && (
+                {state.watchlistType === "Ramand" && (
                     <>
-                        <span>نمایش بر اساس :</span>
+                        <span className='text-L-gray-700 dark:text-D-gray-700'>نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
-                            {/* <Select
+                            <Select
                                 onChange={(select) => setDefaultWatchlist(select as any)}
                                 value={state.selectedDefaultWatchlist}
                                 options={defaultWatchlists?.map((item) => ({ value: item, label: t('defaultWlOption.' + item) }))}
-                            /> */}
+                            />
                         </div>
                     </>
                 )}
