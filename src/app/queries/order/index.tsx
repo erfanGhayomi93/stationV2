@@ -57,3 +57,18 @@ const updateOrderFn = async (params: any) => {
 export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Error, any, unknown>, 'mutationKey' | 'mutationFn'>) => {
     return useMutation(updateOrderFn, options);
 };
+
+
+///////////Trades//////////
+
+export const getTradesLists = async (params: IGTTradesListRequest) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(Apis().Orders.Trades, {
+        params,
+    });
+    return data;
+};
+
+export const useTradesLists = <T=GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(param: IGTTradesListRequest,
+    options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTTradesListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTTradesListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
+    return useQuery(['getOrderLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options,enabled:false });
+};
