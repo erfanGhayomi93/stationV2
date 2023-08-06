@@ -7,25 +7,23 @@ import FilterBlock from 'src/common/components/FilterBlock';
 import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
-import { TradesFilterTypes } from '../..';
 
 interface IProps {
-    params: TradesFilterTypes;
-    setParams: React.Dispatch<React.SetStateAction<TradesFilterTypes>>;
+    params: IGTTradesListRequest;
+    setParams: React.Dispatch<React.SetStateAction<IGTTradesListRequest>>;
+    onSubmit: () => void
 }
 
-const TradesFilter = ({ params, setParams }: IProps) => {
+const TradesFilter = ({ params, setParams, onSubmit }: IProps) => {
     //
     const { t } = useTranslation();
     const [isOpenFilter, setIsOpenFilter] = useState(false);
 
-    const handleValueCahnge = (part: keyof TradesFilterTypes, value: any) => {
+    const handleValueCahnge = (part: keyof IGTTradesListRequest, value: any) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
     const toggleFilterBox = () => setIsOpenFilter(!isOpenFilter);
-
-    const onSubmit = () => {};
 
     const onClear = () => {};
 
@@ -33,15 +31,22 @@ const TradesFilter = ({ params, setParams }: IProps) => {
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
-                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} />
+                    <CustomerMegaSelect
+                        onChange={(selected) =>
+                            handleValueCahnge(
+                                'CustomerISIN',
+                                selected.map(({ customerISIN }) => customerISIN),
+                            )
+                        }
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple setSelected={(selected) => handleValueCahnge('symbols', selected)} selected={params.symbols} />
+                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('SymbolISIN', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
                     <Select
-                        onChange={(selected) => handleValueCahnge('time', selected)}
-                        value={params.time}
+                        onChange={(selected) => {}}
+                        value={''}
                         // value={side}
                         options={[
                             { value: 'day', label: t('timeSheet.day') },
@@ -54,34 +59,33 @@ const TradesFilter = ({ params, setParams }: IProps) => {
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
                     <AdvancedDatePicker
-                        value={params.fromDate}
-                        onChange={(selectedDates) => handleValueCahnge('fromDate', selectedDates)}
+                        value={params.FromDate}
+                        onChange={(selectedDates) => handleValueCahnge('FromDate', selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
                     <AdvancedDatePicker
-                        value={params.toDate}
-                        onChange={(selectedDates: any) => handleValueCahnge('toDate', selectedDates)}
+                        value={params.ToDate}
+                        onChange={(selectedDates: any) => handleValueCahnge('ToDate', selectedDates)}
                         className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
-                    <MultiSelect
-                        onChange={(selected) => handleValueCahnge('side', selected)}
-                        value={params.side}
-                        // value={side}
+                    <Select
+                        onChange={(selected) => handleValueCahnge('Side', selected)}
+                        value={params.Side}
                         options={[
-                            { value: 'buy', label: t('orderSide.buy') },
-                            { value: 'sell', label: t('orderSide.sell') },
+                            { value: 'Buy', label: t('orderSide.Buy') },
+                            { value: 'Sell', label: t('orderSide.Sell') },
+                            { value: 'Cross', label: t('orderSide.Cross') },
                         ]}
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
                     <MultiSelect
-                        onChange={(selected) => handleValueCahnge('customerType', selected)}
-                        value={params.customerType}
-                        // value={side}
+                        onChange={(selected) => {}}
+                        value={[]}
                         options={[
                             { value: 'CustomerTag', label: t('CustomerType.CustomerTag') },
                             { value: 'Legal', label: t('CustomerType.Legal') },
@@ -92,13 +96,8 @@ const TradesFilter = ({ params, setParams }: IProps) => {
                         ]}
                     />
                 </FilterBlock>
-                <FilterBlock label={t('FilterFieldLabel.TradeStation')} className='col-span-3'>
-                    <Select
-                        onChange={(selected) => handleValueCahnge('stations', selected)}
-                        value={params.stations}
-                        // value={side}
-                        options={[]}
-                    />
+                <FilterBlock label={t('FilterFieldLabel.TradeStation')} className="col-span-3">
+                    <Select onChange={(selected) => {}} value={''} options={[]} />
                 </FilterBlock>
                 <div className="col-span-3">
                     <FilterActions isFilterBoxOpen={isOpenFilter} toggleFilterBox={toggleFilterBox} onSubmit={onSubmit} onClear={onClear} />

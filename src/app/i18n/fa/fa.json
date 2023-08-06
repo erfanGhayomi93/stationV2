@@ -92,8 +92,9 @@
         "FiveDaysNegative": "نمادهای 5 روز معاملاتی منفی"
     },
     "orderSide": {
-        "buy": "خرید",
-        "sell": "فروش"
+        "Buy": "خرید",
+        "Sell": "فروش",
+        "Cross": "همه"
     },
     "Action_Button": {
         "Search": "جستجو",
