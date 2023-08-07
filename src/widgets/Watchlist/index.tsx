@@ -72,12 +72,12 @@ const Watchlists = (props: Props) => {
 
             {watchlistType === "Market" && (totalCount as number) > 0 && (
                 <div className="border-t flex justify-end items-center pt-4">
-                    <Paginator
+                    {/* <Paginator
                         loading={isFetchingMarket}
                         current={PageNumber}
                         total={totalCount ? Math.ceil(totalCount / 20) : 0}
                         onChange={handleChangePaginator}
-                    />
+                    /> */}
                 </div>
             )}
         </div>

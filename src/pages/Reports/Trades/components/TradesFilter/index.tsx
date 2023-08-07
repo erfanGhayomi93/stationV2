@@ -11,10 +11,11 @@ import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 interface IProps {
     params: IGTTradesListRequest;
     setParams: React.Dispatch<React.SetStateAction<IGTTradesListRequest>>;
-    onSubmit: () => void
+    onSubmit: () => void;
+    onClear: () => void;
 }
 
-const TradesFilter = ({ params, setParams, onSubmit }: IProps) => {
+const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
     //
     const { t } = useTranslation();
     const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -24,8 +25,6 @@ const TradesFilter = ({ params, setParams, onSubmit }: IProps) => {
     };
 
     const toggleFilterBox = () => setIsOpenFilter(!isOpenFilter);
-
-    const onClear = () => {};
 
     return (
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">

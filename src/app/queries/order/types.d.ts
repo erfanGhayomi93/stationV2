@@ -111,8 +111,8 @@ interface IGTTradesListRequest {
     SymbolISIN?: string[];
     CustomerISIN?: string[];
     OrderStatus?: OrderStatusType;
-    PageNumber?: number;
-    PageSize?: number;
+    PageNumber: number;
+    PageSize: number;
 }
 
 
@@ -130,3 +130,5 @@ interface IGTTradesListResultType {
     tradePrice: number;
     totalPrice: number;
 }
+
+interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}
