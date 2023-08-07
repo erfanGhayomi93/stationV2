@@ -66,7 +66,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
             >
                 <PlusIcon className="rotate-45 text-white " />
             </div>
-            <div hidden={loading}>
+            <div hidden={!loading}>
                 <SpinnerIcon className="text-L-gray-500 dark:text-D-gray-500" />
             </div>
             <hr className="bg-L-gray-400 dark:bg-D-gray-400  w-[1px] ml-1  h-7" />

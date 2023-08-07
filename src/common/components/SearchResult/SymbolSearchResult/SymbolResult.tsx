@@ -26,14 +26,14 @@ const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min }) => {
                           label={item.symbolTitle}
                           value={item}
                       >
-                          <div className="flex justify-between w-full items-center px-2 text-1.3">
+                          <div className="flex justify-between w-full items-center px-1 text-1">
                               <div className="flex items-center">
                                   <span className="ml-2">
                                       <SymbolState symbolState={item?.symbolState || ''} />
                                   </span>
                                   <div>
                                       <span className={`block truncate font-normal`}>{item.symbolTitle}</span>
-                                      <small className={`block truncate font-normal`}>{item.companyName}</small>
+                                      <span className={`block truncate font-normal`}>{item.companyName}</span>
                                   </div>
                               </div>
                           </div>
