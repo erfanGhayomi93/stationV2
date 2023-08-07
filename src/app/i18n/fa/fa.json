@@ -40,7 +40,8 @@
         "submit": " تایید",
         "year": "سال",
         "day": "روز",
-        "month": "ماه"
+        "month": "ماه",
+        "today_date": "تاریخ امروز"
     },
     "timeSheet": {
         "day": "روز",
