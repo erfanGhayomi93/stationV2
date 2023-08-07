@@ -30,7 +30,7 @@ const Trades = ({}: ITradesPageType) => {
     }, [params.PageNumber, params.PageSize]);
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setParams({ ...params, [action]: value });
+        setParams((pre)=>({ ...pre, [action]: value }));
     }, []);
 
     const onClearFilters = () => {

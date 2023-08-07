@@ -172,6 +172,9 @@
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
         "cancelAdd" : "انصراف"
+     }, 
+     "Tooltip": {
+        "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
      }
     
 }

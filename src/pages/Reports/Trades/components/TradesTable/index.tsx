@@ -1,8 +1,12 @@
+import Tippy from '@tippyjs/react';
+import { ICellRendererParams, IHeaderParams } from 'ag-grid-community';
+import { HeaderComp } from 'ag-grid-community/dist/lib/headerRendering/cells/column/headerComp';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { InfoIcon } from 'src/common/icons';
 
 interface ITradesTableType {
     data: IGTTradesResponseType | undefined;
@@ -26,8 +30,19 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
             { headerName: t('ag_columns_headerName.date'), field: 'date', type: 'date' },
             { headerName: t('ag_columns_headerName.count'), field: 'count', type: 'abbreviatedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.finalCost'), field: 'cost', type: 'sepratedNumber' },
-            // { headerName: 'کارمزد معامله', field: 'lastTradedPrice', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.finalCost'),
+                field: 'cost',
+                type: 'sepratedNumber',
+                headerComponent: ({ displayName }: IHeaderParams) => (
+                    <Tippy content={t('Tooltip.finalCostWithCommision')} className="text-xs">
+                        <div className="w-full flex justify-center gap-1">
+                            <span>{displayName}</span>
+                            <InfoIcon width="16" height="16" />
+                        </div>
+                    </Tippy>
+                ),
+            },
         ],
         [],
     );
@@ -52,3 +67,8 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
 };
 
 export default TradesTable;
+
+const Comp = ({ data }: ICellRendererParams) => {
+    console.log(data);
+    return <div></div>;
+};
