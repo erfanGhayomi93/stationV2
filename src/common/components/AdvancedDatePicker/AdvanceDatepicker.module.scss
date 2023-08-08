@@ -99,6 +99,7 @@
 	--rg-db-width: 18.4rem;
 	--rg-db-background-color: theme("colors.white");
 	--rg-db-week-color: theme("colors.L.gray.500");
+	--rg-db-day-color: theme("colors.D.basic.DEFAULT");
 	--rg-db-arrow-color: theme("colors.gray.600");
 	--rg-db-date-color: theme("colors.L.primary.50");
 	--rg-db-day-default-color: transparent;
@@ -113,12 +114,13 @@
 	&.dark {
 		--rg-db-background-color: theme("colors.black");
 		--rg-db-week-color: theme("colors.D.gray.600");
+		--rg-db-day-color: theme("colors.L.basic.DEFAULT");
 		--rg-db-arrow-color: theme("colors.D.gray.600");
 		--rg-db-day-default-color: transparent;
-		--rg-db-date-color: theme("colors.D.primary.100");
+		--rg-db-date-color: theme("colors.D.primary.50");
 		--rg-db-active-color: theme("colors.black");
 		--rg-db-active-background-color: theme("colors.D.gray.400");
-		--rg-db-end-start-background-color: theme("colors.D.primary.100");
+		--rg-db-end-start-background-color: theme("colors.D.primary.50");
 		--rg-db-disabled-color: theme("colors.D.gray.500");
 		--rg-db-shadow: 0px 0px 8px rgba(163, 163, 163, 0.25);
 	}
@@ -183,6 +185,7 @@ ul.days {
 	justify-content: center;
 	font-family: var(--rg-dp-font-family);
 	background-color: var(--rg-db-day-default-color);
+	color: var(--rg-db-day-color);
 
 	&.between {
 		background-color: var(--rg-db-active-background-color);
@@ -256,6 +259,7 @@ ul.days {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			color: var(--rg-db-date-color);
 		}
 	}
 
@@ -276,6 +280,7 @@ ul.days {
 				align-items: center;
 				justify-content: center;
 				width: 2.4rem;
+				color: var(--rg-db-day-color);
 				height: 2.4rem;
 				transition: color 250ms;
 				-webkit-transition: color 250ms;

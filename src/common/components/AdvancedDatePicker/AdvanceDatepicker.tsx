@@ -60,7 +60,9 @@ const AdvancedDatepicker = ({ classes, value, dateIsDisabled, placeholder, onCha
     const inputRef = useRef<HTMLInputElement>(null);
     const datepickerRef = useRef<HTMLDivElement | undefined>(undefined);
 
-    const { ui: theme } = useAppValues();
+    const {
+        ui: { theme },
+    } = useAppValues();
 
     const [focusing, setFocusing] = useState(false);
 
@@ -209,7 +211,6 @@ const AdvancedDatepicker = ({ classes, value, dateIsDisabled, placeholder, onCha
                 styles.datepicker,
                 classes?.datepicker,
                 visibleCalendar && [styles.opened, classes?.opened],
-				//@ts-ignore
                 theme === 'dark' && [styles.dark, classes?.dark],
             )}
         >
@@ -294,7 +295,9 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ classes, dateIsD
 
     const [mode, setMode] = useState<'month' | 'year' | null>(null);
 
-    const { ui: theme } = useAppValues();
+    const {
+        ui: { theme },
+    } = useAppValues();
 
     const onEditDate = (method: 'add' | 'subtract', name: 'year' | 'month') => {
         if (!datepickerValue) return;
@@ -404,8 +407,7 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ classes, dateIsD
             onClick={(e) => e.stopPropagation()}
             tabIndex={-1}
             role="button"
-			//@ts-ignore
-            className={clsx(styles.dialogBox, classes?.dialogBox, theme === "dark" && [styles.dark, classes?.dark], 'z-[10000]')}
+            className={clsx(styles.dialogBox, classes?.dialogBox, theme === 'dark' && [styles.dark, classes?.dark], 'z-[10000]')}
         >
             <div className={clsx(styles.switch, classes?.switch)}>
                 <div className={clsx(styles.arrows, classes?.arrows)}>
@@ -459,7 +461,7 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ classes, dateIsD
                                                 [styles.holiday]: day.holiday,
                                                 // @ts-ignore
                                                 [styles.disabled]: dateIsDisabled?.(
-													//@ts-ignore
+                                                    //@ts-ignore
                                                     dayjs(`${day.year}/${day.month}/${day.date}`, { jalali: true }).calendar('jalali').toDate(),
                                                 ),
                                                 [styles.active]: dateIsEqual(`${day.year}/${day.month}/${day.date}`),
