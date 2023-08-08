@@ -232,7 +232,7 @@ const AdvancedDatepicker = ({ classes, value, dateIsDisabled, placeholder, onCha
                     />
 
                     <span tabIndex={-1} role="button" onClick={onClickIcon} className={clsx(styles.icon, classes?.icon)}>
-                        {!inputValue ? <CalendarIcon width="13" height="13" /> : <CloseIcon width="10" height="10" />}
+                        {!inputValue ? <CalendarIcon width="13" height="13" /> : <CloseIcon width="8" height="8" />}
                     </span>
                 </div>
             </div>

@@ -33,10 +33,10 @@ const OrdersFilter = ({ params, setParams }: IProps) => {
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
-                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} />
+                    <CustomerMegaSelect onChange={(selected) => handleValueCahnge('customers', selected)} selectedValue={params.customers as any}/>
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('symbols', selected)} />
+                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('symbols', selected)} selectedValue={params.symbols as any}/>
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
                     <AdvancedDatePicker

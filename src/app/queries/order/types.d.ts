@@ -107,12 +107,14 @@ interface IGTOrderListRequest {
 interface IGTTradesListRequest {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType;
+    Side?: OrderSideType | undefined;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
-    OrderStatus?: OrderStatusType;
+    OrderStatus?: OrderStatusType | undefined;
     PageNumber: number;
     PageSize: number;
+    Time: string;
+    CustomerType: CustomerType | undefined;
 }
 
 
