@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FC, FormEvent, useState, useCallback, useMemo } from 'react';
+import { FC, FormEvent, useState, useCallback, useMemo, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { createWatchListMutation, useDefaultWatchlistQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
 import Select from 'src/common/components/Select';
-import { EditIcon2, PlusIcon } from 'src/common/icons';
+import { EditIcon2, PinIcon, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import CheckColumnShow from '../CheckColumnShow';
 import { FilterAllMarket } from '../FilterAllMarket';
@@ -13,7 +13,7 @@ import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableS
 import { AddWatchList } from '../AddWatchlist';
 
 interface IWatchlistControllerType {
-    columns: ColDefType<ISymbolType>[];
+    columns: ColDefType<IGetWatchlistSymbol>[];
     watchlists: IWatchlistType[] | undefined
 }
 
@@ -48,8 +48,13 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                         onClick={() => setActiveWatchlist({ id: watchlist.id, type: watchlist.type })}
                         key={watchlist.id}
                         data-actived={watchlist.id === state.selectedWatchlistId}
-                        className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                        className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
                     >
+                        {
+                            watchlist.type === "Pinned" && (
+                                <PinIcon className='text-L-warning dark:text-D-warning ml-2' />
+                            )
+                        }
                         {watchlist.watchListName}
                     </button>
                 ))}

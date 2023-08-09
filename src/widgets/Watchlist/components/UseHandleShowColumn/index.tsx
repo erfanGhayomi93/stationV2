@@ -23,11 +23,11 @@ export const UseHandleShowColumn = () => {
         return !listShowColumn.includes(field);
     };
 
-      ////////////////////initialState listShowColumn//////////////////////////////////////////
-      const setDefaultColumn = () => {
+    ////////////////////initialState listShowColumn//////////////////////////////////////////
+    const setDefaultColumn = () => {
         setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: Columns.filter((item) => item.hasOwnProperty('hide')).map((item: any) => item?.field) });
     };
-    
+
     useEffect(() => {
         if (!watchListTableLocal) setDefaultColumn();
         else setState({ type: 'CHANGE_IS_SHOW_COLUMN', value: watchListTableLocal });
@@ -40,7 +40,7 @@ export const UseHandleShowColumn = () => {
 
 
     const Columns = useMemo(
-        (): ColDefType<ISymbolType>[] => [
+        (): ColDefType<IGetWatchlistSymbol>[] => [
             { headerName: 'نماد', field: 'symbolTitle' },
             {
                 headerName: 'آخرین قیمت',
@@ -115,7 +115,7 @@ export const UseHandleShowColumn = () => {
             // {
             //     headerName: 'نوع بازار',
             //     field: 'exchange',
-            //     valueFormatter: ({ data }) => t('exchange_type.' + data?.exchange) || '-',
+            //     // valueFormatter: ({ data }) => t('exchange_type.' + data?.exchange) || '-',
             //     cellRenderer: ChangeCellRenderer,
             //     hide: handleIsSHowColumn('exchange'),
             // },

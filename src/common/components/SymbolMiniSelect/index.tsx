@@ -11,9 +11,11 @@ interface ISymbolMiniSelectType {
     setSelected: (selected: SymbolSearchResult[]) => void;
     selected: SymbolSearchResult[];
     multiple?: boolean;
+    isBigSize?: boolean;
+    isOnModal?: boolean;
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
@@ -35,7 +37,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
-        !multiple && setPanel(false);
+        (!isOnModal && !multiple) && setPanel(false);
     };
     interface IOptionsType {
         active?: boolean;
@@ -46,9 +48,12 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
             return (
                 <>
                     <div
-                        className={clsx(
-                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-10 top-0  origin-top shadow-md ',
-                            !active && 'scale-y-0',
+                        className={clsx('bg-white  overflow-y-auto absolute w-full z-10 top-0  origin-top', {
+                            'scale-y-0': !active,
+                            'shadow-md max-h-[300px]': !isOnModal,
+                            ' max-h-[400px] mt-1 border border-L-gray-300 dark:border-D-gray-300': !!isOnModal,
+                        }
+
                         )}
                     >
                         {content === 'SELECT' ? (
@@ -71,7 +76,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             // </>
                             <SymbolSelected selected={selected} />
                         ) : (
-                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} />
+                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} />
                         )}
                     </div>
                 </>
@@ -92,14 +97,16 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 selections={selected}
                 keyId={'symbolISIN'}
                 showPanel={panel}
-                min={3}
+                min={2}
             >
                 <div>
-                    <InputSearch loading={isLoading || isFetching} />
+                    <InputSearch isBigSize={isBigSize} loading={isLoading || isFetching} />
 
-                    <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                        <Options />
-                    </Combo.Panel>
+                    <div>
+                        <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
+                            <Options />
+                        </Combo.Panel>
+                    </div>
                 </div>
             </Combo.Provider>
         </div>

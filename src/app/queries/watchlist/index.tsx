@@ -1,4 +1,4 @@
-import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { QueryOptions, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
@@ -13,59 +13,137 @@ export const useWatchlistsQuery = <T = IWatchlistType[],>(
 ) => {
     return useQuery(['getWatchLists'], () => getWatchLists());
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 {/* get watchlists List user */ }
-const getWatchListSymbols = async (watchlistId: number) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolType[]>>(Apis().WatchList.GetWatchListSymbols as string, {
-        params: { watchlistId },
+const getWatchListSymbols = async (params: IRequestWatchListSymbol) => {
+    const { watchlistId, PageNumber, watchlistType, MarketUnit, SectorCode, type } = params
+
+    let paramsOnWatchlistType: Partial<IRequestWatchListSymbol> = {
+        PageNumber,
+        watchlistId,
+        watchlistType
+    }
+    if (watchlistType === "Market") {
+        MarketUnit && (paramsOnWatchlistType.MarketUnit = MarketUnit)
+        SectorCode && (paramsOnWatchlistType.SectorCode = SectorCode)
+    } else if (watchlistType === 'Ramand') {
+        paramsOnWatchlistType.type = type
+    }
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGetWatchlistSymbol[]>>(Apis().WatchList.GetWatchListSymbols as string, {
+        params: paramsOnWatchlistType,
     });
     return data?.result || [];
 };
 
-export const useWatchListSymbolsQuery = <T = IWatchlistSymbolType[],>(watchlistId: number | undefined, watchlistType: WatchlistType,
-    options?: (Omit<UseQueryOptions<IWatchlistSymbolType[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
-) => {
-    return useQuery(['getWatchListSymbols', watchlistId], () => getWatchListSymbols(watchlistId as number), { enabled: watchlistType !== 'Market' && watchlistType !== "Ramand", ...options });
+export const useWatchListSymbolsQuery = (
+    params: IRequestWatchListSymbol,
+    options?: (Omit<UseQueryOptions<IGetWatchlistSymbol[], unknown, IGetWatchlistSymbol[], string[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
+    const { watchlistId, PageNumber, MarketUnit, SectorCode, watchlistType, type } = params
+    const queryKey = watchlistType === "Market" ? MarketUnit + SectorCode : watchlistType === "Ramand" ? type : ""
+    return useQuery(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], () => getWatchListSymbols(params), { ...options });
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// get watchlist symbol market//
-export const getMarketSymbol = async (params: IMarketSymbol) => {
-    const { PageNumber, marketUnit, SectorCode } = params || {};
+
+
+{/* // get watchlist symbol market */ }
+{/* export const getMarketSymbol = async (params: IMarketSymbol) => {
+    const { PageNumber, marketUnit, SectorCode, watchlistType } = params || {};
     const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
-        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null },
+        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null, watchlistType },
     });
-    return data;
+    return data.result;
 };
 
 
-export const useGetMarketSymbolQuery = (
+export const useGetMarketSymbolQuery = <T = IResponseMarket[],>(
     params: IMarketSymbol,
-    watchlistType: WatchlistType
-    // options?: any,
+    options?: any
 ) => {
-    const { PageNumber, SectorCode, marketUnit } = params
-    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { enabled: watchlistType === "Market" });
-};
+    const { PageNumber, SectorCode, marketUnit, watchlistType } = params
+    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { ...options, enabled: watchlistType === "Market" });
+}; */}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//get watchlist symbol default ramand //
-const getDefaultWatchlistSymbols = async (selectedDefaultWatchlist: IDefaultWatchlistType) => {
+
+
+
+{/* //get watchlist symbol default ramand // */ }
+{/* const getDefaultWatchlistSymbols = async (selectedDefaultWatchlist: IDefaultWatchlistType, watchlistType: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(Apis().WatchList.GetDefaultWatchlistSymbols as string, {
-        params: { watchlistId: selectedDefaultWatchlist },
+        params: { watchlistId: selectedDefaultWatchlist, watchlistType },
     });
     return data?.result;
 };
 
 export const useDefaultWatchlistSymbolsQuery = (
     selectedDefaultWatchlist: IDefaultWatchlistType,
-    watchlistType: WatchlistType
-    // options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+    watchlistType: WatchlistType,
+    options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
 ) => {
-    return useQuery(['getDefaultWatchlistSymbols', selectedDefaultWatchlist], () => getDefaultWatchlistSymbols(selectedDefaultWatchlist as IDefaultWatchlistType), {
+    return useQuery(['getDefaultWatchlistSymbols', selectedDefaultWatchlist], () => getDefaultWatchlistSymbols(selectedDefaultWatchlist as IDefaultWatchlistType, watchlistType), {
+        ...options,
         enabled: !!selectedDefaultWatchlist && watchlistType === 'Ramand',
     });
+}; */}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+{/* // add symbol in watchlist */ }
+const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().WatchList.AddSymbol as string, {}, { params });
+    return data?.result;
 };
+
+
+export const addWatchListSymbolMutation = (
+    options?: Omit<UseMutationOptions<number, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,
+) => useMutation(addWatchListSymbol, options);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{/* // remove symbol in watchlist */ }
+const deleteWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.DeleteSymbol as string, {}, { params });
+    return data?.result;
+};
+
+
+export const deleteWatchListSymbolMutation = (
+    options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,
+) => useMutation(deleteWatchListSymbol, options);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{/* // show default watchlist baseOn ... in watchlist */ }
+
+const getDefaultWatchlist = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.DefaultWatchlist as string);
+    return data?.result || [];
+};
+
+
+export const useDefaultWatchlistQuery = (
+) => {
+    return useQuery(['getDefaultWatchlist'], () => getDefaultWatchlist(), { initialData: [] });
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{/* // get sector */ }
+
+const getSectorList = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<ISectorList[]>>(Apis().WatchList.GetSector);
+    return data?.result;
+};
+
+export const UseGetSector = () => {
+    return useQuery(['sectors'], getSectorList, { staleTime: 30000 });
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 
@@ -108,26 +186,11 @@ const GetSymbolInWatchlist = async () => {
     return data?.result || [];
 };
 
-const deleteWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.DeleteSymbol as string, {}, { params });
-    return data?.result;
-};
-
-const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().WatchList.AddSymbol as string, {}, { params });
-    return data?.result;
-};
-const getDefaultWatchlist = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.DefaultWatchlist as string);
-    return data?.result || [];
-};
 
 
 
-const getSectorList = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ISectorList[]>>(Apis().WatchList.GetSector);
-    return data?.result;
-};
+
+
 
 //hooks
 
@@ -154,23 +217,10 @@ export const updateWatchListMutation = (
 export const sortWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number[], unknown>, 'mutationFn'> | undefined) =>
     useMutation(sortWatchList, options);
 
-export const addWatchListSymbolMutation = (
-    options?: Omit<UseMutationOptions<number, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,
-) => useMutation(addWatchListSymbol, options);
-
-export const deleteWatchListSymbolMutation = (
-    options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistSymbolRequestType, unknown>, 'mutationFn'> | undefined,
-) => useMutation(deleteWatchListSymbol, options);
-
-// prettier-ignore
-export const useDefaultWatchlistQuery = (
-) => {
-    return useQuery(['getDefaultWatchlist'], ({ queryKey }) => getDefaultWatchlist(), { initialData: [] });
-};
 
 
 
 
-export const UseGetSector = () => {
-    return useQuery(['sectors'], getSectorList);
-};
+
+
+

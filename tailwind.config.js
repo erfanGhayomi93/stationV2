@@ -137,6 +137,7 @@ module.exports = {
             gridTemplateRows: {
                 'min-one': 'min-content 1fr;',
                 'min-one-min': 'min-content 1fr min-content;',
+                'one-min-min': '1fr min-content min-content;',
                 'one-min': '1fr min-content;',
                 '60-40': '60fr 40fr',
             },

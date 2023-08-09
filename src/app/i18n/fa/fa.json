@@ -171,6 +171,9 @@
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
         "cancelAdd" : "انصراف"
+     },
+     "setting" : {
+        "key_symbol_search": "جستجوی نماد"
      }
     
 }
