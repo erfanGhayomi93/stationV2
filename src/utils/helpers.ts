@@ -311,7 +311,7 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    return i18next.t('OrderSide.' + data.value);
+    return i18next.t('orderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {

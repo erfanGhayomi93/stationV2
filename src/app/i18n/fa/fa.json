@@ -142,7 +142,8 @@
     "page_title": {
         "orders": "سفارشات",
         "trades": "معاملات",
-        "turnOver": "گردش حساب"
+        "turnOver": "گردش حساب",
+        "basket": "سبد معامله گر"
     },
     "ag_columns_headerName":{
         "row":"ردیف",

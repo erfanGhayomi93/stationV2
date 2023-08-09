@@ -1,12 +1,12 @@
 import Tippy from '@tippyjs/react';
-import { ICellRendererParams, IHeaderParams } from 'ag-grid-community';
-import { HeaderComp } from 'ag-grid-community/dist/lib/headerRendering/cells/column/headerComp';
-import React, { useMemo } from 'react';
+import { IHeaderParams } from 'ag-grid-community';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { InfoIcon } from 'src/common/icons';
+import { valueFormatterSide } from 'src/utils/helpers';
 
 interface ITradesTableType {
     data: IGTTradesResponseType | undefined;
@@ -27,7 +27,7 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
             { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
-            { headerName: t('ag_columns_headerName.side'), field: 'orderSide', valueFormatter: (value) => t('orderSide.' + value) },
+            { headerName: t('ag_columns_headerName.side'), field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'date' },
             { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'abbreviatedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
