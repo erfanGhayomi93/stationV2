@@ -115,6 +115,7 @@ interface IGTTradesListRequest {
     PageSize: number;
     Time: string;
     CustomerType: CustomerType | undefined;
+    MyStationOnly: boolean;
 }
 
 
