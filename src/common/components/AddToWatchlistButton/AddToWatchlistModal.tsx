@@ -25,6 +25,9 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const closeModal = () => setIsOpen(false);
     const { data: watchlists } = useWatchlistsQuery();
     const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
+
+    console.log("symbolInWatchlist",symbolInWatchlist)
+
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {
             // queryClient.invalidateQueries(['getWatchListSymbols']);

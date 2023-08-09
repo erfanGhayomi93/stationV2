@@ -93,7 +93,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                             {t("Watchlist.submitAdd")}
                         </button>
 
-                        {/* <button
+                        <button
                             className="text-L-primary-50 dark:text-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 h-[40px] rounded bg-L-basic dark:bg-D-basic px-2 py-2"
                             onClick={(e) => {
                                 e.preventDefault()
@@ -101,7 +101,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                             }}
                         >
                             {t("Watchlist.cancelAdd")}
-                        </button> */}
+                        </button>
                     </>
                 )
             }

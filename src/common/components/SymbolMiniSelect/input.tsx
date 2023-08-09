@@ -6,9 +6,10 @@ import { ComboSelectContext } from '../ComboSelect/context';
 
 interface IInputSearchType {
     loading: boolean;
+    isBigSize?: boolean
 }
 
-const InputSearch: FC<IInputSearchType> = ({ loading }) => {
+const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
     const {
         setPanel,
         setValue,
@@ -36,7 +37,10 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     };
 
     return (
-        <div className="bg-L-basic h-8 dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100 ">
+        <div className={clsx("bg-L-basic dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100", {
+            "h-10": !!isBigSize , 
+            "h-8": !isBigSize , 
+        })}>
             <div className="flex items-center gap-1 relative grow">
                 <div className="pr-2">
                     <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />

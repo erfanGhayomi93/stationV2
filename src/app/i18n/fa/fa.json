@@ -182,6 +182,9 @@
      },
      "Tooltip": {
         "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
+     },
+     "setting" : {
+        "key_symbol_search": "جستجوی نماد"
      }
     
 }

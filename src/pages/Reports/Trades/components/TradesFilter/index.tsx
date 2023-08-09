@@ -37,11 +37,7 @@ const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect
-                        multiple
-                        onChange={(selected) => handleValueCahnge('SymbolISIN', selected)}
-                        selectedValue={params.SymbolISIN || []}
-                    />
+                    {/* <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('SymbolISIN', selected)} /> */}
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
                     <Select

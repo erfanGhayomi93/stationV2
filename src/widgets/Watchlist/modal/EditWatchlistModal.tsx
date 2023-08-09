@@ -92,6 +92,8 @@ const EditWatchlistModal = ({ }: IEditWatchlistModalType) => {
             rowDragText: (p) => {
                 return p?.rowNode?.data?.watchListName || 'جابجایی';
             },
+            flex: 1
+
         },
         {
             headerName: 'عملیات',
@@ -162,6 +164,8 @@ const EditWatchlistModal = ({ }: IEditWatchlistModalType) => {
 };
 
 export default EditWatchlistModal;
+
+
 interface IActionName {
     row: ICellRendererParams<IWatchlistType>;
     editMode: IWatchlistRequestType | undefined;
@@ -217,27 +221,33 @@ const ActionED: FC<IActionEdit> = ({ row, setEditMode, editMode, editWatchListNa
             {
                 editMode?.id !== id ? (
                     <>
-                        <EditIcon2
-                            data-cy={'wl-edit-' + watchlist?.watchListName}
-                            className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
-                            onClick={() => setEditMode(watchlist)}
-                        />
-                        <DeleteIcon
-                            data-cy={'wl-delete-' + watchlist?.watchListName}
-                            className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
-                            onClick={() => deleteWatchlist(id)}
-                        />
+                        <div>
+                            <EditIcon2
+                                data-cy={'wl-edit-' + watchlist?.watchListName}
+                                className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
+                                onClick={() => setEditMode(watchlist)}
+                            />
+                        </div>
+                        <div>
+                            <DeleteIcon
+                                data-cy={'wl-delete-' + watchlist?.watchListName}
+                                className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
+                                onClick={() => deleteWatchlist(id)}
+                            />
+                        </div>
                     </>
                 ) : (
                     <>
-                        <div className='border-L-success-200 dark:border-L-success-200 border rounded-full p-1'
+                        <div
+                            className='border-L-success-200 dark:border-L-success-200 border rounded-full p-1'
                             onClick={editWatchListName}
                         >
                             <Check className='text-L-success-200 dark:text-D-success-200' width={8} height={8} />
 
                         </div>
 
-                        <div className='border-L-error-200 dark:border-L-error-200 border rounded-full p-1'
+                        <div
+                            className='border-L-error-200 dark:border-L-error-200 border rounded-full p-1'
                             onClick={() => setEditMode(undefined)}
                         >
                             <CloseIcon className='text-L-error-200 dark:text-L-error-200' width={8} height={8} />

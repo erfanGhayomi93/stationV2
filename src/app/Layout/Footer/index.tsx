@@ -2,6 +2,7 @@ import PriceView from 'src/common/components/PriceView';
 import PushEngineInfo from './PushEngineInfo';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import { useMemo } from 'react';
+import { PinIcon } from 'src/common/icons';
 
 const Footer = () => {
 
@@ -61,7 +62,9 @@ const Footer = () => {
 
     return (
         <div className="w-auto bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic text-1.2 h-[32px] max-w-full  items-center mx-4 mb-2 box-border grid grid-cols-min-one rounded">
-            <div className="h-full overflow-hidden w-[50%]">
+            <div className="h-full overflow-hidden w-[50%] flex items-center">
+                <PinIcon className='text-L-warning dark:text-D-warning ml-2 mr-7' />
+
                 <ScrollableSlider>
                     {itemsScrollableSlider}
                 </ScrollableSlider>

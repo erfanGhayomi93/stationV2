@@ -57,6 +57,7 @@ AXIOS.interceptors.response.use(
         console.log({ error });
         if (error.response) {
             // Request made and server responded
+            console.log("error.response.status",error.response.status)
 
             switch (error.response.status) {
                 case 400: // Bad Request
