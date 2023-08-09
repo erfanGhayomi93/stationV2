@@ -197,10 +197,22 @@ const GetSymbolInWatchlist = async () => {
 
 
 // prettier-ignore
-export const useSymbolInWatchlistQuery = <T = ISymbolInWatchlist[],>(
-    options?: (Omit<UseQueryOptions<ISymbolInWatchlist[], unknown, T, (string | number | undefined)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
-) => {
-    return useQuery(['GetSymbolInWatchlist'], ({ queryKey }) => GetSymbolInWatchlist(), options);
+export const useSymbolInWatchlistQuery = () => {
+    return useQuery(['GetSymbolInWatchlist'], () => GetSymbolInWatchlist(), {
+        select(data) {
+            const res: { [key: string]: string[] } = {}
+
+            data.map(item => {
+                if (res[item.watchlistId]) {
+                    res[item.watchlistId] = [...res[item.watchlistId], item.symbolISIN]
+                    return
+                }
+                res[item.watchlistId] = [item.symbolISIN]
+            })
+            return res;
+        },
+        staleTime: 10 * 60000
+    });
 };
 
 export const createWatchListMutation = (
