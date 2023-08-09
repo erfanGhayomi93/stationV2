@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from 'src/common/components/Input';
+import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
+import FilterBlock from 'src/common/components/FilterBlock';
 import Select from 'src/common/components/Select';
-import { ExcelIcon, FilterIcon } from 'src/common/icons';
+import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 
 type filterBasketType = {
     handleFilter: (data: filterStateType) => void;
@@ -39,71 +40,26 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
 
     const { t } = useTranslation();
     return (
-        <div className="gap-6">
-            <div className="flex justify-between items-center">
-                <div
-                    className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer"
-                    data-cy="basket-filter-button"
-                    onClick={() => setisShowFilter(!isShowFilter)}
-                >
-                    <FilterIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
-                </div>
-                <div className="bg-L-primary-50 dark:bg-D-primary-50 rounded w-fit px-[6px] py-[7px] cursor-pointer border border-L-primary-50 dark:border-D-primary-50">
-                    <ExcelIcon className="text-L-basic dark:text-D-basic" width={20} height={18} />
-                </div>
-            </div>
+        <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
+            <div className="w-full h-full grid grid-cols-20 gap-4">
+                <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
+                    <CustomerMegaSelect selectedValue={[]} onChange={() => {}} />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
+                    <SymbolMiniSelect selectedValue={[]} onChange={() => {}} />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Side')}>
+                    <Select
+                        onChange={(selected) => {}}
+                        value={''}
+                        options={[
+                            { value: 'Buy', label: t('orderSide.Buy') },
+                            { value: 'Sell', label: t('orderSide.Sell') },
+                        ]}
+                    />
+                </FilterBlock>
 
-            <div
-                data-actived={isShowFilter}
-                className="opacity-0 actived:opacity-100 h-0 actived:h-auto actived:transition-opacity flex justify-between border border-L-gray-400 dark:border-D-gray-400 bg-L-basic dark:bg-D-basic p-0 actived:p-4 rounded-lg my-6"
-            >
-                <div className="flex gap-16">
-                    <div>
-                        <label className="text-L-gray-500 dark:text-D-gray-700" htmlFor="customer">
-                            مشتری :
-                        </label>
-                        <div className="mt-2 w-[206px] border-L-gray-400 dark:border-D-gray-400 hover:border-L-gray-400 dark:hover:border-D-gray-400 border overflow-hidden rounded">
-                            <Input
-                                placeholder="نام"
-                                id="customer"
-                                data-cy="basket-filter-input-customer"
-                                value={dataFilter.customerTitles}
-                                onChange={(e) => handleChange('customerTitles', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="text-L-gray-500 dark:text-D-gray-700" htmlFor="symbol">
-                            نماد :
-                        </label>
-                        <div className="mt-2 w-[206px] border-L-gray-400 dark:border-D-gray-400 hover:border-L-gray-400 dark:hover:border-D-gray-400 border overflow-hidden rounded">
-                            <Input
-                                placeholder="نام"
-                                id="symbol"
-                                data-cy="basket-filter-input-symbol"
-                                value={dataFilter.symbolTitle}
-                                onChange={(e) => handleChange('symbolTitle', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="inline-block text-L-gray-500 dark:text-D-gray-700" htmlFor="customer">
-                            سمت سفارش :
-                        </label>
-                        <div className="mt-2 w-[206px]">
-                            <Select
-                                data-cy="basket-filter-input-side"
-                                onChange={(selected) => handleChange('side', selected)}
-                                value={dataFilter.side}
-                                options={[
-                                    { value: 'buy', label: t('orderSide.buy') },
-                                    { value: 'sell', label: t('orderSide.sell') },
-                                ]}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="flex items-end">
+                <div className="flex items-center col-span-4 pr-8">
                     <button
                         data-cy="basket-filter-button-submit"
                         onClick={() => handleFilter(dataFilter)}
@@ -121,5 +77,6 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                 </div>
             </div>
         </div>
+
     );
 };

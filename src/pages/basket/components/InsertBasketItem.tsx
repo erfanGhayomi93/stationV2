@@ -34,7 +34,7 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket }) => {
     return (
         <div>
             <button
-                className="shadow-sm flex gap-2 mt-2 py-1.5 drop-shadow-sm px-2 shadow-L-primary-50 text-L-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic border border-L-primary-50 p-1 text-1.3 rounded-md"
+                className="shadow-sm flex gap-2 mt-2 py-1.5 drop-shadow-sm px-2  text-L-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic border border-L-gray-400 dark:border-D-gray-400 p-1 text-1.3 rounded-md"
                 onClick={setBuySellModalVisible}
             >
                 <BasketPlusIcon />

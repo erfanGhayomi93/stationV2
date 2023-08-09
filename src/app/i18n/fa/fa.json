@@ -101,7 +101,8 @@
         "Search": "جستجو",
         "Remove": "حذف",
         "Update": "بروز رسانی",
-        "ExportExcel": "خروجی اکسل"
+        "ExportExcel": "خروجی اکسل",
+        "EditTable": "ویرایش جدول"
     },
     "FilterFieldLabel": {
         "Customer": "مشتری",
@@ -175,6 +176,10 @@
         "submitAdd" : "ثبت دیده بان" , 
         "cancelAdd" : "انصراف"
      }, 
+     "Basket": {
+        "addNewBasket": "ایجاد سبد جدید",
+        "editBasket": "ویرایش سبد"
+     },
      "Tooltip": {
         "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
      }
