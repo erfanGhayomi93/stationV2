@@ -113,7 +113,7 @@ interface IGTTradesListRequest {
     OrderStatus?: OrderStatusType | undefined;
     PageNumber: number;
     PageSize: number;
-    Time: string;
+    Time: string | undefined;
     CustomerType: CustomerType | undefined;
     MyStationOnly: boolean;
 }

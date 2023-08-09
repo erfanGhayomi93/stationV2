@@ -46,6 +46,7 @@ const Trades = ({}: ITradesPageType) => {
         ...params,
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+        Time: undefined
     });
 
     useEffect(() => {

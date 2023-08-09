@@ -3,7 +3,7 @@ import gregorian from 'react-date-object/calendars/gregorian';
 import gregorian_en from 'react-date-object/locales/gregorian_en';
 import { useCreateBasket } from 'src/app/queries/basket';
 import { queryClient } from 'src/app/queryClient';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import { onSuccessNotif } from 'src/handlers/notification';
@@ -35,14 +35,14 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     };
 
     const AddNewBasket = () => {
-        const dateMiladi = date?.convert(gregorian, gregorian_en).toString();
-        const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
-        const sendDate = `${dateMiladi}T${timeMiladi}.000`;
-        // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
-        const queryParams = { name, sendDate };
+        // const dateMiladi = date?.convert(gregorian, gregorian_en).toString();
+        // const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
+        // const sendDate = `${dateMiladi}T${timeMiladi}.000`;
+        // // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
+        // const queryParams = { name, sendDate };
 
-        AddNewBasketReq(queryParams);
-        clearData();
+        // AddNewBasketReq(queryParams);
+        // clearData();
     };
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
             <div className="flex items-center mb-4">
                 <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
                 <div className="flex-1" data-cy="basket-create-input-date">
-                    <AdvancedDatePicker value={date} onChange={(date) => setdata(date)} className="text-L-gray-500 dark:text-D-gray-500" />
+                    <AdvancedDatepicker value={date} onChange={(date) => setdata(date)}  />
                 </div>
             </div>
             <div className="flex items-center">
