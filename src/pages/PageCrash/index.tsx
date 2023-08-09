@@ -10,7 +10,7 @@ const PageCrash = () => {
 
     return (
         <div className="">
-            <CustomerMegaSelect />
+            {/* <CustomerMegaSelect /> */}
         </div>
     );
 };

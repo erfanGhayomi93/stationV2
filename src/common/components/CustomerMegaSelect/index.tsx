@@ -6,17 +6,18 @@ import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
 interface ICustomerMegaSelectType {
-    onChange?: (x: IGoCustomerSearchResult[]) => void;
+    onChange: (x: string[]) => void;
+    selectedValue: string[];
 }
 
-const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
+const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange, selectedValue }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
     const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
 
     useEffect(() => {
-        onChange && onChange(selected);
+        selected.length === 0 && setTerm('');
     }, [selected]);
 
     const {
@@ -32,6 +33,15 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
             },
         },
     );
+    useEffect(()=>{
+        if(selectedValue.length) return;
+        setSelected([])
+    },[selectedValue])
+    
+    const handleSelect = (selected: IGoCustomerSearchResult[]) => {
+        setSelected(selected);
+        onChange(selected.map(({ customerISIN }) => customerISIN));
+    };
     interface IOptionsType {
         active?: boolean;
         content?: string;
@@ -56,9 +66,9 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
                                             label={item.customerTitle}
                                             value={item}
                                         >
-                                            <div className="flex justify-between w-full">
-                                                {item.customerTitle}
-                                                <span>{item.bourseCode}</span>
+                                            <div className="flex gap-2 justify-between items-center w-full text-1">
+                                                <div className="flex-1">{item.customerTitle}</div>
+                                                <div className="min-w-min">{item.bourseCode}</div>
                                             </div>
                                         </Combo.DataSet>
                                     </Fragment>
@@ -79,7 +89,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
                 withDebounce={1000}
                 placeholder="جستجوی مشتری"
                 onInputChange={(value) => setTerm(value)}
-                onSelectionChange={(selected) => setSelected(selected)}
+                onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 multiple={true}
@@ -89,7 +99,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange }) => {
                 min={3}
             >
                 <div>
-                    <InputSearch loading={isLoading || isFetching} />
+                    <InputSearch loading={isFetching} />
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
                     </Combo.Panel>

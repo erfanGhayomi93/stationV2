@@ -107,12 +107,14 @@ interface IGTOrderListRequest {
 interface IGTTradesListRequest {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType;
+    Side?: OrderSideType | undefined;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
-    OrderStatus?: OrderStatusType;
-    PageNumber?: number;
-    PageSize?: number;
+    OrderStatus?: OrderStatusType | undefined;
+    PageNumber: number;
+    PageSize: number;
+    Time: string;
+    CustomerType: CustomerType | undefined;
 }
 
 
@@ -130,3 +132,5 @@ interface IGTTradesListResultType {
     tradePrice: number;
     totalPrice: number;
 }
+
+interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}

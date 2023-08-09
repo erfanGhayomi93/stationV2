@@ -40,7 +40,8 @@
         "submit": " تایید",
         "year": "سال",
         "day": "روز",
-        "month": "ماه"
+        "month": "ماه",
+        "today_date": "تاریخ امروز"
     },
     "timeSheet": {
         "day": "روز",
@@ -100,7 +101,8 @@
         "Search": "جستجو",
         "Remove": "حذف",
         "Update": "بروز رسانی",
-        "ExportExcel": "خروجی اکسل"
+        "ExportExcel": "خروجی اکسل",
+        "EditTable": "ویرایش جدول"
     },
     "FilterFieldLabel": {
         "Customer": "مشتری",
@@ -141,7 +143,8 @@
     "page_title": {
         "orders": "سفارشات",
         "trades": "معاملات",
-        "turnOver": "گردش حساب"
+        "turnOver": "گردش حساب",
+        "basket": "سبد معامله گر"
     },
     "ag_columns_headerName":{
         "row":"ردیف",
@@ -172,6 +175,13 @@
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
         "cancelAdd" : "انصراف"
+     }, 
+     "Basket": {
+        "addNewBasket": "ایجاد سبد جدید",
+        "editBasket": "ویرایش سبد"
+     },
+     "Tooltip": {
+        "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
      }
     
 }

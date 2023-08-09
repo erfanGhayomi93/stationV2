@@ -29,7 +29,7 @@ const OrdersTable = () => {
                 <AGTable rowData={[]} columnDefs={Columns} />
             </WidgetLoading>
             <div className="border-t flex justify-end items-center  pt-4 ">
-                <Paginator loading={false} current={1} total={50} onChange={()=>{}} />
+                {/* <Paginator loading={false} current={1} total={50} onChange={()=>{}} /> */}
             </div>
         </>
     );

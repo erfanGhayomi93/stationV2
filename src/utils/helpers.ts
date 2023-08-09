@@ -311,7 +311,7 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    return i18next.t('OrderSide.' + data.value);
+    return i18next.t('orderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {
@@ -370,6 +370,11 @@ export const abbreviateNumber = (number: number) => {
     return scaled.toFixed(2) + suffix;
 };
 
+export const getValidDate = (value: number | string | Date): Date => {
+	if (value instanceof Date) return value;
+
+	return new Date(value as string);
+};
 
 export const toEnglishNumber = (str: string): string => {
     const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];

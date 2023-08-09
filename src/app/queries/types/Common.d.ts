@@ -26,3 +26,5 @@
 //     buyCommissionValue: number;
 //     sellCommissionValue: number;
 // }
+
+type CustomerType = "Legal" | "Natural"
