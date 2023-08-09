@@ -50,6 +50,7 @@ const apiRoutes = {
         Create: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/Create',
         Get: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/GTTodayOrdersList',
         Delete: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/SingleDelete',
+        Trades: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/Trades',
     },
     SupervisorMessage: {
         Get: `${window.REACT_APP_MARKETDATA_PATH}/SupervisorMessage/v1/TodaySupervisorMessage`,

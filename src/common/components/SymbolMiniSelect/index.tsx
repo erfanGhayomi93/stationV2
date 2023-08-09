@@ -8,11 +8,12 @@ import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
 
 interface ISymbolMiniSelectType {
-    setSelected: (selected: SymbolSearchResult[]) => void;
-    selected: SymbolSearchResult[];
     multiple?: boolean;
     isBigSize?: boolean;
     isOnModal?: boolean;
+    setSelected: (selected: SymbolSearchResult[]) => void;
+    selected: SymbolSearchResult[];
+
 }
 
 const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal }) => {
@@ -31,9 +32,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
         },
     });
 
-    useEffect(() => {
-        selected.length === 0 && setTerm('');
-    }, [selected]);
+    // useEffect(() => {
+    //     selected.length === 0 && setTerm('');
+    // }, [selected]);
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
