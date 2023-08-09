@@ -19,20 +19,21 @@ interface ITradesTableType {
 const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: ITradesTableType) => {
     //
     const { t } = useTranslation();
+    const { result: rowData } = data || {};
 
     const Columns = useMemo(
-        (): ColDefType<any>[] => [
+        (): ColDefType<IGTTradesListResultType>[] => [
             { headerName: t('ag_columns_headerName.row'), field: 'index', width: 20 },
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
-            { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourceCode' },
-            { headerName: t('ag_columns_headerName.symbol'), field: 'symboTitle', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.side'), field: 'orderSide', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.date'), field: 'date', type: 'date' },
-            { headerName: t('ag_columns_headerName.count'), field: 'count', type: 'abbreviatedNumber' },
-            { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
+            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
+            { headerName: t('ag_columns_headerName.side'), field: 'orderSide', valueFormatter: (value) => t('orderSide.' + value) },
+            { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'date' },
+            { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'abbreviatedNumber' },
+            { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
             {
                 headerName: t('ag_columns_headerName.finalCost'),
-                field: 'cost',
+                field: 'totalPrice',
                 type: 'sepratedNumber',
                 headerComponent: ({ displayName }: IHeaderParams) => (
                     <Tippy content={t('Tooltip.finalCostWithCommision')} className="text-xs">
@@ -49,7 +50,7 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
     return (
         <>
             <WidgetLoading spining={loading}>
-                <AGTable rowData={[]} columnDefs={Columns} />
+                <AGTable rowData={rowData || []} columnDefs={Columns} />
             </WidgetLoading>
             <div className="border-t flex justify-end items-center  pt-4 ">
                 <Paginator
@@ -67,8 +68,3 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
 };
 
 export default TradesTable;
-
-const Comp = ({ data }: ICellRendererParams) => {
-    console.log(data);
-    return <div></div>;
-};
