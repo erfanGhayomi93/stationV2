@@ -13,8 +13,8 @@ export interface TurnoverFilterTypes {
     symbols: SymbolSearchResult[];
     time: string;
     marketUnit: string; 
-    fromDate: DateType;
-    toDate: DateType;
+    fromDate: string;
+    toDate: string;
     side: string[];
     fromCost: number;
     toCost: number;

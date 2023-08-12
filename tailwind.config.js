@@ -54,7 +54,8 @@ module.exports = {
                     blue: {
                         50: '#07294A',
                         100: '#041D37',
-                        200: '#133F8E',
+                        200: '#0C4073',
+                        300: '#133F8E',
                     }
                 },
                 D: {
@@ -100,7 +101,8 @@ module.exports = {
                     blue: {
                         50: '#07294A',
                         100: '#041D37',
-                        200: '#8AA3DE',
+                        200: '#3F455B ',
+                        300: '#8AA3DE',
                     }
                 },
             },
@@ -137,6 +139,7 @@ module.exports = {
             gridTemplateRows: {
                 'min-one': 'min-content 1fr;',
                 'min-one-min': 'min-content 1fr min-content;',
+                'one-min-min': '1fr min-content min-content;',
                 'one-min': '1fr min-content;',
                 '60-40': '60fr 40fr',
             },

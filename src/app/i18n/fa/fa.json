@@ -24,7 +24,8 @@
         "Natural": "حقیقی",
         "GTCustomerGroup 0": "گروه من",
         "GTCustomerGroup": "گروه من",
-        "TraderGroup": "گروه من"
+        "TraderGroup": "گروه من",
+        "Individual": "حقیقی"
     },
     "BSModal": {
         "validity_Week": "هفته",
@@ -40,7 +41,8 @@
         "submit": " تایید",
         "year": "سال",
         "day": "روز",
-        "month": "ماه"
+        "month": "ماه",
+        "today_date": "تاریخ امروز"
     },
     "timeSheet": {
         "day": "روز",
@@ -100,7 +102,8 @@
         "Search": "جستجو",
         "Remove": "حذف",
         "Update": "بروز رسانی",
-        "ExportExcel": "خروجی اکسل"
+        "ExportExcel": "خروجی اکسل",
+        "EditTable": "ویرایش جدول"
     },
     "FilterFieldLabel": {
         "Customer": "مشتری",
@@ -141,7 +144,8 @@
     "page_title": {
         "orders": "سفارشات",
         "trades": "معاملات",
-        "turnOver": "گردش حساب"
+        "turnOver": "گردش حساب",
+        "basket": "سبد معامله گر"
     },
     "ag_columns_headerName":{
         "row":"ردیف",
@@ -172,6 +176,17 @@
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
         "cancelAdd" : "انصراف"
+     }, 
+     "Basket": {
+        "addNewBasket": "ایجاد سبد جدید",
+        "editBasket": "ویرایش سبد",
+        "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
+     },
+     "Tooltip": {
+        "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
+     },
+     "setting" : {
+        "key_symbol_search": "جستجوی نماد"
      }
     
 }

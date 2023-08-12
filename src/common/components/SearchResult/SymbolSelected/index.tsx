@@ -16,7 +16,7 @@ const SymbolSelected: FC<ISymbolSelectedType> = ({ selected }) => {
                         label={item.symbolTitle}
                         value={item}
                     >
-                        <div className="flex justify-between w-full">
+                        <div className="flex justify-between w-full text-1">
                             {item.symbolTitle}
                             <span>{item.companyISIN}</span>
                         </div>

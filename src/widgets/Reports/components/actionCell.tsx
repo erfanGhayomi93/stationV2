@@ -51,7 +51,7 @@ function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handl
     ];
 
     return (
-        <div className="flex items-center justify-center gap-2 py-2 h-full">
+        <div className="flex items-center justify-center gap-4 py-2 h-full">
             {buttons.map((item, ind) => {
                 const { Icon, isActived, onClick, title } = item;
                 return (
@@ -61,10 +61,10 @@ function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handl
                                 <button
                                     key={ind}
                                     data-actived={isActived}
-                                    className="hidden actived:inline-block dark:bg-D-gray-300 bg-L-gray-300 px-1.5 py-1.5 rounded-md"
+                                    className="hidden actived:inline-block"
                                     onClick={() => onClick && onClick(data)}
                                 >
-                                    <Icon className="text-L-primary-50 dark:text-D-primary-50" />
+                                    <Icon className="text-L-gray-600 dark:text-D-gray-600" />
                                 </button>
                             </Tippy>
                         )}

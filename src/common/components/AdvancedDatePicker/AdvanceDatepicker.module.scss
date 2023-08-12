@@ -1,0 +1,309 @@
+.datepicker {
+	--rg-dp-background-color: theme("colors.white");
+	--rg-dp-border-color: theme("colors.L.gray.400");
+	--rg-dp-active-color: theme("colors.gray.600");
+	--rg-dp-active-border-color: theme("colors.L.info.100");
+	--rg-dp-icon-color: theme("colors.L.gray.600");
+	--rg-dp-to-color: theme("colors.L.gray.500");
+	--rg-db-disabled-color: theme("colors.L.gray.500");
+	--rg-dp-height: 2rem;
+	--rg-dp-border-radius: 4px;
+
+	&.dark {
+		--rg-dp-background-color: theme("colors.D.basic.DEFAULT");
+		--rg-dp-border-color: theme("colors.D.gray.400");
+		--rg-dp-active-color: theme("colors.D.gray.600");
+		--rg-dp-active-border-color: theme("colors.L.info.100");
+		--rg-dp-icon-color: theme("colors.D.gray.600");
+		--rg-dp-to-color: theme("colors.D.gray.700");
+		--rg-db-disabled-color: theme("colors.D.gray.500");
+	}
+
+	background-color: var(--rg-dp-background-color);
+	border-radius: var(--rg-dp-border-radius);
+	border: 1px solid;
+	border-color: var(--rg-dp-border-color);
+	overflow: hidden;
+	width: 100%;
+	max-width: 100%;
+
+	&.opened {
+		border-color: var(--rg-dp-active-border-color);
+	}
+}
+
+.container {
+	padding: 0 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: var(--rg-dp-height);
+	border-radius: theme("borderRadius.DEFAULT");
+}
+
+.labels {
+	flex: 1;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 4px;
+}
+
+.icon {
+	flex: 0;
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	font-weight: 400;
+	font-size: 0.75rem;
+	width: 10;
+	height: 10;
+	color: var(--rg-dp-to-color);
+}
+
+.input {
+	direction: ltr;
+	height: var(--rg-dp-height);
+	background-color: transparent;
+	color: theme('colors.L.gray.500');
+	padding: 0;
+	text-align: left;
+	width: 2.4rem;
+	outline: none;
+	max-width: 100%;
+	flex: 1;
+	font-size: 0.75rem;
+	font-weight: 400;
+
+	&::placeholder {
+		letter-spacing: 1px;
+		text-align: left;
+	}
+
+	&.fromDate {
+		text-align: center;
+	}
+
+	&.toDate {
+		text-align: center;
+	}
+
+	&.active {
+		color: var(--rg-dp-active-color);
+	}
+}
+
+.dialogBox {
+	--rg-db-width: 18.4rem;
+	--rg-db-background-color: theme("colors.white");
+	--rg-db-week-color: theme("colors.L.gray.500");
+	--rg-db-day-color: theme("colors.D.basic.DEFAULT");
+	--rg-db-arrow-color: theme("colors.gray.600");
+	--rg-db-date-color: theme("colors.L.primary.50");
+	--rg-db-day-default-color: transparent;
+	--rg-db-active-color: theme("colors.white");
+	--rg-db-active-background-color: theme("colors.L.primary.50");
+	--rg-db-end-start-background-color: theme("colors.L.primary.50");
+	--rg-db-holiday-color: theme("colors.L.error.300");
+	--rg-db-disabled-color: theme("colors.L.gray.500");
+	--rg-db-shadow: 0px 0px 8px rgba(147, 156, 173, 0.25);
+	--rg-dp-font-family: "IRANSansFaNum";
+
+	&.dark {
+		--rg-db-background-color: theme("colors.black");
+		--rg-db-week-color: theme("colors.D.gray.600");
+		--rg-db-day-color: theme("colors.L.basic.DEFAULT");
+		--rg-db-arrow-color: theme("colors.D.gray.600");
+		--rg-db-day-default-color: transparent;
+		--rg-db-date-color: theme("colors.D.primary.50");
+		--rg-db-active-color: theme("colors.black");
+		--rg-db-active-background-color: theme("colors.D.gray.400");
+		--rg-db-end-start-background-color: theme("colors.D.primary.50");
+		--rg-db-disabled-color: theme("colors.D.gray.500");
+		--rg-db-shadow: 0px 0px 8px rgba(163, 163, 163, 0.25);
+	}
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	min-width: var(--rg-db-width);
+	max-width: var(--rg-db-width);
+	background-color: var(--rg-db-background-color);
+	box-shadow: var(--rg-db-shadow);
+	-webkit-box-shadow: var(--rg-db-shadow);
+	border-radius: 4px;
+	padding: 1rem;
+	gap: 1.6rem;
+}
+
+.switch,
+.weekDays {
+	flex: 0;
+	width: 100%;
+}
+
+.switch {
+	display: flex;
+	justify-content: space-between;
+}
+
+.weekDays {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: var(--rg-db-week-color);
+
+	li {
+		text-align: center;
+		width: 3.6rem;
+	}
+}
+
+ul.days {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	ul {
+		direction: rtl;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+}
+
+.day {
+	width: 2.35rem;
+	height: 2.35rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--rg-dp-font-family);
+	background-color: var(--rg-db-day-default-color);
+	color: var(--rg-db-day-color);
+
+	&.between {
+		background-color: var(--rg-db-active-background-color);
+	}
+
+	&.active {
+		border-radius: 50%;
+		color: var(--rg-db-active-color);
+		background-color: var(--rg-db-end-start-background-color);
+	}
+
+	&.holiday {
+		color: var(--rg-db-holiday-color);
+	}
+
+	&.disabled {
+		color: var(--rg-db-disabled-color);
+	}
+}
+
+.arrows {
+	display: flex;
+	gap: 8px;
+
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 0.8rem;
+		height: 0.8rem;
+		color: var(--rg-db-arrow-color);
+	}
+}
+
+.date {
+	display: flex;
+	align-items: center;
+	gap: 1.2rem;
+	color: var(--rg-db-date-color);
+	font-size: 0.75rem;
+	font-weight: 400;
+
+	span,
+	button {
+		color: inherit;
+	}
+}
+
+.selection {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--rg-db-background-color);
+
+	.back {
+		height: 24px;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		padding: 12px 16px 16px;
+
+		button {
+			width: 24px;
+			height: 24px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--rg-db-date-color);
+		}
+	}
+
+	ul.list {
+		width: 100%;
+		// display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		place-items: center;
+
+		li {
+			.option {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 2.4rem;
+				color: var(--rg-db-day-color);
+				height: 2.4rem;
+				transition: color 250ms;
+				-webkit-transition: color 250ms;
+				-moz-transition: color 250ms;
+
+				&.active,
+				&:hover {
+					font-weight: 400;
+					color: var(--rg-db-date-color);
+				}
+			}
+		}
+	}
+}
+
+.today {
+	font-weight: 500;
+	font-size: 0.75rem;
+	text-align: left;
+	color: var(--rg-db-date-color);
+
+	button {
+		font-size: inherit;
+		color: inherit;
+	}
+}

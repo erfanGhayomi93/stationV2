@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
 import FilterActions from 'src/common/components/FilterActions';
 import FilterBlock from 'src/common/components/FilterBlock';
@@ -9,6 +8,7 @@ import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import TradeInput from 'src/widgets/BuySell/components/Input';
 import { TurnoverFilterTypes } from '../..';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 
 interface IProps {
     params: TurnoverFilterTypes;
@@ -24,12 +24,11 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
-    const toggleFilterBox = () => setIsFilterOpen(!isFilterOpen)
+    const toggleFilterBox = () => setIsFilterOpen(!isFilterOpen);
 
-    const onSubmit = () => {}
+    const onSubmit = () => {};
 
-    const onClear = () => {}
-
+    const onClear = () => {};
 
     return (
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
@@ -42,7 +41,7 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple onChange={(selected) => handleValueCahnge('symbols', selected)}  />
+                    <SymbolMiniSelect multiple selected={params.symbols} setSelected={(selected) => handleValueCahnge('symbols', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.MarketUnit')}>
                     <Select onChange={(selected) => handleValueCahnge('marketUnit', selected)} value={params.marketUnit} options={[]} />
@@ -61,18 +60,10 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatePicker
-                        value={params.fromDate}
-                        onChange={(selectedDates) => handleValueCahnge('fromDate', selectedDates)}
-                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                    />
+                    <AdvancedDatepicker value={params.fromDate} onChange={(v) => handleValueCahnge("fromDate",v)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatePicker
-                        value={params.toDate}
-                        onChange={(selectedDates: any) => handleValueCahnge('toDate', selectedDates)}
-                        className="text-L-gray-500 dark:text-D-gray-500 py-1.5 w-full duration-250 dark:focus-visible:border-D-infoo-100 focus-visible:border-L-info-100"
-                    />
+                    <AdvancedDatepicker value={params.toDate} onChange={(v) => handleValueCahnge("toDate", v)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.TransactionType')} className="col-span-3">
                     <MultiSelect
@@ -114,14 +105,11 @@ const TurnOverFilter = ({ params, setParams }: IProps) => {
                     <></>
                 )}
                 <div className="col-span-3">
-                    <FilterActions isFilterBoxOpen={isFilterOpen} toggleFilterBox={toggleFilterBox} onSubmit={onSubmit} onClear={onClear}/>
+                    <FilterActions isFilterBoxOpen={isFilterOpen} toggleFilterBox={toggleFilterBox} onSubmit={onSubmit} onClear={onClear} />
                 </div>
             </div>
         </div>
     );
-
-}
-
+};
 
 export default TurnOverFilter;
-
