@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
-import { FC, useState, FormEvent, Dispatch, SetStateAction, useRef, useEffect } from "react";
+import { FC, useState, FormEvent, Dispatch, SetStateAction, useRef, useEffect, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { createWatchListMutation } from "src/app/queries/watchlist";
@@ -36,9 +36,9 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
         },
     });
 
-    const AddWatchlist = (form: FormEvent<HTMLFormElement>) => {
-        form.stopPropagation();
-        form.preventDefault();
+    const AddWatchlist = (e: MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        e.preventDefault();
         mutate(watchlistName);
         setIsAddActive(false);
     };
@@ -54,10 +54,10 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
     return (
         <form
             data-actived={!isAddActive}
-            onSubmit={AddWatchlist}
+            // onSubmit={AddWatchlist}
             onKeyDown={(event) => event.key === 'Escape' && setIsAddActive(false)}
             className="actived:scale-0 actived:absolute actived:duration-0 duration-150 ease-linear flex justify-between items-center"
-            onBlur={() => !FromEditMode && setIsAddActive(false)}
+        // onBlur={() => !FromEditMode && setIsAddActive(false)}
         >
             <div>
                 <Input
@@ -79,6 +79,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                         className="bg-L-gray-400 dark:bg-D-gray-400 actived:bg-L-success-200  actived:dark:bg-D-success-200 h-[32px] w-[36px] flex justify-center items-center rounded-e relative left-[2px]"
                         disabled={watchlistName.length <= 1}
                         type="submit"
+                        onClick={AddWatchlist}
                     >
                         <Check className="text-L-gray-50 dark:text-gray-text-L-gray-50 scale-[1.3]" />
                     </button>
@@ -89,6 +90,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                             data-actived={watchlistName.length > 1}
                             className="bg-L-gray-400 dark:bg-D-gray-400 actived:bg-L-success-200  actived:dark:bg-D-success-200 text-L-gray-50 dark:text-gray-text-L-gray-50 h-[40px] rounded whitespace-nowra px-2 py-2"
                             disabled={watchlistName.length <= 1}
+                            onClick={AddWatchlist}
                         >
                             {t("Watchlist.submitAdd")}
                         </button>

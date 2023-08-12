@@ -1,7 +1,7 @@
 // import { useDefaultWatchlistSymbolsQuery, useGetMarketSymbolQuery, useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import AGTable from 'src/common/components/AGTable';
-import { Paginator } from 'src/common/components/Paginator/Paginator';
-import WidgetLoading from 'src/common/components/WidgetLoading';
+// import { Paginator } from 'src/common/components/Paginator/Paginator';
+// import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { UseHandleShowColumn } from './components/UseHandleShowColumn';
@@ -30,22 +30,9 @@ const Watchlists = (props: Props) => {
         { watchlistId: selectedWatchlistId, watchlistType, type: selectedDefaultWatchlist, MarketUnit: marketUnit, SectorCode: sector.id, PageNumber: PageNumber }
     )
 
-    // const { data: watchlistSymbolListMarket, isFetching: isFetchingMarket } = useGetMarketSymbolQuery({ marketUnit, PageNumber, SectorCode: sector.id , watchlistType })
-
-    // const { symbols: watchlistSymbolListMarketSymbol, totalCount } = watchlistSymbolListMarket || {};
-
-
-    // const { data: WatchlistSymbolsDefault, isFetching: isFetchingDefault } = useDefaultWatchlistSymbolsQuery(selectedDefaultWatchlist, watchlistType);
-
-    // const { data: watchlistSymbols } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlistId, {
-    //     select: (data) => data.map((item) => ({ symbolISIN: item.symbolISIN, ...item.symbol })),
-    // });
-
-
-
-    const handleChangePaginator = (PageNumber: number) => {
-        setState({ value: PageNumber, type: 'SET_PageNumber' });
-    };
+    // const handleChangePaginator = (PageNumber: number) => {
+    //     setState({ value: PageNumber, type: 'SET_PageNumber' });
+    // };
 
     const defaultCols = {
         lockPinned: true,
@@ -54,7 +41,6 @@ const Watchlists = (props: Props) => {
         headerClass: 'px-1 font-semibold',
     };
 
-    // const dataRow = watchlistType === "Market" ? watchlistSymbolListMarketSymbol : watchlistType === "Ramand" ? WatchlistSymbolsDefault : watchlistSymbolListUser
 
     return (
         <div className="h-full grid grid-rows-min-one py-3 px-6">
@@ -66,6 +52,7 @@ const Watchlists = (props: Props) => {
             <div className='grid grid-rows-one-min-min'>
                 {/* <WidgetLoading spining={isFetchingSymbol}> */}
                 <AGTable
+                    rowModelType="clientSide"
                     rowData={watchlistSymbolList}
                     columnDefs={columns}
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
@@ -77,6 +64,16 @@ const Watchlists = (props: Props) => {
                     suppressRowVirtualisation={true}
                     suppressColumnVirtualisation={true}
                     suppressLoadingOverlay={true}
+                    suppressCellFocus={true}
+                    stopEditingWhenCellsLoseFocus={true}
+                    suppressNoRowsOverlay={true}
+                    suppressColumnMoveAnimation={true}
+                    suppressDragLeaveHidesColumns={true}
+                    getRowId={({ data }) => data.symbolISIN}
+                    onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
+                    onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
+                    onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
+
                 />
                 {/* </WidgetLoading> */}
 

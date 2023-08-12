@@ -25,20 +25,10 @@ const PriceViewFooter = ({
         [percentage],
     );
 
-    //     const handlePositiveNegative = () => {
-    //         if (percentage === 0) {
-    //             
-    //         } else if (percentage > 0) {
-    // 
-    //         } else if (percentage < 0) {
-    // 
-    //         }
-    //     }
-
     return (
-        <div className="flex flex-nowrap whitespace-nowrap snap-center mx-4">
+        <div className="flex flex-nowrap whitespace-nowrap snap-center ml-4">
             <span>{label}:</span>
-            <span className='mx-1'>{price}</span>
+            <span className='mx-1'>{seprateNumber(price)}</span>
             <span className='ml-1'>ریال</span>
             <div className={`${textColorClassName} flex items-center`} style={{ direction: 'ltr' }}>
                 {

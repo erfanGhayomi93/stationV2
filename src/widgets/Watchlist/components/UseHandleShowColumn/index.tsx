@@ -10,7 +10,7 @@ import { ClosingPrice, LastTradedPrice } from '../CellRenderer';
 
 export const UseHandleShowColumn = () => {
     const {
-        state: { listShowColumn },
+        state: { listShowColumn, watchlistType },
     } = useWatchListState();
 
     const setState = useSetState();

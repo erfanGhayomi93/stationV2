@@ -64,11 +64,6 @@ export const AddSymbolModal = () => {
   }, [selectedWatchlistId])
 
 
-  useEffect(() => {
-    console.log("selected", selected)
-  }, [selected])
-
-
   return (
     <>
       <Modal isOpen={addSymbolMode} onClose={closeModal} className="min-h-[35rem] w-[500px] rounded-md h-full grid bg-L-basic dark:bg-D-basic translate-y-7">
