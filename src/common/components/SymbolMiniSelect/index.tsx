@@ -6,6 +6,7 @@ import Combo from '../ComboSelect';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
+import { useWatchListState } from 'src/widgets/Watchlist/context/WatchlistContext';
 
 interface ISymbolMiniSelectType {
     multiple?: boolean;
@@ -20,6 +21,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
+
+    const {state : {selectedWatchlistId}} = useWatchListState()
+
 
     const {
         data: qData,
@@ -43,9 +47,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     interface IOptionsType {
         active?: boolean;
         content?: string;
+        watchlistId : number
     }
-
-    const Options = ({ active, content }: IOptionsType) =>
+    const Options = ({ active, content , watchlistId }: IOptionsType) =>
         useMemo(() => {
             return (
                 <>
@@ -78,7 +82,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             // </>
                             <SymbolSelected selected={selected} />
                         ) : (
-                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} />
+                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId}/>
                         )}
                     </div>
                 </>
@@ -106,7 +110,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
 
                     <div>
                         <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                            <Options />
+                            <Options watchlistId={selectedWatchlistId}/>
                         </Combo.Panel>
                     </div>
                 </div>

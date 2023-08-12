@@ -11,20 +11,22 @@ import { addWatchListSymbolMutation, deleteWatchListSymbolMutation } from 'src/a
 
 export const AddSymbolModal = () => {
   const { t } = useTranslation()
-  const { state: { addSymbolMode, selectedWatchlistId }, setState } = useWatchListState()
+  const { state: { addSymbolMode, selectedWatchlistId, PageNumber }, setState } = useWatchListState()
 
   const [selected, setSelected] = useState<SymbolSearchResult[]>([])
 
   const { mutate: addWatchListSymbol } = addWatchListSymbolMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId]);
+      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+      queryClient.invalidateQueries(['GetSymbolInWatchlist']);
       toast.success('نماد با موفقیت به دیده‌بان اضافه شد');
     }
   });
 
   const { mutate: removeWatchListSymbol } = deleteWatchListSymbolMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId]);
+      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+      queryClient.invalidateQueries(['GetSymbolInWatchlist']);
       toast.success('نماد با موفقیت  از دیده بان حذف شد');
     }
   })

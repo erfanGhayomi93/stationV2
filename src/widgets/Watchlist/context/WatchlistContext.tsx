@@ -76,7 +76,7 @@ const WatchlistContext = () => {
                         });
 
                         clearTimer();
-                    }, 500);
+                    }, 2000);
                 }
             })
         },
