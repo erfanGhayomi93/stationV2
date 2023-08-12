@@ -42,7 +42,7 @@ export const useWatchListSymbolsQuery = (
     params: IRequestWatchListSymbol,
     options?: (Omit<UseQueryOptions<IGetWatchlistSymbol[], unknown, IGetWatchlistSymbol[], string[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
     const { watchlistId, PageNumber, MarketUnit, SectorCode, watchlistType, type } = params
-    const queryKey = watchlistType === "Market" ? MarketUnit + SectorCode : watchlistType === "Ramand" ? type : ""
+    const queryKey = watchlistType === "Market" ? MarketUnit as string + SectorCode : watchlistType === "Ramand" ? type : ""
     return useQuery(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], () => getWatchListSymbols(params), { ...options });
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

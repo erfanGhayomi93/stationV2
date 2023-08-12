@@ -80,7 +80,7 @@ export const AddSymbolModal = () => {
           </div>
 
           <div className='p-6'>
-            <SymbolMiniSelect setSelected={setSelected} selected={selected} isBigSize isOnModal />
+            <SymbolMiniSelect setSelected={setSelected} selected={selected} isBigSize watchlistId={selectedWatchlistId} isOnModal />
           </div>
 
         </div>
