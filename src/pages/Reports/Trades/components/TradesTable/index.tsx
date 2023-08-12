@@ -23,7 +23,7 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
 
     const Columns = useMemo(
         (): ColDefType<IGTTradesListResultType>[] => [
-            { headerName: t('ag_columns_headerName.row'), field: 'index', width: 20 },
+            { type: 'agTableIndex' },
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
             { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
