@@ -12,8 +12,8 @@ export interface OrdersFilterTypes {
     symbols: SymbolSearchResult[];
     fromDate: string;
     toDate: string;
-    side: string[];
-    customerType: string[];
+    side: string;
+    customerType: string;
     status: string[]
 }
 
@@ -25,8 +25,8 @@ const Orders = () => {
         symbols: [],
         fromDate: dayjs().subtract(1, "day").format(),
         toDate: '',
-        side: [],
-        customerType: [],
+        side: '',
+        customerType: '',
         status: []
     })
 
