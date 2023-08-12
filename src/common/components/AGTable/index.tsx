@@ -8,9 +8,10 @@ import { DragIcon } from 'src/common/icons';
 import { useAppValues } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
+import { useTranslation } from 'react-i18next';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
-    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date';
+    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex';
 }
 
 export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'children'> {
@@ -21,6 +22,7 @@ interface Props<TData> extends AgGridReactProps<TData> {}
 
 const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
     //
+    const { t } = useTranslation();
     const {
         ui: { theme },
     } = useAppValues();
@@ -30,6 +32,14 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
+            agTableIndex: {
+                sortable: false,
+                headerName: t('ag_columns_headerName.row'),
+                field: 'agTableIndex',
+                minWidth: 60,
+                maxWidth: 80,
+                valueGetter: ({ data, node }) => (data.agTableIndex ? data.agTableIndex : Number(node?.rowIndex) + 1),
+            },
             sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
             date: { valueFormatter: ({ value }) => (value ? dayjs(value).calendar('jalali').format('YYYY-MM-DD   HH:mm:ss') : value) },

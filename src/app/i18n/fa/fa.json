@@ -179,7 +179,8 @@
      }, 
      "Basket": {
         "addNewBasket": "ایجاد سبد جدید",
-        "editBasket": "ویرایش سبد"
+        "editBasket": "ویرایش سبد",
+        "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
      },
      "Tooltip": {
         "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"

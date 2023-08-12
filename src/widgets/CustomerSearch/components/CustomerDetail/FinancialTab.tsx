@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InfoFillIcon, InfoIcon } from 'src/common/icons';
 
-type PanelType = 'Trade' | 'Withdrawal' | 'Broker' | null;
+type PanelType = 'TradeRemain' | 'WithdrawalRemain' | 'BrokerRemain';
 
 const FinancialTab = () => {
     //
-    const [activePanel, setActivePanel] = useState<PanelType>(null);
+    const [activePanel, setActivePanel] = useState<PanelType>('TradeRemain');
     const { t } = useTranslation();
 
     const handleChangePanel = (p: PanelType) => {
@@ -17,11 +17,11 @@ const FinancialTab = () => {
     return (
         <div className="px-4 pt-6 pb-4 flex flex-col gap-5">
             <div className="flex flex-col gap-4">
-                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('Trade')}>
-                    {activePanel === 'Trade' ? <InfoFillIcon /> : <InfoIcon />}
+                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('TradeRemain')}>
+                    {activePanel === 'TradeRemain' ? <InfoFillIcon /> : <InfoIcon />}
                     <span className="text-sm font-medium ">{t('customer_financial_situation.negotiable_balance')}</span>
                 </div>
-                {activePanel === 'Trade' ? (
+                {activePanel === 'TradeRemain' ? (
                     <div className="bg-L-gray-200 dark:bg-D-gray-200 rounded-lg p-4 text-right duration-200">
                         {t('customer_financial_situation.negotiable_balance_information')}
                     </div>
@@ -42,11 +42,11 @@ const FinancialTab = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('Withdrawal')}>
-                    {activePanel === 'Withdrawal' ? <InfoFillIcon /> : <InfoIcon />}
+                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('WithdrawalRemain')}>
+                    {activePanel === 'WithdrawalRemain' ? <InfoFillIcon /> : <InfoIcon />}
                     <span className="text-sm font-medium ">{t('customer_financial_situation.withdrawal_balance')}</span>
                 </div>
-                {activePanel === 'Withdrawal' ? (
+                {activePanel === 'WithdrawalRemain' ? (
                     <div className="bg-L-gray-200 dark:bg-D-gray-200 rounded-lg p-4 text-right">
                         {t('customer_financial_situation.withdrawal_balance_information')}
                     </div>
@@ -77,11 +77,11 @@ const FinancialTab = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('Broker')}>
-                    {activePanel === 'Broker' ? <InfoFillIcon /> : <InfoIcon />}
+                <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('BrokerRemain')}>
+                    {activePanel === 'BrokerRemain' ? <InfoFillIcon /> : <InfoIcon />}
                     <span className="text-sm font-medium ">{t('customer_financial_situation.broker_balance')}</span>
                 </div>
-                {activePanel === 'Broker' ? (
+                {activePanel === 'BrokerRemain' ? (
                     <div className="bg-L-gray-200 dark:bg-D-gray-200 rounded-lg p-4 text-right">
                       {t('customer_financial_situation.broker_balance_information')}
                     </div>

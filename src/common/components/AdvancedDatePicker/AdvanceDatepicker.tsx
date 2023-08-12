@@ -15,6 +15,7 @@ type DateValue = undefined | null | string | number | Date;
 type AdvancedDatepickerProps = {
     clearable?: boolean;
     value: DateValue;
+    placement?: 'top' | 'bottom';
     placeholder?: string;
     weekDays?: string[];
     dateIsDisabled?: (date: Date) => boolean;
@@ -55,7 +56,15 @@ type DayType = {
     date: string | number | null;
 };
 
-const AdvancedDatepicker = ({ classes, value, dateIsDisabled, placeholder, onChange, weekDays = weekDaysName }: AdvancedDatepickerProps) => {
+const AdvancedDatepicker = ({
+    classes,
+    value,
+    dateIsDisabled,
+    placeholder,
+    onChange,
+    weekDays = weekDaysName,
+    placement = 'bottom',
+}: AdvancedDatepickerProps) => {
     const rootRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const datepickerRef = useRef<HTMLDivElement | undefined>(undefined);
@@ -183,10 +192,15 @@ const AdvancedDatepicker = ({ classes, value, dateIsDisabled, placeholder, onCha
 
             datepickerRef.current = datepickerEl;
 
-            const elRect = rootEl.getBoundingClientRect();
-            datepickerEl.style.width = elRect.width + 'px';
-            datepickerEl.style.left = elRect.left + 'px';
-            datepickerEl.style.top = elRect.top + elRect.height + 1 + 'px';
+            const rectOffset = rootEl.getBoundingClientRect();
+            const datepickerOffset = datepickerEl.getBoundingClientRect();
+            datepickerEl.style.width = rectOffset.width + 'px';
+            datepickerEl.style.left = rectOffset.left + 'px';
+            if (placement === 'bottom') {
+                datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + 'px';
+            } else {
+                datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 + 'px';
+            }
         },
         [rootRef.current],
     );

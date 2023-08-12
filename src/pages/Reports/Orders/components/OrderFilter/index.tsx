@@ -7,6 +7,7 @@ import MultiSelect from 'src/common/components/MultiSelect';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { OrdersFilterTypes } from '../..';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import Select from 'src/common/components/Select';
 
 interface IProps {
     params: OrdersFilterTypes;
@@ -44,26 +45,23 @@ const OrdersFilter = ({ params, setParams }: IProps) => {
                 <AdvancedDatepicker value={params.toDate} onChange={(v)=>handleValueCahnge("toDate", v)}/>
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
-                    <MultiSelect
+                    <Select
                         onChange={(selected) => handleValueCahnge('side', selected)}
                         value={params.side}
                         options={[
-                            { value: 'buy', label: t('orderSide.buy') },
-                            { value: 'sell', label: t('orderSide.sell') },
+                            { value: 'Cross', label: t('orderSide.Cross') },
+                            { value: 'Buy', label: t('orderSide.Buy') },
+                            { value: 'Sell', label: t('orderSide.Sell') },
                         ]}
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
-                    <MultiSelect
+                    <Select
                         onChange={(selected) => handleValueCahnge('customerType', selected)}
                         value={params.customerType}
                         options={[
-                            { value: 'CustomerTag', label: t('CustomerType.CustomerTag') },
                             { value: 'Legal', label: t('CustomerType.Legal') },
-                            { value: 'Natural', label: t('CustomerType.Natural') },
-                            { value: 'GTCustomerGroup 0', label: t('CustomerType.GTCustomerGroup 0') },
-                            { value: 'GTCustomerGroup', label: t('CustomerType.GTCustomerGroup') },
-                            { value: 'TraderGroup', label: t('CustomerType.TraderGroup') },
+                            { value: 'Natural', label: t('CustomerType.Natural') }
                         ]}
                     />
                 </FilterBlock>
