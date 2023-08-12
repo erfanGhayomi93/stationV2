@@ -4,15 +4,16 @@ import SearchLoading from 'src/common/components/SearchResult/SearchLoading';
 import Combo from '../../ComboSelect';
 import SymbolState from '../../SymbolState';
 import NotFoundResult from '../SearchNotFound';
-import { EyeApprove, EyePlusIcon } from 'src/common/icons';
-import ipcMain from 'src/common/classes/IpcMain';
+import { AddRemoveToWatchlist } from '../../AddRemoveToWatchlist';
+
 interface ISymbolResultType {
     isLoading: boolean;
     min: boolean;
     qData: SymbolSearchResult[];
     isOnModal?: boolean
+    watchlistId : number
 }
-const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min, isOnModal }) => {
+const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min, isOnModal, watchlistId }) => {
     if (min) {
         return <MinLen min={min} />;
     }
@@ -20,17 +21,7 @@ const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min, isOnModal 
         return <SearchLoading {...{ isLoading }} />;
     }
 
-    const checkIfExistSymbol = () => {
-        return false
-    }
 
-    const handleRemoveSymbolInWatchlist = (symbolISIN: string) => {
-        ipcMain.send("RemoveSymbolInWatchlist", symbolISIN);
-    }
-
-    const handleAddSymbolInWatchlist = (symbolISIN: string) => {
-        ipcMain.send("AddSymbolInWatchlist", symbolISIN);
-    }
 
     return (
         <>
@@ -53,23 +44,7 @@ const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min, isOnModal 
                                 </div>
                             </div>
                             {
-                                isOnModal && (
-                                    checkIfExistSymbol() ? (
-                                        <EyeApprove
-                                            width={23}
-                                            height={23}
-                                            onClick={() => handleRemoveSymbolInWatchlist(item.symbolISIN)}
-                                            className="cursor-pointer text-L-success-200 dark:text-D-success-200 "
-                                        />
-                                    ) : (
-                                        <EyePlusIcon
-                                            width={23}
-                                            height={23}
-                                            onClick={() => handleAddSymbolInWatchlist(item.symbolISIN)}
-                                            className="cursor-pointer text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50"
-                                        />
-                                    )
-                                )
+                                isOnModal && <AddRemoveToWatchlist symbolISIN={item.symbolISIN} watchlistId={watchlistId}/>
                             }
                         </div>
                     </Combo.DataSet>
