@@ -4,7 +4,7 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
             return {
                 ...state,
                 selectedWatchlistId: action.value.id,
-                watchlistType : action.value.type
+                watchlistType: action.value.type
             };
         case 'SET_SELECTED_DEFAULT_WATCHLIST':
             return {
@@ -15,6 +15,11 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
             return {
                 ...state,
                 editMode: action.value,
+            };
+        case 'TOGGLE_ADD_SYMBOL_MODE':
+            return {
+                ...state,
+                addSymbolMode: action.value,
             };
         case 'SET_COLUMN':
             return {

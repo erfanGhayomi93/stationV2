@@ -10,10 +10,10 @@ import { useTranslation } from 'react-i18next';
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
     symbols: SymbolSearchResult[];
-    fromDate: DateType;
-    toDate: DateType;
-    side: string[];
-    customerType: string[];
+    fromDate: string;
+    toDate: string;
+    side: string;
+    customerType: string;
     status: string[]
 }
 
@@ -25,8 +25,8 @@ const Orders = () => {
         symbols: [],
         fromDate: dayjs().subtract(1, "day").format(),
         toDate: '',
-        side: [],
-        customerType: [],
+        side: '',
+        customerType: '',
         status: []
     })
 

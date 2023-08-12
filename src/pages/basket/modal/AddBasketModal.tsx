@@ -15,7 +15,7 @@ const AddBasketModal = ({ isAddActive, toggleAddBasket }: IAddBasketType) => {
     return (
         <Modal isOpen={isAddActive} onClose={toggleAddBasket} className="w-[500px] rounded-md h-full grid">
             <div className="grid grid-rows-min-one bg-L-basic dark:bg-D-basic">
-                <div className="w-full text-white font-medium  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
+                <div className="w-full text-white font-medium  bg-L-blue-200 dark:bg-D-blue-200 h-10 flex items-center justify-between px-5">
                     <p>{t('Basket.addNewBasket')}</p>
                     <CloseIcon data-cy="basket-create-cancel" onClick={toggleAddBasket} className="cursor-pointer" />
                 </div>

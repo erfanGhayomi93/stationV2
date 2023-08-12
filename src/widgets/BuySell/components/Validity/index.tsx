@@ -2,11 +2,11 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
 import Select from 'src/common/components/Select';
 import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+
 
 interface IBuySellValidityType {}
 
@@ -46,7 +46,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
                     ['Day', 'Week', 'Month', 'FillAndKill', 'GoodTillCancelled'].includes(validity) ? 'hidden' : '',
                 )}
             >
-                <AdvancedDatePicker
+                <AdvancedDatepicker
                     value={validityDate}
                     onChange={(value) =>
                         setValidityDate(

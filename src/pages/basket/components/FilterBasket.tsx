@@ -43,10 +43,10 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
-                    <CustomerMegaSelect selectedValue={[]} onChange={() => {}} />
+                    <CustomerMegaSelect selected={[]} setSelected={() => {}} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect selectedValue={[]} onChange={() => {}} />
+                    <SymbolMiniSelect selected={[]} setSelected={() => {}} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
                     <Select

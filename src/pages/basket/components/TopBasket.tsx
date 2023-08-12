@@ -1,10 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useGetBasket } from 'src/app/queries/basket';
-import Modal from 'src/common/components/Modal';
-import { CalendarIcon, CloseIcon, EditIcon2, Excel2Icon, FiClock, CheckListIcon, PlusIcon } from 'src/common/icons';
+import { CalendarIcon, EditIcon2, Excel2Icon, FiClock, CheckListIcon, PlusIcon } from 'src/common/icons';
 import { getFarsiDate } from 'src/utils/helpers';
 import EditBasketModal from '../modal/EditBasketModal';
-import CreateBasket from './CreateBasket';
 import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
@@ -34,19 +32,19 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
     };
 
     return (
-        <div className="flex justify-between items-center w-[100%]">
-            <div className="flex gap-6 my-7 w-[50%] max-w-[65%] overflow-hidden py-2">
-                <ScrollableSlider>
-                    <div className="flex gap-4">
+        <div className="grid grid-cols-2 items-center">
+            <div className="my-7 w-full overflow-hidden py-2">
+                <ScrollableSlider pixelsToScroll={150}>
+                    <>
                         {listBasket &&
                             listBasket
-                                .filter((item) => item.isPinned)
+                                // .filter((item) => item.isPinned)
                                 .map((item) => (
                                     <div
                                         key={item.id}
                                         data-actived={activeBasket === item.id}
                                         onClick={() => saveIndexBasketSelected(item.id)}
-                                        className="flex gap-4 items-center px-2 py-1 text-center whitespace-nowrap cursor-pointer rounded dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-gray-300 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                                        className="flex gap-4 items-center px-2 mx-1 py-1 text-center snap-center flex-nowrap whitespace-nowrap cursor-pointer rounded dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-gray-300 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
                                     >
                                         <p
                                             data-actived={activeBasket === item.id}
@@ -65,9 +63,11 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                                         </div>
                                     </div>
                                 ))}
-                    </div>
+                    </>
                 </ScrollableSlider>
-                <div className="flex gap-6">
+            </div>
+            <div className="flex flex-1 justify-between">
+                <div className="flex gap-4">
                     <Tippy content={t('Basket.addNewBasket')} className="text-xs">
                         <button
                             onClick={toggleAddBasket}
@@ -87,18 +87,18 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                         </button>
                     </Tippy>
                 </div>
-            </div>
-            <div className="flex gap-2">
-                <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
-                    <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
-                        <Excel2Icon width={20} height={18} className="cursor-pointer outline-none" />
-                    </button>
-                </Tippy>
-                <Tippy content={t('Action_Button.EditTable')} className="text-xs">
-                    <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
-                        <CheckListIcon width={20} height={18} className="cursor-pointer outline-none" />
-                    </button>
-                </Tippy>
+                <div className="flex gap-2">
+                    <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
+                        <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                            <Excel2Icon width={20} height={18} className="cursor-pointer outline-none" />
+                        </button>
+                    </Tippy>
+                    <Tippy content={t('Action_Button.EditTable')} className="text-xs">
+                        <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                            <CheckListIcon width={20} height={18} className="cursor-pointer outline-none" />
+                        </button>
+                    </Tippy>
+                </div>
             </div>
             <AddBasketModal {...{ isAddActive, toggleAddBasket }} />
             <EditBasketModal {...{ isEditActive, toggleEditBasket, listBasket }} />

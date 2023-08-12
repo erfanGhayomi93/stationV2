@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import gregorian from 'react-date-object/calendars/gregorian';
 import gregorian_en from 'react-date-object/locales/gregorian_en';
 import { useCreateBasket } from 'src/app/queries/basket';
 import { queryClient } from 'src/app/queryClient';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import { onSuccessNotif } from 'src/handlers/notification';
@@ -13,7 +14,7 @@ type ICreateBasket = {
 
 const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     const [name, setname] = useState<string>('');
-    const [date, setdata] = useState<any>(null);
+    const [date, setdata] = useState<Date | string>(new Date);
     const [time, settime] = useState<any>(null);
 
     const { mutate: AddNewBasketReq } = useCreateBasket({
@@ -30,12 +31,12 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
 
     const clearData = () => {
         setname('');
-        setdata(null);
+        setdata('');
         settime(null);
     };
 
     const AddNewBasket = () => {
-        const dateMiladi = date?.convert(gregorian, gregorian_en).toString();
+        const dateMiladi = dayjs(date).format("YYYY/MM/DD")
         const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
         const sendDate = `${dateMiladi}T${timeMiladi}.000`;
         // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
@@ -51,6 +52,7 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
         };
     }, []);
 
+
     return (
         <div dir="rtl" className="rounded-md border-L-gray-400 dark:border-D-gray-400 border p-4 text-right mb-4">
             <div className="flex items-center mb-4">
@@ -62,7 +64,7 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
             <div className="flex items-center mb-4">
                 <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
                 <div className="flex-1" data-cy="basket-create-input-date">
-                    <AdvancedDatePicker value={date} onChange={(date) => setdata(date)} className="text-L-gray-500 dark:text-D-gray-500" />
+                    <AdvancedDatepicker value={date} onChange={(date) => setdata(date)}  />
                 </div>
             </div>
             <div className="flex items-center">

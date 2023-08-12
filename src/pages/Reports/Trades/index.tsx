@@ -9,6 +9,11 @@ import dayjs from 'dayjs';
 
 interface ITradesPageType {}
 
+export interface ITradeStateType extends Omit<IGTTradesListRequest, 'SymbolISIN' | 'CustomerISIN'> {
+    SymbolISIN: SymbolSearchResult[];
+    CustomerISIN: IGoCustomerSearchResult[];
+}
+
 const Trades = ({}: ITradesPageType) => {
     //
     const { t } = useTranslation();
@@ -19,7 +24,7 @@ const Trades = ({}: ITradesPageType) => {
     const oneMonthAgo = dayjs().subtract(1, 'month').format();
     const oneYearAgo = dayjs().subtract(1, 'year').format();
 
-    const [params, setParams] = useState<IGTTradesListRequest>({
+    const [params, setParams] = useState<ITradeStateType>({
         FromDate: oneDayAgo,
         ToDate: today,
         Side: undefined,
@@ -30,9 +35,19 @@ const Trades = ({}: ITradesPageType) => {
         PageSize: 25,
         Time: 'day',
         CustomerType: undefined,
+        MyStationOnly: false,
     });
 
-    const { data: tradesData, refetch: getTradesData, isFetching } = useTradesLists(params);
+    const {
+        data: tradesData,
+        refetch: getTradesData,
+        isFetching,
+    } = useTradesLists({
+        ...params,
+        SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
+        CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+        Time: undefined
+    });
 
     useEffect(() => {
         getTradesData();
@@ -69,6 +84,7 @@ const Trades = ({}: ITradesPageType) => {
             PageSize: 25,
             Time: 'day',
             CustomerType: undefined,
+            MyStationOnly: false,
         });
     };
 

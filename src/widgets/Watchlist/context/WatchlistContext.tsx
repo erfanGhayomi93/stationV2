@@ -1,16 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { createContainer } from 'react-tracked';
 import { pushEngine } from 'src/api/pushEngine';
-// import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import Watchlists from '..';
 import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
+import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
+import { AddSymbolModal } from '../modal/AddSymbolModal';
 
 const initialState: WathclistState = {
     selectedWatchlistId: 1,
-    watchlistType : 'Market' ,
+    watchlistType: 'Market',
     editMode: false,
+    addSymbolMode: false,
     selectedDefaultWatchlist: 'EffectiveOnIndex',
     column: [],
     listShowColumn: [],
@@ -19,7 +21,6 @@ const initialState: WathclistState = {
     sector: { id: "", title: "همه" }
 };
 
-type ISocketAnswerType = Pick<ISymbolType, 'lastTradedPrice' | 'closingPrice' | 'totalNumberOfSharesTraded' | 'totalTradeValue'>;
 
 const useValue = () => useReducer(WatchlistReducer, initialState);
 
@@ -33,54 +34,76 @@ export const useWatchListState = () => {
 
 const WatchlistContext = () => {
     const {
-        state: { selectedWatchlistId },
+        state: { selectedWatchlistId: watchlistId, watchlistType, sector, PageNumber, marketUnit: MarketUnit, selectedDefaultWatchlist: type },
     } = useWatchListState();
+
+    const timer = useRef<NodeJS.Timeout | null>()
 
     const queryClient = useQueryClient();
 
-    //     const { remove } = useWatchListSymbolsQuery<IWatchlistSymbolTableType[]>(selectedWatchlistId, {
-    //         onSuccess: (data) => {
-    //             pushEngine.subscribe<ISocketAnswerType>({
-    //                 id: 'WatchlistSymbol',
-    //                 mode: 'MERGE',
-    //                 isSnapShot: 'yes',
-    //                 adapterName: 'RamandRLCDData',
-    //                 items: data.map((watchlist) => watchlist.symbolISIN),
-    //                 fields: ['lastTradedPrice', 'closingPrice', 'bestSellLimitPrice_1', 'bestBuyLimitPrice_1', 'totalNumberOfSharesTraded', 'totalTradeValue', 'highestTradePriceOfTradingDay', 'lowestTradePriceOfTradingDay'],
-    //                 onFieldsUpdate: ({ changedFields, itemName }) => {
-    //                     queryClient.setQueryData(['getWatchListSymbols', selectedWatchlistId], (oldData: IWatchlistSymbolType[] | undefined) => {
-    //                         // //
-    //                         if (oldData !== undefined) {
-    //                             const updatedWatchList: IWatchlistSymbolType[] = JSON.parse(JSON.stringify(oldData));
-    //                             const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName) as IWatchlistSymbolType;
-    //                             const inx = oldData.findIndex((symbol) => symbol.symbolISIN === itemName);
-    //                             const updatedSymbol: IWatchlistSymbolType = {
-    //                                 ...effectedSymbol,
-    //                                 symbol: {
-    //                                     ...effectedSymbol?.symbol,
-    //                                     ...changedFields,
-    //                                 },
-    //                             };
-    //                             updatedWatchList[inx] = updatedSymbol;
-    // 
-    //                             return [...updatedWatchList];
-    //                         }
-    //                     });
-    //                 },
-    //             });
-    //         },
-    //     });
+    const { remove } = useWatchListSymbolsQuery(
+        { watchlistId, watchlistType, type, MarketUnit, SectorCode: sector.id, PageNumber: PageNumber }, {
+        onSuccess(data) {
+            pushEngine.subscribe<Partial<IGetWatchlistSymbol>>({
+                id: 'WatchlistSymbol',
+                mode: 'MERGE',
+                isSnapShot: 'yes',
+                adapterName: 'RamandRLCDData',
+                items: data.map((watchlist) => watchlist?.symbolISIN),
+                fields: ['lastTradedPrice', 'closingPrice', 'bestSellLimitPrice_1', 'bestBuyLimitPrice_1', 'bestBuyLimitQuantity_1', 'bestSellLimitQuantity_1', 'totalNumberOfSharesTraded', 'totalTradeValue', 'highestTradePriceOfTradingDay', 'lowestTradePriceOfTradingDay', 'lastTradedPriceVarPercent', 'closingPriceVarPercent'],
+                onFieldsUpdate: ({ changedFields, itemName }) => {
+                    timer.current = setTimeout(() => {
+
+                        const queryKey = watchlistType === "Market" ? MarketUnit + sector.id : watchlistType === "Ramand" ? type : ""
+                        queryClient.setQueryData(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], (oldData: IGetWatchlistSymbol[] | undefined) => {
+                            if (!!oldData) {
+                                const updatedWatchList = JSON.parse(JSON.stringify(oldData));
+                                const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName);
+                                const inx = oldData.findIndex((symbol) => symbol.symbolISIN === itemName);
+
+                                const updatedSymbol = {
+                                    ...effectedSymbol,
+                                    ...changedFields,
+                                };
+
+                                updatedWatchList[inx] = updatedSymbol;
+                                return [...updatedWatchList];
+                            }
+                        });
+
+                        clearTimer();
+                    }, 2000);
+                }
+            })
+        },
+    }
+
+    )
+
+
+    const clearTimer = () => {
+        if (!timer.current) return;
+
+        clearTimeout(timer.current);
+        timer.current = null;
+    };
+
+    
+
+
 
     useEffect(() => {
         return () => {
-            // remove();
+            remove();
+            pushEngine.unSubscribe('WatchlistSymbol')
         };
-    }, [selectedWatchlistId]);
+    }, [watchlistId, MarketUnit, sector.id, type]);
 
     return (
         <>
             <Watchlists />
             <EditWatchlistModal />
+            <AddSymbolModal />
         </>
     );
 };

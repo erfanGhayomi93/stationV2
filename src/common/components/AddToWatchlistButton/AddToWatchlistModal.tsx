@@ -24,7 +24,9 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const [inputValue, setInputValue] = useState('');
     const closeModal = () => setIsOpen(false);
     const { data: watchlists } = useWatchlistsQuery();
-    const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
+    // const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
+
+
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {
             // queryClient.invalidateQueries(['getWatchListSymbols']);
@@ -82,12 +84,12 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     };
 
     const checkIfExistSymbol = (item: ISymbolInWatchlist) => {
-        if (!symbolInWatchlist) return false;
-        for (let i = 0; i < symbolInWatchlist.length; i++) {
-            if (symbolInWatchlist[i].symbolISIN === item.symbolISIN && symbolInWatchlist[i].watchlistId === item.watchlistId) {
-                return true;
-            }
-        }
+        // if (!symbolInWatchlist) return false;
+        // for (let i = 0; i < symbolInWatchlist.length; i++) {
+        //     if (symbolInWatchlist[i].symbolISIN === item.symbolISIN && symbolInWatchlist[i].watchlistId === item.watchlistId) {
+        //         return true;
+        //     }
+        // }
         return false;
     };
 

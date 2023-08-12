@@ -6,15 +6,14 @@ import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
 interface ICustomerMegaSelectType {
-    onChange: (x: string[]) => void;
-    selectedValue: string[];
+    setSelected: (x: IGoCustomerSearchResult[]) => void;
+    selected: IGoCustomerSearchResult[];
 }
 
-const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange, selectedValue }) => {
+const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
-    const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
 
     useEffect(() => {
         selected.length === 0 && setTerm('');
@@ -33,14 +32,10 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ onChange, selectedVal
             },
         },
     );
-    useEffect(()=>{
-        if(selectedValue.length) return;
-        setSelected([])
-    },[selectedValue])
+
     
     const handleSelect = (selected: IGoCustomerSearchResult[]) => {
         setSelected(selected);
-        onChange(selected.map(({ customerISIN }) => customerISIN));
     };
     interface IOptionsType {
         active?: boolean;

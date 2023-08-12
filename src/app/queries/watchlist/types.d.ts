@@ -32,6 +32,36 @@ type IDefaultWatchlistType =
 // }
 
 type WatchlistType = 'Market' | 'Ramand' | 'Pinned' | 'User';
+///new////////////////////////////////////////
+interface IGetWatchlistSymbol {
+    symbolISIN: string;
+    symbolTitle: string;
+    symbolOrderState: string;
+    symbolTradeState: string;
+    lastTradedPrice: number;
+    closingPrice: number;
+    bestSellLimitPrice_1: number;
+    bestBuyLimitPrice_1: number;
+    bestSellLimitQuantity_1: number;
+    bestBuyLimitQuantity_1: number;
+    totalNumberOfSharesTraded: number;
+    totalTradeValue: number;
+    highestTradePriceOfTradingDay: number;
+    lowestTradePriceOfTradingDay: number;
+    lastTradedPriceVarPercent: number;
+    closingPriceVarPercent: number;
+}
+
+interface IRequestWatchListSymbol{
+    watchlistId : number ,
+    watchlistType : WatchlistType , 
+    PageNumber : number
+    type ?: IDefaultWatchlistType ,
+    MarketUnit ?: string ,
+    SectorCode ?: string
+}
+///////////////////////////////////////////
+
 interface IWatchlistType {
     id: number;
     createDate: string;
@@ -116,6 +146,6 @@ interface ISectorList {
 }
 
 type IResponseMarket = {
-    symbols: ISymbolType[];
+    symbols: IWatchlistSymbolTableType[];
     totalCount: number;
 };
