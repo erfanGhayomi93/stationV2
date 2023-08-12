@@ -54,7 +54,7 @@ const ComboSelectProvider: FC<IComboSelectProviderType> = ({
     }, [value]);
 
     useEffect(() => {
-        selections?.length && dispatch({ type: 'TOGGLE_SELECTED', value: selections });
+        dispatch({ type: 'TOGGLE_SELECTED', value: selections });
     }, [selections]);
 
     const setPanel = (value: boolean) => {

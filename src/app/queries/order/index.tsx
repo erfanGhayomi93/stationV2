@@ -68,7 +68,7 @@ export const getTradesLists = async (params: IGTTradesListRequest) => {
     return data;
 };
 
-export const useTradesLists = <T=GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(param: IGTTradesListRequest,
-    options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTTradesListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTTradesListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
-    return useQuery(['getOrderLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options});
+export const useTradesLists = <T=IGTTradesResponseType>(param: IGTTradesListRequest,
+    options?: (Omit<UseQueryOptions<IGTTradesResponseType, unknown, IGTTradesResponseType, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
+    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options});
 };

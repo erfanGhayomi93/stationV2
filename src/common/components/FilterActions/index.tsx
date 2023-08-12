@@ -10,7 +10,7 @@ interface IProps {
 const FilterActions = ({ onSubmit, onClear, toggleFilterBox, isFilterBoxOpen }: IProps) => {
     const { t } = useTranslation();
     return (
-        <div className="flex gap-1">
+        <div className="flex gap-1 col-span-3">
             <button onClick={toggleFilterBox} className="p-2 border border-gray-400 rounded-md max-w-[40px]">
                 {isFilterBoxOpen ? <FilterMinusIcon /> : <FilterPlusIcon />}
             </button>

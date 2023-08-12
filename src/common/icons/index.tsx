@@ -86,3 +86,10 @@ export { ReactComponent as UnCheck } from 'src/assets/svg/unCheck.svg';
 export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as SearchPlusIcon } from 'src/assets/svg/searchPlus.svg';
+
+
+// datepicker
+export { ReactComponent as AnglesLeftSVG } from 'src/assets/svg/angles-left.svg';
+export { ReactComponent as AnglesRightSVG } from 'src/assets/svg/angles-right.svg';
+export { ReactComponent as ArrowRightSVG } from 'src/assets/svg/arrow-right.svg';
+export { ReactComponent as ArrowLeftSVG } from 'src/assets/svg/arrow-left.svg';

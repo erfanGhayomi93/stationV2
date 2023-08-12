@@ -36,9 +36,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
         },
     });
 
-    // useEffect(() => {
-    //     selected.length === 0 && setTerm('');
-    // }, [selected]);
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+    }, [selected]);
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
