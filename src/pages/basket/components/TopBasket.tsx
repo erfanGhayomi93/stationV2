@@ -38,7 +38,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                     <>
                         {listBasket &&
                             listBasket
-                                .filter((item) => item.isPinned)
+                                // .filter((item) => item.isPinned)
                                 .map((item) => (
                                     <div
                                         key={item.id}
