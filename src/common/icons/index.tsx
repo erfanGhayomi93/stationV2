@@ -72,6 +72,8 @@ export { ReactComponent as TurnoverIcon } from 'src/assets/svg/turnover.svg';
 export { ReactComponent as ArrowRightSlider } from 'src/assets/svg/arrowRightSlider.svg';
 export { ReactComponent as PinIcon } from 'src/assets/svg/pin.svg';
 export { ReactComponent as AddSymbol } from 'src/assets/svg/AddSymbol.svg';
+export { ReactComponent as ArrowDropUp } from 'src/assets/svg/arrowDropUp.svg';
+export { ReactComponent as ArrowDropDown } from 'src/assets/svg/arrowDropDown.svg';
 export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';

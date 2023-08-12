@@ -3,61 +3,27 @@ import PushEngineInfo from './PushEngineInfo';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import { useMemo } from 'react';
 import { PinIcon } from 'src/common/icons';
+import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
+import PriceViewFooter from './priceViewFooter';
 
 const Footer = () => {
 
+    const { data: watchlistSymbolList, isFetching: isFetchingSymbol } = useWatchListSymbolsQuery(
+        { watchlistId: 3, watchlistType: "Pinned", PageNumber: 1 }
+    )
+
+
     const itemsScrollableSlider = useMemo(() => (
         <>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={1200} percentage={-0.5} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={12354} percentage={0.5} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
-            <div className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
-                <span className="ml-1">فولاد:</span>
-                <PriceView price={852} percentage={0.6} />
-            </div>
+            {
+                watchlistSymbolList?.map(item => (
+                    // <div key={item.symbolISIN} className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
+                    <PriceViewFooter key={item.symbolISIN} price={item.lastTradedPrice} percentage={item.lastTradedPriceVarPercent} label={item.symbolTitle} />
+                    // </div>
+                ))
+            }
         </>
-    ), [])
+    ), [watchlistSymbolList])
 
 
     return (

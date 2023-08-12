@@ -8,23 +8,23 @@ import TseBtn from 'src/common/components/Buttons/TseBtn';
 import { DeleteIcon, NoteIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 
-interface IActionCellRendererType extends IWatchlistSymbolTableType {}
+interface IActionCellRendererType extends IWatchlistSymbolTableType { }
 
 const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
     const {
-        state: { selectedWatchlistId },
+        state: { selectedWatchlistId, PageNumber },
     } = useWatchListState();
     const queryClient = useQueryClient();
+
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {
-            queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId]);
-            toast.success('دیده‌بان با موفقیت اضافه شد');
+            queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+            queryClient.invalidateQueries(['GetSymbolInWatchlist']);
 
-            //FIXME:connect to toast adaptor
+            toast.success('دیده‌بان با موفقیت حذف شد');
         },
         onError: (err) => {
             toast.error(`${err}`);
-            //FIXME:connect to toast adaptor
         },
     });
     return (
@@ -32,19 +32,19 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
             <div className="flex items-center justify-center gap-1 ">
                 <CodalBtn symbolTitle={symbol.symbolTitle} className="" />
                 <TseBtn insCode={symbol.insCode} />
+                <DeleteIcon
+                    data-cy="delete-symbol-from-wl"
+                    onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlistId as number })}
+                    className='text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer'
+                />
             </div>
 
-            <div className="flex items-center justify-center gap-1 text-L-primary-50 dark:text-D-primary-50 border-r pr-1">
+            {/* <div className="flex items-center justify-center gap-1 text-L-primary-50 dark:text-D-primary-50 border-r pr-1">
                 {selectedWatchlistId ? (
                     <>
+                       
                         <button>
-                            <NoteIcon />
-                        </button>
-                        <button>
-                            <DeleteIcon
-                                data-cy="delete-symbol-from-wl"
-                                onClick={() => deleteWatchListSymbol({ symbolISIN: symbol.symbolISIN, watchlistId: selectedWatchlistId as number })}
-                            />
+
                         </button>
                     </>
                 ) : (
@@ -52,7 +52,7 @@ const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
                         <AddToWatchlistButton symbolISIN={symbol.symbolISIN} />
                     </button>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 };

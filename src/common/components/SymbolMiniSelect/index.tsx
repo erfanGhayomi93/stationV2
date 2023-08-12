@@ -14,15 +14,14 @@ interface ISymbolMiniSelectType {
     isOnModal?: boolean;
     setSelected: (selected: SymbolSearchResult[]) => void;
     selected: SymbolSearchResult[];
-
+    watchlistId ?: number
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal , watchlistId }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    const {state : {selectedWatchlistId}} = useWatchListState()
 
 
     const {
@@ -47,7 +46,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     interface IOptionsType {
         active?: boolean;
         content?: string;
-        watchlistId : number
+        watchlistId ?: number
     }
     const Options = ({ active, content , watchlistId }: IOptionsType) =>
         useMemo(() => {
@@ -82,7 +81,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             // </>
                             <SymbolSelected selected={selected} />
                         ) : (
-                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId}/>
+                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
                         )}
                     </div>
                 </>
@@ -110,7 +109,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
 
                     <div>
                         <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                            <Options watchlistId={selectedWatchlistId}/>
+                            <Options watchlistId={watchlistId}/>
                         </Combo.Panel>
                     </div>
                 </div>

@@ -55,10 +55,10 @@ interface IGetWatchlistSymbol {
 interface IRequestWatchListSymbol{
     watchlistId : number ,
     watchlistType : WatchlistType , 
-    type : IDefaultWatchlistType ,
-    MarketUnit : string ,
-    SectorCode : string
     PageNumber : number
+    type ?: IDefaultWatchlistType ,
+    MarketUnit ?: string ,
+    SectorCode ?: string
 }
 ///////////////////////////////////////////
 

@@ -24,8 +24,17 @@ export const AddRemoveToWatchlist: FC<AddRemoveToWatchlist> = ({ symbolISIN, wat
 
     const checkIfExistSymbol = () => {
         if (!symbolInWatchlist) return false
+        if (!watchlistId && watchlistId === 0) return false
 
-        return symbolInWatchlist[watchlistId.toString()].includes(symbolISIN)
+        // console.log("symbolInWatchlist[watchlistId].includes(symbolISIN)", symbolInWatchlist[watchlistId.toString()].includes(symbolISIN))
+        try {
+            return symbolInWatchlist[watchlistId.toString()].includes(symbolISIN)
+        }
+        catch {
+            console.log("symbolInWatchlist", symbolInWatchlist)
+            console.log("watchlistId", watchlistId)
+            return false
+        }
     }
 
     const handleRemoveSymbolInWatchlist = (symbolISIN: string) => {
