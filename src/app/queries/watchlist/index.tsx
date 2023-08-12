@@ -1,4 +1,4 @@
-import { QueryOptions, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 

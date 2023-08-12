@@ -68,10 +68,16 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         <div className={containerClassName} style={containerStyle}>
             <AgGridReact
                 ref={ref}
+                rowModelType='clientSide'
                 enableRtl
                 suppressCellFocus
+                suppressAnimationFrame
+                suppressScrollOnNewData
                 suppressRowClickSelection
+                suppressDragLeaveHidesColumns
+                rowBuffer={5}
                 localeText={AgGridLocalization}
+                animateRows
                 enableBrowserTooltips
                 scrollbarWidth={5}
                 suppressColumnVirtualisation

@@ -2,7 +2,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useReducer, useRef } from 'react';
 import { createContainer } from 'react-tracked';
 import { pushEngine } from 'src/api/pushEngine';
-// import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import Watchlists from '..';
 import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
@@ -22,8 +21,6 @@ const initialState: WathclistState = {
     sector: { id: "", title: "همه" }
 };
 
-// type ISocketAnswerType = Pick<ISymbolType, 'lastTradedPrice' | 'closingPrice' | 'totalNumberOfSharesTraded' | 'totalTradeValue'>;
-type IQueryKeyType = [string, number | string]
 
 const useValue = () => useReducer(WatchlistReducer, initialState);
 
@@ -59,7 +56,6 @@ const WatchlistContext = () => {
 
                         const queryKey = watchlistType === "Market" ? MarketUnit + sector.id : watchlistType === "Ramand" ? type : ""
                         queryClient.setQueryData(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], (oldData: IGetWatchlistSymbol[] | undefined) => {
-                            console.log("changedFields", changedFields)
                             if (!!oldData) {
                                 const updatedWatchList = JSON.parse(JSON.stringify(oldData));
                                 const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName);
@@ -92,61 +88,7 @@ const WatchlistContext = () => {
         timer.current = null;
     };
 
-    // const handlePushEngineSymbol = <T extends { symbolISIN: string }>(data: T[], queryKey: IQueryKeyType) => (
-    //     pushEngine.subscribe<Partial<ISymbolType>>({
-    //         id: 'WatchlistSymbol',
-    //         mode: 'MERGE',
-    //         isSnapShot: 'yes',
-    //         adapterName: 'RamandRLCDData',
-    //         items: data.map((watchlist) => watchlist?.symbolISIN),
-    //         fields: ['lastTradedPrice', 'closingPrice', 'bestSellLimitPrice_1', 'bestBuyLimitPrice_1', 'bestBuyLimitQuantity_1', 'bestSellLimitQuantity_1', 'totalNumberOfSharesTraded', 'totalTradeValue', 'highestTradePriceOfTradingDay', 'lowestTradePriceOfTradingDay', 'lastTradedPriceVarPercent', 'closingPriceVarPercent'],
-    //         onFieldsUpdate: ({ changedFields, itemName }) => handleOnFieldsUpdate<IWatchlistSymbolType>(changedFields, itemName, queryKey)
-    //     })
-    // )
-
-    //     const handleOnFieldsUpdate = <T extends { symbolISIN: string, symbol: ISymbolType }>(changedFields: Partial<ISymbolType>, itemName: string, queryKey: IQueryKeyType) => {
-    //         queryClient.setQueryData(queryKey, (oldData: T[] | undefined) => {
-    //             console.log("oldData", oldData)
-    //             if (oldData !== undefined) {
-    //                 const updatedWatchList: T[] = JSON.parse(JSON.stringify(oldData));
-    //                 const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName) as T;
-    //                 const inx = oldData.findIndex((symbol) => symbol.symbolISIN === itemName);
-    // 
-    //                 const updatedSymbol: T = {
-    //                     ...effectedSymbol,
-    //                     symbol: {
-    //                         ...effectedSymbol?.symbol,
-    //                         ...changedFields,
-    //                     },
-    //                 };
-    //                 updatedWatchList[inx] = updatedSymbol;
-    //                 return [...updatedWatchList];
-    //             }
-    //         });
-    //     }
-
-
-    // const { remove: removeSymbolUser } = useWatchListSymbolsQuery(selectedWatchlistId, watchlistType, {
-    //     onSuccess(data) { handlePushEngineSymbol<IWatchlistSymbolType>(data, ['getWatchListSymbols', selectedWatchlistId as number]); },
-    // })
-
-
-    // const { remove: removeSymbolMarket } = useGetMarketSymbolQuery(
-    //     {
-    //         SectorCode: sector.id,
-    //         PageNumber: PageNumber,
-    //         marketUnit: marketUnit,
-    //     },
-    //     watchlistType,
-    //     {
-    //         onSuccess(data: IResponseMarket) { handlePushEngineSymbol<IWatchlistSymbolTableType>(data.symbols, ['GetMarketSymbol', PageNumber + sector.id + marketUnit]); },
-    //     }
-    // )
-
-    // const { remove: removeSymbolDefault } = useDefaultWatchlistSymbolsQuery(selectedDefaultWatchlist, watchlistType, {
-    //     onSuccess(data: IWatchlistSymbolTableType[]) { handlePushEngineSymbol<IWatchlistSymbolTableType>(data, ['getDefaultWatchlistSymbols', selectedWatchlistId as number]); },
-    // })
-
+    
 
 
 
