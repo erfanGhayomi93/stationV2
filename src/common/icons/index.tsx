@@ -37,6 +37,7 @@ export { ReactComponent as EyeFrameIcon } from 'src/assets/svg/EyeFrame.svg';
 export { ReactComponent as EyeIcon } from 'src/assets/svg/EyeIcon.svg';
 export { ReactComponent as EyeMinesIcon } from 'src/assets/svg/EyeMines.svg';
 export { ReactComponent as EyePlusIcon } from 'src/assets/svg/EyePlus.svg';
+export { ReactComponent as EyeApprove } from 'src/assets/svg/EyeApprove.svg';
 export { ReactComponent as EyeSlashIcon } from 'src/assets/svg/EyeSlashIcon.svg';
 export { ReactComponent as DeleteIcon } from 'src/assets/svg/FaTrash.svg';
 export { ReactComponent as FiClock } from 'src/assets/svg/FiClock.svg';
@@ -69,11 +70,15 @@ export { ReactComponent as OrdersIcon } from 'src/assets/svg/orders.svg';
 export { ReactComponent as TradesIcon } from 'src/assets/svg/trades.svg';
 export { ReactComponent as TurnoverIcon } from 'src/assets/svg/turnover.svg';
 export { ReactComponent as ArrowRightSlider } from 'src/assets/svg/arrowRightSlider.svg';
+export { ReactComponent as PinIcon } from 'src/assets/svg/pin.svg';
+export { ReactComponent as AddSymbol } from 'src/assets/svg/AddSymbol.svg';
+export { ReactComponent as ArrowDropUp } from 'src/assets/svg/arrowDropUp.svg';
+export { ReactComponent as ArrowDropDown } from 'src/assets/svg/arrowDropDown.svg';
 export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
-export { ReactComponent as InfoIcon} from 'src/assets/svg/infoIcon.svg';
-export { ReactComponent as InfoFillIcon} from 'src/assets/svg/infoFillIcon.svg';
+export { ReactComponent as InfoIcon } from 'src/assets/svg/infoIcon.svg';
+export { ReactComponent as InfoFillIcon } from 'src/assets/svg/infoFillIcon.svg';
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
@@ -83,3 +88,10 @@ export { ReactComponent as UnCheck } from 'src/assets/svg/unCheck.svg';
 export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as SearchPlusIcon } from 'src/assets/svg/searchPlus.svg';
+
+
+// datepicker
+export { ReactComponent as AnglesLeftSVG } from 'src/assets/svg/angles-left.svg';
+export { ReactComponent as AnglesRightSVG } from 'src/assets/svg/angles-right.svg';
+export { ReactComponent as ArrowRightSVG } from 'src/assets/svg/arrow-right.svg';
+export { ReactComponent as ArrowLeftSVG } from 'src/assets/svg/arrow-left.svg';

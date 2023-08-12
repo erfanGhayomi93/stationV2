@@ -248,7 +248,7 @@ const useMarketDepth = () => {
 
         const row = beautifyMarketRow(changedFields.mddata);
 
-        console.log('beautify-row', row);
+        // console.log('beautify-row', row);
 
         if (hasMsgID(row[0])) return;
         storeMsgID(row[0]);
@@ -352,7 +352,7 @@ const useMarketDepth = () => {
         new Promise((done, reject) => {
             fetchMarketDepth(symbolISIN)
                 .then((data) => {
-                    console.log('fetchProcess.data', data);
+                    // console.log('fetchProcess.data', data);
                     onLoadData(data);
                     done(symbolISIN);
                 })

@@ -3,6 +3,7 @@ type WathclistAction =
     | { type: 'SET_SELECTED_WATCHLIST_TYPE'; value: WatchlistType }
     | { type: 'SET_SELECTED_DEFAULT_WATCHLIST'; value: IDefaultWatchlistType }
     | { type: 'TOGGLE_EDIT_MODE'; value: boolean }
+    | { type: 'TOGGLE_ADD_SYMBOL_MODE'; value: boolean }
     | { type: 'CHANGE_IS_SHOW_COLUMN'; value: string[] }
     | { type: 'SET_COLUMN'; value: ColDefType<IWatchlistSymbolTableType>[] }
     | { type: 'SET_PageNumber'; value: number }
@@ -10,9 +11,10 @@ type WathclistAction =
     | { type: 'SET_Sector_Filter'; value: { id: string; title: string } };
 SET_COLUMN;
 type WathclistState = {
-    selectedWatchlistId: number | undefined;
+    selectedWatchlistId: number;
     watchlistType: WatchlistType;
     editMode: boolean;
+    addSymbolMode : boolean;
     selectedDefaultWatchlist: IDefaultWatchlistType;
     listShowColumn: string[];
     column: ColDefType<IWatchlistSymbolTableType>[];

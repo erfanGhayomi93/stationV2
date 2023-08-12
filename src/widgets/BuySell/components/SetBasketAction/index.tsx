@@ -3,16 +3,19 @@ import Tippy from '@tippyjs/react';
 import { FC, useState } from 'react';
 import { useCreateDetailsBasket, useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
-import { CloseIcon, ModalBasketIcon, PlusIcon } from 'src/common/icons';
+import { CloseIcon, InfoIcon, ModalBasketIcon, PlusIcon } from 'src/common/icons';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { useTranslation } from 'react-i18next';
 
 interface ISetBasketActionType {}
 
 const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
+    //
+    const { t } = useTranslation()
     const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
 
     const [isOpen, setisOpen] = useState(false);
@@ -63,7 +66,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
 
     return (
         <>
-            <Tippy content="ثبت در سند" className="text-xs">
+            <Tippy content="ثبت در سبد" className="text-xs">
                 <button
                     onClick={() => setisOpen(true)}
                     className="flex items-center h-8 justify-center w-[32px] bg-L-primary-100  rounded text-L-primary-50 dark:bg-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
@@ -79,6 +82,10 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
                     </div>
                     <div className="mx-4">
                         <div className="py-2 h-[fit-content]">
+                            <div className='flex gap-2 pt-2'>
+                                <InfoIcon />
+                                <p className='text-right text-xs text-L-gray-500 dark:text-D-gray-500'>{t("Basket.InsertToBasketDescription")}</p>
+                            </div>
                             {listBasket &&
                                 listBasket
                                     .filter((item) => item.isPinned)

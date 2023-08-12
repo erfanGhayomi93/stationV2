@@ -101,4 +101,5 @@ type IMarketSymbol = {
     SectorCode: string;
     PageNumber: number;
     marketUnit: string;
+    watchlistType: string;
 };

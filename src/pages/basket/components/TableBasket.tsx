@@ -59,7 +59,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
 
     return (
         <div
-            className={clsx('flex-1 overflow-y-auto', {
+            className={clsx('flex-1 mt-4 overflow-y-auto', {
                 // 'h-[445px]': isShowFilter,
                 // 'h-[545px]': !isShowFilter,
             })}

@@ -4,13 +4,16 @@ import { NavigateFunction } from 'react-router-dom';
 import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
 import { AppDispatch } from 'src/redux/store';
+import qs from 'qs';
 
 let routerNavigate: NavigateFunction | undefined;
 let appDispatch: AppDispatch | undefined;
 
 const tokenCookieName = 'ROS_client_id';
 
-const AXIOS = axios.create();
+const AXIOS = axios.create({
+    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
+});
 
 AXIOS.interceptors.request.use(
     function (config: AxiosRequestConfig): AxiosRequestConfig {
@@ -54,6 +57,7 @@ AXIOS.interceptors.response.use(
         console.log({ error });
         if (error.response) {
             // Request made and server responded
+            console.log("error.response.status",error.response.status)
 
             switch (error.response.status) {
                 case 400: // Bad Request
