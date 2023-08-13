@@ -6,7 +6,7 @@ import FilterActions from 'src/common/components/FilterActions';
 import FilterBlock from 'src/common/components/FilterBlock';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
-import { ITradeStateType } from '../..';
+import { customerTypeFieldOptions, sideFieldOptions, stationFieldOptions, timeFieldOptions } from '../../constant';
 
 interface IProps {
     params: ITradeStateType;
@@ -19,8 +19,9 @@ const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
     //
     const { t } = useTranslation();
     const [isOpenFilter, setIsOpenFilter] = useState(false);
+    const { CustomerISIN, CustomerType, SymbolISIN, Side, Time, ToDate, FromDate, MyStationOnly } = params;
 
-    const handleValueCahnge = (part: keyof ITradeStateType, value: any) => {
+    const handleValueChange = (part: keyof ITradeStateType, value: any) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
@@ -30,68 +31,40 @@ const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
-                    <CustomerMegaSelect
-                        setSelected={(selected) => handleValueCahnge('CustomerISIN', selected)}
-                        selected={params.CustomerISIN || []}
-                    />
+                    <CustomerMegaSelect setSelected={(selected) => handleValueChange('CustomerISIN', selected)} selected={CustomerISIN || []} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple selected={params.SymbolISIN} setSelected={(selected) => handleValueCahnge('SymbolISIN', selected)} />
+                    <SymbolMiniSelect multiple selected={SymbolISIN} setSelected={(selected) => handleValueChange('SymbolISIN', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
-                    <Select
-                        onChange={(selected) => handleValueCahnge('Time', selected)}
-                        value={params.Time}
-                        options={[
-                            { value: 'day', label: t('timeSheet.day') },
-                            { value: 'week', label: t('timeSheet.week') },
-                            { value: 'month', label: t('timeSheet.month') },
-                            { value: 'year', label: t('timeSheet.year') },
-                            { value: 'custom', label: t('timeSheet.custom') },
-                        ]}
-                    />
+                    <Select onChange={(selected) => handleValueChange('Time', selected)} value={Time} options={timeFieldOptions} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatepicker value={params.FromDate} onChange={(value) => handleValueCahnge('FromDate', value)} />
+                    <AdvancedDatepicker value={FromDate} onChange={(value) => handleValueChange('FromDate', value)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatepicker value={params.ToDate} onChange={(value) => handleValueCahnge('ToDate', value)} />
+                    <AdvancedDatepicker value={ToDate} onChange={(value) => handleValueChange('ToDate', value)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
-                    <Select
-                        onChange={(selected) => handleValueCahnge('Side', selected)}
-                        value={params.Side}
-                        options={[
-                            { value: 'Buy', label: t('orderSide.Buy') },
-                            { value: 'Sell', label: t('orderSide.Sell') },
-                        ]}
-                    />
+                    <Select onChange={(selected) => handleValueChange('Side', selected)} value={Side} options={sideFieldOptions} />
                 </FilterBlock>
-                {isOpenFilter ? (
+                {isOpenFilter && (
                     <>
                         <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
                             <Select
-                                onChange={(selected) => handleValueCahnge('CustomerType', selected)}
-                                value={params.CustomerType}
-                                options={[
-                                    { value: 'Individual', label: t('CustomerType.Individual') },
-                                    { value: 'Legal', label: t('CustomerType.Legal') },
-                                ]}
+                                onChange={(selected) => handleValueChange('CustomerType', selected)}
+                                value={CustomerType}
+                                options={customerTypeFieldOptions}
                             />
                         </FilterBlock>
                         <FilterBlock label={t('FilterFieldLabel.TradeStation')} className="col-span-3">
                             <Select
-                                onChange={(selected) => handleValueCahnge('MyStationOnly', selected)}
-                                value={params.MyStationOnly}
-                                options={[
-                                    { value: false, label: 'همه' },
-                                    { value: true, label: 'ایستگاه من' },
-                                ]}
+                                onChange={(selected) => handleValueChange('MyStationOnly', selected)}
+                                value={MyStationOnly}
+                                options={stationFieldOptions}
                             />
                         </FilterBlock>
                     </>
-                ) : (
-                    <></>
                 )}
 
                 <div className="col-span-3">

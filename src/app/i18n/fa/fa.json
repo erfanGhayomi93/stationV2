@@ -1,4 +1,8 @@
 {
+    "common": {
+        "all": "همه",
+        "myStation": "ایستگاه من"
+    },
     "headerSec": {
         "showUserInfo": "نمایش اطلاعات",
         "userFullName": "نام کاربر",
@@ -183,7 +187,7 @@
         "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
      },
      "Tooltip": {
-        "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
+        "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد"
      },
      "setting" : {
         "key_symbol_search": "جستجوی نماد"

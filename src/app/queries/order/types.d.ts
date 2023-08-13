@@ -110,7 +110,6 @@ interface IGTTradesListRequest {
     Side?: OrderSideType | undefined;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
-    OrderStatus?: OrderStatusType | undefined;
     PageNumber: number;
     PageSize: number;
     Time: string | undefined;
