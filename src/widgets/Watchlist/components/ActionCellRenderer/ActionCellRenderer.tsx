@@ -7,9 +7,8 @@ import TseBtn from 'src/common/components/Buttons/TseBtn';
 import { DeleteIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 
-interface IActionCellRendererType extends IWatchlistSymbolTableType { }
 
-const ActionCellRenderer: FC<IActionCellRendererType> = (symbol) => {
+const ActionCellRenderer: FC<IGetWatchlistSymbol> = (symbol) => {
     const {
         state: { selectedWatchlistId, PageNumber, watchlistType },
     } = useWatchListState();

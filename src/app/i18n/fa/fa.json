@@ -18,6 +18,10 @@
         "1_LogoTitle": "رامند",
         "serCreditValue": "اعتبار"
     },
+    "common" : {
+        "codal" : "سایت کدال",
+        "TSE" : "سایت TSE"
+    },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
         "Legal": "حقوقی",

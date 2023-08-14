@@ -7,6 +7,7 @@ import Orders from './Orders';
 const Reports = () => {
     //
     const { activeTab } = useParams();
+    console.log("activeTab",activeTab)
     if (activeTab === 'orders') return <Orders />;
     if (activeTab === 'trades') return <Trades />;
     if (activeTab === 'turnover') return <TurnOver />;
