@@ -6,7 +6,6 @@ import Combo from '../ComboSelect';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
-import { useWatchListState } from 'src/widgets/Watchlist/context/WatchlistContext';
 
 interface ISymbolMiniSelectType {
     multiple?: boolean;

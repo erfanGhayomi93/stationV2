@@ -30,9 +30,6 @@ const Watchlists = (props: Props) => {
         { watchlistId: selectedWatchlistId, watchlistType, type: selectedDefaultWatchlist, MarketUnit: marketUnit, SectorCode: sector.id, PageNumber: PageNumber }
     )
 
-    // const handleChangePaginator = (PageNumber: number) => {
-    //     setState({ value: PageNumber, type: 'SET_PageNumber' });
-    // };
 
     const defaultCols = {
         lockPinned: true,
