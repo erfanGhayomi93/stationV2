@@ -209,13 +209,20 @@
         "messages": "پیام ها",
         "sameGroup": "هم گروهی ها"
      },
-
      "OrderBook": {
         "viewMode": "حالت نمایش",
         "showMarketDepth": "نمایش عمق بازار",
         "closeMarketDepth": "بستن عمق بازار",
         "showDepthChart": "نمایش نمودار عمق",
         "closeDepthChart": "بستن نمودار عمق"
+     },
+     "Symbol": {
+        "symbol" : "نماد",
+        "volume" : "حجم",
+        "lastTradedPrice" : "آخرین قیمت",
+        "lastTradedPercent" : "درصد تغییر",
+        "offer": "عرضه",
+        "demand": "تقاضا"
      }
     
 }
