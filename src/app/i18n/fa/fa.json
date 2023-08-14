@@ -1,8 +1,5 @@
 {
-    "common": {
-        "all": "همه",
-        "myStation": "ایستگاه من"
-    },
+
     "headerSec": {
         "showUserInfo": "نمایش اطلاعات",
         "userFullName": "نام کاربر",
@@ -24,7 +21,9 @@
     },
     "common" : {
         "codal" : "سایت کدال",
-        "TSE" : "سایت TSE"
+        "TSE" : "سایت TSE",
+        "all": "همه",
+        "myStation": "ایستگاه من"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -195,6 +194,21 @@
      },
      "setting" : {
         "key_symbol_search": "جستجوی نماد"
+     },
+     "SymbolDetails": {
+        "orderBook": "صف",
+        "additionalData": "اطلاعات تکمیلی",
+        "symbolChart": "نمودار نماد",
+        "messages": "پیام ها",
+        "sameGroup": "هم گروهی ها"
+     },
+
+     "OrderBook": {
+        "viewMode": "حالت نمایش",
+        "showMarketDepth": "نمایش عمق بازار",
+        "closeMarketDepth": "بستن عمق بازار",
+        "showDepthChart": "نمایش نمودار عمق",
+        "closeDepthChart": "بستن نمودار عمق"
      }
     
 }
