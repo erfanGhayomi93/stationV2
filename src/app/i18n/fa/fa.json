@@ -29,7 +29,8 @@
         "bourseCode": "کد بورسی",
         "nationalCode": "کد ملی / شناسه ملی",
         "registerCode": "شماره ثبت",
-        "phoneNumber": "شماره تلفن"
+        "phoneNumber": "شماره تلفن",
+        "customerInformation": "اطلاعات مشتری"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
