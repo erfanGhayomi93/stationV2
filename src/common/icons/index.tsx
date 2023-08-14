@@ -89,9 +89,14 @@ export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as SearchPlusIcon } from 'src/assets/svg/searchPlus.svg';
 
-
 // datepicker
 export { ReactComponent as AnglesLeftSVG } from 'src/assets/svg/angles-left.svg';
 export { ReactComponent as AnglesRightSVG } from 'src/assets/svg/angles-right.svg';
 export { ReactComponent as ArrowRightSVG } from 'src/assets/svg/arrow-right.svg';
 export { ReactComponent as ArrowLeftSVG } from 'src/assets/svg/arrow-left.svg';
+
+// MArket Depth
+export { ReactComponent as MarketDepthChartIcon } from 'src/assets/svg/marketDepth-chart.svg';
+export { ReactComponent as MarketDepthRowIcon } from 'src/assets/svg/marketDepth-rowMode.svg';
+export { ReactComponent as MarketDepthColIcon } from 'src/assets/svg/marketDepth-colMode.svg';
+export { ReactComponent as MarketDepthArrowDownIcon } from 'src/assets/svg/arrowDown-circle.svg';
