@@ -16,16 +16,16 @@ const IdentityTab = () => {
             <div className="grid gap-5 px-5 py-7">
                 <div className="overflow-hidden">
                     <DescriptionRow>
-                        <Block value={customerInformation?.customerTitle} label="نام و نام خانوادگی" />
-                        <Block value={customerInformation?.fatherName} label="نام پدر" />
+                        <Block value={customerInformation?.customerTitle} label={t("common.fullName")} />
+                        <Block value={customerInformation?.fatherName} label={t("common.fatherName")} />
                     </DescriptionRow>
                     <DescriptionRow>
-                        <Block value={customerInformation?.bourseCode} label="کد بورسی" />
-                        <Block value={customerInformation?.nationalCode} label="کد ملی / شناسه ملی" />
+                        <Block value={customerInformation?.bourseCode} label={t("common.bourseCode")} />
+                        <Block value={customerInformation?.nationalCode} label={t("common.nationalCode")} />
                     </DescriptionRow>
                     <DescriptionRow>
-                        <Block value={customerInformation?.customerISIN} label="شماره ثبت" />
-                        <Block value={'-'} label="شماره تلفن" />
+                        <Block value={customerInformation?.customerISIN} label={t("common.registerCode")} />
+                        <Block value={'-'} label={t("common.phoneNumber")} />
                     </DescriptionRow>
                 </div>
             </div>

@@ -23,7 +23,13 @@
         "codal" : "سایت کدال",
         "TSE" : "سایت TSE",
         "all": "همه",
-        "myStation": "ایستگاه من"
+        "myStation": "ایستگاه من",
+        "fullName": "نام و نام خانوادگی",
+        "fatherName": "نام پدر",
+        "bourseCode": "کد بورسی",
+        "nationalCode": "کد ملی / شناسه ملی",
+        "registerCode": "شماره ثبت",
+        "phoneNumber": "شماره تلفن"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
