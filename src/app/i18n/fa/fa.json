@@ -191,6 +191,13 @@
      },
      "setting" : {
         "key_symbol_search": "جستجوی نماد"
+     },
+     "SymbolDetails": {
+        "orderBook": "صف",
+        "additionalData": "اطلاعات تکمیلی",
+        "symbolChart": "نمودار نماد",
+        "messages": "پیام ها",
+        "sameGroup": "هم گروهی ها"
      }
     
 }

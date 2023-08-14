@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppValues } from 'src/redux/hooks';
-import HalfRowType from './HalfRow';
+import HalfRowType from './components/HalfRow';
 import useMarketDepth from './useMarketDepth';
 
 type HalfRowType = {
@@ -12,7 +12,7 @@ type HalfRowType = {
     percent: number;
 };
 
-const Orders = () => {
+const OrderBook = () => {
     //
     const {
         option: { selectedSymbol },
@@ -137,4 +137,4 @@ const Orders = () => {
     );
 };
 
-export default Orders;
+export default OrderBook;
