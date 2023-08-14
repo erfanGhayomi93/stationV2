@@ -36,7 +36,7 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
                 field: 'totalPrice',
                 type: 'sepratedNumber',
                 headerComponent: ({ displayName }: IHeaderParams) => (
-                    <Tippy content={t('Tooltip.finalCostWithCommision')} className="text-xs">
+                    <Tippy content={t('Tooltip.finalCostWithCommission')} className="text-xs">
                         <div className="w-full flex justify-center gap-1">
                             <span>{displayName}</span>
                             <InfoIcon width="16" height="16" />

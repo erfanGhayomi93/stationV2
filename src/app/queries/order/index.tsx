@@ -71,15 +71,5 @@ export const useTradesLists = <T = IGTTradesResponseType,>(
     param: IGTTradesListRequest,
     options?: Omit<UseQueryOptions<IGTTradesResponseType, unknown, IGTTradesResponseType, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
 ) => {
-    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), {
-        select: (data) => {
-            const { result, ...rest } = data;
-            const indexedData = result.map((item, inx) => ({ ...item, agTableIndex: (data.pageNumber - 1) * data.pageSize + inx + 1 }));
-            return {
-                ...rest,
-                result: indexedData
-            }
-        },
-        ...options
-    });
+    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), {...options});
 };
