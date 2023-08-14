@@ -26,19 +26,7 @@ const Trades = ({}: ITradesPageType) => {
             ...params,
             SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
             CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-            Time: undefined,
-        },
-        {
-            select: (data) => {
-                const { result, ...rest } = data;
-                const indexedData = result.map((item, inx) => ({ ...item, agTableIndex: (data.pageNumber - 1) * data.pageSize + inx + 1 }));
-                return {
-                    ...rest,
-                    result: indexedData,
-                };
-            },
-        },
-    );
+        });
 
     useEffect(() => {
         getTradesData();
@@ -47,12 +35,13 @@ const Trades = ({}: ITradesPageType) => {
     const onTimeChangeHandler = (time: string | undefined) => {
         if (!time || time === 'custom') return;
 
+        const ToDate = dayjs().format();
+        const FromDate = dayjs().subtract(1, time as ManipulateType).format();
+
         setParams((pre) => ({
             ...pre,
-            FromDate: dayjs()
-                .subtract(1, time as ManipulateType)
-                .format(),
-            ToDate: dayjs().format(),
+            FromDate,
+            ToDate,
         }));
     };
 

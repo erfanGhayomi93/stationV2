@@ -1,8 +1,5 @@
 {
-    "common": {
-        "all": "همه",
-        "myStation": "ایستگاه من"
-    },
+
     "headerSec": {
         "showUserInfo": "نمایش اطلاعات",
         "userFullName": "نام کاربر",
@@ -24,7 +21,9 @@
     },
     "common" : {
         "codal" : "سایت کدال",
-        "TSE" : "سایت TSE"
+        "TSE" : "سایت TSE",
+        "all": "همه",
+        "myStation": "ایستگاه من"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",

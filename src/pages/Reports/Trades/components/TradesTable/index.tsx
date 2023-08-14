@@ -20,10 +20,15 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
     //
     const { t } = useTranslation();
     const { result: rowData } = data || {};
-
     const Columns = useMemo(
         (): ColDefType<IGTTradesListResultType>[] => [
-            { type: 'agTableIndex' },
+            {
+                headerName: t('ag_columns_headerName.row'),
+                sortable: false,
+                minWidth: 60,
+                maxWidth: 80,
+                valueFormatter: ({ node }) => String((pageNumber - 1) * pagesize + node?.rowIndex! + 1),
+            },
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
             { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
