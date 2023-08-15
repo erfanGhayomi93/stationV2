@@ -82,6 +82,9 @@ const apiRoutes = {
         DefaultWatchlist: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/DefaultWatchlists',
         GetDefaultWatchlistSymbols: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/GetDefaultWatchlistSymbols',
     },
+    Portfolio: {
+        CustomerPortfolio: window.REACT_APP_PORTFOLIO_PATH + '/GTPortfolio/v1/GTPortfolios'
+    },
     Setting: {
         GetSetting: `${window.REACT_APP_COMMON_PATH}/Setting/v1/GTGetSettings`,
     },
