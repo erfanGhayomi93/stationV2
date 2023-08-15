@@ -79,6 +79,24 @@ const Sider = () => {
             },
             {
                 icon: <FileIcon height={20} width={20} />,
+                label: 'بازار',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                id: 'Market',
+                onClick: () => navigate('/Market/Calender'),
+                children: [
+                    {
+                        label: 'تقویم بورسی',
+                        icon: <OrdersIcon height={20} width={20} />,
+                        isActive: false,
+                        id: 'Market',
+                        onClick: () => navigate('/Market/Calender'),
+                    }
+                ],
+            },
+            {
+                icon: <FileIcon height={20} width={20} />,
                 label: 'سفارشات',
                 position: 'top',
                 placeOfDisplay: 'both',

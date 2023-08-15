@@ -19,6 +19,18 @@
         "1_LogoTitle": "رامند",
         "serCreditValue": "اعتبار"
     },
+    "titlePage" : {
+        "home" : "صفحه اصلی",
+        "login" : "لاگین" , 
+        "forgetPassword" : "فراموشی رمز عبور" ,
+        "basket" : "سبد معامله‌گر" ,
+        "Watchlist" : "دیدبان" ,
+        "PageCrash" : "صفحه ناموجود" ,
+        "Help" : "کمک" ,
+        "Reports/orders" : "سفارشات",
+        "Reports/trades" : "معاملات",
+        "Reports/turnover" : "گردش حساب"
+    },
     "common" : {
         "codal" : "سایت کدال",
         "TSE" : "سایت TSE",
@@ -188,6 +200,9 @@
         "addNewBasket": "ایجاد سبد جدید",
         "editBasket": "ویرایش سبد",
         "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
+     },
+     "bourseCalender" : {
+        "title" : "تقویم بورسی"
      },
      "Tooltip": {
         "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد"
