@@ -233,6 +233,19 @@
         "lastTradedPercent" : "درصد تغییر",
         "offer": "عرضه",
         "demand": "تقاضا"
-     }
+     },
+     "DivideOrder": {
+        "divideOrder": "تقسیم سفارش",
+        "shuffleOrder": "درهم سازی سفارش",
+        "quantity": "تعداد",
+        "price": "قیمت",
+        "rowCount": "تعداد سطر",
+        "buyVolume": "حجم خرید",
+        "sellVolume": "حجم فروش",
+        "sendAll": "ارسال همه",
+        "cancel": "انصراف",
+        "modalHeader": "تقسیم سفارش {{side}} ( {{symbolTitle}} )",
+        "orderDetail": "سفارش {{side}} {{symbolTitle}} به تعداد {{quantity}} و به قیمت {{price}}"
+    }
     
 }
