@@ -8,7 +8,6 @@ import Reports from 'src/widgets/Reports';
 import SymbolDetail from 'src/widgets/SymbolDetail';
 
 const Home = () => {
-    //
     const appDispatch = useAppDispatch();
     const { space } = useWorkflowState();
     useEffect(() => {

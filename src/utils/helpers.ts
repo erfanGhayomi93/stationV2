@@ -371,9 +371,9 @@ export const abbreviateNumber = (number: number) => {
 };
 
 export const getValidDate = (value: number | string | Date): Date => {
-	if (value instanceof Date) return value;
+    if (value instanceof Date) return value;
 
-	return new Date(value as string);
+    return new Date(value as string);
 };
 
 export const toEnglishNumber = (str: string): string => {
@@ -409,4 +409,15 @@ export const dateFormatter = (value: string) => {
     }
 
     return matchs.filter(Boolean).join('/');
+};
+
+export const findTitlePage = (pathname: string) => {
+    let path = '';
+    if (pathname === '/') {
+        path = 'home';
+    } else {
+        path = pathname.replace(/^\//, '').toString();
+    }
+
+    document.title =  "آنلاین گروهی - " + i18next.t(`titlePage.${path}`)
 };

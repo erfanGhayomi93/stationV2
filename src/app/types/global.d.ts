@@ -55,3 +55,7 @@ interface ICustomers {
     customerISIN: string;
     customerTitle: string;
 };
+
+type pathnameTitleType = {
+    [key : string]: { path: string; title: string };
+};

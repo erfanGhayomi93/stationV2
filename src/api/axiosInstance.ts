@@ -1,13 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction  } from 'react-router-dom';
 import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
-import { AppDispatch } from 'src/redux/store';
+import { AppDispatch, store } from 'src/redux/store';
+import { Navigate } from "react-router-dom";
+
 import qs from 'qs';
+import ipcMain from 'src/common/classes/IpcMain';
 
 let routerNavigate: NavigateFunction | undefined;
-let appDispatch: AppDispatch | undefined;
+// let appDispatch: AppDispatch | undefined;
 
 const tokenCookieName = 'ROS_client_id';
 
@@ -57,7 +60,7 @@ AXIOS.interceptors.response.use(
         console.log({ error });
         if (error.response) {
             // Request made and server responded
-            console.log("error.response.status",error.response.status)
+            console.log('error.response.status', error.response.status);
 
             switch (error.response.status) {
                 case 400: // Bad Request
@@ -121,10 +124,10 @@ AXIOS.interceptors.response.use(
     },
 );
 
-export const transferFunctions = (routerNavigateFun: NavigateFunction, appDispatchFun: AppDispatch) => {
-    routerNavigate = routerNavigateFun;
-    appDispatch = appDispatchFun;
-};
+// export const transferFunctions = (routerNavigateFun: NavigateFunction, appDispatchFun : AppDispatch) => {
+//     routerNavigate = routerNavigateFun;
+//     appDispatch = store.dispatch;
+// };
 
 export const setAuthorizeData = (client_id: string) => {
     //
@@ -147,11 +150,12 @@ export const setAuthorizeData = (client_id: string) => {
 };
 
 export const unAuthorized = () => {
-    //
+    const appDispatch = store.dispatch;
     appDispatch && appDispatch(setAppState('LoggedOut'));
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
-    routerNavigate && routerNavigate('/login');
+    ipcMain.send("unAuthorized")
+    // routerNavigate && routerNavigate('/login');
 };
 
 export default AXIOS;

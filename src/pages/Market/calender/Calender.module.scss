@@ -1,0 +1,20 @@
+.calendar{
+	.tooltip{
+		height: auto;
+		max-height: 250px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		z-index: 100;
+	}	
+	.content{
+		div{
+			padding: 1px;	
+		}
+	}
+	.circleBoth{
+		background: radial-gradient(circle at 50% 50%, #000000 50%, #ffffff 50%);
+		// background-color: red;
+	}
+	
+}
