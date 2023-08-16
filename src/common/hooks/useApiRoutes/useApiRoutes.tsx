@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    const { data } = useGlobalSettings<any>();
-    // const { data } = useGlobalSettingsMock();
+    // const { data } = useGlobalSettings<any>();
+    const { data } = useGlobalSettingsMock();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -120,6 +120,9 @@ export const Apis = () => ({
         GetSymbolInWatchlist: getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
         GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
         GetSector : getMarketData() + '/Sector/v1/Sectors',
+    },
+    Portfolio: {
+        CustomerPortfolio: getPortfolioUrl() + '/GTPortfolio/v1/GTPortfolios'
     },
     Setting: {
         GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,

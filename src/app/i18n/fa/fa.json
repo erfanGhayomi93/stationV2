@@ -35,7 +35,15 @@
         "codal" : "سایت کدال",
         "TSE" : "سایت TSE",
         "all": "همه",
-        "myStation": "ایستگاه من"
+        "myStation": "ایستگاه من",
+        "fullName": "نام و نام خانوادگی",
+        "fatherName": "نام پدر",
+        "bourseCode": "کد بورسی",
+        "nationalCode": "کد ملی / شناسه ملی",
+        "registerCode": "شماره ثبت",
+        "phoneNumber": "شماره تلفن",
+        "customerInformation": "اطلاعات مشتری",
+        "customerPortfolio": "پورتفوی مشتری"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -183,7 +191,16 @@
         "credit":"بستانکار(ریال)",
         "remain":"مانده (ریال)",
         "tradeValue": "ارزش معامله",
-        "status": "وضعیت"
+        "status": "وضعیت",
+        "lastPriceAverage": "میانگین قیمت تمام شده",
+        "pureValue": "ارزش خالص",
+        "pureDayValue": "خالص ارزش روز",
+        "currentPrice": "قیمت لحظه ای",
+        "profitAndLoss": "سود / زیان",
+        "profitAndLossPrice": "مبلغ سود و زیان",
+        "profitAndLossPercent": "درصد سود و زیان",
+        "portfolioPercent": "درصد از پورتفوی",
+        "headToheadPrice": "قیمت سر به سر"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
@@ -217,13 +234,33 @@
         "messages": "پیام ها",
         "sameGroup": "هم گروهی ها"
      },
-
      "OrderBook": {
         "viewMode": "حالت نمایش",
         "showMarketDepth": "نمایش عمق بازار",
         "closeMarketDepth": "بستن عمق بازار",
         "showDepthChart": "نمایش نمودار عمق",
         "closeDepthChart": "بستن نمودار عمق"
-     }
+     },
+     "Symbol": {
+        "symbol" : "نماد",
+        "volume" : "حجم",
+        "lastTradedPrice" : "آخرین قیمت",
+        "lastTradedPercent" : "درصد تغییر",
+        "offer": "عرضه",
+        "demand": "تقاضا"
+     },
+     "DivideOrder": {
+        "divideOrder": "تقسیم سفارش",
+        "shuffleOrder": "درهم سازی سفارش",
+        "quantity": "تعداد",
+        "price": "قیمت",
+        "rowCount": "تعداد سطر",
+        "buyVolume": "حجم خرید",
+        "sellVolume": "حجم فروش",
+        "sendAll": "ارسال همه",
+        "cancel": "انصراف",
+        "modalHeader": "تقسیم سفارش {{side}} ( {{symbolTitle}} )",
+        "orderDetail": "سفارش {{side}} {{symbolTitle}} به تعداد {{quantity}} و به قیمت {{price}}"
+    }
     
 }
