@@ -13,13 +13,16 @@ const Radiobox = ({ onChange, checked, label, classes }: RadioboxType) => {
 	return (
 		<div
 			onClick={onChange}
-			className={clsx(classes?.root, 'flex items-center cursor-pointer gap-6', checked ? 'text-gray-800 dark:text-dark-gray-800' : 'text-gray-600 dark:text-dark-gray-600')}
+			className={clsx(classes?.root, 'flex items-center cursor-pointer gap-1 text-L-gray-700 dark:text-D-gray-700')}
 			tabIndex={-1}
 			role="radio"
 			aria-checked={checked}
 		>
-			<div className="flex items-center justify-center rounded-circle border border-current w-16 h-16">
-				{checked && <div style={{ width: '8px', height: '8px' }} className="rounded-circle bg-primary-100 dark:bg-dark-primary-100" />}
+			<div className={clsx("flex items-center justify-center rounded-full border w-4 h-4", {
+				"border-L-info-100 dark:border-D-info-100": checked,
+				"border-L-gray-700 dark:border-D-gray-700": !checked,
+			})}>
+				{checked && <div style={{ width: '8px', height: '8px' }} className="rounded-full bg-L-info-100 dark:bg-D-info-100" />}
 			</div>
 
 			<span className={clsx(classes?.label, 'text-sm')}>{label}</span>

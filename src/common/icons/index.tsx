@@ -75,6 +75,10 @@ export { ReactComponent as AddSymbol } from 'src/assets/svg/AddSymbol.svg';
 export { ReactComponent as ArrowDropUp } from 'src/assets/svg/arrowDropUp.svg';
 export { ReactComponent as ArrowDropDown } from 'src/assets/svg/arrowDropDown.svg';
 export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
+export { ReactComponent as AlarmClock } from 'src/assets/svg/alarm-clock.svg';
+
+export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';
+export { ReactComponent as GridLayoutSVG } from 'src/assets/svg/GridLayout.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 export { ReactComponent as InfoIcon } from 'src/assets/svg/infoIcon.svg';

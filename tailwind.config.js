@@ -128,6 +128,10 @@ module.exports = {
                 2.3: '1.438rem',
                 2.4: '1.5rem',
             },
+            fontFamily: {
+                sans: ["IRANSansEnNum"],
+                IRANSansFaNum: ["IRANSansFaNum", "sans-serif"],
+            },
             gridTemplateColumns: {
                 '14': 'repeat(14, minmax(0, 1fr))',
                 '16': 'repeat(16, minmax(0, 1fr))',
@@ -140,6 +144,7 @@ module.exports = {
                 'min-one': 'min-content 1fr;',
                 'min-one-min': 'min-content 1fr min-content;',
                 'one-min-min': '1fr min-content min-content;',
+                'min-min-one': 'min-content min-content 1fr;',
                 'one-min': '1fr min-content;',
                 '60-40': '60fr 40fr',
             },
