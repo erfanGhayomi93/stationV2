@@ -219,8 +219,23 @@
         "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
      },
      "bourseCalender" : {
-        "title" : "تقویم بورسی"
+        "title": "تقویم بورسی",
+		"meeting": "مجمع",
+		"profit_payment": "پرداخت سود",
+		"all_symbol": "همه",
+		"watchlist_symbol": "نمادهای دیدبان"
      },
+     "dates": {
+		"day": "روز",
+		"daily": "روزانه",
+		"week": "هفته",
+		"weekly": "هفتگی",
+		"month": "ماه",
+		"monthly": "ماهانه",
+		"year": "سال",
+		"yearly": "سالانه",
+		"custom": "دلخواه"
+	},
      "Tooltip": {
         "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد"
      },
