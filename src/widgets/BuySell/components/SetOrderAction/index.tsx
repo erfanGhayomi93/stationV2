@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
 import { setOrder, useUpdateOrders } from 'src/app/queries/order';
@@ -30,6 +30,10 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         id,
     } = useBuySellState();
     const dispatch = useBuySellDispatch();
+    const queryClient = useQueryClient();
+    const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', symbolISIN])?.symbolData;
+    const symbolMaxQuantity = symbolData?.maxTradeQuantity;
+
     const appDispatch = useAppDispatch();
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
@@ -105,6 +109,9 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     };
 
     const handleSubmit = () => {
+        if(symbolMaxQuantity && symbolMaxQuantity < quantity) {
+            dispatch({type: 'SET_DIVIDE', value: true})
+        }
         if (comeFrom === ComeFromKeepDataEnum.Draft) {
             handleUpdateDraft();
         } else if (comeFrom === ComeFromKeepDataEnum.OpenOrder) {

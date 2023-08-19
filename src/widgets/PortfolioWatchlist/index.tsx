@@ -50,7 +50,6 @@ const PortfolioWatchlist = () => {
     return (
         <CustomerSearchProvider>
             <CustomerSection />
-            <DivideOrderModal />
         </CustomerSearchProvider>
     );
 };
