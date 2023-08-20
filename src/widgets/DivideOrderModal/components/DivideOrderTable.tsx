@@ -10,8 +10,6 @@ interface ITableProps {
     setQuantityInput: React.Dispatch<React.SetStateAction<number>>;
 }
 
-let onEditingCellStarted: any;
-
 const DivideOrderTable = ({ rowData, updateData, setQuantityInput }: ITableProps) => {
     //
     const { t } = useTranslation();

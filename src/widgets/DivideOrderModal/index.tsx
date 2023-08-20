@@ -7,7 +7,7 @@ import DivideOrderTable from './components/DivideOrderTable';
 import { useBuySellDispatch, useBuySellState } from '../BuySell/context/BuySellContext';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import clsx from 'clsx';
-import { seprateNumber } from 'src/utils/helpers';
+import { getUniqId, seprateNumber } from 'src/utils/helpers';
 import { useAppValues } from 'src/redux/hooks';
 
 const DivideOrderModal = () => {
@@ -28,35 +28,67 @@ const DivideOrderModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });
     };
 
+    const handleDivideOrders = (quantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
+        //
+        let dividedOrderArray: DividedOrderRowType[] = [];
+
+        const mapper = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
+            const symbolMaxQuantity = symbolData?.maxTradeQuantity || 1;
+            const quantityPerCustomer = Math.floor(totalQuantity / selectedCustomers.length);
+            if (quantityPerCustomer <= symbolMaxQuantity) {
+                console.log(price)
+                selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
+                dividedOrderArray.push({
+                        customerISIN,
+                        customerTitle,
+                        id: getUniqId(),
+                        price: priceInput,
+                        quantity: quantityPerCustomer,
+                        status: null,
+                    }),
+                );
+            }
+            if (quantityPerCustomer > symbolMaxQuantity) {
+                selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
+                dividedOrderArray.push({
+                        customerISIN,
+                        customerTitle,
+                        id: getUniqId(),
+                        price: priceInput,
+                        quantity: symbolMaxQuantity,
+                        status: null,
+                    }),
+                );
+                mapper(quantity - dividedOrderArray.length * symbolMaxQuantity, selectedCustomers);
+            }
+        };
+
+        mapper(quantity, selectedCustomers);
+
+        return dividedOrderArray;
+    };
+
     useEffect(() => {
+        //
         if (divide) {
             setQuantityInput(quantity);
             setPriceInput(price);
 
-            const quantityPerCustomer = quantity ? Math.floor(quantity / selectedCustomers.length) : 1;
-
-            setCustomers(
-                selectedCustomers.map(({ customerISIN, customerTitle }) => ({
-                    customerTitle,
-                    customerISIN,
-                    price,
-                    status: null,
-                    quantity: quantityPerCustomer,
-                    id: customerISIN,
-                })),
-            );
+            const dividedOrders = handleDivideOrders(quantity, selectedCustomers);
+            setCustomers(dividedOrders);
         }
     }, [divide]);
 
     const handleQuantityChange = (value: number) => {
         setQuantityInput(value);
-        const quantityPerCustomer = Math.floor(value / customers.length);
-        setCustomers((pre) => pre.map((item) => ({ ...item, quantity: quantityPerCustomer })));
+
+        const dividedOrders = handleDivideOrders(value, selectedCustomers);
+        setCustomers(dividedOrders);
     };
 
     const onSendAll = () => {
-        console.log(customers)
-    }
+        console.log(customers);
+    };
 
     return (
         <Modal isOpen={divide} onClose={closeModal} className="w-[720px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
@@ -91,7 +123,7 @@ const DivideOrderModal = () => {
                         </div>
                     </div>
                     <div className="text-xs text-L-gray-600 dark:text-D-gray-600 flex gap-2 bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-2 py-2 gap-4 items-center">
-                        <span >{t('DivideOrder.divideOrder')}</span>
+                        <span>{t('DivideOrder.divideOrder')}</span>
                         <div className="w-56">
                             <ControllerInput
                                 title={t('DivideOrder.quantity')}
