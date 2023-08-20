@@ -36,9 +36,8 @@ const DivideOrderModal = () => {
             const symbolMaxQuantity = symbolData?.maxTradeQuantity || 1;
             const quantityPerCustomer = Math.floor(totalQuantity / selectedCustomers.length);
             if (quantityPerCustomer <= symbolMaxQuantity) {
-                console.log(price)
                 selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
-                dividedOrderArray.push({
+                    dividedOrderArray.push({
                         customerISIN,
                         customerTitle,
                         id: getUniqId(),
@@ -50,7 +49,7 @@ const DivideOrderModal = () => {
             }
             if (quantityPerCustomer > symbolMaxQuantity) {
                 selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
-                dividedOrderArray.push({
+                    dividedOrderArray.push({
                         customerISIN,
                         customerTitle,
                         id: getUniqId(),

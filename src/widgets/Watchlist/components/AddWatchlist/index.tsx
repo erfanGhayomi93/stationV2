@@ -69,7 +69,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                     value={watchlistName}
                     placeholder={t("Input.placeholderWatchlist")}
                     onChange={(e) => setWatchlistName(e.target.value)}
-                // ref={inputElement}
+                    ref={inputElement}
                 />
             </div>
             {

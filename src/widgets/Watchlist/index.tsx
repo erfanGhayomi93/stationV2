@@ -57,6 +57,7 @@ const Watchlists = (props: Props) => {
                     rowSelection="single"
                     asyncTransactionWaitMillis={4000}
                     animateRows={true}
+                    rowDragManaged
                     suppressScrollOnNewData={true}
                     suppressRowVirtualisation={true}
                     suppressColumnVirtualisation={true}
