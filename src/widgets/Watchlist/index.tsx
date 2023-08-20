@@ -7,14 +7,15 @@ import { setSelectedSymbol } from 'src/redux/slices/option';
 import { UseHandleShowColumn } from './components/UseHandleShowColumn';
 import WatchlistController from './components/WatchlistController/WatchlistController';
 import { useWatchListState } from './context/WatchlistContext';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useWatchListSymbolsQuery, useWatchlistsQuery } from 'src/app/queries/watchlist';
-import { AddSymbol } from 'src/common/icons';
+import { AddSymbol, InfoIcon } from 'src/common/icons';
+import { Paginator } from 'src/common/components/Paginator/Paginator';
 
 type Props = {};
 
 const Watchlists = (props: Props) => {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
     const appDispatch = useAppDispatch();
     const {
         state: { selectedWatchlistId, watchlistType, selectedDefaultWatchlist, PageNumber, marketUnit, sector },
@@ -25,11 +26,14 @@ const Watchlists = (props: Props) => {
 
     const { data: watchlists } = useWatchlistsQuery();
 
-
-    const { data: watchlistSymbolList, isFetching: isFetchingSymbol } = useWatchListSymbolsQuery(
-        { watchlistId: selectedWatchlistId, watchlistType, type: selectedDefaultWatchlist, MarketUnit: marketUnit, SectorCode: sector.id, PageNumber: PageNumber }
-    )
-
+    const { data: watchlistSymbolList, isFetching: isFetchingSymbol } = useWatchListSymbolsQuery({
+        watchlistId: selectedWatchlistId,
+        watchlistType,
+        type: selectedDefaultWatchlist,
+        MarketUnit: marketUnit,
+        SectorCode: sector.id,
+        PageNumber: PageNumber,
+    });
 
     const defaultCols = {
         lockPinned: true,
@@ -38,19 +42,17 @@ const Watchlists = (props: Props) => {
         headerClass: 'px-1 font-semibold',
     };
 
-
     return (
-        <div className="h-full grid grid-rows-min-one py-3 px-6">
+        <div className="h-full flex flex-col py-3 px-6">
             <div>
-                <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t("Watchlist.title")}</h1>
+                <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t('Watchlist.title')}</h1>
                 <WatchlistController {...{ columns, watchlists }} />
             </div>
 
-            <div className='grid grid-rows-one-min-min'>
-                {/* <WidgetLoading spining={isFetchingSymbol}> */}
+            <div className="flex-1 relative">
                 <AGTable
                     rowModelType="clientSide"
-                    rowData={watchlistSymbolList}
+                    rowData={watchlistSymbolList || []}
                     columnDefs={columns}
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                     defaultColDef={defaultCols}
@@ -71,36 +73,32 @@ const Watchlists = (props: Props) => {
                     onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
                     onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
                     onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
-
                 />
-                {/* </WidgetLoading> */}
-
-                {
-                    (watchlistType === "User" || watchlistType === "Pinned") && (
-                        <div>
-                            <button
-                                onClick={() => setState({ type: "TOGGLE_ADD_SYMBOL_MODE", value: true })}
-                                className='text-L-primary-50 dark:text-D-primary-50 p-2 border border-L-gray-400 dark:border-D-gray-400 flex rounded items-center mt-6 mb-2'
-                            >
-                                <AddSymbol className='ml-2' />
-                                افزودن نماد
-                            </button>
-                        </div>
-                    )
-                }
-
-                {/* {watchlistType === "Market" && (totalCount as number) > 0 && (
-                    <div className="border-t flex justify-end items-center pt-4">
-                        <Paginator
-                            loading={isFetchingMarket}
-                            current={PageNumber}
-                            total={totalCount ? Math.ceil(totalCount / 20) : 0}
-                            onChange={handleChangePaginator}
+                {!watchlistSymbolList?.length && !isFetchingSymbol && (
+                    <div className="absolute top-0 left-0 text-D-basic dark:text-L-basic text-center flex flex-col items-center justify-center w-full h-full">
+                        <Trans
+                            i18nKey="Watchlist.noDataDescription"
+                            values={{ n: t('Watchlist.addSymbol') }}
+                            components={{
+                                icon: <InfoIcon />,
+                                br: <br />,
+                                n: (
+                                    <span
+                                        className="text-L-info-100 cursor-pointer"
+                                        onClick={() => setState({ type: 'TOGGLE_ADD_SYMBOL_MODE', value: true })}
+                                    />
+                                ),
+                                d: <div className='flex items-center gap-2'/>,
+                            }}
                         />
                     </div>
-                )} */}
+                )}
             </div>
-
+            {watchlistType === 'Market' && (1 as number) > 0 && (
+                <div className="border-t flex justify-end items-center pt-4">
+                    <Paginator loading={false} pageSize={25} pageNumber={1} PaginatorHandler={() => {}} />
+                </div>
+            )}
         </div>
     );
 };
