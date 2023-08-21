@@ -3,12 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface GlobalState {
     appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed' | 'Booting';
-    userData: { firstName: string; lastName: string; userName: string };
+    userData: UserType;
 }
 
 const initialState: GlobalState = {
     appState: 'Booting',
-    userData: { firstName: '', lastName: '', userName: '' },
+    userData: { firstName: '', lastName: '', userName: '' , customerISIN : "" },
 };
 
 const globalSlice = createSlice({

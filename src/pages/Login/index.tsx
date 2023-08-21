@@ -36,7 +36,7 @@ const Login = () => {
         onSuccess: (result) => {
             if (result.loginResultType === 'Successful') {
                 setAuthorizeData(result?.token);
-                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
+                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی',customerISIN : "001" }));
                 navigate('/');
             }
         },
