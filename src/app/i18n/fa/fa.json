@@ -211,7 +211,9 @@
         "addNewWatchlist" : "ایجاد دیده بان جدید" , 
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
-        "cancelAdd" : "انصراف"
+        "cancelAdd" : "انصراف",
+        "addSymbol": "افزودن نماد",
+        "noDataDescription": "<d><icon></icon>در این دیده بان میتوانید نمادهایی که میخواهید در پایین صفحه به شما نمایش داده شود را اضافه کنید.</d><br/><d> برای <n>{{n}}</n>  کلیک کنید.</d>"
      }, 
      "Basket": {
         "addNewBasket": "ایجاد سبد جدید",
@@ -247,7 +249,9 @@
         "additionalData": "اطلاعات تکمیلی",
         "symbolChart": "نمودار نماد",
         "messages": "پیام ها",
-        "sameGroup": "هم گروهی ها"
+        "sameGroup": "هم گروهی ها",
+        "linearChart": "نمودار خطی",
+        "candleChart": "نمودار شمعی"
      },
      "OrderBook": {
         "viewMode": "حالت نمایش",

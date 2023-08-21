@@ -1,90 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actionCell';
-import TableHeader from './TableHeader';
-import { Check, UnCheck } from 'src/common/icons';
-import { set } from 'cypress/types/lodash';
-import TradeInput from 'src/widgets/BuySell/components/Input';
+import { ICellRendererParams } from 'ag-grid-community';
 
-const DivideOrderTable = () => {
+interface ITableProps {
+    rowData: DividedOrderRowType[];
+    updateData: React.Dispatch<React.SetStateAction<DividedOrderRowType[]>>;
+    setQuantityInput: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const DivideOrderTable = ({ rowData, updateData, setQuantityInput }: ITableProps) => {
     //
-    const [editingRow, setEditingRow] = useState<{ id: number; type: 'delete' | 'edit' } | undefined>(undefined);
-    const data = [
-        { name: 'سهیل خسروی', count: 1000, price: 102020200, status: 'done', id: 1 },
-        { name: 'سهیل خسروی', count: 1000, price: 102020200, status: 'reject', id: 2 },
-        { name: 'سهیل خسروی', count: 1000, price: 102020200, status: 'feild', id: 3 },
-        { name: 'سهیل خسروی', count: 1000, price: 102020200, status: 'registered', id: 4 },
-    ];
+    const { t } = useTranslation();
 
-    const handleEditOrder = (id: number) => {
-        console.log('edit', id);
-        setEditingRow(undefined);
+    const onRowValueChange = (value: number, name: 'quantity' | 'price', rowId: string | number) => {
+        let totalQuantity = 0;
+
+        updateData((pre) =>
+            pre.map((item) => {
+                if (item.id === rowId) item[name] = Number(value);
+
+                totalQuantity += item.quantity;
+                return item;
+            }),
+        );
+
+        setQuantityInput(totalQuantity);
     };
-    const handleDeleteOrder = (id: number) => {
-        console.log('delete', id);
-        setEditingRow(undefined);
+
+    const onRowDelete = (data: DividedOrderRowType) => {
+        updateData((pre) => pre.filter((item) => item.id !== data.id));
+        setQuantityInput((pre) => pre - data.quantity);
     };
+
+    const onRowSend = (data: DividedOrderRowType) => {
+        console.log(data);
+    };
+
+    const Columns = useMemo(
+        (): ColDefType<DividedOrderRowType>[] => [
+            {
+                headerName: t('ag_columns_headerName.customer'),
+                field: 'customerTitle',
+                colId: 'customerTitle',
+            },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'quantity',
+                colId: 'quantity',
+                type: 'sepratedNumber',
+                editable: true,
+                onCellValueChanged: ({ newValue, oldValue, data }) => {
+                    if (Number(oldValue) !== Number(newValue)) {
+                        onRowValueChange(newValue, 'quantity', data.id);
+                    }
+                },
+            },
+            {
+                headerName: t('ag_columns_headerName.price'),
+                field: 'price',
+                colId: 'price',
+                editable: true,
+                type: 'sepratedNumber',
+                onCellValueChanged: ({ newValue, oldValue, data }) => {
+                    if (Number(oldValue) !== Number(newValue)) {
+                        onRowValueChange(newValue, 'price', data.id);
+                    }
+                },
+            },
+            {
+                headerName: t('ag_columns_headerName.status'),
+                field: 'status',
+                colId: 'status',
+                valueFormatter: ({ value }) => (value ? value : '-'),
+            },
+            {
+                headerName: t('ag_columns_headerName.actions'),
+                field: 'action',
+                colId: 'quantity',
+                cellRenderer: ({ api, data, rowIndex }: ICellRendererParams) => (
+                    <ActionCell
+                        data={data}
+                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
+                        handleEdit={() => {
+                            api.startEditingCell({ rowIndex, colKey: 'price' });
+                            api.startEditingCell({ rowIndex, colKey: 'quantity' });
+                        }}
+                        handleDelete={(data) => onRowDelete(data)}
+                        handleSend={(data) => onRowSend(data)}
+                    />
+                ),
+            },
+        ],
+        [],
+    );
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="sticky top-0">
-                <TableHeader />
-            </div>
-            <div className="h-full overflow-y-auto">
-                {data.map((item) => (
-                    <div key={item.id} className="grid grid-cols-5 h-8 text-xs even:bg-L-gray-100 even:dark:bg-D-gray-100">
-                        <div className="flex items-center justify-center text-D-basic dark:text-L-basic">{item.name}</div>
-                        <div className="flex items-center px-2 justify-center text-D-basic dark:text-L-basic">
-                            {editingRow?.type === 'edit' && editingRow?.id === item.id ? (
-                                <div className="border border-L-info-100 h-full rounded">
-                                    <TradeInput value={item.count} onChange={() => {}} />
-                                </div>
-                            ) : (
-                                item.count
-                            )}
-                        </div>
-                        <div className="flex px-2 items-center justify-center text-D-basic dark:text-L-basic">
-                            {editingRow?.type === 'edit' && editingRow?.id === item.id ? (
-                                <div className="border border-L-info-100 h-full rounded">
-                                    <TradeInput value={item.price} onChange={() => {}} />
-                                </div>
-                            ) : (
-                                item.price
-                            )}
-                        </div>
-                        <div className="flex items-center justify-center text-D-basic dark:text-L-basic">{item.status}</div>
-                        <div className="flex items-center justify-center text-D-basic dark:text-L-basic">
-                            {editingRow?.id === item.id ? (
-                                <div className="flex gap-3">
-                                    <div
-                                        className="p-1 border border-L-success-200 dark:border-D-success-200 rounded-xl cursor-pointer"
-                                        onClick={() => {
-                                            editingRow.type === 'delete' ? handleDeleteOrder(item.id) : handleEditOrder(item.id);
-                                        }}
-                                    >
-                                        <Check className="text-L-success-200 dark:text-D-success-200" />
-                                    </div>
-                                    <div
-                                        className="p-1 border border-L-error-200 dark:border-D-error-200 rounded-xl cursor-pointer"
-                                        onClick={() => setEditingRow(undefined)}
-                                    >
-                                        <UnCheck className="text-L-error-200 dark:text-D-error-200" />
-                                    </div>
-                                </div>
-                            ) : (
-                                <ActionCell
-                                    data={item}
-                                    type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
-                                    handleDelete={({ id }: any) => setEditingRow({ id, type: 'delete' })}
-                                    handleEdit={({ id }: any) => setEditingRow({ id, type: 'edit' })}
-                                    handleSend={() => {}}
-                                />
-                            )}
-                        </div>
-                    </div>
-                ))}
-            </div>
+        <div className="h-full">
+            <AGTable rowData={rowData || []} columnDefs={Columns} stopEditingWhenCellsLoseFocus />
         </div>
     );
 };

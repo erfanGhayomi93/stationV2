@@ -6,7 +6,7 @@ import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/Chang
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { useSetState, useWatchListState } from '../../context/WatchlistContext';
 import ActionCellRenderer from '../ActionCellRenderer/ActionCellRenderer';
-import { ClosingPrice, LastTradedPrice } from '../CellRenderer';
+import { ClosingPrice, LastTradedPrice, SymbolTradeState } from '../CellRenderer';
 
 export const UseHandleShowColumn = () => {
     const {
@@ -38,10 +38,17 @@ export const UseHandleShowColumn = () => {
         setWatchListTableLocal(listShowColumn);
     }, [listShowColumn]);
 
-
     const Columns = useMemo(
         (): ColDefType<IGetWatchlistSymbol>[] => [
-            { headerName: 'نماد', field: 'symbolTitle' },
+            {
+                headerName: 'نماد',
+                field: 'symbolTitle',
+                rowDrag: true,
+                cellRenderer: SymbolTradeState,
+                rowDragText: (p) => {
+                    return p?.rowNode?.data?.symbolTitle || 'جابجایی';
+                },
+            },
             {
                 headerName: 'آخرین قیمت',
                 field: 'lastTradedPrice',
@@ -127,7 +134,6 @@ export const UseHandleShowColumn = () => {
         ],
         [listShowColumn],
     );
-
 
     return { columns: Columns };
 };

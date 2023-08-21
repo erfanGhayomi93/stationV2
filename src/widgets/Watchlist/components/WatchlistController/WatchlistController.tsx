@@ -60,14 +60,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                         onClick={() => setActiveWatchlist({ id: watchlist.id, type: watchlist.type })}
                         key={watchlist.id}
                         data-actived={watchlist.id === state.selectedWatchlistId}
-                        className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
+                        className="py-1 px-2 mx-2 outline-none text-xs hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-md border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
                     >
                         {
                             watchlist.type === "Pinned" && (
                                 <PinIcon className='text-L-warning dark:text-D-warning ml-2' />
                             )
                         }
-                        {watchlist.watchListName}
+                        {`${t("Watchlist.title")} ${ watchlist.watchListName}`}
                     </button>
                 ))}
             </>

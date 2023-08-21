@@ -9,6 +9,7 @@ import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
+import DivideOrderModal from 'src/widgets/DivideOrderModal';
 interface IBuySellWidgetType {}
 
 export const BuySellInitialState: BuySellState = {
@@ -145,7 +146,12 @@ const BuySellContext = () => {
         }
     }, [keepData?.symbolISIN]);
 
-    return <BuySell />;
+    return (
+        <>
+            <BuySell />;
+            <DivideOrderModal />
+        </>
+    );
 };
 const BuySellWidget = () => {
     return (
