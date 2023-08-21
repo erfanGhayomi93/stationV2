@@ -421,3 +421,22 @@ export const findTitlePage = (pathname: string) => {
 
     document.title =  "آنلاین گروهی - " + i18next.t(`titlePage.${path}`)
 };
+
+
+export const getAverageDates = (startDate: number, endDate: number, n: number) => {
+	const averageInterval = Math.floor((endDate - startDate) / n);
+	const averageDates: number[] = [];
+
+	const startDateAsTimestamp = new Date(startDate).getTime();
+	for (let i = 0; i < n; i++) {
+		averageDates.push(startDateAsTimestamp + (i * averageInterval));
+	}
+
+	return averageDates;
+};
+
+export const rgbToRgba = (rgb: string, opacity = 1): string => {
+	const rgbValues = rgb.slice(4, rgb.length - 1);
+
+	return `rgba(${rgbValues},${opacity})`;
+};
