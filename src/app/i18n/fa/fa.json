@@ -249,7 +249,9 @@
         "additionalData": "اطلاعات تکمیلی",
         "symbolChart": "نمودار نماد",
         "messages": "پیام ها",
-        "sameGroup": "هم گروهی ها"
+        "sameGroup": "هم گروهی ها",
+        "linearChart": "نمودار خطی",
+        "candleChart": "نمودار شمعی"
      },
      "OrderBook": {
         "viewMode": "حالت نمایش",

@@ -1,9 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { useAppValues } from 'src/redux/hooks';
+import ChartController from './components/ChartController';
+import SymbolLinearChart from './components/SymbolLinearChart';
+import SymbolCandleChart from './components/SymbolCandleChart';
 
 const SymbolChart = () => {
-  return (
-    <div>SymbolChart</div>
-  )
-}
+    //
+    const {
+        option: { selectedSymbol, symbolChartDate, symbolChartType },
+    } = useAppValues();
 
-export default SymbolChart
+    return (
+        <div className="h-[355px] grid grid-rows-one-min">
+            <div className="">{symbolChartType === 'Linear' ? <SymbolLinearChart /> : <SymbolCandleChart />}</div>
+            <div>
+                <ChartController />
+            </div>
+        </div>
+    );
+};
+
+export default SymbolChart;
