@@ -21,7 +21,7 @@ const SymbolChart = () => {
                         <SymbolLinearChart date={symbolChartDate} data={mockData} />
                     </ErrorBoundary>
                 ) : (
-                    <SymbolCandleChart />
+                    <SymbolCandleChart date={symbolChartDate} data={mockData} />
                 )}
             </div>
             <div>
