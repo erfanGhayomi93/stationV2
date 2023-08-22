@@ -44,6 +44,7 @@ type SymbolData = {
     baseVolume: number;
     floatFree: number;
     pe: number;
+    eps: number;
     oneMonthEfficiency: number;
     threeMonthEfficiency: number;
     oneYearEfficiency: number;

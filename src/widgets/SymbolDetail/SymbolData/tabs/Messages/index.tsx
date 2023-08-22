@@ -1,5 +1,4 @@
 import { useMessagesSuppervisorOneSmbol } from 'src/app/queries/messages';
-import { CardMessage } from 'src/common/components/SupervisorMessage/components/CardMassage';
 import { useAppValues } from 'src/redux/hooks';
 import Message from './Message';
 
