@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface OptionState {
     selectedSymbol: string;
@@ -37,3 +38,5 @@ const optionSlice = createSlice({
 export const { setSelectedSymbol, setSelectedCustomers, setSymbolChartDate, setSymbolChartType } = optionSlice.actions;
 
 export default optionSlice.reducer;
+
+export const selectedSymbolRedux = (state: RootState) => state.option.selectedSymbol;

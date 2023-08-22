@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import ls from 'localstorage-slim';
+import { RootState } from '../store';
 
 const getAndSetThemeOnLoad = (): 'light' | 'dark' => {
     //
@@ -44,3 +45,5 @@ const uiSlice = createSlice({
 export const { setAppTheme } = uiSlice.actions;
 
 export default uiSlice.reducer;
+
+export const themeRedux = (state : RootState) => state.ui.theme
