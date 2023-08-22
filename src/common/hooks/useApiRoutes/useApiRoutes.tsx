@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    // const { data } = useGlobalSettings<any>();
-    const { data } = useGlobalSettingsMock();
+    const { data } = useGlobalSettings<any>();
+    // const { data } = useGlobalSettingsMock();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -43,88 +43,90 @@ const getCommonUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
 };
 
+const baseUrl = "http://172.30.14.14:5199"
+
 export const Apis = () => ({
     OAuthApi: {
-        authorization: getOauthUrl() + '/GTOAuthApi/v1/GTAuthorization',
-        captcha: getOauthUrl() + '/Captcha/v1/create',
-        twoFactor: getOauthUrl() + '/OAuthApi/v1/TwoFactorAuthorizer',
-        logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
+        authorization: baseUrl + '/GTOAuthApi/v1/GTAuthorization',
+        captcha: baseUrl + '/Captcha/v1/create',
+        twoFactor: baseUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
+        logout: baseUrl + '/GTOAuthApi/v1/Logout',
     },
     User: {
-        GetUserInformation: getCommonUrl() + `/GTTrader/v1/GetGeneralInformation`,
+        GetUserInformation: baseUrl + `/GTTrader/v1/GetGeneralInformation`,
     },
     Time: {
-        Get: getCommonUrl() + `/Time/v1/Get`,
+        Get: baseUrl + `/Time/v1/Get`,
     },
     Index: {
-        Symbols: getMarketData() + `/Index/v1/Symbols`,
+        Symbols: baseUrl + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: getCommonUrl() + '/GTSymbol/v1/Search',
-        SymbolGeneralInformation: getMarketData() + '/GTSymbol/v1/SymbolGeneralInformation',
+        Search: baseUrl + '/GTSymbol/v1/Search',
+        SymbolGeneralInformation: baseUrl + '/GTSymbol/v1/SymbolGeneralInformation',
     },
     Customer: {
-        Search: getBackOffice() + '/GtCustomer/v1/Search',
-        GetCustomerInformation: getBackOffice() + '/GtCustomer/v1/GetCustomerInformation',
-        GetGroupInformation: getBackOffice() + '/GtCustomer/v1/GetGroupInformation',
-        MultiSearch: getBackOffice() + '/GTCustomer/v1/MultipleSearch',
-        MultiMultiSearch: getBackOffice() + '/GTCustomer/v1/MultiMultipleSearch',
-        GroupCustomerDetail: getBackOffice() + '/GTCustomer/v1/GroupCustomerDetail',
-        Get: getBackOffice() + '/GTCustomer/v1/GetCustomers',
+        Search: baseUrl + '/GtCustomer/v1/Search',
+        GetCustomerInformation: baseUrl + '/GtCustomer/v1/GetCustomerInformation',
+        GetGroupInformation: baseUrl + '/GtCustomer/v1/GetGroupInformation',
+        MultiSearch: baseUrl + '/GTCustomer/v1/MultipleSearch',
+        MultiMultiSearch: baseUrl + '/GTCustomer/v1/MultiMultipleSearch',
+        GroupCustomerDetail: baseUrl + '/GTCustomer/v1/GroupCustomerDetail',
+        Get: baseUrl + '/GTCustomer/v1/GetCustomers',
     },
     MarketDepth: {
         Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
     },
     Orders: {
-        Create: getOrderUrl() + '/GTOrder/v1/Create',
-        Get: getOrderUrl() + '/GTOrder/v1/GTTodayOrdersList',
-        Delete: getOrderUrl() + '/GTOrder/v1/SingleDelete',
-        Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
-        GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
-        Modify: getOrderUrl() + '/GTOrder/v1/Modify',
-        Trades: getOrderUrl() + '/GTOrder/v1/Trades',
+        Create: baseUrl + '/GTOrder/v1/Create',
+        Get: baseUrl + '/GTOrder/v1/GTTodayOrdersList',
+        Delete: baseUrl + '/GTOrder/v1/SingleDelete',
+        Lists: baseUrl + '/GTOrder/v1/GTOrdersList',
+        GroupLists: baseUrl + '/GTOrder/v1/GTGroupOrdersList',
+        Modify: baseUrl + '/GTOrder/v1/Modify',
+        Trades: baseUrl + '/GTOrder/v1/Trades',
     },
     SupervisorMessage: {
-        Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
-        ReadPost: getMarketData() + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+        Get: baseUrl + `/SupervisorMessage/v1/TodaySupervisorMessage`,
+        ReadPost: baseUrl + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     draft: {
-        Create: getOrderUrl() + '/GTOrderDraft/v1/Create',
-        Get: getOrderUrl() + '/GTOrderDraft/v1/Get',
-        Delete: getOrderUrl() + '/GTOrderDraft/v1/Delete',
-        Update: getOrderUrl() + '/GTOrderDraft/v1/Update',
+        Create: baseUrl + '/GTOrderDraft/v1/Create',
+        Get: baseUrl + '/GTOrderDraft/v1/Get',
+        Delete: baseUrl + '/GTOrderDraft/v1/Delete',
+        Update: baseUrl + '/GTOrderDraft/v1/Update',
     },
     Basket: {
-        Get: getOrderUrl() + '/GTCart/v1/CartList',
-        Create: getOrderUrl() + '/GTCart/v1/CreateCart',
-        Edit: getOrderUrl() + '/GTCart/v1/EditCart',
-        Delete: getOrderUrl() + '/GTCart/v1/DeleteCart',
-        CreateDetail: getOrderUrl() + '/GTCart/v1/CreateCartDetail',
-        EditDetail: getOrderUrl() + '/GTCart/v1/EditCartDetail',
-        GetDetail: getOrderUrl() + '/GTCart/v1/CartDetailList',
-        DeleteDetails: getOrderUrl() + '/GTCart/v1/CartDetailDelete',
+        Get: baseUrl + '/GTCart/v1/CartList',
+        Create: baseUrl + '/GTCart/v1/CreateCart',
+        Edit: baseUrl + '/GTCart/v1/EditCart',
+        Delete: baseUrl + '/GTCart/v1/DeleteCart',
+        CreateDetail: baseUrl + '/GTCart/v1/CreateCartDetail',
+        EditDetail: baseUrl + '/GTCart/v1/EditCartDetail',
+        GetDetail: baseUrl + '/GTCart/v1/CartDetailList',
+        DeleteDetails: baseUrl + '/GTCart/v1/CartDetailDelete',
     },
-    Commission: { Get: getCommonUrl() + `/GTCommission/v1/GetBuyAndSellCommision` },
+    Commission: { Get: baseUrl + `/GTCommission/v1/GetBuyAndSellCommision` },
     WatchList: {
-        Get: getPortfolioUrl() + '/GTWatchlist/v1/WatchLists',
-        Create: getPortfolioUrl() + '/GTWatchlist/v1/Create',
-        Delete: getPortfolioUrl() + '/GTWatchlist/v1/Delete',
-        Update: getPortfolioUrl() + '/GTWatchlist/v1/Update',
-        Sort: getPortfolioUrl() + '/GTWatchlist/v1/Sort',
-        // GetWatchlistSymbol: getPortfolioUrl() + '/GTWatchlist/v1/GetWatchlistSymbols',
-        GetWatchListSymbols: getPortfolioUrl() + '/GtWatchlist/v1/GetWatchListSymbols',
-        DeleteSymbol: getPortfolioUrl() + '/GTWatchlist/v1/DeleteSymbol',
-        AddSymbol: getPortfolioUrl() + '/GTWatchlist/v1/AddSymbol',
-        DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
-        GetDefaultWatchlistSymbols: getPortfolioUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
-        GetSymbolInWatchlist: getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
-        GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
-        GetSector : getMarketData() + '/Sector/v1/Sectors',
+        Get: baseUrl + '/GTWatchlist/v1/WatchLists',
+        Create: baseUrl + '/GTWatchlist/v1/Create',
+        Delete: baseUrl + '/GTWatchlist/v1/Delete',
+        Update: baseUrl + '/GTWatchlist/v1/Update',
+        Sort: baseUrl + '/GTWatchlist/v1/Sort',
+        // GetWatchlistSymbol: baseUrl + '/GTWatchlist/v1/GetWatchlistSymbols',
+        GetWatchListSymbols: baseUrl + '/GtWatchlist/v1/GetWatchListSymbols',
+        DeleteSymbol: baseUrl + '/GTWatchlist/v1/DeleteSymbol',
+        AddSymbol: baseUrl + '/GTWatchlist/v1/AddSymbol',
+        DefaultWatchlist: baseUrl + '/Watchlist/v1/DefaultWatchlists',
+        GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        GetSymbolInWatchlist: baseUrl + '/GtWatchlist/v1/GetSymbolInWatchlist',
+        GetMarketSymbol: baseUrl + '/Symbol/v1/GetMarketSymbol',
+        GetSector: baseUrl + '/Sector/v1/Sectors',
     },
     Portfolio: {
-        CustomerPortfolio: getPortfolioUrl() + '/GTPortfolio/v1/GTPortfolios'
+        CustomerPortfolio: baseUrl + '/GTPortfolio/v1/GTPortfolios'
     },
     Setting: {
-        GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,
+        GetSetting: baseUrl + `/Setting/v1/GTGetSettings`,
     },
 });
