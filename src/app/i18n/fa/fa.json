@@ -43,7 +43,11 @@
         "registerCode": "شماره ثبت",
         "phoneNumber": "شماره تلفن",
         "customerInformation": "اطلاعات مشتری",
-        "customerPortfolio": "پورتفوی مشتری"
+        "customerPortfolio": "پورتفوی مشتری",
+        "opening":"بازگشایی",
+        "stop":"توقف",
+        "limitation":"محدودیت",
+        "offer":"عرضه"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
