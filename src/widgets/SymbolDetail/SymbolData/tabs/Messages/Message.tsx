@@ -40,16 +40,16 @@ const Message = ({ data }: { data: SUpervisorMessageResult }) => {
                     <div className={clsx('bg-L-gray-200 dark:bg-D-gray-200 rounded p-2')}>
                         <Disclosure.Button className="w-full" onClick={handleClickTitle}>
                             <div className={clsx('flex items-center justify-between')}>
-                                <div className="flex items-center">
+                  
                                     <ChevronIcon
                                         width={12}
                                         height={12}
                                         className={clsx('duration-200 text-L-gray-500 dark:text-D-gray-500', open ? '' : 'rotate-180')}
                                     />
-                                    <h1 className={clsx('text-xs text-D-basic dark:text-L-basic font-medium mr-2 p-0')}>
+                                    <h1 className={clsx('w-full truncate text-right text-xs text-D-basic dark:text-L-basic font-medium px-2')}>
                                         {renderTitle(messageTitle)}
                                     </h1>
-                                </div>
+                        
 
                                 <div className="flex items-center gap-2">
                                     <span className="text-xs text-L-gray-500 dark:text-D-gray-500">{getFarsiDate(dateOfEvent).time}</span>

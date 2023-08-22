@@ -12,7 +12,7 @@ const Messages = () => {
 
     return (
         <div className="">
-            <div className="rounded-lg w-full h-full overflow-auto">
+            <div className="w-full h-full overflow-auto">
                 {messageOneSymbol.data &&
                     messageOneSymbol.data
                     .map((item) => <Message data={item} key={item.id} />)}
