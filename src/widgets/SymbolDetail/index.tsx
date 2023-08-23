@@ -50,7 +50,7 @@ const SymbolDetail = () => {
                     'symbolState',
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
-    
+                    //@ts-ignore
                     queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
                         
                         const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };
