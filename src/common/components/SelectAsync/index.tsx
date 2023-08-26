@@ -134,7 +134,7 @@ const Select = <T,>({
 
 		return (
 			<div className={clsx(styles.noData, classes?.noData)}>
-				<span>{noDataLabel ?? t('select.no_data')}</span>
+				<span>{noDataLabel ?? t('common.no_data')}</span>
 			</div>
 		);
 	};

@@ -36,3 +36,23 @@ export const useTvSavedChart = (
 };
 
 
+/*-------------------------------------------------------*/
+
+
+const getSymbolSearch = async (term: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(apiRoutes.Symbol.Search , {
+        params: {
+			term
+		},
+    });
+    return data?.result;
+};
+
+export const useSymbolSearchQuery = (
+    term: string,
+    options?: Omit<UseQueryOptions<SearchSymbolType[], Error, SearchSymbolType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+) => {
+    return useQuery(['symbolSearch'], () => getSymbolSearch(term), options);
+};
+
+

@@ -8,6 +8,9 @@ import { QueryClient } from '@tanstack/react-query';
 import { IChartingLibraryWidget } from 'src/charting_library/charting_library';
 import { seprateNumber } from 'src/utils/helpers';
 import TvHeaderToolbar from './TvHeaderToolbar';
+import TvFooterToolbar from './TvFooterToolbar';
+import Loading from 'src/common/components/Loading/Loading';
+import PortfolioWatchlist from '../PortfolioWatchlist';
 
 
 
@@ -119,7 +122,7 @@ export const ChartingLibrary = () => {
 
 
 	return (
-		<div className='relative flex-1 flex flex-col gap-1'>
+		<div className='relative flex-1 flex flex-col gap-2'>
 			{(chartsLoaded && activeChart) && (
 				<TvHeaderToolbar
 					activeChart={activeChart}
@@ -128,7 +131,22 @@ export const ChartingLibrary = () => {
 				/>
 			)}
 
-			<div id="tv_container" ref={rootRef} dir='ltr' className='flex-1 h-full' />
+			<div className='flex justify-between h-full gap-2'>
+				<PortfolioWatchlist />
+				<div id="tv_container" ref={rootRef} dir='ltr' className='flex-1 h-full' />
+			</div>
+
+
+			{(chartsLoaded && activeChart) && (
+				<TvFooterToolbar activeChart={activeChart} />
+			)}
+
+			{!chartsLoaded && (
+				<div className="absolute bg-white dark:bg-black h-full w-full">
+					<Loading />
+				</div>
+			)}
+
 		</div>
 	)
 }

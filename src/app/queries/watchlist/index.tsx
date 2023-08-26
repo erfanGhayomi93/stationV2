@@ -11,12 +11,12 @@ const getWatchLists = async () => {
 export const useWatchlistsQuery = <T = IWatchlistType[],>(
     options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['getWatchLists'], () => getWatchLists());
+    return useQuery(['getWatchLists'], () => getWatchLists() , options);
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-{/* get watchlists List user */ }
+{/* get watchlists List  */ }
 const getWatchListSymbols = async (params: IRequestWatchListSymbol) => {
     const { watchlistId, PageNumber, watchlistType, MarketUnit, SectorCode, type } = params
 

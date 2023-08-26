@@ -90,6 +90,9 @@ export { ReactComponent as ChartTypeLineSVG } from "src/assets/svg/chart-type-li
 export { ReactComponent as CopyOutlineSVG } from "src/assets/svg/copy-outline.svg";
 export { ReactComponent as EyeOffOutlineSVG } from "src/assets/svg/eye-off-outline.svg";
 export { ReactComponent as EyeOutlineSVG } from "src/assets/svg/eye-outline.svg";
+export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.svg";
+export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
+export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
 
 
 export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';

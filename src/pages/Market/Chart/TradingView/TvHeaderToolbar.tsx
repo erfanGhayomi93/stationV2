@@ -33,7 +33,7 @@ import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import TradingWidget from 'src/common/classes/Tradingview/TradingWidget';
 import Dropdown from 'src/common/components/Dropdown/Dropdown';
 import { useAppSelector } from 'src/redux/hooks';
-import { selectedSymbolRedux } from 'src/redux/slices/option';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 import { themeRedux } from 'src/redux/slices/ui';
 import { useSavedStudyTemplatesQuery, useTvSavedChart } from 'src/app/queries/tradingView';
 import { useTradingState } from '../context';
@@ -84,7 +84,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const queryClient = useQueryClient();
 
-	const selectedSymbol = useAppSelector(selectedSymbolRedux);
+	const selectedSymbol = useAppSelector(getSelectedSymbol);
 
 	const [configuration, setConfiguration] = useState<null | ConfigurationType>(null);
 
@@ -96,7 +96,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	const { setState } = useTradingState()
 
 	const setToggleModal = (value: string) => {
-		setState({ type: "Toggle_Modal_Tv", value })
+		setState({ type: "Toggle_Modal_TV", value })
 	}
 
 
@@ -243,12 +243,11 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					});
 			}
 			else if (actionId === 'compareOrAdd') {
-				// dispatch(toggleTvCompareModal(true));
-				setToggleModal("toggleTvCompareModal")
+				setToggleModal("tvCompareModal")
 			}
 			else if (actionId === 'insertIndicator') {
 				// dispatch(toggleTvIndicatorsModal(true));
-				setToggleModal("toggleTvIndicatorsModal")
+				setToggleModal("tvIndicatorsModal")
 			}
 			else if (actionId === 'chartReset') {
 				activeChart.resetChart();
@@ -263,8 +262,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const onExecuteSaveLoadAction = (actionId: SaveLoadActionType, cb?: () => void) => {
 		try {
-			if (actionId === 'copy_chart') setToggleModal("toggleTvSaveChartTemplate");
-			else if (actionId === 'load_charts') setToggleModal("toggleTvLoadChartTemplate");
+			if (actionId === 'copy_chart') setToggleModal("tvSaveChartTemplate");
+			else if (actionId === 'load_charts') setToggleModal("tvLoadChartTemplate");
 		} catch (e) {
 			console.log((e as Error).message);
 		} finally {
@@ -291,7 +290,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const onSaveIndicatorsTemplate = (cb: () => void) => {
 		try {
-			setToggleModal("toggleTvSaveIndicatorsTemplate");
+			setToggleModal("tvSaveIndicatorsTemplate");
 		} catch (e) {
 			//
 		} finally {
@@ -1089,7 +1088,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							role="button"
 							type='button'
 							className={clsx(styles.btn, styles.expand)}
-							onClick={() => setToggleModal("toggleTvLayoutModal")}
+							onClick={() => setToggleModal("tvLayoutModal")}
 						>
 							<span className='gap-8'>
 								<svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
