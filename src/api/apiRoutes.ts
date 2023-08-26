@@ -18,7 +18,7 @@
 // const PushEngine = window.REACT_APP_PUSHENGINE_PATH; // "http://192.168.40.8:5800";
 // const ClubUrl = window.REACT_APP_CLUB_PATH; //http://192.168.40.8:19000;
 
-const baseUrl = "172.30.14.14:5199"
+const baseUrl = "https://gtapi-preprd.ramandtech.com"
 
 const apiRoutes = {
     OAuthApi: {

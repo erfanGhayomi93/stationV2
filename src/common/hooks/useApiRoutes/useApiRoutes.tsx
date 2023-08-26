@@ -43,7 +43,7 @@ const getCommonUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
 };
 
-const baseUrl = "http://172.30.14.14:5199"
+const baseUrl = "https://gtapi-preprd.ramandtech.com"
 
 export const Apis = () => ({
     OAuthApi: {
