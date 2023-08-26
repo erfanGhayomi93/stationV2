@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useMutation, useQuery } from '@tanstack/react-query';
 import apiRoutes from 'src/api/apiRoutes';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -39,3 +39,11 @@ const getMessageSupervisorOneSymbolFn = async (isin: string): Promise<SUpervisor
 export const useMessagesSuppervisorOneSmbol = (isin: string) => {
     return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage', isin], () => getMessageSupervisorOneSymbolFn(isin));
 };
+
+
+export const getAdminMessage = async () => {
+    const { data } = await AXIOS.get<IMessageResponseType>(Apis().Messages.AdminMessage)
+    return data || []
+}
+
+export const useGetAdminMessages = (options: UseQueryOptions<IMessageResponseType>) => useQuery<IMessageResponseType>([Apis().Messages.AdminMessage], getAdminMessage, { ...options })

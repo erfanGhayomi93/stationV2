@@ -51,10 +51,14 @@ const apiRoutes = {
         Get: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/GTTodayOrdersList',
         Delete: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/SingleDelete',
         Trades: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/Trades',
+        OfflineRequests: window.REACT_APP_ORDER_PATH + '/GTOrder/v1/TradeRequests',
     },
     SupervisorMessage: {
         Get: `${window.REACT_APP_MARKETDATA_PATH}/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: `${window.REACT_APP_MARKETDATA_PATH}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+    },
+    Messages: {
+        AdminMessage: `${window.REACT_APP_COMMON_PATH}/Message/v1/AdminMessage`
     },
     draft: {
         Create: window.REACT_APP_ORDER_PATH + '/GTOrderDraft/v1/Create',

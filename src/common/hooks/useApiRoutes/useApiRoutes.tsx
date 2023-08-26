@@ -89,6 +89,9 @@ export const Apis = () => ({
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: getMarketData() + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
+    Messages: {
+        AdminMessage: getCommonUrl() + `/Message/v1/AdminMessage` 
+    },
     draft: {
         Create: getOrderUrl() + '/GTOrderDraft/v1/Create',
         Get: getOrderUrl() + '/GTOrderDraft/v1/Get',
