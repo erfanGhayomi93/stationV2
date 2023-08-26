@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState, useCallback } from 'react';
 import { useAppValues } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
 import { pushEngine } from 'src/api/pushEngine';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const Best5Row = () => {
     //
@@ -12,14 +13,16 @@ const Best5Row = () => {
     const {
         option: { selectedSymbol },
     } = useAppValues();
-    const queryClient = useQueryClient();
-    const ordersData = (queryClient.getQueryData(['SymbolGeneralInfo', selectedSymbol]) as SymbolGeneralInfoType)?.ordersData || {};
 
-    useEffect(() => {
-        if (ordersData) {
-            setOrders(ordersData);
-        }
-    }, [ordersData]);
+    const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
+        onSuccess: (data: SymbolGeneralInfoType) => {
+            setOrders(data.ordersData);
+        },
+    });
+
+    useEffect(()=>{
+        refetch()
+    },[])
 
     const setTotalVolume = () => {
         if (orders) {
@@ -32,6 +35,16 @@ const Best5Row = () => {
             setTotalSellVolume(totalSell);
         }
     };
+
+    const isPriceInRange = useCallback(
+        (price: number) => {
+            if (!data?.symbolData) return true;
+            const { symbolData } = data;
+            if (!symbolData?.lowThreshold || !symbolData?.highThreshold) return true; // or maybe false
+            else return +symbolData.lowThreshold <= +price && +price <= +symbolData.highThreshold;
+        },
+        [data],
+    );
 
     useEffect(() => {
         setTotalVolume();
@@ -88,41 +101,45 @@ const Best5Row = () => {
         };
     }, [selectedSymbol]);
 
+    const ArrayOf5Index = Array.from(Array(6).keys()).slice(1);
+
     return (
-        <div className="w-full">
-            <div className="grid grid-cols-2 grid-rows-1 overflow-auto" style={{ overflow: 'overlay' }}>
-                <div className="">
-                    {orders &&
-                        [1, 2, 3, 4, 5].map((n, ind) => (
-                            <HalfRow
-                                key={n}
-                                mode="Buy"
-                                isInRange={true}
-                                isOdd={ind % 2 === 0}
-                                price={orders[`bestBuyLimitPrice_${n}` as keyof OrdersData]}
-                                count={orders[`numberOfOrdersAtBestBuy_${n}` as keyof OrdersData]}
-                                volume={orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData]}
-                                percent={totalBuyVolume ? orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData] / totalBuyVolume : 0}
-                            />
-                        ))}
-                </div>
-                <div className="border-r dark:border-D-gray-400 border-L-gray-400">
-                    {orders &&
-                        [1, 2, 3, 4, 5].map((n, ind) => (
-                            <HalfRow
-                                key={n}
-                                mode="Sell"
-                                isInRange={true}
-                                isOdd={ind % 2 === 0}
-                                price={orders[`bestSellLimitPrice_${n}` as keyof OrdersData]}
-                                count={orders[`numberOfOrdersAtBestSell_${n}` as keyof OrdersData]}
-                                volume={orders[`bestSellLimitQuantity_${n}` as keyof OrdersData]}
-                                percent={totalSellVolume ? orders[`bestSellLimitQuantity_${n}` as keyof OrdersData] / totalSellVolume : 0}
-                            />
-                        ))}
+        <WidgetLoading spining={isFetching}>
+            <div className="w-full">
+                <div className="grid grid-cols-2 grid-rows-1 overflow-auto" style={{ overflow: 'overlay' }}>
+                    <div className="">
+                        {orders &&
+                            ArrayOf5Index.map((n, ind) => (
+                                <HalfRow
+                                    key={n}
+                                    mode="Buy"
+                                    isInRange={isPriceInRange(orders[`bestBuyLimitPrice_${n}` as keyof OrdersData])}
+                                    isOdd={ind % 2 === 0}
+                                    price={orders[`bestBuyLimitPrice_${n}` as keyof OrdersData]}
+                                    count={orders[`numberOfOrdersAtBestBuy_${n}` as keyof OrdersData]}
+                                    volume={orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData]}
+                                    percent={totalBuyVolume ? orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData] / totalBuyVolume : 0}
+                                />
+                            ))}
+                    </div>
+                    <div className="border-r dark:border-D-gray-400 border-L-gray-400">
+                        {orders &&
+                            ArrayOf5Index.map((n, ind) => (
+                                <HalfRow
+                                    key={n}
+                                    mode="Sell"
+                                    isInRange={isPriceInRange(orders[`bestSellLimitPrice_${n}` as keyof OrdersData])}
+                                    isOdd={ind % 2 === 0}
+                                    price={orders[`bestSellLimitPrice_${n}` as keyof OrdersData]}
+                                    count={orders[`numberOfOrdersAtBestSell_${n}` as keyof OrdersData]}
+                                    volume={orders[`bestSellLimitQuantity_${n}` as keyof OrdersData]}
+                                    percent={totalSellVolume ? orders[`bestSellLimitQuantity_${n}` as keyof OrdersData] / totalSellVolume : 0}
+                                />
+                            ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </WidgetLoading>
     );
 };
 
