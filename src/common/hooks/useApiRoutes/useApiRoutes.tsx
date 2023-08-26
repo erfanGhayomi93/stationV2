@@ -83,6 +83,7 @@ export const Apis = () => ({
         GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
         Modify: getOrderUrl() + '/GTOrder/v1/Modify',
         Trades: getOrderUrl() + '/GTOrder/v1/Trades',
+        OfflineRequests: getOrderUrl() + '/GTOrder/v1/TradeRequests'
     },
     SupervisorMessage: {
         Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
