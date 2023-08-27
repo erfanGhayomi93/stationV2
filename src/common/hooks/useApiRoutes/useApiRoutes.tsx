@@ -75,7 +75,8 @@ export const Apis = () => ({
         Get: baseUrl + '/Customer/v1/GetCustomers',
     },
     MarketDepth: {
-        Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
+        // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
+        Get: baseUrl + '/Symbol/v1/GetMarketDepthV2',
     },
     Orders: {
         Create: baseUrl + '/Order/v1/Create',
