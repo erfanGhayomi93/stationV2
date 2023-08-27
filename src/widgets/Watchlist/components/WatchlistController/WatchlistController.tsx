@@ -1,8 +1,6 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { FC, FormEvent, useState, useCallback, useMemo, Fragment } from 'react';
+import { FC, useState, useMemo, useCallback , memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { createWatchListMutation, useDefaultWatchlistQuery } from 'src/app/queries/watchlist';
+import { useDefaultWatchlistQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
 import Select from 'src/common/components/Select';
 import { EditIcon2, PinIcon, PlusIcon } from 'src/common/icons';
@@ -18,8 +16,9 @@ interface IWatchlistControllerType {
 }
 
 const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists }) => {
-    const { setState, state } = useWatchListState();
+    const { t } = useTranslation();
 
+    const { setState, state } = useWatchListState();
     const [isAddActive, setIsAddActive] = useState(false);
 
     const { data: defaultWatchlists } = useDefaultWatchlistQuery();
@@ -37,7 +36,20 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
     const openEditModal = () => {
         setState({ type: 'TOGGLE_EDIT_MODE', value: true });
     };
-    const { t } = useTranslation();
+
+    const watchlistOptions = useMemo(() => {
+        return defaultWatchlists?.map((item) => ({
+            value: item,
+            label: t('defaultWlOption.' + item)
+        }));
+    }, [defaultWatchlists, t]);
+
+    const setTypeDefaultWatchlist = useCallback((select: IDefaultWatchlistType) => {
+        setDefaultWatchlist(select)
+    }, [])
+
+
+
 
     const itemsScrollableSlider = useMemo(() => (
         <ScrollableSlider>
@@ -48,14 +60,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                         onClick={() => setActiveWatchlist({ id: watchlist.id, type: watchlist.type })}
                         key={watchlist.id}
                         data-actived={watchlist.id === state.selectedWatchlistId}
-                        className="py-1 px-2 mx-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
+                        className="py-1 px-2 mx-2 outline-none text-xs hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-md border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
                     >
                         {
                             watchlist.type === "Pinned" && (
                                 <PinIcon className='text-L-warning dark:text-D-warning ml-2' />
                             )
                         }
-                        {watchlist.watchListName}
+                        {`${t("Watchlist.title")} ${ watchlist.watchListName}`}
                     </button>
                 ))}
             </>
@@ -106,9 +118,9 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                         <span className='text-L-gray-700 dark:text-D-gray-700'>نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
                             <Select
-                                onChange={(select) => setDefaultWatchlist(select as any)}
+                                onChange={setTypeDefaultWatchlist}
                                 value={state.selectedDefaultWatchlist}
-                                options={defaultWatchlists?.map((item) => ({ value: item, label: t('defaultWlOption.' + item) }))}
+                                options={watchlistOptions}
                             />
                         </div>
                     </>
@@ -123,4 +135,4 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
     );
 };
 
-export default WatchlistController;
+export default memo(WatchlistController);

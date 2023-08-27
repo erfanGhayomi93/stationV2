@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import TabsList from 'src/common/components/TabsList';
 import SearchInput from '../CustomerSearch/components/SearchInput';
 import CustomerSearchWidget, { CustomerSearchProvider, useCustomerSearchState } from '../CustomerSearch/context/CustomerSearchContext';
-import WatchlistWidget from '../Watchlist/context/WatchlistContext';
 import Portfolio from './tabs/Portfolio';
+import DivideOrderModal from '../DivideOrderModal';
 
 const CustomerSection = () => {
     //

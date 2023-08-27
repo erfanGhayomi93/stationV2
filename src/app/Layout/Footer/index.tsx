@@ -8,7 +8,7 @@ import PriceViewFooter from './priceViewFooter';
 
 const Footer = () => {
 
-    const { data: watchlistSymbolList, isFetching: isFetchingSymbol } = useWatchListSymbolsQuery(
+    const { data: watchlistSymbolList } = useWatchListSymbolsQuery(
         { watchlistId: 3, watchlistType: "Pinned", PageNumber: 1 }
     )
 
@@ -17,9 +17,7 @@ const Footer = () => {
         <>
             {
                 watchlistSymbolList?.map(item => (
-                    // <div key={item.symbolISIN} className={`flex mx-2 flex-nowrap whitespace-nowrap snap-center`}>
                     <PriceViewFooter key={item.symbolISIN} price={item.lastTradedPrice} percentage={item.lastTradedPriceVarPercent} label={item.symbolTitle} />
-                    // </div>
                 ))
             }
         </>

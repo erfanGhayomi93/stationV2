@@ -38,6 +38,7 @@ interface IGetWatchlistSymbol {
     symbolTitle: string;
     symbolOrderState: string;
     symbolTradeState: string;
+    insCode: string;
     lastTradedPrice: number;
     closingPrice: number;
     bestSellLimitPrice_1: number;
@@ -52,13 +53,13 @@ interface IGetWatchlistSymbol {
     closingPriceVarPercent: number;
 }
 
-interface IRequestWatchListSymbol{
-    watchlistId : number ,
-    watchlistType : WatchlistType , 
-    PageNumber : number
-    type ?: IDefaultWatchlistType ,
-    MarketUnit ?: string ,
-    SectorCode ?: string
+interface IRequestWatchListSymbol {
+    watchlistId: number;
+    watchlistType: WatchlistType;
+    PageNumber: number;
+    type?: IDefaultWatchlistType;
+    MarketUnit?: string;
+    SectorCode?: string;
 }
 ///////////////////////////////////////////
 
@@ -71,15 +72,15 @@ interface IWatchlistType {
     type: WatchlistType;
 }
 
-interface IWatchlistSymbolType {
-    symbolISIN: string;
-    note: string;
-    stopLoss: number;
-    takeProfit: number;
-    commentCount: number;
-    symbol: ISymbolType;
-    key: number;
-}
+// interface IWatchlistSymbolType {
+//     symbolISIN: string;
+//     note: string;
+//     stopLoss: number;
+//     takeProfit: number;
+//     commentCount: number;
+//     symbol: ISymbolType;
+//     key: number;
+// }
 interface IWatchlistSymbolRequestType {
     watchlistId: number;
     symbolISIN: string;
@@ -131,9 +132,6 @@ interface ISymbolType {
     symbolState: string;
 }
 
-interface IWatchlistSymbolTableType extends ISymbolType {
-    symbolISIN: string;
-}
 
 interface ISymbolInWatchlist {
     symbolISIN: string;

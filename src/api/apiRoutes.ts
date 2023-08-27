@@ -82,9 +82,27 @@ const apiRoutes = {
         DefaultWatchlist: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/DefaultWatchlists',
         GetDefaultWatchlistSymbols: window.REACT_APP_PORTFOLIO_PATH + '/Watchlist/v1/GetDefaultWatchlistSymbols',
     },
+    Portfolio: {
+        CustomerPortfolio: window.REACT_APP_PORTFOLIO_PATH + '/GTPortfolio/v1/GTPortfolios'
+    },
     Setting: {
         GetSetting: `${window.REACT_APP_COMMON_PATH}/Setting/v1/GTGetSettings`,
     },
+    tvChart : {
+        index : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1` ,
+        config : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/config` ,
+        symbols : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/symbols` ,
+        search : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/search` ,
+        history : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/history` ,
+        marks : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/marks` ,
+        charts : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/charts` ,
+        studyTemplate : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/study_templates` ,
+        save : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/charts` ,
+        delete : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/charts` ,
+        loadOne : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/charts` ,
+        loadAll : `${window.REACT_APP_MARKETDATA_PATH}/TV/v1/1.1/charts` ,
+    }
+
 };
 
 export default apiRoutes;

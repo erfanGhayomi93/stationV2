@@ -1,0 +1,66 @@
+.root {
+	background-color: theme("colors.white");
+	border-radius: theme("borderRadius.DEFAULT");
+	border: 1px solid;
+	border-color: theme("colors.L.gray.200");
+	width: 100%;
+	max-width: 100%;
+	z-index: 99;
+}
+
+.container {
+	cursor: pointer;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 0.5rem;
+}
+
+.list {
+	z-index: 9999;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 4px;
+	position: absolute;
+	border: 1px solid theme("colors.gray.200");
+	background-color: theme("colors.white");
+	height: auto;
+	max-height: 14.25rem;
+	overflow-x: hidden;
+	max-height: 100%;
+	transition: opacity 250ms, max-height 200ms;
+	-webkit-transition: opacity 250ms, max-height 200ms;
+	-moz-transition: opacity 250ms, max-height 200ms;
+	-o-transition: opacity 250ms, max-height 200ms;
+
+	li {
+		position: relative;
+		cursor: pointer;
+		width: 100%;
+	}
+}
+
+.root.dark {
+	background-color: theme("colors.black");
+	border-color: theme("colors.D.gray.200");
+
+	.label {
+		color: theme("colors.D.gray.700");
+
+		&.placeholder {
+			color: theme("colors.D.gray.500");
+		}
+	}
+
+	.icon {
+		color: theme("colors.D.gray.500");
+	}
+}
+
+.list.dark {
+	border: 1px solid theme("colors.D.gray.200");
+	background-color: theme("colors.black");
+}

@@ -121,6 +121,9 @@ export const Apis = () => ({
         GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
         GetSector : getMarketData() + '/Sector/v1/Sectors',
     },
+    Portfolio: {
+        CustomerPortfolio: getPortfolioUrl() + '/GTPortfolio/v1/GTPortfolios'
+    },
     Setting: {
         GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,
     },

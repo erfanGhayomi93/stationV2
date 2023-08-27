@@ -1,8 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { EyeApprove, EyePlusIcon } from 'src/common/icons';
 import ipcMain from 'src/common/classes/IpcMain';
 import { useSymbolInWatchlistQuery } from 'src/app/queries/watchlist';
-import { useWatchListState } from 'src/widgets/Watchlist/context/WatchlistContext';
 
 type AddRemoveToWatchlist = {
     symbolISIN: string,
@@ -13,26 +12,14 @@ export const AddRemoveToWatchlist: FC<AddRemoveToWatchlist> = ({ symbolISIN, wat
     const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
 
 
-    // useEffect(() => {
-    //     console.log("selectedWatchlistId", selectedWatchlistId)
-    // }, [selectedWatchlistId])
-
-    // function isObjectExistInArray(targetObject: AddRemoveToWatchlist) {
-    //   
-    //     // .some(obj => obj.symbolISIN === targetObject.symbolISIN && obj.watchlistId === targetObject.watchlistId);
-    // }
-
     const checkIfExistSymbol = () => {
-        if (!symbolInWatchlist) return false
-        if (!watchlistId && watchlistId === 0) return false
-
-        // console.log("symbolInWatchlist[watchlistId].includes(symbolISIN)", symbolInWatchlist[watchlistId.toString()].includes(symbolISIN))
         try {
-            return symbolInWatchlist[watchlistId.toString()].includes(symbolISIN)
+            if (!symbolInWatchlist || !watchlistId) return false;
+
+            const watchlist = symbolInWatchlist[watchlistId.toString()] || [];
+            return watchlist.includes(symbolISIN);
         }
         catch {
-            console.log("symbolInWatchlist", symbolInWatchlist)
-            console.log("watchlistId", watchlistId)
             return false
         }
     }
