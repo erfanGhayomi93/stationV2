@@ -1,4 +1,5 @@
 {
+
     "headerSec": {
         "showUserInfo": "نمایش اطلاعات",
         "userFullName": "نام کاربر",
@@ -17,6 +18,32 @@
         "189_LogoTitle": "کارگزاری فارابی",
         "1_LogoTitle": "رامند",
         "serCreditValue": "اعتبار"
+    },
+    "titlePage" : {
+        "home" : "صفحه اصلی",
+        "login" : "لاگین" , 
+        "forgetPassword" : "فراموشی رمز عبور" ,
+        "basket" : "سبد معامله‌گر" ,
+        "Watchlist" : "دیدبان" ,
+        "PageCrash" : "صفحه ناموجود" ,
+        "Help" : "کمک" ,
+        "Reports/orders" : "سفارشات",
+        "Reports/trades" : "معاملات",
+        "Reports/turnover" : "گردش حساب"
+    },
+    "common" : {
+        "codal" : "سایت کدال",
+        "TSE" : "سایت TSE",
+        "all": "همه",
+        "myStation": "ایستگاه من",
+        "fullName": "نام و نام خانوادگی",
+        "fatherName": "نام پدر",
+        "bourseCode": "کد بورسی",
+        "nationalCode": "کد ملی / شناسه ملی",
+        "registerCode": "شماره ثبت",
+        "phoneNumber": "شماره تلفن",
+        "customerInformation": "اطلاعات مشتری",
+        "customerPortfolio": "پورتفوی مشتری"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -164,7 +191,16 @@
         "credit":"بستانکار(ریال)",
         "remain":"مانده (ریال)",
         "tradeValue": "ارزش معامله",
-        "status": "وضعیت"
+        "status": "وضعیت",
+        "lastPriceAverage": "میانگین قیمت تمام شده",
+        "pureValue": "ارزش خالص",
+        "pureDayValue": "خالص ارزش روز",
+        "currentPrice": "قیمت لحظه ای",
+        "profitAndLoss": "سود / زیان",
+        "profitAndLossPrice": "مبلغ سود و زیان",
+        "profitAndLossPercent": "درصد سود و زیان",
+        "portfolioPercent": "درصد از پورتفوی",
+        "headToheadPrice": "قیمت سر به سر"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
@@ -175,18 +211,75 @@
         "addNewWatchlist" : "ایجاد دیده بان جدید" , 
         "titleColumn" : "عنوان دیده‌بان" , 
         "submitAdd" : "ثبت دیده بان" , 
-        "cancelAdd" : "انصراف"
+        "cancelAdd" : "انصراف",
+        "addSymbol": "افزودن نماد",
+        "noDataDescription": "<d><icon></icon>در این دیده بان میتوانید نمادهایی که میخواهید در پایین صفحه به شما نمایش داده شود را اضافه کنید.</d><br/><d> برای <n>{{n}}</n>  کلیک کنید.</d>"
      }, 
      "Basket": {
         "addNewBasket": "ایجاد سبد جدید",
         "editBasket": "ویرایش سبد",
         "InsertToBasketDescription": "کاربر گرامی شما میتوانید اطلاعاتی که در قسمت خرید و فروش وارد کرده اید را در یکی از سبد های خود ذخیره کنید."
      },
+     "bourseCalender" : {
+        "title": "تقویم بورسی",
+		"meeting": "مجمع",
+		"profit_payment": "پرداخت سود",
+		"all_symbol": "همه",
+		"watchlist_symbol": "نمادهای دیدبان"
+     },
+     "dates": {
+		"day": "روز",
+		"daily": "روزانه",
+		"week": "هفته",
+		"weekly": "هفتگی",
+		"month": "ماه",
+		"monthly": "ماهانه",
+		"year": "سال",
+		"yearly": "سالانه",
+		"custom": "دلخواه"
+	},
      "Tooltip": {
-        "finalCostWithCommision": "بهای تمام شده با احتساب کارمزد"
+        "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد"
      },
      "setting" : {
         "key_symbol_search": "جستجوی نماد"
-     }
+     },
+     "SymbolDetails": {
+        "orderBook": "صف",
+        "additionalData": "اطلاعات تکمیلی",
+        "symbolChart": "نمودار نماد",
+        "messages": "پیام ها",
+        "sameGroup": "هم گروهی ها",
+        "linearChart": "نمودار خطی",
+        "candleChart": "نمودار شمعی"
+     },
+     "OrderBook": {
+        "viewMode": "حالت نمایش",
+        "showMarketDepth": "نمایش عمق بازار",
+        "closeMarketDepth": "بستن عمق بازار",
+        "showDepthChart": "نمایش نمودار عمق",
+        "closeDepthChart": "بستن نمودار عمق"
+     },
+     "Symbol": {
+        "symbol" : "نماد",
+        "volume" : "حجم",
+        "lastTradedPrice" : "آخرین قیمت",
+        "lastTradedPercent" : "درصد تغییر",
+        "offer": "عرضه",
+        "demand": "تقاضا"
+     },
+     "DivideOrder": {
+        "divideOrder": "تقسیم سفارش",
+        "shuffleOrder": "درهم سازی سفارش",
+        "quantity": "تعداد",
+        "price": "قیمت",
+        "rowCount": "تعداد سطر",
+        "buyVolume": "حجم خرید",
+        "sellVolume": "حجم فروش",
+        "sendAll": "ارسال همه",
+        "cancel": "انصراف",
+        "modalHeader": "تقسیم سفارش {{side}} ( {{symbolTitle}} )",
+        "orderDetail": "سفارش {{side}} {{symbolTitle}} به تعداد {{quantity}} و به قیمت {{price}}"
+    }
     
 }

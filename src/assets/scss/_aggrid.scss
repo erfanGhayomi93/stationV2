@@ -90,3 +90,22 @@
 .ag-header .ag-header-group-cell .ag-header-group-cell-label {
     justify-content: center !important;
 }
+
+
+.ag-cell-inline-editing {
+	border: none !important;
+	border-radius: unset !important;
+	padding: 0 0.7rem !important;
+	box-shadow: none !important;
+	background-color: unset !important;
+
+    input {
+        text-align: center !important;
+        border: 1px solid !important;
+        border-color: theme('colors.L.info.100') !important;
+    }
+}
+
+.ag-cell-inline-editing {
+	padding: 0 !important;
+}

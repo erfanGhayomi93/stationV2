@@ -48,52 +48,6 @@ export const useWatchListSymbolsQuery = (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-{/* // get watchlist symbol market */ }
-{/* export const getMarketSymbol = async (params: IMarketSymbol) => {
-    const { PageNumber, marketUnit, SectorCode, watchlistType } = params || {};
-    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMarket>>(Apis().WatchList.GetMarketSymbol, {
-        params: { PageNumber: PageNumber - 1, marketUnit: marketUnit || null, SectorCode: SectorCode || null, watchlistType },
-    });
-    return data.result;
-};
-
-
-export const useGetMarketSymbolQuery = <T = IResponseMarket[],>(
-    params: IMarketSymbol,
-    options?: any
-) => {
-    const { PageNumber, SectorCode, marketUnit, watchlistType } = params
-    return useQuery(['GetMarketSymbol', PageNumber + SectorCode + marketUnit], () => getMarketSymbol(params), { ...options, enabled: watchlistType === "Market" });
-}; */}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-{/* //get watchlist symbol default ramand // */ }
-{/* const getDefaultWatchlistSymbols = async (selectedDefaultWatchlist: IDefaultWatchlistType, watchlistType: string) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistSymbolTableType[]>>(Apis().WatchList.GetDefaultWatchlistSymbols as string, {
-        params: { watchlistId: selectedDefaultWatchlist, watchlistType },
-    });
-    return data?.result;
-};
-
-export const useDefaultWatchlistSymbolsQuery = (
-    selectedDefaultWatchlist: IDefaultWatchlistType,
-    watchlistType: WatchlistType,
-    options?: (Omit<UseQueryOptions<IWatchlistSymbolTableType[], unknown, IWatchlistSymbolTableType[], (string)[]>, "initialData" | "queryFn" | "queryKey">) | undefined
-) => {
-    return useQuery(['getDefaultWatchlistSymbols', selectedDefaultWatchlist], () => getDefaultWatchlistSymbols(selectedDefaultWatchlist as IDefaultWatchlistType, watchlistType), {
-        ...options,
-        enabled: !!selectedDefaultWatchlist && watchlistType === 'Ramand',
-    });
-}; */}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 {/* // add symbol in watchlist */ }
 const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().WatchList.AddSymbol as string, {}, { params });
@@ -143,17 +97,6 @@ export const UseGetSector = () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
 const createWatchList = async (watchlistName: string) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<ICreateWatchlistResultType>>(
         Apis().WatchList.Create as string,
@@ -162,10 +105,32 @@ const createWatchList = async (watchlistName: string) => {
     );
     return data?.result;
 };
+
+export const createWatchListMutation = (
+    options?: Omit<UseMutationOptions<ICreateWatchlistResultType, unknown, string, unknown>, 'mutationFn'> | undefined,
+) => useMutation(createWatchList, options);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const deleteWatchList = async (id: number) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Delete as string, {}, { params: { id } });
     return data?.result;
 };
+
+
+export const deleteWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number, unknown>, 'mutationFn'> | undefined) =>
+    useMutation(deleteWatchList, options);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const sortWatchList = async (srrtID: number[]) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Sort as string, srrtID);
+    return data?.result;
+};
+
+
+export const sortWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number[], unknown>, 'mutationFn'> | undefined) =>
+    useMutation(sortWatchList, options);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const updateWatchList = async ({ id, watchListName }: IWatchlistRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(
@@ -175,10 +140,14 @@ const updateWatchList = async ({ id, watchListName }: IWatchlistRequestType) => 
     );
     return data?.result;
 };
-const sortWatchList = async (srrtID: number[]) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().WatchList.Sort as string, srrtID);
-    return data?.result;
-};
+
+
+export const updateWatchListMutation = (
+    options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistRequestType, unknown>, 'mutationFn'> | undefined,
+) => useMutation(updateWatchList, options);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 const GetSymbolInWatchlist = async () => {
@@ -188,15 +157,6 @@ const GetSymbolInWatchlist = async () => {
 
 
 
-
-
-
-
-//hooks
-
-
-
-// prettier-ignore
 export const useSymbolInWatchlistQuery = () => {
     return useQuery(['GetSymbolInWatchlist'], () => GetSymbolInWatchlist(), {
         select(data) {
@@ -215,19 +175,9 @@ export const useSymbolInWatchlistQuery = () => {
     });
 };
 
-export const createWatchListMutation = (
-    options?: Omit<UseMutationOptions<ICreateWatchlistResultType, unknown, string, unknown>, 'mutationFn'> | undefined,
-) => useMutation(createWatchList, options);
 
-export const deleteWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number, unknown>, 'mutationFn'> | undefined) =>
-    useMutation(deleteWatchList, options);
 
-export const updateWatchListMutation = (
-    options?: Omit<UseMutationOptions<boolean, unknown, IWatchlistRequestType, unknown>, 'mutationFn'> | undefined,
-) => useMutation(updateWatchList, options);
 
-export const sortWatchListMutation = (options?: Omit<UseMutationOptions<boolean, unknown, number[], unknown>, 'mutationFn'> | undefined) =>
-    useMutation(sortWatchList, options);
 
 
 

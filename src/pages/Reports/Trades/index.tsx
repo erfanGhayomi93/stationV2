@@ -5,87 +5,56 @@ import TradesTable from './components/TradesTable';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTradesLists } from 'src/app/queries/order';
-import dayjs from 'dayjs';
+import dayjs, { ManipulateType } from 'dayjs';
+import { initialState } from './constant';
 
 interface ITradesPageType {}
-
-export interface ITradeStateType extends Omit<IGTTradesListRequest, 'SymbolISIN' | 'CustomerISIN'> {
-    SymbolISIN: SymbolSearchResult[];
-    CustomerISIN: IGoCustomerSearchResult[];
-}
 
 const Trades = ({}: ITradesPageType) => {
     //
     const { t } = useTranslation();
 
-    const today = dayjs().format();
-    const oneDayAgo = dayjs().subtract(1, 'day').format();
-    const oneWeekAgo = dayjs().subtract(1, 'week').format();
-    const oneMonthAgo = dayjs().subtract(1, 'month').format();
-    const oneYearAgo = dayjs().subtract(1, 'year').format();
-
-    const [params, setParams] = useState<ITradeStateType>({
-        FromDate: oneDayAgo,
-        ToDate: today,
-        Side: undefined,
-        SymbolISIN: [],
-        CustomerISIN: [],
-        OrderStatus: undefined,
-        PageNumber: 1,
-        PageSize: 25,
-        Time: 'day',
-        CustomerType: undefined,
-        MyStationOnly: false,
-    });
+    const [params, setParams] = useState<ITradeStateType>(initialState);
+    const { PageNumber, PageSize, Time } = params;
 
     const {
         data: tradesData,
         refetch: getTradesData,
         isFetching,
-    } = useTradesLists({
-        ...params,
-        SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
-        CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-        Time: undefined
-    });
+    } = useTradesLists(
+        {
+            ...params,
+            SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
+            CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+        });
 
     useEffect(() => {
         getTradesData();
-    }, [params.PageNumber, params.PageSize]);
+    }, [PageNumber, PageSize]);
+
+    const onTimeChangeHandler = (time: string | undefined) => {
+        if (!time || time === 'custom') return;
+
+        const ToDate = dayjs().format();
+        const FromDate = dayjs().subtract(1, time as ManipulateType).format();
+
+        setParams((pre) => ({
+            ...pre,
+            FromDate,
+            ToDate,
+        }));
+    };
 
     useEffect(() => {
-        if (params.Time === 'day') {
-            setParams((pre) => ({ ...pre, FromDate: oneDayAgo, ToDate: today }));
-        }
-        if (params.Time === 'week') {
-            setParams((pre) => ({ ...pre, FromDate: oneWeekAgo, ToDate: today }));
-        }
-        if (params.Time === 'month') {
-            setParams((pre) => ({ ...pre, FromDate: oneMonthAgo, ToDate: today }));
-        }
-        if (params.Time === 'year') {
-            setParams((pre) => ({ ...pre, FromDate: oneYearAgo, ToDate: today }));
-        }
-    }, [params.Time]);
+        onTimeChangeHandler(Time);
+    }, [Time]);
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setParams((pre) => ({ ...pre, [action]: value }));
     }, []);
 
     const onClearFilters = () => {
-        setParams({
-            FromDate: oneDayAgo,
-            ToDate: today,
-            Side: undefined,
-            SymbolISIN: [],
-            CustomerISIN: [],
-            OrderStatus: undefined,
-            PageNumber: 1,
-            PageSize: 25,
-            Time: 'day',
-            CustomerType: undefined,
-            MyStationOnly: false,
-        });
+        setParams(initialState);
     };
 
     return (
@@ -111,8 +80,8 @@ const Trades = ({}: ITradesPageType) => {
                     <TradesTable
                         data={tradesData}
                         loading={isFetching}
-                        pageNumber={params.PageNumber}
-                        pagesize={params.PageSize}
+                        pageNumber={PageNumber}
+                        pagesize={PageSize}
                         PaginatorHandler={PaginatorHandler}
                     />
                 </div>

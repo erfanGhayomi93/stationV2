@@ -6,6 +6,7 @@ import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import {
     BasketIcon,
+    CalenderBourseSVG,
     Envelope2Icon,
     EyeFrameIcon,
     FileIcon,
@@ -13,6 +14,7 @@ import {
     HomeIcon,
     OrdersIcon,
     QuitIcon,
+    TradeChartSVG,
     TradesIcon,
     TurnoverIcon,
 } from 'src/common/icons';
@@ -76,6 +78,31 @@ const Sider = () => {
                 isActive: false,
                 id: 'Watchlist',
                 onClick: () => navigate('/Watchlist'),
+            },
+            {
+                icon: <TradeChartSVG height={20} width={20} />,
+                label: 'بازار',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                id: 'Market',
+                onClick: () => navigate('/Market/Chart'),
+                children: [
+                    {
+                        label: 'تقویم بورسی',
+                        icon: <CalenderBourseSVG height={20} width={20} />,
+                        isActive: false,
+                        id: 'Market-calender',
+                        onClick: () => navigate('/Market/Calender'),
+                    },
+                    {
+                        label: 'نمودار تکنیکال',
+                        icon: <TradeChartSVG height={20} width={20} />,
+                        isActive: false,
+                        id: 'Market-chart',
+                        onClick: () => navigate('/Market/Chart'),
+                    }
+                ],
             },
             {
                 icon: <FileIcon height={20} width={20} />,

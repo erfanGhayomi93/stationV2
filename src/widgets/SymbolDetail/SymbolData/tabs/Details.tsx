@@ -61,7 +61,7 @@ const Details = () => {
     ];
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full">
             <DataDisplay items={items} cols={2} />
         </div>
     );

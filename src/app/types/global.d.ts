@@ -54,4 +54,55 @@ interface GlobalPaginatedApiResponse<T> {
 interface ICustomers {
     customerISIN: string;
     customerTitle: string;
+}
+
+type pathnameTitleType = {
+    [key: string]: { path: string; title: string };
 };
+
+interface UserType {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    customerISIN: string;
+}
+
+declare interface SearchSymbolType {
+	isDelete?: boolean,
+	symbolISIN: string,
+	companyISIN: string,
+	symbolTitle: string,
+	companyName: string,
+	highPrice: number,
+	lowPrice: number,
+	closingPrice: number,
+	openPrice: number,
+	highThreshold: number,
+	lowThreshold: number,
+	lastTradedPrice: number,
+	symbolGroupCode: string,
+	sectorCode: string,
+	marketCode: string,
+	marketUnit: string,
+	tradePriceVarPreviousTradePercent: number,
+	yesterdayClosingPrice: number,
+	closingPriceVarReferencePrice: number,
+	closingPriceVarReferencePricePercent: number,
+	symbolOrderState: string,
+	symbolTradeState: string,
+	groupState: string,
+	isInWatchList: boolean,
+	symbolState: string,
+	companyCode: string,
+	symbolTag: string
+}
+
+type RecentSymbolType = {
+	symbolTitle: string;
+	symbolISIN: string;
+	symbolState?: string;
+	lastTradedPrice?: number;
+	tradePriceVarPreviousTradePercent?: number;
+	companyName?: string;
+	[key: string]: unknown
+}

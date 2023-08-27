@@ -1,5 +1,8 @@
 //
 
+type SymbolChartDate = 'Today' | 'Weekly' | 'Monthly' | 'Yearly';
+type SymbolChartType = 'Linear' | 'Candle'
+
 type SymbolData = {
     insCode: string;
     companyISIN: string;
