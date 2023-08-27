@@ -4,6 +4,7 @@ import ViewController from './components/ViewController';
 import OrderBookHeader from './components/OrderBookHeader';
 import Best5Row from './components/Best5Row';
 import MarketDepth from './components/MarketDepth';
+import MarketDepthChart from './components/MarketDepthChart';
 
 const OrderBook = () => {
     //
@@ -24,6 +25,7 @@ const OrderBook = () => {
             <div>
                 <OrderBookHeader />
                 {isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}
+                {isDepthChartOpen && orderBookViewMode === 'column' && <MarketDepthChart />}
             </div>
         </div>
     );
