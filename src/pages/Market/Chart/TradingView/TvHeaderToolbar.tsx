@@ -2,12 +2,9 @@ import { EntityId } from '@reduxjs/toolkit';
 import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import axios from 'src/api/axiosInstance';
-// import { useSavedChartsQuery, useSavedStudyTemplatesQuery } from 'api/queries/tvQueries';
 import routes from 'src/api/apiRoutes';
 import { ChartActionId, EntityInfo, IChartingLibraryWidget, LibrarySymbolInfo, ResolutionString, SaveLoadChartRecord, SeriesStyle, StudyEventType, UndoRedoState } from 'src/charting_library/charting_library';
 import ipcMain from 'src/common/classes/IpcMain';
-// import Localstorage from 'classes/Localstorage';
-// import TradingWidget from 'classes/Tradingview/TradingWidget';
 import clsx from 'clsx';
 import Select from 'src/common/components/SelectAsync';
 import {
@@ -33,8 +30,8 @@ import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import TradingWidget from 'src/common/classes/Tradingview/TradingWidget';
 import Dropdown from 'src/common/components/Dropdown/Dropdown';
 import { useAppSelector } from 'src/redux/hooks';
-import { selectedSymbolRedux } from 'src/redux/slices/option';
-import { themeRedux } from 'src/redux/slices/ui';
+import { getSelectedSymbol } from 'src/redux/slices/option';
+import { getTheme } from 'src/redux/slices/ui';
 import { useSavedStudyTemplatesQuery, useTvSavedChart } from 'src/app/queries/tradingView';
 import { useTradingState } from '../context';
 
@@ -80,11 +77,11 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const savedChartRef = useRef<SaveLoadChartRecord | null>(null);
 
-	const theme = useAppSelector(themeRedux);
+	const theme = useAppSelector(getTheme);
 
 	const queryClient = useQueryClient();
 
-	const selectedSymbol = useAppSelector(selectedSymbolRedux);
+	const selectedSymbol = useAppSelector(getSelectedSymbol);
 
 	const [configuration, setConfiguration] = useState<null | ConfigurationType>(null);
 
@@ -96,7 +93,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	const { setState } = useTradingState()
 
 	const setToggleModal = (value: string) => {
-		setState({ type: "Toggle_Modal_Tv", value })
+		setState({ type: "Toggle_Modal_TV", value })
 	}
 
 
@@ -243,12 +240,11 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					});
 			}
 			else if (actionId === 'compareOrAdd') {
-				// dispatch(toggleTvCompareModal(true));
-				setToggleModal("toggleTvCompareModal")
+				setToggleModal("tvCompareModal")
 			}
 			else if (actionId === 'insertIndicator') {
 				// dispatch(toggleTvIndicatorsModal(true));
-				setToggleModal("toggleTvIndicatorsModal")
+				setToggleModal("tvIndicatorsModal")
 			}
 			else if (actionId === 'chartReset') {
 				activeChart.resetChart();
@@ -263,8 +259,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const onExecuteSaveLoadAction = (actionId: SaveLoadActionType, cb?: () => void) => {
 		try {
-			if (actionId === 'copy_chart') setToggleModal("toggleTvSaveChartTemplate");
-			else if (actionId === 'load_charts') setToggleModal("toggleTvLoadChartTemplate");
+			if (actionId === 'copy_chart') setToggleModal("tvSaveChartTemplate");
+			else if (actionId === 'load_charts') setToggleModal("tvLoadChartTemplate");
 		} catch (e) {
 			console.log((e as Error).message);
 		} finally {
@@ -291,7 +287,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const onSaveIndicatorsTemplate = (cb: () => void) => {
 		try {
-			setToggleModal("toggleTvSaveIndicatorsTemplate");
+			setToggleModal("tvSaveIndicatorsTemplate");
 		} catch (e) {
 			//
 		} finally {
@@ -768,9 +764,9 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	}, [selectedSymbol]);
 
 	return (
-		<div className={clsx('flex rtl justify-between bg-white dark:bg-black w-full', theme === 'dark' && styles.dark)}>
+		<div className={clsx('flex rtl justify-between bg-L-basic dark:bg-D-basic w-full', theme === 'dark' && styles.dark)}>
 			<ul className={clsx(styles.list, 'justify-start')}>
-				<li style={{ width: '80px' }} className='flex items-center justify-center'>
+				<li style={{ width: '96px' }} className='flex items-center justify-center p-2'>
 					<Select
 						classes={{
 							root: 'flex justify-center',
@@ -791,7 +787,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					</Select>
 				</li>
 
-				<li className='flex items-center justify-center'>
+				<li className='flex items-center justify-center px-2'>
 					<Select
 						classes={{
 							root: 'flex justify-center',
@@ -851,7 +847,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					</button>
 				</li>
 
-				<li style={{ width: '9.6rem' }} className='flex items-center justify-center'>
+				<li  className='flex items-center justify-center'>
 					<Dropdown<TvStudyTemplateListType | Record<'id' | 'label', string>>
 						data={indicatorsTemplates}
 						onOpen={refetchSavedStudyTemplates}
@@ -860,7 +856,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							<li
 								role="menuitem"
 								key={item.id}
-								className={clsx('w-full border-gray-400 dark:border-dark-gray-400 last:border-transparent dark:last:border-transparent bg-white hover:bg-gray-400 dark:bg-black dark:hover:bg-dark-gray-400 transition-colors px-16', {
+								className={clsx('whitespace-nowrap w-full border-gray-200 dark:border-dark-gray-200 last:border-transparent dark:last:border-transparent bg-L-basic dark:bg-D-basic hover:bg-gray-200 dark:hover:bg-dark-gray-200 transition-colors px-4', {
 									'border-b border-gray-400 dark:border-dark-gray-400': index === 0 && savedStudyTemplates && savedStudyTemplates.length > 0
 								})}
 							>
@@ -868,8 +864,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 									role="button"
 									type="button"
 									onClick={index === 0 ? () => onSaveIndicatorsTemplate(onClose) : () => onApplyStudyTemplate(item as TvStudyTemplateListType, onClose)}
-									className={clsx('btn-hover flex items-center relative text-sm justify-start text-gray-900 dark:text-dark-gray-900 w-full px-4 h-40', {
-										'border-b border-gray-400 dark:border-dark-gray-400': !(savedStudyTemplates && savedStudyTemplates.length > 0 && (index === 0 || index === savedStudyTemplates.length))
+									className={clsx('btn-hover flex items-center relative text-xs justify-start text-L-gray-700 dark:text-D-gray-700 w-full px-1 h-10', {
+										'border-b border-L-gray-200 dark:border-D-gray-200': !(savedStudyTemplates && savedStudyTemplates.length > 0 && (index === 0 || index === savedStudyTemplates.length))
 									})}
 								>
 									<span className='flex items-center gap-16'>
@@ -886,9 +882,9 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 												onDeleteStudyTemplate((item as TvStudyTemplateListType).name, onClose);
 											}}
-											className={clsx('absolute trigger text-gray-900 dark:text-dark-gray-600 left-0 flex items-center justify-center transition-colors', styles.delete)}
+											className={clsx('absolute trigger text-L-gray-700 dark:text-D-gray-700 left-0 flex items-center justify-center transition-colors', styles.delete)}
 										>
-											<CloseSVG width='1.8rem' height='1.8rem' />
+											<CloseSVG width='1rem' height='1rem' />
 										</span>
 									)}
 								</button>
@@ -900,7 +896,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							type='button'
 							className={clsx(styles.btn, styles.expand)}
 						>
-							<span className='gap-4'>
+							<span className='gap-1'>
 								<svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path fillRule="evenodd" clipRule="evenodd" d="M6.93537 3H8.22088C8.67178 3 9.03545 2.99999 9.33148 3.02019C9.63583 3.04096 9.905 3.08474 10.1599 3.1903C10.7724 3.44404 11.2591 3.93071 11.5128 4.54328C11.6184 4.79813 11.6622 5.0673 11.683 5.37165C11.7031 5.66768 11.7031 6.03135 11.7031 6.48225V7.76775C11.7031 8.21865 11.7031 8.58236 11.683 8.87835C11.6622 9.1827 11.6184 9.45187 11.5128 9.70673C11.2591 10.3193 10.7724 10.806 10.1599 11.0597C9.905 11.1652 9.63583 11.2091 9.33148 11.2298C9.03545 11.25 8.67178 11.25 8.22088 11.25H6.93537C6.48447 11.25 6.1208 11.25 5.82478 11.2298C5.52043 11.2091 5.25125 11.1652 4.9964 11.0597C4.38384 10.806 3.89716 10.3193 3.64343 9.70673C3.53786 9.45187 3.49408 9.1827 3.47331 8.87835C3.45312 8.58232 3.45312 8.21865 3.45313 7.76775V6.48225C3.45312 6.03135 3.45312 5.66768 3.47331 5.37165C3.49408 5.0673 3.53786 4.79813 3.64343 4.54328C3.89716 3.93071 4.38384 3.44404 4.9964 3.1903C5.25125 3.08474 5.52043 3.04096 5.82478 3.02019C6.1208 2.99999 6.48447 3 6.93537 3ZM5.89284 4.01786C5.63938 4.03515 5.49178 4.06751 5.37909 4.11416C5.01155 4.26641 4.71954 4.55843 4.56729 4.92596C4.52064 5.03865 4.48828 5.18625 4.47099 5.43971C4.4534 5.69768 4.45314 6.02722 4.45314 6.49999V7.75001C4.45314 8.22277 4.4534 8.55233 4.47099 8.81029C4.48828 9.06375 4.52064 9.21135 4.56729 9.32404C4.71954 9.69157 5.01155 9.98359 5.37909 10.1358C5.49178 10.1825 5.63938 10.2148 5.89284 10.2321C6.1508 10.2497 6.48035 10.25 6.95311 10.25H8.20314C8.6759 10.25 9.00545 10.2497 9.26341 10.2321C9.51688 10.2148 9.66447 10.1825 9.77716 10.1358C10.1447 9.98359 10.4367 9.69157 10.589 9.32404C10.6356 9.21135 10.668 9.06375 10.6853 8.81029C10.7028 8.55233 10.7031 8.22277 10.7031 7.75001V6.49999C10.7031 6.02722 10.7028 5.69768 10.6853 5.43971C10.668 5.18625 10.6356 5.03865 10.589 4.92596C10.4367 4.55843 10.1447 4.26641 9.77716 4.11416C9.66447 4.06751 9.51688 4.03515 9.26341 4.01786C9.00545 4.00028 8.6759 4.00001 8.20314 4.00001H6.95311C6.48035 4.00001 6.1508 4.00028 5.89284 4.01786ZM6.93537 12.75H8.22088C8.67178 12.75 9.03545 12.75 9.33148 12.7702C9.63583 12.7909 9.905 12.8348 10.1599 12.9403C10.7724 13.194 11.2591 13.6807 11.5128 14.2933C11.6184 14.5481 11.6622 14.8173 11.683 15.1217C11.7031 15.4177 11.7031 15.7814 11.7031 16.2323V17.5177C11.7031 17.9686 11.7031 18.3324 11.683 18.6283C11.6622 18.9327 11.6184 19.2019 11.5128 19.4567C11.2591 20.0693 10.7724 20.556 10.1599 20.8097C9.905 20.9153 9.63583 20.9591 9.33148 20.9798C9.03545 21 8.67178 21 8.22088 21H6.93537C6.48447 21 6.1208 21 5.82478 20.9798C5.52043 20.9591 5.25125 20.9153 4.9964 20.8097C4.38384 20.556 3.89716 20.0693 3.64343 19.4567C3.53786 19.2019 3.49408 18.9327 3.47331 18.6283C3.45312 18.3323 3.45312 17.9686 3.45313 17.5177V16.2323C3.45312 15.7814 3.45312 15.4177 3.47331 15.1217C3.49408 14.8173 3.53786 14.5481 3.64343 14.2933C3.89716 13.6807 4.38384 13.194 4.9964 12.9403C5.25125 12.8348 5.52043 12.7909 5.82478 12.7702C6.1208 12.75 6.48447 12.75 6.93537 12.75ZM5.89284 13.7679C5.63938 13.7851 5.49178 13.8175 5.37909 13.8642C5.01155 14.0164 4.71954 14.3084 4.56729 14.676C4.52064 14.7886 4.48828 14.9363 4.47099 15.1897C4.4534 15.4477 4.45314 15.7772 4.45314 16.25V17.5C4.45314 17.9728 4.4534 18.3023 4.47099 18.5603C4.48828 18.8137 4.52064 18.9614 4.56729 19.074C4.71954 19.4416 5.01155 19.7336 5.37909 19.8858C5.49178 19.9325 5.63938 19.9649 5.89284 19.9821C6.1508 19.9997 6.48035 20 6.95311 20H8.20314C8.6759 20 9.00545 19.9997 9.26341 19.9821C9.51688 19.9649 9.66447 19.9325 9.77716 19.8858C10.1447 19.7336 10.4367 19.4416 10.589 19.074C10.6356 18.9614 10.668 18.8137 10.6853 18.5603C10.7028 18.3023 10.7031 17.9728 10.7031 17.5V16.25C10.7031 15.7772 10.7028 15.4477 10.6853 15.1897C10.668 14.9363 10.6356 14.7886 10.589 14.676C10.4367 14.3084 10.1447 14.0164 9.77716 13.8642C9.66447 13.8175 9.51688 13.7851 9.26341 13.7679C9.00545 13.7503 8.6759 13.75 8.20314 13.75H6.95311C6.48035 13.75 6.1508 13.7503 5.89284 13.7679ZM16.6854 3H17.9709C18.4218 3 18.7854 2.99999 19.0815 3.02019C19.3858 3.04096 19.655 3.08474 19.9099 3.1903C20.5224 3.44404 21.0091 3.93071 21.2628 4.54328C21.3684 4.79813 21.4122 5.0673 21.433 5.37165C21.4531 5.66768 21.4531 6.03135 21.4531 6.48225V7.76775C21.4531 8.21865 21.4531 8.58236 21.433 8.87835C21.4122 9.1827 21.3684 9.45187 21.2628 9.70673C21.0091 10.3193 20.5224 10.806 19.9099 11.0597C19.655 11.1652 19.3858 11.2091 19.0815 11.2298C18.7854 11.25 18.4218 11.25 17.9709 11.25H16.6854C16.2345 11.25 15.8708 11.25 15.5748 11.2298C15.2704 11.2091 15.0012 11.1652 14.7464 11.0597C14.1338 10.806 13.6472 10.3193 13.3934 9.70673C13.2879 9.45187 13.2441 9.1827 13.2233 8.87835C13.2031 8.58232 13.2031 8.21865 13.2031 7.76775V6.48225C13.2031 6.03135 13.2031 5.66768 13.2233 5.37165C13.2441 5.0673 13.2879 4.79813 13.3934 4.54328C13.6472 3.93071 14.1338 3.44404 14.7464 3.1903C15.0012 3.08474 15.2704 3.04096 15.5748 3.02019C15.8708 2.99999 16.2345 3 16.6854 3ZM15.6428 4.01786C15.3894 4.03515 15.2418 4.06751 15.1291 4.11416C14.7615 4.26641 14.4695 4.55843 14.3173 4.92596C14.2706 5.03865 14.2383 5.18625 14.221 5.43971C14.2034 5.69768 14.2031 6.02722 14.2031 6.49999V7.75001C14.2031 8.22277 14.2034 8.55233 14.221 8.81029C14.2383 9.06375 14.2706 9.21135 14.3173 9.32404C14.4695 9.69157 14.7615 9.98359 15.1291 10.1358C15.2418 10.1825 15.3894 10.2148 15.6428 10.2321C15.9008 10.2497 16.2304 10.25 16.7031 10.25H17.9531C18.4259 10.25 18.7554 10.2497 19.0134 10.2321C19.2669 10.2148 19.4145 10.1825 19.5272 10.1358C19.8947 9.98359 20.1867 9.69157 20.339 9.32404C20.3856 9.21135 20.418 9.06375 20.4353 8.81029C20.4529 8.55233 20.4531 8.22277 20.4531 7.75001V6.49999C20.4531 6.02722 20.4529 5.69768 20.4353 5.43971C20.418 5.18625 20.3856 5.03865 20.339 4.92596C20.1867 4.55843 19.8947 4.26641 19.5272 4.11416C19.4145 4.06751 19.2669 4.03515 19.0134 4.01786C18.7554 4.00028 18.4259 4.00001 17.9531 4.00001H16.7031C16.2304 4.00001 15.9008 4.00028 15.6428 4.01786ZM16.6854 12.75H17.9709C18.4218 12.75 18.7854 12.75 19.0815 12.7702C19.3858 12.7909 19.655 12.8348 19.9099 12.9403C20.5224 13.194 21.0091 13.6807 21.2628 14.2933C21.3684 14.5481 21.4122 14.8173 21.433 15.1217C21.4531 15.4177 21.4531 15.7814 21.4531 16.2323V17.5177C21.4531 17.9686 21.4531 18.3324 21.433 18.6283C21.4122 18.9327 21.3684 19.2019 21.2628 19.4567C21.0091 20.0693 20.5224 20.556 19.9099 20.8097C19.655 20.9153 19.3858 20.9591 19.0815 20.9798C18.7854 21 18.4218 21 17.9709 21H16.6854C16.2345 21 15.8708 21 15.5748 20.9798C15.2704 20.9591 15.0012 20.9153 14.7464 20.8097C14.1338 20.556 13.6472 20.0693 13.3934 19.4567C13.2879 19.2019 13.2441 18.9327 13.2233 18.6283C13.2031 18.3323 13.2031 17.9686 13.2031 17.5177V16.2323C13.2031 15.7814 13.2031 15.4177 13.2233 15.1217C13.2441 14.8173 13.2879 14.5481 13.3934 14.2933C13.6472 13.6807 14.1338 13.194 14.7464 12.9403C15.0012 12.8348 15.2704 12.7909 15.5748 12.7702C15.8708 12.75 16.2345 12.75 16.6854 12.75ZM15.6428 13.7679C15.3894 13.7851 15.2418 13.8175 15.1291 13.8642C14.7615 14.0164 14.4695 14.3084 14.3173 14.676C14.2706 14.7886 14.2383 14.9363 14.221 15.1897C14.2034 15.4477 14.2031 15.7772 14.2031 16.25V17.5C14.2031 17.9728 14.2034 18.3023 14.221 18.5603C14.2383 18.8137 14.2706 18.9614 14.3173 19.074C14.4695 19.4416 14.7615 19.7336 15.1291 19.8858C15.2418 19.9325 15.3894 19.9649 15.6428 19.9821C15.9008 19.9997 16.2304 20 16.7031 20H17.9531C18.4259 20 18.7554 19.9997 19.0134 19.9821C19.2669 19.9649 19.4145 19.9325 19.5272 19.8858C19.8947 19.7336 20.1867 19.4416 20.339 19.074C20.3856 18.9614 20.418 18.8137 20.4353 18.5603C20.4529 18.3023 20.4531 17.9728 20.4531 17.5V16.25C20.4531 15.7772 20.4529 15.4477 20.4353 15.1897C20.418 14.9363 20.3856 14.7886 20.339 14.676C20.1867 14.3084 19.8947 14.0164 19.5272 13.8642C19.4145 13.8175 19.2669 13.7851 19.0134 13.7679C18.7554 13.7503 18.4259 13.75 17.9531 13.75H16.7031C16.2304 13.75 15.9008 13.7503 15.6428 13.7679Z" fill="currentColor" />
 								</svg>
@@ -911,7 +907,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					</Dropdown>
 				</li>
 
-				<li style={{ width: '12rem' }} className='flex items-center justify-center'>
+				<li className='flex items-center justify-center px-2'>
 					<Select
 						classes={{
 							root: 'flex justify-center',
@@ -1089,7 +1085,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							role="button"
 							type='button'
 							className={clsx(styles.btn, styles.expand)}
-							onClick={() => setToggleModal("toggleTvLayoutModal")}
+							onClick={() => setToggleModal("tvLayoutModal")}
 						>
 							<span className='gap-8'>
 								<svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">

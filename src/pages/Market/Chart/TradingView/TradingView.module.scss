@@ -53,8 +53,8 @@ ul.list {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		@apply text-L-gray-700 dark:text-D-gray-700 hover:text-L-info-50 dark:hover:text-D-info-50;
-		@apply hover:bg-opacity-10 dark:hover:bg-opacity-10 hover:bg-black dark:hover:bg-white;
+		@apply text-L-gray-700 dark:text-D-gray-700 hover:text-L-info-100 dark:hover:text-D-info-100;
+		@apply hover:bg-opacity-10 dark:hover:bg-opacity-10 hover:bg-D-basic dark:hover:bg-L-basic;
 		border-radius: 2px;
 		width: auto;
 		height: 34px;

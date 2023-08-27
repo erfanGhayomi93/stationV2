@@ -5,7 +5,7 @@ import AXIOS from "src/api/axiosInstance";
 
 
 const getSavedStudyTemplates = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<TvStudyTemplateListType[]>>(apiRoutes.tvChart.studyTemplate , {
+    const { data } = await AXIOS.get<GlobalApiResponseType<TvStudyTemplateListType[]>>(apiRoutes.tvChart.studyTemplate, {
         params
     });
     return data?.result;
@@ -22,7 +22,7 @@ export const useSavedStudyTemplatesQuery = (
 
 
 const getTvSavedChart = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(apiRoutes.tvChart.loadAll , {
+    const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(apiRoutes.tvChart.loadAll, {
         params
     });
     return data?.result;
@@ -33,6 +33,42 @@ export const useTvSavedChart = (
     options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
     return useQuery(['tvSavedCharts'], () => getTvSavedChart(params), options);
+};
+
+
+/*-------------------------------------------------------*/
+
+
+const getSymbolSearch = async (term: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(apiRoutes.Symbol.Search, {
+        params: {
+            term
+        },
+    });
+    return data?.result;
+};
+
+export const useSymbolSearchQuery = (
+    term: string,
+    options?: Omit<UseQueryOptions<SearchSymbolType[], Error, SearchSymbolType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+) => {
+    return useQuery(['symbolSearch'], () => getSymbolSearch(term), options);
+};
+/*-------------------------------------------------------*/
+
+
+const getSavedCharts = async (params: IRequestSavedStudyTemplates) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(apiRoutes.Symbol.Search, {
+        params
+    });
+    return data?.result;
+};
+
+export const useSavedChartsQuery = (
+    params: IRequestSavedStudyTemplates,
+    options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+) => {
+    return useQuery(['tvSavedCharts'], () => getSavedCharts(params), options);
 };
 
 

@@ -8,13 +8,15 @@ import TradingChart from '..'
 const initState: initStateType = {
     selectedSymbol: '',
     tvChartActiveLayout: '1',
+    tvSidebarStatus : 'full-width',
     modals: {
         tvCompareModal: false,
         tvIndicatorsModal: false,
         tvLayoutModal: false,
         tvLoadChartTemplate: false,
         tvSaveChartTemplate: false,
-        tvSaveIndicatorsTemplate: false
+        tvSaveIndicatorsTemplate: false,
+        tvSymbolSearchModal : false
     }
 }
 
