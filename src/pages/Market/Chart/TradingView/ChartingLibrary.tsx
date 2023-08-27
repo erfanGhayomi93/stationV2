@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from 'react'
 import { useTradingState } from '../context';
 import TradingWidget from 'src/common/classes/Tradingview/TradingWidget';
 import { fetchUser } from 'src/handlers/boot';
-import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 import { QueryClient } from '@tanstack/react-query';
 import { IChartingLibraryWidget } from 'src/charting_library/charting_library';
@@ -11,6 +10,9 @@ import TvHeaderToolbar from './TvHeaderToolbar';
 import TvFooterToolbar from './TvFooterToolbar';
 import Loading from 'src/common/components/Loading/Loading';
 import PortfolioWatchlist from '../PortfolioWatchlist';
+import ipcMain from 'src/common/classes/IpcMain';
+import { Trans } from 'react-i18next';
+import { useAppSelector } from 'src/redux/hooks';
 
 
 
@@ -20,8 +22,8 @@ export const ChartingLibrary = () => {
 	const chartsRef = useRef<TradingWidget[] | null>(null);
 
 
-	const { global: { userData }, ui: { theme }, option: { selectedSymbol } } = useSelector((state: RootState) => state)
-	const { state: { tvChartActiveLayout } } = useTradingState()
+	const { global: { userData }, ui: { theme }, option: { selectedSymbol } } = useAppSelector((state: RootState) => state)
+	const { state: { tvChartActiveLayout }, setState } = useTradingState()
 
 	const tradingQueryClient = new QueryClient();
 
@@ -56,6 +58,10 @@ export const ChartingLibrary = () => {
 		} catch (e) {
 			//
 		}
+	};
+
+	const openAdvancedSearchModal = () => {
+		setState({ type: "Toggle_Modal_TV", value: "tvSymbolSearchModal" })
 	};
 
 
@@ -118,6 +124,39 @@ export const ChartingLibrary = () => {
 			//
 		}
 	}, [tvChartActiveLayout, rootRef.current]);
+
+	useEffect(() => {
+		try {
+			if (!chartsRef.current) return;
+
+			chartsRef.current.forEach((chart) => {
+				chart.setTheme(theme);
+			});
+		} catch (e) {
+			//
+		}
+	}, [theme]);
+
+	useEffect(() => {
+		ipcMain.handle('tv_chart:set_layout', (layoutId: '1' | '2c' | '2r' | '3c' | '3r' | '2-2' | '4r' | '4c') => setState({ type: "Set_Active_Layout", value: layoutId }));
+
+		return () => {
+			ipcMain.removeHandler('tv_chart:set_layout');
+		};
+	}, [activeChart]);
+
+	if (!selectedSymbol) return (
+		<div dir='ltr' className='flex items-center justify-center bg-white dark:bg-black flex-1'>
+			<div className='text-base font-medium text-L-gray-700 dark:text-D-gray-700'>
+				<Trans
+					i18nKey="tv_chart.no_symbol_found"
+					components={{
+						1: <button role="button" onClick={openAdvancedSearchModal} className='font-bold text-L-primary-50 dark:text-D-primary-50' />,
+					}}
+				/>
+			</div>
+		</div>
+	);
 
 
 

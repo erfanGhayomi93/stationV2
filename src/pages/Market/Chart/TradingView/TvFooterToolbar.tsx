@@ -3,14 +3,14 @@ import { useMemo } from 'react';
 import styles from './TradingView.module.scss';
 import TradingWidget from 'src/common/classes/Tradingview/TradingWidget';
 import { useAppSelector } from 'src/redux/hooks';
-import { themeRedux } from 'src/redux/slices/ui';
+import { getTheme } from 'src/redux/slices/ui';
 
 type TvFooterToolbarProps = {
 	activeChart: TradingWidget;
 }
 
 const TvFooterToolbar = ({ activeChart }: TvFooterToolbarProps) => {
-	const theme = useAppSelector(themeRedux)
+	const theme = useAppSelector(getTheme)
 
 	const onChangeTimeFrame = (value: { val: { value: string; type: string }; res: string }) => {
 		try {

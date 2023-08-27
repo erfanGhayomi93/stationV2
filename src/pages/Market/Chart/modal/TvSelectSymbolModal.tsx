@@ -119,14 +119,14 @@ const TvSelectSymbolModal = ({ actionId }: TvSelectSymbolModalProps) => {
 			>
 				<div className='flex justify-between items-center bg-L-blue-50 dark:bg-D-blue-50 cursor-grab pr-4 py-3'>
 					<div className='moveable flex items-center flex-1 h-full'>
-						<span className='font-medium text-base text-L-basic dark:text-D-gray-700'>{t(`tv_chart.tv_${actionId}_modal_title`)}</span>
+						<span className='font-medium text-base text-white'>{t(`tv_chart.tv_${actionId}_modal_title`)}</span>
 					</div>
 
 					<button
 						role="button"
 						type='button'
 						onClick={onClose}
-						className='flex items-center text-L-basic dark:text-D-gray-700 justify-center px-4'
+						className='flex items-center text-white justify-center px-4'
 					>
 						<CloseIcon />
 					</button>

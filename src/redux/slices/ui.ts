@@ -46,4 +46,4 @@ export const { setAppTheme } = uiSlice.actions;
 
 export default uiSlice.reducer;
 
-export const themeRedux = (state : RootState) => state.ui.theme
+export const getTheme = (state : RootState) => state.ui.theme

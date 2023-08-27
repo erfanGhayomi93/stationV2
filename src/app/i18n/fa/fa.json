@@ -45,7 +45,9 @@
         "customerInformation": "اطلاعات مشتری",
         "customerPortfolio": "پورتفوی مشتری",
         "loading": "در حال دریافت اطلاعات" ,
-        "no_data": "موردی برای نمایش وجود ندارد"
+        "no_data": "موردی برای نمایش وجود ندارد",
+        "cancel": "لغو",
+		"save": "ذخیره"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",

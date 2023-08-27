@@ -1,19 +1,19 @@
 .root {
-	--st-background-color: theme("colors.white");
+	--st-background-color: theme("colors.L.basic.DEFAULT");
 	--st-border-color: theme("colors.L.gray.200");
-	--st-active-border-color: theme("colors.L.info.50");
+	--st-active-border-color: theme("colors.L.info.100");
 	--st-label-color: theme("colors.L.gray.700");
 	--st-label-placeholder-color: theme("colors.L.gray.500");
-	--st-icon-color: theme("colors.gray.600");
+	--st-icon-color: theme("colors.gray.700");
 	--st-label-border-color: theme("colors.gray.500");
 
 	&.dark {
-		--st-background-color: theme("colors.black");
+		--st-background-color: theme("colors.D.basic.DEFAULT");
 		--st-border-color: theme("colors.D.gray.200");
-		--st-active-border-color: theme("colors.D.info.50");
-		--st-label-color: theme("colors.D.gray.200");
+		--st-active-border-color: theme("colors.D.info.100");
+		--st-label-color: theme("colors.D.gray.700");
 		--st-label-placeholder-color: theme("colors.D.gray.500");
-		--st-icon-color: theme("colors.D.gray.500");
+		--st-icon-color: theme("colors.D.gray.700");
 		--st-label-border-color: theme("colors.D.gray.400");
 	}
 
@@ -46,6 +46,7 @@
 	transition: border-color 250ms;
 	-webkit-transition: border-color 250ms;
 	-moz-transition: border-color 250ms;
+	white-space: nowrap;
 
 	&.select {
 		cursor: pointer;
@@ -102,25 +103,25 @@
 }
 
 .options {
-	--ot-background-color: theme("colors.white");
-	--ot-border-color: theme("colors.L.gray.200");
-	--ot-empty-color: theme("colors.L.gray.500");
-	--ot-item-background-color: theme("colors.white");
+	--ot-background-color: theme("colors.L.basic.DEFAULT");
+	--ot-border-color: theme("colors.L.gray.100");
+	--ot-empty-color: theme("colors.L.gray.700");
+	--ot-item-background-color: theme("colors.L.basic.DEFAULT");
 	--ot-item-odd-background-color: theme("colors.L.gray.100");
 	--ot-item-hover-background-color: theme("colors.L.gray.50");
-	--ot-item-active-background-color: theme("colors.L.blue.100");
-	--ot-item-focus-background-color: theme("colors.L.blue.100");
+	--ot-item-active-background-color: theme("colors.L.gray.400");
+	--ot-item-focus-background-color: theme("colors.L.gray.400");
 	--ot-item-color: theme("colors.L.gray.700");
 
 	&.dark {
-		--ot-background-color: theme("colors.black");
-		--ot-border-color: theme("colors.D.gray.200");
-		--ot-empty-color: theme("colors.D.gray.500");
-		--ot-item-background-color: theme("colors.black");
+		--ot-background-color: theme("colors.D.basic.DEFAULT");
+		--ot-border-color: theme("colors.D.gray.100");
+		--ot-empty-color: theme("colors.D.gray.700");
+		--ot-item-background-color: theme("colors.D.basic.DEFAULT");
 		--ot-item-odd-background-color: theme("colors.D.gray.100");
-		--ot-item-hover-background-color: theme("colors.D.gray.500");
-		--ot-item-active-background-color: theme("colors.D.blue.100");
-		--ot-item-focus-background-color: theme("colors.D.blue.100");
+		--ot-item-hover-background-color: theme("colors.D.gray.50");
+		--ot-item-active-background-color: theme("colors.D.gray.400");
+		--ot-item-focus-background-color: theme("colors.D.gray.400");
 		--ot-item-color: theme("colors.D.gray.700");
 	}
 

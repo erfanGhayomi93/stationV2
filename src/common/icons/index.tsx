@@ -94,6 +94,15 @@ export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.
 export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
 export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
 
+export { ReactComponent as Chart1ColSVG } from "src/assets/svg/chart-1c.svg";
+export { ReactComponent as Chart2ColSVG } from "src/assets/svg/chart-2c.svg";
+export { ReactComponent as Chart2RowSVG } from "src/assets/svg/chart-2r.svg";
+export { ReactComponent as Chart2x2SVG } from "src/assets/svg/chart-2x2.svg";
+export { ReactComponent as Chart3ColSVG } from "src/assets/svg/chart-3c.svg";
+export { ReactComponent as Chart3RowSVG } from "src/assets/svg/chart-3r.svg";
+export { ReactComponent as Chart4ColSVG } from "src/assets/svg/chart-4c.svg";
+export { ReactComponent as Chart4RowSVG } from "src/assets/svg/chart-4r.svg";
+
 
 export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';
 export { ReactComponent as GridLayoutSVG } from 'src/assets/svg/GridLayout.svg';
