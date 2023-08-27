@@ -20,7 +20,7 @@ const readMessageFn = async (id: number) => {
     try {
         const { data } = await AXIOS.post((Apis().SupervisorMessage.ReadPost as string) + id);
         return data.result || [];
-    } catch {}
+    } catch { }
 };
 
 export const useReadTodaySupervisorMessages = () => {
@@ -46,4 +46,4 @@ export const getAdminMessage = async () => {
     return data || []
 }
 
-export const useGetAdminMessages = (options: UseQueryOptions<IMessageResponseType>) => useQuery<IMessageResponseType>([Apis().Messages.AdminMessage], getAdminMessage, { ...options })
+export const useGetAdminMessages = (options?: UseQueryOptions<IMessageResponseType>) => useQuery<IMessageResponseType>([Apis().Messages.AdminMessage], getAdminMessage, { ...options })
