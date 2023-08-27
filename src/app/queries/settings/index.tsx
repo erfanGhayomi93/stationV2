@@ -1,11 +1,12 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
+import { baseUrl } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppState } from 'src/redux/slices/global';
 
 export const getGlobalSettings = async () => {
-    // const { data } = await AXIOS.get<ISettingsType[]>('http://192.168.40.8:12000/Setting/v1/GTGetSettings');
-    const { data } = await AXIOS.get<ISettingsType[]>('https://common.ramandtech.com/Setting/v1/GTGetSettings');
+    // const { data } = await AXIOS.get<ISettingsType[]>('https://common.ramandtech.com/Setting/v1/GTGetSettings');
+    const { data } = await AXIOS.get<ISettingsType[]>(baseUrl + '/Setting/v1/GetSettings');
 
     console.log({ data });
     return data || [];
