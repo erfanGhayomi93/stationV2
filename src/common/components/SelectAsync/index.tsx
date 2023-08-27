@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './Select.module.scss';
 import { useAppSelector } from 'src/redux/hooks';
+import { getTheme } from 'src/redux/slices/ui';
 
 type SelectProps<T> = {
 	clearable?: boolean;
@@ -52,7 +53,8 @@ const Select = <T,>({
 
 	const optionsRef = useRef<HTMLDivElement>(null);
 
-	const { ui: { theme } } = useAppSelector(state => state)
+	const theme = useAppSelector(getTheme)
+	
 	const [highlightedOption, setHighlightedOption] = useState<number | null>(null);
 
 	const [visibleOptions, setVisibleOptions] = useState(false);
@@ -134,7 +136,7 @@ const Select = <T,>({
 
 		return (
 			<div className={clsx(styles.noData, classes?.noData)}>
-				<span>{noDataLabel ?? t('select.no_data')}</span>
+				<span>{noDataLabel ?? t('common.no_data')}</span>
 			</div>
 		);
 	};

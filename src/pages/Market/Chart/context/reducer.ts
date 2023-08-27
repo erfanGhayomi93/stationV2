@@ -11,13 +11,18 @@ export const TradingViewReducer = (state: initStateType, action: tradingViewActi
                 ...state,
                 tvChartActiveLayout: value,
             };
-        case 'Toggle_Modal_Tv':
+        case 'Toggle_Modal_TV':
             return {
                 ...state,
                 modals: {
                     ...state.modals,
                     [value as keyof typeof state.modals]: !state.modals[value as keyof typeof state.modals],
                 },
+            };
+        case 'Set_TV_Sidebar_Status':
+            return {
+                ...state,
+                tvSidebarStatus: value,
             };
 
         default:
