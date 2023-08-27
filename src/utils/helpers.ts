@@ -346,6 +346,10 @@ export const handleValidity = (validity: string): string => {
     return validity;
 };
 
+const isDecimal = (number: number) => {
+    return String(number).indexOf(".") < 0 ? false : true
+}
+
 export const abbreviateNumber = (number: number) => {
     //
 
@@ -366,8 +370,9 @@ export const abbreviateNumber = (number: number) => {
     // scale the number
     const scaled = number / scale;
 
-    // format number and add suffix
-    return scaled.toFixed(2) + suffix;
+    // format number and add suffi
+    
+    return isDecimal(scaled) ? scaled.toFixed(1) + suffix : scaled + suffix;
 };
 
 export const getValidDate = (value: number | string | Date): Date => {

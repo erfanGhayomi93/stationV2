@@ -6,6 +6,7 @@ import { externalTooltipHandler } from '../../../SymbolChart/components/helper';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import useMarketDepth from '../MarketDepth/useMarketDepth';
 
+
 type PluginOptions = {
     yesterdayClosingPrice: number;
 };
@@ -30,7 +31,7 @@ const MarketDepthChart = () => {
 
     const {
         data: { bids, asks },
-        actions: { fetch, subscribe, unsubscribe, reset },
+        actions: { fetch },
     } = useMarketDepth();
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol);
 
@@ -39,39 +40,14 @@ const MarketDepthChart = () => {
     }, [selectedSymbol]);
 
     const buyData = useMemo(() => {
-        const data: HalfRowType[] = [];
-        if (bids.data) {
-            for (const key in bids.data) {
-                if (Array.isArray(bids.data?.[key])) {
-                    const tempObj: HalfRowType = { price: 0, volume: 0, count: 0, percent: 0 };
-                    tempObj['price'] = bids.data[key][0];
-                    tempObj['volume'] = bids.data[key][1];
-                    tempObj['count'] = bids.data[key][2];
-                    tempObj['percent'] = Number(bids.data[key][1]) / Number(bids.totalQuantity) || 0;
-                    data.push(tempObj);
-                }
-            }
-        }
-        
-        return data.sort((a, b) => +b.price - +a.price);
+        if (!bids.data) return [];
+        const data = Object.entries(bids.data).map(([key, value]) => ({ ...(value as HalfRowType) }));
+        return data;
     }, [bids]);
 
     const sellData = useMemo(() => {
-        const data: HalfRowType[] = [];
-
-        if (asks.data) {
-            for (const key in asks.data) {
-                if (Array.isArray(asks.data?.[key])) {
-                    const tempObj: HalfRowType = { price: 0, volume: 0, count: 0, percent: 0 };
-                    tempObj['price'] = asks.data[key][0];
-                    tempObj['volume'] = asks.data[key][1];
-                    tempObj['count'] = asks.data[key][2];
-                    tempObj['percent'] = Number(asks.data[key][1]) / Number(asks.totalQuantity) || 0;
-                    data.push(tempObj);
-                }
-            }
-        }
-
+        if (!asks.data) return [];
+        const data = Object.entries(asks.data).map(([key, value]) => ({ ...(value as HalfRowType) }));
         return data;
     }, [asks]);
 
@@ -180,16 +156,16 @@ const MarketDepthChart = () => {
 
     const aggregateQuantity = (data: any, side: 'buy' | 'sell') => {
         const deepCopyOfData: any = JSON.parse(JSON.stringify(data));
-        if (side === 'buy') deepCopyOfData.sort((a: any, b: any) => b.items[0] - a.items[0]);
-        else deepCopyOfData.sort((a: any, b: any) => a.items[0] - b.items[0]);
+        if (side === 'buy') deepCopyOfData.sort((a: any, b: any) => b[0] - a[0]);
+        else deepCopyOfData.sort((a: any, b: any) => a[0] - b[0]);
 
         const result: any[] = [];
         const qty = new Map<number, number>();
 
         for (let i = 0; i < deepCopyOfData.length; i++) {
             const row = deepCopyOfData[i];
-            const price = row.items[0];
-            const volume = row.items[1];
+            const price = row[0];
+            const volume = row[1];
 
             const obj: any = {
                 price,
@@ -213,7 +189,7 @@ const MarketDepthChart = () => {
                 datasets: [
                     {
                         label: 'خرید',
-                        data: buyData,
+                        data: aggregateQuantity(buyData, 'buy'),
                         borderColor: 'rgb(21, 183, 97)',
                         backgroundColor: 'rgb(21, 183, 97, 0.1)',
                         fill: true,
@@ -229,7 +205,7 @@ const MarketDepthChart = () => {
                     },
                     {
                         label: 'فروش',
-                        data: sellData,
+                        data: aggregateQuantity(sellData, 'sell'),
                         indexAxis: 'x',
                         borderColor: 'rgb(224, 64, 64)',
                         backgroundColor: 'rgba(224, 64, 64, 0.1)',
@@ -366,9 +342,9 @@ const MarketDepthChart = () => {
     }, [theme]);
 
     useEffect(() => {
-        if (!buyData && !sellData) return;
+        if (!buyData.length && !sellData.length) return;
 
-        updateChartData(buyData, sellData);
+        updateChartData(aggregateQuantity(buyData, 'buy'), aggregateQuantity(sellData, 'sell'));
     }, [buyData, sellData]);
 
     useEffect(() => {
