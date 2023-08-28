@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppValues } from 'src/redux/hooks';
-import useMarketDepth from './useMarketDepth';
 import HalfRow from '../HalfRow';
+import { useMarketDepthState } from '../../context';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 type HalfRowType = {
     price: number;
@@ -13,6 +14,9 @@ type HalfRowType = {
 
 const MarketDepth = () => {
     //
+    const {
+        marketDepthData: { asks, bids, isLoading },
+    } = useMarketDepthState();
 
     const {
         option: { selectedSymbol },
@@ -24,11 +28,6 @@ const MarketDepth = () => {
             highThreshold: data?.symbolData?.highThreshold,
         }),
     });
-
-    const {
-        data: { bids, asks },
-        actions: { fetch, subscribe, unsubscribe, reset },
-    } = useMarketDepth();
 
     const buyData = useMemo(() => {
         const data: HalfRowType[] = [];
@@ -76,50 +75,43 @@ const MarketDepth = () => {
         [data],
     );
 
-    useEffect(() => {
-        fetch(selectedSymbol).then(subscribe);
-
-        return () => {
-            reset();
-            unsubscribe();
-        };
-    }, [selectedSymbol]);
-    
     return (
-        <div className="grid grid-cols-2 grid-rows-1 overflow-auto  h-full" style={{ overflow: 'overlay' }}>
-            <div className=" dark:border-D-gray-400 border-L-gray-400">
-                {buyData.map(({ count, price, volume, percent }, inx) => {
-                    return (
-                        <HalfRow
-                            key={price}
-                            mode="Buy"
-                            price={price}
-                            volume={volume}
-                            count={count}
-                            isOdd={inx % 2 === 0}
-                            isInRange={isPriceInRange(price)}
-                            percent={percent}
-                        />
-                    );
-                })}
+        <WidgetLoading spining={isLoading}>
+            <div className="grid grid-cols-2 grid-rows-1 overflow-auto  h-full" style={{ overflow: 'overlay' }}>
+                <div className=" dark:border-D-gray-400 border-L-gray-400">
+                    {buyData.map(({ count, price, volume, percent }, inx) => {
+                        return (
+                            <HalfRow
+                                key={price}
+                                mode="Buy"
+                                price={price}
+                                volume={volume}
+                                count={count}
+                                isOdd={inx % 2 === 0}
+                                isInRange={isPriceInRange(price)}
+                                percent={percent}
+                            />
+                        );
+                    })}
+                </div>
+                <div className="w-full border-r h-full dark:border-D-gray-400 border-L-gray-400">
+                    {sellData.map(({ count, price, volume, percent }, inx) => {
+                        return (
+                            <HalfRow
+                                key={price}
+                                mode="Sell"
+                                price={price}
+                                volume={volume}
+                                count={count}
+                                isOdd={inx % 2 === 0}
+                                isInRange={isPriceInRange(price)}
+                                percent={percent}
+                            />
+                        );
+                    })}
+                </div>
             </div>
-            <div className="w-full border-r h-full dark:border-D-gray-400 border-L-gray-400">
-                {sellData.map(({ count, price, volume, percent }, inx) => {
-                    return (
-                        <HalfRow
-                            key={price}
-                            mode="Sell"
-                            price={price}
-                            volume={volume}
-                            count={count}
-                            isOdd={inx % 2 === 0}
-                            isInRange={isPriceInRange(price)}
-                            percent={percent}
-                        />
-                    );
-                })}
-            </div>
-        </div>
+        </WidgetLoading>
     );
 };
 

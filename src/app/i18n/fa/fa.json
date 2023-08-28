@@ -51,7 +51,8 @@
         "loading": "در حال دریافت اطلاعات" ,
         "no_data": "موردی برای نمایش وجود ندارد",
         "cancel": "لغو",
-		"save": "ذخیره"
+		"save": "ذخیره",
+        "rial": "ریال"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -315,11 +316,13 @@
         "showMarketDepth": "نمایش عمق بازار",
         "closeMarketDepth": "بستن عمق بازار",
         "showDepthChart": "نمایش نمودار عمق",
-        "closeDepthChart": "بستن نمودار عمق"
+        "closeDepthChart": "بستن نمودار عمق",
+        "depthChart": "نمودار عمق"
      },
      "Symbol": {
         "symbol" : "نماد",
         "volume" : "حجم",
+        "lastTrade": "آخرین معامله",
         "lastTradedPrice" : "آخرین قیمت",
         "lastTradedPercent" : "درصد تغییر",
         "offer": "عرضه",

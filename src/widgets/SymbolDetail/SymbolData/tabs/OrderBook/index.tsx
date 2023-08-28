@@ -5,12 +5,31 @@ import OrderBookHeader from './components/OrderBookHeader';
 import Best5Row from './components/Best5Row';
 import MarketDepth from './components/MarketDepth';
 import MarketDepthChart from './components/MarketDepthChart';
+import Kucoin from './components/Kucoin';
 
 const OrderBook = () => {
     //
-    const [orderBookViewMode, setOrderBookViewMode] = useState<'row' | 'column'>('column');
+    const [orderBookViewMode, setOrderBookViewMode] = useState<'row' | 'column'>('row');
     const [isMarketDepthOpen, setIsMarketDepthOpen] = useState<boolean>(false);
-    const [isDepthChartOpen, setIsDepthChartOpen] = useState<boolean>(false);
+    const [isDepthChartOpen, setIsDepthChartOpen] = useState<boolean>(true);
+
+    const toggleMarketDepth = () => {
+        setIsMarketDepthOpen(!isMarketDepthOpen);
+        setOrderBookViewMode('row');
+    };
+
+    const toggleDepthChart = () => {
+        setIsDepthChartOpen(!isDepthChartOpen);
+    };
+
+    const handleColumnView = () => {
+        setOrderBookViewMode('column');
+        setIsMarketDepthOpen(true);
+    };
+
+    const handleRowView = () => {
+        setOrderBookViewMode('row');
+    };
 
     return (
         <div className={clsx('w-full pt-2  h-full grid   grid-rows-min-one relative  text-1.2  ')}>
@@ -18,14 +37,21 @@ const OrderBook = () => {
                 orderBookViewMode={orderBookViewMode}
                 isMarketDepthOpen={isMarketDepthOpen}
                 isDepthChartOpen={isDepthChartOpen}
-                toggleOrderBookView={() => setOrderBookViewMode((pre) => (pre === 'column' ? 'row' : 'column'))}
-                toggleMarketDepth={() => setIsMarketDepthOpen(!isMarketDepthOpen)}
-                toggleDepthChart={() => setIsDepthChartOpen(!isDepthChartOpen)}
+                toggleMarketDepth={toggleMarketDepth}
+                toggleDepthChart={toggleDepthChart}
+                handleColumnView={handleColumnView}
+                handleRowView={handleRowView}
             />
-            <div>
-                <OrderBookHeader />
-                {isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}
-                {isDepthChartOpen && orderBookViewMode === 'column' && <MarketDepthChart />}
+            <div className="flex flex-col">
+                {orderBookViewMode === 'row' ? (
+                    <>
+                        <OrderBookHeader />
+                        {isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}
+                        {isDepthChartOpen && <MarketDepthChart />}
+                    </>
+                ) : (
+                    <Kucoin isDepthChartOpen={isDepthChartOpen} />
+                )}
             </div>
         </div>
     );

@@ -20,9 +20,9 @@ const Best5Row = () => {
         },
     });
 
-    useEffect(()=>{
-        refetch()
-    },[])
+    useEffect(() => {
+        refetch();
+    }, []);
 
     const setTotalVolume = () => {
         if (orders) {

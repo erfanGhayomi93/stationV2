@@ -4,8 +4,7 @@ import { useAppValues } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { externalTooltipHandler } from '../../../SymbolChart/components/helper';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import useMarketDepth from '../MarketDepth/useMarketDepth';
-
+import { useMarketDepthState } from '../../context';
 
 type PluginOptions = {
     yesterdayClosingPrice: number;
@@ -29,15 +28,11 @@ const MarketDepthChart = () => {
         option: { selectedSymbol },
     } = useAppValues();
 
-    const {
-        data: { bids, asks },
-        actions: { fetch },
-    } = useMarketDepth();
-    const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol);
+    const { data: symbolData } = useSymbolGeneralInfo<SymbolGeneralInfoType>(selectedSymbol);
 
-    useEffect(() => {
-        fetch(selectedSymbol);
-    }, [selectedSymbol]);
+    const {
+        marketDepthData: { asks, bids, isLoading },
+    } = useMarketDepthState();
 
     const buyData = useMemo(() => {
         if (!bids.data) return [];
@@ -144,11 +139,8 @@ const MarketDepthChart = () => {
 
         if (!symbolData) return initialData;
 
-        //@ts-ignore
         initialData.yesterdayClosingPrice = symbolData?.symbolData?.yesterdayClosingPrice ?? 0;
-        //@ts-ignore
         initialData.highThreshold = symbolData?.symbolData?.highThreshold ?? 0;
-        //@ts-ignore
         initialData.lowThreshold = symbolData?.symbolData?.lowThreshold ?? 0;
 
         return initialData;
@@ -350,14 +342,6 @@ const MarketDepthChart = () => {
     useEffect(() => {
         const chartAPI = chart.current;
         if (!chartAPI || !yesterdayClosingPrice) return;
-
-        try {
-            // @ts-ignore
-            // chartAPI.options.plugins.chartAreaBorder?.yesterdayClosingPrice = yesterdayClosingPrice;
-            // chartAPI.update();
-        } catch (e) {
-            //
-        }
     }, [yesterdayClosingPrice]);
 
     return (
