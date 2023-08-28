@@ -54,10 +54,15 @@ const apiRoutes = {
         Get: baseUrl + '/GTOrder/v1/GTTodayOrdersList',
         Delete: baseUrl + '/GTOrder/v1/SingleDelete',
         Trades: baseUrl + '/GTOrder/v1/Trades',
+        OfflineRequests: baseUrl + '/GTOrder/v1/TradeRequests',
+
     },
     SupervisorMessage: {
         Get: `${baseUrl}/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: `${baseUrl}/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+    },
+    Messages: {
+        AdminMessage: `${window.REACT_APP_COMMON_PATH}/Message/v1/AdminMessage`
     },
     draft: {
         Create: baseUrl + '/GTOrderDraft/v1/Create',

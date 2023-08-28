@@ -45,10 +45,15 @@
         "phoneNumber": "شماره تلفن",
         "customerInformation": "اطلاعات مشتری",
         "customerPortfolio": "پورتفوی مشتری",
+        "opening":"بازگشایی",
+        "stop":"توقف",
+        "limitation":"محدودیت",
+        "offer":"عرضه",
         "loading": "در حال دریافت اطلاعات" ,
         "no_data": "موردی برای نمایش وجود ندارد",
         "cancel": "لغو",
-		"save": "ذخیره"
+		"save": "ذخیره",
+        "rial": "ریال"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -188,6 +193,7 @@
         "time":"زمان",
         "date":"تاریخ",
         "count":"تعداد",
+        "volume": "حجم",
         "price":"قیمت",
         "finalCost":"بهای تمام شده",
         "actions":"عملیات",
@@ -311,11 +317,13 @@
         "showMarketDepth": "نمایش عمق بازار",
         "closeMarketDepth": "بستن عمق بازار",
         "showDepthChart": "نمایش نمودار عمق",
-        "closeDepthChart": "بستن نمودار عمق"
+        "closeDepthChart": "بستن نمودار عمق",
+        "depthChart": "نمودار عمق"
      },
      "Symbol": {
         "symbol" : "نماد",
         "volume" : "حجم",
+        "lastTrade": "آخرین معامله",
         "lastTradedPrice" : "آخرین قیمت",
         "lastTradedPercent" : "درصد تغییر",
         "offer": "عرضه",

@@ -29,7 +29,7 @@ const AdditionalData = () => {
 
     return (
         <div className="w-full h-full">
-            <div className="w-full flex flex-col text-L-gray-500 dark:text-L-gray-500">
+            <div className="w-full mb-6 flex flex-col text-L-gray-500 dark:text-L-gray-500">
                 <div className="flex items-center my-4 ">
                     <div className="w-5/12">
                         <ProgressBar

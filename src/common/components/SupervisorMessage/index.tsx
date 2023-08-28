@@ -9,6 +9,8 @@ import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
 import SearchInput from './components/SearchInput';
 import { WatcherMessages } from './components/WatcherMessages';
+import AdminMessages from './components/AdminMessages';
+
 
 type SUpervisorMassage = {
     flagToggle: boolean;
@@ -89,7 +91,9 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                 <WatcherMessages data={MessagesSuppervisor.data} searchValue={searchValue} />
                             </Tab.Panel>
                             <Tab.Panel>پیاده سازی نشده</Tab.Panel>
-                            <Tab.Panel>پیاده سازی نشده</Tab.Panel>
+                            <Tab.Panel>
+                                <AdminMessages />
+                            </Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
                 </div>

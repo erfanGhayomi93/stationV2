@@ -263,7 +263,7 @@ const SymbolCandleChart = ({ data, date }: SymbolCandleChartProps) => {
                     },
                 },
             },
-        }) as ChartJs<'candlestick', SymbolChartType[], number>;
+        }) as ChartJs<'candlestick', any[], number>;
 
         updateChartColor();
     }, []);

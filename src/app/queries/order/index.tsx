@@ -58,6 +58,16 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
     return useMutation(updateOrderFn, options);
 };
 
+////////////Offline Requests///////////
+
+export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
+    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });
+    return data;
+};
+
+export const useGetOfflineRequests = (params: IGTOfflineTradesRequests, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
+    useQuery<IGTOfflineTradesResponse>(['getOfflineTrades'], () => getOfflineRequests(params as IGTOfflineTradesRequests), { ...options });
+
 ///////////Trades//////////
 
 export const getTradesLists = async (params: IGTTradesListRequest) => {
@@ -67,9 +77,10 @@ export const getTradesLists = async (params: IGTTradesListRequest) => {
     return data;
 };
 
+
 export const useTradesLists = <T = IGTTradesResponseType,>(
     param: IGTTradesListRequest,
     options?: Omit<UseQueryOptions<IGTTradesResponseType, unknown, IGTTradesResponseType, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
 ) => {
-    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), {...options});
+    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options });
 };

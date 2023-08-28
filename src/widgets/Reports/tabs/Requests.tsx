@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { valueFormatterSide } from 'src/utils/helpers';
@@ -15,17 +16,15 @@ type RequestData = {
 };
 
 const Requests = () => {
-    // const { data } = useGetOrders('side=None' , {
-    //     select : (data : RequestData[]) => data.map((item : RequestData) => ({
-    //         customerTitle : item.customerTitle,
-    //         symbolISIN : item.symbolISIN,
-    //         orderSide : item.orderSide,
-    //         quantity : item.quantity,
-    //         price : item.price,
-    //         sumExecuted : item.sumExecuted,
-    //         valuePosition : item.valuePosition,
-    //     }))
-    // });
+    //
+    const { data } = useGetOfflineRequests(
+        {},
+        {
+            onSuccess: (data) => {
+                console.log(data);
+            },
+        },
+    );
 
     const columns = useMemo(
         (): ColDefType<RequestData>[] => [

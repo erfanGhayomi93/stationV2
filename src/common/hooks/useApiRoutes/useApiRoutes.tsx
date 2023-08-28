@@ -90,10 +90,14 @@ export const Apis = () => ({
         GroupLists: baseUrl + '/Order/v1/GroupOrdersList',
         Modify: baseUrl + '/Order/v1/Modify',
         Trades: baseUrl + '/Order/v1/Trades',
+        OfflineRequests: baseUrl + '/GTOrder/v1/TradeRequests'
     },
     SupervisorMessage: {
         Get: baseUrl + `/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: baseUrl + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+    },
+    Messages: {
+        AdminMessage: getCommonUrl() + `/Message/v1/AdminMessage` 
     },
     draft: {
         Create: baseUrl + '/OrderDraft/v1/Create',
