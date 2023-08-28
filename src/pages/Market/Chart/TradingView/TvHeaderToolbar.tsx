@@ -510,6 +510,9 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				lastTradedPrice: symbol.lastTradedPrice,
 			}
 
+			// console.log("symbolItem", symbolItem)
+			// console.log("localSymbolSearchHistory", localSymbolSearchHistory)
+
 			/* Exists */
 			const symbolIndex = localSymbolSearchHistory.findIndex(({ symbolISIN }) => symbolISIN === symbolItem.symbolISIN);
 			if (symbolIndex > -1) {
@@ -847,7 +850,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					</button>
 				</li>
 
-				<li  className='flex items-center justify-center'>
+				<li className='flex items-center justify-center'>
 					<Dropdown<TvStudyTemplateListType | Record<'id' | 'label', string>>
 						data={indicatorsTemplates}
 						onOpen={refetchSavedStudyTemplates}

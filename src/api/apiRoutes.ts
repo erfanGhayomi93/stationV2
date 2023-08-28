@@ -18,7 +18,7 @@
 // const PushEngine = window.REACT_APP_PUSHENGINE_PATH; // "http://192.168.40.8:5800";
 // const ClubUrl = window.REACT_APP_CLUB_PATH; //http://192.168.40.8:19000;
 
-const baseUrl = "https://gtapi-preprd.ramandtech.com"
+const baseUrl = 'https://gtapi-preprd.ramandtech.com';
 
 const apiRoutes = {
     OAuthApi: {
@@ -86,26 +86,25 @@ const apiRoutes = {
         GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
     },
     Portfolio: {
-        CustomerPortfolio: baseUrl + '/GTPortfolio/v1/GTPortfolios'
+        CustomerPortfolio: baseUrl + '/GTPortfolio/v1/GTPortfolios',
     },
     Setting: {
         GetSetting: `${baseUrl}/Setting/v1/GTGetSettings`,
     },
-    tvChart : {
-        index : `${baseUrl}/TV/v1` ,
-        config : `${baseUrl}/TV/v1/config` ,
-        symbols : `${baseUrl}/TV/v1/symbols` ,
-        search : `${baseUrl}/TV/v1/search` ,
-        history : `${baseUrl}/TV/v1/history` ,
-        marks : `${baseUrl}/TV/v1/marks` ,
-        charts : `${baseUrl}/TV/v1/1.1/charts` ,
-        studyTemplate : `${baseUrl}/TV/v1/1.1/study_templates` ,
-        save : `${baseUrl}/TV/v1/1.1/charts` ,
-        delete : `${baseUrl}/TV/v1/1.1/charts` ,
-        loadOne : `${baseUrl}/TV/v1/1.1/charts` ,
-        loadAll : `${baseUrl}/TV/v1/1.1/charts` ,
-    }
-
+    tvChart: {
+        index: `${baseUrl}/TV/v1`,
+        config: `${baseUrl}/TV/v1/config`,
+        symbols: `${baseUrl}/TV/v1/symbols`,
+        search: `${baseUrl}/TV/v1/search`,
+        history: `${baseUrl}/TV/v1/history`,
+        marks: `${baseUrl}/TV/v1/marks`,
+        charts: `${baseUrl}/TV/v1/1.1/charts`,
+        studyTemplate: `${baseUrl}/TV/v1/1.1/study_templates`,
+        save: `${baseUrl}/TV/v1/1.1/charts`,
+        delete: `${baseUrl}/TV/v1/1.1/charts`,
+        loadOne: `${baseUrl}/TV/v1/1.1/charts`,
+        loadAll: `${baseUrl}/TV/v1/1.1/charts`,
+    },
 };
 
 export default apiRoutes;

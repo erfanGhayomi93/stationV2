@@ -1,8 +1,7 @@
-// import { useGetEventPDFQuery } from 'api/queries/getEventQueries';
-// import routes from 'api/routes';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 type CardEventType = {
 	data: GetEventType
@@ -15,10 +14,10 @@ const CardEvent = ({ data }: CardEventType) => {
 			headers.append("Accept", "application/json, text/plain, */*");
 			headers.append("Accept-Language", "en-US,en;q=0.9,fa;q=0.8");
 
-			const client_id = Cookies.get("client_id");
+			const client_id = Cookies.get("ROS_client_id");
 			if (client_id) headers.append("Authorization", "Bearer " + client_id);
 
-			fetch(""+ '?' + new URLSearchParams({ id: String(data.id) }), {
+			fetch(Apis().event.getAttachment + '?' + new URLSearchParams({ id: String(data.id) }), {
 				method: "GET",
 				headers: headers,
 				redirect: "follow",

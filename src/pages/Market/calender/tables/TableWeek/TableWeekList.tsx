@@ -3,6 +3,7 @@ import clsx from "clsx";
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import CardEvent from "../../components/CardEvent";
+import { useGetEventQuery } from "src/app/queries/bourseCalender";
 
 type TableWeekListType = {
 	date: dayjs.Dayjs | null,
@@ -12,15 +13,14 @@ type TableWeekListType = {
 }
 
 const TableWeekList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableWeekListType) => {
-	// const { data } = useGetEventQuery([
-	// 	"getEventWeekOnCalender", {
-	// 		fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-	// 		toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-	// 		forUser: isAllSelected
-	// 	}
-	// ]);
+	const { data } = useGetEventQuery(
+		{
+			fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+			toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+			forUser: isAllSelected
+		}
+	);
 
-	const data : any = {result : []}
 
 	const filteredEvents = useMemo(() => {
 
@@ -38,7 +38,7 @@ const TableWeekList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 			[getDaysAsString(0)]: [],
 		};
 
-		data?.result.forEach((item : any) => {
+		data?.result.forEach((item: any) => {
 			const date = dayjs(item.date).calendar("jalali");
 			const d = date.format("D");
 

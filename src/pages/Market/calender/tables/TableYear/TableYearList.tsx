@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import CardEvent from '../../components/CardEvent';
 import { yearMonthsName } from 'src/constant/datepicker';
+import { useGetEventQuery } from 'src/app/queries/bourseCalender';
 
 type TableYearListType = {
 	date: dayjs.Dayjs | null,
@@ -15,19 +16,17 @@ const TableYearList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 	const startOfMonth = useMemo(() => (date?.startOf("year")), [date]);
 	const endOfMonth = useMemo(() => (date?.endOf("year")), [date]);
 
-	// const { data } = useGetEventQuery([
-	// 	"getEventWeekOnCalender", {
-	// 		fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-	// 		toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-	// 		forUser: isAllSelected
-	// 	}
-	// ]);
-
-	const data : any = {result : []}
+	const { data } = useGetEventQuery(
+		{
+			fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+			toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+			forUser: isAllSelected
+		}
+	);
 
 
 	const filteredEvents = useMemo(() => yearMonthsName.map((_, indMonth) => {
-		return data?.result.filter((item : any) => {
+		return data?.result.filter((item: any) => {
 			/* top filter */
 			if (!isMeetingFiltered && item.type === "Meeting") return false;
 			if (!isProfitPaymentFiltered && item.type === "InterestPayment") return false;
@@ -52,7 +51,7 @@ const TableYearList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 					<div>
 						<div className='p-4 border border-L-gray-200 dark:border-D-gray-200 text-xs flex flex-wrap items-center text-L-gray-700 dark:text-D-gray-700'>
 							{
-								month.map((card : any) => (
+								month.map((card: any) => (
 									<CardEvent data={card} key={card.id} />
 								))
 							}
