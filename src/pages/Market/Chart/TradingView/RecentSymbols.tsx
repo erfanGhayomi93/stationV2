@@ -48,20 +48,19 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 	return (
 		<li
-			style={{ minWidth: '7.5rem' }}
-			className='pl-2 border-l border-L-gray-200 dark:border-D-gray-200'
+			className='pl-1 border-l border-L-gray-300 dark:border-D-gray-300 min-w-[115px] h-full box-border'
 		>
 			<div
 				onMouseDown={onMouseDown}
 				tabIndex={-1}
 				role="button"
-				style={{ minHeight: '2.5rem', maxHeight: '2.5rem' }}
-				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200 cursor-pointer flex flex-col justify-center font-medium px-5 gap-1 transition-colors', active && 'bg-L-gray-200 dark:bg-D-gray-200')}
+				// style={{ minHeight: '2.7rem', maxHeight: '2.7rem' }}
+				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200  max-h-full cursor-pointer flex flex-col justify-center font-medium gap-x-2 transition-colors', active && 'bg-L-gray-300 dark:bg-D-gray-300')}
 			>
-				<span className='text-L-gray-700 dark:text-D-gray-700 text-base'>{symbol.symbolTitle}</span>
+				<span className='text-L-gray-700 dark:text-D-gray-700 text-sm pt-1 pr-1'>{symbol.symbolTitle}</span>
 
 				{(('lastTradedPrice' in symbol) && (typeof symbol.lastTradedPrice === 'number')) && (
-					<span className='flex gap-1 text-L-gray-400 dark:text-D-gray-600 text-sm'>
+					<span className='flex gap-1 text-L-gray-600 dark:text-D-gray-600 text-sm pb-1 pr-1'>
 						<span
 							className={clsx({
 								'text-L-success-300': oldPrice < symbol.lastTradedPrice,
@@ -79,10 +78,10 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 						role="button"
 						type='button'
 						onClick={onDeleteSymbol}
-						style={{ left: '2px', top: '2px' }}
-						className='absolute text-L-gray-600 dark:text-D-gray-600 rounded hover:bg-L-gray-300 dark:hover:bg-D-gray-300'
+						style={{ left: '4px', top: '4px' }}
+						className='absolute text-L-gray-500 dark:text-D-gray-500 rounded hover:bg-L-gray-300 dark:hover:bg-D-gray-300'
 					>
-						<CloseIcon width='18' height='18' />
+						<CloseIcon width='12' height='12' />
 					</button>
 				)}
 			</div>
@@ -104,6 +103,11 @@ const RecentSymbols = () => {
 	const {setState} = useTradingState()
 
 	const selectedSymbol = useAppSelector(getSelectedSymbol);
+// 
+	// useEffect(() => {
+	//   console.log("recentSymbols",recentSymbols)
+	// }, [recentSymbols])
+	
 
 	const onSymbolUpdate = (updateInfo: ItemUpdate) => {
 		try {
@@ -223,7 +227,7 @@ const RecentSymbols = () => {
 
 	return (
 		<div style={{ minHeight: '3rem', maxHeight: '3rem' }} className='flex justify-between items-center bg-L-basic dark:bg-D-basic rounded pl-4'>
-			<div className='flex items-center'>
+			<div className='flex items-center h-full'>
 				<Tippy placement='bottom' content={t('Tooltip.tv_open_symbol_search_modal')}>
 					<button
 						role="button"
@@ -231,13 +235,13 @@ const RecentSymbols = () => {
 						className='flex items-center justify-center text-L-gray-600 dark:text-D-gray-600 px-4'
 						onClick={openSearchModal}
 					>
-						<TvSymbolSearchSVG width="36" height="36"/>
+						<TvSymbolSearchSVG width="32" height="32"/>
 					</button>
 				</Tippy>
 
 				{Array.isArray(recentSymbols) && recentSymbols.length > 0
 					? (
-						<ul className='flex items-center py-1 gap-1'>
+						<ul className='flex items-center py-1 gap-1 h-full'>
 							{recentSymbols.map((symbol, index) => (
 								<Symbol
 									key={index}

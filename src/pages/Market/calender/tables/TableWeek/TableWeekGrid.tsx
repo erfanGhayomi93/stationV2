@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import CardEvent from '../../components/CardEvent';
 import { AlarmClock } from "src/common/icons";
+import { useGetEventQuery } from "src/app/queries/bourseCalender";
 
 type TableWeekGridType = {
 	date: dayjs.Dayjs | null,
@@ -13,15 +14,13 @@ type TableWeekGridType = {
 }
 
 const TableWeekGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableWeekGridType) => {
-	// const { data } = useGetEventQuery([
-	// 	"getEventWeekOnCalender", {
-	// 		fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-	// 		toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-	// 		forUser: isAllSelected
-	// 	}
-	// ]);
-
-	const data : any = {result : []}
+	const { data } = useGetEventQuery(
+		{
+			fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+			toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+			forUser: isAllSelected
+		}
+	);
 
 	const hourRanges = useMemo(() => ([8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]), []);
 
@@ -68,7 +67,7 @@ const TableWeekGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 
 						})} key={index}>{col?.format("dddd MM/DD")}</div>
 					))}
-					        
+
 				</div>
 				<div className='flex flex-col overflow-auto border border-L-gray-200 dark:border-D-gray-200 h-full'>
 					{hourRanges.map((hourRange) => (
@@ -79,7 +78,7 @@ const TableWeekGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 							{dayRanges.map((dayRange, innerIndex) => (
 								<div key={innerIndex} className={clsx('flex-1')}>
 									<div className='w-full h-full p-3 border border-L-gray-200 dark:border-D-gray-200 text-xs flex flex-wrap gap-2 items-start content-start align-top text-L-gray-700 dark:text-D-gray-700'>
-										{data?.result?.filter((item : any) => filterByHourAndDay(item, dayRange, hourRange))?.map((item : any) => (
+										{data?.result?.filter((item: any) => filterByHourAndDay(item, dayRange, hourRange))?.map((item: any) => (
 											<CardEvent key={item.id} data={item} />
 										))}
 									</div>

@@ -375,27 +375,27 @@ export declare type SymbolSearchCompleteOverrideFunction = (symbol: string) => P
 export declare type SymbolType = "stock" | "index" | "forex" | "futures" | "bitcoin" | "crypto" | "undefined" | "expression" | "spread" | "cfd" | "economic" | "equity" | "dr" | "bond" | "right" | "warrant" | "fund" | "structured";
 export declare type TextInputFieldValidator = (value: string) => InputFieldValidatorResult;
 export declare type ThemeName = "Light" | "Dark";
-export declare type TickMarkType =
-	/**
-	 * The start of the year (e.g. it's the first tick mark in a year).
-	 */
-	"Year"
-	/**
-	 * The start of the month (e.g. it's the first tick mark in a month).
-	 */
-	| "Month"
-	/**
-	 * A day of the month.
-	 */
-	| "DayOfMonth"
-	/**
-	 * A time without seconds.
-	 */
-	| "Time"
-	/**
-	 * A time with seconds.
-	 */
-	| "TimeWithSeconds";
+export declare type TickMarkType = 
+/**
+ * The start of the year (e.g. it's the first tick mark in a year).
+ */
+"Year"
+/**
+ * The start of the month (e.g. it's the first tick mark in a month).
+ */
+ | "Month"
+/**
+ * A day of the month.
+ */
+ | "DayOfMonth"
+/**
+ * A time without seconds.
+ */
+ | "Time"
+/**
+ * A time with seconds.
+ */
+ | "TimeWithSeconds";
 export declare type TimeFrameValue = TimeFramePeriodBack | TimeFrameTimeRange;
 export declare type Timezone = "Etc/UTC" | CustomTimezones;
 export declare type TimezoneId = CustomTimezones | "Etc/UTC" | "exchange";
@@ -723,7 +723,7 @@ export interface ChartMetaInfo {
 	timestamp: number;
 }
 export interface ChartingLibraryWidgetConstructor {
-	new(options: ChartingLibraryWidgetOptions | TradingTerminalWidgetOptions): IChartingLibraryWidget;
+	new (options: ChartingLibraryWidgetOptions | TradingTerminalWidgetOptions): IChartingLibraryWidget;
 }
 export interface ChartingLibraryWidgetOptions {
 	/** @deprecated */
@@ -1334,7 +1334,6 @@ export interface IChartWidgetApi {
 }
 export interface IChartingLibraryWidget {
 	headerReady(): Promise<void>;
-	setTimeFrame(value: { val: { value: string; type: string }; res: string }): void;
 	onChartReady(callback: EmptyCallback): void;
 	onGrayedObjectClicked(callback: (obj: GrayedObject) => void): void;
 	onShortcut(shortCut: string | number | (string | number)[], callback: EmptyCallback): void;
@@ -1351,23 +1350,7 @@ export interface IChartingLibraryWidget {
 	load(state: object, extendedData?: SavedStateMetaInfo): void;
 	getSavedCharts(callback: (chartRecords: SaveLoadChartRecord[]) => void): void;
 	loadChartFromServer(chartRecord: SaveLoadChartRecord): void;
-	saveChartToServer(onComplete?: (symbol: {
-		uid: string
-		data: {
-			resolution: string
-			symbol_type: string
-			exchange: string
-			listed_exchange: string
-			symbol: string
-			short_name: string
-			legs: string
-			name: string
-			description: string
-			charts_symbols: string
-			is_realtime: string
-			content: string
-		}
-	}) => void, onFail?: EmptyCallback, options?: SaveChartToServerOptions): void;
+	saveChartToServer(onComplete?: EmptyCallback, onFail?: EmptyCallback, options?: SaveChartToServerOptions): void;
 	removeChartFromServer(chartId: string, onCompleteCallback: EmptyCallback): void;
 	onContextMenu(callback: (unixTime: number, price: number) => ContextMenuItem[]): void;
 	createButton(options?: CreateButtonOptions): HTMLElement;
@@ -2244,7 +2227,7 @@ export interface SaveChartToServerOptions {
 	defaultChartName?: string;
 }
 export interface SaveLoadChartRecord {
-	id: number;
+	id: string;
 	name: string;
 	image_url: string;
 	modified_iso: number;
@@ -2334,9 +2317,6 @@ export interface StudyTemplateMetaInfo {
 	name: string;
 }
 export interface SubscribeEventsMap {
-	hideAllMarks: (isHidden: boolean) => void;
-	on_save_chart: (data: Partial<SaveLoadChartRecord>) => void;
-	/* CUSTOM */
 	toggle_sidebar: (isHidden: boolean) => void;
 	indicators_dialog: EmptyCallback;
 	toggle_header: (isHidden: boolean) => void;
@@ -2545,4 +2525,4 @@ export type CustomTimezones = "Africa/Cairo" | "Africa/Johannesburg" | "Africa/L
 
 export as namespace TradingView;
 
-export { };
+export {};

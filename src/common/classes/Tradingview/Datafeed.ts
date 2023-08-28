@@ -83,7 +83,6 @@ class Datafeed {
 		try {
 			const data = await this._queryCache.fetchQuery({
 				queryKey: ['tv:config'],
-				staleTime: 6E4,
 				queryFn: async () => {
 					try {
 						const { data } = await AXIOS.get<DatafeedConfiguration>(apiRoutes.tvChart.config);
@@ -107,7 +106,6 @@ class Datafeed {
 			try {
 				const data = await this._queryCache.fetchQuery({
 					queryKey: ['tv:resolveSymbol', symbolISIN],
-					staleTime: 6E4,
 					queryFn: async () => {
 						const { data } = await AXIOS.get<LibrarySymbolInfo & { lastTradedPrice: number }>(apiRoutes.tvChart.symbols, {
 							params: {
@@ -139,7 +137,6 @@ class Datafeed {
 
 			const data = await this._queryCache.fetchQuery({
 				queryKey: ['tv:searchSymbols', params],
-				staleTime: 6E4,
 				queryFn: async () => {
 					const { data } = await AXIOS.get<SearchSymbolResultItem[]>(apiRoutes.tvChart.search, { params });
 					return data;
@@ -233,7 +230,6 @@ class Datafeed {
 
 			const data = await this._queryCache.fetchQuery({
 				queryKey: ['tv:getBars', params],
-				staleTime: 6E4,
 				queryFn: async () => {
 					const { data } = await AXIOS.get<MarksType>(apiRoutes.tvChart.marks, { params });
 

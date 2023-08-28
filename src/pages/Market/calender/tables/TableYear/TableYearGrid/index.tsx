@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import MonthDatePicker from './MonthDatePicker';
+import { useGetEventQuery } from 'src/app/queries/bourseCalender';
 
 type TableYearGridType = {
 	date: dayjs.Dayjs | null,
@@ -15,15 +16,14 @@ const TableYearGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 	const thisYear = useMemo(() => (dayjs(date).year()), [date]); // get the current year
 	const allMonths = useMemo(() => (Array.from({ length: 12 }, (_, index) => dayjs().calendar('jalali').year(thisYear).month(index))), [date]);
 
-	// const { data: dataInYear } = useGetEventQuery([
-	// 	"getEventWeekOnCalender", {
-	// 		fromDate: allMonths[0].startOf("month")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-	// 		toDate: allMonths[11].endOf("month")?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-	// 		forUser: isAllSelected
-	// 	}
-	// ]);
+	const { data: dataInYear } = useGetEventQuery(
+		{
+			fromDate: allMonths[0].startOf("month")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+			toDate: allMonths[11].endOf("month")?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+			forUser: isAllSelected
+		}
+	);
 
-	const dataInYear : any = {result : []}
 
 
 	const filteredDataFromMonth = useMemo(() => {
@@ -42,7 +42,7 @@ const TableYearGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 			"12": [],
 		};
 
-		dataInYear?.result.forEach((item  :any) => {
+		dataInYear?.result.forEach((item: any) => {
 			const monthKey = dayjs(item.date).calendar("jalali").format("M");
 			/* top filter */
 			if (!isMeetingFiltered && item.type === "Meeting") return;

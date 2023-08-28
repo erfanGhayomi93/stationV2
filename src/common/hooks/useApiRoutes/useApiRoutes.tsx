@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    const { data } = useGlobalSettings<any>();
-    // const { data } = useGlobalSettingsMock();
+    // const { data } = useGlobalSettings<any>();
+    const { data } = useGlobalSettingsMock();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -77,6 +77,10 @@ export const Apis = () => ({
     MarketDepth: {
         // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
         Get: baseUrl + '/Symbol/v1/GetMarketDepthV2',
+    },
+    event: {
+        get: baseUrl + '/Calendar/v1/getEvent',
+        getAttachment: baseUrl + '/Calendar/v1/getAttachment',
     },
     Orders: {
         Create: baseUrl + '/Order/v1/Create',
