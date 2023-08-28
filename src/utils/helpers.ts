@@ -346,6 +346,10 @@ export const handleValidity = (validity: string): string => {
     return validity;
 };
 
+const isDecimal = (number: number) => {
+    return String(number).indexOf(".") < 0 ? false : true
+}
+
 export const abbreviateNumber = (number: number) => {
     //
 
@@ -366,14 +370,15 @@ export const abbreviateNumber = (number: number) => {
     // scale the number
     const scaled = number / scale;
 
-    // format number and add suffix
-    return scaled.toFixed(2) + suffix;
+    // format number and add suffi
+    
+    return isDecimal(scaled) ? scaled.toFixed(1) + suffix : scaled + suffix;
 };
 
 export const getValidDate = (value: number | string | Date): Date => {
-	if (value instanceof Date) return value;
+    if (value instanceof Date) return value;
 
-	return new Date(value as string);
+    return new Date(value as string);
 };
 
 export const toEnglishNumber = (str: string): string => {
@@ -409,4 +414,69 @@ export const dateFormatter = (value: string) => {
     }
 
     return matchs.filter(Boolean).join('/');
+};
+
+export const findTitlePage = (pathname: string) => {
+    let path = '';
+    if (pathname === '/') {
+        path = 'home';
+    } else {
+        path = pathname.replace(/^\//, '').toString();
+    }
+
+    document.title = 'آنلاین گروهی - ' + i18next.t(`titlePage.${path}`);
+};
+
+export const getURL = (address: string, params?: Record<string, string>) => {
+    const url = new URL(address);
+
+    const searchParams = new URLSearchParams();
+
+    for (const property in params) {
+        searchParams.append(property, params[property]);
+    }
+
+    url.search = searchParams.toString();
+    return url.toString();
+};
+
+export const downloadCanvasAsImage = (canvas: HTMLCanvasElement, name: string) => {
+    const canvasImage = canvas.toDataURL('image/png');
+
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+
+    xhr.onload = () => {
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = `${name}.png`;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+
+        a.click();
+        a.remove();
+    };
+
+    xhr.open('GET', canvasImage); // This is to download the canvas Image
+
+    xhr.send();
+};
+
+
+export const getAverageDates = (startDate: number, endDate: number, n: number) => {
+	const averageInterval = Math.floor((endDate - startDate) / n);
+	const averageDates: number[] = [];
+
+	const startDateAsTimestamp = new Date(startDate).getTime();
+	for (let i = 0; i < n; i++) {
+		averageDates.push(startDateAsTimestamp + (i * averageInterval));
+	}
+
+	return averageDates;
+};
+
+export const rgbToRgba = (rgb: string, opacity = 1): string => {
+	const rgbValues = rgb.slice(4, rgb.length - 1);
+
+	return `rgba(${rgbValues},${opacity})`;
 };

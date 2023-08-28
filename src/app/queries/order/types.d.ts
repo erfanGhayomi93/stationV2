@@ -1,3 +1,4 @@
+
 type ICustomerIsins = string[];
 interface IOrderRequestType {
     customerISIN?: ICustomerIsins;
@@ -107,14 +108,13 @@ interface IGTOrderListRequest {
 interface IGTTradesListRequest {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType | undefined;
+    Side?: OrderSideType;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
-    OrderStatus?: OrderStatusType | undefined;
     PageNumber: number;
     PageSize: number;
-    Time: string | undefined;
-    CustomerType: CustomerType | undefined;
+    Time?: string;
+    CustomerType?: CustomerType;
     MyStationOnly: boolean;
 }
 
@@ -134,4 +134,51 @@ interface IGTTradesListResultType {
     totalPrice: number;
 }
 
-interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}
+interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> { }
+
+
+interface IGTOfflineTradesRequests {
+    FromDate?: string;
+    ToDate?: string;
+    Side?: OrderSideType;
+    SymbolISIN?: string[];
+    CustomerISIN?: string[];
+    RequestNo?: string;
+    State?: string;
+    TraderId?;
+    MarketType?: string;
+    Channel?: string;
+    PageSize?: number;
+    PageNumber?: number;
+}
+
+
+interface IGTOfflineTradesResult {
+    id: number;
+    traderId: number;
+    bourseCode: string;
+    traderTitle: string;
+    cancellationRequest: boolean,
+    channel: string;
+    customerISIN: string;
+    customerTitle: string;
+    executingStationId: number;
+    executingStationName: string;
+    formNo: number;
+    marketType: string;
+    fund: number;
+    price: number;
+    remainingVolume: number;
+    remainingFund: number;
+    requestExpiration: string;
+    requestDate: string;
+    requestNo: string;
+    requestType: string;
+    symbolISIN: string;
+    state: string;
+    side: string;
+    symbolName: string;
+    volume: number;
+}
+
+interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> {}

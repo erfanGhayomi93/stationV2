@@ -29,7 +29,7 @@ const Details = () => {
             totalNumberOfSharesTraded: data?.symbolData?.totalNumberOfSharesTraded,
             totalTradeValue: data?.symbolData?.totalTradeValue,
             //
-            estimatedEPS: data?.symbolData?.estimatedEPS,
+            estimatedEPS: data?.symbolData?.eps,
             pe: data?.symbolData?.pe,
             sectorPE: data?.symbolData?.sectorPE,
         }),
@@ -61,7 +61,7 @@ const Details = () => {
     ];
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full">
             <DataDisplay items={items} cols={2} />
         </div>
     );

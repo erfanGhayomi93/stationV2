@@ -32,14 +32,6 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
-            agTableIndex: {
-                sortable: false,
-                headerName: t('ag_columns_headerName.row'),
-                field: 'agTableIndex',
-                minWidth: 60,
-                maxWidth: 80,
-                valueGetter: ({ data, node }) => (data.agTableIndex ? data.agTableIndex : Number(node?.rowIndex) + 1),
-            },
             sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
             date: { valueFormatter: ({ value }) => (value ? dayjs(value).calendar('jalali').format('YYYY-MM-DD   HH:mm:ss') : value) },

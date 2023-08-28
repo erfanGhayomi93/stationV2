@@ -76,9 +76,7 @@ const WatchlistContext = () => {
                 }
             })
         },
-    }
-
-    )
+    })
 
 
     const clearTimer = () => {
@@ -87,8 +85,6 @@ const WatchlistContext = () => {
         clearTimeout(timer.current);
         timer.current = null;
     };
-
-    
 
 
 

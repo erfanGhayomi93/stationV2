@@ -5,7 +5,7 @@ type WathclistAction =
     | { type: 'TOGGLE_EDIT_MODE'; value: boolean }
     | { type: 'TOGGLE_ADD_SYMBOL_MODE'; value: boolean }
     | { type: 'CHANGE_IS_SHOW_COLUMN'; value: string[] }
-    | { type: 'SET_COLUMN'; value: ColDefType<IWatchlistSymbolTableType>[] }
+    | { type: 'SET_COLUMN'; value: ColDefType<IGetWatchlistSymbol>[] }
     | { type: 'SET_PageNumber'; value: number }
     | { type: 'SET_MarketUnit_Filter'; value: string }
     | { type: 'SET_Sector_Filter'; value: { id: string; title: string } };
@@ -17,7 +17,7 @@ type WathclistState = {
     addSymbolMode : boolean;
     selectedDefaultWatchlist: IDefaultWatchlistType;
     listShowColumn: string[];
-    column: ColDefType<IWatchlistSymbolTableType>[];
+    column: ColDefType<IGetWatchlistSymbol>[];
     PageNumber: number;
     marketUnit: string;
     sector: { id: string; title: string };

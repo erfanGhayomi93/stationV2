@@ -30,7 +30,7 @@ type IWidgetLoading = {
 const WidgetLoading: FC<IWidgetLoading> = ({ spining, children }) => {
     if (spining) {
         return (
-            <div className="relative">
+            <div className="w-full h-full relative">
                 <div className="absolute inset-0 flex justify-center items-center z-20">
                     <div className="">
                         {/* You can replace this with your own loading spinner */}

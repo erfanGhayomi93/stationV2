@@ -32,5 +32,5 @@
         "typeRoots": ["node_modules/@types", "./typings"]
     },
     "include": ["src", "src/**/*", "./cypress.d.ts", "cypress", "src/**/*.d.ts"],
-    "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*"]
+    "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
 }

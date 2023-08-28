@@ -75,6 +75,37 @@ export { ReactComponent as AddSymbol } from 'src/assets/svg/AddSymbol.svg';
 export { ReactComponent as ArrowDropUp } from 'src/assets/svg/arrowDropUp.svg';
 export { ReactComponent as ArrowDropDown } from 'src/assets/svg/arrowDropDown.svg';
 export { ReactComponent as ArrowLeftSlider } from 'src/assets/svg/arrowLeftSlider.svg';
+export { ReactComponent as AlarmClock } from 'src/assets/svg/alarm-clock.svg';
+export { ReactComponent as TradeChartSVG } from 'src/assets/svg/trade-chart.svg';
+export { ReactComponent as CalenderBourseSVG } from 'src/assets/svg/calender-bourse.svg';
+export { ReactComponent as ArrowDown } from 'src/assets/svg/arrowDown.svg';
+
+export { ReactComponent as ChartTypeAreaSVG } from "src/assets/svg/chart-type-area.svg";
+export { ReactComponent as ChartTypeBarSVG } from "src/assets/svg/chart-type-bar-mol.svg";
+export { ReactComponent as ChartTypeBaselineSVG } from "src/assets/svg/chart-type-baseline.svg";
+export { ReactComponent as ChartTypeHallowCandleSVG } from "src/assets/svg/chart-type-hallow-candle.svg";
+export { ReactComponent as ChartTypeHekinAshiSVG } from "src/assets/svg/chart-type-heikin-ashi.svg";
+export { ReactComponent as ChartTypeCandleSVG } from "src/assets/svg/chart-type-candle.svg";
+export { ReactComponent as ChartTypeLineSVG } from "src/assets/svg/chart-type-line.svg";
+export { ReactComponent as CopyOutlineSVG } from "src/assets/svg/copy-outline.svg";
+export { ReactComponent as EyeOffOutlineSVG } from "src/assets/svg/eye-off-outline.svg";
+export { ReactComponent as EyeOutlineSVG } from "src/assets/svg/eye-outline.svg";
+export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.svg";
+export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
+export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
+
+export { ReactComponent as Chart1ColSVG } from "src/assets/svg/chart-1c.svg";
+export { ReactComponent as Chart2ColSVG } from "src/assets/svg/chart-2c.svg";
+export { ReactComponent as Chart2RowSVG } from "src/assets/svg/chart-2r.svg";
+export { ReactComponent as Chart2x2SVG } from "src/assets/svg/chart-2x2.svg";
+export { ReactComponent as Chart3ColSVG } from "src/assets/svg/chart-3c.svg";
+export { ReactComponent as Chart3RowSVG } from "src/assets/svg/chart-3r.svg";
+export { ReactComponent as Chart4ColSVG } from "src/assets/svg/chart-4c.svg";
+export { ReactComponent as Chart4RowSVG } from "src/assets/svg/chart-4r.svg";
+
+
+export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';
+export { ReactComponent as GridLayoutSVG } from 'src/assets/svg/GridLayout.svg';
 // Common
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 export { ReactComponent as InfoIcon } from 'src/assets/svg/infoIcon.svg';
@@ -89,9 +120,14 @@ export { ReactComponent as UserCheckIcon } from 'src/assets/svg/UserCheck.svg';
 export { ReactComponent as UserIcon } from 'src/assets/svg/UserIcon.svg';
 export { ReactComponent as SearchPlusIcon } from 'src/assets/svg/searchPlus.svg';
 
-
 // datepicker
 export { ReactComponent as AnglesLeftSVG } from 'src/assets/svg/angles-left.svg';
 export { ReactComponent as AnglesRightSVG } from 'src/assets/svg/angles-right.svg';
 export { ReactComponent as ArrowRightSVG } from 'src/assets/svg/arrow-right.svg';
 export { ReactComponent as ArrowLeftSVG } from 'src/assets/svg/arrow-left.svg';
+
+// MArket Depth
+export { ReactComponent as MarketDepthChartIcon } from 'src/assets/svg/marketDepth-chart.svg';
+export { ReactComponent as MarketDepthRowIcon } from 'src/assets/svg/marketDepth-rowMode.svg';
+export { ReactComponent as MarketDepthColIcon } from 'src/assets/svg/marketDepth-colMode.svg';
+export { ReactComponent as MarketDepthArrowDownIcon } from 'src/assets/svg/arrowDown-circle.svg';
