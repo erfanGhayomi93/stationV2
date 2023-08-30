@@ -6,19 +6,20 @@ type TableMonthProps = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean ,
-	activeLayoutTab : string
+	isAllSelected: boolean,
+	activeLayoutTab: string,
+	watchlistId?: number
 }
 
-const TableYear = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected ,activeLayoutTab }: TableMonthProps) => {
+const TableYear = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, activeLayoutTab, watchlistId }: TableMonthProps) => {
 
 
 	return (
 		<>
 			{activeLayoutTab === 'list' ? (
-				<TableYearList {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }} />
+				<TableYearList {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }} />
 			) : (
-				<TableYearGrid {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }} />
+				<TableYearGrid {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }} />
 			)}
 		</>
 	);

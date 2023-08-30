@@ -8,11 +8,12 @@ type TableYearGridType = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId ?: number
 }
 
 
-const TableYearGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableYearGridType) => {
+const TableYearGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected ,watchlistId }: TableYearGridType) => {
 	const thisYear = useMemo(() => (dayjs(date).year()), [date]); // get the current year
 	const allMonths = useMemo(() => (Array.from({ length: 12 }, (_, index) => dayjs().calendar('jalali').year(thisYear).month(index))), [date]);
 
@@ -20,7 +21,7 @@ const TableYearGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 		{
 			fromDate: allMonths[0].startOf("month")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: allMonths[11].endOf("month")?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	);
 

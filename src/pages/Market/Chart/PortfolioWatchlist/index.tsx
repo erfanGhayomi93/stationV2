@@ -30,14 +30,17 @@ const PortfolioWatchlist = () => {
 			}}
 			className='relative bg-L-basic dark:bg-D-basic px-2 py-4 rounded my-[1px]'
 		>
-			<div className='flex flex-col gap-1 h-full'>
-				<div className='flex justify-end'>
+			<div className='grid grid-rows-one-min gap-1 h-full'>
+				<div className='relative flex-1 overflow-x-hidden'>
+					<Watchlist expand={tvSidebarStatus === 'full-width'} />
+				</div>
 
+				<div className='flex justify-end'>
 					<Tippy content={t(tvSidebarStatus === 'full-width' ? "Tooltip.tv_collapse_sidebar" : "Tooltip.tv_expand_sidebar")} className="text-xs font-medium">
 						<button
 							role="button"
 							type="button"
-							className="flex items-center justify-center rounded text-L-gray-600 dark:text-D-gray-600 transition-all hover:bg-L-gray-200 dark:hover:bg-D-gray-200 h-10 w-10"
+							className="flex items-center justify-center rounded text-L-gray-600 dark:text-D-gray-600 transition-all duration-75 hover:bg-L-gray-200 dark:hover:bg-D-gray-200 h-10 w-10"
 							style={{
 								transform: tvSidebarStatus === 'full-width' ? 'scale(1, 1)' : 'scale(-1, 1)'
 							}}
@@ -52,9 +55,6 @@ const PortfolioWatchlist = () => {
 					</Tippy>
 				</div>
 
-				<div className='relative flex-1 overflow-hidden'>
-					<Watchlist expand={tvSidebarStatus === 'full-width'} />
-				</div>
 			</div>
 
 			<LayoutToggler />

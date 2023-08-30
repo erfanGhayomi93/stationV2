@@ -484,6 +484,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				return sepNumbers(Number(value.toFixed(0)));
 			};
 
+			// console.log("symbol",symbol)
+
 			const [symbolTitle, companyTitle] = symbol.full_name.split('-');
 			const symbolISIN = (symbol.ticker as string).split('-')[0];
 
@@ -524,6 +526,9 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				const newRecentSymbols = [symbolItem, ...localSymbolSearchHistory].slice(0, localSymbolSearchHistory.length);
 				setLocalSymbolSearchHistory(newRecentSymbols)
 			} else {
+				// console.log("else")
+				// console.log("symbolItem",symbolItem)
+				// console.log("localSymbolSearchHistory",localSymbolSearchHistory)
 				setLocalSymbolSearchHistory([symbolItem, ...localSymbolSearchHistory])
 			}
 

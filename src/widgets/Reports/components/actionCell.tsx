@@ -1,4 +1,5 @@
 import Tippy from '@tippyjs/react';
+import React from 'react';
 import { CopyIcon, DeleteIcon, EditIcon, SendIcon } from 'src/common/icons';
 
 export enum TypeActionEnum {
@@ -55,20 +56,15 @@ function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handl
             {buttons.map((item, ind) => {
                 const { Icon, isActived, onClick, title } = item;
                 return (
-                    <>
+                    <React.Fragment key={ind}>
                         {isActived && (
                             <Tippy content={title} className="text-xs">
-                                <button
-                                    key={ind}
-                                    data-actived={isActived}
-                                    className="hidden actived:inline-block"
-                                    onClick={() => onClick && onClick(data)}
-                                >
+                                <button data-actived={isActived} className="hidden actived:inline-block" onClick={() => onClick && onClick(data)}>
                                     <Icon className="text-L-gray-600 dark:text-D-gray-600" />
                                 </button>
                             </Tippy>
                         )}
-                    </>
+                    </React.Fragment>
                 );
             })}
         </div>

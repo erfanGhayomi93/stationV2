@@ -90,6 +90,8 @@ const GetCustomerInformation = async (params: IGetCustomerInformationRequestType
 
 export const useCustomerInformation = (param: IGetCustomerInformationRequestType) => {
     return useQuery(['getCustomerInformation', param], ({ queryKey }) => GetCustomerInformation(queryKey[1] as IGetCustomerInformationRequestType), {
+        cacheTime: Infinity,
+        staleTime: Infinity,
         enabled: !!param.customerISIN,
     });
 };

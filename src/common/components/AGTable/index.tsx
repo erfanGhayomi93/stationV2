@@ -18,9 +18,11 @@ export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'childr
     children: (ColDefType<TData> | ColGroupDefType<TData>)[];
 }
 
-interface Props<TData> extends AgGridReactProps<TData> {}
+interface Props<TData> extends AgGridReactProps<TData> {
+    agGridTheme?: 'balham' | 'alpine';
+}
 
-const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
+const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
     //
     const { t } = useTranslation();
     const {
@@ -28,7 +30,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
     } = useAppValues();
 
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
-    const containerClassName = useMemo((): string => `ag-theme-alpine${theme === 'dark' ? '-dark' : ''}`, [theme]);
+    const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
@@ -60,7 +62,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         <div className={containerClassName} style={containerStyle}>
             <AgGridReact
                 ref={ref}
-                rowModelType='clientSide'
+                rowModelType="clientSide"
                 enableRtl
                 suppressCellFocus
                 suppressAnimationFrame

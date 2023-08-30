@@ -142,3 +142,87 @@ type SymbolSearchResult = {
     companyCode: string;
     symbolTag: string;
 };
+
+
+interface GetSameSectorRequest {
+    symbolISIN: string;
+}
+
+
+interface GetSameSectorResultType {
+    insCode: string;
+    companyISIN: string;
+    symbolTitle: string;
+    symbolISIN: string;
+    marketCode: string;
+    companyName: string;
+    enCompanyName: string;
+    highestTradePriceOfTradingDay: number;
+    lowestTradePriceOfTradingDay: number;
+    closingPrice: number;
+    openPrice: number;
+    yesterdayClosingPrice: number;
+    highThreshold: number;
+    lowThreshold: number;
+    totalNumberOfSharesTraded: number;
+    totalNumberOfTrades: number;
+    totalTradeValue: number;
+    lastTradedPrice: number;
+    lastTradedDate: string;
+    lastTradeDateTime: string;
+    firstTradedPrice: number;
+    preClosingPrice: number;
+    lastTradedPriceVar: number;
+    lastTradedPriceVarPercent: number;
+    closingPriceVar: number;
+    closingPriceVarPercent: number;
+    symbolGroupCode: string;
+    bestBuyLimitQuantity: number;
+    bestSellLimitQuantity: number;
+    minTradeQuantity: number;
+    maxTradeQuantity: number;
+    numberOfOrdersAtBestBuy: number;
+    numberOfOrdersAtBestSell: number;
+    bestBuyPrice: number;
+    bestBuyLimitPrice_1: number;
+    bestSellPrice: number;
+    bestSellLimitPrice_1: number;
+    sectorCode: string;
+    unitCount: number;
+    orderPriceTickSize: number;
+    baseVolume: number;
+    floatFree: number;
+    pe: number;
+    oneMonthEfficiency: number;
+    sixMonthEfficiency: number;
+    threeMonthEfficiency: number;
+    oneYearEfficiency: number;
+    eps: number;
+    threeMonthTradeVolume: number;
+    ps: number;
+    marketUnit: string;
+    symbolOrderState: string;
+    symbolTradeState: string;
+    groupState: string;
+    symbolState: string;
+    companyCode: string;
+    tickPrice: number;
+    tickQuantity: number;
+    sectorPE: string;
+    floatingStock: string;
+    estimatedEPS: string;
+    fiscalYear: string;
+    symbolType: string;
+    bourseKey: string;
+    exchange: string;
+    isOption: boolean;
+    symbolTag: string;
+    navIssueDate: string;
+    navIssuePrice: number;
+    navCancellationPrice: number;
+    contractSize: number;
+    isValid: boolean;
+
+}
+
+interface GetSameSectorResponseType extends GlobalApiResponseType<GetSameSectorResultType[]> { }

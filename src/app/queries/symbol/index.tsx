@@ -21,6 +21,23 @@ export const useSymbolGeneralInfo = <T,>(
     });
 };
 
+const getSameSectorSymbols = async (symbolISIN: string) => {
+    const { data } = await AXIOS.get<GetSameSectorResponseType>(Apis().Symbol.SameSectorSymbols, { params: { symbolISIN } });
+    return data.result || [];
+};
+
+export const useGetSameSectorSymbols = (symbolISIN: string, options?: UseQueryOptions<GetSameSectorResultType[]>) =>
+    useQuery<GetSameSectorResultType[]>(
+        [Apis().Symbol.SameSectorSymbols, symbolISIN],
+        ({ queryKey }) => getSameSectorSymbols(queryKey[1] as string),
+        {
+            cacheTime: Infinity,
+            staleTime: Infinity,
+            enabled: !!symbolISIN,
+            ...options,
+        },
+    );
+
 const searchSymbol = async (term: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(Apis().Symbol.Search as string, { params: { term } });
     return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
