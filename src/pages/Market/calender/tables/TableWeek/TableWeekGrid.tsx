@@ -10,15 +10,16 @@ type TableWeekGridType = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean,
 	isProfitPaymentFiltered: boolean,
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 }
 
-const TableWeekGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableWeekGridType) => {
+const TableWeekGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableWeekGridType) => {
 	const { data } = useGetEventQuery(
 		{
 			fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	);
 

@@ -9,10 +9,11 @@ type TableYearListType = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 }
 
-const TableYearList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableYearListType) => {
+const TableYearList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableYearListType) => {
 	const startOfMonth = useMemo(() => (date?.startOf("year")), [date]);
 	const endOfMonth = useMemo(() => (date?.endOf("year")), [date]);
 
@@ -20,7 +21,7 @@ const TableYearList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 		{
 			fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	);
 

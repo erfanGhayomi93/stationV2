@@ -79,8 +79,8 @@ export const Apis = () => ({
         Get: baseUrl + '/Symbol/v1/GetMarketDepthV2',
     },
     event: {
-        get: baseUrl + '/Calendar/v1/getEvent',
-        getAttachment: baseUrl + '/Calendar/v1/getAttachment',
+        get: baseUrl + '/Portfolio/v1/getEvent',
+        getAttachment: baseUrl + '/Portfolio/v1/getAttachment',
     },
     Orders: {
         Create: baseUrl + '/Order/v1/Create',

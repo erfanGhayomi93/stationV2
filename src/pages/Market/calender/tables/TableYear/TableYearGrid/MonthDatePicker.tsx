@@ -122,14 +122,14 @@ const MonthDatePicker = ({ month, filteredDataFromMonth }: MonthDatePickerProps)
 								const hasMeeting = date ? events.some(item => item.type === "Meeting") : false;
 
 								return (
-									<div key={`${index1}-${index2} overflow-y-auto`}>
+									<div key={`${index1}-${index2}`}>
 										<Tippy
 											className={`bg-L-basic dark:bg-D-basic border border-L-gray-200 dark:border-D-gray-200 rounded-lg ${classes.content}`}
 											interactive={true}
 											placement="auto"
 											content={
 												hasEvents ? (
-													<div className={`overflow-y-auto overflow-x-hidden ${classes.tooltip}`}>
+													<div className={`overflow-y-auto overflow-x-hidden max-h-[300px] ${classes.tooltip}`}>
 														{events.map(item => (
 															<CardEvent data={item} key={item.id} />
 														))}
