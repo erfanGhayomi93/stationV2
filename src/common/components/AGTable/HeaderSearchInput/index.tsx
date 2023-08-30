@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Input from 'src/common/components/Input';
 import { SearchIcon } from 'src/common/icons';
 
-const CustomerHeader = ({ api, displayName }: IHeaderParams) => {
+const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
     //
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputMode, setInputMode] = useState(false);
@@ -22,8 +22,8 @@ const CustomerHeader = ({ api, displayName }: IHeaderParams) => {
             {inputMode ? (
                 <div className="w-full h-8 flex text-xs items-center rounded-md border border-transparent overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
                     <Input
-                        className="bg-transparent outline-none text-D-basic px-2 font-medium"
-                        containerClassName="bg-transparent"
+                        className="bg-transparent outline-none text-D-basic dark:text-L-basic px-2 font-medium"
+                        containerClassName="bg-transparent dark:bg-transparent"
                         placeholder={`نام ${displayName}`}
                         onChange={onInputChange}
                         ref={inputRef}
@@ -40,4 +40,4 @@ const CustomerHeader = ({ api, displayName }: IHeaderParams) => {
     );
 };
 
-export default CustomerHeader;
+export default AGHeaderSearchInput;
