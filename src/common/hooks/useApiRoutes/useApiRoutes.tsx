@@ -43,7 +43,7 @@ const getCommonUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
 };
 
-export const baseUrl = "https://gtapi-preprd.ramandtech.com"
+export const baseUrl = 'https://gtapi-preprd.ramandtech.com';
 
 export const Apis = () => ({
     OAuthApi: {
@@ -64,6 +64,7 @@ export const Apis = () => ({
     Symbol: {
         Search: baseUrl + '/Symbol/v1/Search',
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
+        SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
     },
     Customer: {
         Search: baseUrl + '/Customer/v1/Search',
@@ -90,14 +91,14 @@ export const Apis = () => ({
         GroupLists: baseUrl + '/Order/v1/GroupOrdersList',
         Modify: baseUrl + '/Order/v1/Modify',
         Trades: baseUrl + '/Order/v1/Trades',
-        OfflineRequests: baseUrl + '/GTOrder/v1/TradeRequests'
+        OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
     },
     SupervisorMessage: {
         Get: baseUrl + `/SupervisorMessage/v1/TodaySupervisorMessage`,
         ReadPost: baseUrl + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     Messages: {
-        AdminMessage: getCommonUrl() + `/Message/v1/AdminMessage` 
+        AdminMessage: getCommonUrl() + `/Message/v1/AdminMessage`,
     },
     draft: {
         Create: baseUrl + '/OrderDraft/v1/Create',
@@ -133,7 +134,7 @@ export const Apis = () => ({
         GetSector: baseUrl + '/Sector/v1/Sectors',
     },
     Portfolio: {
-        CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios'
+        CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
     },
     Setting: {
         GetSetting: baseUrl + `/Setting/v1/GetSettings`,

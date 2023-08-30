@@ -39,6 +39,7 @@ const apiRoutes = {
     Symbol: {
         Search: baseUrl + '/GTSymbol/v1/Search',
         SymbolGeneralInformation: baseUrl + '/GTSymbol/v1/SymbolGeneralInformation',
+        SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
     },
     Customer: {
         Search: baseUrl + '/GtCustomer/v1/Search',

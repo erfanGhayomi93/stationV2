@@ -211,7 +211,10 @@
         "profitAndLossPrice": "مبلغ سود و زیان",
         "profitAndLossPercent": "درصد سود و زیان",
         "portfolioPercent": "درصد از پورتفوی",
-        "headToheadPrice": "قیمت سر به سر"
+        "headToheadPrice": "قیمت سر به سر",
+        "requestType": "نوع درخواست",
+        "fund": "سرمایه",
+        "validity": "اعتبار"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"

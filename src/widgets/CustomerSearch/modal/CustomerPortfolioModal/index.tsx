@@ -10,7 +10,7 @@ const CustomerPortfolioModal = () => {
     //
     const { t } = useTranslation();
 
-    const { data: rowData, isFetching } = useCustomerPortfolio({ CustomerISIN: '18994073477617' },{
+    const { data: rowData, isFetching } = useCustomerPortfolio({ CustomerISIN: '18990069635676' },{
         onSuccess: (result) => {},
     });
 
