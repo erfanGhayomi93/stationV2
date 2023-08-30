@@ -1,8 +1,12 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import { valueFormatterSide } from 'src/utils/helpers';
+import ActionCell, { TypeActionEnum } from '../components/actionCell';
+import { ICellRendererParams } from 'ag-grid-community';
 
 type RequestData = {
     customerTitle: string;
@@ -17,6 +21,7 @@ type RequestData = {
 
 const Requests = () => {
     //
+    const { t } = useTranslation();
     const { data } = useGetOfflineRequests(
         {},
         {
@@ -28,17 +33,25 @@ const Requests = () => {
 
     const columns = useMemo(
         (): ColDefType<RequestData>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
-            { headerName: 'نام نماد', field: 'symbolISIN' },
-            { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
-            { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
-            { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'ارزش کل معامله', field: 'valuePosition', type: 'sepratedNumber' },
-            { headerName: 'اعتبار درخواست', field: 'validity' },
+            { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
+            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolName', headerComponent: AGHeaderSearchInput },
+            { headerName: t('ag_columns_headerName.side'), field: 'side', valueFormatter: valueFormatterSide },
+            { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.requestType'), field: 'requestType' },
+            { headerName: t('ag_columns_headerName.fund'), field: 'fund', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.price'), field: 'price' },
+            { headerName: t('ag_columns_headerName.validity'), field: 'validity' },
             {
-                headerName: 'عملیات',
+                headerName: t('ag_columns_headerName.actions'),
                 field: 'customTitle',
-                // cellRenderer: (row : any) => <ActionCell id={row.data.id} type={TypeActionEnum.OPEN_ORDER}/>,
+                cellRenderer: (row: ICellRendererParams<RequestData>) => (
+                    <ActionCell
+                        data={row.data}
+                        type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
+                        handleDelete={(data) => console.log('delete', data)}
+                        handleSend={(data) => console.log('send', data)}
+                    />
+                ),
             },
         ],
         [],
@@ -46,7 +59,7 @@ const Requests = () => {
 
     return (
         <div className={'grid h-full p-3'}>
-            <AGTable rowData={[]} columnDefs={columns} />
+            <AGTable agGridTheme="balham" rowData={[]} columnDefs={columns} />
         </div>
     );
 };
