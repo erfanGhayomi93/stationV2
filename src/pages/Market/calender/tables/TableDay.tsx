@@ -10,14 +10,15 @@ type TableDayType = {
     isMeetingFiltered: boolean;
     isProfitPaymentFiltered: boolean;
     isAllSelected: boolean;
+    watchlistId ?: number
 }
 
-const TableDay = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableDayType) => {
+const TableDay = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected , watchlistId }: TableDayType) => {
     const { data } = useGetEventQuery(
         {
             fromDate: date?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
             toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-            forUser: isAllSelected,
+            watchlistId: watchlistId,
         }
     );
 

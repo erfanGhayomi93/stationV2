@@ -9,10 +9,11 @@ type TableMonthGridType = {
 	date: dayjs.Dayjs | null;
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 };
 
-const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableMonthGridType) => {
+const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableMonthGridType) => {
 	const startOfMonth = useMemo(() => (date?.startOf("month")), [date]);
 	const endOfMonth = useMemo(() => (date?.endOf("month")), [date]);
 	const startOfMonthDay = useMemo(() => (startOfMonth?.day()), [date]);
@@ -28,7 +29,7 @@ const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAl
 		{
 			fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	);
 

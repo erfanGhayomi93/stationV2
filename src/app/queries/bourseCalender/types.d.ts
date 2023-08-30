@@ -1,7 +1,7 @@
 interface IGetEventParamsType {
     fromDate?: string;
     toDate?: string;
-    forUser: boolean;
+    watchlistId?: number;
 }
 
 interface IGetEventType {

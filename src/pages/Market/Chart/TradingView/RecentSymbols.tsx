@@ -33,6 +33,7 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		try {
+			// console.log("e.button",e.button)
 			if (e.button === 1 && deletable) onDelete(symbol);
 			else onClick(symbol);
 		} catch (e) {

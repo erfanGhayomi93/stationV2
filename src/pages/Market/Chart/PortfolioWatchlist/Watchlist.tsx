@@ -50,9 +50,6 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 		},
 	})
 
-	useEffect(() => {
-		console.log("watchlistListData", watchlistListData)
-	}, [watchlistListData])
 
 
 	const { data: watchlistData, isFetched, isFetching, refetch: refetchWatchlist } = useWatchListSymbolsQuery(

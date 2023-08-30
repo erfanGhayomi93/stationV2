@@ -9,11 +9,12 @@ type TableMonthType = {
 	date: dayjs.Dayjs | null;
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 };
 
 
-const TableMonthList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableMonthType) => {
+const TableMonthList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableMonthType) => {
 	const startOfMonth = useMemo(() => (date?.startOf("month")), [date]);
 	const endOfMonth = useMemo(() => (date?.endOf("month")), [date]);
 
@@ -21,7 +22,7 @@ const TableMonthList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAl
 		{
 			fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	)
 

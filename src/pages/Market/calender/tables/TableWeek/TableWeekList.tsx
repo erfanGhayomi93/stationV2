@@ -9,15 +9,16 @@ type TableWeekListType = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean,
 	isProfitPaymentFiltered: boolean
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 }
 
-const TableWeekList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableWeekListType) => {
+const TableWeekList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableWeekListType) => {
 	const { data } = useGetEventQuery(
 		{
 			fromDate: date?.subtract(6, "day")?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
 			toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-			forUser: isAllSelected
+			watchlistId: watchlistId
 		}
 	);
 
@@ -38,17 +39,20 @@ const TableWeekList = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAll
 			[getDaysAsString(0)]: [],
 		};
 
-		data?.result.forEach((item: any) => {
-			const date = dayjs(item.date).calendar("jalali");
-			const d = date.format("D");
+		try {
+			data?.result.forEach((item: any) => {
+				const date = dayjs(item.date).calendar("jalali");
+				const d = date.format("D");
 
-			/* top filter */
-			if (!isMeetingFiltered && item.type === "Meeting") return;
-			if (!isProfitPaymentFiltered && item.type === "InterestPayment") return;
-			/**/
+				/* top filter */
+				if (!isMeetingFiltered && item.type === "Meeting") return;
+				if (!isProfitPaymentFiltered && item.type === "InterestPayment") return;
+				/**/
 
-			if (d) result[d].push(item);
-		});
+				if (d) result[d].push(item);
+			});
+		}
+		catch { }
 
 		return result;
 

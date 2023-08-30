@@ -45,11 +45,11 @@ const CardEvent = ({ data }: CardEventType) => {
 		<div
 			tabIndex={-1}
 			role="button"
-			style={{ maxWidth: '220px' }}
+			style={{ maxWidth: '230px' }}
 			onClick={handleFetchPDF}
-			className={clsx("p-1 rounded-md flex justify-between items-center gap-5 m-2 text-L-gray-700 dark:text-D-gray-700 w-full text-xs cursor-pointer", {
-				"bg-L-info-50 dark:bg-D-info-50": data.type === "InterestPayment",
-				"bg-L-success-100 dark:bg-D-success-100": data.type === "Meeting"
+			className={clsx("p-2 rounded-md flex justify-between items-center gap-5 m-1 text-L-gray-700 dark:text-D-gray-700 w-full text-xs cursor-pointer", {
+				"bg-L-info-50 dark:bg-D-info-50": data.type === "Meeting",
+				"bg-L-success-100 dark:bg-D-success-100": data.type === "InterestPayment"
 			})}
 		>
 			<span>{data.symbolName} - {data.title}</span>
