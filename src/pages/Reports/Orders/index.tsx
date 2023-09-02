@@ -1,11 +1,11 @@
 import Tippy from '@tippyjs/react';
 import { Excel2Icon, Refresh2Icon } from 'src/common/icons';
-import { useState } from 'react';
-import { DateType } from 'src/common/components/AdvancedDatePicker';
-import dayjs from 'dayjs';
+import { useState, useEffect, useCallback } from 'react';
 import OrdersFilter from './components/OrderFilter';
 import OrdersTable from './components/OrderTable';
 import { useTranslation } from 'react-i18next';
+import { useOrderLists } from 'src/app/queries/order';
+import { initialState } from './constant';
 
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -20,15 +20,32 @@ export interface OrdersFilterTypes {
 const Orders = () => {
     //
     const { t } = useTranslation()
-    const [params, setParams] = useState<OrdersFilterTypes>({
-        customers: [],
-        symbols: [],
-        fromDate: dayjs().subtract(1, "day").format(),
-        toDate: '',
-        side: '',
-        customerType: '',
-        status: []
-    })
+    const [params, setParams] = useState<IOrdersListStateType>(initialState)
+    const { PageNumber, PageSize } = params;
+
+    const {
+        data: ordersList,
+        refetch: getOrdersList,
+        isFetching,
+    } = useOrderLists(
+        {
+            ...params,
+            SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
+            CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+        });
+
+    useEffect(() => {
+        getOrdersList();
+    }, [PageNumber, PageSize]);
+
+    const onClearFilters = () => {
+        setParams(initialState);
+    };
+
+    const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
+        setParams((pre) => ({ ...pre, [action]: value }));
+    }, []);
+
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
@@ -44,9 +61,15 @@ const Orders = () => {
                 </div>
             </div>
             <div className="grid gap-4 grid-rows-min-one">
-                <OrdersFilter params={params} setParams={setParams}/>
+                <OrdersFilter params={params} setParams={setParams} onSubmit={getOrdersList} onClear={onClearFilters} />
                 <div className="grid grid-rows-one-min">
-                    <OrdersTable />
+                    <OrdersTable
+                        data={ordersList}
+                        loading={isFetching}
+                        pageNumber={PageNumber}
+                        pagesize={PageSize}
+                        PaginatorHandler={PaginatorHandler}
+                    />
                 </div>
             </div>
         </div>

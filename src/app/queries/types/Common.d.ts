@@ -1,4 +1,4 @@
-// type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
+type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 // type MarketUnit =
 //     | 'Exchange'
 //     | 'FaraBourse'
