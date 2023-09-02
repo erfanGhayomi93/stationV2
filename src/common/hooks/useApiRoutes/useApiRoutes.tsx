@@ -62,7 +62,7 @@ export const Apis = () => ({
         Symbols: baseUrl + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: baseUrl + '/Symbol/v1/Search',
+        Search: baseUrl + '/Symbol/v1/SearchV2',
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
     },

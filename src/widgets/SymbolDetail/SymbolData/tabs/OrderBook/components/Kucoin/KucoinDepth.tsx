@@ -64,7 +64,7 @@ const KucoinDepth = ({ lastTradedPrice }: { lastTradedPrice: number }) => {
 
     return (
         <WidgetLoading spining={isLoading}>
-            <div className="h-full overflow-hidden flex flex-col">
+            <div className="h-full overflow-hidden flex flex-col gap-1">
                 <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-500 dark:text-D-gray-500 dark:border-D-gray-400 right-0">
                     <span className="w-1/5">{t('ag_columns_headerName.count')}</span>
                     <span>{t('ag_columns_headerName.volume')}</span>
