@@ -60,6 +60,10 @@ const DivideOrderModal = () => {
 
         calculateOrders(quantity, selectedCustomers);
 
+        dividedOrderArray.sort((customerA, customerB) => {
+            return customerA.customerTitle.localeCompare(customerB.customerTitle);
+        });
+
         return dividedOrderArray;
     };
 
