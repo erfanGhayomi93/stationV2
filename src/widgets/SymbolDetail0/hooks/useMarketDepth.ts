@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { pushEngine } from 'src/api/pushEngine';
-import apiRoutes from 'src/api/apiRoutes';
 import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let MESSAGE_IDS: any = [];

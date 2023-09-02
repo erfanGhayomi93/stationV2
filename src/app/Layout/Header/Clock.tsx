@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
-import apiRoutes from 'src/api/apiRoutes';
+import { useEffect, useState } from 'react';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
