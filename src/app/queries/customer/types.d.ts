@@ -65,6 +65,8 @@ interface ICustomerInformationResultType {
     brokerCredit: number;
     blocked: number;
     customerType?: string;
+    phoneNumber: string;
+    registrationNo: string | number;
 }
 
 interface IGetCustomerInformationRequestType {

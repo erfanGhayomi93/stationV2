@@ -9,16 +9,16 @@ const IdentityTab = ({ data }: { data: ICustomerInformationResultType | undefine
         <div className="grid gap-5 px-5 py-7">
             <div className="overflow-hidden">
                 <DescriptionRow>
-                    <Block value={data?.customerTitle} label={t('common.fullName')} />
-                    <Block value={data?.fatherName} label={t('common.fatherName')} />
+                    <Block value={data?.customerTitle || '-'} label={t('common.fullName')} />
+                    <Block value={data?.fatherName || '-'} label={t('common.fatherName')} />
                 </DescriptionRow>
                 <DescriptionRow>
-                    <Block value={data?.bourseCode} label={t('common.bourseCode')} />
-                    <Block value={data?.nationalCode} label={t('common.nationalCode')} />
+                    <Block value={data?.bourseCode || '-'} label={t('common.bourseCode')} />
+                    <Block value={data?.nationalCode || '-'} label={t('common.nationalCode')} />
                 </DescriptionRow>
                 <DescriptionRow>
-                    <Block value={data?.customerISIN} label={t('common.registerCode')} />
-                    <Block value={'-'} label={t('common.phoneNumber')} />
+                    <Block value={data?.registrationNo || '-'} label={t('common.registerCode')} />
+                    <Block value={data?.phoneNumber || '-'} label={t('common.phoneNumber')} />
                 </DescriptionRow>
             </div>
         </div>
