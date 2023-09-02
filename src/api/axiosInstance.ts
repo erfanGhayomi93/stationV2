@@ -67,14 +67,14 @@ AXIOS.interceptors.response.use(
                     apiErrorHandler(error?.response?.data?.errors);
                     break;
                 case 401: // Unauthorized
-                    // unAuthorized();
+                    unAuthorized();
                     break;
                 case 403: // Forbidden
                     onErrorNotif({ title: 'دسترسی غیرمجاز' });
                     break;
                 case 404: // Not Found
                     if (process.env.NODE_ENV === 'development') onErrorNotif({ title: 'یافت نشد' });
-                    // else unAuthorized();
+                    else unAuthorized();
                     break;
                 case 405: // Method Not Allowed
                     onErrorNotif({ title: 'عدم تطابق اطلاعات' });

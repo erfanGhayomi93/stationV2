@@ -29,7 +29,7 @@ export const sideFieldOptions=[
 ]
 
 export const customerTypeFieldOptions = [
-    { value: 'Individual', label: i18next.t('CustomerType.Individual') },
+    { value: 'Natural', label: i18next.t('CustomerType.Natural') },
     { value: 'Legal', label: i18next.t('CustomerType.Legal') },
 ]
 

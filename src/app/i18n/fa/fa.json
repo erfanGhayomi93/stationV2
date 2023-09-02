@@ -53,7 +53,10 @@
         "no_data": "موردی برای نمایش وجود ندارد",
         "cancel": "لغو",
 		"save": "ذخیره",
-        "rial": "ریال"
+        "rial": "ریال",
+        "confirm": "ثبت",
+        "delete": "حذف",
+        "confirmation": "تاییدیه"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -130,6 +133,26 @@
         "FiveDaysPositive": "نمادهای 5 روز معاملاتی مثبت",
         "FiveDaysNegative": "نمادهای 5 روز معاملاتی منفی"
     },
+    "order_status": {
+		"InOMSQueue": "در حال پردازش",
+		"OnSending": "در انتظار جواب از سیستم معاملات",
+		"Error": "خطا",
+		"DeleteByEngine": "حذف شده توسط سیستم معاملات",
+		"OnBoard": "سفارش در سیستم ثبت شد",
+		"Canceled": "سفارش از سیستم حذف شد.",
+		"OnModifyFrom": "درخواست ویرایش به",
+		"OnModifyTo": "در انتظار ویرایش",
+		"Modified": "ویرایش انجام شد",
+		"OnBoardModify": "ثبت در سیستم (ویرایش شده)",
+		"PartOfTheOrderDone": "قسمتی از سفارش انجام شد",
+		"OrderDone": "تمام سفارش اجرا شد",
+		"OnCanceling": "در حال حذف سفارش",
+		"OnModifyError": "ویرایش با خطا مواجه شد",
+		"OnCancelError": "دستور حذف با خطا مواجه شد",
+		"Expired": "منقضی شد",
+		"draft": "پیش ‌نویس",
+		"OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
+	},
     "orderSide": {
         "Buy": "خرید",
         "Sell": "فروش",
