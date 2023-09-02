@@ -1,11 +1,10 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import apiRoutes from "src/api/apiRoutes";
 import AXIOS from "src/api/axiosInstance";
-
+import { Apis } from "src/common/hooks/useApiRoutes/useApiRoutes";
 
 
 const getSavedStudyTemplates = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<TvStudyTemplateListType[]>>(apiRoutes.tvChart.studyTemplate, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<TvStudyTemplateListType[]>>(Apis().tvChart.studyTemplate, {
         params
     });
     return data?.result;
@@ -22,10 +21,12 @@ export const useSavedStudyTemplatesQuery = (
 
 
 const getTvSavedChart = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(apiRoutes.tvChart.loadAll, {
+    const { data } = await AXIOS.get<{data : TvSavedChartType[] , status : string}>(Apis().tvChart.loadAll, {
         params
     });
-    return data?.result;
+
+    console.log("Data",data)
+    return data?.data || [];
 };
 
 export const useTvSavedChart = (
@@ -40,7 +41,7 @@ export const useTvSavedChart = (
 
 
 const getSymbolSearch = async (term: string) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(apiRoutes.Symbol.Search, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(Apis().Symbol.Search, {
         params: {
             term
         },
@@ -57,18 +58,18 @@ export const useSymbolSearchQuery = (
 /*-------------------------------------------------------*/
 
 
-const getSavedCharts = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(apiRoutes.Symbol.Search, {
-        params
-    });
-    return data?.result;
-};
-
-export const useSavedChartsQuery = (
-    params: IRequestSavedStudyTemplates,
-    options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
-) => {
-    return useQuery(['tvSavedCharts'], () => getSavedCharts(params), options);
-};
+// const getSavedCharts = async (params: IRequestSavedStudyTemplates) => {
+//     const { data } = await AXIOS.get<GlobalApiResponseType<TvSavedChartType[]>>(Apis().Symbol.Search, {
+//         params
+//     });
+//     return data?.result;
+// };
+// 
+// export const useSavedChartsQuery = (
+//     params: IRequestSavedStudyTemplates,
+//     options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+// ) => {
+//     return useQuery(['tvSavedChartsSearch'], () => getSavedCharts(params), options);
+// };
 
 

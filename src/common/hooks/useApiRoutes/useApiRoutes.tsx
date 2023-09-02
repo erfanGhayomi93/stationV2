@@ -136,7 +136,43 @@ export const Apis = () => ({
     Portfolio: {
         CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
     },
+    tvChart: {
+        index: `${baseUrl}/TV/v1`,
+        config: `${baseUrl}/TV/v1/config`,
+        symbols: `${baseUrl}/TV/v1/symbols`,
+        search: `${baseUrl}/TV/v1/search`,
+        history: `${baseUrl}/TV/v1/history`,
+        marks: `${baseUrl}/TV/v1/marks`,
+        charts: `${baseUrl}/TV/v1/1.1/charts`,
+        studyTemplate: `${baseUrl}/TV/v1/1.1/study_templates`,
+        save: `${baseUrl}/TV/v1/1.1/charts`,
+        delete: `${baseUrl}/TV/v1/1.1/charts`,
+        loadOne: `${baseUrl}/TV/v1/1.1/charts`,
+        loadAll: `${baseUrl}/TV/v1/1.1/charts`,
+    },
     Setting: {
         GetSetting: baseUrl + `/Setting/v1/GetSettings`,
     },
 });
+
+
+
+//
+// const CommonUrl = 'http://192.168.40.8:12000';
+// const PortfolioUrl = 'http://192.168.40.8:11000';
+// const MarketData = 'http://192.168.40.8:7000';
+// const BackOffice = 'http://192.168.40.8:9500';
+// const OrderUrl = 'http://192.168.40.8:8500';
+// const OauthUrl = 'http://192.168.40.8:5011';
+
+// const OrderUrl = baseUrl; // "http://192.168.40.8:8500";
+// const PortfolioUrl = baseUrl; // "http://192.168.40.8:11000";
+// const OauthUrl = baseUrl; // "http://192.168.40.8:5011";
+// const CommonUrl = baseUrl; // "http://192.168.40.8:12000";
+// const BackOffice = baseUrl; // "http://192.168.40.8:9500";
+// const MarketData = baseUrl; // "http://192.168.40.8:7000";
+
+// const ResourceUrl = window.REACT_APP_RESOURCE_PATH; // "http://192.168.40.8:5002";
+// const AccountUrl = window.REACT_APP_ACCOUNT_PATH; // "http://192.168.40.8:5020";
+// const PushEngine = window.REACT_APP_PUSHENGINE_PATH; // "http://192.168.40.8:5800";
+// const ClubUrl = window.REACT_APP_CLUB_PATH; //http://192.168.40.8:19000;

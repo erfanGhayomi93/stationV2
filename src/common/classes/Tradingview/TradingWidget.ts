@@ -1,9 +1,8 @@
 import { QueryClient } from '@tanstack/react-query';
-import routes from "src/api/apiRoutes";
-
 import { ChartActionId, ChartingLibraryWidgetOptions, CreateStudyOptions, CustomTimezones, EmptyCallback, IChartingLibraryWidget, PriceScaleMode, ResolutionString, SeriesStyle, SubscribeEventsMap, TickMarkType } from 'src/charting_library';
 import { widget } from "src/charting_library/charting_library.esm";
 import Datafeed from './Datafeed';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 type FillableOptions = 'symbol' | 'client_id' | 'user_id' | 'container';
 
@@ -100,7 +99,7 @@ class TradingWidget {
 				"chart_crosshair_menu"
 			],
 
-			charts_storage_url: routes.tvChart.index,
+			charts_storage_url: Apis().tvChart.index,
 
 			charts_storage_api_version: '1.1',
 
