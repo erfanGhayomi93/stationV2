@@ -13,7 +13,7 @@ import NoData from 'src/common/components/NoData/NoData';
 import Loading from 'src/common/components/Loading/Loading';
 import { RootState } from 'src/redux/store';
 import { useAppSelector } from 'src/redux/hooks';
-import { useSavedChartsQuery } from 'src/app/queries/tradingView';
+import { useTvSavedChart } from 'src/app/queries/tradingView';
 import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 
 type RowType = {
@@ -77,7 +77,7 @@ const Row = ({ chartTitle, symbolTitle, onDelete, timestamp, active, onClick }: 
 					}}
 					className={clsx('absolute text-L-gray-700 dark:text-D-gray-700 left-0 flex items-center justify-center transition-colors', styles.delete)}
 				>
-					<CloseIcon width='1.2rem' height='1.2rem' />
+					<CloseIcon width='0.8rem' height='0.8rem' />
 				</button>
 			</div>
 		</div>
@@ -101,12 +101,17 @@ const TvLoadChartsModal = () => {
 
 	const { setState } = useTradingState()
 
-	const { data: savedCharts, isFetching } = useSavedChartsQuery(
+	const { data: savedCharts, isFetching } = useTvSavedChart(
 		{
 			client: userData?.customerISIN ?? 0,
 			user: userData?.customerISIN ?? 0,
 		}
 	);
+
+	useEffect(() => {
+	  console.log("savedCharts",savedCharts)
+	}, [savedCharts])
+	
 
 	const filterSavedCharts = useMemo(() => {
 		if (!savedCharts) return [];
@@ -131,11 +136,12 @@ const TvLoadChartsModal = () => {
 	const deleteChartById = (chartId: number) => {
 		try {
 			const data = queryClient.getQueryData([
-				'tvSavedCharts',
-				{
-					client: userData?.customerISIN ?? 0,
-					user: userData?.customerISIN ?? 0,
-				}
+				'tvSavedCharts'
+				// ,
+				// {
+				// 	client: userData?.customerISIN ?? 0,
+				// 	user: userData?.customerISIN ?? 0,
+				// }
 			]);
 			const charts = (data ? JSON.parse(JSON.stringify(data)) : []) as TvSavedChartType[];
 
@@ -144,11 +150,12 @@ const TvLoadChartsModal = () => {
 			if (filteredCharts.length === 0) ipcMain.send('tv_chart:empty_charts');
 
 			queryClient.setQueryData([
-				'tvSavedCharts',
-				{
-					client: userData?.customerISIN ?? 0,
-					user: userData?.customerISIN ?? 0,
-				}
+				'tvSavedCharts'
+				// ,
+				// {
+				// 	client: userData?.customerISIN ?? 0,
+				// 	user: userData?.customerISIN ?? 0,
+				// }
 			], filteredCharts);
 
 			setDeletingChart(null);
@@ -205,13 +212,13 @@ const TvLoadChartsModal = () => {
 								autoFocus
 								onChange={(e) => setSearch(e.target.value)}
 								placeholder={t('tv_chart.tv_chart_name')}
-								className='rounded flex-1 bg-transparent pl-6 text-sm font-normal h-10'
+								className='rounded flex-1 bg-transparent pl-6 text-sm font-normal h-10 outline-none'
 							/>
 
-							<div className='flex items-center absolute text-L-gray-500 dark:text-D-gray-500 right-3'>
+							<div className='flex items-center absolute text-L-gray-500 dark:text-D-gray-500 left-3'>
 								{search.length > 1 && (
 									<button role="button" type='button' className='cursor-pointer text-sm' onClick={() => setSearch("")}>
-										<CloseIcon width="1.25rem" height="1.25rem" />
+										<CloseIcon width="1rem" height="1rem" />
 									</button>
 								)}
 							</div>

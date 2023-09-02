@@ -1,11 +1,10 @@
 import { QueryClient } from "@tanstack/react-query";
 // import axios from "api/axios";
-// import apiRoutes from "api/apiRoutes";
 import { DatafeedConfiguration, GetMarksCallback, HistoryCallback, LibrarySymbolInfo, Mark, MarkConstColors, OnReadyCallback, PeriodParams, ResolutionString, ResolveCallback, SearchSymbolResultItem, SearchSymbolsCallback, SubscribeBarsCallback, SymbolResolveExtension } from 'src/charting_library';
 import Subscribe from "src/common/classes/Subscribe";
 import { ItemUpdate } from "lightstreamer-client-web";
 import AXIOS from "src/api/axiosInstance";
-import apiRoutes from "src/api/apiRoutes";
+import { Apis } from "src/common/hooks/useApiRoutes/useApiRoutes";
 
 type MarksType = Record<'id' | 'color' | 'text' | 'label' | 'labelFontColor', string[]>
 	& Record<'minSize' | 'time', number[]>
@@ -85,7 +84,7 @@ class Datafeed {
 				queryKey: ['tv:config'],
 				queryFn: async () => {
 					try {
-						const { data } = await AXIOS.get<DatafeedConfiguration>(apiRoutes.tvChart.config);
+						const { data } = await AXIOS.get<DatafeedConfiguration>(Apis().tvChart.config);
 						return data;
 					} catch (e) {
 						return defaultData;
@@ -107,7 +106,7 @@ class Datafeed {
 				const data = await this._queryCache.fetchQuery({
 					queryKey: ['tv:resolveSymbol', symbolISIN],
 					queryFn: async () => {
-						const { data } = await AXIOS.get<LibrarySymbolInfo & { lastTradedPrice: number }>(apiRoutes.tvChart.symbols, {
+						const { data } = await AXIOS.get<LibrarySymbolInfo & { lastTradedPrice: number }>(Apis().tvChart.symbols, {
 							params: {
 								symbol: symbolISIN
 							}
@@ -138,7 +137,7 @@ class Datafeed {
 			const data = await this._queryCache.fetchQuery({
 				queryKey: ['tv:searchSymbols', params],
 				queryFn: async () => {
-					const { data } = await AXIOS.get<SearchSymbolResultItem[]>(apiRoutes.tvChart.search, { params });
+					const { data } = await AXIOS.get<SearchSymbolResultItem[]>(Apis().tvChart.search, { params });
 					return data;
 				}
 			});
@@ -173,7 +172,7 @@ class Datafeed {
 			};
 
 			try {
-				const { data } = await AXIOS.get<ApiResponse>(apiRoutes.tvChart.history, { params });
+				const { data } = await AXIOS.get<ApiResponse>(Apis().tvChart.history, { params });
 
 				if (data.s === 'no_data') {
 					onResult([], {
@@ -231,7 +230,7 @@ class Datafeed {
 			const data = await this._queryCache.fetchQuery({
 				queryKey: ['tv:getBars', params],
 				queryFn: async () => {
-					const { data } = await AXIOS.get<MarksType>(apiRoutes.tvChart.marks, { params });
+					const { data } = await AXIOS.get<MarksType>(Apis().tvChart.marks, { params });
 
 					const marks: Mark[] = [];
 					const length = data.id.length;
