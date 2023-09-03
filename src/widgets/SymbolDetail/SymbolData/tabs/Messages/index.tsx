@@ -1,23 +1,23 @@
 import { useMessagesSuppervisorOneSmbol } from 'src/app/queries/messages';
 import { useAppValues } from 'src/redux/hooks';
 import Message from './Message';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const Messages = () => {
     const {
         option: { selectedSymbol },
     } = useAppValues();
-    const messageOneSymbol = useMessagesSuppervisorOneSmbol(selectedSymbol);
-
+    const { data: messageOneSymbol, isLoading } = useMessagesSuppervisorOneSmbol(selectedSymbol);
 
     return (
-        <div className="">
-            <div className="w-full h-full overflow-auto">
-                {messageOneSymbol.data &&
-                    messageOneSymbol.data
-                    .map((item) => <Message data={item} key={item.id} />)}
+        <WidgetLoading spining={isLoading}>
+            <div>
+                <div className="w-full h-full overflow-auto">
+                    {messageOneSymbol && messageOneSymbol.map((item) => <Message data={item} key={item.id} />)}
+                </div>
             </div>
-        </div>
+        </WidgetLoading>
     );
-};  
+};
 
 export default Messages;

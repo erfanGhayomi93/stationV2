@@ -7,6 +7,8 @@ interface ICustomerSearchWidgetType {
     params: IGoCustomerRequest;
     detailModalData?: IGoMultiCustomerType;
     isSelectedActive?: boolean;
+    isDetailModalOpen?:boolean;
+    isPortfolioModalOpen?:boolean;
 }
 const useValue = () => useState<ICustomerSearchWidgetType>({ params: {} });
 
