@@ -1,0 +1,25 @@
+.submenu {
+    padding: 12px;
+    width: 100%;
+    border-right: 2px solid #294F6A;
+    position: relative;
+
+    ::before{
+        content: '';
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        top: calc(50% - 4px);
+        right: -5px;
+        border-radius: 50%;
+        background-color: #294F6A;
+    }
+}
+.active-submenu {
+    ::before {
+        width: 10px;
+        height: 10px;
+        right: -6px;
+        background-color: theme("colors.L.info.50");
+    }
+}
