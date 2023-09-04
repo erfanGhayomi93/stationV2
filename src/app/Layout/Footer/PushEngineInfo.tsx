@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Signal } from 'src/common/icons';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useTranslation } from 'react-i18next';
 
 // https://sdk.lightstreamer.com/ls-web-client/8.0.5/api/StatusWidget.html#onStatusChange

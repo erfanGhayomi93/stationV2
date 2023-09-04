@@ -1,5 +1,4 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import axios from 'src/api/axiosInstance';
 import { ChartActionId, EntityInfo, IChartingLibraryWidget, LibrarySymbolInfo, ResolutionString, SaveLoadChartRecord, SeriesStyle, StudyEventType, UndoRedoState } from 'src/charting_library/charting_library';
@@ -21,8 +20,7 @@ import {
 	EyeOutlineSVG,
 	ListLayoutSVG
 } from 'src/common/icons';
-// import { toggleTvCompareModal, toggleTvIndicatorsModal, toggleTvLayoutModal, toggleTvLoadChartTemplate, toggleTvSaveChartTemplate, toggleTvSaveIndicatorsTemplate } from 'features/modalSlice';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { downloadCanvasAsImage, getURL, seprateNumber as sepNumbers } from 'src/utils/helpers';
 import styles from './TradingView.module.scss';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
@@ -34,6 +32,7 @@ import { getTheme } from 'src/redux/slices/ui';
 import { useSavedStudyTemplatesQuery, useTvSavedChart } from 'src/app/queries/tradingView';
 import { useTradingState } from '../context';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { queryClient } from 'src/app/queryClient';
 
 export interface onSavedChartSuccessfully {
 	uid: string
@@ -79,7 +78,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const theme = useAppSelector(getTheme);
 
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 
 	const selectedSymbol = useAppSelector(getSelectedSymbol);
 
@@ -88,7 +87,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	const [savedChart, setSavedChart] = useState<SaveLoadChartRecord | null>(null);
 
 	const [localstudies, setLocalstudies] = useLocalStorage<Record<string, EntityInfo[]>>('tradingview.saved_indicators', {});
-	const [localSymbolSearchHistory, setLocalSymbolSearchHistory] = useLocalStorage<(SearchSymbolType | RecentSymbolType)[]>('symbol_search_history', []);
+
 
 	const { setState } = useTradingState()
 
@@ -474,9 +473,10 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		}, 1000);
 	};
 
+
 	const onSymbolChanged = (symbol: LibrarySymbolInfo & { lastTradedPrice: number }) => {
 		const { widget } = activeChart;
-		if (!widget) return "";
+		if (!widget) return '';
 
 		try {
 			widget.activeChart().priceFormatter().format = (value) => {
@@ -484,13 +484,10 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				return sepNumbers(Number(value.toFixed(0)));
 			};
 
-			// console.log("symbol",symbol)
-
 			const [symbolTitle, companyTitle] = symbol.full_name.split('-');
 			const symbolISIN = (symbol.ticker as string).split('-')[0];
 
 			try {
-				// const studies = Localstorage.get<Record<string, EntityInfo[]>>('tradingview.saved_indicators', {});
 				const studies = localstudies;
 				const symbolStudies = studies[symbolISIN];
 				widget.activeChart().removeAllStudies();
@@ -502,41 +499,17 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					}
 				}
 			} catch (e) {
-				//
+				// Handle the error
 			}
 
-			const symbolItem = {
-				symbolTitle,
-				symbolISIN,
-				companyName: companyTitle,
-				lastTradedPrice: symbol.lastTradedPrice,
-			}
-
-			// console.log("symbolItem", symbolItem)
-			// console.log("localSymbolSearchHistory", localSymbolSearchHistory)
-
-			/* Exists */
-			const symbolIndex = localSymbolSearchHistory.findIndex(({ symbolISIN }) => symbolISIN === symbolItem.symbolISIN);
-			if (symbolIndex > -1) {
-				localSymbolSearchHistory.splice(symbolIndex, 1);
-				setLocalSymbolSearchHistory([symbolItem, ...localSymbolSearchHistory])
-				return;
-			}
-			if (localSymbolSearchHistory.length >= 5) {
-				const newRecentSymbols = [symbolItem, ...localSymbolSearchHistory].slice(0, localSymbolSearchHistory.length);
-				setLocalSymbolSearchHistory(newRecentSymbols)
-			} else {
-				// console.log("else")
-				// console.log("symbolItem",symbolItem)
-				// console.log("localSymbolSearchHistory",localSymbolSearchHistory)
-				setLocalSymbolSearchHistory([symbolItem, ...localSymbolSearchHistory])
-			}
+			ipcMain.send('tv_chart:refetch_recent_history');
 
 
 		} catch (e) {
 			console.log(e);
 		}
-	};
+	}
+
 
 	const onChangedStudies = (entityId: EntityId, studyEventType: StudyEventType) => {
 		try {
@@ -760,6 +733,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 			ipcMain.removeHandler('tv_chart:empty_charts');
 		};
 	}, [activeChart]);
+
 
 	useEffect(() => {
 		savedChartRef.current = savedChart;

@@ -18,7 +18,6 @@ dayjs.extend(weekday)
 export const fetchUser = async (dispatch: AppDispatch) => {
     try {
         const { data } = await AXIOS.get(Apis().User.GetUserInformation);
-        console.log("dataaa" , data)
         dispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' , customerISIN : "18990015846237" }));
     } catch (error: any) {
         if (![401].includes(error?.response?.status)) dispatch(setAppState('Crashed'));
