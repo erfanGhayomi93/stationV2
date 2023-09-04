@@ -6,10 +6,10 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 selectedWatchlistId: action.value.id,
                 watchlistType: action.value.type
             };
-        case 'SET_SELECTED_DEFAULT_WATCHLIST':
+        case 'SET_SELECTED_RAMAND_FILTER_WATCHLIST':
             return {
                 ...state,
-                selectedDefaultWatchlist: action.value,
+                ramandFilterWatchlist: action.value,
             };
         case 'TOGGLE_EDIT_MODE':
             return {

@@ -13,7 +13,7 @@ const initialState: WathclistState = {
     watchlistType: 'Market',
     editMode: false,
     addSymbolMode: false,
-    selectedDefaultWatchlist: 'EffectiveOnIndex',
+    ramandFilterWatchlist: 'EffectiveOnIndex',
     column: [],
     listShowColumn: [],
     PageNumber: 1,
@@ -34,7 +34,7 @@ export const useWatchListState = () => {
 
 const WatchlistContext = () => {
     const {
-        state: { selectedWatchlistId: watchlistId, watchlistType, sector, PageNumber, marketUnit: MarketUnit, selectedDefaultWatchlist: type },
+        state: { selectedWatchlistId: watchlistId, watchlistType, sector, PageNumber, marketUnit: MarketUnit, ramandFilterWatchlist: type },
     } = useWatchListState();
 
     const timer = useRef<NodeJS.Timeout | null>()
