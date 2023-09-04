@@ -255,7 +255,7 @@ const Sider = () => {
                                 <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
-                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-100' : 'text-menu')}
+                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
                                         onClick={() => {
                                             item.onClick?.();
                                             setActiveMenuItem(item.id);
