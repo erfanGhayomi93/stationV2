@@ -92,10 +92,6 @@ const TvSelectSymbolModal = ({ actionId }: TvSelectSymbolModalProps) => {
 	const onClickRow = (symbol: SearchSymbolType) => {
 		if (actionId === 'symbol_search') {
 			dispatch(setSelectedSymbol(symbol.symbolISIN));
-			// setSelectedSymbol({
-			// 	symbolISIN: symbol.symbolISIN,
-			// 	source: 'search'
-			// })
 			return;
 		}
 

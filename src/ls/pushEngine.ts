@@ -18,7 +18,7 @@ interface ISubscribe<T = IChangedField> {
     onFieldsUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
 }
 
-type UpdatedFieldsType<T = IChangedField> = { itemName: string; changedFields: T };
+export type UpdatedFieldsType<T = IChangedField> = { itemName: string; changedFields: T };
 
 const client = new LightstreamerClient();
 const subscriptions: { [subId: string]: Subscription | null } = {};

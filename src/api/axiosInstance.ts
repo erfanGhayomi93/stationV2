@@ -74,7 +74,7 @@ AXIOS.interceptors.response.use(
                     break;
                 case 404: // Not Found
                     if (process.env.NODE_ENV === 'development') onErrorNotif({ title: 'یافت نشد' });
-                    else unAuthorized();
+                    // else unAuthorized();
                     break;
                 case 405: // Method Not Allowed
                     onErrorNotif({ title: 'عدم تطابق اطلاعات' });

@@ -3,9 +3,10 @@ import AXIOS from "src/api/axiosInstance";
 import { Apis } from "src/common/hooks/useApiRoutes/useApiRoutes";
 
 
-const getSavedStudyTemplates = async (params: IRequestSavedStudyTemplates) => {
+const getSavedStudyTemplates = async (params: IRequestSavedStudyTemplates, signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<TvStudyTemplateListType[]>>(Apis().tvChart.studyTemplate, {
-        params
+        params,
+        signal
     });
     return data?.result;
 };
@@ -14,18 +15,18 @@ export const useSavedStudyTemplatesQuery = (
     params: IRequestSavedStudyTemplates,
     options?: Omit<UseQueryOptions<TvStudyTemplateListType[], unknown, TvStudyTemplateListType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['tvStudyTemplates'], () => getSavedStudyTemplates(params), options);
+    return useQuery(['tvStudyTemplates'], ({ signal }) => getSavedStudyTemplates(params, signal), options);
 };
 
 /*-------------------------------------------------------*/
 
 
-const getTvSavedChart = async (params: IRequestSavedStudyTemplates) => {
-    const { data } = await AXIOS.get<{data : TvSavedChartType[] , status : string}>(Apis().tvChart.loadAll, {
-        params
+const getTvSavedChart = async (params: IRequestSavedStudyTemplates, signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<{ data: TvSavedChartType[], status: string }>(Apis().tvChart.loadAll, {
+        params,
+        signal
     });
 
-    console.log("Data",data)
     return data?.data || [];
 };
 
@@ -33,17 +34,18 @@ export const useTvSavedChart = (
     params: IRequestSavedStudyTemplates,
     options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['tvSavedCharts'], () => getTvSavedChart(params), options);
+    return useQuery(['tvSavedCharts'], ({ signal }) => getTvSavedChart(params, signal), options);
 };
 
 
 /*-------------------------------------------------------*/
 
 
-const getSymbolSearch = async (term: string) => {
+const getSymbolSearch = async (term: string, signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(Apis().Symbol.Search, {
         params: {
-            term
+            term,
+            signal
         },
     });
     return data?.result;
@@ -53,8 +55,26 @@ export const useSymbolSearchQuery = (
     term: string,
     options?: Omit<UseQueryOptions<SearchSymbolType[], Error, SearchSymbolType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['symbolSearch'], () => getSymbolSearch(term), options);
+    return useQuery(['symbolSearch'], ({ signal }) => getSymbolSearch(term, signal), options);
 };
+
+/*-------------------------------------------------------*/
+
+
+const getRecentSymbolHistory = async (signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(Apis().tvChart.historyRecent, {
+        signal
+    });
+
+    return data?.result || [];
+};
+
+export const useRecentSymbolHistory = (
+    options?: Omit<UseQueryOptions<SearchSymbolType[], Error, SearchSymbolType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+) => {
+    return useQuery(['userRecentSymbolHistory'], ({ signal }) => getRecentSymbolHistory(signal), options);
+};
+
 /*-------------------------------------------------------*/
 
 
@@ -64,7 +84,7 @@ export const useSymbolSearchQuery = (
 //     });
 //     return data?.result;
 // };
-// 
+//
 // export const useSavedChartsQuery = (
 //     params: IRequestSavedStudyTemplates,
 //     options?: Omit<UseQueryOptions<TvSavedChartType[], Error, TvSavedChartType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
