@@ -7,10 +7,10 @@ const ActionCellRenderer: FC<IGoMultiCustomerType> = (data) => {
     const { setState, state } = useCustomerSearchState();
 
     const showDetailModal = (data: IGoMultiCustomerType) => {
-        setState((prev) => ({ ...prev, detailModalData: data }));
+        setState((prev) => ({ ...prev, isDetailModalOpen: true,detailModalData: data }));
     };
-    const showActionModal = (data: IGoMultiCustomerType) => {
-        setState((prev) => ({ ...prev, actionModalData: data }));
+    const showPortfolioModal = (data: IGoMultiCustomerType) => {
+        setState((prev) => ({ ...prev, isPortfolioModalOpen:true,detailModalData: data }));
     };
     return (
         <div className="flex items-center justify-center gap-2 py-2 h-full">
@@ -20,7 +20,7 @@ const ActionCellRenderer: FC<IGoMultiCustomerType> = (data) => {
                 </button>
             </Tippy>
             <Tippy content="پرتفوی مشتری" className="text-xs">
-                <button onClick={() => showActionModal(data)} className="">
+                <button onClick={() => showPortfolioModal(data)} className="">
                     <PortfolioDetailIcon className="text-L-primary-50 dark:text-D-primary-50" />
                 </button>
             </Tippy>

@@ -1,64 +1,106 @@
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
-import { FC, Fragment } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import { ChevronIcon } from 'src/common/icons';
 import { MenuItemType } from '.';
 import ToggleSlider from './ToggleSlider';
+import clsx from 'clsx';
+import styles from './expandedSider.module.scss';
 
 interface IExpandedSiderType {
     isOpen: boolean;
     onClose: (value: boolean) => void;
     menuItems: MenuItemType[];
+    setActiveMenuItem: (arg: string) => void;
+    activeMenuItem: string;
 }
 
-const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) => {
-    let buttonWithChildren = (item: MenuItemType, ind: number) => (
-        <Disclosure key={ind} defaultOpen={false}>
-            {({ open }) => (
-                <>
-                    <Disclosure.Button as={Fragment}>
+const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, activeMenuItem, setActiveMenuItem }) => {
+    //
+    const [openedList, setOpenedList] = useState<string>('');
+
+    const findParentKey = (id: string): React.Key => {
+        let parentKey: string = '';
+        for (let i = 0; i < menuItems.length; i++) {
+            const node = menuItems[i];
+            if (node.children) {
+                if (node.children.some((item) => item.id === id)) {
+                    parentKey = node.id;
+                }
+            }
+        }
+        return parentKey;
+    };
+
+    useEffect(() => {
+        if (activeMenuItem) {
+            setOpenedList(findParentKey(activeMenuItem) as string);
+        }
+    }, [isOpen]);
+
+    const renderMenu = (items: MenuItemType[]) => {
+        //
+        const onMenuItemClick = (menu: MenuItemType) => {
+            if (menu.children) {
+                setOpenedList(menu.id);
+                return;
+            }
+            onClose(true);
+            menu?.onClick?.();
+            setActiveMenuItem(menu.id);
+            setOpenedList('');
+        };
+
+        const onSubmenuItemClick = (subMenu: Omit<MenuItemType, 'position' | 'placeOfDisplay'>, parentId: string) => {
+            subMenu.onClick?.();
+            setOpenedList(parentId);
+            setActiveMenuItem(subMenu.id);
+            onClose(true);
+        };
+        return (
+            <>
+                {items.map((item, ind) => (
+                    <div
+                        key={ind}
+                        className={clsx(
+                            'my-1 overflow-hidden duration-300 ease-out flex flex-col',
+                            openedList === item.id ? 'bg-L-blue-100 max-h-[300px]' : 'max-h-[41px]',
+                        )}
+                    >
                         <button
-                            // onClick={item.onClick}
-                            className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
+                            className={clsx('flex gap-4 item-center px-6 py-3', activeMenuItem === item.id && !item.children ? 'text-L-info-50' : '')}
+                            onClick={() => onMenuItemClick(item)}
                         >
                             {item.icon}
                             {item.label}
-                            <div className="flex flex-1 justify-end">
-                                <ChevronIcon className={`rotate-180 duration-200 ${open ? 'rotate-0' : ''}`} />
-                            </div>
+                            {item.children && (
+                                <div className="flex flex-1 justify-end">
+                                    <ChevronIcon className={`duration-200 ${openedList === item.id ? 'rotate-0' : 'rotate-180'}`} />
+                                </div>
+                            )}
                         </button>
-                    </Disclosure.Button>
-                    <Transition
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0  translate-x-10"
-                        enterTo="opacity-100 "
-                        leave="ease-out duration-300"
-                        leaveFrom="opacity-100 "
-                        leaveTo="opacity-0  translate-x-10"
-                    >
-                        <Disclosure.Panel className="pr-3 w-full" data-cy="expanded-sider">
-                            <div className=" w-full border-solid border-r-2 border- ">
-                                {item.children &&
-                                    item.children.map((itemChild: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>, ind: number) => (
-                                        <button
-                                            key={ind}
-                                            className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                            onClick={() => {
-                                                itemChild?.onClick?.();
-                                                onClose(false);
-                                            }}
+                        {item.children?.length &&
+                            item.children.map((child, ind) => (
+                                <div key={ind} className="px-7">
+                                    <button
+                                        className={clsx(styles.submenu, activeMenuItem === child.id && styles['active-submenu'])}
+                                        onClick={() => onSubmenuItemClick(child, item.id)}
+                                    >
+                                        <div
+                                            className={clsx(
+                                                'text-right py-2 px-2 rounded-md',
+                                                activeMenuItem === child.id ? 'bg-L-blue-50 text-L-info-50' : '',
+                                            )}
                                         >
-                                            {itemChild.icon}
-                                            {itemChild.label}
-                                        </button>
-                                    ))}
-                            </div>
-                        </Disclosure.Panel>
-                    </Transition>
-                </>
-            )}
-        </Disclosure>
-    );
+                                            {child.label}
+                                        </div>
+                                    </button>
+                                </div>
+                            ))}
+                    </div>
+                ))}
+            </>
+        );
+    };
 
     return (
         <>
@@ -92,61 +134,25 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                         <div className="flex flex-col items-center gap-5">
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
-                                        <div className="flex flex-col justify-between h-full mt-8">
-                                            <div className="flex flex-col items-center gap-5 px-6 ">
-                                                {menuItems
-                                                    .filter(
+                                        <div className="flex flex-col h-full justify-between">
+                                            <div>
+                                                {renderMenu(
+                                                    menuItems.filter(
                                                         (item) =>
                                                             (item.placeOfDisplay === 'opened' || item.placeOfDisplay === 'both') &&
                                                             item.position === 'top',
-                                                    )
-                                                    .map((item, ind) => {
-                                                        if (item.children) {
-                                                            return buttonWithChildren(item, ind);
-                                                        } else {
-                                                            return (
-                                                                <button
-                                                                    key={ind}
-                                                                    className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                                                    onClick={() => {
-                                                                        item?.onClick?.();
-                                                                        onClose(false);
-                                                                    }}
-                                                                >
-                                                                    {item.icon}
-                                                                    {item.label}
-                                                                </button>
-                                                            );
-                                                        }
-                                                    })}
+                                                    ),
+                                                )}
                                             </div>
 
-                                            <div className="flex flex-col items-center gap-5 px-6 ">
-                                                {menuItems
-                                                    .filter(
+                                            <div>
+                                                {renderMenu(
+                                                    menuItems.filter(
                                                         (item) =>
                                                             (item.placeOfDisplay === 'opened' || item.placeOfDisplay === 'both') &&
                                                             item.position === 'bottom',
-                                                    )
-                                                    .map((item, ind) => {
-                                                        if (item.children) {
-                                                            return buttonWithChildren(item, ind);
-                                                        } else {
-                                                            return (
-                                                                <button
-                                                                    key={ind}
-                                                                    className="hover:bg-  hover:text-white flex gap-2 w-full items-center text-menu p-3 rounded-md"
-                                                                    onClick={() => {
-                                                                        item?.onClick?.();
-                                                                        onClose(false);
-                                                                    }}
-                                                                >
-                                                                    {item.icon}
-                                                                    {item.label}
-                                                                </button>
-                                                            );
-                                                        }
-                                                    })}
+                                                    ),
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -160,4 +166,4 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
     );
 };
 
-export default ExpandedSider;
+export default React.memo(ExpandedSider);

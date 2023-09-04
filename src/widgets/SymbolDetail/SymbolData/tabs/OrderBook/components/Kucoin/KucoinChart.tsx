@@ -375,7 +375,7 @@ const sellData = useMemo(() => {
 			<div className='flex-1 relative h-full border-l'>
 				<canvas
 					style={{ width: '100%', height: '96%' }}
-					className='w-full '
+					className='w-full'
 					ref={onCanvasLoad}
 				/>
 			</div>

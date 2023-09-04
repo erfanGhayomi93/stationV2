@@ -7,6 +7,7 @@ import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput
 import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 type RequestData = {
     customerTitle: string;
@@ -22,7 +23,7 @@ type RequestData = {
 const Requests = () => {
     //
     const { t } = useTranslation();
-    const { data } = useGetOfflineRequests(
+    const { data, isLoading } = useGetOfflineRequests(
         {},
         {
             onSuccess: (data) => {
@@ -32,7 +33,7 @@ const Requests = () => {
     );
 
     const columns = useMemo(
-        (): ColDefType<RequestData>[] => [
+        (): ColDefType<IGTOfflineTradesResult>[] => [
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolName', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.side'), field: 'side', valueFormatter: valueFormatterSide },
@@ -40,11 +41,11 @@ const Requests = () => {
             { headerName: t('ag_columns_headerName.requestType'), field: 'requestType' },
             { headerName: t('ag_columns_headerName.fund'), field: 'fund', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price' },
-            { headerName: t('ag_columns_headerName.validity'), field: 'validity' },
+            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: "date" },
             {
                 headerName: t('ag_columns_headerName.actions'),
                 field: 'customTitle',
-                cellRenderer: (row: ICellRendererParams<RequestData>) => (
+                cellRenderer: (row: ICellRendererParams<IGTOfflineTradesResult>) => (
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
@@ -58,9 +59,12 @@ const Requests = () => {
     );
 
     return (
+        <WidgetLoading spining={isLoading}>
+
         <div className={'grid h-full p-3'}>
-            <AGTable agGridTheme="balham" rowData={[]} columnDefs={columns} />
+            <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
         </div>
+        </WidgetLoading>
     );
 };
 
