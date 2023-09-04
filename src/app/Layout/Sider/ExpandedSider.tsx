@@ -41,7 +41,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
         //
         const onMenuItemClick = (menu: MenuItemType) => {
             if (menu.children) {
-                setOpenedList(menu.id);
+                openedList === menu.id ? setOpenedList('') : setOpenedList(menu.id);
                 return;
             }
             onClose(true);

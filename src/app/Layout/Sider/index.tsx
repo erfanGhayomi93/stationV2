@@ -252,7 +252,7 @@ const Sider = () => {
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <Tippy key={ind} content={item.label} className="text-xs" placement="left">
+                                <Tippy aria={{content:'auto', expanded:"auto"}} inertia key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
                                         className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
