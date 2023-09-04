@@ -1,7 +1,7 @@
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 import { FC, Fragment, useEffect, useState } from 'react';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useSliderDispatch } from 'src/app/Layout/Sider/context';
 import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
 import { useMessagesSuppervisor } from 'src/app/queries/messages';

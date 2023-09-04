@@ -62,7 +62,7 @@ export const Apis = () => ({
         Symbols: baseUrl + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: baseUrl + '/Symbol/v1/Search',
+        Search: baseUrl + '/Symbol/v1/Searchv2',
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
     },
@@ -149,6 +149,8 @@ export const Apis = () => ({
         delete: `${baseUrl}/TV/v1/1.1/charts`,
         loadOne: `${baseUrl}/TV/v1/1.1/charts`,
         loadAll: `${baseUrl}/TV/v1/1.1/charts`,
+        historyRecent: `${baseUrl}/Symbol/v1/GetSearchHistory`,
+        deleteRecent: `${baseUrl}/Symbol/v1/DeleteSearchHistory`,
     },
     Setting: {
         GetSetting: baseUrl + `/Setting/v1/GetSettings`,

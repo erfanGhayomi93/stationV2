@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAppValues } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 

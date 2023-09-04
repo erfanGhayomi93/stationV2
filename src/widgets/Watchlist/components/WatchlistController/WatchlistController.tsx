@@ -21,7 +21,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
     const { setState, state } = useWatchListState();
     const [isAddActive, setIsAddActive] = useState(false);
 
-    const { data: defaultWatchlists } = useDefaultWatchlistQuery();
+    // const { data: defaultWatchlists } = useDefaultWatchlistQuery();
 
     const setActiveWatchlist = ({ id, type }: { id: number; type: WatchlistType }) => {
         setState({ value: { id, type }, type: 'SET_SELECTED_WATCHLIST' });
@@ -35,12 +35,12 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
         setState({ type: 'TOGGLE_EDIT_MODE', value: true });
     };
 
-    const watchlistOptions = useMemo(() => {
-        return defaultWatchlists?.map((item) => ({
-            value: item,
-            label: t('defaultWlOption.' + item),
-        }));
-    }, [defaultWatchlists, t]);
+    // const watchlistOptions = useMemo(() => {
+    //     return defaultWatchlists?.map((item) => ({
+    //         value: item,
+    //         label: t('defaultWlOption.' + item),
+    //     }));
+    // }, [defaultWatchlists, t]);
 
     const setTypeDefaultWatchlist = useCallback((select: IDefaultWatchlistType) => {
         setDefaultWatchlist(select);
@@ -102,14 +102,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
             <div className="flex gap-2 items-center whitespace-nowrap">
                 {state.watchlistType === 'Market' && <FilterAllMarket />}
 
-                {state.watchlistType === 'Ramand' && (
+                {/* {state.watchlistType === 'Ramand' && (
                     <>
                         <span className="text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
                             <Select onChange={setTypeDefaultWatchlist} value={state.selectedDefaultWatchlist} options={watchlistOptions} />
                         </div>
                     </>
-                )}
+                )} */}
 
                 <CheckColumnShow {...{ columns }} />
             </div>
