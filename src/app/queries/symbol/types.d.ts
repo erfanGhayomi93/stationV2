@@ -160,6 +160,15 @@ interface GetSameSectorResultType {
     totalNumberOfSharesTraded: number;
 }
 
+interface GetChartSymbolType {
+    o : number;
+    h : number;
+    l : number;
+    c : number;
+    x : number;
+    v : number;
+}
+
 // interface GetSameSectorResultType {
 //     insCode: string;
 //     companyISIN: string;
