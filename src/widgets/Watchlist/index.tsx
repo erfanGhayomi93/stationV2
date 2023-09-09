@@ -77,7 +77,7 @@ const Watchlists = (props: Props) => {
                             onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
                             onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
                         />
-                        {!watchlistSymbolList?.length && !isFetchingSymbol && (
+                        {!['Market', 'Ramand'].includes(watchlistType) && !watchlistSymbolList?.length && !isFetchingSymbol && (
                             <div className="absolute top-0 left-0 text-D-basic dark:text-L-basic text-center flex flex-col items-center justify-center w-full h-full">
                                 <Trans
                                     i18nKey="Watchlist.noDataDescription"
