@@ -44,7 +44,7 @@ const Watchlists = (props: Props) => {
     };
 
     return (
-        <WidgetLoading spining={isFetchingSymbol}>
+        <WidgetLoading spining={isFetchingSymbol} blur>
             <div className="h-full flex flex-col py-3 px-6">
                 <div>
                     <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t('Watchlist.title')}</h1>
