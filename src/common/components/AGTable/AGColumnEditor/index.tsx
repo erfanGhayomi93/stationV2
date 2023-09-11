@@ -51,6 +51,8 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
             setColumnOptions(getAllColumns(columns));
             !visibleColumns?.length && setVisibleColumns(getVisibleColumns(columns));
             !pinnedColumns?.length && setPinnedColumns(getPinnedColumns(columns));
+
+            (visibleColumns?.length || pinnedColumns?.length) && onColumnStateChange();
         }
     };
 
