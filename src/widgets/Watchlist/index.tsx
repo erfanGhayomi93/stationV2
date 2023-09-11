@@ -36,6 +36,8 @@ const Watchlists = (props: Props) => {
                 field: 'symbolTitle',
                 pinned: 'right',
                 rowDrag: true,
+                minWidth: 175,
+                maxWidth: 175,
                 cellRenderer: SymbolTradeState,
                 rowDragText: (p) => {
                     return p?.rowNode?.data?.symbolTitle || 'جابجایی';
@@ -111,6 +113,8 @@ const Watchlists = (props: Props) => {
                 headerName: 'عملیات',
                 cellRenderer: ({ data }: ICellRendererParams<ISymbolType>) => <ActionCellRenderer {...(data as any)} />,
                 field: 'agTableAction',
+                minWidth: 130,
+                maxWidth: 130,
                 pinned: 'left',
             },
         ],

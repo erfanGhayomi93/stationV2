@@ -5,6 +5,7 @@ import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { externalTooltipHandler } from '../../../SymbolChart/components/helper';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useMarketDepthState } from '../../context';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 type PluginOptions = {
     yesterdayClosingPrice: number;
@@ -345,15 +346,17 @@ const MarketDepthChart = () => {
     }, [yesterdayClosingPrice]);
 
     return (
-        <div
-            style={{
-                minHeight: '250px',
-                maxHeight: '250px',
-            }}
-            className="relative overflow-hidden mt-4"
-        >
-            <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
-        </div>
+        <WidgetLoading spining={isLoading}>
+            <div
+                style={{
+                    minHeight: '250px',
+                    maxHeight: '250px',
+                }}
+                className="relative overflow-hidden mt-4"
+            >
+                <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
+            </div>
+        </WidgetLoading>
     );
 };
 
