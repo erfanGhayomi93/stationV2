@@ -138,7 +138,6 @@ const Watchlists = (props: Props) => {
         headerClass: 'px-1 font-semibold',
     };
 
-
     return (
         <WidgetLoading spining={isFetchingSymbol} blur>
             <div className="h-full flex flex-col py-3 px-6">
@@ -147,7 +146,6 @@ const Watchlists = (props: Props) => {
                     <WatchlistController {...{ Columns, watchlists, gridApi }} />
                 </div>
 
-            <WidgetLoading spining={isFetchingSymbol} blur>
                 <div className="flex flex-col flex-1 relative">
                     <div className="flex-1 pin-table">
                         <AGTable
@@ -210,13 +208,13 @@ const Watchlists = (props: Props) => {
                         <></>
                     )}
                 </div>
-            </WidgetLoading>
-            {watchlistType === 'Market' && (
-                <div className="border-t flex justify-end items-center pt-4">
-                    <Paginator loading={false} pageSize={25} pageNumber={1} PaginatorHandler={() => { }} />
-                </div>
-            )}
-        </div>
+                {watchlistType === 'Market' && (
+                    <div className="border-t flex justify-end items-center pt-4">
+                        <Paginator loading={false} pageSize={25} pageNumber={1} PaginatorHandler={() => {}} />
+                    </div>
+                )}
+            </div>
+        </WidgetLoading>
     );
 };
 
