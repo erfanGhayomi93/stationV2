@@ -3,15 +3,17 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import CardEvent from '../../components/CardEvent';
+import { useGetEventQuery } from 'src/app/queries/bourseCalender';
 
 type TableMonthGridType = {
 	date: dayjs.Dayjs | null;
 	isMeetingFiltered: boolean;
 	isProfitPaymentFiltered: boolean;
-	isAllSelected: boolean
+	isAllSelected: boolean,
+	watchlistId?: number
 };
 
-const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableMonthGridType) => {
+const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }: TableMonthGridType) => {
 	const startOfMonth = useMemo(() => (date?.startOf("month")), [date]);
 	const endOfMonth = useMemo(() => (date?.endOf("month")), [date]);
 	const startOfMonthDay = useMemo(() => (startOfMonth?.day()), [date]);
@@ -23,14 +25,13 @@ const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAl
 		return daysStarting;
 	};
 
-	// const { data } = useGetEventQuery([
-	// 	"getEventWeekOnCalender", {
-	// 		fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-	// 		toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-	// 		forUser: isAllSelected
-	// 	}
-	// ]);
-	const data : any = {result : []}
+	const { data } = useGetEventQuery(
+		{
+			fromDate: startOfMonth?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+			toDate: endOfMonth?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+			watchlistId: watchlistId
+		}
+	);
 
 
 
@@ -47,7 +48,7 @@ const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAl
 	}, [date]);
 
 	const filteredEvents = useMemo(() => daysInMonth.map(time => {
-		return data?.result.filter((item : any) => {
+		return data?.result.filter((item: any) => {
 			/* top filter */
 			if (!isMeetingFiltered && item.type === "Meeting") return false;
 			if (!isProfitPaymentFiltered && item.type === "InterestPayment") return false;
@@ -80,7 +81,7 @@ const TableMonthGrid = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAl
 							{ind + 1}
 						</span>
 						{
-							item.map((card  :any) => (
+							item.map((card: any) => (
 								<CardEvent data={card} key={card.id} />
 							))
 						}

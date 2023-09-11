@@ -1,7 +1,7 @@
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 import { FC, Fragment, useEffect, useState } from 'react';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useSliderDispatch } from 'src/app/Layout/Sider/context';
 import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
 import { useMessagesSuppervisor } from 'src/app/queries/messages';
@@ -9,6 +9,8 @@ import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
 import SearchInput from './components/SearchInput';
 import { WatcherMessages } from './components/WatcherMessages';
+import AdminMessages from './components/AdminMessages';
+
 
 type SUpervisorMassage = {
     flagToggle: boolean;
@@ -89,7 +91,9 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
                                 <WatcherMessages data={MessagesSuppervisor.data} searchValue={searchValue} />
                             </Tab.Panel>
                             <Tab.Panel>پیاده سازی نشده</Tab.Panel>
-                            <Tab.Panel>پیاده سازی نشده</Tab.Panel>
+                            <Tab.Panel>
+                                <AdminMessages />
+                            </Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
                 </div>

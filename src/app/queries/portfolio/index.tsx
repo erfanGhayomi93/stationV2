@@ -8,4 +8,7 @@ export const getCustomerPortfolio = async (params: IGTPortfolioRequestType) => {
 };
 
 export const useCustomerPortfolio = (params: IGTPortfolioRequestType, options?: UseQueryOptions<IGTPortfolioResultType[]>) =>
-    useQuery<IGTPortfolioResultType[]>([Apis().Portfolio.CustomerPortfolio], () => getCustomerPortfolio(params), options);
+    useQuery<IGTPortfolioResultType[]>([Apis().Portfolio.CustomerPortfolio], () => getCustomerPortfolio(params), {
+        enabled: !!params.CustomerISIN,
+        ...options,
+    });

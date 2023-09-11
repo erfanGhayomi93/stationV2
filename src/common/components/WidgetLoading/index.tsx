@@ -5,6 +5,7 @@ import { SpinnerIcon } from 'src/common/icons';
 type IWidgetLoading = {
     children: JSX.Element | JSX.Element[];
     spining?: boolean;
+    blur?: boolean
 };
 
 // const WidgetLoading: FC<IWidgetLoading> = ({ children, spining }) => {
@@ -27,17 +28,20 @@ type IWidgetLoading = {
 // export default WidgetLoading;
 
 
-const WidgetLoading: FC<IWidgetLoading> = ({ spining, children }) => {
+const WidgetLoading: FC<IWidgetLoading> = ({ spining, children, blur }) => {
     if (spining) {
         return (
-            <div className="relative">
+            <div className="w-full h-full relative">
                 <div className="absolute inset-0 flex justify-center items-center z-20">
-                    <div className="">
-                        {/* You can replace this with your own loading spinner */}
-                        <SpinnerIcon className="scale-[2.7] text-L-primary-50" />
+                    <div>
+                        <SpinnerIcon className="scale-[2.7] text-L-primary-50 dark:text-D-primary-50" />
                     </div>
                 </div>
-                {children}
+                <div className={clsx("w-full h-full", {
+                    "blur-sm": !!blur
+                })}>
+                    {children}
+                </div>
             </div>
         );
     }

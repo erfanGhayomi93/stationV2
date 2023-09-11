@@ -1,8 +1,7 @@
-// import { useGetEventPDFQuery } from 'api/queries/getEventQueries';
-// import routes from 'api/routes';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 type CardEventType = {
 	data: GetEventType
@@ -15,10 +14,10 @@ const CardEvent = ({ data }: CardEventType) => {
 			headers.append("Accept", "application/json, text/plain, */*");
 			headers.append("Accept-Language", "en-US,en;q=0.9,fa;q=0.8");
 
-			const client_id = Cookies.get("client_id");
+			const client_id = Cookies.get("ROS_client_id");
 			if (client_id) headers.append("Authorization", "Bearer " + client_id);
 
-			fetch(""+ '?' + new URLSearchParams({ id: String(data.id) }), {
+			fetch(Apis().event.getAttachment + '?' + new URLSearchParams({ id: String(data.id) }), {
 				method: "GET",
 				headers: headers,
 				redirect: "follow",
@@ -46,11 +45,11 @@ const CardEvent = ({ data }: CardEventType) => {
 		<div
 			tabIndex={-1}
 			role="button"
-			style={{ maxWidth: '220px' }}
+			style={{ maxWidth: '230px' }}
 			onClick={handleFetchPDF}
-			className={clsx("p-1 rounded-md flex justify-between items-center gap-5 m-2 text-L-gray-700 dark:text-D-gray-700 w-full text-xs cursor-pointer", {
-				"bg-L-info-50 dark:bg-D-info-50": data.type === "InterestPayment",
-				"bg-L-success-100 dark:bg-D-success-100": data.type === "Meeting"
+			className={clsx("p-2 rounded-md flex justify-between items-center gap-5 m-1 text-L-gray-700 dark:text-D-gray-700 w-full text-xs cursor-pointer", {
+				"bg-L-info-50 dark:bg-D-info-50": data.type === "Meeting",
+				"bg-L-success-100 dark:bg-D-success-100": data.type === "InterestPayment"
 			})}
 		>
 			<span>{data.symbolName} - {data.title}</span>

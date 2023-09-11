@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppValues } from 'src/redux/hooks';
 import SymbolData from './SymbolData';
@@ -50,7 +50,7 @@ const SymbolDetail = () => {
                     'symbolState',
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
-    
+                    //@ts-ignore
                     queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
                         
                         const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };

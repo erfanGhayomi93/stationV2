@@ -1,3 +1,4 @@
+
 type ICustomerIsins = string[];
 interface IOrderRequestType {
     customerISIN?: ICustomerIsins;
@@ -80,29 +81,47 @@ interface IOrderResponseType {
 }
 
 interface IGTOrderListResultType {
+    orderId: number;
+    symbolISIN: string;
+    symbolTitle: string;
     customerISIN: string;
     customerTitle: string;
-    symbolTitle: string;
-    symbolISIN: string;
-    orderSide: OrderSideType;
-    state: OrderStatusType;
-    price: number;
+    bourseCode: string;
+    orderSide: string;
+    customerType: string;
+    requestDate: string;
+    orderDateTime: string;
     quantity: number;
-    value: number;
-    orderDateTime: Date;
+    price: number;
+    totalValue: number;
+    omsOrderState: string;
+    sumExecuted: number;
+    userName: string;
+    validity: string;
+    validityDate: string;
+    orderFrom: string;
+    parentOrderId: number;
+    childOrderId: number;
+    lastErrorCode: string;
+    clientIP: string;
+    customErrorMsg: string;
 }
 
 interface IGTOrderListRequest {
     FromDate?: string;
     ToDate?: string;
     Side?: OrderSideType;
-    symbolISIN?: string;
-    CustomerISIN?: string;
+    SymbolISIN?: string[];
+    CustomerISIN?: string[];
+    CustomerType?: CustomerType;
     OrderStatus?: OrderStatusType;
-    PageNumber?: number;
-    PageSize?: number;
+    Validity?: validity;
+    PageNumber: number;
+    PageSize: number;
+    MyStationOnly?: boolean;
 }
 
+interface IGTOrderListResponseType extends GlobalPaginatedApiResponse<IGTOrderListResultType[]> { }
 
 interface IGTTradesListRequest {
     FromDate?: string;
@@ -116,6 +135,7 @@ interface IGTTradesListRequest {
     CustomerType?: CustomerType;
     MyStationOnly: boolean;
 }
+
 
 
 interface IGTTradesListResultType {
@@ -133,4 +153,51 @@ interface IGTTradesListResultType {
     totalPrice: number;
 }
 
-interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}
+interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> { }
+
+
+interface IGTOfflineTradesRequests {
+    FromDate?: string;
+    ToDate?: string;
+    Side?: OrderSideType;
+    SymbolISIN?: string[];
+    CustomerISIN?: string[];
+    RequestNo?: string;
+    State?: string;
+    TraderId?;
+    MarketType?: string;
+    Channel?: string;
+    PageSize?: number;
+    PageNumber?: number;
+}
+
+
+interface IGTOfflineTradesResult {
+    id: number;
+    traderId: number;
+    bourseCode: string;
+    traderTitle: string;
+    cancellationRequest: boolean,
+    channel: string;
+    customerISIN: string;
+    customerTitle: string;
+    executingStationId: number;
+    executingStationName: string;
+    formNo: number;
+    marketType: string;
+    fund: number;
+    price: number;
+    remainingVolume: number;
+    remainingFund: number;
+    requestExpiration: string;
+    requestDate: string;
+    requestNo: string;
+    requestType: string;
+    symbolISIN: string;
+    state: string;
+    side: string;
+    symbolName: string;
+    volume: number;
+}
+
+interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> { }

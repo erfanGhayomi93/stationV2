@@ -4,9 +4,16 @@ import SelectType from 'src/common/components/SelectType';
 import { ArrowLeftAlt } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
 import Select from 'src/common/components/Select';
+// import Select from "src/common/components/SelectAsync";
+
 
 export const FilterAllMarket = () => {
-    const { data: dataSector } = UseGetSector();
+    const { data: dataSector } = UseGetSector({
+        staleTime: 1000 * 60 * 60,
+        select(data) {
+            return data.map(item => ({ id: item.id, title: item.sectorName}))
+        }
+    });
     const {
         state: { sector, marketUnit },
         setState,
@@ -55,6 +62,21 @@ export const FilterAllMarket = () => {
                         placeholder="انواع صنعت"
                     />
                 </div>
+                {/* <Select
+                    classes={{
+                        root: 'border rounded border-L-gray-200 dark:border-D-gray-200 min-w-[12.5rem]'
+                    }}
+                    options={dataSector}
+                    value={sector}
+                    onChange={(wl) => setState({ type: 'SET_Sector_Filter', value: wl })}
+                    getOptionLabel={(wl) => wl.sectorName}
+                    getOptionId={(wl) => wl.id}
+                    placeholder={'انواع صنعت'}
+                >
+                    {(value) => (
+                        <Select.Option option={value} />
+                    )}
+                </Select> */}
             </div>
 
             {/* <div className="flex items-center gap-1 px-3 my-1  border-r-2 border-L-gray-400 dark:border-D-gray-400">

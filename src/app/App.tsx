@@ -13,7 +13,7 @@ import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import CrashPage from 'src/pages/PageCrash';
 import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import ipcMain from 'src/common/classes/IpcMain';
+// import ipcMain from 'src/common/classes/IpcMain';
 
 const App = () => {
     const {

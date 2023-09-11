@@ -1,24 +1,27 @@
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
-import { ItemUpdate } from 'lightstreamer-client-web';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Subscribe from 'src/common/classes/Subscribe';
-import useLocalStorage from 'src/common/hooks/useLocalStorage';
-import { CloseIcon , TvSymbolSearchSVG } from 'src/common/icons';
+import { CloseIcon, TvSymbolSearchSVG } from 'src/common/icons';
 import { useAppSelector, useAppDispatch } from 'src/redux/hooks';
 import { getSelectedSymbol, setSelectedSymbol } from 'src/redux/slices/option';
 // import { subscribeLastTradedPrice } from 'utils/subscriptions';
 import { useTradingState } from '../context';
 import { seprateNumber } from 'src/utils/helpers';
+import { useRecentSymbolHistory } from 'src/app/queries/tradingView';
+import AXIOS from 'src/api/axiosInstance';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { subscriptionRecentHistory } from 'src/ls/subscribes';
+import { pushEngine } from 'src/ls/pushEngine';
+import ipcMain from 'src/common/classes/IpcMain';
 
 type SymbolProps = {
-	symbol: RecentSymbolType;
+	symbol: SearchSymbolType;
 	active: boolean;
 	deletable: boolean;
 	label: string;
-	onClick: (symbol: RecentSymbolType) => void;
-	onDelete: (symbol: RecentSymbolType) => void;
+	onClick: (symbol: SearchSymbolType) => void;
+	onDelete: (symbol: SearchSymbolType) => void;
 };
 
 const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolProps) => {
@@ -28,13 +31,14 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 	const onDeleteSymbol = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		e.stopPropagation();
+		e.preventDefault();
 		onDelete(symbol);
 	};
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		try {
-			if (e.button === 1 && deletable) onDelete(symbol);
-			else onClick(symbol);
+			// if (e.button === 1 && deletable) onDelete(symbol);
+			onClick(symbol);
 		} catch (e) {
 			console.log(e);
 		}
@@ -48,20 +52,19 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 	return (
 		<li
-			style={{ minWidth: '7.5rem' }}
-			className='pl-2 border-l border-L-gray-200 dark:border-D-gray-200'
+			className='pl-1 border-l border-L-gray-300 dark:border-D-gray-300 min-w-[115px] h-full box-border'
 		>
 			<div
-				onMouseDown={onMouseDown}
+				onClick={onMouseDown}
 				tabIndex={-1}
 				role="button"
-				style={{ minHeight: '2.5rem', maxHeight: '2.5rem' }}
-				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200 cursor-pointer flex flex-col justify-center font-medium px-5 gap-1 transition-colors', active && 'bg-L-gray-200 dark:bg-D-gray-200')}
+				// style={{ minHeight: '2.7rem', maxHeight: '2.7rem' }}
+				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200  max-h-full cursor-pointer flex flex-col justify-center font-medium gap-x-2 transition-colors', active && 'bg-L-gray-300 dark:bg-D-gray-300')}
 			>
-				<span className='text-L-gray-700 dark:text-D-gray-700 text-base'>{symbol.symbolTitle}</span>
+				<span className='text-L-gray-700 dark:text-D-gray-700 text-sm pt-1 pr-1'>{symbol.symbolTitle}</span>
 
 				{(('lastTradedPrice' in symbol) && (typeof symbol.lastTradedPrice === 'number')) && (
-					<span className='flex gap-1 text-L-gray-400 dark:text-D-gray-600 text-sm'>
+					<span className='flex gap-1 text-L-gray-500 dark:text-D-gray-500 text-xs pb-1 pr-1'>
 						<span
 							className={clsx({
 								'text-L-success-300': oldPrice < symbol.lastTradedPrice,
@@ -79,10 +82,10 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 						role="button"
 						type='button'
 						onClick={onDeleteSymbol}
-						style={{ left: '2px', top: '2px' }}
-						className='absolute text-L-gray-600 dark:text-D-gray-600 rounded hover:bg-L-gray-300 dark:hover:bg-D-gray-300'
+						style={{ left: '4px', top: '4px' }}
+						className='absolute text-L-gray-500 dark:text-D-gray-500 rounded hover:bg-L-gray-300 dark:hover:bg-D-gray-300'
 					>
-						<CloseIcon width='18' height='18' />
+						<CloseIcon width='10' height='10' />
 					</button>
 				)}
 			</div>
@@ -92,68 +95,50 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 const RecentSymbols = () => {
 	const { t } = useTranslation();
+	const timer = useRef<NodeJS.Timeout | null>()
 
-	const hashKey = useRef<number>(0);
 
-	const subscription = useRef<Subscribe | null>(null);
+	const { data: recentSymbols , refetch: refetchRecentHistory } = useRecentSymbolHistory({
+		select(data) {
+			return data.filter(item => item)
+		},
+		onSuccess(data) {
+			pushEngine.unSubscribe("RecentHistorySymbol")
+			let timeout : NodeJS.Timeout
+			timeout = setTimeout(() => {
+				if (!!data && !!data.length) {
+					subscriptionRecentHistory(data, timer)
+				}
+				clearTimeout(timeout)
+			}, 500);
 
-	const [recentSymbols, setRecentSymbols] = useLocalStorage<RecentSymbolType[]>('symbol_search_history', []);
+
+		},
+		enabled: false
+	});
+	// const [recentSymbols, setRecentSymbols] = useLocalStorage<SearchSymbolType[]>('symbol_search_history', []);
 
 	const dispatch = useAppDispatch();
 
-	const {setState} = useTradingState()
+	const { setState } = useTradingState()
 
-	const selectedSymbol = useAppSelector(getSelectedSymbol);
+	const selectedSymbol = useAppSelector(getSelectedSymbol); 
+	
 
-	const onSymbolUpdate = (updateInfo: ItemUpdate) => {
+	const onDeleteSymbol = async (symbolISIN: string) => {
 		try {
-			const symbolISIN: string = updateInfo.getItemName();
-
-			const data: RecentSymbolType[] = JSON.parse(JSON.stringify(
-				recentSymbols
-				// Localstorage.get('symbol_search_history', [])
-			));
-
-			const symbolIndex = data.findIndex(symbol => symbol.symbolISIN === symbolISIN);
-			if (symbolIndex === -1) return;
-
-			updateInfo.forEachChangedField((_a, _b, value) => {
-				try {
-					if (value) {
-						const valueAsNumber = Number(value);
-
-						// @ts-ignore
-						data[symbolIndex].lastTradedPrice = isNaN(valueAsNumber) ? value : valueAsNumber;
-					}
-				} catch (e) {
-					console.log(e);
-				}
+			await AXIOS.post<GlobalApiResponseType<SearchSymbolType[]>>(Apis().tvChart.deleteRecent, {
+				SymbolISIN: symbolISIN
 			});
 
-			setRecentSymbols(data);
-		} catch (e) {
-			console.log(e);
-		}
-	};
+			refetchRecentHistory()
+		} catch {}
 
-	const onDeleteSymbol = (symbolISIN: string) => {
-		try {
-			const newSymbol = recentSymbols.filter(symbol => symbol.symbolISIN !== symbolISIN);
-			setRecentSymbols(newSymbol);
-
-			if (symbolISIN === selectedSymbol && newSymbol.length > 0) {
-				dispatch(
-					setSelectedSymbol(newSymbol[0].symbolISIN)
-				);
-			}
-		} catch (e) {
-			//
-		}
 	};
 
 	const openSearchModal = () => {
 		// dispatch(toggleTvSymbolSearchModal(true));
-		setState({type : "Toggle_Modal_TV" , value : "tvSymbolSearchModal"})
+		setState({ type: "Toggle_Modal_TV", value: "tvSymbolSearchModal" })
 	};
 
 	const setActiveSymbol = (symbolISIN: string) => {
@@ -162,68 +147,40 @@ const RecentSymbols = () => {
 		);
 	};
 
-	const unsubscribe = () => {
-		if (!subscription.current) return;
-
-		subscription.current.unsubscribe();
-		subscription.current = null;
-	};
-
-	const toASCIINum = (key: string) => {
-		let hash = 0;
-		for (let i = 0; i < key.length; i++) {
-			hash += key.charCodeAt(i);
-		}
-		return hash;
-	};
-
-	const symbolsHashKey = (symbolISINs: string[]) => {
-		let num = 0;
-		for (let i = 0; i < symbolISINs.length; i++) {
-			if (symbolISINs[i]) num += Number(toASCIINum(symbolISINs[i]));
-		}
-
-		return num;
-	};
-
-	// const subscribe = (symbolISINs: string[]) => {
-	// 	subscription.current = subscribeLastTradedPrice(symbolISINs)
-	// 		.addEventListener('onItemUpdate', onSymbolUpdate)
-	// 		.start();
-	// };
-
-	// const openBuySellModal = (side: 'buy' | 'sell') => {
-	// 	dispatch(
-	// 		addBuySellModal({
-	// 			symbolISIN: selectedSymbol as string,
-	// 			side
-	// 		})
-	// 	);
-	// };
 
 	useEffect(() => {
-		if (recentSymbols) {
-			const symbolISINs: string[] = [];
-			recentSymbols.forEach((symbol) => {
-				symbolISINs.push(symbol.symbolISIN);
-			});
+		refetchRecentHistory()
 
-			const newHashKey = symbolsHashKey(symbolISINs);
+	}, []);
 
-			if (hashKey.current !== newHashKey) {
-				unsubscribe();
-				// subscribe(symbolISINs);
-			}
-
-			hashKey.current = newHashKey;
+	useEffect(() => {
+	
+		return () => {
+			pushEngine.unSubscribe("RecentHistorySymbol")
 		}
-	}, [recentSymbols]);
+	}, [])
+
+
+	useEffect(() => {
+		let clearTime: NodeJS.Timeout;
+		ipcMain.handle<string>('tv_chart:refetch_recent_history', () => {
+			clearTime = setTimeout(() => {
+				refetchRecentHistory()
+				clearTimeout(clearTime)
+			}, 500);
+		});
+
+		return () => {
+			ipcMain.removeHandler('tv_chart:refetch_recent_history');
+		}
+	}, [])
+
 
 	if (!selectedSymbol) return null;
 
 	return (
 		<div style={{ minHeight: '3rem', maxHeight: '3rem' }} className='flex justify-between items-center bg-L-basic dark:bg-D-basic rounded pl-4'>
-			<div className='flex items-center'>
+			<div className='flex items-center h-full'>
 				<Tippy placement='bottom' content={t('Tooltip.tv_open_symbol_search_modal')}>
 					<button
 						role="button"
@@ -231,24 +188,25 @@ const RecentSymbols = () => {
 						className='flex items-center justify-center text-L-gray-600 dark:text-D-gray-600 px-4'
 						onClick={openSearchModal}
 					>
-						<TvSymbolSearchSVG width="36" height="36"/>
+						<TvSymbolSearchSVG width="32" height="32" />
 					</button>
 				</Tippy>
 
 				{Array.isArray(recentSymbols) && recentSymbols.length > 0
 					? (
-						<ul className='flex items-center py-1 gap-1'>
-							{recentSymbols.map((symbol, index) => (
-								<Symbol
-									key={index}
-									active={selectedSymbol === symbol.symbolISIN}
-									symbol={symbol}
-									onClick={() => setActiveSymbol(symbol.symbolISIN)}
-									onDelete={() => onDeleteSymbol(symbol.symbolISIN)}
-									label={t('common.rial')}
-									deletable={recentSymbols.length > 1}
-								/>
-							))}
+						<ul className='flex items-center py-1 gap-1 h-full'>
+							{recentSymbols
+								.map((symbol, index) => (
+									<Symbol
+										key={index}
+										active={selectedSymbol === symbol.symbolISIN}
+										symbol={symbol}
+										onClick={() => setActiveSymbol(symbol.symbolISIN)}
+										onDelete={() => onDeleteSymbol(symbol.symbolISIN)}
+										label={t('common.rial')}
+										deletable={recentSymbols.length > 1}
+									/>
+								))}
 						</ul>
 					) : (
 						<span className='text-sm font-normal text-L-gray-600 dark:text-D-gray-600'>{t('tv_chart.recent_symbols_is_empty')}</span>

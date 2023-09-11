@@ -7,21 +7,21 @@ import { useReadTodaySupervisorMessages } from 'src/app/queries/messages';
 import { ExpandArrow, FiClock } from 'src/common/icons';
 import { getFarsiDate, howLongAgo } from 'src/utils/helpers';
 
-type CArdMesaage = {
+type CardMessage = {
     data: SUpervisorMessageResult;
     isOneSymbol?: boolean;
 };
 
-export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
+export const CardMessage: FC<CardMessage> = ({ data, isOneSymbol }) => {
     const { dateOfEvent, messageBody, messageTitle, read, type } = data;
     const { mutate } = useReadTodaySupervisorMessages();
-    const [isRead, setisRead] = useState(read);
+    const [isRead, setIsRead] = useState(read);
     const dispatch = useSliderDispatch();
 
     const handleClickTitle = () => {
         if (!isRead) {
             mutate(data.id);
-            setisRead(true);
+            setIsRead(true);
             dispatch && dispatch({ type: REadSupervisorEnum.READ_MESSAGE });
         }
     };
@@ -74,9 +74,9 @@ export const CardMessage: FC<CArdMesaage> = ({ data, isOneSymbol }) => {
                             {!isOneSymbol && (
                                 <div className="flex-grow-0 flex flex-col text-right p-0 m-0">
                                     <div className="text-left w-full mb-1 mt-0 mx-0 p-0">
-                                        <button type="button" className="btn btn-icon text-L-gray-500 dark:text-D-gray-500 mr-auto ml-0 p-0">
+                                        <div className="w-fit btn btn-icon text-L-gray-500 dark:text-D-gray-500 mr-auto ml-0 p-0">
                                             <ExpandArrow width="24" height="24" />
-                                        </button>
+                                        </div>
                                     </div>
                                     <span className="text-xs font-normal text-L-gray-500 dark:text-D-gray-500 p-0 m-0 whitespace-nowrap">
                                         {isRead ? 'خوانده شده' : ''}

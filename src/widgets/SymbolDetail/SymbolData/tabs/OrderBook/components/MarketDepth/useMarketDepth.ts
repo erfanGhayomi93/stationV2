@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 let MESSAGE_IDS: any = [];
@@ -22,6 +22,7 @@ const useMarketDepth = () => {
         data: null,
         totalQuantity: 0,
     });
+    const [isLoading, setIsLoading] = useState(false)
 
     /* Message ID */
     const storeMsgID = (id: any) => MESSAGE_IDS.push(+id);
@@ -348,20 +349,24 @@ const useMarketDepth = () => {
             xhr.send();
         });
 
-    const fetchProcess = (symbolISIN: any) =>
-        new Promise((done, reject) => {
+    const fetchProcess = (symbolISIN: any) => {
+        setIsLoading(true)
+        return new Promise((done, reject) => {
             fetchMarketDepth(symbolISIN)
                 .then((data) => {
                     // console.log('fetchProcess.data', data);
                     onLoadData(data);
                     done(symbolISIN);
+                    setIsLoading(false)
                 })
                 .catch(() => {
                     setBids({ data: {}, totalQuantity: 0 });
                     setAsks({ data: {}, totalQuantity: 0 });
                     reject();
+                    setIsLoading(false)
                 });
         });
+    }
 
     const resetData = () => {
         MESSAGE_IDS = [];
@@ -377,7 +382,7 @@ const useMarketDepth = () => {
             unsubscribe: unsubscribeMarketDepth,
             reset: resetData,
         },
-        data: { bids, asks },
+        data: { bids, asks, isLoading },
     };
 };
 

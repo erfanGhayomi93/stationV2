@@ -3,23 +3,24 @@ import { useMemo } from 'react';
 import CardEvent from './../components/CardEvent';
 import dayjs from 'dayjs';
 import { AlarmClock } from 'src/common/icons';
+import { useGetEventQuery } from 'src/app/queries/bourseCalender';
 
 type TableDayType = {
     date: dayjs.Dayjs | null;
     isMeetingFiltered: boolean;
     isProfitPaymentFiltered: boolean;
     isAllSelected: boolean;
+    watchlistId ?: number
 }
 
-const TableDay = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }: TableDayType) => {
-    // const { data } = useGetEventQuery([
-    // 	"getEventDayOnCalender", {
-    // 		fromDate: date?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
-    // 		toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
-    // 		forUser: isAllSelected,
-    // 	}
-    // ]);
-    const data: any = { result: [] }
+const TableDay = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected , watchlistId }: TableDayType) => {
+    const { data } = useGetEventQuery(
+        {
+            fromDate: date?.calendar("gregory").format("YYYY-MM-DDT00:00:00.000"),
+            toDate: date?.calendar("gregory").format("YYYY-MM-DDT23:59:59.000"),
+            watchlistId: watchlistId,
+        }
+    );
 
     const filteredDataByTime = useMemo(() => {
         const result: { [key: string]: GetEventType[] } = {
@@ -68,7 +69,7 @@ const TableDay = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelec
                 </div>
                 <div className='w-full text-center p-3 text-base font-normal text-L-gray-500 dark:text-D-gray-500 border-r box-border border-r-white dark:border-r-black'>
                     {date?.format("dddd MM/DD")}
-                </div>     
+                </div>
             </div>
             <div className='flex flex-col overflow-y-auto border border-L-gray-200 dark:border-D-gray-200'>
                 {

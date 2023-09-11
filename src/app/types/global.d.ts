@@ -82,7 +82,7 @@ declare interface SearchSymbolType {
 	lastTradedPrice: number,
 	symbolGroupCode: string,
 	sectorCode: string,
-	marketCode: string,
+	marketCode?: string,
 	marketUnit: string,
 	tradePriceVarPreviousTradePercent: number,
 	yesterdayClosingPrice: number,
@@ -93,7 +93,7 @@ declare interface SearchSymbolType {
 	groupState: string,
 	isInWatchList: boolean,
 	symbolState: string,
-	companyCode: string,
+	companyCode?: string,
 	symbolTag: string
 }
 

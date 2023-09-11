@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    const { data } = useGlobalSettings<any>();
-    // const { data } = useGlobalSettingsMock();
+    // const { data } = useGlobalSettings<any>();
+    const { data } = useGlobalSettingsMock();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -43,6 +43,8 @@ const getCommonUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
 };
 
+export const baseUrl = 'https://gtapi-preprd.ramandtech.com';
+
 export const Apis = () => ({
     OAuthApi: {
         authorization: getOauthUrl() + '/GTOAuthApi/v1/GTAuthorization',
@@ -51,80 +53,129 @@ export const Apis = () => ({
         logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
     },
     User: {
-        GetUserInformation: getCommonUrl() + `/GTTrader/v1/GetGeneralInformation`,
+        GetUserInformation: baseUrl + `/Trader/v1/GetGeneralInformation`,
     },
     Time: {
-        Get: getCommonUrl() + `/Time/v1/Get`,
+        Get: baseUrl + `/Time/v1/Get`,
     },
     Index: {
-        Symbols: getMarketData() + `/Index/v1/Symbols`,
+        Symbols: baseUrl + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: getCommonUrl() + '/GTSymbol/v1/Search',
-        SymbolGeneralInformation: getMarketData() + '/GTSymbol/v1/SymbolGeneralInformation',
+        Search: baseUrl + '/Symbol/v1/Searchv2',
+        SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
+        SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+        ChartData: baseUrl + '/Symbol/v1/ChartData',
     },
     Customer: {
-        Search: getBackOffice() + '/GtCustomer/v1/Search',
-        GetCustomerInformation: getBackOffice() + '/GtCustomer/v1/GetCustomerInformation',
-        GetGroupInformation: getBackOffice() + '/GtCustomer/v1/GetGroupInformation',
-        MultiSearch: getBackOffice() + '/GTCustomer/v1/MultipleSearch',
-        MultiMultiSearch: getBackOffice() + '/GTCustomer/v1/MultiMultipleSearch',
-        GroupCustomerDetail: getBackOffice() + '/GTCustomer/v1/GroupCustomerDetail',
-        Get: getBackOffice() + '/GTCustomer/v1/GetCustomers',
+        Search: baseUrl + '/Customer/v1/Search',
+        GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
+        GetGroupInformation: baseUrl + '/Customer/v1/GetGroupInformation',
+        MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
+        MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
+        GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
+        Get: baseUrl + '/Customer/v1/GetCustomers',
     },
     MarketDepth: {
-        Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
+        // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
+        Get: baseUrl + '/Symbol/v1/GetMarketDepthV2',
+    },
+    event: {
+        get: baseUrl + '/Portfolio/v1/getEvent',
+        getAttachment: baseUrl + '/Portfolio/v1/getAttachment',
     },
     Orders: {
-        Create: getOrderUrl() + '/GTOrder/v1/Create',
-        Get: getOrderUrl() + '/GTOrder/v1/GTTodayOrdersList',
-        Delete: getOrderUrl() + '/GTOrder/v1/SingleDelete',
-        Lists: getOrderUrl() + '/GTOrder/v1/GTOrdersList',
-        GroupLists: getOrderUrl() + '/GTOrder/v1/GTGroupOrdersList',
-        Modify: getOrderUrl() + '/GTOrder/v1/Modify',
-        Trades: getOrderUrl() + '/GTOrder/v1/Trades',
+        Create: baseUrl + '/Order/v1/Create',
+        Get: baseUrl + '/Order/v1/TodayOrdersList',
+        Delete: baseUrl + '/Order/v1/SingleDelete',
+        Lists: baseUrl + '/Order/v1/OrdersList',
+        GroupLists: baseUrl + '/Order/v1/GroupOrdersList',
+        Modify: baseUrl + '/Order/v1/Modify',
+        Trades: baseUrl + '/Order/v1/Trades',
+        OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
     },
     SupervisorMessage: {
-        Get: getMarketData() + `/SupervisorMessage/v1/TodaySupervisorMessage`,
-        ReadPost: getMarketData() + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+        Get: baseUrl + `/Message/v1/TodaySupervisorMessage`,
+        ReadPost: baseUrl + `/Message/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+    },
+    Messages: {
+        AdminMessage: baseUrl+ `/Message/v1/AdminMessage`,
     },
     draft: {
-        Create: getOrderUrl() + '/GTOrderDraft/v1/Create',
-        Get: getOrderUrl() + '/GTOrderDraft/v1/Get',
-        Delete: getOrderUrl() + '/GTOrderDraft/v1/Delete',
-        Update: getOrderUrl() + '/GTOrderDraft/v1/Update',
+        Create: baseUrl + '/OrderDraft/v1/Create',
+        Get: baseUrl + '/OrderDraft/v1/Get',
+        Delete: baseUrl + '/OrderDraft/v1/Delete',
+        Update: baseUrl + '/OrderDraft/v1/Update',
     },
     Basket: {
-        Get: getOrderUrl() + '/GTCart/v1/CartList',
-        Create: getOrderUrl() + '/GTCart/v1/CreateCart',
-        Edit: getOrderUrl() + '/GTCart/v1/EditCart',
-        Delete: getOrderUrl() + '/GTCart/v1/DeleteCart',
-        CreateDetail: getOrderUrl() + '/GTCart/v1/CreateCartDetail',
-        EditDetail: getOrderUrl() + '/GTCart/v1/EditCartDetail',
-        GetDetail: getOrderUrl() + '/GTCart/v1/CartDetailList',
-        DeleteDetails: getOrderUrl() + '/GTCart/v1/CartDetailDelete',
+        Get: baseUrl + '/Cart/v1/CartList',
+        Create: baseUrl + '/Cart/v1/CreateCart',
+        Edit: baseUrl + '/Cart/v1/EditCart',
+        Delete: baseUrl + '/Cart/v1/DeleteCart',
+        CreateDetail: baseUrl + '/Cart/v1/CreateCartDetail',
+        EditDetail: baseUrl + '/Cart/v1/EditCartDetail',
+        GetDetail: baseUrl + '/Cart/v1/CartDetailList',
+        DeleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
     },
-    Commission: { Get: getCommonUrl() + `/GTCommission/v1/GetBuyAndSellCommision` },
+    Commission: { Get: baseUrl + `/Commission/v1/GetBuyAndSellCommision` },
     WatchList: {
-        Get: getPortfolioUrl() + '/GTWatchlist/v1/WatchLists',
-        Create: getPortfolioUrl() + '/GTWatchlist/v1/Create',
-        Delete: getPortfolioUrl() + '/GTWatchlist/v1/Delete',
-        Update: getPortfolioUrl() + '/GTWatchlist/v1/Update',
-        Sort: getPortfolioUrl() + '/GTWatchlist/v1/Sort',
-        // GetWatchlistSymbol: getPortfolioUrl() + '/GTWatchlist/v1/GetWatchlistSymbols',
-        GetWatchListSymbols: getPortfolioUrl() + '/GtWatchlist/v1/GetWatchListSymbols',
-        DeleteSymbol: getPortfolioUrl() + '/GTWatchlist/v1/DeleteSymbol',
-        AddSymbol: getPortfolioUrl() + '/GTWatchlist/v1/AddSymbol',
-        DefaultWatchlist: getPortfolioUrl() + '/Watchlist/v1/DefaultWatchlists',
-        GetDefaultWatchlistSymbols: getPortfolioUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
-        GetSymbolInWatchlist: getPortfolioUrl() + '/GtWatchlist/v1/GetSymbolInWatchlist',
-        GetMarketSymbol: getMarketData() + '/Symbol/v1/GetMarketSymbol',
-        GetSector : getMarketData() + '/Sector/v1/Sectors',
+        Get: baseUrl + '/Watchlist/v1/WatchLists',
+        Create: baseUrl + '/Watchlist/v1/Create',
+        Delete: baseUrl + '/Watchlist/v1/Delete',
+        Update: baseUrl + '/Watchlist/v1/Update',
+        Sort: baseUrl + '/Watchlist/v1/Sort',
+        // GetWatchlistSymbol: baseUrl + '/Watchlist/v1/GetWatchlistSymbols',
+        GetWatchListSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
+        DeleteSymbol: baseUrl + '/Watchlist/v1/DeleteSymbol',
+        AddSymbol: baseUrl + '/Watchlist/v1/AddSymbol',
+        GetSpecialWatchlistFilter: baseUrl + '/Watchlist/v1/GetSpecialWatchlistFilter',
+        // GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        GetSymbolInWatchlist: baseUrl + '/Watchlist/v1/GetSymbolInWatchlist',
+        GetMarketSymbol: baseUrl + '/Symbol/v1/GetMarketSymbol',
+        GetSector: baseUrl + '/Symbol/v1/Sectors',
     },
     Portfolio: {
-        CustomerPortfolio: getPortfolioUrl() + '/GTPortfolio/v1/GTPortfolios'
+        CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
+    },
+    tvChart: {
+        index: `${baseUrl}/TV/v1`,
+        config: `${baseUrl}/TV/v1/config`,
+        symbols: `${baseUrl}/TV/v1/symbols`,
+        search: `${baseUrl}/TV/v1/search`,
+        history: `${baseUrl}/TV/v1/history`,
+        marks: `${baseUrl}/TV/v1/marks`,
+        charts: `${baseUrl}/TV/v1/1.1/charts`,
+        studyTemplate: `${baseUrl}/TV/v1/1.1/study_templates`,
+        save: `${baseUrl}/TV/v1/1.1/charts`,
+        delete: `${baseUrl}/TV/v1/1.1/charts`,
+        loadOne: `${baseUrl}/TV/v1/1.1/charts`,
+        loadAll: `${baseUrl}/TV/v1/1.1/charts`,
+        historyRecent: `${baseUrl}/Symbol/v1/GetSearchHistory`,
+        deleteRecent: `${baseUrl}/Symbol/v1/DeleteSearchHistory`,
     },
     Setting: {
-        GetSetting: getCommonUrl() + `/Setting/v1/GTGetSettings`,
+        GetSetting: baseUrl + `/Setting/v1/GetSettings`,
     },
 });
+
+
+
+//
+// const CommonUrl = 'http://192.168.40.8:12000';
+// const PortfolioUrl = 'http://192.168.40.8:11000';
+// const MarketData = 'http://192.168.40.8:7000';
+// const BackOffice = 'http://192.168.40.8:9500';
+// const OrderUrl = 'http://192.168.40.8:8500';
+// const OauthUrl = 'http://192.168.40.8:5011';
+
+// const OrderUrl = baseUrl; // "http://192.168.40.8:8500";
+// const PortfolioUrl = baseUrl; // "http://192.168.40.8:11000";
+// const OauthUrl = baseUrl; // "http://192.168.40.8:5011";
+// const CommonUrl = baseUrl; // "http://192.168.40.8:12000";
+// const BackOffice = baseUrl; // "http://192.168.40.8:9500";
+// const MarketData = baseUrl; // "http://192.168.40.8:7000";
+
+// const ResourceUrl = window.REACT_APP_RESOURCE_PATH; // "http://192.168.40.8:5002";
+// const AccountUrl = window.REACT_APP_ACCOUNT_PATH; // "http://192.168.40.8:5020";
+// const PushEngine = window.REACT_APP_PUSHENGINE_PATH; // "http://192.168.40.8:5800";
+// const ClubUrl = window.REACT_APP_CLUB_PATH; //http://192.168.40.8:19000;

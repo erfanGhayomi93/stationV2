@@ -1,8 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import axios from 'src/api/axiosInstance';
-import routes from 'src/api/apiRoutes';
 import { ChartActionId, EntityInfo, IChartingLibraryWidget, LibrarySymbolInfo, ResolutionString, SaveLoadChartRecord, SeriesStyle, StudyEventType, UndoRedoState } from 'src/charting_library/charting_library';
 import ipcMain from 'src/common/classes/IpcMain';
 import clsx from 'clsx';
@@ -22,8 +20,7 @@ import {
 	EyeOutlineSVG,
 	ListLayoutSVG
 } from 'src/common/icons';
-// import { toggleTvCompareModal, toggleTvIndicatorsModal, toggleTvLayoutModal, toggleTvLoadChartTemplate, toggleTvSaveChartTemplate, toggleTvSaveIndicatorsTemplate } from 'features/modalSlice';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { downloadCanvasAsImage, getURL, seprateNumber as sepNumbers } from 'src/utils/helpers';
 import styles from './TradingView.module.scss';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
@@ -34,6 +31,8 @@ import { getSelectedSymbol } from 'src/redux/slices/option';
 import { getTheme } from 'src/redux/slices/ui';
 import { useSavedStudyTemplatesQuery, useTvSavedChart } from 'src/app/queries/tradingView';
 import { useTradingState } from '../context';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { queryClient } from 'src/app/queryClient';
 
 export interface onSavedChartSuccessfully {
 	uid: string
@@ -79,7 +78,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const theme = useAppSelector(getTheme);
 
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 
 	const selectedSymbol = useAppSelector(getSelectedSymbol);
 
@@ -88,7 +87,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	const [savedChart, setSavedChart] = useState<SaveLoadChartRecord | null>(null);
 
 	const [localstudies, setLocalstudies] = useLocalStorage<Record<string, EntityInfo[]>>('tradingview.saved_indicators', {});
-	const [localSymbolSearchHistory, setLocalSymbolSearchHistory] = useLocalStorage<(SearchSymbolType | RecentSymbolType)[]>('symbol_search_history', []);
+
 
 	const { setState } = useTradingState()
 
@@ -302,7 +301,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		try {
 			cb();
 
-			const response = await axios.get<{ status: string; data: { name: string; content: string; } }>(routes.tvChart.studyTemplate, {
+			const response = await axios.get<{ status: string; data: { name: string; content: string; } }>(Apis().tvChart.studyTemplate, {
 				params: {
 					client: String(userData?.customerISIN ?? 0),
 					user: String(userData?.customerISIN ?? 0),
@@ -327,7 +326,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		try {
 			cb();
 
-			axios.delete<{ status: string; data: { name: string; content: string; } }>(routes.tvChart.studyTemplate, {
+			axios.delete<{ status: string; data: { name: string; content: string; } }>(Apis().tvChart.studyTemplate, {
 				params: {
 					client: String(userData?.customerISIN ?? 0),
 					user: String(userData?.customerISIN ?? 0),
@@ -353,7 +352,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				studyTemplate.symbol = getSymbolName();
 			}
 
-			const apiURL = getURL(routes.tvChart.studyTemplate, {
+			const apiURL = getURL(Apis().tvChart.studyTemplate, {
 				client: String(userData?.customerISIN ?? 0),
 				user: String(userData?.customerISIN ?? 0)
 			});
@@ -397,7 +396,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const onDeleteSavedChart = async (chartId: number) => {
 		try {
-			const response = await axios.delete(routes.tvChart.delete, {
+			const response = await axios.delete(Apis().tvChart.delete, {
 				params: {
 					client: userData?.customerISIN ?? 0,
 					user: userData?.customerISIN ?? 0,
@@ -430,7 +429,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 			try {
 				widget.save(async (content) => {
 					try {
-						const apiURL = getURL(routes.tvChart.save, {
+						const apiURL = getURL(Apis().tvChart.save, {
 							client: String(userData?.customerISIN ?? 0),
 							user: String(userData?.customerISIN ?? 0)
 						});
@@ -474,9 +473,10 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		}, 1000);
 	};
 
+
 	const onSymbolChanged = (symbol: LibrarySymbolInfo & { lastTradedPrice: number }) => {
 		const { widget } = activeChart;
-		if (!widget) return "";
+		if (!widget) return '';
 
 		try {
 			widget.activeChart().priceFormatter().format = (value) => {
@@ -488,7 +488,6 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 			const symbolISIN = (symbol.ticker as string).split('-')[0];
 
 			try {
-				// const studies = Localstorage.get<Record<string, EntityInfo[]>>('tradingview.saved_indicators', {});
 				const studies = localstudies;
 				const symbolStudies = studies[symbolISIN];
 				widget.activeChart().removeAllStudies();
@@ -500,35 +499,17 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					}
 				}
 			} catch (e) {
-				//
+				// Handle the error
 			}
 
-			const symbolItem = {
-				symbolTitle,
-				symbolISIN,
-				companyName: companyTitle,
-				lastTradedPrice: symbol.lastTradedPrice,
-			}
-
-			/* Exists */
-			const symbolIndex = localSymbolSearchHistory.findIndex(({ symbolISIN }) => symbolISIN === symbolItem.symbolISIN);
-			if (symbolIndex > -1) {
-				localSymbolSearchHistory.splice(symbolIndex, 1);
-				setLocalSymbolSearchHistory([symbolItem, ...localSymbolSearchHistory])
-				return;
-			}
-			if (localSymbolSearchHistory.length >= 5) {
-				const newRecentSymbols = [symbolItem, ...localSymbolSearchHistory].slice(0, localSymbolSearchHistory.length);
-				setLocalSymbolSearchHistory(newRecentSymbols)
-			} else {
-				setLocalSymbolSearchHistory([symbolItem, ...localSymbolSearchHistory])
-			}
+			ipcMain.send('tv_chart:refetch_recent_history');
 
 
 		} catch (e) {
 			console.log(e);
 		}
-	};
+	}
+
 
 	const onChangedStudies = (entityId: EntityId, studyEventType: StudyEventType) => {
 		try {
@@ -753,6 +734,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		};
 	}, [activeChart]);
 
+
 	useEffect(() => {
 		savedChartRef.current = savedChart;
 	}, [savedChart]);
@@ -847,7 +829,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 					</button>
 				</li>
 
-				<li  className='flex items-center justify-center'>
+				<li className='flex items-center justify-center'>
 					<Dropdown<TvStudyTemplateListType | Record<'id' | 'label', string>>
 						data={indicatorsTemplates}
 						onOpen={refetchSavedStudyTemplates}
@@ -856,7 +838,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							<li
 								role="menuitem"
 								key={item.id}
-								className={clsx('whitespace-nowrap w-full border-gray-200 dark:border-dark-gray-200 last:border-transparent dark:last:border-transparent bg-L-basic dark:bg-D-basic hover:bg-gray-200 dark:hover:bg-dark-gray-200 transition-colors px-4', {
+								className={clsx('whitespace-nowrap w-full border-L-gray-200 dark:border-D-gray-200 last:border-transparent dark:last:border-transparent bg-L-basic dark:bg-D-basic hover:bg-gray-200 dark:hover:bg-dark-gray-200 transition-colors px-4', {
 									'border-b border-gray-400 dark:border-dark-gray-400': index === 0 && savedStudyTemplates && savedStudyTemplates.length > 0
 								})}
 							>
@@ -1029,15 +1011,15 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 								data={saveLoadChartOptions}
 								defaultDialogWidth={200}
 								ListItem={({ item, onClose }) => (
-									<li key={item.id} className='w-full border-gray-400 dark:border-dark-gray-400 last:border-transparent dark:last:border-transparent bg-white hover:bg-gray-400 dark:bg-black dark:hover:bg-dark-gray-400 transition-colors px-16'>
+									<li key={item.id} className='w-full border-L-gray-200 dark:border-D-gray-200 last:border-transparent dark:last:border-transparent bg-L-basic hover:bg-L-gray-300 dark:bg-D-basic dark:hover:bg-D-gray-300 transition-colors px-4'>
 										<button
 											role="button"
 											type='button'
 											onClick={() => onExecuteSaveLoadAction(item.id, onClose)}
-											className='flex items-center text-sm justify-start text-gray-900 dark:text-dark-gray-900 border-b border-b-inherit w-full px-4 h-40'
+											className='flex items-center text-sm justify-start text-L-gray-700 dark:text-D-gray-700 border-b border-b-inherit w-full px-1 h-10'
 										>
-											<span className='flex items-center gap-16'>
-												{<item.Icon width='2rem' height='2rem' />}
+											<span className='flex items-center gap-4'>
+												{<item.Icon width='1.2rem' height='1.2rem' />}
 												<span>{item.label}</span>
 											</span>
 										</button>
@@ -1051,7 +1033,7 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 									className={clsx(styles.btn, styles.expand)}
 								>
 									<Tippy placement='bottom' content='نمودار های ذخیره شده'>
-										<span className='gap-4'>
+										<span className='gap-1'>
 											<span>{savedChart.name}</span>
 											<ArrowDownSVG width='18' height='18' />
 										</span>
@@ -1087,8 +1069,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 							className={clsx(styles.btn, styles.expand)}
 							onClick={() => setToggleModal("tvLayoutModal")}
 						>
-							<span className='gap-8'>
-								<svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<span className='gap-2'>
+								<svg width="18" height="18" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M18.4531 4H6.45312C5.34856 4 4.45312 4.89543 4.45312 6V18C4.45312 19.1046 5.34856 20 6.45312 20H18.4531C19.5577 20 20.4531 19.1046 20.4531 18V6C20.4531 4.89543 19.5577 4 18.4531 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
 									<path d="M4.45312 9H12.4531" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
 									<path d="M12.4531 15H20.4531" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

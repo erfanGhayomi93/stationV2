@@ -6,17 +6,18 @@ type TableWeekType = {
 	date: dayjs.Dayjs | null,
 	isMeetingFiltered: boolean,
 	isProfitPaymentFiltered: boolean,
-	isAllSelected: boolean ,
-	activeLayoutTab : string
+	isAllSelected: boolean,
+	activeLayoutTab: string,
+	watchlistId?: number
 }
 
-const TableWeek = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected , activeLayoutTab }: TableWeekType) => {
+const TableWeek = ({ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, activeLayoutTab, watchlistId }: TableWeekType) => {
 
 
 	return activeLayoutTab === 'list' ? (
-		<TableWeekList {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }} />
+		<TableWeekList {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }} />
 	) : (
-		<TableWeekGrid {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected }} />
+		<TableWeekGrid {...{ date, isMeetingFiltered, isProfitPaymentFiltered, isAllSelected, watchlistId }} />
 	);
 };
 

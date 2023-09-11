@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { useTradingState } from '../context';
 import TradingWidget from 'src/common/classes/Tradingview/TradingWidget';
-import { fetchUser } from 'src/handlers/boot';
 import { RootState } from 'src/redux/store';
 import { QueryClient } from '@tanstack/react-query';
 import { IChartingLibraryWidget } from 'src/charting_library/charting_library';
@@ -13,6 +12,7 @@ import PortfolioWatchlist from '../PortfolioWatchlist';
 import ipcMain from 'src/common/classes/IpcMain';
 import { Trans } from 'react-i18next';
 import { useAppSelector } from 'src/redux/hooks';
+import clsx from 'clsx';
 
 
 
@@ -170,7 +170,11 @@ export const ChartingLibrary = () => {
 				/>
 			)}
 
-			<div className='flex justify-between h-full gap-2'>
+
+			<div className={clsx("flex justify-between h-full gap-2", {
+				"opacity-100": chartsLoaded,
+				"opacity-0": !chartsLoaded,
+			})}>
 				<PortfolioWatchlist />
 				<div id="tv_container" ref={rootRef} dir='ltr' className='flex-1 h-full' />
 			</div>

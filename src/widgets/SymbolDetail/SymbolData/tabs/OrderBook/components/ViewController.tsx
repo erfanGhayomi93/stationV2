@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { MarketDepthArrowDownIcon, MarketDepthChartIcon, MarketDepthColIcon, MarketDepthRowIcon } from 'src/common/icons';
 
 interface IControllerProps {
-    orderBookViewMode?: 'row' | 'column';
-    toggleOrderBookView?: () => void;
-    isMarketDepthOpen?: boolean;
-    toggleMarketDepth?: () => void;
-    isDepthChartOpen?: boolean;
-    toggleDepthChart?: () => void;
+    orderBookViewMode: 'row' | 'column';
+    handleRowView: () => void;
+    handleColumnView: () => void;
+    isMarketDepthOpen: boolean;
+    toggleMarketDepth: () => void;
+    isDepthChartOpen: boolean;
+    toggleDepthChart: () => void;
 }
 
 const ViewController = ({
@@ -16,8 +17,9 @@ const ViewController = ({
     isMarketDepthOpen,
     toggleMarketDepth,
     isDepthChartOpen,
+    handleColumnView,
+    handleRowView,
     toggleDepthChart,
-    toggleOrderBookView,
 }: IControllerProps) => {
     //
     const { t } = useTranslation();
@@ -25,10 +27,10 @@ const ViewController = ({
         <div className="mb-4 py-3 px-2 flex justify-start text-xs rounded bg-L-gray-100 dark:bg-D-gray-100">
             <div className="flex flex-1 gap-1 items-center justify-center border-l border-L-gray-500 dark:border-D-gray-500">
                 <span className="dark:text-D-gray-700">{t('OrderBook.viewMode')}</span>
-                <button onClick={toggleOrderBookView}>
+                <button onClick={handleRowView}>
                     <MarketDepthColIcon className={clsx({ 'opacity-50': orderBookViewMode === 'column' })} />
                 </button>
-                <button onClick={toggleOrderBookView}>
+                <button onClick={handleColumnView}>
                     <MarketDepthRowIcon className={clsx({ 'opacity-50': orderBookViewMode === 'row' })} />
                 </button>
             </div>

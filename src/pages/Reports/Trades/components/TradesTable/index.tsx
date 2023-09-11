@@ -32,9 +32,17 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
             { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
-            { headerName: t('ag_columns_headerName.side'), field: 'orderSide', valueFormatter: valueFormatterSide },
+            {
+                headerName: t('ag_columns_headerName.side'),
+                field: 'orderSide',
+                valueFormatter: valueFormatterSide,
+                cellClassRules: {
+                    'text-L-success-200': ({ value }) => value === 'Buy',
+                    'text-L-error-200': ({ value }) => value === 'Sell',
+                },
+            },
             { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'date' },
-            { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'abbreviatedNumber' },
+            { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
             {
                 headerName: t('ag_columns_headerName.finalCost'),
@@ -50,7 +58,7 @@ const TradesTable = ({ data, loading, pageNumber, pagesize, PaginatorHandler }: 
                 ),
             },
         ],
-        [],
+        [pageNumber, pagesize],
     );
     return (
         <>

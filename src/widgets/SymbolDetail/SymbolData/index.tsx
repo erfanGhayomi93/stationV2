@@ -10,7 +10,7 @@ import AdditionalData from './tabs/AdditionalData';
 import SymbolChart from './tabs/SymbolChart';
 import Messages from './tabs/Messages';
 import SameGroup from './tabs/SameGroup';
-import OrderBook from './tabs/OrderBook';
+import OrderBookWidget from './tabs/OrderBook/context';
 
 
 
@@ -41,7 +41,7 @@ const SymbolData = () => {
             {
                 key: 'OrderBook',
                 title: t('SymbolDetails.orderBook'),
-                content: <OrderBook />, 
+                content: <OrderBookWidget />, 
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },

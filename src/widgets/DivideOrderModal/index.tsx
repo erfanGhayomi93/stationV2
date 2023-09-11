@@ -32,37 +32,37 @@ const DivideOrderModal = () => {
         //
         let dividedOrderArray: DividedOrderRowType[] = [];
 
-        const mapper = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
+        const calculateOrders = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
             const symbolMaxQuantity = symbolData?.maxTradeQuantity || 1;
             const quantityPerCustomer = Math.floor(totalQuantity / selectedCustomers.length);
-            if (quantityPerCustomer <= symbolMaxQuantity) {
-                selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
-                    dividedOrderArray.push({
-                        customerISIN,
-                        customerTitle,
-                        id: getUniqId(),
-                        price: priceInput,
-                        quantity: quantityPerCustomer,
-                        status: null,
-                    }),
-                );
+
+            const createOrder = (customerISIN: string, customerTitle: string, quantity: number) => {
+                return {
+                    customerISIN,
+                    customerTitle,
+                    id: getUniqId(),
+                    price: priceInput,
+                    quantity,
+                    status: null,
+                };
+            };
+
+            for (const { customerISIN, customerTitle } of selectedCustomers) {
+                const orderQuantity = Math.min(quantityPerCustomer, symbolMaxQuantity);
+                dividedOrderArray.push(createOrder(customerISIN, customerTitle, orderQuantity));
             }
-            if (quantityPerCustomer > symbolMaxQuantity) {
-                selectedCustomers.forEach(({ customerISIN, customerTitle }) =>
-                    dividedOrderArray.push({
-                        customerISIN,
-                        customerTitle,
-                        id: getUniqId(),
-                        price: priceInput,
-                        quantity: symbolMaxQuantity,
-                        status: null,
-                    }),
-                );
-                mapper(quantity - dividedOrderArray.length * symbolMaxQuantity, selectedCustomers);
+
+            const remainingQuantity = totalQuantity - dividedOrderArray.length * symbolMaxQuantity;
+            if (remainingQuantity > 0) {
+                calculateOrders(remainingQuantity, selectedCustomers);
             }
         };
 
-        mapper(quantity, selectedCustomers);
+        calculateOrders(quantity, selectedCustomers);
+
+        dividedOrderArray.sort((customerA, customerB) => {
+            return customerA.customerTitle.localeCompare(customerB.customerTitle);
+        });
 
         return dividedOrderArray;
     };
