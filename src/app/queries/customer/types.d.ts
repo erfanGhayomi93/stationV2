@@ -1,3 +1,5 @@
+type tabCustomerType = "Customers" | "GroupCustomer" | "MyGroup" | "FavoriteList"
+
 interface IGoCustomerResult {
     type: ICustomerMultiTypeType;
     searchResult: PaginatedSearchResult;
@@ -65,6 +67,8 @@ interface ICustomerInformationResultType {
     brokerCredit: number;
     blocked: number;
     customerType?: string;
+    phoneNumber: string;
+    registrationNo: string | number;
 }
 
 interface IGetCustomerInformationRequestType {

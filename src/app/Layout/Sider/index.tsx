@@ -1,35 +1,61 @@
 import { useMutation } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Tippy from '@tippyjs/react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
-import Tooltip from 'src/common/components/Tooltip';
-import { BasketIcon, Envelope2Icon, EyeFrameIcon, FileIcon, HelpIcon, HomeIcon, QuitIcon } from 'src/common/icons';
+import {
+    BasketIcon,
+    CalenderBourseSVG,
+    Envelope2Icon,
+    EyeFrameIcon,
+    FileIcon,
+    HelpIcon,
+    HomeIcon,
+    OrdersIcon,
+    QuitIcon,
+    TradeChartSVG,
+    TradesIcon,
+    TurnoverIcon,
+} from 'src/common/icons';
 import { logOutReq } from '../Header/UserActions';
-import { useSliderDispatch, useSliderValue } from './context';
-import { SLiderActionEnum } from './context/types';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
+import { useSliderDispatch, useSliderValue } from './context';
+import { SLiderActionEnum } from './context/types';
+import clsx from 'clsx';
 
 export type MenuItemType = {
     icon: JSX.Element;
     label: string | JSX.Element;
     position: 'top' | 'bottom';
-    id?: string;
+    id: string;
     placeOfDisplay: 'closed' | 'opened' | 'both';
     isActive: boolean;
     onClick: (() => void) | undefined;
-    children?: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>[];
+    children?: Omit<MenuItemType, 'position' | 'placeOfDisplay'>[];
 };
 
 const Sider = () => {
+    //
     const [isOpen, setIsOpen] = useState(false);
     const { isShowSupervisorMessage, countNumberSupervisorMessage } = useSliderValue();
     const dispatch = useSliderDispatch();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const [activeMenuItem, setActiveMenuItem] = useState<string>('');
 
-    const tooggleSlider = () => {
-        dispatch({ type: SLiderActionEnum.TOGGLE_MENU });
+    useEffect(() => {
+        if (!activeMenuItem) {
+            setActiveMenuItem(pathname);
+        }
+    }, [pathname]);
+
+    const toggleSlider = () => {
+        dispatch({ type: SLiderActionEnum.TOGGLE_MESSAGE_MODAL });
+        if (isShowSupervisorMessage) {
+            setActiveMenuItem(pathname);
+        }
     };
 
     const { mutate: logOutUser } = useMutation(logOutReq, {
@@ -46,16 +72,8 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
+                id: '/',
                 onClick: () => navigate('/'),
-            },
-            {
-                icon: <BasketIcon height={20} width={20} />,
-                label: 'سبد معامله گر',
-                position: 'top',
-                placeOfDisplay: 'both',
-                isActive: false,
-                id: 'basket',
-                onClick: () => navigate('/basket'),
             },
             {
                 icon: <EyeFrameIcon height={20} width={20} />,
@@ -63,8 +81,42 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                id: 'Watchlist',
+                id: '/Watchlist',
                 onClick: () => navigate('/Watchlist'),
+            },
+            {
+                icon: <BasketIcon height={20} width={20} />,
+                label: 'سبد معامله گر',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                id: '/basket',
+                onClick: () => navigate('/basket'),
+            },
+            {
+                icon: <TradeChartSVG height={20} width={20} />,
+                label: 'بازار',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                id: '/Market/Chart',
+                onClick: () => navigate('/Market/Chart'),
+                children: [
+                    {
+                        label: 'تقویم بورسی',
+                        icon: <CalenderBourseSVG height={20} width={20} />,
+                        isActive: false,
+                        id: '/Market/Calender',
+                        onClick: () => navigate('/Market/Calender'),
+                    },
+                    {
+                        label: 'نمودار تکنیکال',
+                        icon: <TradeChartSVG height={20} width={20} />,
+                        isActive: false,
+                        id: '/Market/Chart',
+                        onClick: () => navigate('/Market/Chart'),
+                    },
+                ],
             },
             {
                 icon: <FileIcon height={20} width={20} />,
@@ -72,8 +124,31 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 isActive: false,
-                id: 'Reports',
-                onClick: () => navigate('/Reports'),
+                id: '/Reports/orders',
+                onClick: () => navigate('/Reports/orders'),
+                children: [
+                    {
+                        label: 'سفارشات',
+                        icon: <OrdersIcon height={20} width={20} />,
+                        isActive: false,
+                        id: '/Reports/orders',
+                        onClick: () => navigate('/Reports/orders'),
+                    },
+                    {
+                        label: 'معاملات',
+                        icon: <TradesIcon height={20} width={20} />,
+                        isActive: false,
+                        id: '/Reports/trades',
+                        onClick: () => navigate('/Reports/trades'),
+                    },
+                    {
+                        label: 'گردش حساب',
+                        icon: <TurnoverIcon height={20} width={20} />,
+                        isActive: false,
+                        id: '/Reports/turnover',
+                        onClick: () => navigate('/Reports/turnover'),
+                    },
+                ],
             },
             // {
             //     icon: <File2Icon height={20} width={20} />,
@@ -113,26 +188,29 @@ const Sider = () => {
             //     // ],
             // },
             {
-                icon: <HelpIcon height={20} width={20} />,
-                label: 'راهنما',
-                position: 'bottom',
-                placeOfDisplay: 'both',
-                isActive: false,
-                onClick: () => navigate('/Help'),
-            },
-            {
                 icon: <Envelope2Icon height={20} width={20} />,
                 label: 'پیام های بازار',
                 position: 'bottom',
                 placeOfDisplay: 'both',
+                id: 'message',
                 isActive: false,
-                onClick: tooggleSlider,
+                onClick: toggleSlider,
+            },
+            {
+                icon: <HelpIcon height={20} width={20} />,
+                label: 'راهنما',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                id: '/Help',
+                isActive: false,
+                onClick: () => navigate('/Help'),
             },
             {
                 icon: <QuitIcon height={20} width={20} />,
                 label: 'خروج',
                 position: 'bottom',
                 placeOfDisplay: 'both',
+                id: 'exit',
                 isActive: false,
                 onClick: () => logOutUser(),
             },
@@ -144,10 +222,10 @@ const Sider = () => {
         <>
             <SupervisorMassage
                 flagToggle={isShowSupervisorMessage}
-                setFlagToggle={tooggleSlider}
+                setFlagToggle={toggleSlider}
                 countNumberSupervisorMessage={countNumberSupervisorMessage}
             />
-            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
                 <div className="flex flex-col items-center gap-5">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>
@@ -156,35 +234,47 @@ const Sider = () => {
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
-                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
-                                        onClick={item.onClick}
+                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
+                                        onClick={() => {
+                                            item.onClick?.();
+                                            setActiveMenuItem(item.id);
+                                        }}
                                     >
                                         <>{item.icon}</>
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                     <div className="flex flex-col items-center gap-5 ">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <Tooltip key={ind} title={item.label}>
+                                <Tippy aria={{content:'auto', expanded:"auto"}} inertia key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
-                                        className="hover:bg-L-secondary-150 hover:text-white text-menu p-3 rounded-md"
-                                        onClick={item.onClick}
+                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
+                                        onClick={() => {
+                                            item.onClick?.();
+                                            setActiveMenuItem(item.id);
+                                        }}
                                     >
                                         {item.icon}
                                     </button>
-                                </Tooltip>
+                                </Tippy>
                             ))}
                     </div>
                 </div>
             </div>
-            <ExpandedSider isOpen={isOpen} onClose={() => setIsOpen(false)} menuItems={menuItems} />
+            <ExpandedSider
+                isOpen={isOpen}
+                activeMenuItem={activeMenuItem}
+                setActiveMenuItem={setActiveMenuItem}
+                onClose={() => setIsOpen(false)}
+                menuItems={menuItems}
+            />
         </>
     );
 };

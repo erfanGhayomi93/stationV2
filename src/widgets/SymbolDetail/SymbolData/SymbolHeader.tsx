@@ -27,9 +27,7 @@ const SymbolHeader = () => {
             <div className="flex gap-1">
                 <div className="">
                     <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
-                        {data?.companyCode && (
-                            <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={""} />
-                        )}
+                        {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
                     </div>
                 </div>
                 <div className=" flex items-center gap-2">
@@ -37,14 +35,14 @@ const SymbolHeader = () => {
 
                     <div className="flex flex-col">
                         <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                        <small className="text-L-gray-400 dark:text-D-gray-400">{data?.companyName || '-'}</small>
+                        <small className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</small>
                     </div>
                 </div>
             </div>
             <div className="mr-auto flex items-center">
+                <AddToWatchlistButton symbolISIN={selectedSymbol} />
                 <CodalBtn symbolTitle={data?.symbolTitle || ''} />
                 <TseBtn insCode={data?.insCode || ''} />
-                <AddToWatchlistButton symbolISIN={selectedSymbol} />
             </div>
         </div>
     );

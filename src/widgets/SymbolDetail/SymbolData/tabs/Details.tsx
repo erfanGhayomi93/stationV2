@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import DataDisplay from 'src/common/components/DataDisplay';
@@ -16,7 +15,7 @@ const Details = () => {
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
-            marketUnit: data?.symbolData?.marketUnit,
+            exchange: data?.symbolData?.exchange,
             lastTradeDateTime: data?.symbolData?.lastTradeDateTime,
             firstTradedPrice: data?.symbolData?.firstTradedPrice,
             baseVolume: data?.symbolData?.baseVolume,
@@ -30,14 +29,14 @@ const Details = () => {
             totalNumberOfSharesTraded: data?.symbolData?.totalNumberOfSharesTraded,
             totalTradeValue: data?.symbolData?.totalTradeValue,
             //
-            estimatedEPS: data?.symbolData?.estimatedEPS,
+            estimatedEPS: data?.symbolData?.eps,
             pe: data?.symbolData?.pe,
             sectorPE: data?.symbolData?.sectorPE,
         }),
     });
 
     const items = [
-        { key: 1, label: 'نوع بازار', value: t('marketUnit.' + data?.marketUnit) || '-' },
+        { key: 1, label: 'نوع بازار', value: t('exchange_type.' + data?.exchange) || '-' },
         {
             key: 2,
             label: 'آخرین معامله',
@@ -62,7 +61,7 @@ const Details = () => {
     ];
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full">
             <DataDisplay items={items} cols={2} />
         </div>
     );

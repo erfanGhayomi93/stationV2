@@ -1,67 +1,99 @@
 import { useMemo, useState } from 'react';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
+import { useAppValues } from 'src/redux/hooks';
 import SymbolHeader from './SymbolHeader';
-import SymbolPriceBar from './SymbolPriceBar';
 import SymbolPricePreview from './SymbolPricePreview';
+import SymbolPriceSlider from './SymbolPriceSlider';
+import { useTranslation } from 'react-i18next';
 import AdditionalData from './tabs/AdditionalData';
-import Charts from './tabs/Charts';
-import Details from './tabs/Details';
+import SymbolChart from './tabs/SymbolChart';
 import Messages from './tabs/Messages';
-import Orders from './tabs/Orders';
+import SameGroup from './tabs/SameGroup';
+import OrderBookWidget from './tabs/OrderBook/context';
+
+
 
 const SymbolData = () => {
     //
     const [activeTab, setActiveTab] = useState('Orders');
+    const { t } = useTranslation()
+
+    const {
+        option: { selectedSymbol },
+    } = useAppValues();
+
+    const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data: SymbolGeneralInfoType) => ({
+            yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
+            highThreshold: data?.symbolData?.highThreshold,
+            lastTradedPrice: data?.symbolData?.lastTradedPrice,
+            highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
+            lowThreshold: data?.symbolData?.lowThreshold,
+            closingPrice: data?.symbolData?.closingPrice,
+            lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
+        }),
+    });
+
 
     const items = useMemo<ITabItemType[]>(
         () => [
             {
-                key: 'Orders',
-                title: 'صف',
-                content: <Orders />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
-                selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+                key: 'OrderBook',
+                title: t('SymbolDetails.orderBook'),
+                content: <OrderBookWidget />, 
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'AdditionalData',
-                title: 'حقیقی حقوقی',
+                title: t('SymbolDetails.additionalData'),
                 content: <AdditionalData />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
-                selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
-            },
-            {
-                key: 'Details',
-                title: 'جزییات نماد',
-                content: <Details />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
-                selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'Charts',
-                title: 'نمودار نماد',
-                content: <Charts />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
-                selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+                title: t('SymbolDetails.symbolChart'),
+                content: <SymbolChart />,
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'Messages',
-                title: 'پیام ها',
+                title: t('SymbolDetails.messages'),
                 content: <Messages />,
-                tabClass: 'text-L-gray-500 dark:text-D-gray-500 outline-none',
-                selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            },
+            {
+                key: 'SameGroup',
+                title: t('SymbolDetails.sameGroup'),
+                content: <SameGroup />,
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
         ],
         [],
     );
 
     return (
-        <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2  overflow-y-auto h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  ">
-            <div className=" sticky top-0 z-10  bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
+        <div className=" grid grid-cols-1 grid-rows-min-one p-3 gap-2 overflow-hidden h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
+        {/* // <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2 h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  "> */}
+
+
+            <div className=" sticky top-0 z-10 pb-4 bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
                 <div className="grid grid-rows-2 gap-2 text-1.2">
                     <SymbolHeader />
                     <SymbolPricePreview />
                 </div>
-                <SymbolPriceBar />
+                <SymbolPriceSlider
+                    yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
+                    thresholdData={[symbolData?.lowThreshold ?? 0, symbolData?.highThreshold ?? 0]}
+                    exchangeData={[symbolData?.closingPrice ?? 0, symbolData?.lastTradedPrice ?? 0]}
+                    boundaryData={[symbolData?.lowestTradePriceOfTradingDay ?? 0, symbolData?.highestTradePriceOfTradingDay ?? 0]}
+                />
+                {/* <SymbolPriceBar /> */}
             </div>
             <TabsList
                 fill={true}

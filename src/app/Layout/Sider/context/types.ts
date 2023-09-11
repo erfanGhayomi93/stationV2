@@ -4,12 +4,12 @@ export type SLiderStateType = {
 };
 
 export enum SLiderActionEnum {
-    TOGGLE_MENU = 'TOGGLE_MENU',
+    TOGGLE_MESSAGE_MODAL = 'TOGGLE_MENU',
 }
 
 export type SLiderActionType = {
-    type: SLiderActionEnum.TOGGLE_MENU;
-    payload?: any;
+    type: SLiderActionEnum.TOGGLE_MESSAGE_MODAL;
+    payload?: boolean;
 };
 
 export enum COuntNumberSupervisorEnum {

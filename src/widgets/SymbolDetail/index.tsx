@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { pushEngine } from 'src/api/pushEngine';
+import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppValues } from 'src/redux/hooks';
-import SymbolData from './SymbolData';
 import SymbolSearch from './SymbolSearch';
+import SymbolDataWidget from './SymbolData/context';
 
 const SymbolDetail = () => {
     //
@@ -24,6 +24,9 @@ const SymbolDetail = () => {
                 adapterName: 'RamandRLCDData',
                 items: [selectedSymbol],
                 fields: [
+                    'yesterdayClosingPrice',
+                    'lowThreshold',
+                    'highThreshold',
                     'individualBuyVolume',
                     'numberOfIndividualSellers',
                     'individualSellVolume',
@@ -47,9 +50,9 @@ const SymbolDetail = () => {
                     'symbolState',
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
-                    //
+                    //@ts-ignore
                     queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
-                        //
+                        
                         const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };
                         const { symbolData, individualLegal } = oldData || tempObj;
 
@@ -63,7 +66,6 @@ const SymbolDetail = () => {
 
                         tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
                         tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
-
                         return { ...oldData, ...tempObj };
                     });
                 },
@@ -81,7 +83,7 @@ const SymbolDetail = () => {
         <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">
             <SymbolSearch placeholder="جستجوی نماد" />
 
-            <SymbolData />
+            <SymbolDataWidget />
         </div>
     );
 };

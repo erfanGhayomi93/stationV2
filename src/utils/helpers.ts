@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import i18next from 'i18next';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
@@ -9,6 +10,8 @@ export const seprateNumber = (num: number | undefined): any => {
         return sepCode.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     } else return num;
 };
+
+export const isBetween = (min: number, value: number, max: number): boolean => value >= min && value <= max;
 
 export const validNumber = (value: string | number) => {
     return +String(value).replace(/[^0-9]/gi, '');
@@ -308,7 +311,7 @@ export const howLongAgo = (timeStamp: any) => {
 };
 
 export const valueFormatterSide = (data: any): string => {
-    return i18next.t('OrderSide.' + data.value);
+    return i18next.t('orderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {
@@ -339,9 +342,13 @@ export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: n
 };
 
 export const handleValidity = (validity: string): string => {
-    if (validity === 'Day' || validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+    if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
     return validity;
 };
+
+const isDecimal = (number: number) => {
+    return String(number).indexOf(".") < 0 ? false : true
+}
 
 export const abbreviateNumber = (number: number) => {
     //
@@ -363,6 +370,113 @@ export const abbreviateNumber = (number: number) => {
     // scale the number
     const scaled = number / scale;
 
-    // format number and add suffix
-    return scaled.toFixed(2) + suffix;
+    // format number and add suffi
+    
+    return isDecimal(scaled) ? scaled.toFixed(1) + suffix : scaled + suffix;
+};
+
+export const getValidDate = (value: number | string | Date): Date => {
+    if (value instanceof Date) return value;
+
+    return new Date(value as string);
+};
+
+export const toEnglishNumber = (str: string): string => {
+    const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+    const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+
+    for (let i = 0; i < 10; i++) {
+        str = str.replace(persianNumbers[i], String(i)).replace(arabicNumbers[i], String(i));
+    }
+
+    return str;
+};
+
+export const dateFormatter = (value: string) => {
+    const dateRegex = /([0-9]{4})([0-9]{1,2})?([0-9]{1,2})?/g;
+
+    value = toEnglishNumber(value).replace(/[^0-9]/g, '');
+    const res = dateRegex.exec(value);
+    if (!res) return value;
+
+    const [, ...matchs] = res;
+
+    if (matchs[1] === '00' || Number(matchs[1]) > 12) {
+        return matchs[0];
+    } else if (
+        matchs[2] === '00' ||
+        Number(matchs[2]) >
+            dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
+                .calendar('jalali')
+                .daysInMonth()
+    ) {
+        return [matchs[0], matchs[1]].filter(Boolean).join('/');
+    }
+
+    return matchs.filter(Boolean).join('/');
+};
+
+export const findTitlePage = (pathname: string) => {
+    let path = '';
+    if (pathname === '/') {
+        path = 'home';
+    } else {
+        path = pathname.replace(/^\//, '').toString();
+    }
+
+    document.title = 'آنلاین گروهی - ' + i18next.t(`titlePage.${path}`);
+};
+
+export const getURL = (address: string, params?: Record<string, string>) => {
+    const url = new URL(address);
+
+    const searchParams = new URLSearchParams();
+
+    for (const property in params) {
+        searchParams.append(property, params[property]);
+    }
+
+    url.search = searchParams.toString();
+    return url.toString();
+};
+
+export const downloadCanvasAsImage = (canvas: HTMLCanvasElement, name: string) => {
+    const canvasImage = canvas.toDataURL('image/png');
+
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+
+    xhr.onload = () => {
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = `${name}.png`;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+
+        a.click();
+        a.remove();
+    };
+
+    xhr.open('GET', canvasImage); // This is to download the canvas Image
+
+    xhr.send();
+};
+
+
+export const getAverageDates = (startDate: number, endDate: number, n: number) => {
+	const averageInterval = Math.floor((endDate - startDate) / n);
+	const averageDates: number[] = [];
+
+	const startDateAsTimestamp = new Date(startDate).getTime();
+	for (let i = 0; i < n; i++) {
+		averageDates.push(startDateAsTimestamp + (i * averageInterval));
+	}
+
+	return averageDates;
+};
+
+export const rgbToRgba = (rgb: string, opacity = 1): string => {
+	const rgbValues = rgb.slice(4, rgb.length - 1);
+
+	return `rgba(${rgbValues},${opacity})`;
 };

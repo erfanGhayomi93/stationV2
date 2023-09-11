@@ -100,8 +100,8 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {(isLoading || isFetching) && (
-                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-450 bg-L-basic dark:bg-D-basic">
-                    <div className="flex items-center justify-center gap-2 text-L-gray-400">
+                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-600 bg-L-basic dark:bg-D-basic">
+                    <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
                     </div>
@@ -115,7 +115,7 @@ export function MinLen({ min }: { min: boolean }) {
     return (
         <>
             {min && (
-                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-450 bg-L-basic dark:bg-D-basic">
+                <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-600 bg-L-basic dark:bg-D-basic">
                     حداقل دو کاراکتر وارد نمایید.
                 </div>
             )}

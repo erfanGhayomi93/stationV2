@@ -36,7 +36,7 @@ const Login = () => {
         onSuccess: (result) => {
             if (result.loginResultType === 'Successful') {
                 setAuthorizeData(result?.token);
-                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی' }));
+                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی',customerISIN : "001" }));
                 navigate('/');
             }
         },
@@ -107,8 +107,8 @@ const Login = () => {
                                         <input
                                             name="username"
                                             data-cy="username"
-                                            placeholder={t('FormSide.Input.GtUsername.Placeholder')}
-                                            className="border bg-white p-3 rounded-lg border-[#A4B2C9]"
+                                            placeholder={t('FormSide.Input.Username.Placeholder')}
+                                            className="border bg-white p-3 rounded-lg border-[#A4B2C9] focus:outline-none"
                                             type="text"
                                             value={userString}
                                             onChange={(e) => setUserString(e.target.value)}
@@ -134,7 +134,7 @@ const Login = () => {
                                         <span className="text-[#35435A] font-semibold pr-0.5">کد امنیتی</span>
                                         <div className="items-center flex  overflow-hidden border bg-white  rounded-lg border-[#A4B2C9]">
                                             <input
-                                                className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center"
+                                                className="h-full w-full px-3 font-semibold text-1.8 tracking-[2rem] text-center focus:outline-none"
                                                 type="text"
                                                 value={captchaValue}
                                                 // placeholder={t("FormSide.Input.Captcha.Placeholder")}

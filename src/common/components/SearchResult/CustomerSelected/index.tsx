@@ -12,7 +12,7 @@ const CustomerSelected: FC<ICustomerSelectedType> = ({ selected }) => {
                 <Fragment key={inx}>
                     <Combo.DataSet
                         key={inx}
-                        className="even:bg-L-gray-100 even:dark:bg-D-gray-100 border-b last:border-none bg-L-basic dark:bg-D-basic border-L-gray-300 dark:border-D-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                        className="even:bg-L-gray-100 even:dark:bg-D-gray-100 border-b last:border-none bg-L-basic dark:bg-D-basic   dark:  py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                         label={item.customerTitle}
                         value={item}
                     >

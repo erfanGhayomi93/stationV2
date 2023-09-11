@@ -44,7 +44,7 @@ export const getOrderLists = async (params: IGTOrderListRequest) => {
 //prettier-ignore
 export const useOrderLists = <T=GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(param: IGTOrderListRequest,
     options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTOrderListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTOrderListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
-    return useQuery(['getOrderLists'], ({ queryKey }) => getOrderLists(param as IGTOrderListRequest), { ...options,enabled:false });
+    return useQuery(['getOrderLists'], ({ queryKey }) => getOrderLists(param as IGTOrderListRequest), { ...options });
 };
 
 //////////////Modify////////////////////
@@ -56,4 +56,31 @@ const updateOrderFn = async (params: any) => {
 
 export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Error, any, unknown>, 'mutationKey' | 'mutationFn'>) => {
     return useMutation(updateOrderFn, options);
+};
+
+////////////Offline Requests///////////
+
+export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
+    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });
+    return data;
+};
+
+export const useGetOfflineRequests = (params: IGTOfflineTradesRequests, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
+    useQuery<IGTOfflineTradesResponse>(['getOfflineTrades'], () => getOfflineRequests(params as IGTOfflineTradesRequests), { ...options });
+
+///////////Trades//////////
+
+export const getTradesLists = async (params: IGTTradesListRequest) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(Apis().Orders.Trades, {
+        params,
+    });
+    return data;
+};
+
+
+export const useTradesLists = <T = IGTTradesResponseType,>(
+    param: IGTTradesListRequest,
+    options?: Omit<UseQueryOptions<IGTTradesResponseType, unknown, IGTTradesResponseType, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options });
 };

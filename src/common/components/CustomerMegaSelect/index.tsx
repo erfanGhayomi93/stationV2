@@ -1,18 +1,23 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState } from 'react';
+import { FC, Fragment, useEffect, useMemo, useState } from 'react';
 import { useMultiCustomerListQuery } from 'src/app/queries/customer';
-import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
 
-interface ICustomerMegaSelectType {}
+interface ICustomerMegaSelectType {
+    setSelected: (x: IGoCustomerSearchResult[]) => void;
+    selected: IGoCustomerSearchResult[];
+}
 
-const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
+const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
-    const [selected, setSelected] = useState<IGoCustomerSearchResult[]>([]);
+
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+    }, [selected]);
 
     const {
         data: qData,
@@ -27,6 +32,11 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
             },
         },
     );
+
+    
+    const handleSelect = (selected: IGoCustomerSearchResult[]) => {
+        setSelected(selected);
+    };
     interface IOptionsType {
         active?: boolean;
         content?: string;
@@ -47,13 +57,13 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
                                     <Fragment key={inx}>
                                         <Combo.DataSet
                                             key={inx}
-                                            className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                                            className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                                             label={item.customerTitle}
                                             value={item}
                                         >
-                                            <div className="flex justify-between w-full">
-                                                {item.customerTitle}
-                                                <span>{item.bourseCode}</span>
+                                            <div className="flex gap-2 justify-between items-center w-full text-1">
+                                                <div className="flex-1">{item.customerTitle}</div>
+                                                <div className="min-w-min">{item.bourseCode}</div>
                                             </div>
                                         </Combo.DataSet>
                                     </Fragment>
@@ -72,9 +82,9 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
             <Combo.Provider
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو حقیقی/حقوقی/گروه مشتری"
+                placeholder="جستجوی مشتری"
                 onInputChange={(value) => setTerm(value)}
-                onSelectionChange={(selected) => setSelected(selected)}
+                onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 multiple={true}
@@ -84,7 +94,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({}) => {
                 min={3}
             >
                 <div>
-                    <InputSearch loading={isLoading || isFetching} />
+                    <InputSearch loading={isFetching} />
                     <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
                         <Options />
                     </Combo.Panel>

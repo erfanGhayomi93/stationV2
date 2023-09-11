@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import SimpleDatepicker from 'src/common/components/Datepicker/SimpleDatepicker';
-import Select, { SelectOption } from 'src/common/components/Select';
+import Select from 'src/common/components/Select';
 import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+
 
 interface IBuySellValidityType {}
 
@@ -14,34 +15,39 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     const { validity, validityDate } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
     const setValidityDate = (value: string | undefined) => dispatch({ type: 'SET_VALIDITY_DATE', value });
+    const { t } = useTranslation();
 
     const handleValidityState = (select: any) => {
-        setValidity(select.value);
-        // select.value !== 'GoodTillDate' && setValidityDate(undefined);
-        if (select.value !== 'GoodTillDate') setValidityDate(select.validityDate);
-        else setValidityDate(undefined);
+        setValidity(select);
     };
-    const { t } = useTranslation();
-    return (
-        <div className="flex  gap-2 w-full  ">
-            <div className="flex pr-2 items-center gap-2 w-6/12">
-                <span className="w-[64px]">اعتبار</span>
-                <Select onChange={(select: typeof VALIDITY_OPTIONS[0]) => handleValidityState(select)} value={t('BSModal.validity_' + validity)}>
-                    {VALIDITY_OPTIONS.map((item, inx) => (
-                        <SelectOption
-                            key={inx}
-                            label={t('BSModal.validity_' + item.value)}
-                            value={item}
-                            className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
-                        />
-                    ))}
-                </Select>
-            </div>
-            <div className={clsx('h-full flex items-center grow z-10', validity === 'GoodTillDate' ? '' : 'opacity-60 ')}>
-                <SimpleDatepicker
-                    disable={validity !== 'GoodTillDate'}
-                    // defaultValue={validity === 'GoodTillDate' && validityDate ? (validityDate as any) : undefined}
 
+    useEffect(() => {
+        const selectedDate = VALIDITY_OPTIONS.find((x) => x.value === validity)?.validityDate;
+
+        setValidityDate(selectedDate);
+    }, [validity]);
+
+    return (
+        <div className="flex  gap-2 w-full">
+            <div className="flex pr-2 items-center flex-1 gap-2">
+                <span className="w-[46px]">اعتبار</span>
+
+                <div className="flex-1">
+                    <Select
+                        onChange={(selected) => handleValidityState(selected)}
+                        value={validity}
+                        options={VALIDITY_OPTIONS.map((item) => ({ value: item.value, label: t('BSModal.validity_' + item.value) }))}
+                    />
+                </div>
+            </div>
+            <div
+                className={clsx(
+                    'h-full flex items-center w-1/2 z-10',
+                    ['Day', 'Week', 'Month', 'FillAndKill', 'GoodTillCancelled'].includes(validity) ? 'hidden' : '',
+                )}
+            >
+                <AdvancedDatepicker
+                    value={validityDate}
                     onChange={(value) =>
                         setValidityDate(
                             dayjs(value as any)

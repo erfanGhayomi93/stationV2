@@ -15,14 +15,11 @@ const ChangeCellRenderer = ({ value, valueFormatted, tooltip = false }: ChangeCe
         if (changedValue === cellValue) return;
 
         timer.current = setTimeout(() => setChangedValue(cellValue || 0), 2000);
-    }, [cellValue, changedValue]);
 
-    useEffect(
-        () => () => {
+        return () => {
             clearTimeout(timer.current);
-        },
-        [],
-    );
+        }
+    }, [cellValue, changedValue]);
 
     const iconRenderer = () => {
         if (cellValue > changedValue)
@@ -57,9 +54,9 @@ const ChangeCellRenderer = ({ value, valueFormatted, tooltip = false }: ChangeCe
 
     return (
         <div
-            className={clsx('flex justify-center items-center dir-ltr w-full gap-8', {
-                'text-L-success-150 dark:text-D-success-150': cellValue > changedValue,
-                'text-L-error-150 dark:text-D-error-150': cellValue < changedValue,
+            className={clsx('flex justify-center items-center dir-ltr w-full gap-2', {
+                'text-L-success-200 dark:text-D-success-200': cellValue > changedValue,
+                'text-L-error-200 dark:text-D-error-200': cellValue < changedValue,
             })}
         >
             <span
@@ -71,7 +68,7 @@ const ChangeCellRenderer = ({ value, valueFormatted, tooltip = false }: ChangeCe
                 {valueFormatted ?? 0}
             </span>
 
-            <span style={{ width: '12px' }} className=" absolute right-8">
+            <span style={{ width: '12px' }} className=" absolute right-2">
                 {iconRenderer()}
             </span>
         </div>

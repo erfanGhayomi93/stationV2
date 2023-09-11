@@ -1,3 +1,5 @@
+import Tippy from '@tippyjs/react';
+import React from 'react';
 import { CopyIcon, DeleteIcon, EditIcon, SendIcon } from 'src/common/icons';
 
 export enum TypeActionEnum {
@@ -27,37 +29,42 @@ function ActionCell<T>({ type, data, handleDelete, handleEdit, handleSend, handl
             isActived: isSend,
             onClick: handleSend,
             Icon: SendIcon,
+            title: 'ارسال',
         },
         {
             isActived: isEdit,
             onClick: handleEdit,
             Icon: EditIcon,
+            title: 'ویرایش',
         },
         {
             isActived: isCopy,
             onClick: handleCopy,
             Icon: CopyIcon,
+            title: 'کپی',
         },
         {
             isActived: isDelete,
             onClick: handleDelete,
             Icon: DeleteIcon,
+            title: 'حذف',
         },
     ];
 
     return (
-        <div className="flex items-center justify-center gap-2 py-2 h-full">
+        <div className="flex items-center justify-center gap-4 py-2 h-full">
             {buttons.map((item, ind) => {
-                const { Icon, isActived, onClick } = item;
+                const { Icon, isActived, onClick, title } = item;
                 return (
-                    <button
-                        key={ind}
-                        data-actived={isActived}
-                        className="hidden actived:inline-block dark:bg-D-gray-250 bg-L-gray-250 px-1.5 py-1.5 rounded-md"
-                        onClick={() => onClick && onClick(data)}
-                    >
-                        <Icon className="text-L-primary-50 dark:text-D-primary-50" />
-                    </button>
+                    <React.Fragment key={ind}>
+                        {isActived && (
+                            <Tippy content={title} className="text-xs">
+                                <button data-actived={isActived} className="hidden actived:inline-block" onClick={() => onClick && onClick(data)}>
+                                    <Icon className="text-L-gray-600 dark:text-D-gray-600" />
+                                </button>
+                            </Tippy>
+                        )}
+                    </React.Fragment>
                 );
             })}
         </div>

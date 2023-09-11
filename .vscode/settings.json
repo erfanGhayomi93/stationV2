@@ -1,7 +1,13 @@
 {
-	"workbench.colorTheme": "One Dark Pro",
+	// "workbench.colorTheme": "One Dark Pro",
 	"editor.codeActionsOnSave": {
-		"source.organizeImports": true,
-		"source.sortImports": true
-	}
+		"source.organizeImports": false,
+		"source.sortImports": false
+	},
+	"cSpell.words": [
+		"actived",
+		"Ramand",
+		"Watchlist",
+		"Watchlists"
+	]
 }

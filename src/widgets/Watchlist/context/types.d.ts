@@ -1,16 +1,24 @@
 type WathclistAction =
-    | { type: 'SET_SELECTED_WATCHLIST'; value: number }
-    | { type: 'SET_SELECTED_DEFAULT_WATCHLIST'; value: IDefaultWatchlistType }
+    | { type: 'SET_SELECTED_WATCHLIST'; value: {id : number , type : WatchlistType } }
+    | { type: 'SET_SELECTED_WATCHLIST_TYPE'; value: WatchlistType }
+    | { type: 'SET_SELECTED_RAMAND_FILTER_WATCHLIST'; value: IDefaultWatchlistType }
     | { type: 'TOGGLE_EDIT_MODE'; value: boolean }
+    | { type: 'TOGGLE_ADD_SYMBOL_MODE'; value: boolean }
     | { type: 'CHANGE_IS_SHOW_COLUMN'; value: string[] }
-    | { type: 'SET_COLUMN'; value: ColDefType<IWatchlistSymbolTableType>[] }
+    | { type: 'SET_COLUMN'; value: ColDefType<IGetWatchlistSymbol>[] }
     | { type: 'SET_PageNumber'; value: number }
-    SET_COLUMN
+    | { type: 'SET_MarketUnit_Filter'; value: string }
+    | { type: 'SET_Sector_Filter'; value: ISectorList };
+SET_COLUMN;
 type WathclistState = {
-    selectedWatchlist: number | undefined;
+    selectedWatchlistId: number;
+    watchlistType: WatchlistType;
     editMode: boolean;
-    selectedDefaultWatchlist: IDefaultWatchlistType;
-    listShowColumn : string[]
-    column : ColDefType<IWatchlistSymbolTableType>[]
-    PageNumber : number
-}
+    addSymbolMode : boolean;
+    ramandFilterWatchlist: IDefaultWatchlistType;
+    listShowColumn: string[];
+    column: ColDefType<IGetWatchlistSymbol>[];
+    PageNumber: number;
+    marketUnit: string;
+    sector: ISectorList;
+};

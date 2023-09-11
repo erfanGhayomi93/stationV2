@@ -1,31 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useGetMarketSymbolQuery, UseGetSector } from 'src/app/queries/watchlist';
-import Select, { SelectOption } from 'src/common/components/Select';
+import { useEffect } from 'react';
+import { UseGetSector } from 'src/app/queries/watchlist';
+import SelectType from 'src/common/components/SelectType';
 import { ArrowLeftAlt } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
+import Select from 'src/common/components/Select';
+// import Select from "src/common/components/SelectAsync";
+
 
 export const FilterAllMarket = () => {
-    const [data, setdata] = useState({
-        marketUnit: '',
-        sector: { id: '', title: '' },
+    const { data: dataSector } = UseGetSector({
+        staleTime: 1000 * 60 * 60,
+        select(data) {
+            return data.map(item => ({ id: item.id, title: item.sectorName}))
+        }
     });
-    const { data: dataSector } = UseGetSector();
     const {
-        state: { PageNumber },
+        state: { sector, marketUnit },
         setState,
     } = useWatchListState();
-    const {
-        refetch,
-        remove,
-    } = useGetMarketSymbolQuery({ PageNumber, marketUnit: data.marketUnit, SectorCode: data.sector.id });
-    const [isCallApi, setisCallApi] = useState(false);
-
-    useEffect(() => {
-        refetch();
-        return () => {
-            remove();
-        };
-    }, [isCallApi, PageNumber]);
 
     useEffect(() => {
         return () => {
@@ -33,94 +25,77 @@ export const FilterAllMarket = () => {
         };
     }, []);
 
-    const handleOnchange = (type: string, value: string) => {
-        setdata((prev) => ({
-            ...prev,
-            [type]: value,
-        }));
-        PageNumber !== 1 && setState({ type: 'SET_PageNumber', value: 1 });
-        PageNumber === 1 && setisCallApi((prev) => !prev);
-    };
     return (
         <div className="flex items-stretch">
             <div className="flex items-center ml-7">
-                <p className="ml-1">نمایش بر اساس </p>
-                <ArrowLeftAlt />
+                <p className="ml-1 text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس: </p>
+                {/* <ArrowLeftAlt /> */}
             </div>
 
-            <div className="flex items-center gap-3 pl-3 border-l-2 border-L-gray-350 dark:border-D-gray-350">
-                <p className="pl-1">نوع بازار:</p>
+            <div className="flex items-center gap-3 pl-3 my-1 border-l-2 border-L-gray-400 dark:border-D-gray-400">
+                <p className="pl-1 text-L-gray-600 dark:text-D-gray-600">نوع بازار:</p>
 
-                {typeMarket.map((item, ind) => (
+                {marketTypeOptions.map((item, ind) => (
                     <div key={ind} className="flex">
                         <input
                             name="marketUnit"
                             id={item.type}
                             type="radio"
-                            checked={data.marketUnit === item.type}
-                            onChange={() => handleOnchange('marketUnit', item.type)}
+                            checked={marketUnit === item.type}
+                            // onChange={() => handleOnchange('SET_MarketUnit_Filter', item.type)}
+                            onChange={() => setState({ type: 'SET_MarketUnit_Filter', value: item.type })}
                         />
-                        <label htmlFor={item.type} className="pr-1.5 cursor-pointer">
+                        <label htmlFor={item.type} className="pr-1.5 cursor-pointer text-L-gray-700 dark:text-D-gray-700">
                             {item.label}
                         </label>
                     </div>
                 ))}
             </div>
 
-            <div className="flex items-center gap-1 px-3">
-                <span>صنایع :</span>
-                <div className=" min-w-[12.5rem]">
-                    <Select
-                        onChange={(data) => handleOnchange('sector', data)}
-                        value={data.sector?.title}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md py-1.5 pr-3 pl-10"
+            <div className="flex items-center gap-1 px-3 ">
+                <span className='text-L-gray-600 dark:text-D-gray-600'>صنایع :</span>
+                <div className="min-w-[12.5rem]">
+                    <SelectType
+                        value={sector}
+                        onChange={(data) => setState({ type: 'SET_Sector_Filter', value: data as ISectorList })}
+                        options={dataSector || []}
                         placeholder="انواع صنعت"
-                    >
-                        <>
-                            <SelectOption
-                                value={{ id: '', title: '' }}
-                                label={'همه'}
-                                className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
-                            />
-                            {(dataSector as ISectorList[])?.map((item) => (
-                                <SelectOption
-                                    key={item.id}
-                                    value={item}
-                                    label={item.title}
-                                    className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
-                                />
-                            ))}
-                        </>
-                    </Select>
+                    />
                 </div>
+                {/* <Select
+                    classes={{
+                        root: 'border rounded border-L-gray-200 dark:border-D-gray-200 min-w-[12.5rem]'
+                    }}
+                    options={dataSector}
+                    value={sector}
+                    onChange={(wl) => setState({ type: 'SET_Sector_Filter', value: wl })}
+                    getOptionLabel={(wl) => wl.sectorName}
+                    getOptionId={(wl) => wl.id}
+                    placeholder={'انواع صنعت'}
+                >
+                    {(value) => (
+                        <Select.Option option={value} />
+                    )}
+                </Select> */}
             </div>
 
-            {/* <div className="flex items-center gap-1 px-3">
+            {/* <div className="flex items-center gap-1 px-3 my-1  border-r-2 border-L-gray-400 dark:border-D-gray-400">
                 <span>اوراق :</span>
-                <div className=" min-w-[8.5rem]">
-                    <Select
-                        onChange={() => null}
-                        inputClassName="bg-L-basic  dark:bg-D-basic border-L-gray-350 dark:border-D-gray-350 border rounded-md py-1.5 pr-3 pl-10"
-                        placeholder="همه"
-                    >
-                        {industry.map((item, inx) => (
-                            <SelectOption
-                                key={inx}
-                                // label={t('OrderState.' + item.value)}
-                                // value={item.value}
-                                label={item.label}
-                                value=""
-                                className="text-1.2 cursor-default select-none py-1.5 pl-10 pr-4 "
-                            />
-                        ))}
-                    </Select>
+                <div className="min-w-[12.5rem]">
+                    <SelectType
+                        value={sector}
+                        onChange={(data) => setState({ type: 'SET_Sector_Filter', value: data as ISectorList })}
+                        options={oraghOptions || []}
+                        placeholder="انواع صنعت"
+                    />
                 </div>
             </div> */}
+
         </div>
     );
 };
 
-const typeMarket = [
+const marketTypeOptions = [
     {
         label: 'همه',
         type: '',
@@ -134,3 +109,19 @@ const typeMarket = [
         type: 'FaraBourse',
     },
 ];
+
+// const oraghOptions = [
+//     {
+//         title: 'خزانه',
+//         id: '',
+//     },
+//     {
+//         title: 'تبعی',
+//         id: '',
+//     },
+//     {
+//         title: 'در اختیار',
+//         id: '',
+//     },
+// ];
+

@@ -1,4 +1,4 @@
-// type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
+type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 // type MarketUnit =
 //     | 'Exchange'
 //     | 'FaraBourse'
@@ -26,3 +26,5 @@
 //     buyCommissionValue: number;
 //     sellCommissionValue: number;
 // }
+
+type CustomerType = "Legal" | "Natural" | "Individual"

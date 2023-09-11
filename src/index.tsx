@@ -1,6 +1,5 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 // Redux
 import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
@@ -16,6 +15,7 @@ import App from 'src/app/App';
 // Styles
 //prettier-ignore
 import 'react-toastify/dist/ReactToastify.css';
+import 'tippy.js/dist/tippy.css';
 import 'src/assets/scss/main.scss';
 import { GlobalSetterProvider } from './common/context/globalSetterContext';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
@@ -27,7 +27,6 @@ const Wrapper = () => {
 
     return apiRoutes ? (
         <>
-            <BrowserRouter>
                 <TranslatorProvider>
                     <GlobalSetterProvider>
                         <App />
@@ -43,7 +42,6 @@ const Wrapper = () => {
                         />
                     </GlobalSetterProvider>
                 </TranslatorProvider>
-            </BrowserRouter>
         </>
     ) : (
         <>loading apis</>

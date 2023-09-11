@@ -1,21 +1,27 @@
 import clsx from 'clsx';
-import { FC, Fragment, useMemo, useState, memo, useEffect } from 'react';
+import { FC, memo, useEffect, useMemo, useState } from 'react';
+import { useSymbolSearch } from 'src/app/queries/symbol';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
-import InputSearch from './input';
-import { useSymbolSearch } from 'src/app/queries/symbol';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
+import InputSearch from './input';
 
 interface ISymbolMiniSelectType {
+    multiple?: boolean;
+    isBigSize?: boolean;
+    isOnModal?: boolean;
     setSelected: (selected: SymbolSearchResult[]) => void;
     selected: SymbolSearchResult[];
+    watchlistId ?: number
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal , watchlistId }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
+
+
 
     const {
         data: qData,
@@ -30,25 +36,28 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
 
     useEffect(() => {
         selected.length === 0 && setTerm('');
-        selected.length === 1 && setTerm(selected[0].symbolTitle);
     }, [selected]);
 
     const handleSelect = (value: SymbolSearchResult[]) => {
         setSelected(value);
-        setPanel(false);
+        (!isOnModal && !multiple) && setPanel(false);
     };
     interface IOptionsType {
         active?: boolean;
         content?: string;
+        watchlistId ?: number
     }
-    const Options = ({ active, content }: IOptionsType) =>
+    const Options = ({ active, content , watchlistId }: IOptionsType) =>
         useMemo(() => {
             return (
                 <>
                     <div
-                        className={clsx(
-                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-10 top-0  origin-top shadow-md ',
-                            !active && 'scale-y-0',
+                        className={clsx('bg-white  overflow-y-auto absolute w-full z-10 top-0  origin-top', {
+                            'scale-y-0': !active,
+                            'shadow-md max-h-[300px]': !isOnModal,
+                            ' max-h-[400px] mt-1 border border-L-gray-300 dark:border-D-gray-300': !!isOnModal,
+                        }
+
                         )}
                     >
                         {content === 'SELECT' ? (
@@ -57,7 +66,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
                             //         <Fragment key={inx}>
                             //             <Combo.DataSet
                             //                 key={inx}
-                            //                 className="even:bg-L-gray-200 even:dark:bg-D-gray-200 border-b last:border-none border-L-gray-300 py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
+                            //                 className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
                             //                 label={item.symbolTitle}
                             //                 value={item}
                             //             >
@@ -71,7 +80,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
                             // </>
                             <SymbolSelected selected={selected} />
                         ) : (
-                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} />
+                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
                         )}
                     </div>
                 </>
@@ -81,9 +90,10 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
     return (
         <div>
             <Combo.Provider
+                multiple={multiple}
                 value={term}
                 withDebounce={1000}
-                placeholder="جستجو نماد"
+                placeholder="جستجوی نماد"
                 onInputChange={(value) => setTerm(value)}
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
@@ -91,14 +101,16 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected }) 
                 selections={selected}
                 keyId={'symbolISIN'}
                 showPanel={panel}
-                min={3}
+                min={2}
             >
                 <div>
-                    <InputSearch loading={isLoading || isFetching} />
+                    <InputSearch isBigSize={isBigSize} loading={isLoading || isFetching} />
 
-                    <Combo.Panel className="relative" onBlur={() => setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                        <Options />
-                    </Combo.Panel>
+                    <div>
+                        <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
+                            <Options watchlistId={watchlistId}/>
+                        </Combo.Panel>
+                    </div>
                 </div>
             </Combo.Provider>
         </div>
@@ -111,8 +123,8 @@ export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; i
     return (
         <>
             {(isLoading || isFetching) && (
-                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500">
-                    <div className="flex items-center justify-center gap-2 text-L-gray-400">
+                <div className="p-5 flex items-center justify-center w-full h-full  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700">
+                    <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>
                         <SpinnerIcon width={25} height={25} />
                     </div>
@@ -126,7 +138,7 @@ export function MinLen({ min }: { min: boolean }) {
     return (
         <>
             {min && (
-                <div className="p-5 flex items-center text-1.2 bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500 justify-center w-full h-full">
+                <div className="p-5 flex items-center text-1.2 bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700 justify-center w-full h-full">
                     حداقل سه کاراکتر وارد نمایید.
                 </div>
             )}

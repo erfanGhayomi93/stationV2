@@ -59,9 +59,9 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
 
     return (
         <div
-            className={clsx('w-full  max-h-full overflow-y-auto', {
-                'h-[445px]': isShowFilter,
-                'h-[545px]': !isShowFilter,
+            className={clsx('flex-1 mt-4 overflow-y-auto', {
+                // 'h-[445px]': isShowFilter,
+                // 'h-[545px]': !isShowFilter,
             })}
         >
             <AGTable

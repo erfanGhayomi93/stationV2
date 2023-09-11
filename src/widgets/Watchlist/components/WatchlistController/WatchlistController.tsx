@@ -1,166 +1,124 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { FC, FormEvent, useState } from 'react';
+import { FC, useState, useMemo, useCallback, memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { createWatchListMutation, useDefaultWatchlistQuery, useWatchListsQuery } from 'src/app/queries/watchlist';
+import { useRamandFilterWatchlistQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
-import Select, { SelectOption } from 'src/common/components/Select';
-import { EditIcon2, PlusIcon } from 'src/common/icons';
+import Select from 'src/common/components/Select';
+import { EditIcon2, PinIcon, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
-import CheckColumnShow from '../CheckColumnShow';
 import { FilterAllMarket } from '../FilterAllMarket';
+import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
+import { AddWatchList } from '../AddWatchlist';
+import { GridReadyEvent } from 'ag-grid-community';
+import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 
 interface IWatchlistControllerType {
-    columns: ColDefType<IWatchlistSymbolTableType>[];
+    Columns: ColDefType<IGetWatchlistSymbol>[];
+    watchlists: IWatchlistType[] | undefined;
+    gridApi:GridReadyEvent<IGetWatchlistSymbol> | undefined;
 }
 
-const WatchlistController: FC<IWatchlistControllerType> = ({ columns }) => {
-    const queryClient = useQueryClient();
-    const { data: watchlists } = useWatchListsQuery();
+const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists,gridApi }) => {
+    const { t } = useTranslation();
+
     const { setState, state } = useWatchListState();
-    const [watchlistName, setWatchlistName] = useState('');
     const [isAddActive, setIsAddActive] = useState(false);
-    const { data: defaultWatchlists } = useDefaultWatchlistQuery();
 
-    const { mutate } = createWatchListMutation({
-        onSuccess: () => {
-            queryClient.invalidateQueries(['getWatchLists']);
-            toast.success('دیده‌بان با موفقیت اضافه شد');
-            setWatchlistName('');
+    const { data: ramandFilterWatchlist } = useRamandFilterWatchlistQuery();
 
-            //FIXME:connect to toast adaptor
-        },
-        onError: (err) => {
-            toast.error(`${err}`);
-            //FIXME:connect to toast adaptor
-        },
-    });
-
-    const setActiveWatchlist = (id: number) => {
-        setState({ value: id, type: 'SET_SELECTED_WATCHLIST' });
+    const setActiveWatchlist = ({ id, type }: { id: number; type: WatchlistType }) => {
+        setState({ value: { id, type }, type: 'SET_SELECTED_WATCHLIST' });
     };
 
     const setDefaultWatchlist = (key: IDefaultWatchlistType) => {
-        setState({ value: key, type: 'SET_SELECTED_DEFAULT_WATCHLIST' });
-    };
-
-    const AddWatchlist = (form: FormEvent<HTMLFormElement>) => {
-        form.stopPropagation();
-        form.preventDefault();
-        mutate(watchlistName);
-        setIsAddActive(false);
+        setState({ value: key, type: 'SET_SELECTED_RAMAND_FILTER_WATCHLIST' });
     };
 
     const openEditModal = () => {
         setState({ type: 'TOGGLE_EDIT_MODE', value: true });
     };
-    const { t } = useTranslation();
+
+    const watchlistOptions = useMemo(() => {
+        if (!ramandFilterWatchlist) return [];
+
+        return ramandFilterWatchlist?.map((item) => ({
+            value: item,
+            label: t('defaultWlOption.' + item),
+        }));
+    }, [ramandFilterWatchlist, t]);
+
+    const setTypeDefaultWatchlist = useCallback((select: IDefaultWatchlistType) => {
+        setDefaultWatchlist(select);
+    }, []);
+
+    const itemsScrollableSlider = useMemo(
+        () => (
+            <ScrollableSlider>
+                <>
+                    {watchlists?.map((watchlist) => (
+                        <button
+                            data-cy={'watchlist-itemScrollableSliders-' + watchlist.watchListName}
+                            onClick={() => setActiveWatchlist({ id: watchlist.id, type: watchlist.type })}
+                            key={watchlist.id}
+                            data-actived={watchlist.id === state.selectedWatchlistId}
+                            className="py-1 px-2 mx-2 outline-none text-xs hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-300 dark:bg-D-gray-300  text-L-gray-600 dark:text-D-gray-600 border rounded-md border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50 flex items-center"
+                        >
+                            {watchlist.type === 'Pinned' && <PinIcon className="text-L-warning dark:text-D-warning ml-2" />}
+                            {`${t('Watchlist.title')} ${watchlist.watchListName}`}
+                        </button>
+                    ))}
+                </>
+            </ScrollableSlider>
+        ),
+        [state.selectedWatchlistId, watchlists],
+    );
 
     return (
-        <div className="py-2 flex justify-between w-full ">
-            <div className="flex gap-3 ">
-                <div className="flex gap-2  overflow-x-auto py-1 px-1">
-                    <button
-                        onClick={() => setActiveWatchlist(0)}
-                        data-actived={state.selectedWatchlist === 0}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                    >
-                        کل بازار
-                    </button>
-                    <button
-                        onClick={() => setActiveWatchlist(1)}
-                        data-actived={state.selectedWatchlist === 1}
-                        className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                    >
-                        دیده بان رامند
-                    </button>
-                    {watchlists?.map(
-                        (watchlist) =>
-                            watchlist.isPinned && (
-                                <button
-                                    data-cy={'watchlist-items-' + watchlist.watchListName}
-                                    onClick={() => setActiveWatchlist(watchlist.id)}
-                                    key={watchlist.id}
-                                    data-actived={watchlist.id === state.selectedWatchlist}
-                                    className="py-1 px-2 outline-none hover:bg-L-primary-100 dark:hover:bg-D-primary-100 cursor-pointer whitespace-nowrap bg-L-gray-250 dark:bg-D-gray-250  text-L-gray-450 dark:text-D-gray-450 border rounded-lg border-transparent actived:bg-L-primary-100 actived:dark:bg-D-primary-100  actived:text-L-primary-50 actived:dark:text-D-primary-50  actived:border-L-primary-50 actived:dark:border-D-primary-50"
-                                >
-                                    {watchlist.watchListName}
-                                </button>
-                            ),
-                    )}
-                </div>
-                <div className="flex gap-3 items-center justify-center">
+        <div className="py-2 grid grid-cols-min-one w-full ">
+            <div className="flex gap-3">
+                <div className="py-1 w-[700px]">{itemsScrollableSlider}</div>
+
+                <div className="flex gap-3 items-center">
                     <div className="flex gap-3 items-center justify-center">
                         <button
-                            onClick={() => setIsAddActive(true)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsAddActive(true);
+                            }}
                             data-actived={isAddActive}
                             data-cy="add-watchlist"
-                            className="text-L-primary-50 actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                            className="text-L-gray-500  actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-gray-500  hover:text-L-primary-50 dark:hover:text-D-primary-50 outline-none"
                         >
                             <PlusIcon />
                         </button>
-                        <form
-                            data-actived={!isAddActive}
-                            onSubmit={AddWatchlist}
-                            onKeyDown={(event) => event.key === 'Escape' && setIsAddActive(false)}
-                            className="actived:scale-x-0 actived:absolute duration-150 flex gap-2  "
-                        >
-                            {/* <button
-                            type={'submit'}
-                            className="text-L-success-150 rounded-md dark:text-D-success-150 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
-                        >
-                            <PlusIcon />
-                        </button> */}
-                            <input
-                                data-cy="add-watchlist-input"
-                                className="border p-1 rounded-xl outline-L-primary-100 "
-                                value={watchlistName}
-                                onBlur={() => setIsAddActive(false)}
-                                placeholder="نام دیده بان جدید"
-                                onChange={(e) => setWatchlistName(e.target.value)}
-                            />
-                        </form>
+
+                        <AddWatchList isAddActive={isAddActive} setIsAddActive={setIsAddActive} />
                     </div>
                     <button
                         data-cy="edit-watchlist"
                         onClick={openEditModal}
-                        className="text-L-primary-50 rounded-md dark:text-D-primary-50 hover:bg-L-gray-150 dark:hover:bg-D-gray-150 outline-none"
+                        className="text-L-gray-500 rounded-md dark:text-D-gray-500 hover:text-L-primary-50 dark:hover:text-D-primary-50 outline-none"
                     >
                         <EditIcon2 />
                     </button>
                 </div>
             </div>
 
-            <div className="flex gap-2 items-center">
-                {
-                    state.selectedWatchlist === 0 && (
-                      <FilterAllMarket />    
-                    )
-                }
-                {state.selectedWatchlist === 1 && (
+            <div className="flex gap-2 items-center whitespace-nowrap">
+                {state.watchlistType === 'Market' && <FilterAllMarket />}
+
+                {state.watchlistType === 'Ramand' && (
                     <>
-                        <span>نمایش بر اساس :</span>
+                        <span className="text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
-                            <Select
-                                onChange={(select) => setDefaultWatchlist(select as any)}
-                                value={t('defaultWlOption.' + state.selectedDefaultWatchlist)}
-                            >
-                                {defaultWatchlists?.map((item, inx) => (
-                                    <SelectOption
-                                        key={inx}
-                                        label={t('defaultWlOption.' + item)}
-                                        value={item}
-                                        className="text-1.2 cursor-default select-none py-1 pl-10 pr-4"
-                                    />
-                                ))}
-                            </Select>
+                            <Select onChange={setTypeDefaultWatchlist} value={state.ramandFilterWatchlist} options={watchlistOptions} />
                         </div>
                     </>
                 )}
-                <CheckColumnShow {...{ columns }} />
+
+                <AGColumnEditor {...{ gridApi, lsKey: 'watchlist' }} />
             </div>
         </div>
     );
 };
 
-export default WatchlistController;
+export default memo(WatchlistController);

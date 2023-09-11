@@ -28,7 +28,7 @@ const GroupDetail = ({}: IGroupDetailType) => {
     return (
         <>
             <div className="py-5 h-full grid grid-rows-min-one w-full bg-L-basic dark:bg-D-basic">
-                <div className="border-b  border-L-gray-350 dark:border-D-gray-350 flex px-5">
+                <div className="border-b  border-L-gray-400 dark:border-D-gray-400 flex px-5">
                     <div className="border-b-2  border-L-primary-50 dark:border-D-primary-50  text-L-primary-50 pb-2 dark:text-D-primary-50 ">
                         اطلاعات مشتری
                     </div>

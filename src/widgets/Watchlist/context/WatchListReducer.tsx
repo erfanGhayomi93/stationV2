@@ -3,17 +3,23 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
         case 'SET_SELECTED_WATCHLIST':
             return {
                 ...state,
-                selectedWatchlist: action.value,
+                selectedWatchlistId: action.value.id,
+                watchlistType: action.value.type
             };
-        case 'SET_SELECTED_DEFAULT_WATCHLIST':
+        case 'SET_SELECTED_RAMAND_FILTER_WATCHLIST':
             return {
                 ...state,
-                selectedDefaultWatchlist: action.value,
+                ramandFilterWatchlist: action.value,
             };
         case 'TOGGLE_EDIT_MODE':
             return {
                 ...state,
                 editMode: action.value,
+            };
+        case 'TOGGLE_ADD_SYMBOL_MODE':
+            return {
+                ...state,
+                addSymbolMode: action.value,
             };
         case 'SET_COLUMN':
             return {
@@ -30,6 +36,19 @@ export const WatchlistReducer = (state: WathclistState, action: WathclistAction)
                 ...state,
                 PageNumber: action.value,
             };
+        case 'SET_MarketUnit_Filter':
+            return {
+                ...state,
+                PageNumber: 1,
+                marketUnit: action.value,
+            };
+        case 'SET_Sector_Filter':
+            return {
+                ...state,
+                PageNumber: 1,
+                sector: action.value,
+            };
+
 
         default:
             return state;

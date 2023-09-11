@@ -1,14 +1,34 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-import { pushEngine } from 'src/api/pushEngine';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { pushEngine } from 'src/ls/pushEngine';
 import WorkflowWidget from 'src/common/components/WorkFlow/context/WorkflowContext';
 import Footer from './Footer';
 import Header from './Header';
 import Sider from './Sider';
 import { ProviderSlider } from './Sider/context';
+import ipcMain from 'src/common/classes/IpcMain';
+import { useTranslation } from 'react-i18next';
+import { findTitlePage } from 'src/utils/helpers';
 
 const AppLayout = () => {
-    //
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        findTitlePage(pathname)
+    }, [pathname])
+
+
+
+
+    useEffect(() => {
+        ipcMain.handle("unAuthorized", () => {
+            navigate("/login")
+        })
+    }, [])
+
 
     useEffect(() => {
         // must get from config (api or file)

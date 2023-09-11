@@ -1,32 +1,36 @@
-import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
+import { ColDef, ColGroupDef } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
-import { ColGroupDef, ColDef } from 'ag-grid-community';
+import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-import { seprateNumber, abbreviateNumber } from 'src/utils/helpers';
-import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
-import { useAppValues } from 'src/redux/hooks';
 import dayjs from 'dayjs';
 import { DragIcon } from 'src/common/icons';
+import { useAppValues } from 'src/redux/hooks';
+import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
+import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
+import { useTranslation } from 'react-i18next';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
-    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date';
+    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex';
 }
 
 export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'children'> {
     children: (ColDefType<TData> | ColGroupDefType<TData>)[];
 }
 
-interface Props<TData> extends AgGridReactProps<TData> {}
+interface Props<TData> extends AgGridReactProps<TData> {
+    agGridTheme?: 'balham' | 'alpine';
+}
 
-const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], ...rest }, ref) => {
+const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
     //
+    const { t } = useTranslation();
     const {
         ui: { theme },
     } = useAppValues();
 
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
-    const containerClassName = useMemo((): string => `ag-theme-alpine${theme === 'dark' ? '-dark' : ''}`, [theme]);
+    const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
@@ -58,10 +62,16 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         <div className={containerClassName} style={containerStyle}>
             <AgGridReact
                 ref={ref}
+                rowModelType="clientSide"
                 enableRtl
                 suppressCellFocus
+                suppressAnimationFrame
+                suppressScrollOnNewData
                 suppressRowClickSelection
+                suppressDragLeaveHidesColumns
+                rowBuffer={5}
                 localeText={AgGridLocalization}
+                animateRows
                 enableBrowserTooltips
                 scrollbarWidth={5}
                 suppressColumnVirtualisation

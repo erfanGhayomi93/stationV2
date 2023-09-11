@@ -1,58 +1,111 @@
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
-import { FC, Fragment } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import { ChevronIcon } from 'src/common/icons';
 import { MenuItemType } from '.';
 import ToggleSlider from './ToggleSlider';
+import clsx from 'clsx';
+import styles from './expandedSider.module.scss';
 
 interface IExpandedSiderType {
     isOpen: boolean;
     onClose: (value: boolean) => void;
     menuItems: MenuItemType[];
+    setActiveMenuItem: (arg: string) => void;
+    activeMenuItem: string;
 }
 
-const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) => {
-    let buttonWithChildren = (item: MenuItemType, ind: number) => (
-        <Disclosure key={ind} defaultOpen={false}>
-            <Disclosure.Button as={Fragment}>
-                <button
-                    onClick={item.onClick}
-                    className="hover:bg-L-secondary-150 hover:text-white flex w-full items-center justify-between text-menu p-3 rounded-md"
-                >
-                    {item.icon}
-                    {item.label}
-                </button>
-            </Disclosure.Button>
-            <Transition
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0  translate-x-10"
-                enterTo="opacity-100 "
-                leave="ease-out duration-300"
-                leaveFrom="opacity-100 "
-                leaveTo="opacity-0  translate-x-10"
-            >
-                <Disclosure.Panel className="pr-3 w-full" data-cy="expanded-sider">
-                    <div className=" w-full border-solid border-r-2 border-L-secondary-150">
-                        {item.children &&
-                            item.children.map((itemChild: Omit<MenuItemType, 'position' | 'placeOfDisplay' | 'children'>, ind: number) => (
-                                <button
-                                    key={ind}
-                                    className="hover:bg-L-secondary-150 hover:text-white flex w-full items-center justify-between text-menu p-3 rounded-md"
-                                    onClick={itemChild.onClick}
-                                >
-                                    {itemChild.icon}
-                                    {itemChild.label}
-                                </button>
+const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, activeMenuItem, setActiveMenuItem }) => {
+    //
+    const [openedList, setOpenedList] = useState<string>('');
+
+    const findParentKey = (id: string): React.Key => {
+        let parentKey: string = '';
+        for (let i = 0; i < menuItems.length; i++) {
+            const node = menuItems[i];
+            if (node.children) {
+                if (node.children.some((item) => item.id === id)) {
+                    parentKey = node.id;
+                }
+            }
+        }
+        return parentKey;
+    };
+
+    useEffect(() => {
+        if (activeMenuItem) {
+            setOpenedList(findParentKey(activeMenuItem) as string);
+        }
+    }, [isOpen]);
+
+    const renderMenu = (items: MenuItemType[]) => {
+        //
+        const onMenuItemClick = (menu: MenuItemType) => {
+            if (menu.children) {
+                openedList === menu.id ? setOpenedList('') : setOpenedList(menu.id);
+                return;
+            }
+            onClose(true);
+            menu?.onClick?.();
+            setActiveMenuItem(menu.id);
+            setOpenedList('');
+        };
+
+        const onSubmenuItemClick = (subMenu: Omit<MenuItemType, 'position' | 'placeOfDisplay'>, parentId: string) => {
+            subMenu.onClick?.();
+            setOpenedList(parentId);
+            setActiveMenuItem(subMenu.id);
+            onClose(true);
+        };
+        return (
+            <>
+                {items.map((item, ind) => (
+                    <div
+                        key={ind}
+                        className={clsx(
+                            'my-1 overflow-hidden duration-300 ease-out flex flex-col',
+                            openedList === item.id ? 'bg-L-blue-100 max-h-[300px]' : 'max-h-[2.5rem]',
+                        )}
+                    >
+                        <button
+                            className={clsx('flex gap-4 item-center px-6 py-3', activeMenuItem === item.id && !item.children ? 'text-L-info-50' : '')}
+                            onClick={() => onMenuItemClick(item)}
+                        >
+                            {item.icon}
+                            {item.label}
+                            {item.children && (
+                                <div className="flex flex-1 justify-end">
+                                    <ChevronIcon className={`duration-200 ${openedList === item.id ? 'rotate-0' : 'rotate-180'}`} />
+                                </div>
+                            )}
+                        </button>
+                        {item.children?.length &&
+                            item.children.map((child, ind) => (
+                                <div key={ind} className="px-7">
+                                    <button
+                                        className={clsx(styles.submenu, activeMenuItem === child.id && styles['active-submenu'])}
+                                        onClick={() => onSubmenuItemClick(child, item.id)}
+                                    >
+                                        <div
+                                            className={clsx(
+                                                'text-right py-2 px-2 rounded-md',
+                                                activeMenuItem === child.id ? 'bg-L-blue-50 text-L-info-50' : '',
+                                            )}
+                                        >
+                                            {child.label}
+                                        </div>
+                                    </button>
+                                </div>
                             ))}
                     </div>
-                </Disclosure.Panel>
-            </Transition>
-        </Disclosure>
-    );
+                ))}
+            </>
+        );
+    };
 
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-50" onClose={() => onClose(false)}>
+                <Dialog as="div" className="relative z-[1000]" onClose={() => onClose(false)}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -76,60 +129,30 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                 leaveFrom="opacity-100 "
                                 leaveTo="opacity-0  translate-x-40"
                             >
-                                <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0 overflow-hidden">
-                                    <div className="w-[18rem] h-screen overflow-y-auto bar rounded-l-lg bg-L-secondary-200 text-white flex flex-col py-5 pt-3">
+                                <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0">
+                                    <div className="w-[18rem] h-screen overflow-visible bar rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
                                         <div className="flex flex-col items-center gap-5">
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
-                                        <div className="flex flex-col justify-between h-full mt-8">
-                                            <div className="flex flex-col items-center gap-5 px-6 ">
-                                                {menuItems
-                                                    .filter(
+                                        <div className="flex flex-col h-full justify-between">
+                                            <div>
+                                                {renderMenu(
+                                                    menuItems.filter(
                                                         (item) =>
                                                             (item.placeOfDisplay === 'opened' || item.placeOfDisplay === 'both') &&
                                                             item.position === 'top',
-                                                    )
-                                                    .map((item, ind) => {
-                                                        if (item.children) {
-                                                            return buttonWithChildren(item, ind);
-                                                        } else {
-                                                            return (
-                                                                <button
-                                                                    key={ind}
-                                                                    className="hover:bg-L-secondary-150 hover:text-white flex w-full items-center justify-between text-menu p-3 rounded-md"
-                                                                    onClick={item.onClick}
-                                                                >
-                                                                    {item.icon}
-                                                                    {item.label}
-                                                                </button>
-                                                            );
-                                                        }
-                                                    })}
+                                                    ),
+                                                )}
                                             </div>
 
-                                            <div className="flex flex-col items-center gap-5 px-6 ">
-                                                {menuItems
-                                                    .filter(
+                                            <div>
+                                                {renderMenu(
+                                                    menuItems.filter(
                                                         (item) =>
                                                             (item.placeOfDisplay === 'opened' || item.placeOfDisplay === 'both') &&
                                                             item.position === 'bottom',
-                                                    )
-                                                    .map((item, ind) => {
-                                                        if (item.children) {
-                                                            return buttonWithChildren(item, ind);
-                                                        } else {
-                                                            return (
-                                                                <button
-                                                                    key={ind}
-                                                                    className="hover:bg-L-secondary-150 hover:text-white flex w-full items-center justify-between text-menu p-3 rounded-md"
-                                                                    onClick={item.onClick}
-                                                                >
-                                                                    {item.icon}
-                                                                    {item.label}
-                                                                </button>
-                                                            );
-                                                        }
-                                                    })}
+                                                    ),
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -143,4 +166,4 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
     );
 };
 
-export default ExpandedSider;
+export default React.memo(ExpandedSider);

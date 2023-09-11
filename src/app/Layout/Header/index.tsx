@@ -9,7 +9,7 @@ import UserData from './UserData';
 const Header = () => {
     //
     return (
-        <div className="bg-L-basic dark:bg-D-basic border-b text-1.2 border-L-gray-350 dark:border-D-gray-350 text--gray-500 dark:text-D-gray-500 h-[48px] flex items-center justify-start px-4 py-2">
+        <div className="bg-L-basic dark:bg-D-basic border-b text-1.2 border-L-gray-400 dark:border-D-gray-400 text--gray-500 dark:text-D-gray-700 h-[48px] flex items-center justify-start px-4 py-2">
             <div>
                 <BrokerData />
             </div>
@@ -28,11 +28,11 @@ const Header = () => {
             <div>
                 <Messages />
             </div>
-            <div className="h-1/2 border mx-1 border-L-gray-350 dark:border-D-gray-350 " />
+            <div className="h-1/2 border mx-1 border-L-gray-400 dark:border-D-gray-400 " />
             <div>
                 <Clock />
             </div>
-            <div className="h-1/2 border mx-1 border-L-gray-350 dark:border-D-gray-350 " />
+            <div className="h-1/2 border mx-1 border-L-gray-400 dark:border-D-gray-400 " />
             <div>
                 <UserActions />
             </div>
