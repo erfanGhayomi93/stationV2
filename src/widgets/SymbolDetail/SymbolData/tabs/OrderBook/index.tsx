@@ -9,7 +9,7 @@ import Kucoin from './components/Kucoin';
 import { useSymbolDataDispatch, useSymbolDataState } from '../../context';
 
 const OrderBook = () => {
-    //
+     
     const containerRef = useRef<HTMLDivElement>(null);
     const { isDepthChartOpen, isMarketDepthOpen, orderBookViewMode } = useSymbolDataState();
     const dispatch = useSymbolDataDispatch();
@@ -36,14 +36,14 @@ const OrderBook = () => {
         if (isMarketDepthOpen && isDepthChartOpen && orderBookViewMode === 'Row') {
             containerRef?.current?.scrollTo({
                 top: containerRef.current.scrollHeight,
-                behavior: 'smooth',
+                behavior: 'auto'
             });
         }
 
         if (isMarketDepthOpen && !isDepthChartOpen) {
             containerRef?.current?.scrollTo({
                 top: 0,
-                behavior: 'smooth',
+                behavior: 'auto'
             });
         }
     }, [isDepthChartOpen, isMarketDepthOpen, orderBookViewMode]);

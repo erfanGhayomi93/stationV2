@@ -4,7 +4,11 @@ import { setSelectedCustomers } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
 import ActionCellRenderer from '../ActionCell/ActionCell';
 
-const ResultItem: FC<IGoMultiCustomerType> = (customer) => {
+interface IResultItem {
+    data: IGoMultiCustomerType
+}
+
+const ResultItem: FC<IResultItem> = ({ data: customer }) => {
     const appDispatch = useAppDispatch();
     const {
         option: { selectedCustomers },
@@ -13,16 +17,16 @@ const ResultItem: FC<IGoMultiCustomerType> = (customer) => {
     const onSelectionChanged = (isChecked: boolean, customer: IGoMultiCustomerType) => {
         isChecked
             ? appDispatch(setSelectedCustomers([...selectedCustomers, customer]))
-            : appDispatch(setSelectedCustomers(selectedCustomers.filter((item: any) => item.customerISIN !== customer?.customerISIN)));
+            : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
     };
 
     return (
         <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-[35px]">
-            <div className="w-full flex items-center gap-4 justify-start pr-3  truncate">
+            <div className="w-full flex items-center gap-4 justify-start pr-3 truncate">
                 <input
                     type="checkbox"
-                    className=" cursor-pointer"
-                    checked={selectedCustomers.some((item: any) => item.customerISIN === customer?.customerISIN)}
+                    className="cursor-pointer"
+                    checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
                     onChange={(event) => onSelectionChanged(event.target.checked, customer)}
                 />
                 {customer?.customerTitle}
