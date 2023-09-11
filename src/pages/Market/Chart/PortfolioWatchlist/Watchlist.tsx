@@ -7,6 +7,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 import AGTable from 'src/common/components/AGTable';
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import Select from 'src/common/components/SelectAsync';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 import { pushEngine } from 'src/ls/pushEngine';
 import { subscriptionWatchlistMinor } from 'src/ls/subscribes';
 import { useAppDispatch } from 'src/redux/hooks';
@@ -130,60 +131,45 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 
 	return (
 		<div className='flex flex-col gap-4 h-full'>
-			{
-				(isFetchingWatchlist) ? (
-					<div>loading</div>
-				) : (
-					<>
-						<Select
-							classes={{
-								root: 'border rounded border-L-gray-200 dark:border-D-gray-200'
-							}}
-							options={watchlists ?? []}
-							value={watchlist}
-							onChange={(wl) => setWatchlist(wl)}
-							getOptionLabel={(wl) => wl.watchListName}
-							getOptionId={(wl) => wl.id}
-							placeholder={t('tv_chart.could_not_find_watchlist')}
-						>
-							{(value) => (
-								<Select.Option option={value} />
-							)}
-						</Select>
+			<WidgetLoading spining={isFetchingWatchlist} blur>
+				<Select
+					classes={{
+						root: 'border rounded border-L-gray-200 dark:border-D-gray-200'
+					}}
+					options={watchlists ?? []}
+					value={watchlist}
+					onChange={(wl) => setWatchlist(wl)}
+					getOptionLabel={(wl) => wl.watchListName}
+					getOptionId={(wl) => wl.id}
+					placeholder={t('tv_chart.could_not_find_watchlist')}
+				>
+					{(value) => (
+						<Select.Option option={value} />
+					)}
+				</Select>
 
-						<div className='flex-1'>
-							<AGTable
-								rowSelection='single'
-								ref={gridRef}
-								suppressMovableColumns
-								suppressRowDrag
-								// loading={isFetching}
-								columnDefs={COLUMNS}
-								rowData={watchlistSymbol ?? []}
-								onRowClicked={onRowClicked}
-								getRowId={({ data }) => data.symbolISIN}
-								defaultColDef={{
-									sortable: true,
-									lockPinned: true,
-									suppressMovable: false,
-									valueFormatter: ({ value }) => isNaN(Number(value)) ? value : seprateNumber(value),
-									comparator: (valueA, valueB) => valueA - valueB,
-								}}
-							/>
-						</div>
-
-					</>
-				)
-			}
-
-
-			{/* {isFetched && Array.isArray(watchlistSymbol) && watchlistSymbol.length === 0 && (
-				<div style={{ bottom: 0, height: 'calc(100% - 2.5rem)' }} className='absolute overflow-hidden w-full'>
-					<div className='relative h-full'>
-						<NoData />
-					</div>
+				<div className='flex-1'>
+					<AGTable
+						rowSelection='single'
+						ref={gridRef}
+						suppressMovableColumns
+						suppressRowDrag
+						// loading={isFetching}
+						columnDefs={COLUMNS}
+						rowData={watchlistSymbol ?? []}
+						onRowClicked={onRowClicked}
+						getRowId={({ data }) => data.symbolISIN}
+						defaultColDef={{
+							sortable: true,
+							lockPinned: true,
+							suppressMovable: false,
+							valueFormatter: ({ value }) => isNaN(Number(value)) ? value : seprateNumber(value),
+							comparator: (valueA, valueB) => valueA - valueB,
+						}}
+					/>
 				</div>
-			)} */}
+
+			</WidgetLoading>
 		</div >
 
 	);

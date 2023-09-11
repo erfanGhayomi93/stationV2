@@ -65,6 +65,7 @@ export const Apis = () => ({
         Search: baseUrl + '/Symbol/v1/Searchv2',
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+        ChartData: baseUrl + '/Symbol/v1/ChartData',
     },
     Customer: {
         Search: baseUrl + '/Customer/v1/Search',

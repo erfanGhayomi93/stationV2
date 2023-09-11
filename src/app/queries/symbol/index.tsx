@@ -56,3 +56,32 @@ export const useSymbolSearch = <T = SymbolSearchResult[]>(
         ...options,
     });
 };
+
+const getChartSymbol = async (
+    symbolISIN: string,
+    duration: SymbolChartDate,
+    signal?: AbortSignal
+) => {
+
+    const { data } = await AXIOS.get<GlobalApiResponseType<GetChartSymbolType[]>>(Apis().Symbol.ChartData, {
+        signal,
+        params: {
+            symbolISIN,
+            duration
+        }
+    });
+
+    return data?.result || [];
+}
+
+export const useChartSymbol = (
+    symbolISIN: string,
+    duration: SymbolChartDate,
+    options?:
+        | Omit<UseQueryOptions<GetChartSymbolType[], Error, GetChartSymbolType[], string[]>, 'initialData' | 'queryFn' | 'queryKey'>
+        | undefined,
+) => {
+    return useQuery(["chartSymbol", symbolISIN + "-" + duration], ({ signal }) => getChartSymbol(symbolISIN, duration, signal), {
+        ...options
+    });
+}

@@ -2,8 +2,7 @@ import clsx from "clsx";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Radiobox from "src/common/components/Radiobox";
-import classes from "./Calender.module.scss";
-import { ArrowLeft, ArrowLeftSVG, ArrowRight, ArrowRightSVG, Check } from "src/common/icons";
+import { ArrowLeftSVG, ArrowRight, ArrowRightSVG, Check } from "src/common/icons";
 import dayjs from "dayjs";
 import CalenderDateTab from "./components/CalenderDateTab";
 import CalenderLayoutTab from "./components/CalenderLayoutTab";
@@ -63,13 +62,6 @@ const Calender = () => {
       if (isAllSelected || watchlist !== null || !Array.isArray(watchlistListData)) return
       setWatchlist(watchlistListData[0]);
     } catch { }
-
-
-    // 
-    //       if (!Array.isArray(watchlistListData) || watchlistListData.length === 0) return;
-    // 
-    //       if (watchlist !== null) return;
-    //       setWatchlist(watchlistListData[0]);
   }, [isAllSelected]);
 
 
