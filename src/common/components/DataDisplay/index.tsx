@@ -17,7 +17,7 @@ const DataDisplay = ({ cols, items, applyDots = true }: Props) => {
 
     const Row = useCallback(
         ({ rowItems }: { rowItems: Item[] }) => (
-            <div className="w-full flex items-center px-1 py-2 odd:bg-L-gray-100 dark:odd:bg-D-gray-100 text-L-gray-500 dark:text-D-gray-700 ">
+            <div className="w-full flex items-center px-1 py-2 odd:bg-L-gray-100 dark:odd:bg-D-gray-100 text-L-gray-700 dark:text-D-gray-700 ">
                 {rowItems.map(({ key, label, value }) => (
                     <div key={key} className="flex items-center px-2 border-l last:border-none border-L-gray-400 dark:border-D-gray-400" style={{ width: `${100 / cols}%` }}>
                         <span>{label}</span>
