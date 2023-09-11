@@ -71,7 +71,7 @@ export const useCustomerListInfinit = (
 // prettier-ignore
 export const useMultiCustomerListQuery = <T=IGoMultiCustomerType,>(
     params: IGoCustomerRequestType,
-    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
     return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
         enabled: !!params.term,

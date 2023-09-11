@@ -8,7 +8,7 @@ import MarketDepthChart from './components/MarketDepthChart';
 import Kucoin from './components/Kucoin';
 
 const OrderBook = () => {
-    //
+     
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [orderBookViewMode, setOrderBookViewMode] = useState<'row' | 'column'>('row');
@@ -37,14 +37,14 @@ const OrderBook = () => {
         if (isMarketDepthOpen && isDepthChartOpen && orderBookViewMode ==='row') {
             containerRef?.current?.scrollTo({
                 top: containerRef.current.scrollHeight,
-                behavior: 'smooth'
+                behavior: 'auto'
             });
         }
 
         if(isMarketDepthOpen && !isDepthChartOpen) {
             containerRef?.current?.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: 'auto'
             });
         }
 
