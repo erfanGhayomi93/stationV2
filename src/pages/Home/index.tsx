@@ -3,6 +3,7 @@ import { useWorkflowState } from 'src/common/components/WorkFlow/context/Workflo
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
+import CustomerSearchWidget from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
 import PortfolioWatchlist from 'src/widgets/PortfolioWatchlist';
 import Reports from 'src/widgets/Reports';
 import SymbolDetail from 'src/widgets/SymbolDetail';
@@ -32,7 +33,7 @@ const Home = () => {
             <div className="col-span-9 grid-rows-1">
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
                     <div className="col-span-6">
-                        <PortfolioWatchlist />
+                        <CustomerSearchWidget />
                     </div>
                     <div className="col-span-3 min-h-[475px]">
                         <BuySellWidget />

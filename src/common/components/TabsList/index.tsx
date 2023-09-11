@@ -37,11 +37,11 @@ const TabsList: FC<ITabType> = ({
     selectedIndex,
     items,
     fill,
-    tabListClassName = 'bg-L-basic dark:bg-D-basic border  border-L-gray-400 dark:border-D-gray-400 border-b-0 relative z-[0]',
+    tabListClassName = 'bg-L-gray-200 dark:bg-D-basic relative z-[0] rounded-md',
     buttonClass,
     selectedButtonClass,
-    pannelClassName = ' grow bg-L-basic dark:bg-D-basic outline-none ',
-    className = ' w-full h-full flex flex-col rounded-md relative text-1.2 ',
+    pannelClassName = 'grow bg-L-basic dark:bg-D-basic outline-none rounded-md',
+    className = 'w-full h-full flex flex-col relative text-1.2 border border-L-gray-400 dark:border-gray-400 rounded-md',
 }) => {
     //
     return (
@@ -71,7 +71,7 @@ const TabsList: FC<ITabType> = ({
                         </div>
                         {leftNode}
                     </div>
-                    <hr className="h-[1px] border-L-gray-400 dark:border-D-gray-400 absolute -z-[1] bottom-0 w-full" />
+                    {/* <hr className="h-[1px] border-L-gray-400 dark:border-D-gray-400 absolute -z-[1] bottom-0 w-full" /> */}
                 </HeadlessTab.List>
                 <HeadlessTab.Panels className={pannelClassName}>
                     {items ? (
@@ -82,7 +82,7 @@ const TabsList: FC<ITabType> = ({
                                     'p-1 h-full ',
                                     item.tabClass
                                         ? item.tabClass
-                                        : 'border border-t-0  dark:border-D-gray-400 border-L-gray-400 text-L-gray-500 dark:text-D-gray-700 outline-none ',
+                                        : 'text-L-gray-500 dark:text-D-gray-700 outline-none ',
                                 )}
                             >
                                 <>{item.content}</>
@@ -100,15 +100,15 @@ const TabsList: FC<ITabType> = ({
 const TabButton: FC<ITabButtonType> = ({
     children,
     fill,
-    buttonClass = 'border-l border-b dark:text-D-gray-600 text-L-gray-600 border-t-2 dark:border-t-transparent border-t-transparent bg-L-gray-300 dark:bg-D-gray-300  dark:border-D-gray-400 border-L-gray-400',
-    selectedButtonClass = 'after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold  border-l dark:border-l-D-gray-400 border-l-L-gray-400 ',
+    buttonClass = 'dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200',
+    selectedButtonClass = 'after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold ',
 }) => {
     return (
         <HeadlessTab as={Fragment}>
             {({ selected }) => (
                 <div
                     className={clsx(
-                        ' py-2 px-4 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute ',
+                        ' py-2 px-4 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute',
                         fill ? 'w-full' : '',
                         selected ? selectedButtonClass : buttonClass,
                     )}
