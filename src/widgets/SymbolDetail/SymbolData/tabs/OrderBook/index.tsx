@@ -6,48 +6,46 @@ import Best5Row from './components/Best5Row';
 import MarketDepth from './components/MarketDepth';
 import MarketDepthChart from './components/MarketDepthChart';
 import Kucoin from './components/Kucoin';
+import { useSymbolDataDispatch, useSymbolDataState } from '../../context';
 
 const OrderBook = () => {
-    //
+     
     const containerRef = useRef<HTMLDivElement>(null);
-
-    const [orderBookViewMode, setOrderBookViewMode] = useState<'row' | 'column'>('row');
-    const [isMarketDepthOpen, setIsMarketDepthOpen] = useState<boolean>(false);
-    const [isDepthChartOpen, setIsDepthChartOpen] = useState<boolean>(true);
+    const { isDepthChartOpen, isMarketDepthOpen, orderBookViewMode } = useSymbolDataState();
+    const dispatch = useSymbolDataDispatch();
 
     const toggleMarketDepth = () => {
-        setIsMarketDepthOpen(!isMarketDepthOpen);
-        setOrderBookViewMode('row');
+        dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: !isMarketDepthOpen });
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
     };
 
     const toggleDepthChart = () => {
-        setIsDepthChartOpen(!isDepthChartOpen);
+        dispatch({ type: 'TOGGLE_DEPTH_CHART', payload: !isDepthChartOpen });
     };
 
     const handleColumnView = () => {
-        setOrderBookViewMode('column');
-        setIsMarketDepthOpen(true);
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Column' });
+        dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: true });
     };
 
     const handleRowView = () => {
-        setOrderBookViewMode('row');
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
     };
 
     useEffect(() => {
-        if (isMarketDepthOpen && isDepthChartOpen && orderBookViewMode ==='row') {
+        if (isMarketDepthOpen && isDepthChartOpen && orderBookViewMode === 'Row') {
             containerRef?.current?.scrollTo({
                 top: containerRef.current.scrollHeight,
-                behavior: 'smooth'
+                behavior: 'auto'
             });
         }
 
-        if(isMarketDepthOpen && !isDepthChartOpen) {
+        if (isMarketDepthOpen && !isDepthChartOpen) {
             containerRef?.current?.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: 'auto'
             });
         }
-
     }, [isDepthChartOpen, isMarketDepthOpen, orderBookViewMode]);
 
     return (
@@ -62,11 +60,10 @@ const OrderBook = () => {
                     handleColumnView={handleColumnView}
                     handleRowView={handleRowView}
                 />
-                {orderBookViewMode === 'row' && <OrderBookHeader />}
+                {orderBookViewMode === 'Row' && <OrderBookHeader />}
             </div>
             <div className="flex flex-col">
-                {
-                orderBookViewMode === 'row' ? (
+                {orderBookViewMode === 'Row' ? (
                     <>
                         {isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}
                         {isDepthChartOpen && <MarketDepthChart />}

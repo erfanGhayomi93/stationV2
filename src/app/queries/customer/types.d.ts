@@ -1,3 +1,5 @@
+type tabCustomerType = "Customers" | "GroupCustomer" | "MyGroup" | "FavoriteList"
+
 interface IGoCustomerResult {
     type: ICustomerMultiTypeType;
     searchResult: PaginatedSearchResult;

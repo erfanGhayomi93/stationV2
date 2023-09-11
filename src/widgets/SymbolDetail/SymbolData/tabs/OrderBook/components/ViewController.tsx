@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { MarketDepthArrowDownIcon, MarketDepthChartIcon, MarketDepthColIcon, MarketDepthRowIcon } from 'src/common/icons';
 
 interface IControllerProps {
-    orderBookViewMode: 'row' | 'column';
+    orderBookViewMode: 'Row' | 'Column';
     handleRowView: () => void;
     handleColumnView: () => void;
     isMarketDepthOpen: boolean;
@@ -28,10 +28,10 @@ const ViewController = ({
             <div className="flex flex-1 gap-1 items-center justify-center border-l border-L-gray-500 dark:border-D-gray-500">
                 <span className="dark:text-D-gray-700">{t('OrderBook.viewMode')}</span>
                 <button onClick={handleRowView}>
-                    <MarketDepthColIcon className={clsx({ 'opacity-50': orderBookViewMode === 'column' })} />
+                    <MarketDepthColIcon className={clsx({ 'opacity-50': orderBookViewMode === 'Column' })} />
                 </button>
                 <button onClick={handleColumnView}>
-                    <MarketDepthRowIcon className={clsx({ 'opacity-50': orderBookViewMode === 'row' })} />
+                    <MarketDepthRowIcon className={clsx({ 'opacity-50': orderBookViewMode === 'Row' })} />
                 </button>
             </div>
             <button

@@ -6,20 +6,17 @@ import SymbolCandleChart from './components/SymbolCandleChart';
 import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { useChartSymbol } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { useSymbolDataState } from '../../context';
 
 const SymbolChart = () => {
-
     const {
-        option: { selectedSymbol, symbolChartDate, symbolChartType },
+        option: { selectedSymbol },
     } = useAppValues();
-
-    const { data, isFetching } = useChartSymbol(selectedSymbol, symbolChartDate)
-
-
+    const { symbolChartDate, symbolChartType } = useSymbolDataState();
+    const { data, isFetching } = useChartSymbol(selectedSymbol, symbolChartDate);
 
     return (
         <div className="h-[355px] grid grid-rows-one-min gap-4">
-
             <div className="">
                 <WidgetLoading spining={isFetching} blur>
                     {symbolChartType === 'Linear' ? (
