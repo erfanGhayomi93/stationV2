@@ -1,5 +1,5 @@
 interface IGTPortfolioRequestType {
-    CustomerISIN: string;
+    CustomerISIN?: string;
     SymbolISIN?: string;
     MarketType?: string;
     MarketUnitType?: string;

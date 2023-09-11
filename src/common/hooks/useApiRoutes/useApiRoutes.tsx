@@ -62,9 +62,10 @@ export const Apis = () => ({
         Symbols: baseUrl + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: baseUrl + '/Symbol/v1/Search',
+        Search: baseUrl + '/Symbol/v1/Searchv2',
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+        ChartData: baseUrl + '/Symbol/v1/ChartData',
     },
     Customer: {
         Search: baseUrl + '/Customer/v1/Search',
@@ -94,11 +95,11 @@ export const Apis = () => ({
         OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
     },
     SupervisorMessage: {
-        Get: baseUrl + `/SupervisorMessage/v1/TodaySupervisorMessage`,
-        ReadPost: baseUrl + `/SupervisorMessage/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+        Get: baseUrl + `/Message/v1/TodaySupervisorMessage`,
+        ReadPost: baseUrl + `/Message/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     Messages: {
-        AdminMessage: getCommonUrl() + `/Message/v1/AdminMessage`,
+        AdminMessage: baseUrl+ `/Message/v1/AdminMessage`,
     },
     draft: {
         Create: baseUrl + '/OrderDraft/v1/Create',
@@ -127,11 +128,11 @@ export const Apis = () => ({
         GetWatchListSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
         DeleteSymbol: baseUrl + '/Watchlist/v1/DeleteSymbol',
         AddSymbol: baseUrl + '/Watchlist/v1/AddSymbol',
-        DefaultWatchlist: baseUrl + '/Watchlist/v1/DefaultWatchlists',
-        GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        GetSpecialWatchlistFilter: baseUrl + '/Watchlist/v1/GetSpecialWatchlistFilter',
+        // GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
         GetSymbolInWatchlist: baseUrl + '/Watchlist/v1/GetSymbolInWatchlist',
         GetMarketSymbol: baseUrl + '/Symbol/v1/GetMarketSymbol',
-        GetSector: baseUrl + '/Sector/v1/Sectors',
+        GetSector: baseUrl + '/Symbol/v1/Sectors',
     },
     Portfolio: {
         CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
@@ -149,6 +150,8 @@ export const Apis = () => ({
         delete: `${baseUrl}/TV/v1/1.1/charts`,
         loadOne: `${baseUrl}/TV/v1/1.1/charts`,
         loadAll: `${baseUrl}/TV/v1/1.1/charts`,
+        historyRecent: `${baseUrl}/Symbol/v1/GetSearchHistory`,
+        deleteRecent: `${baseUrl}/Symbol/v1/DeleteSearchHistory`,
     },
     Setting: {
         GetSetting: baseUrl + `/Setting/v1/GetSettings`,

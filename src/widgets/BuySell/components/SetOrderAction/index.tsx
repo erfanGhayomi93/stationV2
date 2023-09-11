@@ -111,6 +111,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const handleSubmit = () => {
         if(symbolMaxQuantity && symbolMaxQuantity < quantity) {
             dispatch({type: 'SET_DIVIDE', value: true})
+            return;
         }
         if (comeFrom === ComeFromKeepDataEnum.Draft) {
             handleUpdateDraft();

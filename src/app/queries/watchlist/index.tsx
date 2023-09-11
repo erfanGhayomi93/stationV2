@@ -11,7 +11,7 @@ const getWatchLists = async () => {
 export const useWatchlistsQuery = <T = IWatchlistType[],>(
     options?: Omit<UseQueryOptions<IWatchlistType[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['getWatchLists'], () => getWatchLists() , options);
+    return useQuery(['getWatchLists'], () => getWatchLists(), options);
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,26 +73,26 @@ export const deleteWatchListSymbolMutation = (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 {/* // show default watchlist baseOn ... in watchlist */ }
 
-const getDefaultWatchlist = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.DefaultWatchlist as string);
+const getRamandFilterWatchlistQuery = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IDefaultWatchlistType[]>>(Apis().WatchList.GetSpecialWatchlistFilter);
     return data?.result || [];
 };
 
 
-export const useDefaultWatchlistQuery = (
+export const useRamandFilterWatchlistQuery = (
 ) => {
-    return useQuery(['getDefaultWatchlist'], () => getDefaultWatchlist(), { initialData: [] });
+    return useQuery(['getRamandFilterWatchlist'], () => getRamandFilterWatchlistQuery(), { staleTime: 1000 * 60 * 60 });
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 {/* // get sector */ }
 
 const getSectorList = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ISectorList[]>>(Apis().WatchList.GetSector);
+    const { data } = await AXIOS.get<GlobalApiResponseType<{ id: string, sectorName: string }[]>>(Apis().WatchList.GetSector);
     return data?.result;
 };
 
-export const UseGetSector = () => {
-    return useQuery(['sectors'], getSectorList, { staleTime: 30000 });
+export const UseGetSector = (options?: (Omit<UseQueryOptions<{ id: string, sectorName: string }[], unknown, ISectorList[], string[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
+    return useQuery(['sectors'], getSectorList, options);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

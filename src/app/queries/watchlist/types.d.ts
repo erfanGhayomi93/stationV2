@@ -140,7 +140,7 @@ interface ISymbolInWatchlist {
 
 interface ISectorList {
     id: string;
-    title: string;
+    title : string;
 }
 
 type IResponseMarket = {

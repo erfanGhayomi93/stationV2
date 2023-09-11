@@ -1,6 +1,6 @@
 import { FC, useState, useMemo, useCallback, memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDefaultWatchlistQuery } from 'src/app/queries/watchlist';
+import { useRamandFilterWatchlistQuery } from 'src/app/queries/watchlist';
 import { ColDefType } from 'src/common/components/AGTable';
 import Select from 'src/common/components/Select';
 import { EditIcon2, PinIcon, PlusIcon } from 'src/common/icons';
@@ -21,14 +21,14 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
     const { setState, state } = useWatchListState();
     const [isAddActive, setIsAddActive] = useState(false);
 
-    const { data: defaultWatchlists } = useDefaultWatchlistQuery();
+    const { data: ramandFilterWatchlist } = useRamandFilterWatchlistQuery();
 
     const setActiveWatchlist = ({ id, type }: { id: number; type: WatchlistType }) => {
         setState({ value: { id, type }, type: 'SET_SELECTED_WATCHLIST' });
     };
 
     const setDefaultWatchlist = (key: IDefaultWatchlistType) => {
-        setState({ value: key, type: 'SET_SELECTED_DEFAULT_WATCHLIST' });
+        setState({ value: key, type: 'SET_SELECTED_RAMAND_FILTER_WATCHLIST' });
     };
 
     const openEditModal = () => {
@@ -36,11 +36,13 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
     };
 
     const watchlistOptions = useMemo(() => {
-        return defaultWatchlists?.map((item) => ({
+        if (!ramandFilterWatchlist) return [];
+
+        return ramandFilterWatchlist?.map((item) => ({
             value: item,
             label: t('defaultWlOption.' + item),
         }));
-    }, [defaultWatchlists, t]);
+    }, [ramandFilterWatchlist, t]);
 
     const setTypeDefaultWatchlist = useCallback((select: IDefaultWatchlistType) => {
         setDefaultWatchlist(select);
@@ -106,7 +108,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                     <>
                         <span className="text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
-                            <Select onChange={setTypeDefaultWatchlist} value={state.selectedDefaultWatchlist} options={watchlistOptions} />
+                            <Select onChange={setTypeDefaultWatchlist} value={state.ramandFilterWatchlist} options={watchlistOptions} />
                         </div>
                     </>
                 )}

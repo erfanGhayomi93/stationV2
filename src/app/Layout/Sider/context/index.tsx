@@ -18,7 +18,7 @@ const initStateSldier: SLiderStateType = {
 type ACtion = SLiderActionType | COuntNumberSupervisorAction | REadSupervisorAction;
 
 const reducer = (state: SLiderStateType, { type, payload }: ACtion) => {
-    if (type === SLiderActionEnum.TOGGLE_MENU) {
+    if (type === SLiderActionEnum.TOGGLE_MESSAGE_MODAL) {
         return {
             ...state,
             isShowSupervisorMessage: !state.isShowSupervisorMessage,

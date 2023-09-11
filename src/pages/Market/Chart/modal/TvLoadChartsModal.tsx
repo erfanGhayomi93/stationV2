@@ -108,10 +108,6 @@ const TvLoadChartsModal = () => {
 		}
 	);
 
-	useEffect(() => {
-	  console.log("savedCharts",savedCharts)
-	}, [savedCharts])
-	
 
 	const filterSavedCharts = useMemo(() => {
 		if (!savedCharts) return [];
@@ -171,7 +167,6 @@ const TvLoadChartsModal = () => {
 
 	useEffect(() => {
 		if (!selectedChart) return;
-
 		ipcMain.send<TvSavedChartType>('tv_chart:load_chart', selectedChart);
 	}, [selectedChart]);
 

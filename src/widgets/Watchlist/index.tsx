@@ -19,7 +19,7 @@ const Watchlists = (props: Props) => {
     const { t } = useTranslation();
     const appDispatch = useAppDispatch();
     const {
-        state: { selectedWatchlistId, watchlistType, selectedDefaultWatchlist, PageNumber, marketUnit, sector },
+        state: { selectedWatchlistId, watchlistType, ramandFilterWatchlist, PageNumber, marketUnit, sector },
         setState,
     } = useWatchListState();
 
@@ -30,7 +30,7 @@ const Watchlists = (props: Props) => {
     const { data: watchlistSymbolList, isFetching: isFetchingSymbol } = useWatchListSymbolsQuery({
         watchlistId: selectedWatchlistId,
         watchlistType,
-        type: selectedDefaultWatchlist,
+        type: ramandFilterWatchlist,
         MarketUnit: marketUnit,
         SectorCode: sector.id,
         PageNumber: PageNumber,
@@ -44,7 +44,7 @@ const Watchlists = (props: Props) => {
     };
 
     return (
-        <WidgetLoading spining={isFetchingSymbol}>
+        <WidgetLoading spining={isFetchingSymbol} blur>
             <div className="h-full flex flex-col py-3 px-6">
                 <div>
                     <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t('Watchlist.title')}</h1>

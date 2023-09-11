@@ -8,13 +8,18 @@ import Modal from 'src/common/components/Modal';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { CloseIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
+import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
 const CustomerPortfolioModal = () => {
     //
     const { t } = useTranslation();
+    const { setState, state } = useCustomerSearchState();
+    const closeModal = () => {
+        setState((prev) => ({ ...prev, isPortfolioModalOpen: false, detailModalData: undefined }));
+    };
 
     const { data: rowData, isFetching } = useCustomerPortfolio(
-        { CustomerISIN: '18990069635676' },
+        { CustomerISIN: state?.detailModalData?.customerISIN },
         {
             onSuccess: (result) => {},
         },
@@ -37,11 +42,15 @@ const CustomerPortfolioModal = () => {
         [],
     );
     return (
-        <Modal isOpen={false} onClose={() => {}} className="min-h-[40rem] w-3/5 bg-L-basic dark:bg-D-basic  rounded-md h-full grid">
+        <Modal
+            isOpen={!!state.isPortfolioModalOpen}
+            onClose={closeModal}
+            className="min-h-[40rem] w-3/5 bg-L-basic dark:bg-D-basic  rounded-md h-full grid"
+        >
             <div className="grid grid-rows-min-one">
                 <div className="w-full text-white font-semibold bg-L-blue-200 dark:bg-D-blue-200 h-10 flex items-center justify-between px-5">
-                    <div>{t('common.customerPortfolio')}</div>
-                    <CloseIcon onClick={() => {}} className="cursor-pointer" />
+                    <div>{`${t('common.customerPortfolio')} (${state.detailModalData?.customerTitle || ''})`}</div>
+                    <CloseIcon onClick={closeModal} className="cursor-pointer" />
                 </div>
                 <WidgetLoading spining={isFetching}>
                     <div className="p-6">
