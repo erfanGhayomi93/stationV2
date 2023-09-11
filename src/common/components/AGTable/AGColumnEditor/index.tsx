@@ -17,7 +17,6 @@ type ColumnOptionType = {
 
 const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
     //
-    const fixedColumns = ['agTableIndex', 'agTableAction'];
     const [columnOptions, setColumnOptions] = useState<ColumnOptionType[] | []>([]);
     const [visibleColumns, setVisibleColumns] = useLocalStorage<string[]>(`${lsKey}_visible_columns`, []);
     const [pinnedColumns, setPinnedColumns] = useLocalStorage<string[]>(`${lsKey}_pinned_columns`, []);
@@ -27,7 +26,7 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
     const getAllColumns = (columnDefs: Column[]): ColumnOptionType[] => {
         const columns =
             columnDefs
-                ?.filter((item) => !fixedColumns.includes(item.getColId()))
+                ?.filter((item) => !item.isLockVisible())
                 ?.map((col) => ({ label: col.getColDef()?.headerName ?? '', id: col.getColId() })) || [];
 
         return columns;
