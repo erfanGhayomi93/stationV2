@@ -141,8 +141,8 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
                             </div>
 
                             <div className="py-2">
-                                {columnOptions.map((item: any) => (
-                                    <Menu.Item key={item.field}>
+                                {columnOptions.map((item) => (
+                                    <Menu.Item key={item.id}>
                                         <div>
                                             <div
                                                 className="px-2 py-[10px] text-xs flex items-center justify-between hover:bg-L-gray-100  dark:hover:bg-D-gray-100"
