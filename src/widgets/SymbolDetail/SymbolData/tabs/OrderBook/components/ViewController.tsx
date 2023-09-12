@@ -1,28 +1,31 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { MarketDepthArrowDownIcon, MarketDepthChartIcon, MarketDepthColIcon, MarketDepthRowIcon } from 'src/common/icons';
+import { useSymbolDataDispatch, useSymbolDataState } from '../../../context';
 
-interface IControllerProps {
-    orderBookViewMode: 'Row' | 'Column';
-    handleRowView: () => void;
-    handleColumnView: () => void;
-    isMarketDepthOpen: boolean;
-    toggleMarketDepth: () => void;
-    isDepthChartOpen: boolean;
-    toggleDepthChart: () => void;
-}
-
-const ViewController = ({
-    orderBookViewMode,
-    isMarketDepthOpen,
-    toggleMarketDepth,
-    isDepthChartOpen,
-    handleColumnView,
-    handleRowView,
-    toggleDepthChart,
-}: IControllerProps) => {
+const ViewController = () => {
     //
     const { t } = useTranslation();
+    const { isDepthChartOpen, isMarketDepthOpen, orderBookViewMode } = useSymbolDataState();
+    const dispatch = useSymbolDataDispatch();
+
+    const toggleMarketDepth = () => {
+        // dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: !isMarketDepthOpen });
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
+    };
+
+    const toggleDepthChart = () => {
+        dispatch({ type: 'TOGGLE_DEPTH_CHART', payload: !isDepthChartOpen });
+    };
+
+    const handleColumnView = () => {
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Column' });
+        // dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: true });
+    };
+
+    const handleRowView = () => {
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
+    };
     return (
         <div className="mb-4 py-3 px-2 flex justify-start text-xs rounded bg-L-gray-100 dark:bg-D-gray-100">
             <div className="flex flex-1 gap-1 items-center justify-center border-l border-L-gray-500 dark:border-D-gray-500">
