@@ -2,11 +2,8 @@ import clsx from 'clsx';
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
-import { useDefaultCustomerList, useMultiCustomerListQuery } from 'src/app/queries/customer';
-import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
+import { useMultiCustomerListQuery } from 'src/app/queries/customer';
 import useDebounce from 'src/common/hooks/useDebounce';
-import { SpinnerIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
 import ResultHeader from './components/ResultItem/ResultHeader';
 import ResultItem from './components/ResultItem/ResultItem';
 import { useCustomerSearchState } from './context/CustomerSearchContext';
@@ -19,9 +16,6 @@ const CustomerSearch = () => {
     // const [type, setType] = useState<ICustomerMultiTypeType>('Natural');
     const debouncedTerm = useDebounce(state.params.term, 500);
     const [customerType, setCustomerType] = useState("")
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
 
     const { data: customers, isFetching } = useMultiCustomerListQuery(
         { term: debouncedTerm },

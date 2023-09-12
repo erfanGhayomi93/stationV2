@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import ChartController from './components/ChartController';
 import SymbolLinearChart from './components/SymbolLinearChart';
 import SymbolCandleChart from './components/SymbolCandleChart';
@@ -7,11 +7,10 @@ import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { useChartSymbol } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useSymbolDataState } from '../../context';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SymbolChart = () => {
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { symbolChartDate, symbolChartType } = useSymbolDataState();
     const { data, isFetching } = useChartSymbol(selectedSymbol, symbolChartDate);
 

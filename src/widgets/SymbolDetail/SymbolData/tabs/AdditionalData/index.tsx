@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ProgressBar from 'src/common/components/ProgressBar';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import Details from '../Details';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const AdditionalData = () => {
     //
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data?.individualLegal });
 

@@ -4,7 +4,8 @@ import { FC, MouseEvent, useContext, useEffect, useRef } from 'react';
 import Combo from 'src/common/components/ComboSelect';
 import { ComboSelectContext } from 'src/common/components/ComboSelect/context';
 import { PlusIcon, SearchIcon, SpinnerIcon, UserCheckIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 interface IInputSearchType {
     loading: boolean;
@@ -19,9 +20,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, selectionCount }) => {
         state: { selections, value, panelContent, showPanel },
     } = useContext(ComboSelectContext);
 
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const searchRef = useRef<HTMLInputElement>(null);
 

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import SymbolHeader from './SymbolHeader';
 import SymbolPricePreview from './SymbolPricePreview';
 import SymbolPriceSlider from './SymbolPriceSlider';
@@ -11,6 +11,7 @@ import SymbolChart from './tabs/SymbolChart';
 import Messages from './tabs/Messages';
 import SameGroup from './tabs/SameGroup';
 import OrderBookWidget from './tabs/OrderBook/context';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 
 
@@ -19,9 +20,7 @@ const SymbolData = () => {
     const [activeTab, setActiveTab] = useState('Orders');
     const { t } = useTranslation()
 
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data: SymbolGeneralInfoType) => ({

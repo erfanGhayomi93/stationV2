@@ -1,8 +1,9 @@
 import { createContainer } from 'react-tracked';
 import useMarketDepth from '../components/MarketDepth/useMarketDepth';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { useEffect, useState } from 'react';
 import OrderBook from '..';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const initialState: IMarketDepthTypes = {
     bids: {
@@ -27,9 +28,7 @@ export const useMarketDepthState = () => {
 const MarketDepthContext = () => {
     //
     const setMarketDepthData = useUpdate();
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const {
         data,

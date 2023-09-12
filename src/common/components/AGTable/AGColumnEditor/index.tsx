@@ -25,7 +25,7 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
 
     const getAllColumns = (columnDefs: Column[]): ColumnOptionType[] => {
         const columns =
-            columnDefs?.filter((item) => !item.isLockVisible())?.map((col) => ({ label: col.getColDef()?.headerName ?? '', id: col.getColId() })) ||
+            columnDefs?.filter((col) => !col.getColDef().lockVisible)?.map((col) => ({ label: col.getColDef()?.headerName ?? '', id: col.getColId() })) ||
             [];
 
         return columns;

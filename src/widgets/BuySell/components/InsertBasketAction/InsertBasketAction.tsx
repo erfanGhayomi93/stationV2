@@ -4,8 +4,8 @@ import { useCreateDetailsBasket, useEditDetailsBasket } from 'src/app/queries/ba
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useBasketDispatch, useBasketState } from 'src/pages/basket/context/BasketContext';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
@@ -63,9 +63,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const handleSetBasket = () => {
         let isins = selectedCustomers.map((c: any) => c.customerISIN);

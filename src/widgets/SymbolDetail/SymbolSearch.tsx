@@ -6,8 +6,8 @@ import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import useDebounce from 'src/common/hooks/useDebounce';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { Search } from 'src/common/icons';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedSymbol } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbol, setSelectedSymbol } from 'src/redux/slices/option';
 
 const minSearchTermLength = 2;
 interface ISymbolSearchType {
@@ -15,9 +15,7 @@ interface ISymbolSearchType {
 }
 const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const [localSymbolISIN, setLocalSymbolISIN] = useLocalStorage<string>('symbolISIN', '');
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { resetBuySellState } = useGlobalSetterState();
     const [term, setTerm] = useState<string>('');
     const debouncedTerm = useDebounce(term, 500);

@@ -1,13 +1,11 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setAppTheme } from 'src/redux/slices/ui';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getTheme, setAppTheme } from 'src/redux/slices/ui';
 
 const BrokerData = () => {
     //
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const appDispatch = useAppDispatch();
     const BrokerCode = +window.REACT_APP_BROKER_CODE;
