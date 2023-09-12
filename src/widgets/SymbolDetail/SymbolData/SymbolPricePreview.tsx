@@ -1,13 +1,12 @@
 import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import PriceView from 'src/common/components/PriceView';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SymbolPricePreview = () => {
     //
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({

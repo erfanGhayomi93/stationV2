@@ -7,8 +7,9 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 import styles from './AdvanceDatepicker.module.scss';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { isBetween, getValidDate } from 'src/utils/helpers';
+import { getTheme } from 'src/redux/slices/ui';
 
 type DateValue = undefined | null | string | number | Date;
 
@@ -69,9 +70,7 @@ const AdvancedDatepicker = ({
     const inputRef = useRef<HTMLInputElement>(null);
     const datepickerRef = useRef<HTMLDivElement | undefined>(undefined);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const [focusing, setFocusing] = useState(false);
 
@@ -309,9 +308,7 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ classes, dateIsD
 
     const [mode, setMode] = useState<'month' | 'year' | null>(null);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const onEditDate = (method: 'add' | 'subtract', name: 'year' | 'month') => {
         if (!datepickerValue) return;

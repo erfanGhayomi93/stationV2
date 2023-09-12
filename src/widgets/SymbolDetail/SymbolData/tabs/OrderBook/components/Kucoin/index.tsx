@@ -2,13 +2,12 @@ import { useMemo } from 'react';
 import KucoinDepth from './KucoinDepth';
 import KucoinChart from './KucoinChart';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const Kucoin = ({ isDepthChartOpen }: { isDepthChartOpen: boolean }) => {
     //
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const { data: symbolData } = useSymbolGeneralInfo<SymbolGeneralInfoType>(selectedSymbol);
 

@@ -1,12 +1,11 @@
 import { useMessagesSuppervisorOneSmbol } from 'src/app/queries/messages';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import Message from './Message';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const Messages = () => {
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { data: messageOneSymbol, isLoading } = useMessagesSuppervisorOneSmbol(selectedSymbol);
 
     return (

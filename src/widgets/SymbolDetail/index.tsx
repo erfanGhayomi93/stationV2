@@ -2,15 +2,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import SymbolSearch from './SymbolSearch';
 import SymbolDataWidget from './SymbolData/context';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SymbolDetail = () => {
     //
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const queryClient = useQueryClient();
 

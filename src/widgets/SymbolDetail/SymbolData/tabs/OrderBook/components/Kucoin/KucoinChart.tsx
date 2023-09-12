@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ChartJs from 'src/libs/chart';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { externalTooltipHandler } from '../../../SymbolChart/components/helper';
 import { useMarketDepthState } from '../../context';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { getTheme } from 'src/redux/slices/ui';
 
 type KucoinChartProps = {
     yesterdayClosingPrice: number;
@@ -40,9 +41,7 @@ const KucoinChart = ({ yesterdayClosingPrice, highThreshold, lowThreshold }: Kuc
         return data;
     }, [asks]);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const updateChartData = (buyData: Array<ChartDataType>, sellData: Array<ChartDataType>) => {
         const chartAPI = chart.current;

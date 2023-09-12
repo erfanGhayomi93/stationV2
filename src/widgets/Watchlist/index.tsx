@@ -208,11 +208,11 @@ const Watchlists = (props: Props) => {
                         <></>
                     )}
                 </div>
-                {watchlistType === 'Market' && (
+                {/* {watchlistType === 'Market' && (
                     <div className="border-t flex justify-end items-center pt-4">
                         <Paginator loading={false} pageSize={25} pageNumber={1} PaginatorHandler={() => {}} />
                     </div>
-                )}
+                )} */}
             </div>
         </WidgetLoading>
     );

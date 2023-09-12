@@ -2,15 +2,14 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import DataDisplay from 'src/common/components/DataDisplay';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
 
 const Details = () => {
     //
 
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { t } = useTranslation();
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {

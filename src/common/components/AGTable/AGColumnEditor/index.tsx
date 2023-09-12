@@ -5,7 +5,7 @@ import { Column, GridReadyEvent } from 'ag-grid-community';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import clsx from 'clsx';
 
-interface ICheckColumnShowType {
+interface IAGColumnEditorType {
     gridApi: GridReadyEvent | undefined;
     lsKey: string;
 }
@@ -15,7 +15,7 @@ type ColumnOptionType = {
     id: string;
 };
 
-const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
+const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
     //
     const [columnOptions, setColumnOptions] = useState<ColumnOptionType[] | []>([]);
     const [visibleColumns, setVisibleColumns] = useLocalStorage<string[]>(`${lsKey}_visible_columns`, []);
@@ -25,8 +25,9 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
 
     const getAllColumns = (columnDefs: Column[]): ColumnOptionType[] => {
         const columns =
-            columnDefs?.filter((item) => !item.isLockVisible())?.map((col) => ({ label: col.getColDef()?.headerName ?? '', id: col.getColId() })) ||
-            [];
+            columnDefs
+                ?.filter((col) => !col.getColDef().lockVisible)
+                ?.map((col) => ({ label: col.getColDef()?.headerName ?? '', id: col.getColId() })) || [];
 
         return columns;
     };
@@ -65,11 +66,9 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
 
             const changedColumns = () =>
                 columnDefs?.map((col, index) => {
-                    const pinned: 'left' | 'right' | false = pinnedColumns?.includes(col.colId)
-                        ? columnDefs.length / 2 < index
-                            ? 'left'
-                            : 'right'
-                        : false;
+                    const isPinnedColumn = pinnedColumns?.includes(col.colId);
+                    const leftOrRightPinned = columnDefs.length / 2 < index ? 'left' : 'right';
+                    const pinned: 'left' | 'right' | boolean = isPinnedColumn ? leftOrRightPinned : false;
                     const hide: boolean = !visibleColumns?.includes(col.colId);
 
                     return { ...col, hide, pinned };
@@ -142,8 +141,8 @@ const AGColumnEditor: FC<ICheckColumnShowType> = ({ gridApi, lsKey }) => {
                             </div>
 
                             <div className="py-2">
-                                {columnOptions.map((item: any) => (
-                                    <Menu.Item key={item.field}>
+                                {columnOptions.map((item) => (
+                                    <Menu.Item key={item.id}>
                                         <div>
                                             <div
                                                 className="px-2 py-[10px] text-xs flex items-center justify-between hover:bg-L-gray-100  dark:hover:bg-D-gray-100"

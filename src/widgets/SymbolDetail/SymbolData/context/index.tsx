@@ -10,7 +10,7 @@ const initialState: ISymbolDataState = {
     isMarketDepthOpen: false,
     isDepthChartOpen: true,
 };
-//@ts-ignore
+
 const useValue = () => useReducer(symbolDataReducer, initialState);
 const { Provider: SymbolDataProvider, useTrackedState, useUpdate } = createContainer(useValue);
 export const useSymbolDataState = () => useTrackedState();

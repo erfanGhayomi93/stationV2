@@ -5,8 +5,8 @@ import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
 import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import InputSearch from './input';
 
 interface IBuySellCustomerType {}
@@ -21,9 +21,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
         appDispatch(setSelectedCustomers(customer));
     };
 
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const {
         data: qData,

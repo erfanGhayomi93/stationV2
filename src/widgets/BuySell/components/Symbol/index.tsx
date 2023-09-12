@@ -1,15 +1,14 @@
 import { FC, useEffect } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import SymbolSearch from 'src/widgets/SymbolDetail/SymbolSearch';
 import { useBuySellDispatch } from '../../context/BuySellContext';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 interface IBuySellSymbolType {}
 
 const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
     const dispatch = useBuySellDispatch();
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData });
     const setSymbolISIN = (value: string) => dispatch({ type: 'SET_SYMBOL', value });

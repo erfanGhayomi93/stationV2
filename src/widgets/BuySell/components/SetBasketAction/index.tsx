@@ -5,8 +5,8 @@ import { useCreateDetailsBasket, useGetBasket } from 'src/app/queries/basket';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon, InfoIcon, ModalBasketIcon, PlusIcon } from 'src/common/icons';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useTranslation } from 'react-i18next';
@@ -38,9 +38,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const toggleOpen = () => {
         setisOpen((prev) => !prev);

@@ -7,6 +7,7 @@ import { Virtuoso } from 'react-virtuoso';
 
 import styles from './Select.module.scss';
 import { useAppSelector } from 'src/redux/hooks';
+import { getTheme } from 'src/redux/slices/ui';
 
 export type AsyncSelectProps<T> = {
 	loading?: boolean;
@@ -61,7 +62,7 @@ const AsyncSelect = <T,>({
 
 	const timer = useRef<NodeJS.Timeout | undefined>(undefined);
 
-	const { ui: { theme } } = useAppSelector(state => state)
+	const theme = useAppSelector(getTheme)
 
 	const [debouncing, setDebouncing] = useState(false);
 
