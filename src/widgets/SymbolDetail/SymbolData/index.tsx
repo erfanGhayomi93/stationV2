@@ -12,13 +12,12 @@ import Messages from './tabs/Messages';
 import SameGroup from './tabs/SameGroup';
 import OrderBookWidget from './tabs/OrderBook/context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
-
-
+import SymbolTabsContext from './context';
 
 const SymbolData = () => {
     //
     const [activeTab, setActiveTab] = useState('Orders');
-    const { t } = useTranslation()
+    const { t } = useTranslation();
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
 
@@ -34,13 +33,12 @@ const SymbolData = () => {
         }),
     });
 
-
     const items = useMemo<ITabItemType[]>(
         () => [
             {
                 key: 'OrderBook',
                 title: t('SymbolDetails.orderBook'),
-                content: <OrderBookWidget />, 
+                content: <OrderBookWidget />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
@@ -78,8 +76,7 @@ const SymbolData = () => {
 
     return (
         <div className=" grid grid-cols-1 grid-rows-min-one p-3 gap-2 overflow-hidden h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
-        {/* // <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2 h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  "> */}
-
+            {/* // <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2 h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  "> */}
 
             <div className=" sticky top-0 z-10 pb-4 bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
                 <div className="grid grid-rows-2 gap-2 text-1.2">
@@ -94,16 +91,18 @@ const SymbolData = () => {
                 />
                 {/* <SymbolPriceBar /> */}
             </div>
-            <TabsList
-                fill={true}
-                onChange={(idx) => setActiveTab(idx)}
-                selectedIndex={activeTab}
-                items={items}
-                buttonClass=" text-L-gray-500 dark:text-D-gray-500 "
-                className="w-full grid rounded-md relative text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
-                pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
-                tabListClassName="bg-L-basic dark:bg-D-basic  relative z-[0] text-1.2"
-            />
+            <SymbolTabsContext>
+                <TabsList
+                    fill={true}
+                    onChange={(idx) => setActiveTab(idx)}
+                    selectedIndex={activeTab}
+                    items={items}
+                    buttonClass=" text-L-gray-500 dark:text-D-gray-500 "
+                    className="w-full grid rounded-md relative text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
+                    pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
+                    tabListClassName="bg-L-basic dark:bg-D-basic  relative z-[0] text-1.2"
+                />
+            </SymbolTabsContext>
         </div>
     );
 };

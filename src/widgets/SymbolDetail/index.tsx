@@ -4,8 +4,8 @@ import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppSelector } from 'src/redux/hooks';
 import SymbolSearch from './SymbolSearch';
-import SymbolDataWidget from './SymbolData/context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import SymbolData from './SymbolData';
 
 const SymbolDetail = () => {
     //
@@ -82,7 +82,7 @@ const SymbolDetail = () => {
         <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">
             <SymbolSearch placeholder="جستجوی نماد" />
 
-            <SymbolDataWidget />
+            <SymbolData />
         </div>
     );
 };
