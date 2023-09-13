@@ -11,31 +11,28 @@ type ICustomerDetailType = {};
 const CustomerDetail = ({}: ICustomerDetailType) => {
     //
     const [activeTab, setActiveTab] = useState('identity');
-    const { state } = useCustomerSearchState();
-    const { data: customerInformation, isFetching } = useCustomerInformation({ customerISIN: state.detailModalData?.customerISIN });
 
     const items = useMemo<any[]>(
         () => [
             {
                 key: 'identity',
                 title: 'اطلاعات هویتی',
-                content: <IdentityTab data={customerInformation} />,
+                content: <IdentityTab/>,
                 tabClass: 'text-L-gray-500 dark:text-D-gray-700 outline-none font-medium',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
                 key: 'financial',
                 title: 'وضعیت مالی',
-                content: <FinancialTab data={customerInformation} />,
+                content: <FinancialTab/>,
                 tabClass: 'text-D-basic dark:text-D-gray-700 outline-none',
                 selectedButtonClass: 'border-b-2 border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
         ],
-        [customerInformation],
+        [],
     );
 
     return (
-        <WidgetLoading spining={isFetching}>
             <div className="py-5 bg-L-basic dark:bg-D-basic">
                 <TabsList
                     onChange={(idx) => setActiveTab(idx)}
@@ -47,7 +44,6 @@ const CustomerDetail = ({}: ICustomerDetailType) => {
                     tabListClassName="bg-L-basic dark:bg-D-basic  relative z-[0] text-1.2"
                 />
             </div>
-        </WidgetLoading>
     );
 };
 
