@@ -6,12 +6,12 @@ import SymbolCandleChart from './components/SymbolCandleChart';
 import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { useChartSymbol } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { useSymbolDataState } from '../../context';
+import { useSymbolTabsState } from '../../context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SymbolChart = () => {
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const { symbolChartDate, symbolChartType } = useSymbolDataState();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
+    const { symbolChartDate, symbolChartType } = useSymbolTabsState();
     const { data, isFetching } = useChartSymbol(selectedSymbol, symbolChartDate);
 
     return (
@@ -26,9 +26,7 @@ const SymbolChart = () => {
                 </WidgetLoading>
             </div>
             <div>
-                <ErrorBoundary>
-                    <ChartController />
-                </ErrorBoundary>
+                <ChartController />
             </div>
         </div>
     );
