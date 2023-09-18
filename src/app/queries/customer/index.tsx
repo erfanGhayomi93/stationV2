@@ -20,11 +20,20 @@ export const useDefaultCustomerList = <T=IGoMultiCustomerType,>(
 };
 
 const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiSearch as string, {
+    console.log("params",params)
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.AdvancedSearch as string, {
         params: { ...params, type: params.type?.join() },
     });
     return data.result || [];
 };
+
+const getGroupSearch = async (params: IGoCustomerRequestType) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GroupAdvancedSearch as string, {
+        params: { ...params, type: params.type?.join() },
+    });
+    return data.result || [];
+};
+
 const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
         params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
@@ -80,6 +89,19 @@ export const useMultiCustomerListQuery = <T=IGoMultiCustomerType,>(
         ...options,
     });
 };
+
+export const useGroupCustomer =(
+    params: IGoCustomerRequestType,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['searchGroupCustomer', params], ({ queryKey }) => getGroupSearch(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
+        enabled: !!params.term,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<ICustomerInformationResultType>>(Apis().Customer.GetCustomerInformation as string, {

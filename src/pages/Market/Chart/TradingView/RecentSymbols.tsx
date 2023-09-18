@@ -52,17 +52,35 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 
 	return (
 		<li
-			className='pl-1 border-l border-L-gray-300 dark:border-D-gray-300 min-w-[115px] h-full box-border'
+			className={clsx("pl-1 border-l border-L-gray-300 dark:border-D-gray-300 h-full box-border hover:bg-L-gray-300 dark:hover:bg-D-gray-300", {
+				"bg-L-gray-300 dark:bg-D-gray-300": active
+			})}
 		>
 			<div
 				onClick={onMouseDown}
 				tabIndex={-1}
 				role="button"
 				// style={{ minHeight: '2.7rem', maxHeight: '2.7rem' }}
-				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200  max-h-full cursor-pointer flex flex-col justify-center font-medium gap-x-2 transition-colors', active && 'bg-L-gray-300 dark:bg-D-gray-300')}
+				className={clsx('relative rounded hover:bg-L-gray-200 dark:hover:bg-D-gray-200  max-h-full cursor-pointer flex justify-between font-medium transition-colors gap-x-2')}
 			>
-				<span className='text-L-gray-700 dark:text-D-gray-700 text-sm pt-1 pr-1'>{symbol.symbolTitle}</span>
+				<p className='text-L-gray-700 dark:text-D-gray-700 text-sm px-1 truncate max-w-[115px] min-w-[90px]'>{symbol.symbolTitle}</p>
 
+				<div>
+					{deletable && (
+						<button
+							role="button"
+							type='button'
+							onClick={onDeleteSymbol}
+							// style={{ left: '4px', top: '4px' }}
+							className='text-L-gray-500 dark:text-D-gray-500 rounded '
+						>
+							<CloseIcon width='10' height='10' />
+						</button>
+					)}
+				</div>
+			</div>
+
+			<div>
 				{(('lastTradedPrice' in symbol) && (typeof symbol.lastTradedPrice === 'number')) && (
 					<span className='flex gap-1 text-L-gray-500 dark:text-D-gray-500 text-xs pb-1 pr-1'>
 						<span
@@ -76,19 +94,9 @@ const Symbol = ({ symbol, active, deletable, label, onClick, onDelete }: SymbolP
 						<span>{label}</span>
 					</span>
 				)}
-
-				{deletable && (
-					<button
-						role="button"
-						type='button'
-						onClick={onDeleteSymbol}
-						style={{ left: '4px', top: '4px' }}
-						className='absolute text-L-gray-500 dark:text-D-gray-500 rounded hover:bg-L-gray-300 dark:hover:bg-D-gray-300'
-					>
-						<CloseIcon width='10' height='10' />
-					</button>
-				)}
 			</div>
+
+
 		</li>
 	);
 };
@@ -98,13 +106,13 @@ const RecentSymbols = () => {
 	const timer = useRef<NodeJS.Timeout | null>()
 
 
-	const { data: recentSymbols , refetch: refetchRecentHistory } = useRecentSymbolHistory({
+	const { data: recentSymbols, refetch: refetchRecentHistory } = useRecentSymbolHistory({
 		select(data) {
 			return data.filter(item => item)
 		},
 		onSuccess(data) {
 			pushEngine.unSubscribe("RecentHistorySymbol")
-			let timeout : NodeJS.Timeout
+			let timeout: NodeJS.Timeout
 			timeout = setTimeout(() => {
 				if (!!data && !!data.length) {
 					subscriptionRecentHistory(data, timer)
@@ -122,8 +130,8 @@ const RecentSymbols = () => {
 
 	const { setState } = useTradingState()
 
-	const selectedSymbol = useAppSelector(getSelectedSymbol); 
-	
+	const selectedSymbol = useAppSelector(getSelectedSymbol);
+
 
 	const onDeleteSymbol = async (symbolISIN: string) => {
 		try {
@@ -132,7 +140,7 @@ const RecentSymbols = () => {
 			});
 
 			refetchRecentHistory()
-		} catch {}
+		} catch { }
 
 	};
 
@@ -154,7 +162,7 @@ const RecentSymbols = () => {
 	}, []);
 
 	useEffect(() => {
-	
+
 		return () => {
 			pushEngine.unSubscribe("RecentHistorySymbol")
 		}

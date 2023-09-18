@@ -46,9 +46,9 @@ const DivideOrderModal = () => {
                 };
             };
 
-            for (const { customerISIN, customerTitle } of selectedCustomers) {
+            for (const { customerISIN, title } of selectedCustomers) {
                 const orderQuantity = Math.min(quantityPerCustomer, symbolMaxQuantity);
-                dividedOrderArray.push(createOrder(customerISIN, customerTitle, orderQuantity));
+                dividedOrderArray.push(createOrder(customerISIN, title, orderQuantity));
             }
 
             const remainingQuantity = quantity - dividedOrderArray.length * symbolMaxQuantity;

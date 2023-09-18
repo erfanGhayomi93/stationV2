@@ -49,7 +49,7 @@ const Watchlists = (props: Props) => {
                 cellRenderer: LastTradedPrice,
             },
             {
-                headerName: 'قیمت پایانی',
+                headerName: 'قیمت پایانی ',
                 field: 'closingPrice',
                 cellRenderer: ClosingPrice,
             },
