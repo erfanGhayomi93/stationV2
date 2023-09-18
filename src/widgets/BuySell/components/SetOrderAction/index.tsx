@@ -72,7 +72,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         mutateUpdateDraft({
             customers: selectedCustomers.map((item) => ({
                 customerType: item.customerType,
-                customerTitle: item.customerTitle,
+                title: item.title,
                 customerISIN: item.customerISIN,
             })),
             id,
@@ -92,7 +92,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         mutateUpdateOrder({
             customers: selectedCustomers.map((item) => ({
                 customerType: item.customerType,
-                customerTitle: item.customerTitle,
+                title: item.title,
                 customerISIN: item.customerISIN,
             })),
             id,
@@ -128,7 +128,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         let GTTraderGroupId: ICustomerIsins = [];
         selectedCustomers.forEach((c: IGoMultiCustomerType) => {
             if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
-            else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.customerTitle);
+            else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
             else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
         });
         mutate({

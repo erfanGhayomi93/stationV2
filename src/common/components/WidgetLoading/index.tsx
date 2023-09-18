@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { SpinnerIcon } from 'src/common/icons';
 
 type IWidgetLoading = {
@@ -9,6 +9,9 @@ type IWidgetLoading = {
 };
 
 const WidgetLoading: FC<IWidgetLoading> = ({ children, spining }) => {
+
+    // const nodeChildren = useMemo(() => children, [children])
+    
     return (
         <div className="relative w-full h-full">
             <div
@@ -19,7 +22,7 @@ const WidgetLoading: FC<IWidgetLoading> = ({ children, spining }) => {
             >
                 {spining && <SpinnerIcon className="scale-[2.7] text-L-primary-50" />}
             </div>
-
+                        
             {children}
         </div>
     );

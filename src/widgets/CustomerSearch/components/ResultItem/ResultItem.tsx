@@ -29,7 +29,7 @@ const ResultItem: FC<IResultItem> = ({ data: customer }) => {
                     checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
                     onChange={(event) => onSelectionChanged(event.target.checked, customer)}
                 />
-                {customer?.customerTitle}
+                {customer?.title}
             </div>
             <div className="w-4/6  flex items-center justify-center text-L-gray-500 dark:text-D-gray-500">{customer?.bourseCode}</div>
             <div className="w-4/6  flex items-center justify-center">{customer?.nationalCode}</div>

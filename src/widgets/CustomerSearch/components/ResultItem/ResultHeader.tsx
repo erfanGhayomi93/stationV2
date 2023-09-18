@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 const ResultHeader = () => {
     return (
         <div className="flex h-10 bg-L-gray-200 dark:bg-D-gray-200 rounded-t-lg font-semibold">

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronIcon, FiClock } from 'src/common/icons';
 import { getFarsiDate } from 'src/utils/helpers';
 
-const Message = ({ data }: { data: SUpervisorMessageResult }) => {
+const Message = ({ data }: { data: any }) => {
     //
     const { t } = useTranslation();
     const { dateOfEvent, messageBody, messageTitle } = data;

@@ -25,13 +25,13 @@ const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
                       <Combo.DataSet
                           key={inx}
                           className="even:bg-L-gray-100 even:dark:bg-D-gray-100 border-b last:border-none bg-L-basic dark:bg-D-basic   dark:  py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                          label={item.customerTitle}
+                          label={item.title}
                           value={item}
                       >
                           <div className="flex justify-between w-full items-center px-2 text-1.2">
                               <div className="flex flex-col gap-2">
                                   <div className="flex gap-3 items-center w-[180px]  justify-between">
-                                      <span className="truncate text-L-gray-500 dark:text-D-gray-700">{item.customerTitle}</span>
+                                      <span className="truncate text-L-gray-500 dark:text-D-gray-700">{item.title}</span>
                                   </div>
                                   <div className="flex gap-4 text-1.2">
                                       <span className="text-L-gray-600 dark:text-D-gray-600">{item.bourseCode}</span>
