@@ -43,7 +43,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
 
         selectedCustomers.forEach((c: IGoMultiCustomerType) => {
             if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISINs.push(c.customerISIN);
-            else if (c.customerType === ICustomerTypeEnum.CustomerTag) customerTagTitles.push(c.customerTitle);
+            else if (c.customerType === ICustomerTypeEnum.CustomerTag) customerTagTitles.push(c.title);
             else if (c.customerType === ICustomerTypeEnum.TraderGroup) gtTraderGroupId.push(c.customerISIN);
         });
 

@@ -93,6 +93,7 @@ export { ReactComponent as EyeOutlineSVG } from "src/assets/svg/eye-outline.svg"
 export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.svg";
 export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
 export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
+export { ReactComponent as StarIcon } from "src/assets/svg/star.svg";
 
 export { ReactComponent as Chart1ColSVG } from "src/assets/svg/chart-1c.svg";
 export { ReactComponent as Chart2ColSVG } from "src/assets/svg/chart-2c.svg";

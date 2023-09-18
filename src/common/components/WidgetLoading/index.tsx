@@ -23,7 +23,7 @@ const WidgetLoading: FC<IWidgetLoading> = ({ children, spining, withText = false
                 <div className="w-10 h-10 border-2 border-l-transparent rounded-full border-L-primary-50 dark:border-D-primary-50 dark:border-l-transparent animate-spin duration-75"></div>
                 {withText && <span className="font-medium text-xs text-L-gray-700 dark:text-D-gray-700">{t('common.fetchingData')}</span>}
             </div>
-
+                        
             {children}
         </div>
     );

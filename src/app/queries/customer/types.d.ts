@@ -1,4 +1,4 @@
-type tabCustomerType = "Customers" | "GroupCustomer" | "MyGroup" | "FavoriteList"
+type tabCustomerType = 'Customers' | 'GroupCustomer' | 'MyGroup' | 'FavoriteList';
 
 interface IGoCustomerResult {
     type: ICustomerMultiTypeType;
@@ -7,12 +7,14 @@ interface IGoCustomerResult {
 }
 
 interface IGoMultiCustomerType {
-    customerType: ICustomerMultiTypeType;
-    customerTitle: string;
-    customerISIN: string;
-    nationalCode: string;
     bourseCode: string;
+    children: IGoMultiCustomerType[];
+    credit: number;
+    customerISIN: string;
+    customerType: ICustomerMultiTypeType;
+    nationalCode: string;
     purchasePower: number;
+    title: string;
 }
 
 interface PaginatedSearchResult {

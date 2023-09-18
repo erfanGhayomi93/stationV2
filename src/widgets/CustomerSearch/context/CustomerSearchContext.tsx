@@ -3,7 +3,8 @@ import { createContainer } from 'react-tracked';
 import CustomerSearch from '..';
 import CustomerDetailModal from '../modal/CustomerDetailModal';
 import CustomerPortfolioModal from '../modal/CustomerPortfolioModal';
-import CustomerSection from 'src/widgets/PortfolioWatchlist';
+import CustomerWidget from "./../index"
+
 interface ICustomerSearchWidgetType {
     params: IGoCustomerRequest;
     detailModalData?: IGoMultiCustomerType;
@@ -19,10 +20,10 @@ export const useCustomerSearchState = () => {
     const state = useTrackedState();
     return { state, setState };
 };
-const CustomerSearchWidget = () => {
+const CustomerSearchContext = () => {
     return (
         <CustomerSearchProvider>
-            <CustomerSection />
+            <CustomerWidget />
 
             <CustomerDetailModal />
             <CustomerPortfolioModal />
@@ -30,4 +31,4 @@ const CustomerSearchWidget = () => {
     );
 };
 
-export default CustomerSearchWidget;
+export default CustomerSearchContext;

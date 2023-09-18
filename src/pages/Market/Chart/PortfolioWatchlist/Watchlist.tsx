@@ -37,7 +37,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 	})
 
 
-	const { data: watchlistSymbol, refetch: refetchWatchlist, remove } = useWatchListSymbolsQuery(
+	const { data: watchlistSymbol, refetch: refetchWatchlist, remove, isFetching: isFetchingWatchlistSymbol } = useWatchListSymbolsQuery(
 		{
 			watchlistId: watchlist?.id || 0,
 			watchlistType: watchlist?.type || "User",
@@ -58,6 +58,11 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 			},
 		}
 	);
+
+	useEffect(() => {
+		console.log("watchlistSymbol", watchlistSymbol)
+	}, [watchlistSymbol])
+
 
 
 	const onRowClicked = ({ data }: RowClickedEvent<IGetWatchlistSymbol>) => {
@@ -129,47 +134,51 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 		setWatchlist(watchlists[0]);
 	}, [watchlists, watchlist]);
 
+	const rowWatchlistSymbol = useMemo(() => !!watchlistSymbol ? watchlistSymbol : [], [watchlistSymbol, isFetchingWatchlistSymbol])
+
 	return (
 		<div className='flex flex-col gap-4 h-full'>
-			<WidgetLoading spining={isFetchingWatchlist} blur>
-				<Select
-					classes={{
-						root: 'border rounded border-L-gray-200 dark:border-D-gray-200'
-					}}
-					options={watchlists ?? []}
-					value={watchlist}
-					onChange={(wl) => setWatchlist(wl)}
-					getOptionLabel={(wl) => wl.watchListName}
-					getOptionId={(wl) => wl.id}
-					placeholder={t('tv_chart.could_not_find_watchlist')}
-				>
-					{(value) => (
-						<Select.Option option={value} />
-					)}
-				</Select>
+			{/* <WidgetLoading spining={isFetchingWatchlistSymbol}> */}
+			<Select
+				classes={{
+					root: 'border rounded border-L-gray-200 dark:border-D-gray-200'
+				}}
+				options={watchlists ?? []}
+				value={watchlist}
+				onChange={(wl) => setWatchlist(wl)}
+				getOptionLabel={(wl) => wl.watchListName}
+				getOptionId={(wl) => wl.id}
+				placeholder={t('tv_chart.could_not_find_watchlist')}
+			>
+				{(value) => (
+					<Select.Option key={value.id} option={value} />
+				)}
+			</Select>
+			{/* </WidgetLoading> */}
 
-				<div className='flex-1'>
-					<AGTable
-						rowSelection='single'
-						ref={gridRef}
-						suppressMovableColumns
-						suppressRowDrag
-						// loading={isFetching}
-						columnDefs={COLUMNS}
-						rowData={watchlistSymbol ?? []}
-						onRowClicked={onRowClicked}
-						getRowId={({ data }) => data.symbolISIN}
-						defaultColDef={{
-							sortable: true,
-							lockPinned: true,
-							suppressMovable: false,
-							valueFormatter: ({ value }) => isNaN(Number(value)) ? value : seprateNumber(value),
-							comparator: (valueA, valueB) => valueA - valueB,
-						}}
-					/>
-				</div>
-
-			</WidgetLoading>
+			<div className='flex-1'>
+				{
+					(!isFetchingWatchlistSymbol && !!watchlistSymbol) && (
+						<AGTable
+							rowSelection='single'
+							ref={gridRef}
+							suppressMovableColumns
+							suppressRowDrag
+							columnDefs={COLUMNS}
+							rowData={rowWatchlistSymbol}
+							onRowClicked={onRowClicked}
+							getRowId={({ data }) => data.symbolISIN}
+							defaultColDef={{
+								sortable: true,
+								lockPinned: true,
+								suppressMovable: false,
+								valueFormatter: ({ value }) => isNaN(Number(value)) ? value : seprateNumber(value),
+								// comparator: (valueA, valueB) => valueA - valueB,
+							}}
+						/>
+					)
+				}
+			</div>
 		</div >
 
 	);

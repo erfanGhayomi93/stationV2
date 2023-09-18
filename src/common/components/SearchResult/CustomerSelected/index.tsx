@@ -13,11 +13,11 @@ const CustomerSelected: FC<ICustomerSelectedType> = ({ selected }) => {
                     <Combo.DataSet
                         key={inx}
                         className="even:bg-L-gray-100 even:dark:bg-D-gray-100 border-b last:border-none bg-L-basic dark:bg-D-basic   dark:  py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                        label={item.customerTitle}
+                        label={item.title}
                         value={item}
                     >
                         <div className="flex justify-between w-full">
-                            {item.customerTitle}
+                            {item.title}
                             <span>{item.bourseCode}</span>
                         </div>
                     </Combo.DataSet>
