@@ -13,6 +13,9 @@ import ipcMain from 'src/common/classes/IpcMain';
 import { Trans } from 'react-i18next';
 import { useAppSelector } from 'src/redux/hooks';
 import clsx from 'clsx';
+import { getTheme } from 'src/redux/slices/ui';
+import { getUserData } from 'src/redux/slices/global';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 
 
@@ -22,8 +25,11 @@ export const ChartingLibrary = () => {
 	const chartsRef = useRef<TradingWidget[] | null>(null);
 
 
-	const { global: { userData }, ui: { theme }, option: { selectedSymbol } } = useAppSelector((state: RootState) => state)
+
 	const { state: { tvChartActiveLayout }, setState } = useTradingState()
+	const theme = useAppSelector(getTheme)
+	const userData = useAppSelector(getUserData)
+	const selectedSymbol = useAppSelector(getSelectedSymbol)
 
 	const tradingQueryClient = new QueryClient();
 

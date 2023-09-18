@@ -29,7 +29,7 @@ module.exports = {
                     },
                     error: {
                         50: '#FFF4F4',
-                        100: '#F7CFCF',
+                        100: '#FFE1E1',
                         200: '#E84830',
                         101: "rgb(224, 64, 64 , 0.3)",//must be deleted 
                         300: '#CE3636',

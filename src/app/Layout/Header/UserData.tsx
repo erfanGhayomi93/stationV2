@@ -1,11 +1,10 @@
 import { UserIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getUserData } from 'src/redux/slices/global';
 
 const UserData = () => {
     //
-    const {
-        global: { userData },
-    } = useAppValues();
+    const userData = useAppSelector(getUserData)
 
     return (
         <div className="flex items-center ">

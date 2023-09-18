@@ -63,7 +63,7 @@ const KucoinDepth = ({ lastTradedPrice }: { lastTradedPrice: number }) => {
     };
 
     return (
-        <WidgetLoading spining={isLoading}>
+        <WidgetLoading spining={isLoading} mounted={false}>
             <div className="h-full overflow-hidden flex flex-col gap-1">
                 <div className="border-b mb-1 flex px-2 py-1 text-xs font-bold text-L-gray-500 dark:text-D-gray-500 dark:border-D-gray-400 right-0">
                     <span className="w-1/5">{t('ag_columns_headerName.count')}</span>
@@ -146,7 +146,7 @@ const Row = ({ isOdd, isInRange, percent, count, volume, price, mode }: RowProps
     return (
         <div
             className={clsx(
-                'text-xs text-L-gray-500 dark:text-D-gray-700 rounded m-1',
+                'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded m-1',
                 isOdd ? 'bg-L-gray-100 dark:bg-D-gray-100' : '',
                 isInRange ? '' : 'bg-transparent dark:bg-transparent opacity-60',
             )}

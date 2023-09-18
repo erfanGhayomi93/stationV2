@@ -5,10 +5,11 @@ import ReactDOMServer from 'react-dom/server';
 
 import dayjs from 'dayjs';
 import { DragIcon } from 'src/common/icons';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { AgGridLocalization } from 'src/utils/Locale/AgGridLocalization';
 import { useTranslation } from 'react-i18next';
+import { getTheme } from 'src/redux/slices/ui';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
     type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex';
@@ -25,9 +26,7 @@ interface Props<TData> extends AgGridReactProps<TData> {
 const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
     //
     const { t } = useTranslation();
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
     const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);

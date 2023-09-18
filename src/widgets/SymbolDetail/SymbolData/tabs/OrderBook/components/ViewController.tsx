@@ -1,37 +1,42 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { MarketDepthArrowDownIcon, MarketDepthChartIcon, MarketDepthColIcon, MarketDepthRowIcon } from 'src/common/icons';
+import { useSymbolTabsDispatch, useSymbolTabsState } from '../../../context';
+import React from 'react';
 
-interface IControllerProps {
-    orderBookViewMode: 'row' | 'column';
-    handleRowView: () => void;
-    handleColumnView: () => void;
-    isMarketDepthOpen: boolean;
-    toggleMarketDepth: () => void;
-    isDepthChartOpen: boolean;
-    toggleDepthChart: () => void;
-}
-
-const ViewController = ({
-    orderBookViewMode,
-    isMarketDepthOpen,
-    toggleMarketDepth,
-    isDepthChartOpen,
-    handleColumnView,
-    handleRowView,
-    toggleDepthChart,
-}: IControllerProps) => {
+const ViewController = () => {
     //
     const { t } = useTranslation();
+    const { isDepthChartOpen, isMarketDepthOpen, orderBookViewMode } = useSymbolTabsState();
+    const dispatch = useSymbolTabsDispatch();
+
+    const toggleMarketDepth = () => {
+        dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: !isMarketDepthOpen });
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
+    };
+
+    const toggleDepthChart = () => {
+        dispatch({ type: 'TOGGLE_DEPTH_CHART', payload: !isDepthChartOpen });
+    };
+
+    const handleColumnView = () => {
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Column' });
+        dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: true });
+        
+    };
+
+    const handleRowView = () => {
+        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
+    };
     return (
         <div className="mb-4 py-3 px-2 flex justify-start text-xs rounded bg-L-gray-100 dark:bg-D-gray-100">
             <div className="flex flex-1 gap-1 items-center justify-center border-l border-L-gray-500 dark:border-D-gray-500">
                 <span className="dark:text-D-gray-700">{t('OrderBook.viewMode')}</span>
                 <button onClick={handleRowView}>
-                    <MarketDepthColIcon className={clsx({ 'opacity-50': orderBookViewMode === 'column' })} />
+                    <MarketDepthColIcon className={clsx({ 'opacity-50': orderBookViewMode === 'Column' })} />
                 </button>
                 <button onClick={handleColumnView}>
-                    <MarketDepthRowIcon className={clsx({ 'opacity-50': orderBookViewMode === 'row' })} />
+                    <MarketDepthRowIcon className={clsx({ 'opacity-50': orderBookViewMode === 'Row' })} />
                 </button>
             </div>
             <button
@@ -49,4 +54,4 @@ const ViewController = ({
     );
 };
 
-export default ViewController;
+export default React.memo(ViewController);

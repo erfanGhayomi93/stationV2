@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useReducer, useRef } from 'react';
 import { createContainer } from 'react-tracked';
 import { pushEngine } from 'src/ls/pushEngine';
-import Watchlists from '..';
+import Watchlists from '../';
 import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
 import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';

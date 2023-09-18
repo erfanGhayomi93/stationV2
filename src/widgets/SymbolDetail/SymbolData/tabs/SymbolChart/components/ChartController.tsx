@@ -3,20 +3,16 @@ import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Radiobox from 'src/common/components/Radiobox';
-import { useAppDispatch, useAppSelector, useAppValues } from 'src/redux/hooks';
-import { setSymbolChartDate, setSymbolChartType } from 'src/redux/slices/option';
+import { useSymbolTabsDispatch, useSymbolTabsState } from '../../../context';
 
 const ChartController = () => {
     //
-    const {
-        option: { symbolChartDate, symbolChartType },
-    } = useAppValues();
-
-    const dispatch = useAppDispatch();
+    const { symbolChartDate, symbolChartType } = useSymbolTabsState();
+    const dispatch = useSymbolTabsDispatch();
     const { t } = useTranslation();
 
-    const toggleChartDate = (date: SymbolChartDate) => dispatch(setSymbolChartDate(date));
-    const toggleChartType = (type: SymbolChartType) => dispatch(setSymbolChartType(type));
+    const toggleChartDate = (date: SymbolChartDate) => dispatch({ type: 'TOGGLE_CHART_DATE', payload: date });
+    const toggleChartType = (type: SymbolChartType) => dispatch({ type: 'TOGGLE_CHART_TYPE', payload: type });
 
     const DATE_OPTIONS: { label: string; value: SymbolChartDate }[] = [
         {

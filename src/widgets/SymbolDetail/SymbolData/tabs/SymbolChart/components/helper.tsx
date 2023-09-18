@@ -165,7 +165,8 @@ export const externalTooltipHandler = <T extends ChartType>(
 		nodeX.style.left = `${nodeXLeft}px`;
 		nodeX.style.top = `${borderXTop + height + 8}px`;
 		nodeX.style.color = currentColor;
-		nodeX.style.backgroundColor = rgbToRgba(currentColor, 0.2);
+		// nodeX.style.backgroundColor = rgbToRgba(currentColor, 0.2);
+		nodeX.classList.add('bg-L-gray-100', 'dark:bg-D-gray-100');
 
 		// ? noteY
 		for (let i = 0; i < dataPoints.length; i++) {
@@ -186,7 +187,8 @@ export const externalTooltipHandler = <T extends ChartType>(
 				nodeY[i].style.left = `${nodeYLeft}px`;
 				nodeY[i].style.top = `${nodeYTop}px`;
 				nodeY[i].style.color = color;
-				nodeY[i].style.backgroundColor = rgbToRgba(color, 0.2);
+				// nodeY[i].style.backgroundColor = rgbToRgba(color, 0.2);
+				nodeY[i].classList.add('bg-L-gray-100', 'dark:bg-D-gray-100')
 			}
 		}
 	} catch (e) {

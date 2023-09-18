@@ -2,16 +2,15 @@ import { FC, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import Switcher from 'src/common/components/SwitchButton';
 import { useBuySellDetail } from 'src/common/hooks/useCommission/useCommissionValue';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { seprateNumber } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 interface IBuySellDetailType {}
 
 const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const dispatch = useBuySellDispatch();
     const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);

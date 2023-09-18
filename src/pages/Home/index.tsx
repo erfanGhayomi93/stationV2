@@ -3,7 +3,7 @@ import { useWorkflowState } from 'src/common/components/WorkFlow/context/Workflo
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedCustomers } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
-import PortfolioWatchlist from 'src/widgets/PortfolioWatchlist';
+import CustomerSearchContext from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
 import Reports from 'src/widgets/Reports';
 import SymbolDetail from 'src/widgets/SymbolDetail';
 
@@ -16,25 +16,25 @@ const Home = () => {
         };
     }, []);
 
-//     const Components = {
-//         PortfolioWatchlist: () => <PortfolioWatchlist />,
-//         BuySellWidget: () => <BuySellWidget />,
-//         Reports: () => <Reports />,
-//         SymbolDetail: () => <SymbolDetail />,
-//     };
-// 
-//     const getComponents = (name: IWorkFlowType) => {
-//         return Components[name]();
-//     };
+    //     const Components = {
+    //         PortfolioWatchlist: () => <PortfolioWatchlist />,
+    //         BuySellWidget: () => <BuySellWidget />,
+    //         Reports: () => <Reports />,
+    //         SymbolDetail: () => <SymbolDetail />,
+    //     };
+    // 
+    //     const getComponents = (name: IWorkFlowType) => {
+    //         return Components[name]();
+    //     };
 
     const Layouts = {
         PortfolioWatchlist: () => (
             <div className="col-span-9 grid-rows-1">
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
-                    <div className="col-span-6">
-                        <PortfolioWatchlist />
+                    <div className="col-span-6 max-h-[475px] min-h-[475px]">
+                        <CustomerSearchContext />
                     </div>
-                    <div className="col-span-3 min-h-[475px]">
+                    <div className="col-span-3 max-h-[475px] min-h-[475px]">
                         <BuySellWidget />
                     </div>
                     <div className="col-span-9">
@@ -44,7 +44,7 @@ const Home = () => {
             </div>
         ),
         BuySellWidget: () => (
-            <div className="col-span-3 grid-rows-1 grid   h-full  ">
+            <div className="col-span-3 grid-rows-1 grid h-full">
                 <SymbolDetail />
             </div>
         ),

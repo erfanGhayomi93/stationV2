@@ -1,18 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
 import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const Best5Row = () => {
     //
     const [orders, setOrders] = useState<OrdersData | undefined>(undefined);
     const [totalBuyVolume, setTotalBuyVolume] = useState<number>(0);
     const [totalSellVolume, setTotalSellVolume] = useState<number>(0);
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data: SymbolGeneralInfoType) => {

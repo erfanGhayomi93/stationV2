@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './Select.module.scss';
 import { useAppSelector } from 'src/redux/hooks';
+import { getTheme } from 'src/redux/slices/ui';
 
 export type MultiSelectProps<T> = {
 	clearable?: boolean;
@@ -47,7 +48,7 @@ const MultiSelect = <T,>({
 	const selectRef = useRef<HTMLDivElement>(null);
 	const optionsRef = useRef<HTMLDivElement>(null);
 
-	const { ui: { theme } } = useAppSelector(state => state)
+	const theme = useAppSelector(getTheme)
 
 	const [visibleOptions, setVisibleOptions] = useState(false);
 

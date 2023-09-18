@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import ChartJs from 'src/libs/chart';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
 import { externalTooltipHandler } from '../../../SymbolChart/components/helper';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useMarketDepthState } from '../../context';
+import WidgetLoading from 'src/common/components/WidgetLoading';
+import { getSelectedSymbol } from 'src/redux/slices/option';
+import { getTheme } from 'src/redux/slices/ui';
 
 type PluginOptions = {
     yesterdayClosingPrice: number;
@@ -19,14 +22,9 @@ type HalfRowType = {
 
 const MarketDepthChart = () => {
     const chart = useRef<ChartJs<'line', Array<any>> | undefined>(undefined);
+    const theme = useAppSelector(getTheme)
 
-    const {
-        ui: { theme },
-    } = useAppValues();
-
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const { data: symbolData } = useSymbolGeneralInfo<SymbolGeneralInfoType>(selectedSymbol);
 
@@ -345,15 +343,17 @@ const MarketDepthChart = () => {
     }, [yesterdayClosingPrice]);
 
     return (
-        <div
-            style={{
-                minHeight: '250px',
-                maxHeight: '250px',
-            }}
-            className="relative overflow-hidden mt-4"
-        >
-            <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
-        </div>
+        <WidgetLoading spining={isLoading}>
+            <div
+                style={{
+                    minHeight: '250px',
+                    maxHeight: '250px',
+                }}
+                className="relative overflow-hidden mt-3"
+            >
+                <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
+            </div>
+        </WidgetLoading>
     );
 };
 

@@ -5,17 +5,19 @@ import { ColDefType } from 'src/common/components/AGTable';
 import Select from 'src/common/components/Select';
 import { EditIcon2, PinIcon, PlusIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
-import CheckColumnShow from '../CheckColumnShow';
 import { FilterAllMarket } from '../FilterAllMarket';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import { AddWatchList } from '../AddWatchlist';
+import { GridReadyEvent } from 'ag-grid-community';
+import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 
 interface IWatchlistControllerType {
-    columns: ColDefType<IGetWatchlistSymbol>[];
+    Columns: ColDefType<IGetWatchlistSymbol>[];
     watchlists: IWatchlistType[] | undefined;
+    gridApi:GridReadyEvent<IGetWatchlistSymbol> | undefined;
 }
 
-const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists }) => {
+const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists,gridApi }) => {
     const { t } = useTranslation();
 
     const { setState, state } = useWatchListState();
@@ -113,7 +115,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ columns, watchlists
                     </>
                 )}
 
-                <CheckColumnShow {...{ columns }} />
+                <AGColumnEditor {...{ gridApi, lsKey: 'watchlist' }} />
             </div>
         </div>
     );
