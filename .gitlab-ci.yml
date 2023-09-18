@@ -51,7 +51,7 @@ Preprd-Job01:
     - $date = get-date -format  "dd-MM-yyyy"
     - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:AdminApiS\"
     - Stop-Service -Name "Uionlinestaition"
-    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\PceAeq_r\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:AdminApiS\"
+    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\t6tP4xAxA\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:AdminApiS\"
     - sc.exe config Uionlinestaition binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p6038 -aD:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:AdminApiS\"
     - Start-Service -Name "Uionlinestaition" 
     - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
