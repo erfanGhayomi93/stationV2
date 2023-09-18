@@ -2,9 +2,10 @@ import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { isBetween } from 'src/utils/helpers';
 import styles from './SymbolPriceSlider.module.scss';
+import { getTheme } from 'src/redux/slices/ui';
 
 type SymbolPriceSliderProps = {
     // lowThreshold | highThreshold
@@ -28,9 +29,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
 
     const rootRef = useRef<HTMLDivElement>(null);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const [config, setConfig] = useState({
         firstTradedPrice: 0,

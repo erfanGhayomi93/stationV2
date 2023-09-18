@@ -2,7 +2,8 @@ import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import LinearRangeChart from 'src/common/components/LinearRangeChart';
 import { TriangleIcon } from 'src/common/components/LinearRangeChart/Icons';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const traderOptions = {
     footer: false,
@@ -50,9 +51,7 @@ const traderOptions = {
 };
 const SymbolPriceBar = () => {
     //
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({

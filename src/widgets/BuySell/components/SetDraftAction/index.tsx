@@ -3,10 +3,12 @@ import { FC } from 'react';
 import { useCreateDraft } from 'src/app/queries/draft';
 import { ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { getSelectedCustomers } from 'src/redux/slices/option';
+import { useTranslation } from 'react-i18next';
 
 interface ISetDraftActionType {}
 
@@ -15,6 +17,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
+    const { t } = useTranslation();
     const { mutate: mutateCreateDraft } = useCreateDraft({
         onSuccess: () => {
             onSuccessNotif();
@@ -25,9 +28,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const handleClick = () => {
         if (!isPrimaryComeFrom(comeFrom)) {
@@ -38,13 +39,18 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     };
 
     const handleCreateDraft = () => {
+        if (!selectedCustomers.length) {
+            onErrorNotif({ title: t('common.notCustomerSelected') });
+            return;
+        }
+
         let customerISINs: ICustomerIsins = [];
         let customerTagTitles: ICustomerIsins = [];
         let gtTraderGroupId: ICustomerIsins = [];
 
         selectedCustomers.forEach((c: IGoMultiCustomerType) => {
             if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISINs.push(c.customerISIN);
-            else if (c.customerType === ICustomerTypeEnum.CustomerTag) customerTagTitles.push(c.customerTitle);
+            else if (c.customerType === ICustomerTypeEnum.CustomerTag) customerTagTitles.push(c.title);
             else if (c.customerType === ICustomerTypeEnum.TraderGroup) gtTraderGroupId.push(c.customerISIN);
         });
 

@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface InitState {
     data: IDraftResponseType | IOrderGetType | undefined;
@@ -23,4 +24,5 @@ const keepDataBuySellSlice = createSlice({
 });
 
 export const { setDataBuySellAction } = keepDataBuySellSlice.actions;
+export const getKeepDataBuySell = (state: RootState) => state.keepDataBuySellSlice
 export default keepDataBuySellSlice.reducer;

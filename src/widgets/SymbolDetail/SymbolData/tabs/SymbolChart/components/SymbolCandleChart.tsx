@@ -4,8 +4,9 @@ import 'src/libs/candlestick/index.js';
 
 import { memo, useCallback, useEffect, useRef } from 'react';
 import ChartJs from 'src/libs/chart';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
+import { getTheme } from 'src/redux/slices/ui';
 
 type SymbolCandleChartProps = {
     data?: any[];
@@ -17,9 +18,7 @@ const SymbolCandleChart = ({ data, date }: SymbolCandleChartProps) => {
 
     const chart = useRef<ChartJs<'candlestick', Array<any>> | undefined>(undefined);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const xAxisCallback = (value: string | number): string => {
         const formats: Record<typeof dateRef.current, string> = {

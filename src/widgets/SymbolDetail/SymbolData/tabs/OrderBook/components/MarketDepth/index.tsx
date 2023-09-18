@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
 import { useMarketDepthState } from '../../context';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 type HalfRowType = {
     price: number;
@@ -18,9 +19,7 @@ const MarketDepth = () => {
         marketDepthData: { asks, bids, isLoading },
     } = useMarketDepthState();
 
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
@@ -77,7 +76,7 @@ const MarketDepth = () => {
 
     return (
         <WidgetLoading spining={isLoading}>
-            <div className="grid grid-cols-2 grid-rows-1 overflow-auto  h-full" style={{ overflow: 'overlay' }}>
+            <div className="grid grid-cols-2 grid-rows-1 h-fit">
                 <div className=" dark:border-D-gray-400 border-L-gray-400">
                     {buyData.map(({ count, price, volume, percent }, inx) => {
                         return (

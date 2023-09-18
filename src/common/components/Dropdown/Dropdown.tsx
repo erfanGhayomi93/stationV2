@@ -3,6 +3,7 @@ import React, { cloneElement, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Dropdown.module.scss';
 import { useAppSelector } from 'src/redux/hooks';
+import { getTheme } from 'src/redux/slices/ui';
 
 type Option<T> = {
 	index: number;
@@ -34,7 +35,7 @@ const Dropdown = <T,>({ classes, style, defaultDialogWidth, portalElement, data,
 
 	const optionsRef = useRef<HTMLUListElement>(null);
 
-	const { ui: { theme } } = useAppSelector(state => state)
+	const theme = useAppSelector(getTheme)
 
 
 	const [listIsOpen, setListIsOpen] = useState(false);

@@ -70,8 +70,11 @@ export const Apis = () => ({
     Customer: {
         Search: baseUrl + '/Customer/v1/Search',
         GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
+        GetCustomerFinancial: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
         GetGroupInformation: baseUrl + '/Customer/v1/GetGroupInformation',
-        MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
+        // MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
+        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
+        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
         MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
         GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
         Get: baseUrl + '/Customer/v1/GetCustomers',
@@ -99,7 +102,7 @@ export const Apis = () => ({
         ReadPost: baseUrl + `/Message/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     Messages: {
-        AdminMessage: baseUrl+ `/Message/v1/AdminMessage`,
+        AdminMessage: baseUrl + `/Message/v1/AdminMessage`,
     },
     draft: {
         Create: baseUrl + '/OrderDraft/v1/Create',
@@ -157,8 +160,6 @@ export const Apis = () => ({
         GetSetting: baseUrl + `/Setting/v1/GetSettings`,
     },
 });
-
-
 
 //
 // const CommonUrl = 'http://192.168.40.8:12000';

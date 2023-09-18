@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 import ResultHeader from './components/ResultHeader';
 import ResultItems from './components/ResultItems';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { useGetSameSectorSymbols } from 'src/app/queries/symbol';
 import { subscriptionCoGroupSymbol } from 'src/ls/subscribes';
 import { pushEngine } from 'src/ls/pushEngine';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SameGroup = () => {
-    const {
-        option: { selectedSymbol },
-    } = useAppValues();
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const { data } = useGetSameSectorSymbols(selectedSymbol)
 

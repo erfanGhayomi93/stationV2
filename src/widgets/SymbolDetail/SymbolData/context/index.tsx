@@ -1,7 +1,6 @@
 import { useReducer } from 'react';
 import { symbolDataReducer } from './symbolDataReducer';
 import { createContainer } from 'react-tracked';
-import SymbolData from '..';
 
 const initialState: ISymbolDataState = {
     symbolChartType: 'Linear',
@@ -10,19 +9,14 @@ const initialState: ISymbolDataState = {
     isMarketDepthOpen: false,
     isDepthChartOpen: true,
 };
-//@ts-ignore
+
 const useValue = () => useReducer(symbolDataReducer, initialState);
 const { Provider: SymbolDataProvider, useTrackedState, useUpdate } = createContainer(useValue);
-export const useSymbolDataState = () => useTrackedState();
-export const useSymbolDataDispatch = () => useUpdate();
+export const useSymbolTabsState = () => useTrackedState();
+export const useSymbolTabsDispatch = () => useUpdate();
 
-const SymbolDataWidget = () => {
-    return (
-        <SymbolDataProvider>
-            <SymbolData />
-        </SymbolDataProvider>
-    );
+const SymbolTabsContext = ({ children }: { children: JSX.Element }) => {
+    return <SymbolDataProvider>{children}</SymbolDataProvider>;
 };
 
-
-export default SymbolDataWidget;
+export default SymbolTabsContext;

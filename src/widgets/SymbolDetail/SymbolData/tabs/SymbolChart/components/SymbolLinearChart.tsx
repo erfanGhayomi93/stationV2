@@ -3,9 +3,10 @@ import dayjs from 'dayjs';
 
 import { memo, useCallback, useEffect, useRef } from 'react';
 import ChartJs from 'src/libs/chart';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
 import { abbreviateNumber, getAverageDates, seprateNumber } from 'src/utils/helpers';
 import { externalTooltipHandler } from './helper';
+import { getTheme } from 'src/redux/slices/ui';
 
 type SymbolLinearChartProps = {
     data?: any;
@@ -17,9 +18,7 @@ const SymbolLinearChart = ({ data, date }: SymbolLinearChartProps) => {
 
     const chart = useRef<ChartJs<'line', Array<any>> | undefined>(undefined);
 
-    const {
-        ui: { theme },
-    } = useAppValues();
+    const theme = useAppSelector(getTheme)
 
     const xAxisCallback = (value: string | number): string => {
         const formats: Record<typeof dateRef.current, string> = {
