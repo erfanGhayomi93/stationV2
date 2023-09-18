@@ -54,7 +54,7 @@
         "no_data": "موردی برای نمایش وجود ندارد",
         "cancel": "لغو",
 		"save": "ذخیره",
-        "rial": "ریال",
+        "notCustomerSelected": "حداقل یک مشتری باید انتخاب شود",
         "confirm": "ثبت",
         "delete": "حذف",
         "confirmation": "تاییدیه"
