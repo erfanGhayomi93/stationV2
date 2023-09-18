@@ -131,7 +131,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 
 	return (
 		<div className='flex flex-col gap-4 h-full'>
-			<WidgetLoading spining={isFetchingWatchlist} blur>
+			<WidgetLoading spining={isFetchingWatchlist}>
 				<Select
 					classes={{
 						root: 'border rounded border-L-gray-200 dark:border-D-gray-200'
