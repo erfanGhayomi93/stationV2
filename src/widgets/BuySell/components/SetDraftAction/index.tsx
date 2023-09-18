@@ -8,6 +8,7 @@ import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { getSelectedCustomers } from 'src/redux/slices/option';
+import { useTranslation } from 'react-i18next';
 
 interface ISetDraftActionType {}
 
@@ -16,6 +17,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
+    const { t } = useTranslation();
     const { mutate: mutateCreateDraft } = useCreateDraft({
         onSuccess: () => {
             onSuccessNotif();
@@ -26,7 +28,7 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const handleClick = () => {
         if (!isPrimaryComeFrom(comeFrom)) {
@@ -37,6 +39,11 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
     };
 
     const handleCreateDraft = () => {
+        if (!selectedCustomers.length) {
+            onErrorNotif({ title: t('common.notCustomerSelected') });
+            return;
+        }
+
         let customerISINs: ICustomerIsins = [];
         let customerTagTitles: ICustomerIsins = [];
         let gtTraderGroupId: ICustomerIsins = [];

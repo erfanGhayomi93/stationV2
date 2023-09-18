@@ -17,7 +17,7 @@ const SymbolChart = () => {
     return (
         <div className="h-[355px] grid grid-rows-one-min gap-4">
             <div className="">
-                <WidgetLoading spining={isFetching} blur>
+                <WidgetLoading spining={isFetching}>
                     {symbolChartType === 'Linear' ? (
                         <SymbolLinearChart date={symbolChartDate} data={data} />
                     ) : (

@@ -76,7 +76,7 @@ const MarketDepth = () => {
 
     return (
         <WidgetLoading spining={isLoading}>
-            <div className="grid grid-cols-2 grid-rows-1 overflow-auto  h-full" style={{ overflow: 'overlay' }}>
+            <div className="grid grid-cols-2 grid-rows-1 h-fit">
                 <div className=" dark:border-D-gray-400 border-L-gray-400">
                     {buyData.map(({ count, price, volume, percent }, inx) => {
                         return (

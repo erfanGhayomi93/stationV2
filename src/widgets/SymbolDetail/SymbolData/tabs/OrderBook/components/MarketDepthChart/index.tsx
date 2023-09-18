@@ -349,7 +349,7 @@ const MarketDepthChart = () => {
                     minHeight: '250px',
                     maxHeight: '250px',
                 }}
-                className="relative overflow-hidden mt-4"
+                className="relative overflow-hidden mt-3"
             >
                 <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
             </div>

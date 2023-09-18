@@ -9,6 +9,7 @@ import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { getSelectedCustomers } from 'src/redux/slices/option';
+import { useTranslation } from 'react-i18next';
 
 interface ISetOrderActionType {}
 
@@ -33,6 +34,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const queryClient = useQueryClient();
     const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', symbolISIN])?.symbolData;
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
+    const { t } = useTranslation();
 
     const appDispatch = useAppDispatch();
     const { mutate } = useMutation(setOrder, {
@@ -64,7 +66,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const handleUpdateDraft = () => {
         mutateUpdateDraft({
@@ -107,8 +109,12 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     };
 
     const handleSubmit = () => {
-        if(symbolMaxQuantity && symbolMaxQuantity < quantity) {
-            dispatch({type: 'SET_DIVIDE', value: true})
+        if (!selectedCustomers.length) {
+            onErrorNotif({ title: t('common.notCustomerSelected') });
+            return;
+        }
+        if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
+            dispatch({ type: 'SET_DIVIDE', value: true });
             return;
         }
         if (comeFrom === ComeFromKeepDataEnum.Draft) {
@@ -124,6 +130,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         let customerISIN: ICustomerIsins = [];
         let CustomerTagId: ICustomerIsins = [];
         let GTTraderGroupId: ICustomerIsins = [];
+
         selectedCustomers.forEach((c: IGoMultiCustomerType) => {
             if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
             else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
