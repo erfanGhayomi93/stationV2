@@ -8,7 +8,8 @@ import { useBuySellDispatch, useBuySellState } from '../BuySell/context/BuySellC
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import clsx from 'clsx';
 import { getUniqId, seprateNumber } from 'src/utils/helpers';
-import { useAppValues } from 'src/redux/hooks';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 const DivideOrderModal = () => {
     //
@@ -20,9 +21,7 @@ const DivideOrderModal = () => {
     const [priceInput, setPriceInput] = useState(price);
     const [customers, setCustomers] = useState<DividedOrderRowType[]>([]);
     const dispatch = useBuySellDispatch();
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const closeModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });

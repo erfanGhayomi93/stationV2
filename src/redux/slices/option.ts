@@ -30,3 +30,4 @@ export const { setSelectedSymbol, setSelectedCustomers } = optionSlice.actions;
 export default optionSlice.reducer;
 
 export const getSelectedSymbol = (state: RootState) => state.option.selectedSymbol;
+export const getSelectedCustomers = (state: RootState) => state.option.selectedCustomers;

@@ -139,7 +139,7 @@ const Watchlists = (props: Props) => {
     };
 
     return (
-        <WidgetLoading spining={isFetchingSymbol} blur>
+        <WidgetLoading spining={isFetchingSymbol} withText>
             <div className="h-full flex flex-col py-3 px-6">
                 <div>
                     <h1 className="text-L-gray-700 dark:text-D-gray-700 font-medium text-2xl py-4">{t('Watchlist.title')}</h1>
@@ -208,11 +208,11 @@ const Watchlists = (props: Props) => {
                         <></>
                     )}
                 </div>
-                {watchlistType === 'Market' && (
+                {/* {watchlistType === 'Market' && (
                     <div className="border-t flex justify-end items-center pt-4">
                         <Paginator loading={false} pageSize={25} pageNumber={1} PaginatorHandler={() => {}} />
                     </div>
-                )}
+                )} */}
             </div>
         </WidgetLoading>
     );

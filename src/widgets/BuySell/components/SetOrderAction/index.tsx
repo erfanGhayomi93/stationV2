@@ -2,13 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
 import { setOrder, useUpdateOrders } from 'src/app/queries/order';
-import { queryClient } from 'src/app/queryClient';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 interface ISetOrderActionType {}
 
@@ -64,9 +64,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             onErrorNotif();
         },
     });
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const handleUpdateDraft = () => {
         mutateUpdateDraft({

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface GlobalState {
     appState: 'Loading' | 'LoggedIn' | 'LoggedOut' | 'Crashed' | 'Booting';
@@ -26,5 +27,7 @@ const globalSlice = createSlice({
 });
 
 export const { setAppState, setAppUser } = globalSlice.actions;
+export const getUserData = (state: RootState) => state.global.userData
+export const getAppState = (state: RootState) => state.global.appState
 
 export default globalSlice.reducer;

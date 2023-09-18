@@ -117,3 +117,13 @@ export const useCustomerInformation = (param: IGetCustomerInformationRequestType
         enabled: !!param.customerISIN,
     });
 };
+
+const getCustomerFinancialInformation = async (CustomerISIN: string) => {
+    const { data } = await AXIOS.get<ICustomerFinancialResponse>(Apis().Customer.GetCustomerFinancial, { params: { CustomerISIN } });
+    return data.result;
+};
+
+export const useCustomerFinancialInformation = (CustomerISIN?: string) =>
+    useQuery([Apis().Customer.GetCustomerFinancial, CustomerISIN], ({ queryKey }) => getCustomerFinancialInformation(queryKey[1] as string), {
+        enabled: !!CustomerISIN,
+    });

@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
 import ActionCellRenderer from '../ActionCell/ActionCell';
 
@@ -10,9 +10,7 @@ interface IResultItem {
 
 const ResultItem: FC<IResultItem> = ({ data: customer }) => {
     const appDispatch = useAppDispatch();
-    const {
-        option: { selectedCustomers },
-    } = useAppValues();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const onSelectionChanged = (isChecked: boolean, customer: IGoMultiCustomerType) => {
         isChecked

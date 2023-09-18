@@ -3,12 +3,12 @@ import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Radiobox from 'src/common/components/Radiobox';
-import { useSymbolDataDispatch, useSymbolDataState } from '../../../context';
+import { useSymbolTabsDispatch, useSymbolTabsState } from '../../../context';
 
 const ChartController = () => {
     //
-    const { symbolChartDate, symbolChartType } = useSymbolDataState();
-    const dispatch = useSymbolDataDispatch();
+    const { symbolChartDate, symbolChartType } = useSymbolTabsState();
+    const dispatch = useSymbolTabsDispatch();
     const { t } = useTranslation();
 
     const toggleChartDate = (date: SymbolChartDate) => dispatch({ type: 'TOGGLE_CHART_DATE', payload: date });

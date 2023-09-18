@@ -4,8 +4,8 @@ import { createContainer } from 'react-tracked';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
-import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
@@ -48,9 +48,7 @@ const BuySellContext = () => {
         dispatchSetter({ resetBuySellState: resetBuySellState });
     }, [dispatch, dispatchSetter]);
 
-    const {
-        keepDataBuySellSlice: { data: keepData, comeFrom },
-    } = useAppValues();
+    const {data:keepData, comeFrom} = useAppSelector(getKeepDataBuySell)
 
     function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
         return comeFrom === ComeFromKeepDataEnum.Draft;
