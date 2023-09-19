@@ -26,8 +26,8 @@ const Requests = () => {
     const { data, isLoading } = useGetOfflineRequests(
         {},
         {
-            onSuccess: (data) => {
-                console.log(data);
+            select: (data) => {
+                return data.filter(({ state }) => ['Registration', 'Accepted', 'Execution'].includes(state));
             },
         },
     );
@@ -41,7 +41,7 @@ const Requests = () => {
             { headerName: t('ag_columns_headerName.requestType'), field: 'requestType' },
             { headerName: t('ag_columns_headerName.fund'), field: 'fund', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price' },
-            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: "date" },
+            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'date' },
             {
                 headerName: t('ag_columns_headerName.actions'),
                 field: 'customTitle',
@@ -60,10 +60,9 @@ const Requests = () => {
 
     return (
         <WidgetLoading spining={isLoading}>
-
-        <div className={'grid h-full p-3'}>
-            <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
-        </div>
+            <div className={'grid h-full p-3'}>
+                <AGTable agGridTheme="balham" rowData={data || []} columnDefs={columns} />
+            </div>
         </WidgetLoading>
     );
 };
