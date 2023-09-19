@@ -28,17 +28,13 @@ const CustomerResult: FC<ICustomerResultType> = ({ isLoading, qData, min }) => {
                           label={item.title}
                           value={item}
                       >
-                          <div className="flex justify-between w-full items-center px-2 text-1.2">
-                              <div className="flex flex-col gap-2">
-                                  <div className="flex gap-3 items-center w-[180px]  justify-between">
-                                      <span className="truncate text-L-gray-500 dark:text-D-gray-700">{item.title}</span>
-                                  </div>
-                                  <div className="flex gap-4 text-1.2">
-                                      <span className="text-L-gray-600 dark:text-D-gray-600">{item.bourseCode}</span>
-                                      <span className="text-L-primary-50 dark:text-D-primary-50">{t('CustomerType.' + item.customerType)}</span>
-                                  </div>
+                          <div className="justify-between w-full overflow-hidden flex flex-col gap-2 px-1">
+                              <div className="text-1 truncate">{item.title}</div>
+                              <div className="flex justify-between">
+                                  <span className="text-L-gray-600 text-1 dark:text-D-gray-600">{item.bourseCode}</span>
+                                  <span className="text-L-primary-50 text-1">{t('CustomerType.' + item.customerType)}</span>
+                                  <span className="text-1">{item.nationalCode}</span>
                               </div>
-                              <span className="text-1.2 text-L-gray-600 dark:text-D-gray-600">{item.nationalCode || '-'}</span>
                           </div>
                       </Combo.DataSet>
                   ))

@@ -63,7 +63,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                         key={ind}
                         className={clsx(
                             'mt-3 overflow-hidden duration-300 ease-out flex flex-col',
-                            openedList === item.id ? 'bg-[#111523] max-h-[300px]' : 'max-h-[2.5rem]',
+                            openedList === item.id ? 'bg-L-blue-100 dark:bg-[#111523] max-h-[300px]' : 'max-h-[2.5rem]',
                         )}
                     >
                         <button

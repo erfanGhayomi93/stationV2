@@ -78,6 +78,7 @@ export const Apis = () => ({
         MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
         GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
         Get: baseUrl + '/Customer/v1/GetCustomers',
+        GetTurnOver: baseUrl + '/Customer/v1/CustomerTurnOverGt',
     },
     MarketDepth: {
         // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',

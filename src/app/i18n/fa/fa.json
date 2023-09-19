@@ -183,10 +183,12 @@
         "TradeStation": "ایستگاه معاملاتی"
     },
     "TransactionTypes" :{
-        "buy": "خرید",
-        "sell": "فروش",
-        "deposit": "واریز",
-        "withdrawal": "برداشت"
+        "Buy": "خرید",
+        "Sell": "فروش",
+        "Deposit": "واریز",
+        "Withdraw": "برداشت",
+        "Remain": "مانده",
+        "Sum": "جمع"
     },
     "customer_financial_situation": {
 		"negotiable_balance": "مانده قابل معامله",

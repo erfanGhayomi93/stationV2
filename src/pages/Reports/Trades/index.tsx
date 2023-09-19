@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useTradesLists } from 'src/app/queries/order';
 import dayjs, { ManipulateType } from 'dayjs';
 import { initialState } from './constant';
+import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
 
 interface ITradesPageType {}
 
@@ -16,27 +17,30 @@ const Trades = ({}: ITradesPageType) => {
 
     const [params, setParams] = useState<ITradeStateType>(initialState);
     const { PageNumber, PageSize, Time } = params;
+    const isFirstRender = useIsFirstRender();
 
     const {
         data: tradesData,
         refetch: getTradesData,
         isFetching,
-    } = useTradesLists(
-        {
-            ...params,
-            SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
-            CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-        });
+    } = useTradesLists({
+        ...params,
+        SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
+        CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+        Side: params.Side === 'Cross' ? undefined : params.Side,
+    });
 
     useEffect(() => {
-        getTradesData();
+        !isFirstRender && getTradesData();
     }, [PageNumber, PageSize]);
 
     const onTimeChangeHandler = (time: string | undefined) => {
         if (!time || time === 'custom') return;
 
         const ToDate = dayjs().format();
-        const FromDate = dayjs().subtract(1, time as ManipulateType).format();
+        const FromDate = dayjs()
+            .subtract(1, time as ManipulateType)
+            .format();
 
         setParams((pre) => ({
             ...pre,
