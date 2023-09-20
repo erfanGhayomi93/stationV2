@@ -52,7 +52,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
             return (
                 <>
                     <div
-                        className={clsx('bg-white  overflow-y-auto absolute w-full z-10 top-0  origin-top', {
+                        className={clsx('bg-L-basic dark:bg-D-basic rounded border border-L-gray-400 dark:border-D-gray-400 overflow-y-auto absolute w-full z-10 top-0  origin-top', {
                             'scale-y-0': !active,
                             'shadow-md max-h-[300px]': !isOnModal,
                             ' max-h-[400px] mt-1 border border-L-gray-300 dark:border-D-gray-300': !!isOnModal,

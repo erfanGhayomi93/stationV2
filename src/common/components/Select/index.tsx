@@ -60,11 +60,11 @@ const Select: FC<ISelectType> = ({
                                     key={ind}
                                     className={({ active }) =>
                                         clsx(
-                                            'relative text-xs cursor-pointer ',
+                                            'relative text-xs cursor-pointer text-D-basic dark:text-L-basic',
                                             'cursor-default select-none py-2 pl-10 pr-4',
                                             active
-                                                ? 'bg-L-primary-50 dark:bg-D-primary-50 text-L-basic  '
-                                                : 'text-L-gray-500 dark:text-D-gray-700 even:bg-L-gray-100 dark:even:bg-D-gray-100',
+                                                ? 'bg-L-primary-100 dark:bg-D-primary-100'
+                                                : 'even:bg-L-gray-100 dark:even:bg-D-gray-100',
                                         )
                                     }
                                     value={item.value}

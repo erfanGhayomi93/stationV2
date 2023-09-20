@@ -37,7 +37,7 @@ const Requests = () => {
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolName', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.side'), field: 'side', valueFormatter: valueFormatterSide },
-            { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.count'), field: 'volume', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.requestType'), field: 'requestType' },
             { headerName: t('ag_columns_headerName.fund'), field: 'fund', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price' },

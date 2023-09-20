@@ -30,6 +30,7 @@ interface PaginatedSearchResult {
 }
 interface IGoCustomerSearchResult {
     customerTitle: string;
+    title: string;
     customerISIN: string;
     balance: number;
     bourseCode: string;
