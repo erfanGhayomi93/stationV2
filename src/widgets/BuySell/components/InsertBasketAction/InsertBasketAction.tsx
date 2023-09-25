@@ -5,19 +5,19 @@ import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useBasketDispatch, useBasketState } from 'src/pages/basket/context/BasketContext';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 
-interface IInsertBasketActionType {}
+interface IInsertBasketActionType { }
 
-const InsertBasketAction: FC<IInsertBasketActionType> = ({}) => {
+const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
     const { id, orderId } = useBasketState();
 
     const basketDispatch = useBasketDispatch();
     const { resetBuySellState } = useGlobalSetterState();
     const resetSelectedCustomer = () => {
-        appDispatch(setSelectedCustomers([]));
+        appDispatch(emptySelectedCustomers());
     };
 
     const setBuySellModalInVisible = () => {
@@ -41,7 +41,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({}) => {
             dispatch({ type: 'RESET' });
             if (!sequential) {
                 dispatch({ type: 'RESET' });
-                appDispatch(setSelectedCustomers([]));
+                appDispatch(emptySelectedCustomers());
             }
         },
         onError: () => {
@@ -56,7 +56,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({}) => {
             dispatch({ type: 'RESET' });
             if (!sequential) {
                 dispatch({ type: 'RESET' });
-                appDispatch(setSelectedCustomers([]));
+                appDispatch(emptySelectedCustomers());
             }
         },
         onError: () => {

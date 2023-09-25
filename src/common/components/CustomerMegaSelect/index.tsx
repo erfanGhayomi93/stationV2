@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC, Fragment, useEffect, useMemo, useState } from 'react';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
@@ -23,7 +23,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
+    } = useAdvancedSearchQuery(
         { term },
         {
             onSuccess: () => {

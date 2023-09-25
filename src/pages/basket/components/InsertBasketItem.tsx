@@ -4,7 +4,7 @@ import { useGetBasket } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { BasketPlusIcon, CloseIcon } from 'src/common/icons';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { emptySelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
 import { useBasketDispatch, useBasketState } from '../context/BasketContext';
 
@@ -19,7 +19,7 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket }) => {
     const appDispatch = useAppDispatch();
     const { resetBuySellState } = useGlobalSetterState();
     const resetSelectedCustomer = () => {
-        appDispatch(setSelectedCustomers([]));
+        appDispatch(emptySelectedCustomers());
     };
     const setBuySellModalVisible = () => {
         appDispatch(setSelectedSymbol(''));

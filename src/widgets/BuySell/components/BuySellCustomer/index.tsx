@@ -1,24 +1,26 @@
 import clsx from 'clsx';
 import { FC, useMemo, useState } from 'react';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
 import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import InputSearch from './input';
 
-interface IBuySellCustomerType {}
+interface IBuySellCustomerType { }
 
-const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
+const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
     const appDispatch = useAppDispatch();
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        appDispatch(setSelectedCustomers(customer));
+        console.log("customer", customer)
+        // appDispatch(setSelectedCustomers(customer));
+        // appDispatch(emptySelectedCustomers());
     };
 
     const selectedCustomers = useAppSelector(getSelectedCustomers)
@@ -27,7 +29,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
+    } = useAdvancedSearchQuery(
         { term },
         {
             onSuccess: () => {

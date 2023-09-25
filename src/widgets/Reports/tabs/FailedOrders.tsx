@@ -20,7 +20,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const { isFilter } = ClickLeftNode;
 
     const handleCopy = (data?: IOrderGetType) => {
-        appDispath(setDataBuySellAction({data , comeFrom : ComeFromKeepDataEnum.FailedOrder}));
+        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.FailedOrder }));
     };
 
     const columns = useMemo(
@@ -31,7 +31,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'توضیحات', field: '', valueFormatter: () => '-' },
+            { headerName: 'توضیحات', field: 'lastErrorCode' },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },

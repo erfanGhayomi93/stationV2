@@ -94,6 +94,7 @@ export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.
 export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
 export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
 export { ReactComponent as StarIcon } from "src/assets/svg/star.svg";
+export { ReactComponent as SelectedList } from "src/assets/svg/selectedList.svg";
 
 export { ReactComponent as Chart1ColSVG } from "src/assets/svg/chart-1c.svg";
 export { ReactComponent as Chart2ColSVG } from "src/assets/svg/chart-2c.svg";

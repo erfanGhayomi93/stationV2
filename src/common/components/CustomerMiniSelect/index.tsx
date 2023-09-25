@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC, memo, useEffect, useMemo, useState } from 'react';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import { SpinnerIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import CustomerResult from '../SearchResult/CustomerSearchResult/CustomerResult';
@@ -23,7 +23,7 @@ const CustomerMiniSelect: FC<ICustomerMiniSelectType> = ({ selected, setSelected
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
+    } = useAdvancedSearchQuery(
         {
             term,
             ...(filterCustomerType ? { type: [type] } : {}),

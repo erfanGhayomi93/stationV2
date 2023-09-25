@@ -47,6 +47,12 @@ interface IDraftResponseType {
     // customerISINs: string;
     // customerTitles: string[];
 }
+
+type IToggleFavorite = {
+    customerIsin : string ,
+    isFavorite : boolean
+}
+
 type stateCustomer = {
     CustomerISINs: string[];
     CustomerTagTitles?: string[];

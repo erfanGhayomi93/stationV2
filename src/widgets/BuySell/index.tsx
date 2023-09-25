@@ -1,13 +1,13 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { useMemo } from 'react';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers } from 'src/redux/slices/option';
 import GroupBuySell from './components/GroupBuySell/GroupBuySell';
 import { useBuySellDispatch, useBuySellState } from './context/BuySellContext';
 
 export const resetByeSellData = (dispatch: any, appDispatch: Dispatch) => {
     dispatch({ type: 'RESET' });
-    appDispatch(setSelectedCustomers([]));
+    appDispatch(emptySelectedCustomers());
 };
 const BuySell = () => {
     //

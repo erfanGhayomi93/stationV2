@@ -7,13 +7,13 @@ type IGroupDetailType = {};
 
 const GroupDetail = ({}: IGroupDetailType) => {
     const { state } = useCustomerSearchState();
-
-    const { data: groupInformation } = useGroupInformation(
-        state.detailModalData?.customerType === 'CustomerTag' ? { groupId: state.detailModalData?.customerISIN } : {},
-    );
-    const { data: groupInformationDetail } = useGroupCustomerDetail(
-        state.detailModalData?.customerType === 'TraderGroup' ? { groupId: state.detailModalData?.customerISIN } : {},
-    );
+// 
+//     const { data: groupInformation } = useGroupInformation(
+//         state.detailModalData?.customerType === 'CustomerTag' ? { groupId: state.detailModalData?.customerISIN } : {},
+//     );
+//     const { data: groupInformationDetail } = useGroupCustomerDetail(
+//         state.detailModalData?.customerType === 'TraderGroup' ? { groupId: state.detailModalData?.customerISIN } : {},
+//     );
 
     // FIXME:group and group tag is diffrent
     const Columns = useMemo<ColDefType<ICustomerInformationResultType>[]>(
@@ -35,7 +35,7 @@ const GroupDetail = ({}: IGroupDetailType) => {
                 </div>
                 <div className=" px-5 py-7 h-full w-full ">
                     <AGTable
-                        rowData={groupInformation?.customer || groupInformationDetail?.customer || []}
+                        rowData={[]}
                         columnDefs={Columns}
                         rowSelection={'multiple'}
                         rowHeight={50}
