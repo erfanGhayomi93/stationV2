@@ -53,7 +53,7 @@ const CustomerPortfolioModal = () => {
                     <CloseIcon onClick={closeModal} className="cursor-pointer" />
                 </div>
                 <WidgetLoading spining={isFetching}>
-                    <div className="p-6">
+                    <div className="p-6 h-full">
                         <AGTable columnDefs={Columns} rowData={rowData} />
                     </div>
                 </WidgetLoading>
