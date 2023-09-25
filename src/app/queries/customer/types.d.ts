@@ -42,6 +42,7 @@ interface PaginatedSearchResult {
 }
 interface IGoCustomerSearchResult {
     customerTitle: string;
+    title: string;
     customerISIN: string;
     balance: number;
     bourseCode: string;
@@ -105,4 +106,39 @@ interface ICustomerFinancialResult {
     finalRemain: number;
 }
 
-interface ICustomerFinancialResponse extends GlobalApiResponseType<ICustomerFinancialResult> {}
+interface ICustomerFinancialResponse extends GlobalApiResponseType<ICustomerFinancialResult> { }
+
+
+
+interface IGetCustomerTurnOverRequestType {
+    Side?: "buy" | "sell" | "deposit" | "withdrawal" | "Remain",
+    CustomerISIN?: string;
+    SymbolISIN?: string;
+    IsAggregated?: boolean;
+    DateFrom?: string;
+    DateTo?: string;
+    Time?: string;
+    PageSize: number;
+    PageNumber: number;
+}
+
+interface IGetCustomerTurnOverResultType {
+    dateTime: string;
+    side: string;
+    credit: number;
+    debit: number;
+    remaining: number;
+    description: string;
+    traderCode: number;
+    stationName: string;
+    symbolISIN: string;
+    customerISIN: string;
+}
+
+
+interface IGetCustomerTurnOverResponse extends GlobalPaginatedApiResponse<IGetCustomerTurnOverResultType[]> { 
+    finalRemain: number;
+    remainMinusLastTrades: number;
+    totalCountFilter: number;
+    pageCount: number
+}

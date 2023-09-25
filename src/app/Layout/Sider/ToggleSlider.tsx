@@ -15,7 +15,7 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
     const { t } = useTranslation();
     return (
         <>
-            <button className="p-3 rounded-md flex items-center outline-none" onClick={onOpen} data-cy="toggle-sider">
+            <button className="p-4 pt-0 rounded-md flex items-center outline-none" onClick={onOpen} data-cy="toggle-sider">
                 <img className="h-[45px] aspect-square brightness-0 invert" src={'/assets/images/' + src} />
 
                 {type === 'close' && <span className="pr-2"> {t('headerSec.' + BrokerCode + '_LogoTitle')}</span>}
@@ -28,7 +28,7 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
                 <span className="bg-gray-500 w-[calc(100%-16px)] h-[1px] block ml-1 relative">
                     <span
                         onClick={type === 'close' ? onClose : onOpen}
-                        className="cursor-pointer bg-L-primary-50 w-5 h-6 absolute -left-6 -top-[12px] rounded-lg flex items-center justify-center"
+                        className="cursor-pointer bg-L-blue-50 dark:bg-D-blue-50 w-5 h-6 absolute -left-[22px] -top-[12px] rounded-lg flex items-center justify-center"
                     >
                         <ChevronIcon className={`-rotate-90 ${type === 'close' ? 'rotate-90' : ''}`} />
                     </span>

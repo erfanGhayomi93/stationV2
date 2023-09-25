@@ -6,6 +6,7 @@ import OrdersTable from './components/OrderTable';
 import { useTranslation } from 'react-i18next';
 import { useOrderLists } from 'src/app/queries/order';
 import { initialState } from './constant';
+import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
 
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -22,6 +23,7 @@ const Orders = () => {
     const { t } = useTranslation()
     const [params, setParams] = useState<IOrdersListStateType>(initialState)
     const { PageNumber, PageSize } = params;
+    const isFirstRender = useIsFirstRender()
 
     const {
         data: ordersList,
@@ -32,10 +34,11 @@ const Orders = () => {
             ...params,
             SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
             CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+            Side: params.Side === 'Cross' ? undefined : params.Side,
         });
 
     useEffect(() => {
-        getOrdersList();
+        !isFirstRender && getOrdersList();
     }, [PageNumber, PageSize]);
 
     const onClearFilters = () => {
