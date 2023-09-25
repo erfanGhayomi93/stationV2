@@ -93,31 +93,18 @@ const Sider = () => {
                 id: '/basket',
                 onClick: () => navigate('/basket'),
             },
-            {
-                icon: <TradeChartSVG height={20} width={20} />,
-                label: 'بازار',
-                position: 'top',
-                placeOfDisplay: 'both',
-                isActive: false,
-                id: '/Market/Chart',
-                onClick: () => navigate('/Market/Chart'),
-                children: [
-                    {
-                        label: 'تقویم بورسی',
-                        icon: <CalenderBourseSVG height={20} width={20} />,
-                        isActive: false,
-                        id: '/Market/Calender',
-                        onClick: () => navigate('/Market/Calender'),
-                    },
-                    {
-                        label: 'نمودار تکنیکال',
-                        icon: <TradeChartSVG height={20} width={20} />,
-                        isActive: false,
-                        id: '/Market/Chart',
-                        onClick: () => navigate('/Market/Chart'),
-                    },
-                ],
-            },
+            // {
+            //     icon: <TradeChartSVG height={20} width={20} />,
+            //     label: 'بازار',
+            //     position: 'top',
+            //     placeOfDisplay: 'both',
+            //     isActive: false,
+            //     id: '/Market/Chart',
+            //     onClick: () => navigate('/Market/Chart'),
+            //     children: [
+
+            //     ],
+            // },
             {
                 icon: <FileIcon height={20} width={20} />,
                 label: 'گزارشات',
@@ -149,6 +136,24 @@ const Sider = () => {
                         onClick: () => navigate('/Reports/turnover'),
                     },
                 ],
+            },
+            {
+                label: 'ابزار تکنیکال',
+                position: 'top',
+                placeOfDisplay: 'both',
+                icon: <TradeChartSVG height={20} width={20} />,
+                isActive: false,
+                id: '/Market/Chart',
+                onClick: () => navigate('/Market/Chart'),
+            },
+            {
+                label: 'تقویم بورسی',
+                icon: <CalenderBourseSVG height={20} width={20} />,
+                isActive: false,
+                id: '/Market/Calender',
+                onClick: () => navigate('/Market/Calender'),
+                position: 'top',
+                placeOfDisplay: 'both',
             },
             // {
             //     icon: <File2Icon height={20} width={20} />,
@@ -225,19 +230,19 @@ const Sider = () => {
                 setFlagToggle={toggleSlider}
                 countNumberSupervisorMessage={countNumberSupervisorMessage}
             />
-            <div className="w-[5rem] min-w-[80px] rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
-                <div className="flex flex-col items-center gap-5">
+            <div className="w-[5rem] min-w-[80px] bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col py-5 pt-3">
+                <div className="flex flex-col items-center">
                     <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 </div>
-                <div className="flex flex-col justify-between h-full mt-8">
-                    <div className="flex flex-col items-center gap-5">
+                <div className="flex flex-col justify-between h-full mt-4">
+                    <div className="flex flex-col items-center">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
                             .map((item, ind) => (
                                 <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
-                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
+                                        className={clsx('p-4', activeMenuItem === item.id ? 'text-L-secondary-50' : 'text-menu')}
                                         onClick={() => {
                                             item.onClick?.();
                                             setActiveMenuItem(item.id);
@@ -248,14 +253,21 @@ const Sider = () => {
                                 </Tippy>
                             ))}
                     </div>
-                    <div className="flex flex-col items-center gap-5 ">
+                    <div className="flex flex-col items-center">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'bottom')
                             .map((item, ind) => (
-                                <Tippy aria={{content:'auto', expanded:"auto"}} inertia key={ind} content={item.label} className="text-xs" placement="left">
+                                <Tippy
+                                    aria={{ content: 'auto', expanded: 'auto' }}
+                                    inertia
+                                    key={ind}
+                                    content={item.label}
+                                    className="text-xs"
+                                    placement="left"
+                                >
                                     <button
                                         data-cy={item.id}
-                                        className={clsx('p-3', activeMenuItem === item.id ? 'text-L-info-50' : 'text-menu')}
+                                        className={clsx('p-4', activeMenuItem === item.id ? 'text-L-secondary-50' : 'text-menu')}
                                         onClick={() => {
                                             item.onClick?.();
                                             setActiveMenuItem(item.id);

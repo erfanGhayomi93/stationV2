@@ -127,3 +127,11 @@ export const useCustomerFinancialInformation = (CustomerISIN?: string) =>
     useQuery([Apis().Customer.GetCustomerFinancial, CustomerISIN], ({ queryKey }) => getCustomerFinancialInformation(queryKey[1] as string), {
         enabled: !!CustomerISIN,
     });
+
+const getCustomerTurnOver = async (params: IGetCustomerTurnOverRequestType) => {
+    const { data } = await AXIOS.get<IGetCustomerTurnOverResponse>(Apis().Customer.GetTurnOver, { params });
+    return data;
+};
+
+export const useGetCustomerTurnOver = (params: IGetCustomerTurnOverRequestType, options?: UseQueryOptions<IGetCustomerTurnOverResponse>) =>
+    useQuery<IGetCustomerTurnOverResponse>([Apis().Customer.GetTurnOver], () => getCustomerTurnOver(params), { ...options });

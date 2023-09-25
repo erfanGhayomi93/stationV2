@@ -146,7 +146,7 @@ const BuySellContext = () => {
 
     return (
         <>
-            <BuySell />;
+            <BuySell />
             <DivideOrderModal />
         </>
     );
