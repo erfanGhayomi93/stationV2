@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useWorkflowState } from 'src/common/components/WorkFlow/context/WorkflowContext';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
 import CustomerSearchContext from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
 import Reports from 'src/widgets/Reports';
@@ -12,7 +12,7 @@ const Home = () => {
     const { space } = useWorkflowState();
     useEffect(() => {
         return () => {
-            appDispatch(setSelectedCustomers([]));
+            appDispatch(emptySelectedCustomers());
         };
     }, []);
 

@@ -1,38 +1,46 @@
 import clsx from 'clsx';
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useAdvancedSearchQuery } from 'src/app/queries/customer';
+import { CounterBalloon } from 'src/common/components/CounterBalloon/CounterBalloon';
 import useDebounce from 'src/common/hooks/useDebounce';
-// import { useAppDispatch, useAppValues } from 'src/redux/hooks';
+import { SpinnerIcon } from 'src/common/icons';
+import { useAppSelector } from 'src/redux/hooks';
 import Select from 'src/common/components/Select';
 import ResultHeader from '../components/ResultItem/ResultHeader';
 import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
-const CustomerSearch = () => {
+const SelectedList = () => {
     const { t } = useTranslation();
-    const { state } = useCustomerSearchState();
+    const { setState, state } = useCustomerSearchState();
+    // const [type, setType] = useState<ICustomerMultiTypeType>('Natural');
     const debouncedTerm = useDebounce(state.params.term, 500);
+
     const [customerType, setCustomerType] = useState("")
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
 
 
-    const { data: customers, isFetching } = useAdvancedSearchQuery(
-        { term: debouncedTerm },
-    );
+
+    useEffect(() => {
+        console.log("selectedCustomers", selectedCustomers)
+    }, [selectedCustomers])
+
 
 
     const ItemRenderer = (props: any) => {
         return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
     };
 
-    const filteredData = useMemo(() => {
-        if (!customers) return []
-        else if (!customerType) return customers
-        return customers.filter(item => item.customerType === customerType)
-    }, [customers, customerType])
+    // const filteredData = useMemo(() => {
+    //     if (!selectedCustomers) return []
+    //     else if (!customerType) return selectedCustomers
+    //     // return selectedCustomers.filter(item => item.customerType === customerType)
+    // }, [selectedCustomers, customerType])
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
@@ -53,21 +61,35 @@ const CustomerSearch = () => {
                             />
                         </div>
                     </div>
-                    <div className={clsx('duration-200', isFetching ? '' : 'scale-0')}>
-                        {/* <SpinnerIcon className="animate-spin text-L-primary-50 dark:text-D-primary-50" /> */}
-                    </div>
+
                 </div>
-                <div className="h-full flex flex-col">
+                <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    <Virtuoso
+                    <div className='overflow-y-auto h-full max-h-[307px]'>
+                        {
+                            selectedCustomers?.map((data, index) => (
+                                <ResultItem
+                                    key={index}
+                                    data={data}
+                                // onSelectionChanged={onSelectionChanged}
+                                />
+                            ))
+                        }
+                    </div>
+
+                    {/* <Virtuoso
                         data={filteredData}
                         className="rounded-lg rounded-t-none"
-                        itemContent={(index, data) => data ? <ResultItem key={index} data={data} /> : null}
+                        itemContent={(index, data) => data ? <ResultItem
+                            key={index}
+                            data={data}
+                            onSelectionChanged={onSelectionChanged}
+                        /> : null}
                         components={{
                             Item: ItemRenderer,
                         }}
-                    />
+                    /> */}
 
                 </div>
             </div>
@@ -75,4 +97,4 @@ const CustomerSearch = () => {
     );
 };
 
-export default CustomerSearch;
+export default SelectedList;

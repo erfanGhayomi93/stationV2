@@ -1,10 +1,5 @@
 type tabCustomerType = 'Customers' | 'GroupCustomer' | 'MyGroup' | 'FavoriteList';
-
-interface IGoCustomerResult {
-    type: ICustomerMultiTypeType;
-    searchResult: PaginatedSearchResult;
-    typeCounts: TypeCount[];
-}
+type ICustomerMultiTypeType = 'Legal' | 'Natural';
 
 interface IGoMultiCustomerType {
     bourseCode: string;
@@ -15,7 +10,24 @@ interface IGoMultiCustomerType {
     nationalCode: string;
     purchasePower: number;
     title: string;
+    isFavorite : boolean
 }
+
+interface IReqestCustomer {
+    CustomerISIN ?: string ,
+    CustomerType ?: ICustomerMultiTypeType ,
+    IsFavorite ?: boolean
+}
+
+interface IGoCustomerResult {
+    type: ICustomerMultiTypeType;
+    searchResult: PaginatedSearchResult;
+    typeCounts: TypeCount[];
+}
+
+
+
+
 
 interface PaginatedSearchResult {
     errors: null | string[];
@@ -48,7 +60,7 @@ interface IGoCustomerRequest extends IPaginateRequest {
     term?: string;
     type?: ICustomerMultiTypeType;
 }
-type ICustomerMultiTypeType = 'Legal' | 'Natural' | 'CustomerTag' | 'TraderGroup';
+
 
 interface IGoCustomerRequestType {
     term?: string;

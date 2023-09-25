@@ -68,13 +68,16 @@ export const Apis = () => ({
         ChartData: baseUrl + '/Symbol/v1/ChartData',
     },
     Customer: {
+        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
+        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
+        ToggleFavorite: baseUrl + '/Customer/v1/ToggleFavorite',
+        GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
+        
         Search: baseUrl + '/Customer/v1/Search',
         GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
         GetCustomerFinancial: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
         GetGroupInformation: baseUrl + '/Customer/v1/GetGroupInformation',
         // MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
-        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
-        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
         MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
         GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
         Get: baseUrl + '/Customer/v1/GetCustomers',

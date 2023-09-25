@@ -6,14 +6,14 @@ import Modal from 'src/common/components/Modal';
 import { CloseIcon, InfoIcon, ModalBasketIcon, PlusIcon } from 'src/common/icons';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useTranslation } from 'react-i18next';
 
-interface ISetBasketActionType {}
+interface ISetBasketActionType { }
 
-const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
+const SetBasketAction: FC<ISetBasketActionType> = ({ }) => {
     //
     const { t } = useTranslation()
     const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
@@ -31,7 +31,7 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
 
             if (!sequential) {
                 dispatch({ type: 'RESET' });
-                appDispatch(setSelectedCustomers([]));
+                appDispatch(emptySelectedCustomers());
             }
         },
         onError: () => {

@@ -33,11 +33,13 @@ const ComboDataSet: FC<IComboDataSetType> = ({ children, value, label, className
     useEffect(() => {
         setChecked(selections?.some((item: any) => getObjectItemOrItem(item, keyId) === getObjectItemOrItem(value, keyId)));
     }, [selections]);
+    
     const handleSingleSelection = (value: any) => {
         dispatch({ type: 'SET_VALUE', value: label });
         dispatch({ type: 'TOGGLE_SELECTED', value: [value] });
         onSelectionChange && onSelectionChange([value]);
     };
+
     const handleToggleSelection = (value: any) => {
         if (selections?.find((item) => getObjectItemOrItem(item, keyId) === getObjectItemOrItem(value, keyId))) {
             const newSelection = selections.filter((item) => getObjectItemOrItem(item, keyId) !== getObjectItemOrItem(value, keyId));

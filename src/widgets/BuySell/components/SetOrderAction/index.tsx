@@ -133,8 +133,8 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
 
         selectedCustomers.forEach((c: IGoMultiCustomerType) => {
             if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
-            else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
-            else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
+            // else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
+            // else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
         });
         mutate({
             customerISIN,

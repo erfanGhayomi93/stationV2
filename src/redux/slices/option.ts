@@ -19,13 +19,25 @@ const optionSlice = createSlice({
         setSelectedSymbol: (state, action: PayloadAction<typeof initialState.selectedSymbol>) => {
             state.selectedSymbol = action.payload;
         },
-        setSelectedCustomers: (state, action: PayloadAction<typeof initialState.selectedCustomers>) => {
-            state.selectedCustomers = action.payload;
+        setSelectedCustomers: (state, action: PayloadAction<IGoMultiCustomerType>) => {
+            state.selectedCustomers = [...state.selectedCustomers, action.payload];
+        },
+        removeSelectedCustomers: (state, action: PayloadAction<string>) => {
+            state.selectedCustomers = state.selectedCustomers.filter((item) => item.customerISIN !== action.payload);
+        },
+        emptySelectedCustomers: (state) => {
+            state.selectedCustomers = [];
+        },
+        toggleFavoriteSelectedCustomer: (state: OptionState, action: PayloadAction<string>) => {
+            state.selectedCustomers = state.selectedCustomers.map((item) =>
+                item.customerISIN === action.payload ? { ...item, isFavorite: !item.isFavorite } : item,
+            );
         },
     },
 });
 
-export const { setSelectedSymbol, setSelectedCustomers } = optionSlice.actions;
+export const { setSelectedSymbol, setSelectedCustomers, removeSelectedCustomers, toggleFavoriteSelectedCustomer, emptySelectedCustomers } =
+    optionSlice.actions;
 
 export default optionSlice.reducer;
 

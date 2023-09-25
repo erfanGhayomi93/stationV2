@@ -32,7 +32,7 @@ const BuySellContext = () => {
     const dispatchSetter = useGlobalSetterDispatch();
 
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        appDispatch(setSelectedCustomers(customer));
+        // appDispatch(setSelectedCustomers(customer));
     };
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {

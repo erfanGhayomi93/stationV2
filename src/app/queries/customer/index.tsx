@@ -3,61 +3,61 @@ import { stringify } from 'querystring';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
+// advance search for get list of customer
+
+const getAdvancedSearch = async (params: IGoCustomerRequestType, signal?: AbortSignal) => {
+    console.log("params", params)
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.AdvancedSearch as string, {
+        params: { ...params, type: params.type?.join() },
+        signal
+    });
+    return data.result || [];
+};
+
+
+export const useAdvancedSearchQuery = (
+    params: IGoCustomerRequestType,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], string[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['advancedSearchCustomer', params.term ? params.term : ""], ({ signal }) => getAdvancedSearch(params, signal), {
+        enabled: !!params.term,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+//
+
+// /advance group search for get list group of customer
+
+const getGroupSearch = async (params: IGoCustomerRequestType, signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GroupAdvancedSearch as string, {
+        params: { ...params, type: params.type?.join() },
+        signal
+    });
+    return data.result || [];
+};
+
+
+export const useGroupCustomer = (
+    params: IGoCustomerRequestType,
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], string[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['advancedSearchGroup', params.term ? params.term : ""], ({ signal }) => getGroupSearch(params, signal), {
+        enabled: !!params.term,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+//
+
+//searchCustomer
+
 const searchCustomer = async (params: IGoCustomerRequest) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(Apis().Customer.Search as string, { params });
 
     return data.result || [];
-};
-const getDefaultCustomer = async () => {
-    const { data } = await AXIOS.get<IGoMultiCustomerType[]>(Apis().Customer.Get as string);
-    return data || [];
-};
-// prettier-ignore
-export const useDefaultCustomerList = <T=IGoMultiCustomerType,>(
-    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, T, (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
-) => {
-    return useQuery(['getDefaultCustomer'], () => getDefaultCustomer(), options);
-};
-
-const searchMultiCustomer = async (params: IGoCustomerRequestType) => {
-    console.log("params",params)
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.AdvancedSearch as string, {
-        params: { ...params, type: params.type?.join() },
-    });
-    return data.result || [];
-};
-
-const getGroupSearch = async (params: IGoCustomerRequestType) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GroupAdvancedSearch as string, {
-        params: { ...params, type: params.type?.join() },
-    });
-    return data.result || [];
-};
-
-const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
-        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
-        paramsSerializer: (params) => {
-            return stringify(params);
-        },
-    });
-    return data.result || [];
-};
-
-export const useMutationMultiMultiCustomer = (
-    options: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, stateCustomer, unknown>, 'mutationFn'> | undefined,
-) => {
-    return useMutation(searchMultiMultiCustomer, options);
-};
-
-export const useCustomerList = (params: IGoCustomerRequest) => {
-    return useQuery(['searchCustomer', params], ({ queryKey }) => searchCustomer(queryKey[1] as IGoCustomerRequest), {
-        enabled: !!params,
-        staleTime: 0,
-        cacheTime: 0,
-        keepPreviousData: true,
-        select: (data) => data,
-    });
 };
 
 export const useCustomerListInfinit = (
@@ -69,7 +69,7 @@ export const useCustomerListInfinit = (
 ) => {
     return useInfiniteQuery(
         ['searchCustomer', params],
-        ({ queryKey, pageParam = 1 }) => searchCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1], pageNumber: pageParam } : {}),
+        ({ queryKey, pageParam = 1 }) => searchCustomer(params),
         {
             enabled: !!params,
             getNextPageParam: (data) => (data.searchResult.hasNextPage ? data.searchResult.pageNumber + 1 : undefined),
@@ -77,30 +77,76 @@ export const useCustomerListInfinit = (
         },
     );
 };
-// prettier-ignore
-export const useMultiCustomerListQuery = <T=IGoMultiCustomerType,>(
-    params: IGoCustomerRequestType,
-    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
-) => {
-    return useQuery(['searchCustomer', params], ({ queryKey }) => searchMultiCustomer(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
-        enabled: !!params.term,
-        staleTime: 0,
-        cacheTime: 0,
-        ...options,
+
+
+//get Customer
+const getCustomer = async (params: IReqestCustomer, signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetCustomers as string, {
+        signal,
+        params
     });
+    return data.result || [];
 };
 
-export const useGroupCustomer =(
-    params: IGoCustomerRequestType,
+
+export const useGetCustomers = (
+    params: IReqestCustomer,
     options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
-    return useQuery(['searchGroupCustomer', params], ({ queryKey }) => getGroupSearch(typeof queryKey[1] !== 'string' ? { ...queryKey[1] } : {}), {
-        enabled: !!params.term,
+    return useQuery(['getDefaultCustomer'], ({ signal }) => getCustomer(params, signal), options);
+};
+//
+
+
+
+
+
+const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
+        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
+        paramsSerializer: (params) => {
+            return stringify(params);
+        },
+    });
+    return data.result || [];
+};
+
+const getToggleFavorite = async ({ customerIsin, isFavorite }: IToggleFavorite) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.ToggleFavorite as string, {}, {
+        params: { customerIsin, isFavorite },
+        // paramsSerializer: (params) => {
+        //     return stringify(params);
+        // },
+    });
+    return data.result || [];
+};
+
+export const useMutationMultiMultiCustomer = (
+    options: Omit<UseMutationOptions<IGoMultiCustomerType[], unknown, stateCustomer, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(searchMultiMultiCustomer, options);
+};
+
+export const useMutationToggleFavorite = (
+    options?: Omit<UseMutationOptions<boolean | never[], unknown, IToggleFavorite, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(getToggleFavorite, options);
+};
+
+{/* 
+export const useCustomerList = (params: IGoCustomerRequest) => {
+    return useQuery(['searchCustomer', params], ({ queryKey }) => searchCustomer(queryKey[1] as IGoCustomerRequest), {
+        enabled: !!params,
         staleTime: 0,
         cacheTime: 0,
-        ...options,
+        keepPreviousData: true,
+        select: (data) => data,
     });
-};
+}; */}
+
+
+
+
 
 
 const GetCustomerInformation = async (params: IGetCustomerInformationRequestType) => {

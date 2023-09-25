@@ -8,6 +8,8 @@ import ResultHeader from '../components/ResultItem/ResultHeader';
 import GroupItem from '../components/ResultItem/groupItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 const GroupSearch = () => {
     const { t } = useTranslation();
@@ -17,6 +19,10 @@ const GroupSearch = () => {
     const { data: groups, isFetching } = useGroupCustomer(
         { term: debouncedTerm },
     );
+
+    const appDispatch = useAppDispatch();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
+
 
     const filteredData = useMemo(() => {
         if (!groups) return []
