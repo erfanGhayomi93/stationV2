@@ -75,7 +75,6 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
                         onSelectionChange={(selected) => onSelectionChanged(selected)}
                         onPanelVisibiltyChange={(value) => setPanel(value)}
                         onMinimumEntered={setMin}
-                        multiple={true}
                         selections={selectedCustomers}
                         keyId={'customerISIN'}
                         showPanel={panel}
@@ -99,7 +98,7 @@ export default BuySellCustomer;
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (
         <>
-            {(isLoading || isFetching) && (
+            {(isFetching) && (
                 <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-600 bg-L-basic dark:bg-D-basic">
                     <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>

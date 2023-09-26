@@ -53,7 +53,7 @@ const FavoriteList = () => {
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2 justify-between py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
-                        <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
+                        <SearchInput placeholder='نام مشتری' />
 
                         <div className='w-[100px]'>
                             <Select

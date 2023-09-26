@@ -36,18 +36,18 @@ const SelectedList = () => {
         return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
     };
 
-    // const filteredData = useMemo(() => {
-    //     if (!selectedCustomers) return []
-    //     else if (!customerType) return selectedCustomers
-    //     // return selectedCustomers.filter(item => item.customerType === customerType)
-    // }, [selectedCustomers, customerType])
+    const filteredData = useMemo(() => {
+        if (!selectedCustomers) return []
+        else if (!customerType) return selectedCustomers
+        return selectedCustomers.filter(item => item.customerType === customerType)
+    }, [selectedCustomers, customerType])
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2 justify-between py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
-                        <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
+                        <SearchInput placeholder='نام مشتری' />
 
                         <div className='w-[100px]'>
                             <Select
@@ -66,16 +66,18 @@ const SelectedList = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    <div className='overflow-y-auto h-full max-h-[307px]'>
-                        {
-                            selectedCustomers?.map((data, index) => (
-                                <ResultItem
-                                    key={index}
-                                    data={data}
-                                // onSelectionChanged={onSelectionChanged}
-                                />
-                            ))
-                        }
+                    <div className='overflow-y-auto h-full relative'>
+                        <div className='h-full w-full absolute top-0'>
+                            {
+                                filteredData?.map((data, index) => (
+                                    <ResultItem
+                                        key={index}
+                                        data={data}
+                                    // onSelectionChanged={onSelectionChanged}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
 
                     {/* <Virtuoso
@@ -84,7 +86,6 @@ const SelectedList = () => {
                         itemContent={(index, data) => data ? <ResultItem
                             key={index}
                             data={data}
-                            onSelectionChanged={onSelectionChanged}
                         /> : null}
                         components={{
                             Item: ItemRenderer,
