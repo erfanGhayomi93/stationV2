@@ -50,17 +50,19 @@ const GroupSearch = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    <div className='overflow-y-auto h-full max-h-[307px]'>
-                        {
-                            filteredData.map((item, ind) => (
-                                <GroupItem
-                                    key={ind}
-                                    ind={ind}
-                                    customer={item}
-                                    addToFavoriteList={addToFavoriteList}
-                                />
-                            ))
-                        }
+                    <div className='overflow-y-auto h-full relative'>
+                        <div className='h-full w-full absolute top-0'>
+                            {
+                                filteredData.map((item, ind) => (
+                                    <GroupItem
+                                        key={ind}
+                                        ind={ind}
+                                        customer={item}
+                                        addToFavoriteList={addToFavoriteList}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
