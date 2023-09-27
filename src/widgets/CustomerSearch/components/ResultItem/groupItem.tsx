@@ -1,7 +1,4 @@
 import { FC, memo, MouseEvent } from 'react';
-// import { useAppDispatch, useAppValues } from 'src/redux/hooks';
-// import { seprateNumber } from 'src/utils/helpers';
-// import ActionCellRenderer from '../ActionCell/ActionCell';
 import { ChevronIcon } from 'src/common/icons';
 import { Disclosure, Transition } from '@headlessui/react';
 import clsx from 'clsx';
@@ -11,10 +8,11 @@ import ResultItem from './ResultItem';
 interface IResultItem {
     customer: IGoMultiCustomerType,
     ind: number,
-    addToFavoriteList: (e: MouseEvent<SVGSVGElement>, id: string) => void
+    addToFavoriteList: (e: MouseEvent<SVGSVGElement>, id: string) => void ,
+    refetchToggleFavorite : () => void
 }
 
-const GroupItem: FC<IResultItem> = ({ customer, ind, addToFavoriteList }) => {
+const GroupItem: FC<IResultItem> = ({ customer, ind, addToFavoriteList , refetchToggleFavorite }) => {
     return (
         <div className="flex text-L-gray-600 dark:text-D-gray-600 w-full">
             <Item
@@ -22,6 +20,7 @@ const GroupItem: FC<IResultItem> = ({ customer, ind, addToFavoriteList }) => {
                 key={customer.customerISIN}
                 ind={ind}
                 addToFavoriteList={addToFavoriteList}
+                refetchToggleFavorite={refetchToggleFavorite}
             />
         </div>
     );
@@ -31,7 +30,7 @@ export default memo(GroupItem);
 
 
 
-const Item: FC<IResultItem> = ({ customer, ind }) => {
+const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
 
     return (
         <div className='w-full'>
@@ -89,6 +88,7 @@ const Item: FC<IResultItem> = ({ customer, ind }) => {
                                         <ResultItem
                                             key={ind}
                                             data={item}
+                                            refetchToggleFavorite={refetchToggleFavorite}
                                         />
                                     ))
                                 }

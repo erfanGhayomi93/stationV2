@@ -72,6 +72,7 @@ export const Apis = () => ({
         GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
         ToggleFavorite: baseUrl + '/Customer/v1/ToggleFavorite',
         GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
+        GetGroups: baseUrl + '/Customer/v1/GetGroups',
         
         Search: baseUrl + '/Customer/v1/Search',
         GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
