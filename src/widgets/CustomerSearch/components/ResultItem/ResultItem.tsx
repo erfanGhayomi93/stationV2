@@ -8,15 +8,17 @@ import ActionCellRenderer from '../ActionCell/ActionCell';
 interface IResultItem {
     data: IGoMultiCustomerType,
     onSelectionChanged?: (isChecked: boolean, customer: IGoMultiCustomerType) => void,
+    refetchToggleFavorite : (customerIsin : string) => void
 }
 
-const ResultItem: FC<IResultItem> = ({ data: customer }) => {
+const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite }) => {
     // const {
     //     option: { selectedCustomers },
     // } = useAppValues();
     const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const appDispatch = useAppDispatch()
+
 
 
     const onSelectionChanged = useMemo(() => (isChecked: boolean, customer: IGoMultiCustomerType) => {
@@ -46,7 +48,7 @@ const ResultItem: FC<IResultItem> = ({ data: customer }) => {
             <div className="w-4/6  flex items-center justify-center">{customer?.nationalCode}</div>
             <div className="w-4/6  flex items-center justify-center">-</div>
             <div className="w-4/6  flex items-center justify-center">
-                <ActionCellRenderer {...customer} />
+                <ActionCellRenderer {...{customer , refetchToggleFavorite}} />
             </div>
         </div>
     );

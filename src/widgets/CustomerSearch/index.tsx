@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import TabsList from 'src/common/components/TabsList';
 import CustomerSearch from './tabs/customerSerarch';
 import GroupSearch from './tabs/groupSearch';

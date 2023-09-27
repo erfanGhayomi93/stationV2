@@ -4,20 +4,18 @@ import { MoreDotsIcon, PortfolioDetailIcon, StarIcon } from 'src/common/icons';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import clsx from 'clsx';
 import { useMutationToggleFavorite } from 'src/app/queries/customer';
-import { queryClient } from 'src/app/queryClient';
-import { toggleFavoriteSelectedCustomer } from 'src/redux/slices/option';
-import { useAppDispatch } from 'src/redux/hooks';   
 
-const ActionCellRenderer: FC<IGoMultiCustomerType> = (data) => {
-    const { setState, state: { params: { term }, activeTab } } = useCustomerSearchState();
-    const dispatch = useAppDispatch()
+const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavorite: (customerIsin : string) => void }> = ({ customer : data, refetchToggleFavorite }) => {
+    const { setState } = useCustomerSearchState();
 
     const { mutate } = useMutationToggleFavorite({
         onSuccess() {
-            activeTab === "Customers" && queryClient.invalidateQueries(["advancedSearchCustomer", term])
-            activeTab === "GroupCustomer" && queryClient.invalidateQueries(["advancedSearchGroup", term])
-            activeTab === "FavoriteList" && queryClient.invalidateQueries(["getDefaultCustomer"])
-            activeTab === "SelectedList" && dispatch(toggleFavoriteSelectedCustomer(data.customerISIN))
+            refetchToggleFavorite(data.customerISIN)
+            // console.log("checking render")
+            // activeTab === "Customers" && queryClient.invalidateQueries(["advancedSearchCustomer", term])
+            // activeTab === "GroupCustomer" && queryClient.invalidateQueries(["advancedSearchGroup", term])
+            // activeTab === "FavoriteList" && queryClient.invalidateQueries(["getDefaultCustomer"])
+            // activeTab === "SelectedList" && dispatch(toggleFavoriteSelectedCustomer(data.customerISIN))
         },
     })
 

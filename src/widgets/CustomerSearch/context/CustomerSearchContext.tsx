@@ -12,7 +12,7 @@ interface ICustomerSearchWidgetType {
     isPortfolioModalOpen?: boolean;
     activeTab  : string
 }
-const useValue = () => useState<ICustomerSearchWidgetType>({ params: { term: "علی" } , activeTab : "Customers" });
+const useValue = () => useState<ICustomerSearchWidgetType>({ params: { term: "" } , activeTab : "Customers" });
 
 export const { Provider: CustomerSearchProvider, useTrackedState, useUpdate: useSetState } = createContainer(useValue);
 export const useCustomerSearchState = () => {

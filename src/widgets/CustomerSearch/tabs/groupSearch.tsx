@@ -1,38 +1,60 @@
 import clsx from 'clsx';
-import { useState, useMemo, MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { GroupedVirtuoso, Virtuoso } from 'react-virtuoso';
-import { useGroupCustomer } from 'src/app/queries/customer';
+import { useMemo, MouseEvent, useEffect } from 'react';
+import { useGroupCustomer, useGroupDefault } from 'src/app/queries/customer';
 import useDebounce from 'src/common/hooks/useDebounce';
 import ResultHeader from '../components/ResultItem/ResultHeader';
 import GroupItem from '../components/ResultItem/groupItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers } from 'src/redux/slices/option';
 
 const GroupSearch = () => {
-    const { t } = useTranslation();
-    const { setState, state } = useCustomerSearchState();
-    const debouncedTerm = useDebounce(state.params.term, 500);
-    const [customerType, setCustomerType] = useState("")
-    const { data: groups, isFetching } = useGroupCustomer(
+    const { state: { params } } = useCustomerSearchState();
+    const debouncedTerm = useDebounce(params.term, 500);
+
+    const { data: defaultGroups, refetch: refetchDefaultGroups, remove: removeDefaultGroups } = useGroupDefault({
+        enabled: false
+    })
+
+    const { data: searchGroups, isFetching ,refetch : refetchCustomers } = useGroupCustomer(
         { term: debouncedTerm },
+        {
+            onSuccess() {
+                if (!!defaultGroups) {
+                    removeDefaultGroups()
+                }
+            }
+        }
     );
 
-    const appDispatch = useAppDispatch();
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
-
-
-    const filteredData = useMemo(() => {
-        if (!groups) return []
-        else if (!customerType) return groups
-        return groups.filter(item => item.customerType === customerType)
-    }, [groups, customerType])
 
     const addToFavoriteList = (e: MouseEvent<SVGSVGElement>, id: string) => {
         e.preventDefault()
     }
+
+    const refetchToggleFavorite = () => {
+        !!defaultGroups ? refetchDefaultGroups() : refetchCustomers()
+    }
+
+    const rowUI = useMemo(() => {
+        const listGroups = defaultGroups || searchGroups
+        if (!listGroups) return null
+        return listGroups
+            .map((item, ind) => (
+                <GroupItem
+                    key={ind}
+                    ind={ind}
+                    customer={item}
+                    addToFavoriteList={addToFavoriteList}
+                    refetchToggleFavorite={refetchToggleFavorite}
+                />
+            ))
+    }, [searchGroups, defaultGroups])
+
+
+    useEffect(() => {
+        if ((params.term as string).length < 2)
+            refetchDefaultGroups()
+    }, [])
 
 
     return (
@@ -52,16 +74,7 @@ const GroupSearch = () => {
 
                     <div className='overflow-y-auto h-full relative'>
                         <div className='h-full w-full absolute top-0'>
-                            {
-                                filteredData.map((item, ind) => (
-                                    <GroupItem
-                                        key={ind}
-                                        ind={ind}
-                                        customer={item}
-                                        addToFavoriteList={addToFavoriteList}
-                                    />
-                                ))
-                            }
+                            {rowUI}
                         </div>
                     </div>
                 </div>

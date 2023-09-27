@@ -1,10 +1,9 @@
 import clsx from 'clsx';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
-import { useAdvancedSearchQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery, useGetCustomers } from 'src/app/queries/customer';
 import useDebounce from 'src/common/hooks/useDebounce';
-// import { useAppDispatch, useAppValues } from 'src/redux/hooks';
 import Select from 'src/common/components/Select';
 import ResultHeader from '../components/ResultItem/ResultHeader';
 import ResultItem from '../components/ResultItem/ResultItem';
@@ -13,26 +12,63 @@ import SearchInput from '../components/SearchInput';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
-    const { state } = useCustomerSearchState();
-    const debouncedTerm = useDebounce(state.params.term, 500);
+    const { state: { params: { term } } } = useCustomerSearchState();
+    const debouncedTerm = useDebounce(term, 500);
     const [customerType, setCustomerType] = useState("")
 
+    const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers } = useGetCustomers({}, {
+        enabled: false,
+    })
 
-
-    const { data: customers, isFetching } = useAdvancedSearchQuery(
+    const { data: searchCustomers, isFetching, refetch: refetchCustomers } = useAdvancedSearchQuery(
         { term: debouncedTerm },
+        {
+            onSuccess() {
+                if (!!defaultCustomers) {
+                    removeDefaultCustomers()
+                }
+            },
+        }
     );
-
 
     const ItemRenderer = (props: any) => {
         return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
     };
 
-    const filteredData = useMemo(() => {
-        if (!customers) return []
-        else if (!customerType) return customers
-        return customers.filter(item => item.customerType === customerType)
-    }, [customers, customerType])
+    const refetchToggleFavorite = () => {
+        !!defaultCustomers ? refetchDefaultCustomer() : refetchCustomers()
+    }
+
+
+    const rowUI = useMemo(() => {
+        let listGroups = defaultCustomers || searchCustomers
+
+        if (!listGroups) return null
+        else if (customerType) {
+            listGroups = listGroups.filter(item => item.customerType === customerType)
+        }
+
+        return <Virtuoso
+            data={listGroups}
+            className="rounded-lg rounded-t-none"
+            itemContent={(index, data) => data ? <ResultItem
+                key={index}
+                data={data}
+                refetchToggleFavorite={refetchToggleFavorite}
+            /> : null}
+            components={{
+                Item: ItemRenderer,
+            }}
+        />
+
+    }, [searchCustomers, defaultCustomers, customerType])
+
+
+    useEffect(() => {
+        if ((term as string)?.length < 2)
+            refetchDefaultCustomer()
+    }, [])
+
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
@@ -60,14 +96,7 @@ const CustomerSearch = () => {
                 <div className="h-full flex flex-col">
                     <ResultHeader />
 
-                    <Virtuoso
-                        data={filteredData}
-                        className="rounded-lg rounded-t-none"
-                        itemContent={(index, data) => data ? <ResultItem key={index} data={data} /> : null}
-                        components={{
-                            Item: ItemRenderer,
-                        }}
-                    />
+                    {rowUI}
 
                 </div>
             </div>

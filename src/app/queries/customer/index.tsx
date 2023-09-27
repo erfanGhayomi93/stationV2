@@ -44,7 +44,28 @@ export const useGroupCustomer = (
     options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], string[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
     return useQuery(['advancedSearchGroup', params.term ? params.term : ""], ({ signal }) => getGroupSearch(params, signal), {
-        enabled: !!params.term,
+        enabled: !!params.term && params.term.length > 2,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+//
+
+// /get group default for get list group of customer
+
+const getGroupDefault = async (signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetGroups as string, {
+        signal
+    });
+    return data.result || [];
+};
+
+
+export const useGroupDefault = (
+    options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], string[]>, 'initialData' | 'queryKey'> | undefined,
+) => {
+    return useQuery(['getGroupDefault',], ({ signal }) => getGroupDefault(signal), {
         staleTime: 0,
         cacheTime: 0,
         ...options,
