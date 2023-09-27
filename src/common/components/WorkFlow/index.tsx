@@ -1,16 +1,15 @@
 import { FC } from 'react';
 import { FlowIcon } from 'src/common/icons';
-import { useWorkflowDispatch, useWorkflowState } from '../../context/WorkflowContext';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getHomeLayout, toggleHomeLayout } from 'src/redux/slices/ui';
 
 interface IWorkflowChangerType {}
 
 const WorkflowChanger: FC<IWorkflowChangerType> = ({}) => {
-    const dispatch = useWorkflowDispatch();
-    const { space } = useWorkflowState();
+    const dispatch = useAppDispatch();
+    const homeLayout = useAppSelector(getHomeLayout);
     const handleChangeWorkflow = () => {
-        space[0] === 'PortfolioWatchlist'
-            ? dispatch({ type: 'SET_SPACE', value: ['BuySellWidget', 'PortfolioWatchlist', 'Reports', 'SymbolDetail'] })
-            : dispatch({ type: 'SET_SPACE', value: ['PortfolioWatchlist', 'BuySellWidget', 'Reports', 'SymbolDetail'] });
+        dispatch(toggleHomeLayout(homeLayout === 'ltr' ? 'rtl' : 'ltr'));
     };
     return (
         <button

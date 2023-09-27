@@ -1,35 +1,28 @@
 import { useEffect } from 'react';
-import { useWorkflowState } from 'src/common/components/WorkFlow/context/WorkflowContext';
-import { useAppDispatch } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { emptySelectedCustomers } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
 import CustomerSearchContext from 'src/widgets/CustomerSearch/context/CustomerSearchContext';
 import Reports from 'src/widgets/Reports';
 import SymbolDetail from 'src/widgets/SymbolDetail';
+import styles from './style.module.scss';
+import clsx from 'clsx';
+import { getHomeLayout } from 'src/redux/slices/ui';
 
 const Home = () => {
+    //
+    const homeLayout = useAppSelector(getHomeLayout)
     const appDispatch = useAppDispatch();
-    const { space } = useWorkflowState();
+
     useEffect(() => {
         return () => {
             appDispatch(emptySelectedCustomers());
         };
     }, []);
 
-    //     const Components = {
-    //         PortfolioWatchlist: () => <PortfolioWatchlist />,
-    //         BuySellWidget: () => <BuySellWidget />,
-    //         Reports: () => <Reports />,
-    //         SymbolDetail: () => <SymbolDetail />,
-    //     };
-    // 
-    //     const getComponents = (name: IWorkFlowType) => {
-    //         return Components[name]();
-    //     };
-
-    const Layouts = {
-        PortfolioWatchlist: () => (
-            <div className="col-span-9 grid-rows-1">
+    const CustomersSection = () => {
+        return (
+            <div className={styles['customers-section']}>
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
                     <div className="col-span-6 max-h-[475px] min-h-[475px]">
                         <CustomerSearchContext />
@@ -42,19 +35,21 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-        ),
-        BuySellWidget: () => (
-            <div className="col-span-3 grid-rows-1 grid h-full">
+        );
+    };
+
+    const SymbolSection = () => {
+        return (
+            <div className={styles['symbol-section']}>
                 <SymbolDetail />
             </div>
-        ),
-        Reports: () => <></>,
-        SymbolDetail: () => <></>,
+        );
     };
+
     return (
-        <div className="grid gap-2 grid-cols-12 grid-rows-1 ">
-            <>{Layouts[space[0]]()}</>
-            <>{Layouts[space[1]]()}</>
+        <div className={clsx(styles.container, homeLayout === 'ltr' && styles.toggle)}>
+            <CustomersSection />
+            <SymbolSection />
         </div>
     );
 };
