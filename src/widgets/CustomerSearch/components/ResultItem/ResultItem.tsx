@@ -44,8 +44,8 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
                 {customer?.title}
             </div>
             <div className="w-4/6  flex items-center justify-center text-L-gray-500 dark:text-D-gray-500">{customer?.bourseCode}</div>
-            <div className="w-4/6  flex items-center justify-center">{seprateNumber(customer?.purchasePower)}</div>
             <div className="w-4/6  flex items-center justify-center">{customer?.nationalCode}</div>
+            <div className="w-4/6  flex items-center justify-center">{seprateNumber(customer?.purchasePower)}</div>
             <div className="w-4/6  flex items-center justify-center">-</div>
             <div className="w-4/6  flex items-center justify-center">
                 <ActionCellRenderer {...{customer , refetchToggleFavorite}} />
