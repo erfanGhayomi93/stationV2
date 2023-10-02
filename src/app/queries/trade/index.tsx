@@ -3,12 +3,12 @@ import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 const getCommission = async () => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<ICommissionTypeResultType>>(Apis().Commission.Get as string, {});
+    const { data } = await AXIOS.get<GlobalApiResponseType<Commission[]>>(Apis().Commission.Get as string, {});
     return data?.result;
 };
 // prettier-ignore
-export const useCommissionQuery = <T=ICommissionTypeResultType>(
-    options?: Omit<UseQueryOptions<ICommissionTypeResultType, unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+export const useCommissionQuery = <T=Commission>(
+    options?: Omit<UseQueryOptions<Commission[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['getCommission'], ({ queryKey }) => getCommission(), options);
+    return useQuery(['getCommission'], ({ queryKey }) => getCommission(), {cacheTime: Infinity, staleTime: Infinity});
 };

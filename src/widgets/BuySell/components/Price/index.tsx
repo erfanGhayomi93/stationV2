@@ -14,7 +14,7 @@ const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
     const { price, symbolISIN, isCalculatorEnabled, amount, quantity, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });
-    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
+    const { buyCommission, sellCommission } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
 
     const setPrice = (value: number) => dispatch({ type: 'SET_PRICE', value });
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
@@ -24,7 +24,7 @@ const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
     };
 
     const getTradedQuantity = () => {
-        const commissionValue = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+        const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
         return side === 'Buy' ? amount / (commissionValue * price + price) : amount / (-commissionValue * price + price);
     };
 

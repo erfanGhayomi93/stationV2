@@ -1,6 +1,6 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCustomerPortfolio } from 'src/app/queries/portfolio';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -9,6 +9,10 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { CloseIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
+import { pushEngine } from 'src/ls/pushEngine';
+import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
+import { subscriptionPortfolio } from 'src/ls/subscribes';
+
 
 const CustomerPortfolioModal = () => {
     //
@@ -18,21 +22,26 @@ const CustomerPortfolioModal = () => {
         setState((prev) => ({ ...prev, isPortfolioModalOpen: false, detailModalData: undefined }));
     };
 
-    const { data: rowData, isFetching } = useCustomerPortfolio(
-        { CustomerISIN: state?.detailModalData?.customerISIN },
-        {
-            onSuccess: (result) => {},
-        },
-    );
+    const { data, isFetching } = useCustomerPortfolio({ CustomerISIN: state?.detailModalData?.customerISIN });
+    const { result: rowData } = data || {};
+
+    useEffect(() => {
+        if (rowData && rowData.length) {
+            const symbols = rowData.map(({ symbolISIN }) => symbolISIN);
+            subscriptionPortfolio(symbols);
+        }
+
+        return () => pushEngine.unSubscribe('portfolioSymbols');
+    }, [rowData]);
 
     const Columns = useMemo(
         (): ColDefType<IGTPortfolioResultType>[] => [
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', cellClass: 'font-bold' },
             { headerName: t('ag_columns_headerName.count'), field: 'asset', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.lastPriceAverage'), field: 'averagePrice', type: 'sepratedNumber', minWidth: 150 },
-            { headerName: t('ag_columns_headerName.finalCost'), field: 'lastTradedPrice', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.finalCost'), field: 'bep', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.pureDayValue'), field: 'dayValue', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.headToheadPrice'), field: 'bep', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.headToheadPrice'), field: 'bepPrice', type: 'sepratedNumber' },
             {
                 headerName: t('ag_columns_headerName.profitAndLoss'),
                 field: 'lostProfitValue',
@@ -41,6 +50,7 @@ const CustomerPortfolioModal = () => {
         ],
         [],
     );
+
     return (
         <Modal
             isOpen={!!state.isPortfolioModalOpen}
@@ -54,7 +64,7 @@ const CustomerPortfolioModal = () => {
                 </div>
                 <WidgetLoading spining={isFetching}>
                     <div className="p-6 h-full">
-                        <AGTable columnDefs={Columns} rowData={rowData} />
+                        <AGTable columnDefs={Columns} rowData={rowData || []} />
                     </div>
                 </WidgetLoading>
             </div>
@@ -64,13 +74,35 @@ const CustomerPortfolioModal = () => {
 
 export default CustomerPortfolioModal;
 
-const ProfitAndLoss = ({ data }: ICellRendererParams<IGTPortfolioResultType>) => {
+const ProfitAndLoss = React.memo(({ data }: ICellRendererParams<IGTPortfolioResultType>) => {
     //
-    if (!data?.lostProfitValue || !data?.percentlostProfit) return '-';
+
+    const [profitLoss, setProfitLoss] = useState(0);
+    const [profitLossPercent, setProfitLossPercent] = useState(0);
+    const { asset, closingPrice, lastTradedPrice, symbolTradeState, marketUnitTypeTitle, averagePrice } = data! || {};
+    const price = useMemo(() => (symbolTradeState === 'Open' ? lastTradedPrice : closingPrice), [symbolTradeState]);
+
+    const { sellCommission } = useCommissionValue({ marketUnit: marketUnitTypeTitle });
+    const sellCommissionValue = sellCommission ?? price * asset;
+
+    const profitAndLossCalculator = () => {
+        const profitLoss = Math.abs((price - averagePrice) * asset) - Math.ceil(price * asset * sellCommissionValue);
+        const profitLossPercent = ((Math.ceil(price * asset * (1 - sellCommissionValue)) - averagePrice * asset) / (averagePrice * asset)) * 100;
+
+        setProfitLoss(isNaN(profitLoss) ? 0 : profitLoss);
+        setProfitLossPercent(isNaN(profitLossPercent) ? 0 : profitLossPercent);
+    };
+
+    useEffect(() => {
+        profitAndLossCalculator();
+    }, [price, sellCommissionValue]);
+
     return (
-        <div className={clsx(data?.lostProfitValue > 0 ? 'text-L-success-200' : 'text-L-error-200')}>
-            <span>{` (%${Math.abs(+data?.percentlostProfit).toFixed(1)}) `}</span>
-            <span>{seprateNumber(Math.abs(data?.lostProfitValue))}</span>
+        <div className={clsx('flex justify-around', profitLossPercent > 0 ? 'text-L-success-200' : 'text-L-error-200')}>
+            <span>{Math.abs(profitLossPercent).toFixed(2)}%</span>
+            <span>{seprateNumber(Math.abs(profitLoss))}</span>
         </div>
     );
-};
+});
+
+ProfitAndLoss.displayName = 'ProfitAndLoss';

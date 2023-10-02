@@ -119,3 +119,36 @@ export const subscriptionCoGroupSymbol = (data: GetSameSectorResultType[], symbo
         },
     });
 };
+
+
+export const subscriptionPortfolio = (symbols: string[]) => {
+    pushEngine.subscribe({
+        id: 'portfolioSymbols',
+        adapterName: 'RamandRLCDData',
+        mode: 'MERGE',
+        items: symbols,
+        fields: ['lastTradedPrice', 'closingPrice', 'symbolState'],
+        isSnapShot: 'yes',
+        onFieldsUpdate: ({ itemName, changedFields }) => {
+            queryClient.setQueryData([Apis().Portfolio.CustomerPortfolio], (oldData: IGTPortfolioResponseType | undefined) => {
+                if (!!oldData) {
+                    const { result: portfolioSymbols, ...rest } = oldData;
+                    const updatedPortfolio = JSON.parse(JSON.stringify(portfolioSymbols));
+                    const effectedSymbol = portfolioSymbols.find((symbol) => symbol.symbolISIN === itemName);
+                    const inx = portfolioSymbols.findIndex((symbol) => symbol.symbolISIN === itemName);
+
+                    const updatedSymbol = {
+                        ...effectedSymbol,
+                        ...changedFields,
+                    };
+
+                    updatedPortfolio[inx] = updatedSymbol;
+                    return {
+                        ...rest,
+                        result: updatedPortfolio,
+                    };
+                }
+            });
+        },
+    });
+}
