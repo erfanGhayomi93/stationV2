@@ -20,16 +20,14 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
     return (
         <>
             {inputMode ? (
-                <div className="w-full h-8 flex text-xs items-center rounded-md border border-transparent overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
-                    <Input
-                        className="bg-transparent outline-none text-D-basic dark:text-L-basic px-2 font-medium"
-                        containerClassName="bg-transparent dark:bg-transparent"
-                        placeholder={`نام ${displayName}`}
-                        onChange={onInputChange}
-                        ref={inputRef}
-                        onBlur={() => setInputMode(false)}
-                    />
-                </div>
+                <Input
+                    className="bg-transparent outline-none text-D-basic dark:text-L-basic px-2 font-medium"
+                    containerClassName="bg-transparent dark:bg-transparent"
+                    placeholder={`نام ${displayName}`}
+                    onChange={onInputChange}
+                    ref={inputRef}
+                    onBlur={() => setInputMode(false)}
+                />
             ) : (
                 <div className="w-full flex items-center justify-center gap-3" onClick={() => setInputMode(true)}>
                     <SearchIcon />

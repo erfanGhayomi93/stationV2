@@ -15,9 +15,11 @@ const Trades = lazy(() => safeLazyImport(() => import('src/pages/Reports/Trades'
 const TurnOver = lazy(() => safeLazyImport(() => import('src/pages/Reports/TurnOver')));
 const Calender = lazy(() => safeLazyImport(() => import('src/pages/Market/calender')));
 const TradingView = lazy(() => safeLazyImport(() => import('src/pages/Market/Chart/context/index')));
+const Requests = lazy(() => safeLazyImport(() => import('src/pages/Reports/Requests')));
 
 import AppLayout from '../Layout';
 import AuthLayout from '../Layout/AuthLayout';
+
 
 const AppRoutes: FC = () => {
 
@@ -76,6 +78,10 @@ const AppRoutes: FC = () => {
                         {
                             path: '/Reports/turnover',
                             element: <TurnOver />,
+                        },
+                        {
+                            path: '/Reports/requests',
+                            element: <Requests />,
                         }
                     ]
                 },

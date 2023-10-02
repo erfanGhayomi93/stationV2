@@ -135,6 +135,13 @@ const Sider = () => {
                         id: '/Reports/turnover',
                         onClick: () => navigate('/Reports/turnover'),
                     },
+                    {
+                        label: 'درخواست ها',
+                        icon: <TurnoverIcon height={20} width={20} />,
+                        isActive: false,
+                        id: '/Reports/requests',
+                        onClick: () => navigate('/Reports/requests'),
+                    },
                 ],
             },
             {
