@@ -6,7 +6,6 @@ import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 // advance search for get list of customer
 
 const getAdvancedSearch = async (params: IGoCustomerRequestType, signal?: AbortSignal) => {
-    console.log("params", params)
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.AdvancedSearch as string, {
         params: { ...params, type: params.type?.join() },
         signal

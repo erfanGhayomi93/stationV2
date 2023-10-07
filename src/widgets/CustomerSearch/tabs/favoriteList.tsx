@@ -9,6 +9,7 @@ import ResultHeader from '../components/ResultItem/ResultHeader';
 import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const FavoriteList = () => {
     const { t } = useTranslation();
@@ -19,7 +20,7 @@ const FavoriteList = () => {
     const { data: customers, isFetching, refetch } = useGetCustomers({ IsFavorite: true });
 
     const ItemRenderer = (props: any) => {
-        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
+        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-primary-100 dark:hover:bg-D-primary-100" {...props}></div>;
     };
 
     const refetchToggleFavorite = () => {
@@ -42,7 +43,7 @@ const FavoriteList = () => {
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
-                <div className="flex gap-2 justify-between py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
+                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
                         <SearchInput placeholder='نام مشتری' />
 
@@ -58,26 +59,27 @@ const FavoriteList = () => {
                             />
                         </div>
                     </div>
-                    <div className={clsx('duration-200', isFetching ? '' : 'scale-0')}>
-                        {/* <SpinnerIcon className="animate-spin text-L-primary-50 dark:text-D-primary-50" />  */}
-                    </div>
                 </div>
 
                 <div className="h-full flex flex-col">
                     <ResultHeader />
 
-                    <Virtuoso
-                        data={filteredData}
-                        className="rounded-lg rounded-t-none"
-                        itemContent={(index, data) => data ? <ResultItem
-                            key={index}
-                            data={data}
-                            refetchToggleFavorite={refetchToggleFavorite}
-                        /> : null}
-                        components={{
-                            Item: ItemRenderer,
-                        }}
-                    />
+                    <WidgetLoading spining={isFetching}>
+                        <Virtuoso
+                            data={filteredData}
+                            className="rounded-lg rounded-t-none"
+                            itemContent={(index, data) =>
+                                <ResultItem
+                                    key={index}
+                                    data={data}
+                                    refetchToggleFavorite={refetchToggleFavorite}
+                                />
+                            }
+                            components={{
+                                Item: ItemRenderer,
+                            }}
+                        />
+                    </WidgetLoading>
 
                 </div>
             </div>

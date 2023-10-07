@@ -5,11 +5,13 @@ import { RootState } from '../store';
 interface OptionState {
     selectedSymbol: string;
     selectedCustomers: IGoMultiCustomerType[];
+    selectedSymbolMulti: SymbolSearchResult[];
 }
 // IRO1TAMN0001
 const initialState: OptionState = {
     selectedSymbol: '',
     selectedCustomers: [],
+    selectedSymbolMulti: [],
 };
 
 const optionSlice = createSlice({
@@ -33,13 +35,28 @@ const optionSlice = createSlice({
                 item.customerISIN === action.payload ? { ...item, isFavorite: !item.isFavorite } : item,
             );
         },
+        //multiSymbol
+        setSelectedSymbolMulti: (state, action: PayloadAction<SymbolSearchResult>) => {
+            state.selectedSymbolMulti = [...state.selectedSymbolMulti, action.payload];
+        },
+        removeSelectedSymbol: (state, action: PayloadAction<string>) => {
+            state.selectedSymbolMulti = state.selectedSymbolMulti.filter((item) => item.symbolISIN !== action.payload);
+        },
     },
 });
 
-export const { setSelectedSymbol, setSelectedCustomers, removeSelectedCustomers, toggleFavoriteSelectedCustomer, emptySelectedCustomers } =
-    optionSlice.actions;
+export const {
+    setSelectedSymbol,
+    setSelectedCustomers,
+    removeSelectedCustomers,
+    toggleFavoriteSelectedCustomer,
+    emptySelectedCustomers,
+    setSelectedSymbolMulti,
+    removeSelectedSymbol,
+} = optionSlice.actions;
 
 export default optionSlice.reducer;
 
 export const getSelectedSymbol = (state: RootState) => state.option.selectedSymbol;
+export const getSelectedSymbolMulti = (state: RootState) => state.option.selectedSymbolMulti;
 export const getSelectedCustomers = (state: RootState) => state.option.selectedCustomers;

@@ -37,7 +37,7 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
             <Disclosure>
                 {({ open }) => (
                     <div className={clsx('rounded', { "border-r-2 border-L-info-100 dark:border-D-primary-50": open })}>
-                        <Disclosure.Button className={clsx("w-full flex between items-center hover:bg-L-gray-300 dark:hover:bg-D-gray-300", {
+                        <Disclosure.Button className={clsx("w-full flex between items-center hover:bg-L-primary-100 dark:hover:bg-D-prbg-L-primary-100", {
                             "bg-L-gray-100 dark:bg-D-gray-100": ind % 2 !== 0,
                             "bg-L-gray-300 dark:bg-D-gray-300": open,
                         })}>

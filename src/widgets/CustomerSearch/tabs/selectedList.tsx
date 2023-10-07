@@ -21,10 +21,10 @@ const SelectedList = () => {
     const dispatch = useAppDispatch()
 
     const ItemRenderer = (props: any) => {
-        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
+        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-primary-100 dark:hover:bg-D-primary-100" {...props}></div>;
     };
 
-    const refetchToggleFavorite = (customerISIN : string) => {
+    const refetchToggleFavorite = (customerISIN: string) => {
         dispatch(toggleFavoriteSelectedCustomer(customerISIN))
     }
 
@@ -64,28 +64,16 @@ const SelectedList = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    {/* <div className='overflow-y-auto h-full relative'>
-                        <div className='h-full w-full absolute top-0'>
-                            {
-                                filteredData?.map((data, index) => (
-                                    <ResultItem
-                                        key={index}
-                                        data={data}
-                                    // onSelectionChanged={onSelectionChanged}
-                                    />
-                                ))
-                            }
-                        </div>
-                    </div> */}
-
                     <Virtuoso
                         data={filteredData}
                         className="rounded-lg rounded-t-none"
-                        itemContent={(index, data) => data ? <ResultItem
-                            key={index}
-                            data={data}
-                            refetchToggleFavorite={refetchToggleFavorite}
-                        /> : null}
+                        itemContent={(index, data) =>
+                            <ResultItem
+                                key={index}
+                                data={data}
+                                refetchToggleFavorite={refetchToggleFavorite}
+                            />
+                        }
                         components={{
                             Item: ItemRenderer,
                         }}

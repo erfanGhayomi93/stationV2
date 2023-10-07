@@ -10,7 +10,6 @@ type IWidgetLoading = {
 };
 
 const WidgetLoading: FC<IWidgetLoading> = ({ children, spining, withText = false, mounted = true }) => {
-    //
     const { t } = useTranslation();
     if (mounted) {
         return (
