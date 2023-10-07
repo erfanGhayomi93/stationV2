@@ -29,7 +29,8 @@
         "Help" : "کمک" ,
         "Reports/orders" : "سفارشات",
         "Reports/trades" : "معاملات",
-        "Reports/turnover" : "گردش حساب"
+        "Reports/turnover" : "گردش حساب",
+        "Reports/requests": "درخواست ها"
     },
     "common" : {
         "fetchingData": "در حال دریافت اطلاعات ...",
@@ -174,13 +175,15 @@
         "Side": "سمت",
         "CustomerType": "نوع مشتری",
         "Time": "زمان",
+		"Market": "بازار",
         "MarketUnit": "نوع اوراق",
         "FromCost": "از مبلغ",
         "ToCost": "تا مبلغ",
         "TransactionType": "نوع تراکنش",
         "AggregateAble": "تجمیعی",
         "Status": "وضعیت",
-        "TradeStation": "ایستگاه معاملاتی"
+        "TradeStation": "ایستگاه معاملاتی",
+		"RequestNO": "شماره درخواست"
     },
     "TransactionTypes" :{
         "Buy": "خرید",
@@ -204,12 +207,6 @@
 		"broker_balance_option_2": "مجموع اعتبارات باشگاه",
 		"broker_balance_information": "مانده گردش حساب مشتری، پس از اعمال تمامی تراکنش های خرید، فروش، دریافت و پرداخت است. در این مانده تاریخ های تسویه و اعتبارات و مسدودی ها در نظر گرفته نخواهد شد."
 	},
-    "page_title": {
-        "orders": "سفارشات",
-        "trades": "معاملات",
-        "turnOver": "گردش حساب",
-        "basket": "سبد معامله گر"
-    },
     "ag_columns_headerName":{
         "row":"ردیف",
         "customer":"مشتری",
@@ -240,7 +237,10 @@
         "headToheadPrice": "قیمت سر به سر",
         "requestType": "نوع درخواست",
         "fund": "سرمایه",
-        "validity": "اعتبار"
+        "validity": "اعتبار",
+		"requestNumber": "شماره درخواست",
+		"station": "ایستگاه",
+		"requestValidity": "اعتبار درخواست"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"

@@ -116,7 +116,7 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
             {({ open }) => (
                 <div className="z-50 flex items-center ">
                     <Menu.Button>
-                        <div className="p-[6px] bg-L-gray-300 dark:bg-D-gray-300 rounded mr-6 cursor-pointer">
+                        <div className="p-[6px] bg-L-gray-300 dark:bg-D-gray-300 rounded cursor-pointer">
                             <CheckListIcon className="text-L-gray-600 dark:text-D-gray-600" />
                         </div>
                     </Menu.Button>
