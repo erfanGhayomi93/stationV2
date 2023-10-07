@@ -24,10 +24,10 @@ const Home = () => {
         return (
             <div className={styles['customers-section']}>
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
-                    <div className="col-span-6 max-h-[475px] min-h-[475px]">
+                    <div className="col-span-6">
                         <CustomerSearchContext />
                     </div>
-                    <div className="col-span-3 max-h-[475px] min-h-[475px]">
+                    <div className="col-span-3 h-[475px]">
                         <BuySellWidget />
                     </div>
                     <div className="col-span-9">
@@ -47,10 +47,12 @@ const Home = () => {
     };
 
     return (
-        <div className={clsx(styles.container, homeLayout === 'ltr' && styles.toggle)}>
+        <div className={clsx(styles.container, {
+            [styles.toggle]: homeLayout === 'ltr'
+        })}>
             <CustomersSection />
             <SymbolSection />
-        </div>
+        </div >
     );
 };
 
