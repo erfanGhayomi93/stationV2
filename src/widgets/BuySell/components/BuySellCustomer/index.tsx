@@ -13,14 +13,14 @@ interface IBuySellCustomerType { }
 
 const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
     const appDispatch = useAppDispatch();
+
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        console.log("customer", customer)
+        // console.log("customer", customer)
         // appDispatch(setSelectedCustomers(customer));
-        // appDispatch(emptySelectedCustomers());
     };
 
     const selectedCustomers = useAppSelector(getSelectedCustomers)
@@ -79,6 +79,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
                         keyId={'customerISIN'}
                         showPanel={panel}
                         min={3}
+                        multiple
                     >
                         <div>
                             <InputSearch loading={isFetching} selectionCount={selectedCustomers.length} />

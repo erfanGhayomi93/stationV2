@@ -15,6 +15,7 @@ const SymbolSelected: FC<ISymbolSelectedType> = ({ selected }) => {
                         className="even:bg-L-gray-100 even:dark:bg-D-gray-100 text-D-basic dark:text-L-basic bg-L-basic dark:bg-D-basic hover:bg-L-primary-100 dark:hover:bg-D-primary-100 py-2 flex items-center gap-2 cursor-pointer px-2"
                         label={item.symbolTitle}
                         value={item}
+                        type="symbols"
                     >
                         <div className="flex justify-between w-full text-1">
                             {item.symbolTitle}

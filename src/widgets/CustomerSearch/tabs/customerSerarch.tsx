@@ -9,6 +9,7 @@ import ResultHeader from '../components/ResultItem/ResultHeader';
 import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
+import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -16,11 +17,11 @@ const CustomerSearch = () => {
     const debouncedTerm = useDebounce(term, 500);
     const [customerType, setCustomerType] = useState("")
 
-    const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers } = useGetCustomers({}, {
+    const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers, isFetching: isFetchingDefault } = useGetCustomers({}, {
         enabled: false,
     })
 
-    const { data: searchCustomers, isFetching, refetch: refetchCustomers } = useAdvancedSearchQuery(
+    const { data: searchCustomers, refetch: refetchCustomers, isFetching: isFetchingSearch } = useAdvancedSearchQuery(
         { term: debouncedTerm },
         {
             onSuccess() {
@@ -32,7 +33,7 @@ const CustomerSearch = () => {
     );
 
     const ItemRenderer = (props: any) => {
-        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-[#d2e3fa] dark:hover:bg-[#474d57]" {...props}></div>;
+        return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-primary-100 dark:hover:bg-D-primary-100" {...props}></div>;
     };
 
     const refetchToggleFavorite = () => {
@@ -43,25 +44,31 @@ const CustomerSearch = () => {
     const rowUI = useMemo(() => {
         let listGroups = defaultCustomers || searchCustomers
 
-        if (!listGroups) return null
+        if (!listGroups) listGroups = []
         else if (customerType) {
             listGroups = listGroups.filter(item => item.customerType === customerType)
         }
 
-        return <Virtuoso
-            data={listGroups}
-            className="rounded-lg rounded-t-none"
-            itemContent={(index, data) => data ? <ResultItem
-                key={index}
-                data={data}
-                refetchToggleFavorite={refetchToggleFavorite}
-            /> : null}
-            components={{
-                Item: ItemRenderer,
-            }}
-        />
+        return <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
+            <Virtuoso
+                data={listGroups}
+                className="rounded-lg rounded-t-none"
+                itemContent={(index, data) =>
+                    <ResultItem
+                        key={index}
+                        data={data}
+                        refetchToggleFavorite={refetchToggleFavorite}
+                    />
+                }
+                components={{
+                    Item: ItemRenderer,
+                }}
+                totalCount={listGroups.length}
 
-    }, [searchCustomers, defaultCustomers, customerType])
+            />
+        </WidgetLoading>
+
+    }, [searchCustomers, defaultCustomers, customerType, isFetchingSearch, isFetchingDefault])
 
 
     useEffect(() => {
@@ -72,8 +79,8 @@ const CustomerSearch = () => {
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
-            <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
-                <div className="flex gap-2 justify-between py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
+            <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2">
+                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
                         <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
@@ -89,15 +96,12 @@ const CustomerSearch = () => {
                             />
                         </div>
                     </div>
-                    <div className={clsx('duration-200', isFetching ? '' : 'scale-0')}>
-                        {/* <SpinnerIcon className="animate-spin text-L-primary-50 dark:text-D-primary-50" /> */}
-                    </div>
                 </div>
-                <div className="h-full flex flex-col">
+
+                <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
                     {rowUI}
-
                 </div>
             </div>
         </div>
