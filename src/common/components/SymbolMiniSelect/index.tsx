@@ -6,6 +6,8 @@ import Combo from '../ComboSelect';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbolMulti } from 'src/redux/slices/option';
 
 interface ISymbolMiniSelectType {
     multiple?: boolean;
@@ -21,6 +23,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
+    const selectedSymbolMulti = useAppSelector(getSelectedSymbolMulti);
 
 
     const {
@@ -78,7 +81,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             //         </Fragment>
                             //     ))}
                             // </>
-                            <SymbolSelected selected={selected} />
+                            <SymbolSelected selected={selectedSymbolMulti} />
                         ) : (
                             <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
                         )}
@@ -98,7 +101,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
-                selections={selected}
+                selections={selectedSymbolMulti}
                 keyId={'symbolISIN'}
                 showPanel={panel}
                 min={2}

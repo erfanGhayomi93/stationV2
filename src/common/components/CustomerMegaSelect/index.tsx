@@ -4,6 +4,8 @@ import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 interface ICustomerMegaSelectType {
     setSelected: (x: IGoCustomerSearchResult[]) => void;
@@ -15,9 +17,12 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    useEffect(() => {
-        selected.length === 0 && setTerm('');
-    }, [selected]);
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
+
+
+    // useEffect(() => {
+    //     selected.length === 0 && setTerm('');
+    // }, [selected]);
 
     const {
         data: qData,
@@ -53,7 +58,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
                     >
                         {content === 'SELECT' ? (
                             <>
-                                {selected?.map((item, inx) => (
+                                {selectedCustomers?.map((item, inx) => (
                                     <Fragment key={inx}>
                                         <Combo.DataSet
                                             key={inx}
@@ -88,7 +93,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 multiple={true}
-                selections={selected}
+                selections={selectedCustomers}
                 keyId={'customerISIN'}
                 showPanel={panel}
                 min={3}

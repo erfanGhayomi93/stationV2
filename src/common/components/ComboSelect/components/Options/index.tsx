@@ -2,7 +2,7 @@ import { cloneElement, FC, HTMLAttributes, memo, useContext, useEffect, useMemo,
 import { ComboSelectContext } from '../../context';
 import useOnClickOutside from '../../hooks/useOnClickOutSide';
 
-interface IComboPanelType extends HTMLAttributes<HTMLDivElement> {
+export interface IComboPanelType extends HTMLAttributes<HTMLDivElement> {
     children: JSX.Element;
     onBlur?: () => void;
     renderDepend?: any[];
