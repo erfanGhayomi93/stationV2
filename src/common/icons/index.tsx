@@ -112,6 +112,7 @@ export { ReactComponent as GridLayoutSVG } from 'src/assets/svg/GridLayout.svg';
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 export { ReactComponent as InfoIcon } from 'src/assets/svg/infoIcon.svg';
 export { ReactComponent as InfoFillIcon } from 'src/assets/svg/infoFillIcon.svg';
+export { ReactComponent as SandClockIcon } from 'src/assets/svg/sand-clock.svg';
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';
