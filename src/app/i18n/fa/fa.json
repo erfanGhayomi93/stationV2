@@ -339,7 +339,8 @@
         "messages": "پیام ها",
         "sameGroup": "هم گروهی ها",
         "linearChart": "نمودار خطی",
-        "candleChart": "نمودار شمعی"
+        "candleChart": "نمودار شمعی",
+		"meetingWithinNextTenDays": "کمتر از 10 روز مانده به مجمع عمومی فوق العاده (تقویم بورسی)"
      },
      "OrderBook": {
         "viewMode": "حالت نمایش",

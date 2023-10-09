@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AddToWatchlistButton from 'src/common/components/AddToWatchlistButton';
 import CodalBtn from 'src/common/components/Buttons/CodalBtn';
@@ -6,10 +6,15 @@ import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbol } from 'src/redux/slices/option';
-import SymbolEvent from './SymbolEvent';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
+import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
+import { SandClockIcon } from 'src/common/icons';
+import { t } from 'i18next';
 
 const SymbolHeader = () => {
     //
+    const [isEventOpen, setIsEventOpen] = useState(false);
     const selectedSymbol = useAppSelector(getSelectedSymbol);
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
@@ -18,32 +23,55 @@ const SymbolHeader = () => {
             symbolState: data?.symbolData?.symbolState,
             insCode: data?.symbolData?.insCode,
             companyCode: data?.symbolData?.companyCode,
-            symbolEvents: data?.symbolData?.eventsWithinNextTenDays,
+            symbolEvents: data?.symbolData?.eventsWithinNextTenDays || [],
         }),
     });
 
+    const eventsIds = data?.symbolEvents.filter(({ type }) => type === 'Meeting').map(({ id }) => id) || [];
+    const mergedAllEventsIds = eventsIds.join(''); // => unique string for save in ls.
+
+    const [seen, setSeen] = useLocalStorage<boolean>('symbolEvent' + mergedAllEventsIds, false);
+    const navigate = useNavigate();
+
+    const GoToCalender = () => {
+        setSeen(true);
+        navigate('/Market/Calender', { state: eventsIds });
+    };
     return (
-        <div className="flex items-center w-full ">
-            <div className="flex items-center gap-1">
-                {!!data?.symbolEvents.length && <SymbolEvent events={data?.symbolEvents} />}
-                <div className="">
+        <div>
+            <div className="flex items-center w-full ">
+                <div className="flex items-center gap-1">
+                    {!!data?.symbolEvents.length && (
+                        <span onClick={() => setIsEventOpen(!isEventOpen)} className={clsx('cursor-pointer ml-2', [!seen && 'animate-spin-slow'])}>
+                            <SandClockIcon />
+                        </span>
+                    )}
+                    {/* <div className="">
                     <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
                         {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
+                        </div>
+                    </div> */}
+                    <div className=" flex items-center gap-2">
+                        <SymbolState symbolState={data?.symbolState || ''} />
+
+                        <div className="flex flex-col">
+                            <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
+                            <small className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</small>
+                        </div>
                     </div>
                 </div>
-                <div className=" flex items-center gap-2">
-                    <SymbolState symbolState={data?.symbolState || ''} />
-
-                    <div className="flex flex-col">
-                        <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                        <small className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</small>
-                    </div>
+                <div className="mr-auto flex items-center">
+                    <AddToWatchlistButton symbolISIN={selectedSymbol} />
+                    <CodalBtn symbolTitle={data?.symbolTitle || ''} />
+                    <TseBtn insCode={data?.insCode || ''} />
                 </div>
             </div>
-            <div className="mr-auto flex items-center">
-                <AddToWatchlistButton symbolISIN={selectedSymbol} />
-                <CodalBtn symbolTitle={data?.symbolTitle || ''} />
-                <TseBtn insCode={data?.insCode || ''} />
+            <div
+                data-actived={isEventOpen}
+                onClick={GoToCalender}
+                className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer overflow-hidden duration-300 max-h-0 actived:max-h-[100px] actived:my-2"
+            >
+                {t('SymbolDetails.meetingWithinNextTenDays')}
             </div>
         </div>
     );
