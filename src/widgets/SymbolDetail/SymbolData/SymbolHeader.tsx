@@ -6,11 +6,11 @@ import TseBtn from 'src/common/components/Buttons/TseBtn';
 import SymbolState from 'src/common/components/SymbolState';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import SymbolEvent from './SymbolEvent';
 
 const SymbolHeader = () => {
     //
     const selectedSymbol = useAppSelector(getSelectedSymbol);
-
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
             symbolTitle: data?.symbolData?.symbolTitle,
@@ -18,12 +18,14 @@ const SymbolHeader = () => {
             symbolState: data?.symbolData?.symbolState,
             insCode: data?.symbolData?.insCode,
             companyCode: data?.symbolData?.companyCode,
+            symbolEvents: data?.symbolData?.eventsWithinNextTenDays,
         }),
     });
 
     return (
         <div className="flex items-center w-full ">
-            <div className="flex gap-1">
+            <div className="flex items-center gap-1">
+                {!!data?.symbolEvents.length && <SymbolEvent events={data?.symbolEvents} />}
                 <div className="">
                     <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
                         {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
