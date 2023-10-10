@@ -147,7 +147,7 @@ const Watchlists = (props: Props) => {
                 </div>
 
                 <div className="flex flex-col flex-1 relative">
-                    <div className="flex-1 pin-table">
+                    <div className="flex-1">
                         <AGTable
                             rowModelType="clientSide"
                             rowData={watchlistSymbolList || []}
