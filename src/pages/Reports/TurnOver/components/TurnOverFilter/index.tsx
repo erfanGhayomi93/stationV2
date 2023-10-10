@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import CustomerMiniSelect from 'src/common/components/CustomerMiniSelect';
 import FilterActions from 'src/common/components/FilterActions';
 import FilterBlock from 'src/common/components/FilterBlock';
-import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import { timeFieldOptions } from 'src/pages/Reports/Trades/constant';
 import { transactionSideField } from '../../constant';
+import dayjs from 'dayjs';
 
 interface IProps {
     params: ITurnOverStateType;
@@ -22,7 +22,7 @@ const TurnOverFilter = ({ params, setParams, onClear, onSubmit }: IProps) => {
     const { t } = useTranslation();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-    const handleValueCahnge = (part: keyof ITurnOverStateType, value: any) => {
+    const handleValueChange = <T extends keyof ITurnOverStateType>(part: T, value: ITurnOverStateType[T]) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
@@ -34,31 +34,37 @@ const TurnOverFilter = ({ params, setParams, onClear, onSubmit }: IProps) => {
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
                     <CustomerMiniSelect
                         selected={params.CustomerISIN}
-                        setSelected={(selected) => handleValueCahnge('CustomerISIN', selected)}
+                        setSelected={(selected) => handleValueChange('CustomerISIN', selected)}
                         filterCustomerType={false}
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect  selected={params.SymbolISIN} setSelected={(selected) => handleValueCahnge('SymbolISIN', selected)} />
+                    <SymbolMiniSelect selected={params.SymbolISIN} setSelected={(selected) => handleValueChange('SymbolISIN', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
-                    <Select onChange={(selected) => handleValueCahnge('Time', selected)} value={params.Time} options={timeFieldOptions} />
+                    <Select onChange={(selected) => handleValueChange('Time', selected)} value={params.Time} options={timeFieldOptions} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatepicker value={params.DateFrom} onChange={(v) => handleValueCahnge('DateFrom', v)} />
+                    <AdvancedDatepicker
+                        value={params.DateFrom}
+                        onChange={(value) => handleValueChange('DateFrom', dayjs(value).format('YYYY-MM-DDT00:00:00'))}
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatepicker value={params.DateTo} onChange={(v) => handleValueCahnge('DateTo', v)} />
+                    <AdvancedDatepicker
+                        value={params.DateTo}
+                        onChange={(value) => handleValueChange('DateTo', dayjs(value).format('YYYY-MM-DDT23:59:59'))}
+                    />
                 </FilterBlock>
                 {isFilterOpen && (
                     <>
                         <FilterBlock label={t('FilterFieldLabel.TransactionType')} className="col-span-3">
-                            <Select onChange={(selected) => handleValueCahnge('Side', selected)} value={params.Side} options={transactionSideField} />
+                            <Select onChange={(selected) => handleValueChange('Side', selected)} value={params.Side} options={transactionSideField} />
                         </FilterBlock>
                         <FilterBlock label={t('FilterFieldLabel.AggregateAble')}>
                             <Select
                                 value={params.IsAggregated}
-                                onChange={(value) => handleValueCahnge('IsAggregated', value)}
+                                onChange={(value) => handleValueChange('IsAggregated', value)}
                                 options={[
                                     { value: true, label: 'بله' },
                                     { value: false, label: 'خیر' },

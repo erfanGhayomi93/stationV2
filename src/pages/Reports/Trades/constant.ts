@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import i18next from "i18next";
 
 export const initialState: ITradeStateType = {
-    FromDate: dayjs().subtract(1, 'day').format(),
-    ToDate: dayjs().format(),
+    FromDate: dayjs().subtract(1, 'day').format('YYYY-MM-DDT00:00:00'),
+    ToDate: dayjs().format('YYYY-MM-DDT23:59:59'),
     Side: 'Cross',
     SymbolISIN: [],
     CustomerISIN: [],
