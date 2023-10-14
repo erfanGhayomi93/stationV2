@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
+import { useLocation } from 'react-router-dom';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
 type CardEventType = {
@@ -8,6 +9,10 @@ type CardEventType = {
 }
 
 const CardEvent = ({ data }: CardEventType) => {
+	//
+	const { state: alarmedEvents }: { state: number[] } = useLocation();
+    const isEventAlarmed = !!alarmedEvents?.includes(data.id);
+
 	const handleFetchPDF = () => {
 		new Promise<void>((done, reject) => {
 			const headers = new Headers();
@@ -49,7 +54,8 @@ const CardEvent = ({ data }: CardEventType) => {
 			onClick={handleFetchPDF}
 			className={clsx("p-2 rounded-md flex justify-between items-center gap-5 m-1 text-L-gray-700 dark:text-D-gray-700 w-full text-xs cursor-pointer", {
 				"bg-L-info-50 dark:bg-D-info-50": data.type === "Meeting",
-				"bg-L-success-100 dark:bg-D-success-100": data.type === "InterestPayment"
+				"bg-L-success-100 dark:bg-D-success-100": data.type === "InterestPayment",
+				'border-L-error-300 border-dashed border-2': isEventAlarmed,
 			})}
 		>
 			<span>{data.symbolName} - {data.title}</span>

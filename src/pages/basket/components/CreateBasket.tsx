@@ -7,6 +7,7 @@ import { queryClient } from 'src/app/queryClient';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
+import TimePicker from 'src/common/components/TimePicker';
 import { onSuccessNotif } from 'src/handlers/notification';
 type ICreateBasket = {
     toggleAddBasket: () => void;
@@ -57,9 +58,9 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
         <div dir="rtl" className="rounded-md border-L-gray-400 dark:border-D-gray-400 border p-4 text-right mb-4">
             <div className="flex items-center mb-4">
                 <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">نام سبد :</p>
-                <div className="border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded flex-1">
+            
                     <Input data-cy="basket-create-input-name" value={name} onChange={(e) => setname(e.target.value)} />
-                </div>
+                
             </div>
             <div className="flex items-center mb-4">
                 <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>

@@ -2,6 +2,17 @@
 
 type SymbolChartDate = 'Today' | 'Weekly' | 'Monthly' | 'Yearly';
 type SymbolChartType = 'Linear' | 'Candle';
+type SymbolEventsType = 'Meeting' | 'InterestPayment';
+
+type SymbolEvents = {
+    id: number;
+    title: string;
+    description: string;
+    date: string;
+    symbolName: string;
+    symbolISIN: string;
+    type: SymbolEventsType;
+}
 
 type SymbolData = {
     insCode: string;
@@ -62,6 +73,7 @@ type SymbolData = {
     fiscalYear?: any;
     symbolType: string;
     bourseKey: string;
+    eventsWithinNextTenDays: SymbolEvents[]
 };
 
 type OrdersData = {
@@ -255,4 +267,4 @@ interface IMarketUnitType {
 //
 // }
 
-interface GetSameSectorResponseType extends GlobalApiResponseType<GetSameSectorResultType[]> {}
+interface GetSameSectorResponseType extends GlobalApiResponseType<GetSameSectorResultType[]> { }

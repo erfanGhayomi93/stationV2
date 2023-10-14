@@ -37,10 +37,10 @@ const Trades = ({}: ITradesPageType) => {
     const onTimeChangeHandler = (time: string | undefined) => {
         if (!time || time === 'custom') return;
 
-        const ToDate = dayjs().format();
+        const ToDate = dayjs().format('YYYY-MM-DDT23:59:59');
         const FromDate = dayjs()
             .subtract(1, time as ManipulateType)
-            .format();
+            .format('YYYY-MM-DDT00:00:00');
 
         setParams((pre) => ({
             ...pre,

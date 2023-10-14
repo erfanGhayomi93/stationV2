@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import i18next from "i18next";
 
 export const turnOverState: ITurnOverStateType = {
-    DateFrom: dayjs().subtract(1, 'day').format(),
-    DateTo: dayjs().format(),
+    DateFrom: dayjs().subtract(1, 'day').format('YYYY-MM-DDT00:00:00'),
+    DateTo: dayjs().format('YYYY-MM-DDT23:59:59'),
     Side: undefined,
     SymbolISIN: [],
     CustomerISIN: [],

@@ -10,10 +10,12 @@ import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
+import { useTranslation } from 'react-i18next';
 type IFailedOrders = {
     ClickLeftNode: any;
 };
 const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
+    const { t } = useTranslation()
     const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Error' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const appDispath = useAppDispatch();
@@ -31,7 +33,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'توضیحات', field: 'lastErrorCode' },
+            { headerName: 'توضیحات', field: 'lastErrorCode', valueFormatter:({value}) => t('order_errors.' + value) },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },

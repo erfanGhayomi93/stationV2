@@ -2,7 +2,6 @@ import Tippy from '@tippyjs/react';
 import { Excel2Icon, Refresh2Icon } from 'src/common/icons';
 
 import { useCallback, useEffect, useState } from 'react';
-import { DateType } from 'src/common/components/AdvancedDatePicker';
 import dayjs, { ManipulateType } from 'dayjs';
 import TurnOverFilter from './components/TurnOverFilter';
 import TurnOverTable from './components/TurnOverTable';
@@ -36,10 +35,10 @@ const TurnOver = () => {
     const onTimeChangeHandler = (time: string | undefined) => {
         if (!time || time === 'custom') return;
 
-        const DateTo = dayjs().format();
+        const DateTo = dayjs().format('YYYY-MM-DDT23:59:59');
         const DateFrom = dayjs()
             .subtract(1, time as ManipulateType)
-            .format();
+            .format('YYYY-MM-DDT00:00:00');
 
         setParams((pre) => ({
             ...pre,

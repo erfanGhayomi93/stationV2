@@ -58,6 +58,10 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, SetValue<T>] {
     });
 
     useEffect(() => {
+        window.dispatchEvent(new Event('local-storage'));
+    }, [key])
+
+    useEffect(() => {
         setStoredValue(readValue());
     }, []);
 
