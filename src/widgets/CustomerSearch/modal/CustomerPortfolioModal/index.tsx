@@ -15,19 +15,28 @@ const CustomerPortfolioModal = () => {
     //
     const { t } = useTranslation();
     const { setState, state } = useCustomerSearchState();
+    const customerISIN = state?.detailModalData?.customerISIN ? [state?.detailModalData?.customerISIN] : []
+
     const closeModal = () => {
         setState((prev) => ({ ...prev, isPortfolioModalOpen: false, detailModalData: undefined }));
     };
 
     const { data: commission } = useCommissionQuery();
 
-    const { data, isFetching } = useCustomerPortfolio({ CustomerISIN: state?.detailModalData?.customerISIN });
+    const { data, isFetching, refetch } = useCustomerPortfolio({ CustomerISIN: customerISIN });
     const { result: rowData } = data || {};
+
+    // useEffect(() => {
+    //     if (state?.detailModalData?.customerISIN) {
+    //         refetch()
+    //     }
+    // }, [state?.detailModalData?.customerISIN])
+
 
     useEffect(() => {
         if (rowData && rowData.length) {
             const symbols = rowData.map(({ symbolISIN }) => symbolISIN);
-            subscriptionPortfolio(symbols);
+            subscriptionPortfolio(symbols, { CustomerISIN: customerISIN });
         }
 
         return () => pushEngine.unSubscribe('portfolioSymbols');
@@ -40,6 +49,7 @@ const CustomerPortfolioModal = () => {
     const calcProfitAndLoss = (data?: IGTPortfolioResultType) => {
         if (!data || !data.averagePrice) return 0;
         const { asset, closingPrice, lastTradedPrice, symbolTradeState, marketUnitTypeTitle, averagePrice } = data! || {};
+        console.log("lastTradedPrice", lastTradedPrice)
         const sellCommissionValue = getCommission(marketUnitTypeTitle);
 
         if (!sellCommissionValue) return null;
@@ -69,6 +79,7 @@ const CustomerPortfolioModal = () => {
     const Columns = useMemo(
         (): ColDefType<IGTPortfolioResultType>[] => [
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', cellClass: 'font-bold' },
+            { headerName: t('ag_columns_headerName.lastTradedPrice'), field: 'lastTradedPrice', cellClass: 'font-bold' },
             { headerName: t('ag_columns_headerName.count'), field: 'asset', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.lastPriceAverage'), field: 'averagePrice', type: 'sepratedNumber', minWidth: 150 },
             { headerName: t('ag_columns_headerName.finalCost'), field: 'bep', type: 'sepratedNumber' },
