@@ -21,7 +21,7 @@ const getAndSetThemeOnLoad = (): 'light' | 'dark' => {
     return toReturn;
 };
 
-interface UiState {
+export interface UiState {
     theme: 'dark' | 'light';
     homeLayout: 'ltr' | 'rtl'
 }

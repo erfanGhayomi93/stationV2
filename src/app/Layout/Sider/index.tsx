@@ -93,6 +93,15 @@ const Sider = () => {
                 id: '/basket',
                 onClick: () => navigate('/basket'),
             },
+            {
+                icon: <FileIcon height={20} width={20} />,
+                label: 'پرتفوی',
+                position: 'top',
+                placeOfDisplay: 'both',
+                isActive: false,
+                id: '/portfolio',
+                onClick: () => navigate('/portfolio'),
+            },
             // {
             //     icon: <TradeChartSVG height={20} width={20} />,
             //     label: 'بازار',

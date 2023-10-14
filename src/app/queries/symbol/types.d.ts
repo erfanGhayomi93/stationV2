@@ -181,6 +181,16 @@ interface GetChartSymbolType {
     v: number;
 }
 
+interface IMarketUnitType {
+    id: number;
+    type: string;
+    code: string;
+    title: string;
+    nscGroup: string;
+    checkSubSectorCode: boolean;
+    sortOrder: number;
+}
+
 // interface GetSameSectorResultType {
 //     insCode: string;
 //     companyISIN: string;

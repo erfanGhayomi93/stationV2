@@ -61,6 +61,7 @@ export { ReactComponent as Negetive } from 'src/assets/svg/negetive.svg';
 export { ReactComponent as NoteIcon } from 'src/assets/svg/NoteIcon.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
 export { ReactComponent as PlusIcon } from 'src/assets/svg/Plus.svg';
+export { ReactComponent as MinusIcon } from 'src/assets/svg/minus.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';

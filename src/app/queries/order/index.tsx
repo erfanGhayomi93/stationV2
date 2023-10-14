@@ -36,14 +36,15 @@ export const useSingleDeleteOrders = () => {
 // Get Order List
 
 export const getOrderLists = async (params: IGTOrderListRequest) => {
+    console.log("params", params)
     const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(Apis().Orders.Lists, {
         params,
     });
     return data;
 };
 //prettier-ignore
-export const useOrderLists = <T=GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(param: IGTOrderListRequest,
-    options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTOrderListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTOrderListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey"> ) | undefined)=>{
+export const useOrderLists = <T = GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(param: IGTOrderListRequest,
+    options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTOrderListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTOrderListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
     return useQuery(['getOrderLists'], ({ queryKey }) => getOrderLists(param as IGTOrderListRequest), { ...options });
 };
 

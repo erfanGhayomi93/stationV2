@@ -85,3 +85,23 @@ export const useChartSymbol = (
         ...options
     });
 }
+
+
+
+const getMarketUnit = async (signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IMarketUnitType[]>>(Apis().Symbol.GetMarketUnit, { signal });
+    return data;
+}
+
+
+
+export const useMarketUnit = (options?: UseQueryOptions<GlobalApiResponseType<IMarketUnitType[]>>) =>
+    useQuery<GlobalApiResponseType<IMarketUnitType[]>>(["marketUnitList"], ({ signal }) => getMarketUnit(signal), {
+        ...options
+    })
+
+
+
+
+
+

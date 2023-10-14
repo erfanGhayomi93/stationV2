@@ -30,7 +30,7 @@
         "Reports/orders" : "سفارشات",
         "Reports/trades" : "معاملات",
         "Reports/turnover" : "گردش حساب",
-        "Reports/requests": "درخواست ها"
+        "portfolio": "پرتفوی"
     },
     "common" : {
         "fetchingData": "در حال دریافت اطلاعات ...",
@@ -326,7 +326,16 @@
         "validity": "اعتبار",
 		"requestNumber": "شماره درخواست",
 		"station": "ایستگاه",
-		"requestValidity": "اعتبار درخواست"
+		"totalValue" : "ارزش خالص",
+		"averagePrice" : "قیمت خرید",
+		"dayValue" : "قیمت روز",
+		"bepPrice" : "ارزش روز دارایی",
+		"bep" : "نقطه سر به سر",
+		"lostProfitValue" : "مبلغ سود/زیان",
+		"requestValidity": "اعتبار درخواست",
+		"portfolioType" : "تراکنش" , 
+		"commissionPrice" : "کارمزد",
+		"profit" : "سود / زیان"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
@@ -418,6 +427,23 @@
      "setting" : {
         "key_symbol_search": "جستجوی نماد"
      },
+	 "portfolioCardexType" : {
+		"Change_Broker_Out" : "خروج از طریق ناظر",
+		"Portfolio_Change_BonusShare" : "تخصیص سهم جایزه",
+		"Capital_Increase_Share_Premium" : "افزایش سرمایه سهم",
+		"Capital_Increase_Contribution" : "افزایش سرمایه از آورده نقدی",
+		"Manual_Buy" : "تراکنش دستی خرید",
+		"Trade_Buy" : "خرید",
+		"Portfolio_Change_Out" : "خروج سهم",
+		"DPS" : "سود نقدی",
+		"Change_Broker" : "تغییر ناظر",
+		"DDN_Buy" : "DDN-خرید" ,
+		"Manual_Sell" : "تراکنش دستی فروش" ,
+		"Trade_Sell" :"فروش" ,
+		"DDN_Sell" : "DDN-فروش" ,
+		"Capital_Increase_Reserve" : "افزایش سرمایه از محل اندوخته",
+		"Portfolio_Change_In":"ورود سهم"
+	 },
      "SymbolDetails": {
         "orderBook": "صف",
         "additionalData": "اطلاعات تکمیلی",
@@ -467,6 +493,7 @@
 		"watchListName": "نام دیده‌بان",
 		"buySell": "خرید/فروش",
 		"asset": "دارایی",
+		"quantity": "تعداد",
 		"takeProfit": "حد سود",
 		"stopLoss": "حد ضرر",
 		"portfolioPercentage": "درصد از پرتفوی",
@@ -508,7 +535,9 @@
 		"efficiency": "بازده (ریال)",
 		"finalPrice": "بهای تمام شده",
 		"profitLossPrice": "سود و زیان",
-		"profitLossPricePercent": "درصد سود و زیان"
+		"profitLossPricePercent": "درصد سود و زیان",
+		"averagePrice" : "میانگین قیمت خرید"
+
 	},
     "tv_chart": {
 		"recent_symbols_is_empty": "نمادی در جستجوی اخیر شما موجود نیست.",
