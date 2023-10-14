@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
             // <div className={` ${containerClassName} ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
             <div
                 className={clsx(
-                    'flex h-8 px-2 items-center w-full overflow-hidden rounded border duration-250 dark:focus-within:border-D-info-100 focus-within:border-L-info-100',
+                    'flex h-8 px-2 items-center w-full overflow-hidden rounded border border-L-gray-400 dark:border-D-gray-400 duration-250 dark:focus-within:border-D-info-100 focus-within:border-L-info-100',
                     containerClassName,
                     disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic',
                 )}

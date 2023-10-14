@@ -78,7 +78,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                     <Input
                         data-cy="add-watchlist-input"
                         className={clsx(
-                            'border p-2 rounded-s outline-L-gray-400 dark:outline-D-gray-400 placeholder:text-xs bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-500',
+                            "w-full px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-L-gray-500",
                             {
                                 'h-[32px]': !FromEditMode,
                                 'h-[40px] w-[256px]': FromEditMode,

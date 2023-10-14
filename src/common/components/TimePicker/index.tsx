@@ -65,9 +65,10 @@ const TimePicker = ({ onChange }: TimePickerProps) => {
 
     return (
         <div ref={containerRef} className="">
-            <div className="w-full h-8 flex text-xs items-center rounded-md border border-L-gray-400 dark:border-D-gray-400 overflow-hidden dark:focus-within:border-L-info-100 focus-within:border-L-info-100">
+            <div className="text-xs">
                 <Input disabled={false} value={`${value.second} : ${value.minute} : ${value.hour}`} onChange={() => {}} onFocus={openClock} />
             </div>
+
             {isClockOpen && createPortal(<DialogBox setValue={setValue} value={value} ref={onClockRefLoad} />, document.body)}
         </div>
     );

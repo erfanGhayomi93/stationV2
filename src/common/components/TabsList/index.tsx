@@ -41,7 +41,7 @@ const TabsList: FC<ITabType> = ({
     buttonClass,
     selectedButtonClass,
     pannelClassName = 'grow bg-L-basic dark:bg-D-basic outline-none rounded-md',
-    className = 'w-full h-full flex flex-col relative text-1.2 border border-L-gray-400 dark:border-gray-400 rounded-md',
+    className = 'w-full h-full flex flex-col relative overflow-hidden text-1.2 border border-L-gray-400 dark:border-gray-400 rounded-md',
 }) => {
     //
     return (
