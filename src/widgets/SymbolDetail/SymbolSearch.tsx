@@ -15,7 +15,7 @@ interface ISymbolSearchType {
 }
 const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const [localSymbolISIN, setLocalSymbolISIN] = useLocalStorage<string>('symbolISIN', '');
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
     const { resetBuySellState } = useGlobalSetterState();
     const [term, setTerm] = useState<string>('');
     const debouncedTerm = useDebounce(term, 500);
@@ -58,18 +58,16 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
         ));
     }, [term, debouncedTerm, isSearchLoading, searchResult]);
 
-    const onSymbolSelect = useCallback(
-        (selected: any) => {
-            resetBuySellState();
-
-            selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
-            selected?.symbolISIN && setLocalSymbolISIN(selected.symbolISIN);
-        },
-        [resetBuySellState],
-    );
+    const onSymbolSelect = (selected: any) => {
+        selected?.symbolISIN && appDispatch(setSelectedSymbol(selected.symbolISIN));
+        selected?.symbolISIN && setLocalSymbolISIN(selected.symbolISIN);
+    };
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => data.symbolData,
+        onSuccess: () => {
+            resetBuySellState();
+        },
     });
 
     return (
