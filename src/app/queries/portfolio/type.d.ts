@@ -1,10 +1,13 @@
 interface IGTPortfolioRequestType {
-    CustomerISIN?: string;
-    SymbolISIN?: string;
+    CustomerISIN?: string[];
+    SymbolISIN?: string[];
     MarketType?: string;
     MarketUnitType?: string;
     FromQuantity?: number;
     ToQuantity?: number;
+    CustomerType?: string;
+    pageSize?: number;
+    pageNumber?: number;
 }
 
 interface IGTPortfolioResultType {
@@ -28,4 +31,22 @@ interface IGTPortfolioResultType {
     closingPrice: number;
 }
 
-interface IGTPortfolioResponseType extends GlobalPaginatedApiResponse<IGTPortfolioResultType[]> { }
+interface ICardexPortfolioResult {
+    bepPrice: number;
+    id: number;
+    date: string;
+    customerIsin: string;
+    symbolISIN: string;
+    type: string;
+    quantity: number;
+    asset: number;
+    price: number;
+    averagePrice: number;
+    commissionPrice: number;
+    dayValue: number;
+    profit: number;
+    bep: number;
+    totalValue: number;
+}
+
+// interface IGTPortfolioResponseType extends GlobalPaginatedApiResponse<IGTPortfolioResultType[]> { }

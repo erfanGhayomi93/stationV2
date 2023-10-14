@@ -66,6 +66,7 @@ export const Apis = () => ({
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
         ChartData: baseUrl + '/Symbol/v1/ChartData',
+        GetMarketUnit: baseUrl + '/Symbol/v1/GetMarketUnit',
     },
     Customer: {
         AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
@@ -73,7 +74,7 @@ export const Apis = () => ({
         ToggleFavorite: baseUrl + '/Customer/v1/ToggleFavorite',
         GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
         GetGroups: baseUrl + '/Customer/v1/GetGroups',
-        
+
         Search: baseUrl + '/Customer/v1/Search',
         GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
         GetCustomerFinancial: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
@@ -144,6 +145,7 @@ export const Apis = () => ({
     },
     Portfolio: {
         CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
+        CardexHistory: baseUrl + '/Portfolio/v1/CardexHistory',
     },
     tvChart: {
         index: `${baseUrl}/TV/v1`,

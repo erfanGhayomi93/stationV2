@@ -161,12 +161,22 @@ interface GetSameSectorResultType {
 }
 
 interface GetChartSymbolType {
-    o : number;
-    h : number;
-    l : number;
-    c : number;
-    x : number;
-    v : number;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    x: number;
+    v: number;
+}
+
+interface IMarketUnitType {
+    id: number;
+    type: string;
+    code: string;
+    title: string;
+    nscGroup: string;
+    checkSubSectorCode: boolean;
+    sortOrder: number;
 }
 
 // interface GetSameSectorResultType {

@@ -50,7 +50,7 @@ const Select: FC<ISelectType> = ({
                                 {options?.find((op) => op.value === value)?.label}
                             </span>
                         ) : (
-                            <span className="block  w-full text-right truncate text-L-gray-500 dark:text-D-gray-500">{placeholder || ' '}</span>
+                            <span className="block w-full text-right truncate text-L-gray-500 dark:text-D-gray-500">{placeholder || ' '}</span>
                         )}
                     </Listbox.Button>
                     <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -61,7 +61,7 @@ const Select: FC<ISelectType> = ({
                                     className={({ active }) =>
                                         clsx(
                                             'relative text-xs cursor-pointer text-D-basic dark:text-L-basic',
-                                            'cursor-default select-none py-2 pl-10 pr-4',
+                                            'cursor-default select-none py-2 pl-2 pr-2',
                                             active
                                                 ? 'bg-L-primary-100 dark:bg-D-primary-100'
                                                 : 'even:bg-L-gray-100 dark:even:bg-D-gray-100',

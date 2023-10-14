@@ -2,6 +2,7 @@ import { MutableRefObject } from 'react';
 import { pushEngine } from './pushEngine';
 import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { factoryQueryKey } from 'src/utils/helpers';
 
 export const subscriptionWatchlistMinor = (
     data: IGetWatchlistSymbol[],
@@ -120,35 +121,38 @@ export const subscriptionCoGroupSymbol = (data: GetSameSectorResultType[], symbo
     });
 };
 
-
-export const subscriptionPortfolio = (symbols: string[]) => {
+export const subscriptionPortfolio = (symbols: string[], params: IGTPortfolioRequestType) => {
     pushEngine.subscribe({
         id: 'portfolioSymbols',
         adapterName: 'RamandRLCDData',
         mode: 'MERGE',
         items: symbols,
-        fields: ['lastTradedPrice', 'closingPrice', 'symbolState'],
+        fields: ['lastTradedPrice', 'closingPrice', 'symbolState', 'lostProfitValue', 'dayValue'],
         isSnapShot: 'yes',
         onFieldsUpdate: ({ itemName, changedFields }) => {
-            queryClient.setQueryData([Apis().Portfolio.CustomerPortfolio], (oldData: IGTPortfolioResponseType | undefined) => {
-                if (!!oldData) {
-                    const { result: portfolioSymbols, ...rest } = oldData;
-                    const updatedPortfolio = JSON.parse(JSON.stringify(portfolioSymbols));
-                    const effectedSymbol = portfolioSymbols.find((symbol) => symbol.symbolISIN === itemName);
-                    const inx = portfolioSymbols.findIndex((symbol) => symbol.symbolISIN === itemName);
+            // console.log(itemName, changedFields);
+            queryClient.setQueryData(
+                ['portfolioList', factoryQueryKey(params)],
+                (oldData: GlobalPaginatedApiResponse<IGTPortfolioResultType[]> | undefined) => {
+                    if (!!oldData) {
+                        const { result: portfolioSymbols, ...rest } = oldData;
+                        const updatedPortfolio = JSON.parse(JSON.stringify(portfolioSymbols));
+                        const effectedSymbol = portfolioSymbols.find((symbol) => symbol.symbolISIN === itemName);
+                        const inx = portfolioSymbols.findIndex((symbol) => symbol.symbolISIN === itemName);
 
-                    const updatedSymbol = {
-                        ...effectedSymbol,
-                        ...changedFields,
-                    };
+                        const updatedSymbol = {
+                            ...effectedSymbol,
+                            ...changedFields,
+                        };
 
-                    updatedPortfolio[inx] = updatedSymbol;
-                    return {
-                        ...rest,
-                        result: updatedPortfolio,
-                    };
-                }
-            });
+                        updatedPortfolio[inx] = updatedSymbol;
+                        return {
+                            ...rest,
+                            result: updatedPortfolio,
+                        };
+                    }
+                },
+            );
         },
     });
-}
+};
