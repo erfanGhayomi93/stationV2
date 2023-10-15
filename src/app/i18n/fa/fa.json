@@ -30,6 +30,7 @@
         "Reports/orders" : "سفارشات",
         "Reports/trades" : "معاملات",
         "Reports/turnover" : "گردش حساب",
+		"Reports/requests": "درخواست ها",
         "portfolio": "پرتفوی"
     },
     "common" : {
@@ -640,6 +641,21 @@
 		"symbol": "نماد",
 		"industry": "صنعت",
 		"papers": "اوراق"
+	},
+	"BuySellRequestState": {
+		"Registration": "ثبت",
+		"Accepted": "پذیرش",
+		"Cancelled": "انصراف",
+		"Execution": "اقدام",
+		"Filled": "انجام کامل",
+		"PartiallyFilled": "انجام ناقص",
+		"Invalid": "مردود",
+		"Finished": "اتمام"
+	},
+    "BuySellRequestType": {
+		"WithTodaysValueAndVolume" : "حجم و قیمت روز",
+		"WithValueAndVolume" : "حجم و قیمت",
+		"WithRevenue" : "سرمایه و قیمت روز",
+		"WithRevenueAndValue" : "سرمایه و قیمت"
 	}
-    
 }

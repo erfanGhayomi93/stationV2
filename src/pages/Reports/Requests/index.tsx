@@ -9,6 +9,7 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { useGetOfflineRequests } from 'src/app/queries/order';
 import { initialState } from './constant';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 
 const Requests = () => {
     //
@@ -23,7 +24,7 @@ const Requests = () => {
         refetch: getOfflineRequest,
         isFetching,
     } = useGetOfflineRequests({
-        ...params,
+        ...cleanObjectOfFalsyValues(params) as IOfflineRequestStateType,
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
         Side: params.Side === 'Cross' ? undefined : params.Side,
@@ -37,10 +38,10 @@ const Requests = () => {
         setParams(initialState);
     };
 
+
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setParams((pre) => ({ ...pre, [action]: value }));
     }, []);
-
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
@@ -61,10 +62,10 @@ const Requests = () => {
                     <RequestTable
                         setGridApi={setGridApi}
                         PaginatorHandler={PaginatorHandler}
-                        data={[]}
-                        loading={false}
-                        pageNumber={1}
-                        pagesize={25}
+                        data={offlineRequest}
+                        loading={isFetching}
+                        pageNumber={PageNumber}
+                        pagesize={PageSize}
                     />
                 </div>
             </div>

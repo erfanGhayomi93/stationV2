@@ -164,11 +164,13 @@ interface IGTOfflineTradesRequests {
     CustomerISIN?: string[];
     RequestNo?: string;
     State?: string;
-    TraderId?;
     MarketType?: string;
+    MarketUnit?:string;
+    CustomerType?:string;
     Channel?: string;
-    PageSize?: number;
-    PageNumber?: number;
+    MyStationOnly?:boolean;
+    PageSize: number;
+    PageNumber: number;
 }
 
 
@@ -181,6 +183,7 @@ interface IGTOfflineTradesResult {
     channel: string;
     customerISIN: string;
     customerTitle: string;
+    customerType: string;
     executingStationId: number;
     executingStationName: string;
     formNo: number;
@@ -196,7 +199,7 @@ interface IGTOfflineTradesResult {
     symbolISIN: string;
     state: string;
     side: string;
-    symbolName: string;
+    symbolTitle: string;
     volume: number;
 }
 
