@@ -318,6 +318,7 @@
         "pureValue": "ارزش خالص",
         "pureDayValue": "خالص ارزش روز",
         "currentPrice": "قیمت لحظه ای",
+		"lastTradedPrice": "آخرین قیمت",
         "profitAndLoss": "سود / زیان",
         "profitAndLossPrice": "مبلغ سود و زیان",
         "profitAndLossPercent": "درصد سود و زیان",

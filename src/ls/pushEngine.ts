@@ -47,7 +47,7 @@ const subscribe = <T = IChangedField>({ id, mode, items, fields, adapterName, is
     if (items?.length === 0 || fields?.length === 0) return;
 
     const isSubscribeExist = Boolean(subscriptions?.[id]);
-    if (isSubscribeExist) unSubscribe(id);
+    if (isSubscribeExist) return;
 
     const sub = new Subscription(mode, items, fields);
     sub.setDataAdapter(adapterName);
@@ -66,6 +66,7 @@ const subscribe = <T = IChangedField>({ id, mode, items, fields, adapterName, is
 
     subscriptions[id] = sub;
     client.subscribe(sub);
+    console.log(`%c SUBSCRIBED ${id}`, 'background: linear-gradient(90deg, rgba(12,10,133,1) 17%, rgba(0,134,255,1) 100%); color: #ffffff; border-radius: 10px; padding: 5px');
 };
 
 const unSubscribe = (subId: string) => {
@@ -74,6 +75,7 @@ const unSubscribe = (subId: string) => {
     if (subscriptions[subId]) {
         client.unsubscribe(subscriptions[subId] as Subscription);
         subscriptions[subId] = null;
+        console.log(`%c UNSUBSCRIBED ${subId}`, 'background: linear-gradient(90deg, rgba(255,0,0,1) 17%, rgba(255,175,0,1) 100%); color: #ffffff; border-radius: 10px; padding: 5px');
     }
 };
 
