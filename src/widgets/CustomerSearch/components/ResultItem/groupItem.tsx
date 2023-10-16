@@ -59,7 +59,7 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
                                 // onChange={(event) => onSelectionChanged(event.target.checked, customer)}
                                 /> */}
 
-                                <h1 className={clsx('w-full truncate text-right text-L-text-700 dark:text-D-gray-700 font-medium')}>
+                                <h1 className={clsx('w-full truncate text-right text-L-text-700 dark:text-D-gray-700 font-medium select-text')}>
                                     {customer.title}
                                 </h1>
                             </div>

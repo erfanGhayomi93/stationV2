@@ -36,13 +36,13 @@ export const HistoryFilter: FC<THistoryFilterCo> = ({
                 <FilterBlock label={t('FilterFieldLabel.Time')}>
                     <Select onChange={(selected) => handleValueChange('time', selected)} value={time} options={timeFieldOptions} />
                 </FilterBlock>
-                <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatePicker value={fromDate} onChange={(value) => handleValueChange('fromDate', dayjs(value).format())} />
+                <FilterBlock label={t('FilterFieldLabel.FromDate')} className='col-span-3'>
+                    <AdvancedDatePicker value={fromDate} onChange={(value) => handleValueChange('fromDate', dayjs(value).format("YYYY-MM-DDT00:00:00"))} />
                 </FilterBlock>
-                <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatePicker value={toDate} onChange={(value) => handleValueChange('toDate', dayjs(value).format())} />
+                <FilterBlock label={t('FilterFieldLabel.ToDate')} className='col-span-3'>
+                    <AdvancedDatePicker value={toDate} onChange={(value) => handleValueChange('toDate', dayjs(value).format("YYYY-MM-DDT23:59:59"))} />
                 </FilterBlock>
-                <FilterBlock label={t('FilterFieldLabel.TransactionType')} className='col-span-4'>
+                <FilterBlock label={t('FilterFieldLabel.TransactionType')} className='col-span-4 text-right'>
                     <Select onChange={(selected) => handleValueChange('type', selected)} value={type} options={typesOption} />
                 </FilterBlock>
 

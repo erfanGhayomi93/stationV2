@@ -49,7 +49,6 @@ const CustomerPortfolioModal = () => {
     const calcProfitAndLoss = (data?: IGTPortfolioResultType) => {
         if (!data || !data.averagePrice) return 0;
         const { asset, closingPrice, lastTradedPrice, symbolTradeState, marketUnitTypeTitle, averagePrice } = data! || {};
-        console.log("lastTradedPrice", lastTradedPrice)
         const sellCommissionValue = getCommission(marketUnitTypeTitle);
 
         if (!sellCommissionValue) return null;
@@ -79,7 +78,6 @@ const CustomerPortfolioModal = () => {
     const Columns = useMemo(
         (): ColDefType<IGTPortfolioResultType>[] => [
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', cellClass: 'font-bold' },
-            { headerName: t('ag_columns_headerName.lastTradedPrice'), field: 'lastTradedPrice', cellClass: 'font-bold' },
             { headerName: t('ag_columns_headerName.count'), field: 'asset', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.lastPriceAverage'), field: 'averagePrice', type: 'sepratedNumber', minWidth: 150 },
             { headerName: t('ag_columns_headerName.finalCost'), field: 'bep', type: 'sepratedNumber' },

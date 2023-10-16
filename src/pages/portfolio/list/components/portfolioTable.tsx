@@ -1,4 +1,4 @@
-import { GridReadyEvent, ICellRendererParams } from "ag-grid-community"
+import { GridReadyEvent, ICellRendererParams, ValueFormatterFunc, ValueFormatterParams } from "ag-grid-community"
 import { FC, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import AGTable, { ColDefType } from "src/common/components/AGTable"
@@ -29,6 +29,14 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
     setIsOpen((prev) => !prev)
   }
 
+  const calcLostProfitValue = (data?: any) => {
+    if (!data) return ""
+
+    const { lastTradedPrice, averagePrice, asset, commissionPrice } = data.data
+    const res = ((lastTradedPrice - averagePrice) * asset) - commissionPrice
+    return "\u200E" + abbreviateNumber(res)
+  }
+
   const columns = useMemo(
     (): ColDefType<IGTPortfolioResultType>[] => [
       {
@@ -56,31 +64,34 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
         type: "sepratedNumber"
       },
       {
-        headerName: t('ag_columns_headerName.averagePrice'),
+        headerName: t('ag_columns_headerName.bep'),
         field: "averagePrice",
         type: "sepratedNumber"
+      },
+      {
+        headerName: t('ag_columns_headerName.lastTradedPrice'),
+        field: "lastTradedPrice",
+        type: "abbreviatedNumber"
       },
       {
         headerName: t('ag_columns_headerName.totalValue'),
         field: "totalValue",
         type: "abbreviatedNumber"
       },
+
       {
         headerName: t('ag_columns_headerName.dayValue'),
         field: "dayValue",
         type: "abbreviatedNumber"
       },
       {
-        headerName: t('ag_columns_headerName.bep'),
-        field: "bep",
-        type: "abbreviatedNumber"
-      },
-      {
         headerName: t('ag_columns_headerName.lostProfitValue'),
         field: "lostProfitValue",
         type: "abbreviatedNumber",
-        valueFormatter: ({ value }) => "\u200E" + abbreviateNumber(value),
+        // valueFormatter: ({ value }) => "\u200E" + abbreviateNumber(value),
+        valueFormatter: calcLostProfitValue,
         cellClass: ({ value }) => (value > 0 ? 'text-L-success-200' : 'text-L-error-200'),
+        // cellClass: (data) => (Number(calcLostProfitValue(data)) > 0 ? 'text-L-success-200' : 'text-L-error-200'),
       },
       {
         headerName: t('ag_columns_headerName.actions'),
@@ -111,7 +122,7 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
           suppressNoRowsOverlay={true}
           suppressColumnMoveAnimation={true}
           suppressDragLeaveHidesColumns={true}
-          getRowId={({ data }) => data.symbolISIN}
+          getRowId={({ data }) => data.symbolISIN + data.customerIsin}
           // onGridReady={(p) => setGridApi(p)}
           onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
           onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}

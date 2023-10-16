@@ -37,7 +37,7 @@ const Select: FC<ISelectType> = ({
                 <div className="relative w-full ">
                     <Listbox.Button
                         className={clsx(
-                            'relative text-xs flex justify-between h-8 w-full dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100 cursor-pointer text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
+                            'relative text-xs flex justify-between h-8 w-full dark:focus-within:border-D-info-100 focus-within:border-L-info-100 cursor-pointer text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
                             inputClassName
                                 ? inputClassName
                                 : ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-2 pr-3 pl-10  ',
@@ -45,7 +45,7 @@ const Select: FC<ISelectType> = ({
                     >
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
                         {value !== null && value !== undefined ? (
-                            <span className="block w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500">
+                            <span className="block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap">
                                 <>{label}</>
                                 {options?.find((op) => op.value === value)?.label}
                             </span>
