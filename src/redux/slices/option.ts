@@ -42,6 +42,9 @@ const optionSlice = createSlice({
         removeSelectedSymbol: (state, action: PayloadAction<string>) => {
             state.selectedSymbolMulti = state.selectedSymbolMulti.filter((item) => item.symbolISIN !== action.payload);
         },
+        emptySelectedSymbol: (state) => {
+            state.selectedSymbolMulti = [];
+        },
     },
 });
 
@@ -53,6 +56,7 @@ export const {
     emptySelectedCustomers,
     setSelectedSymbolMulti,
     removeSelectedSymbol,
+    emptySelectedSymbol
 } = optionSlice.actions;
 
 export default optionSlice.reducer;

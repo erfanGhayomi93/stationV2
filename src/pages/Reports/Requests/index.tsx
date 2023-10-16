@@ -10,6 +10,8 @@ import { useGetOfflineRequests } from 'src/app/queries/order';
 import { initialState } from './constant';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { useAppDispatch } from 'src/redux/hooks';
+import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
 
 const Requests = () => {
     //
@@ -18,6 +20,7 @@ const Requests = () => {
     const [params, setParams] = useState<IOfflineRequestStateType>(initialState);
     const { PageNumber, PageSize } = params;
     const isFirstRender = useIsFirstRender();
+    const dispatch = useAppDispatch()
 
     const {
         data: offlineRequest,
@@ -35,6 +38,8 @@ const Requests = () => {
     }, [PageNumber, PageSize]);
 
     const onClearFilters = () => {
+        dispatch(emptySelectedCustomers())
+        dispatch(emptySelectedSymbol())
         setParams(initialState);
     };
 
