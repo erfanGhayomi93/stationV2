@@ -53,7 +53,7 @@ type IOrderSelected = {
     validity: string;
     validityDate?: string;
 };
-type OrderSideType = 'Cross' | 'Buy' | 'Sell';
+type OrderSideType = 'Cross' | 'Buy' | 'Sell' | '';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatusType =
     | 'InOMSQueue'
@@ -74,7 +74,8 @@ type OrderStatusType =
     | 'Expired'
     | 'RejectByGAP'
     | 'OnCancelingWithBroker'
-    | 'TradeCancel';
+    | 'TradeCancel'
+    | '';
 interface IOrderResponseType {
     successClientKeys: string[];
     errorNumbers: number;
@@ -166,7 +167,7 @@ interface IGTOfflineTradesRequests {
     State?: string;
     MarketType?: string;
     MarketUnit?: string;
-    CustomerType?: string;
+    CustomerType?: CustomerType;
     Channel?: string;
     MyStationOnly?: boolean;
     PageSize: number;

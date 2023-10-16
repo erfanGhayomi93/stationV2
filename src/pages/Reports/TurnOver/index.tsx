@@ -9,21 +9,21 @@ import { useTranslation } from 'react-i18next';
 import { turnOverState } from './constant';
 import { useGetCustomerTurnOver } from 'src/app/queries/customer';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
-
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 
 const TurnOver = () => {
     //
     const { t } = useTranslation();
     const [params, setParams] = useState<ITurnOverStateType>(turnOverState);
     const { Time, PageNumber, PageSize } = params;
-    const isFirstRender = useIsFirstRender()
+    const isFirstRender = useIsFirstRender();
 
     const {
         data: turnOverData,
         refetch: getTurnOver,
         isFetching,
     } = useGetCustomerTurnOver({
-        ...params,
+        ...(cleanObjectOfFalsyValues(params) as IGetCustomerTurnOverRequestType),
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN)[0],
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN)[0],
     });

@@ -4,7 +4,7 @@ import i18next from "i18next";
 export const turnOverState: ITurnOverStateType = {
     DateFrom: dayjs().subtract(1, 'day').format('YYYY-MM-DDT00:00:00'),
     DateTo: dayjs().format('YYYY-MM-DDT23:59:59'),
-    Side: undefined,
+    Side: '',
     SymbolISIN: [],
     CustomerISIN: [],
     Time: 'day',
@@ -14,6 +14,7 @@ export const turnOverState: ITurnOverStateType = {
 }
 
 export const transactionSideField = [
+    { value: '', label: i18next.t('common.all') },
     { value: 'Buy', label: i18next.t('TransactionTypes.Buy') },
     { value: 'Sell', label: i18next.t('TransactionTypes.Sell') },
     { value: 'Deposit', label: i18next.t('TransactionTypes.Deposit') },

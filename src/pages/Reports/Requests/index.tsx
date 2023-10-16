@@ -20,17 +20,16 @@ const Requests = () => {
     const [params, setParams] = useState<IOfflineRequestStateType>(initialState);
     const { PageNumber, PageSize } = params;
     const isFirstRender = useIsFirstRender();
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     const {
         data: offlineRequest,
         refetch: getOfflineRequest,
         isFetching,
     } = useGetOfflineRequests({
-        ...cleanObjectOfFalsyValues(params) as IOfflineRequestStateType,
+        ...(cleanObjectOfFalsyValues(params) as IOfflineRequestStateType),
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-        Side: params.Side === 'Cross' ? undefined : params.Side,
     });
 
     useEffect(() => {
@@ -38,11 +37,10 @@ const Requests = () => {
     }, [PageNumber, PageSize]);
 
     const onClearFilters = () => {
-        dispatch(emptySelectedCustomers())
-        dispatch(emptySelectedSymbol())
+        dispatch(emptySelectedCustomers());
+        dispatch(emptySelectedSymbol());
         setParams(initialState);
     };
-
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setParams((pre) => ({ ...pre, [action]: value }));
@@ -62,7 +60,7 @@ const Requests = () => {
                 </div>
             </div>
             <div className="grid gap-4 grid-rows-min-one">
-                <RequestFilter onClear={onClearFilters} onSubmit={getOfflineRequest} params={params} setParams={setParams}/>
+                <RequestFilter onClear={onClearFilters} onSubmit={getOfflineRequest} params={params} setParams={setParams} />
                 <div className="grid grid-rows-one-min">
                     <RequestTable
                         setGridApi={setGridApi}

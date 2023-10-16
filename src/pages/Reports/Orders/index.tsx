@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { useOrderLists } from 'src/app/queries/order';
 import { initialState } from './constant';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
+import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
+import { useAppDispatch } from 'src/redux/hooks';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -15,33 +18,34 @@ export interface OrdersFilterTypes {
     toDate: string;
     side: string;
     customerType: string;
-    status: string[]
+    status: string[];
 }
 
 const Orders = () => {
     //
-    const { t } = useTranslation()
-    const [params, setParams] = useState<IOrdersListStateType>(initialState)
+    const { t } = useTranslation();
+    const [params, setParams] = useState<IOrdersListStateType>(initialState);
     const { PageNumber, PageSize } = params;
-    const isFirstRender = useIsFirstRender()
+    const isFirstRender = useIsFirstRender();
+    const dispatch = useAppDispatch();
 
     const {
         data: ordersList,
         refetch: getOrdersList,
         isFetching,
-    } = useOrderLists(
-        {
-            ...params,
-            SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
-            CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-            Side: params.Side === 'Cross' ? undefined : params.Side,
-        });
+    } = useOrderLists({
+        ...(cleanObjectOfFalsyValues(params) as IGTOrderListRequest),
+        SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
+        CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+    });
 
     useEffect(() => {
         !isFirstRender && getOrdersList();
     }, [PageNumber, PageSize]);
 
     const onClearFilters = () => {
+        dispatch(emptySelectedCustomers());
+        dispatch(emptySelectedSymbol());
         setParams(initialState);
     };
 
@@ -49,16 +53,15 @@ const Orders = () => {
         setParams((pre) => ({ ...pre, [action]: value }));
     }, []);
 
-
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
                 <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.Reports/orders')}</h1>
                 <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
-                    <Tippy content={t("Action_Button.Update")} className="text-xs">
+                    <Tippy content={t('Action_Button.Update')} className="text-xs">
                         <Refresh2Icon className="cursor-pointer outline-none" />
                     </Tippy>
-                    <Tippy content={t("Action_Button.ExportExcel")} className="text-xs">
+                    <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
                         <Excel2Icon className="cursor-pointer outline-none" />
                     </Tippy>
                 </div>

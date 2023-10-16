@@ -8,6 +8,9 @@ import { useTradesLists } from 'src/app/queries/order';
 import dayjs, { ManipulateType } from 'dayjs';
 import { initialState } from './constant';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
+import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
+import { useAppDispatch } from 'src/redux/hooks';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 
 interface ITradesPageType {}
 
@@ -18,17 +21,19 @@ const Trades = ({}: ITradesPageType) => {
     const [params, setParams] = useState<ITradeStateType>(initialState);
     const { PageNumber, PageSize, Time } = params;
     const isFirstRender = useIsFirstRender();
+    const dispatch = useAppDispatch();
 
     const {
         data: tradesData,
         refetch: getTradesData,
         isFetching,
     } = useTradesLists({
-        ...params,
+        ...(cleanObjectOfFalsyValues(params) as IGTTradesListRequest),
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-        Side: params.Side === 'Cross' ? undefined : params.Side,
     });
+
+    cleanObjectOfFalsyValues;
 
     useEffect(() => {
         !isFirstRender && getTradesData();
@@ -58,6 +63,8 @@ const Trades = ({}: ITradesPageType) => {
     }, []);
 
     const onClearFilters = () => {
+        dispatch(emptySelectedCustomers());
+        dispatch(emptySelectedSymbol());
         setParams(initialState);
     };
 

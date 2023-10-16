@@ -27,4 +27,4 @@ type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'Goo
 //     sellCommissionValue: number;
 // }
 
-type CustomerType = "Legal" | "Natural" | "Individual"
+type CustomerType = "Legal" | "Natural" | "Individual" | ""
