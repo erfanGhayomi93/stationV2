@@ -68,7 +68,7 @@ export const PortfolioListFilter: FC<portfolioListFilterType> = ({ filterData, s
                 <FilterBlock label={t('FilterFieldLabel.Market')} className="">
                     <Select value={MarketUnitType} onChange={(selected) => handleValueChange('MarketUnitType', selected)} options={marketUnitTypeOption} />
                 </FilterBlock>
-                <FilterBlock label={t('FilterFieldLabel.MarketUnit')} className="col-span-3">
+                <FilterBlock label={t('FilterFieldLabel.MarketUnit')} className="col-span-3 max-w-[250px] min-w-[250px]">
                     <Select value={MarketType} onChange={(selected) => handleValueChange('MarketType', selected)} options={marketUnitOption} />
                 </FilterBlock>
 

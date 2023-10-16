@@ -34,7 +34,7 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
 
     return (
         <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-[35px]">
-            <div className="w-full flex items-center gap-4 justify-start pr-3 truncate">
+            <div className="w-full flex items-center gap-4 justify-start pr-3 truncate select-text">
                 <input
                     type="checkbox"
                     className="cursor-pointer"
@@ -43,8 +43,8 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
                 />
                 {customer?.title}
             </div>
-            <div className="w-4/6  flex items-center justify-center text-L-gray-500 dark:text-D-gray-500">{customer?.bourseCode}</div>
-            <div className="w-4/6  flex items-center justify-center">{customer?.nationalCode}</div>
+            <div className="w-4/6  flex items-center justify-center text-L-gray-500 dark:text-D-gray-500 select-text">{customer?.bourseCode}</div>
+            <div className="w-4/6  flex items-center justify-center select-text">{customer?.nationalCode}</div>
             <div className="w-4/6  flex items-center justify-center">{seprateNumber(customer?.purchasePower)}</div>
             <div className="w-4/6  flex items-center justify-center">-</div>
             <div className="w-4/6  flex items-center justify-center">

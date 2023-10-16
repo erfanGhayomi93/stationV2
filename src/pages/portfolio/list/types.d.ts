@@ -9,7 +9,7 @@ type TPortfolioListFilter = {
 };
 
 type THistoryFilter = {
-    time: string;
+    time?: string;
     fromDate: string;
     toDate: string;
     type?: string;

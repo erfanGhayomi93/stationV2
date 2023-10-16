@@ -130,7 +130,7 @@ export const subscriptionPortfolio = (symbols: string[], params: IGTPortfolioReq
         fields: ['lastTradedPrice', 'closingPrice', 'symbolState', 'lostProfitValue', 'dayValue'],
         isSnapShot: 'yes',
         onFieldsUpdate: ({ itemName, changedFields }) => {
-            // console.log(itemName, changedFields);
+            console.log(itemName, changedFields);
             queryClient.setQueryData(
                 ['portfolioList', factoryQueryKey(params)],
                 (oldData: GlobalPaginatedApiResponse<IGTPortfolioResultType[]> | undefined) => {

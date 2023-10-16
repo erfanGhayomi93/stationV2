@@ -8,6 +8,7 @@ import { HistoryFilter } from '../components/historyFilter'
 import { initHistoryFilter } from '../constant'
 import { useCardexHistoryPortfolio } from 'src/app/queries/portfolio'
 import { abbreviateNumber } from 'src/utils/helpers'
+import dayjs, { ManipulateType } from 'dayjs'
 
 type HistoryPortfolioModalType = {
     isOpen: boolean,
@@ -27,7 +28,6 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
             customerISIN: dataModal?.customerIsin,
             symbolISIN: dataModal?.symbolISIN,
             fromDate: params.fromDate,
-            time: params.time,
             toDate: params.toDate,
             type: !!params.type ? params.type : undefined
         }
@@ -45,6 +45,30 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
         setFilterData(initHistoryFilter)
         setParams(initHistoryFilter)
     }
+
+    const onTimeChangeHandler = (time: string | undefined) => {
+        if (!time || time === 'custom') return;
+
+        const toDate = dayjs().format('YYYY-MM-DDT23:59:59');
+        const fromDate = dayjs()
+            .subtract(1, time as ManipulateType)
+            .format('YYYY-MM-DDT00:00:00');
+
+        setFilterData((pre) => ({
+            ...pre,
+            fromDate,
+            toDate,
+        }));
+    };
+
+    useEffect(() => {
+        onTimeChangeHandler(filterData.time);
+    }, [filterData.time]);
+
+    useEffect(() => {
+        console.log("filterData.time", filterData.time)
+    }, [filterData.time])
+
 
     const columns = useMemo(
         (): ColDefType<ICardexPortfolioResult>[] => [
@@ -101,7 +125,7 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
                 // cellRenderer: ({ data }: ICellRendererParams<IGTPortfolioResultType>) => <ActionsCell data={data} historyModalAction={historyModalAction} setDataModal={setDataModal}/>
             },
             {
-                headerName: t('table_columns.finalPrice'),
+                headerName: t('ag_columns_headerName.bep'),
                 field: "bep",
                 type: "abbreviatedNumber",
                 // cellRenderer: ({ data }: ICellRendererParams<IGTPortfolioResultType>) => <ActionsCell data={data} historyModalAction={historyModalAction} setDataModal={setDataModal}/>
