@@ -297,6 +297,7 @@
     "ag_columns_headerName":{
         "row":"ردیف",
         "customer":"مشتری",
+		"userName": "نام کاربری",
         "bourseCode":"کد بورسی",
         "symbol":"نماد",
         "side":"سمت",

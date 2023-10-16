@@ -165,10 +165,10 @@ interface IGTOfflineTradesRequests {
     RequestNo?: string;
     State?: string;
     MarketType?: string;
-    MarketUnit?:string;
-    CustomerType?:string;
+    MarketUnit?: string;
+    CustomerType?: string;
     Channel?: string;
-    MyStationOnly?:boolean;
+    MyStationOnly?: boolean;
     PageSize: number;
     PageNumber: number;
 }
@@ -204,3 +204,11 @@ interface IGTOfflineTradesResult {
 }
 
 interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> { }
+
+
+interface IGTOfflineRequestHistoryResult {
+    id: number;
+    userName: string;
+    dateTime: string;
+    state: string;
+}

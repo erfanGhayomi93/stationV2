@@ -102,6 +102,7 @@ export const Apis = () => ({
         Modify: baseUrl + '/Order/v1/Modify',
         Trades: baseUrl + '/Order/v1/Trades',
         OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
+        OfflineRequestHistory: baseUrl + '/Order/v1/TradeRequestHistory',
     },
     SupervisorMessage: {
         Get: baseUrl + `/Message/v1/TodaySupervisorMessage`,

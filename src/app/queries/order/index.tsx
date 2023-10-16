@@ -36,7 +36,7 @@ export const useSingleDeleteOrders = () => {
 // Get Order List
 
 export const getOrderLists = async (params: IGTOrderListRequest) => {
-    console.log("params", params)
+    console.log('params', params);
     const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(Apis().Orders.Lists, {
         params,
     });
@@ -63,11 +63,18 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 
 export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });
-    return data ||{};
+    return data || {};
 };
 
 export const useGetOfflineRequests = (params: IGTOfflineTradesRequests, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
     useQuery<IGTOfflineTradesResponse>(['getOfflineTrades'], () => getOfflineRequests(params as IGTOfflineTradesRequests), { ...options });
+
+export const getOfflineRequestHistory = async (id: number) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGTOfflineRequestHistoryResult[]>>(Apis().Orders.OfflineRequestHistory, {
+        params: { id },
+    });
+    return data?.result || {};
+};
 
 ///////////Trades//////////
 
@@ -77,7 +84,6 @@ export const getTradesLists = async (params: IGTTradesListRequest) => {
     });
     return data;
 };
-
 
 export const useTradesLists = <T = IGTTradesResponseType,>(
     param: IGTTradesListRequest,
