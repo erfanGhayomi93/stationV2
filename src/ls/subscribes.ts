@@ -98,7 +98,7 @@ export const subscriptionCoGroupSymbol = (data: GetSameSectorResultType[], symbo
         fields: ['lastTradedPrice', 'totalNumberOfSharesTraded', 'lastTradedPriceVarPercent', 'bestSellPrice', 'bestBuyPrice'],
         onFieldsUpdate({ changedFields, itemName }) {
             timer = setTimeout(() => {
-                console.log('changedFields', changedFields);
+                // console.log('changedFields', changedFields);
                 queryClient.setQueryData([Apis().Symbol.SameSectorSymbols, symbolISIN], (oldData: GetSameSectorResultType[] | undefined) => {
                     if (!!oldData) {
                         const updatedWatchList = JSON.parse(JSON.stringify(oldData));
@@ -130,7 +130,7 @@ export const subscriptionPortfolio = (symbols: string[], params: IGTPortfolioReq
         fields: ['lastTradedPrice', 'closingPrice', 'symbolState', 'lostProfitValue', 'dayValue'],
         isSnapShot: 'yes',
         onFieldsUpdate: ({ itemName, changedFields }) => {
-            console.log(itemName, changedFields);
+            // console.log(itemName, changedFields);
             queryClient.setQueryData(
                 ['portfolioList', factoryQueryKey(params)],
                 (oldData: GlobalPaginatedApiResponse<IGTPortfolioResultType[]> | undefined) => {
