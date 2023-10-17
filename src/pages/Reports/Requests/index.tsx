@@ -9,6 +9,9 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { useGetOfflineRequests } from 'src/app/queries/order';
 import { initialState } from './constant';
 import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { useAppDispatch } from 'src/redux/hooks';
+import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
 
 const Requests = () => {
     //
@@ -17,16 +20,16 @@ const Requests = () => {
     const [params, setParams] = useState<IOfflineRequestStateType>(initialState);
     const { PageNumber, PageSize } = params;
     const isFirstRender = useIsFirstRender();
+    const dispatch = useAppDispatch();
 
     const {
         data: offlineRequest,
         refetch: getOfflineRequest,
         isFetching,
     } = useGetOfflineRequests({
-        ...params,
+        ...(cleanObjectOfFalsyValues(params) as IOfflineRequestStateType),
         SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
         CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
-        Side: params.Side === 'Cross' ? undefined : params.Side,
     });
 
     useEffect(() => {
@@ -34,13 +37,14 @@ const Requests = () => {
     }, [PageNumber, PageSize]);
 
     const onClearFilters = () => {
+        dispatch(emptySelectedCustomers());
+        dispatch(emptySelectedSymbol());
         setParams(initialState);
     };
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setParams((pre) => ({ ...pre, [action]: value }));
     }, []);
-
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
@@ -56,15 +60,15 @@ const Requests = () => {
                 </div>
             </div>
             <div className="grid gap-4 grid-rows-min-one">
-                <RequestFilter onClear={onClearFilters} onSubmit={getOfflineRequest} params={params} setParams={setParams}/>
+                <RequestFilter onClear={onClearFilters} onSubmit={getOfflineRequest} params={params} setParams={setParams} />
                 <div className="grid grid-rows-one-min">
                     <RequestTable
                         setGridApi={setGridApi}
                         PaginatorHandler={PaginatorHandler}
-                        data={[]}
-                        loading={false}
-                        pageNumber={1}
-                        pagesize={25}
+                        data={offlineRequest}
+                        loading={isFetching}
+                        pageNumber={PageNumber}
+                        pagesize={PageSize}
                     />
                 </div>
             </div>

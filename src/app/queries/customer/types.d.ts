@@ -111,7 +111,7 @@ interface ICustomerFinancialResponse extends GlobalApiResponseType<ICustomerFina
 
 
 interface IGetCustomerTurnOverRequestType {
-    Side?: "buy" | "sell" | "deposit" | "withdrawal" | "Remain",
+    Side?: "buy" | "sell" | "deposit" | "withdrawal" | "Remain" | "",
     CustomerISIN?: string;
     SymbolISIN?: string;
     IsAggregated?: boolean;

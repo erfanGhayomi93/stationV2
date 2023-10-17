@@ -4,16 +4,17 @@ import i18next from "i18next";
 export const initialState: IOrdersListStateType = {
     FromDate: dayjs().subtract(1, 'day').format('YYYY-MM-DDT00:00:00'),
     ToDate: dayjs().format('YYYY-MM-DDT23:59:59'),
-    Side: 'Cross',
+    Side: '',
     SymbolISIN: [],
     CustomerISIN: [],
     PageNumber: 1,
     PageSize: 25,
-    CustomerType: undefined,
-    OrderStatus: undefined,
+    CustomerType: '',
+    OrderStatus: '',
 }
 
 export const orderStatusFieldOptions = [
+    { value: '', label: i18next.t("common.all") },
     { value: 'InOMSQueue', label: i18next.t("order_status.InOMSQueue") },
     { value: 'OnSending', label: i18next.t("order_status.OnSending") },
     { value: 'Error', label: i18next.t("order_status.Error") },

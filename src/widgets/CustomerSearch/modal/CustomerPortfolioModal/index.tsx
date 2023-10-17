@@ -15,7 +15,7 @@ const CustomerPortfolioModal = () => {
     //
     const { t } = useTranslation();
     const { setState, state } = useCustomerSearchState();
-    const customerISIN = state?.detailModalData?.customerISIN ? [state?.detailModalData?.customerISIN] : []
+    const customerISIN = state?.detailModalData?.customerISIN ? [state?.detailModalData?.customerISIN] : [];
 
     const closeModal = () => {
         setState((prev) => ({ ...prev, isPortfolioModalOpen: false, detailModalData: undefined }));
@@ -32,15 +32,16 @@ const CustomerPortfolioModal = () => {
     //     }
     // }, [state?.detailModalData?.customerISIN])
 
-
     useEffect(() => {
-        if (rowData && rowData.length) {
+        if (rowData && !!rowData.length && !!state.isPortfolioModalOpen) {
             const symbols = rowData.map(({ symbolISIN }) => symbolISIN);
             subscriptionPortfolio(symbols, { CustomerISIN: customerISIN });
         }
-
-        return () => pushEngine.unSubscribe('portfolioSymbols');
     }, [rowData]);
+
+    useEffect(() => {
+        return () => pushEngine.unSubscribe('portfolioSymbols');
+    }, []);
 
     const getCommission = (marketUnit: MarketUnit) => {
         return commission?.find((item) => item.marketUnitTitle === marketUnit)?.sellCommission;

@@ -37,7 +37,10 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
             },
         },
     );
-
+  
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+    }, [selected]);
     
     const handleSelect = (selected: IGoCustomerSearchResult[]) => {
         setSelected(selected);

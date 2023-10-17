@@ -24,10 +24,13 @@ const Requests = () => {
     //
     const { t } = useTranslation();
     const { data, isLoading } = useGetOfflineRequests(
-        {},
+        { PageNumber: 1, PageSize: 100 },
         {
             select: (data) => {
-                return data.filter(({ state }) => ['Registration', 'Accepted', 'Execution'].includes(state));
+                const { result, ...rest } = data;
+                const filteredData = result.filter(({ state }) => ['Registration', 'Accepted', 'Execution'].includes(state));
+
+                return { ...rest, result: filteredData };
             },
         },
     );
@@ -35,10 +38,14 @@ const Requests = () => {
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
-            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolName', headerComponent: AGHeaderSearchInput },
+            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.side'), field: 'side', valueFormatter: valueFormatterSide },
             { headerName: t('ag_columns_headerName.count'), field: 'volume', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.requestType'), field: 'requestType' },
+            {
+                headerName: t('ag_columns_headerName.requestType'),
+                field: 'requestType',
+                valueFormatter: ({ value }) => (value ? t('BuySellRequestType.' + value) : '-'),
+            },
             { headerName: t('ag_columns_headerName.fund'), field: 'fund', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price' },
             { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'date' },
@@ -61,7 +68,7 @@ const Requests = () => {
     return (
         <WidgetLoading spining={isLoading}>
             <div className={'grid h-full p-3'}>
-                <AGTable agGridTheme="balham" rowData={data || []} columnDefs={columns} />
+                <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
             </div>
         </WidgetLoading>
     );

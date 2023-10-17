@@ -30,6 +30,7 @@
         "Reports/orders" : "سفارشات",
         "Reports/trades" : "معاملات",
         "Reports/turnover" : "گردش حساب",
+		"Reports/requests": "درخواست ها",
         "portfolio": "پرتفوی"
     },
     "common" : {
@@ -296,6 +297,7 @@
     "ag_columns_headerName":{
         "row":"ردیف",
         "customer":"مشتری",
+		"userName": "نام کاربری",
         "bourseCode":"کد بورسی",
         "symbol":"نماد",
         "side":"سمت",
@@ -316,6 +318,7 @@
         "pureValue": "ارزش خالص",
         "pureDayValue": "خالص ارزش روز",
         "currentPrice": "قیمت لحظه ای",
+		"lastTradedPrice": "آخرین قیمت",
         "profitAndLoss": "سود / زیان",
         "profitAndLossPrice": "مبلغ سود و زیان",
         "profitAndLossPercent": "درصد سود و زیان",
@@ -640,6 +643,21 @@
 		"symbol": "نماد",
 		"industry": "صنعت",
 		"papers": "اوراق"
+	},
+	"BuySellRequestState": {
+		"Registration": "ثبت",
+		"Accepted": "پذیرش",
+		"Cancelled": "انصراف",
+		"Execution": "اقدام",
+		"Filled": "انجام کامل",
+		"PartiallyFilled": "انجام ناقص",
+		"Invalid": "مردود",
+		"Finished": "اتمام"
+	},
+    "BuySellRequestType": {
+		"WithTodaysValueAndVolume" : "حجم و قیمت روز",
+		"WithValueAndVolume" : "حجم و قیمت",
+		"WithRevenue" : "سرمایه و قیمت روز",
+		"WithRevenueAndValue" : "سرمایه و قیمت"
 	}
-    
 }

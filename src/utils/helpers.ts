@@ -53,10 +53,10 @@ export const factoryQueryKey = <T extends object>(obj: T): string => {
     let sortObj = {} as T;
 
     (Object.keys(obj) as Array<keyof T>)
-    .sort()
-    .forEach((k) => {
-        sortObj[k] = obj[k];
-    });
+        .sort()
+        .forEach((k) => {
+            sortObj[k] = obj[k];
+        });
 
     return JSON.stringify(sortObj);
 };
@@ -286,9 +286,8 @@ export const getFarsiDate = (timeStamp: string) => {
         seconds,
         dayOfWeek,
         farsiMonth,
-        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
-            farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
-        }`,
+        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
+            }`,
         farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
@@ -418,9 +417,9 @@ export const dateFormatter = (value: string) => {
     } else if (
         matchs[2] === '00' ||
         Number(matchs[2]) >
-            dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
-                .calendar('jalali')
-                .daysInMonth()
+        dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
+            .calendar('jalali')
+            .daysInMonth()
     ) {
         return [matchs[0], matchs[1]].filter(Boolean).join('/');
     }
@@ -491,3 +490,15 @@ export const rgbToRgba = (rgb: string, opacity = 1): string => {
 
     return `rgba(${rgbValues},${opacity})`;
 };
+
+
+export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
+    let obj: { [key: string]: any } = {};
+    for (const [key, value] of Object.entries(object)) {
+        if (value) {
+            obj[key] = value;
+        }
+    }
+
+    return obj;
+}

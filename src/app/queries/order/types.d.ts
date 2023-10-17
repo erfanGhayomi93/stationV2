@@ -53,7 +53,7 @@ type IOrderSelected = {
     validity: string;
     validityDate?: string;
 };
-type OrderSideType = 'Cross' | 'Buy' | 'Sell';
+type OrderSideType = 'Cross' | 'Buy' | 'Sell' | '';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatusType =
     | 'InOMSQueue'
@@ -74,7 +74,8 @@ type OrderStatusType =
     | 'Expired'
     | 'RejectByGAP'
     | 'OnCancelingWithBroker'
-    | 'TradeCancel';
+    | 'TradeCancel'
+    | '';
 interface IOrderResponseType {
     successClientKeys: string[];
     errorNumbers: number;
@@ -164,11 +165,13 @@ interface IGTOfflineTradesRequests {
     CustomerISIN?: string[];
     RequestNo?: string;
     State?: string;
-    TraderId?;
     MarketType?: string;
+    MarketUnit?: string;
+    CustomerType?: CustomerType;
     Channel?: string;
-    PageSize?: number;
-    PageNumber?: number;
+    MyStationOnly?: boolean;
+    PageSize: number;
+    PageNumber: number;
 }
 
 
@@ -181,6 +184,7 @@ interface IGTOfflineTradesResult {
     channel: string;
     customerISIN: string;
     customerTitle: string;
+    customerType: string;
     executingStationId: number;
     executingStationName: string;
     formNo: number;
@@ -196,8 +200,16 @@ interface IGTOfflineTradesResult {
     symbolISIN: string;
     state: string;
     side: string;
-    symbolName: string;
+    symbolTitle: string;
     volume: number;
 }
 
 interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> { }
+
+
+interface IGTOfflineRequestHistoryResult {
+    id: number;
+    userName: string;
+    dateTime: string;
+    state: string;
+}
