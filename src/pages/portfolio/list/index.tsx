@@ -31,19 +31,21 @@ const PortfolioMain = () => {
 
     const { data, isFetching } = useCustomerPortfolio(factoryParams(), {
         keepPreviousData: true,
+        onSuccess(data) {
+            pushEngine.unSubscribe('portfolioSymbols')
+            const rowData = data?.result;
+
+            if (rowData && rowData.length) {
+                const symbols = rowData.map(({ symbolISIN }) => symbolISIN);
+                subscriptionPortfolio(symbols, factoryParams());
+            }
+        },
     })
 
 
     useEffect(() => {
-        const rowData = data?.result;
-
-        if (rowData && rowData.length) {
-            const symbols = rowData.map(({ symbolISIN }) => symbolISIN);
-            subscriptionPortfolio(symbols, factoryParams());
-        }
-
         return () => pushEngine.unSubscribe('portfolioSymbols');
-    }, [data]);
+    }, []);
 
     const PaginatorHandler = (action: 'PageNumber' | 'PageSize', value: number) => {
         setFilterData((pre) => ({ ...pre, [action]: value }));
