@@ -7,6 +7,7 @@ import { abbreviateNumber } from "src/utils/helpers"
 import { ActionsCell } from "./actionsCell"
 import { Paginator } from "src/common/components/Paginator/Paginator"
 import { HistoryPortfolioModal } from "../modal/historyPortfolioModal"
+import { CellLostProfit } from "./CellLostProfit"
 
 type TPortfolioTableType = {
   loading: boolean,
@@ -29,12 +30,12 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
     setIsOpen((prev) => !prev)
   }
 
-  const calcLostProfitValue = (data?: any) => {
+  const calcDayValue = (data?: IGTPortfolioResultType) => {
     if (!data) return ""
 
-    const { lastTradedPrice, averagePrice, asset, commissionPrice } = data.data
-    const res = ((lastTradedPrice - averagePrice) * asset) - commissionPrice
-    return "\u200E" + abbreviateNumber(res)
+    const { lastTradedPrice, asset, commissionPrice } = data
+    const res = (lastTradedPrice * asset) - commissionPrice
+    return String(abbreviateNumber(res))
   }
 
   const columns = useMemo(
@@ -71,7 +72,7 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
       {
         headerName: t('ag_columns_headerName.lastTradedPrice'),
         field: "lastTradedPrice",
-        type: "abbreviatedNumber"
+        type: "sepratedNumber"
       },
       {
         headerName: t('ag_columns_headerName.totalValue'),
@@ -82,15 +83,17 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
       {
         headerName: t('ag_columns_headerName.dayValue'),
         field: "dayValue",
-        type: "abbreviatedNumber"
+        type: "abbreviatedNumber",
+        valueFormatter: ({ data }) => calcDayValue(data)
       },
       {
         headerName: t('ag_columns_headerName.lostProfitValue'),
         field: "lostProfitValue",
-        type: "abbreviatedNumber",
+        cellRenderer: CellLostProfit
+        // type: "abbreviatedNumber",
         // valueFormatter: ({ value }) => "\u200E" + abbreviateNumber(value),
-        valueFormatter: calcLostProfitValue,
-        cellClass: ({ value }) => (value > 0 ? 'text-L-success-200' : 'text-L-error-200'),
+        // valueFormatter: ({ data }) => "\u200E" + abbreviateNumber(Number(calcLostProfitValue(data))),
+        // cellClass: ({ data }) => Number(calcLostProfitValue(data)) > 0 ? 'text-L-success-200' : 'text-L-error-200',
         // cellClass: (data) => (Number(calcLostProfitValue(data)) > 0 ? 'text-L-success-200' : 'text-L-error-200'),
       },
       {
