@@ -3,9 +3,11 @@ interface ICommissionTypeResultType {
 }
 
 interface Commission {
-    marketUnit: MarketUnit;
-    buyCommissionValue: number;
-    sellCommissionValue: number;
+    buyCommission: number
+    commissionType :string;
+    marketTitle : string;
+    marketUnitTitle :string;
+    sellCommission:number
 }
 
 type MarketUnit =

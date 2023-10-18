@@ -91,17 +91,15 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                     >
                                         <div className="min-w-[160px] w-full h-full flex items-center justify-center">
                                             {editMode?.id === basket.id ? (
-                                                <div className="w-full h-full border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded mt-[2px]">
-                                                    <Input
-                                                        data-cy={'basket-item-edit-input-' + basket.name}
-                                                        // className="text-center border border-L-gray-400 w-full h-full outline-L-primary-50"
-                                                        value={editMode?.name}
-                                                        onChange={(e) => handleChangeEditMode('name', e.target.value)}
-                                                        // onKeyDownCapture={(e) => clickEnterName(e)}
-                                                        autoFocus={true}
-                                                        // onBlur={() => setEditMode(undefined)}
-                                                    />
-                                                </div>
+                                                <Input
+                                                    data-cy={'basket-item-edit-input-' + basket.name}
+                                                    // className="text-center border border-L-gray-400 w-full h-full outline-L-primary-50"
+                                                    value={editMode?.name}
+                                                    onChange={(e) => handleChangeEditMode('name', e.target.value)}
+                                                    // onKeyDownCapture={(e) => clickEnterName(e)}
+                                                    autoFocus={true}
+                                                    // onBlur={() => setEditMode(undefined)}
+                                                />
                                             ) : (
                                                 <span data-cy={'basket-item-title-' + basket.name} className="py-1.5 inline-block">
                                                     {basket.name}
@@ -114,7 +112,10 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                                 //     value={editMode?.sendDate}
                                                 //     onChange={(date) => handleChangeEditMode('sendDate', date)}
                                                 // />
-                                                <AdvancedDatepicker value={editMode?.sendDate} onChange={(date) => handleChangeEditMode('sendDate', date)}/>
+                                                <AdvancedDatepicker
+                                                    value={editMode?.sendDate}
+                                                    onChange={(date) => handleChangeEditMode('sendDate', date)}
+                                                />
                                             ) : (
                                                 <span className="py-1.5 w-100 block">{getFarsiDate(basket.sendDate).farsiDate}</span>
                                             )}

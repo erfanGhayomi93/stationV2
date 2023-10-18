@@ -49,6 +49,18 @@ export const jsonParseSafely = (jsonString: string, onFail: any): any => {
 
 export const getUniqId = (): string => (Math.random() + 1).toString(36).substring(2);
 
+export const factoryQueryKey = <T extends object>(obj: T): string => {
+    let sortObj = {} as T;
+
+    (Object.keys(obj) as Array<keyof T>)
+        .sort()
+        .forEach((k) => {
+            sortObj[k] = obj[k];
+        });
+
+    return JSON.stringify(sortObj);
+};
+
 export const copyTextToClipboard = (text: string) => {
     //
     if (!text) return;
@@ -274,9 +286,8 @@ export const getFarsiDate = (timeStamp: string) => {
         seconds,
         dayOfWeek,
         farsiMonth,
-        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
-            farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
-        }`,
+        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
+            }`,
         farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
@@ -347,8 +358,8 @@ export const handleValidity = (validity: string): string => {
 };
 
 const isDecimal = (number: number) => {
-    return String(number).indexOf(".") < 0 ? false : true
-}
+    return String(number).indexOf('.') < 0 ? false : true;
+};
 
 export const abbreviateNumber = (number: number) => {
     //
@@ -371,7 +382,7 @@ export const abbreviateNumber = (number: number) => {
     const scaled = number / scale;
 
     // format number and add suffi
-    
+
     return isDecimal(scaled) ? scaled.toFixed(1) + suffix : scaled + suffix;
 };
 
@@ -406,9 +417,9 @@ export const dateFormatter = (value: string) => {
     } else if (
         matchs[2] === '00' ||
         Number(matchs[2]) >
-            dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
-                .calendar('jalali')
-                .daysInMonth()
+        dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
+            .calendar('jalali')
+            .daysInMonth()
     ) {
         return [matchs[0], matchs[1]].filter(Boolean).join('/');
     }
@@ -462,21 +473,32 @@ export const downloadCanvasAsImage = (canvas: HTMLCanvasElement, name: string) =
     xhr.send();
 };
 
-
 export const getAverageDates = (startDate: number, endDate: number, n: number) => {
-	const averageInterval = Math.floor((endDate - startDate) / n);
-	const averageDates: number[] = [];
+    const averageInterval = Math.floor((endDate - startDate) / n);
+    const averageDates: number[] = [];
 
-	const startDateAsTimestamp = new Date(startDate).getTime();
-	for (let i = 0; i < n; i++) {
-		averageDates.push(startDateAsTimestamp + (i * averageInterval));
-	}
+    const startDateAsTimestamp = new Date(startDate).getTime();
+    for (let i = 0; i < n; i++) {
+        averageDates.push(startDateAsTimestamp + i * averageInterval);
+    }
 
-	return averageDates;
+    return averageDates;
 };
 
 export const rgbToRgba = (rgb: string, opacity = 1): string => {
-	const rgbValues = rgb.slice(4, rgb.length - 1);
+    const rgbValues = rgb.slice(4, rgb.length - 1);
 
-	return `rgba(${rgbValues},${opacity})`;
+    return `rgba(${rgbValues},${opacity})`;
 };
+
+
+export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
+    let obj: { [key: string]: any } = {};
+    for (const [key, value] of Object.entries(object)) {
+        if (value) {
+            obj[key] = value;
+        }
+    }
+
+    return obj;
+}

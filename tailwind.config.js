@@ -31,14 +31,14 @@ module.exports = {
                         50: '#FFF4F4',
                         100: '#FFE1E1',
                         200: '#E84830',
-                        101: "rgb(224, 64, 64 , 0.3)",//must be deleted 
+                        101: 'rgb(224, 64, 64 , 0.3)', //must be deleted
                         300: '#CE3636',
                     },
                     success: {
                         50: '#F3FFF9',
                         100: '#C3E9D5',
                         200: '#15B761',
-                        101: 'rgba(167, 223, 193, 0.3)',// must be deleted
+                        101: 'rgba(167, 223, 193, 0.3)', // must be deleted
                         300: '#0A9E50',
                     },
                     warning: {
@@ -56,11 +56,11 @@ module.exports = {
                         100: '#041D37',
                         200: '#0C4073',
                         300: '#133F8E',
-                    }
+                    },
                 },
                 D: {
                     primary: {
-                        50: '#A9BDEC', 
+                        50: '#A9BDEC',
                         100: '#202A41',
                     },
                     secondary: {
@@ -86,7 +86,7 @@ module.exports = {
                         50: '#03110A',
                         100: '#143D2A',
                         200: '#15B761',
-                        300: '#0A9E50', 
+                        300: '#0A9E50',
                     },
                     warning: {
                         DEFAULT: '#F5A300',
@@ -99,11 +99,11 @@ module.exports = {
                         100: '#4895EF',
                     },
                     blue: {
-                        50: '#07294A',
+                        50: '#1E2334',
                         100: '#041D37',
-                        200: '#3F455B ',
+                        200: '#3F455B',
                         300: '#8AA3DE',
-                    }
+                    },
                 },
             },
             fontSize: {
@@ -129,14 +129,14 @@ module.exports = {
                 2.4: '1.5rem',
             },
             fontFamily: {
-                sans: ["IRANSansEnNum"],
-                IRANSansFaNum: ["IRANSansFaNum", "sans-serif"],
+                sans: ['IRANSansEnNum'],
+                IRANSansFaNum: ['IRANSansFaNum', 'sans-serif'],
             },
             gridTemplateColumns: {
-                '14': 'repeat(14, minmax(0, 1fr))',
-                '16': 'repeat(16, minmax(0, 1fr))',
-                '18': 'repeat(18, minmax(0, 1fr))',
-                '20': 'repeat(20, minmax(0, 1fr))',
+                14: 'repeat(14, minmax(0, 1fr))',
+                16: 'repeat(16, minmax(0, 1fr))',
+                18: 'repeat(18, minmax(0, 1fr))',
+                20: 'repeat(20, minmax(0, 1fr))',
                 'min-one': '1fr min-content;',
                 'one-min': 'min-content 1fr;',
             },
@@ -147,6 +147,19 @@ module.exports = {
                 'min-min-one': 'min-content min-content 1fr;',
                 'one-min': '1fr min-content;',
                 '60-40': '60fr 40fr',
+            },
+
+            keyframes: {
+                spinSlow: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '25%': { transform: 'rotate(90deg)' },
+                    '50%': { transform: 'rotate(180deg)' },
+                    '75%': { transform: 'rotate(270deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
+            },
+            animation: {
+                'spin-slow': 'spinSlow 2s ease-in-out infinite',
             },
         },
     },

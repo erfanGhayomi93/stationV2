@@ -1,7 +1,6 @@
 import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
 import CustomerDetail from '../../components/CustomerDetail';
-import GroupDetail from '../../components/GroupDetail/GroupDetail';
 
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import { useTranslation } from 'react-i18next';
@@ -23,11 +22,8 @@ const CustomerDetailModal = ({}: ICustomerDetailModalType) => {
                         <div>{`${t('common.customerInformation')}  (${state.detailModalData?.title || ''})`}</div>
                         <CloseIcon onClick={closeModal} className="cursor-pointer" />
                     </div>
-                    {state.detailModalData?.customerType === 'CustomerTag' || state.detailModalData?.customerType === 'TraderGroup' ? (
-                        <GroupDetail />
-                    ) : (
-                        <CustomerDetail />
-                    )}
+
+                     <CustomerDetail />
                 </div>
             </Modal>
         </>

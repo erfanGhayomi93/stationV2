@@ -21,12 +21,14 @@ const getAndSetThemeOnLoad = (): 'light' | 'dark' => {
     return toReturn;
 };
 
-interface UiState {
+export interface UiState {
     theme: 'dark' | 'light';
+    homeLayout: 'ltr' | 'rtl'
 }
 
 const initialState: UiState = {
     theme: getAndSetThemeOnLoad(),
+    homeLayout: 'rtl'
 };
 
 const uiSlice = createSlice({
@@ -39,11 +41,15 @@ const uiSlice = createSlice({
             document.body.classList.remove(action.payload === 'dark' ? 'light' : 'dark');
             state.theme = action.payload;
         },
+        toggleHomeLayout: (state, action: PayloadAction<typeof initialState.homeLayout>) => {
+            state.homeLayout = action.payload
+        }
     },
 });
 
-export const { setAppTheme } = uiSlice.actions;
+export const { setAppTheme, toggleHomeLayout } = uiSlice.actions;
 
 export default uiSlice.reducer;
 
 export const getTheme = (state : RootState) => state.ui.theme
+export const getHomeLayout = (state : RootState) => state.ui.homeLayout

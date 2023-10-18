@@ -62,12 +62,12 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                     <div
                         key={ind}
                         className={clsx(
-                            'my-1 overflow-hidden duration-300 ease-out flex flex-col',
-                            openedList === item.id ? 'bg-L-blue-100 max-h-[300px]' : 'max-h-[2.5rem]',
+                            'mt-3 overflow-hidden duration-300 ease-out flex flex-col',
+                            openedList === item.id ? 'bg-L-blue-100 dark:bg-[#111523] max-h-[300px]' : 'max-h-[2.5rem]',
                         )}
                     >
                         <button
-                            className={clsx('flex gap-4 item-center px-6 py-3', activeMenuItem === item.id && !item.children ? 'text-L-info-50' : '')}
+                            className={clsx('flex gap-4 item-center px-6 py-4', activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '')}
                             onClick={() => onMenuItemClick(item)}
                         >
                             {item.icon}
@@ -88,7 +88,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                         <div
                                             className={clsx(
                                                 'text-right py-2 px-2 rounded-md',
-                                                activeMenuItem === child.id ? 'bg-L-blue-50 text-L-info-50' : '',
+                                                activeMenuItem === child.id ? 'bg-L-blue-50 text-L-secondary-50' : '',
                                             )}
                                         >
                                             {child.label}
@@ -115,7 +115,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 bg-white  bg-opacity-25" />
+                        <div className="fixed inset-0" />
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
@@ -130,8 +130,8 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                 leaveTo="opacity-0  translate-x-40"
                             >
                                 <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0">
-                                    <div className="w-[18rem] h-screen overflow-visible bar rounded-l-lg bg-L-blue-50 text-white flex flex-col py-5 pt-3">
-                                        <div className="flex flex-col items-center gap-5">
+                                    <div className="w-[18rem] h-screen overflow-visible bar bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col py-5 pt-3">
+                                        <div className="flex flex-col items-center">
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
                                         <div className="flex flex-col h-full justify-between">

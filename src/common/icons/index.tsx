@@ -61,6 +61,7 @@ export { ReactComponent as Negetive } from 'src/assets/svg/negetive.svg';
 export { ReactComponent as NoteIcon } from 'src/assets/svg/NoteIcon.svg';
 export { ReactComponent as PercentIcon } from 'src/assets/svg/percent.svg';
 export { ReactComponent as PlusIcon } from 'src/assets/svg/Plus.svg';
+export { ReactComponent as MinusIcon } from 'src/assets/svg/minus.svg';
 export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioDetail.svg';
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
@@ -94,6 +95,7 @@ export { ReactComponent as NavigateLeftSVG } from "src/assets/svg/navigate-left.
 export { ReactComponent as TvSymbolSearchSVG } from "src/assets/svg/tv-symbol-search.svg";
 export { ReactComponent as NoFileExistsSVG } from "src/assets/svg/no-file-exists.svg";
 export { ReactComponent as StarIcon } from "src/assets/svg/star.svg";
+export { ReactComponent as SelectedList } from "src/assets/svg/selectedList.svg";
 
 export { ReactComponent as Chart1ColSVG } from "src/assets/svg/chart-1c.svg";
 export { ReactComponent as Chart2ColSVG } from "src/assets/svg/chart-2c.svg";
@@ -111,6 +113,7 @@ export { ReactComponent as GridLayoutSVG } from 'src/assets/svg/GridLayout.svg';
 export { ReactComponent as Search, ReactComponent as SearchIcon } from 'src/assets/svg/Search.svg';
 export { ReactComponent as InfoIcon } from 'src/assets/svg/infoIcon.svg';
 export { ReactComponent as InfoFillIcon } from 'src/assets/svg/infoFillIcon.svg';
+export { ReactComponent as SandClockIcon } from 'src/assets/svg/sand-clock.svg';
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';
 export { ReactComponent as SpinnerIcon } from 'src/assets/svg/Spinner.svg';

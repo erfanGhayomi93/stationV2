@@ -1,9 +1,11 @@
 import clsx from 'clsx';
 import { FC, Fragment, useEffect, useMemo, useState } from 'react';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import Combo from '../ComboSelect';
 import CustomerResult from './CustomerResult';
 import InputSearch from './input';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 interface ICustomerMegaSelectType {
     setSelected: (x: IGoCustomerSearchResult[]) => void;
@@ -15,15 +17,18 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    useEffect(() => {
-        selected.length === 0 && setTerm('');
-    }, [selected]);
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
+
+
+    // useEffect(() => {
+    //     selected.length === 0 && setTerm('');
+    // }, [selected]);
 
     const {
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
+    } = useAdvancedSearchQuery(
         { term },
         {
             onSuccess: () => {
@@ -32,7 +37,10 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
             },
         },
     );
-
+  
+    useEffect(() => {
+        selected.length === 0 && setTerm('');
+    }, [selected]);
     
     const handleSelect = (selected: IGoCustomerSearchResult[]) => {
         setSelected(selected);
@@ -47,22 +55,22 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
                 <>
                     <div
                         className={clsx(
-                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-10 top-0  origin-top shadow-md ',
+                            'bg-L-basic dark:bg-D-basic max-h-[300px] rounded border border-L-gray-400 dark:border-D-gray-400 overflow-y-auto absolute w-full z-10 top-0  origin-top shadow-md ',
                             !active && 'scale-y-0',
                         )}
                     >
                         {content === 'SELECT' ? (
                             <>
-                                {selected?.map((item, inx) => (
+                                {selectedCustomers?.map((item, inx) => (
                                     <Fragment key={inx}>
                                         <Combo.DataSet
                                             key={inx}
-                                            className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                                            label={item.customerTitle}
+                                            className="even:bg-L-gray-100 dark:bg-D-basic dark:text-D-gray-700 even:dark:bg-D-gray-100 hover:bg-L-primary-100 dark:hover:bg-D-primary-100 py-2 flex items-center gap-2 cursor-pointer px-2"
+                                            label={item.title}
                                             value={item}
                                         >
                                             <div className="flex gap-2 justify-between items-center w-full text-1">
-                                                <div className="flex-1">{item.customerTitle}</div>
+                                                <div className="flex-1">{item.title}</div>
                                                 <div className="min-w-min">{item.bourseCode}</div>
                                             </div>
                                         </Combo.DataSet>
@@ -88,7 +96,7 @@ const CustomerMegaSelect: FC<ICustomerMegaSelectType> = ({ setSelected, selected
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
                 multiple={true}
-                selections={selected}
+                selections={selectedCustomers}
                 keyId={'customerISIN'}
                 showPanel={panel}
                 min={3}

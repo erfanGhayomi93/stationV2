@@ -66,18 +66,24 @@ export const Apis = () => ({
         SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
         ChartData: baseUrl + '/Symbol/v1/ChartData',
+        GetMarketUnit: baseUrl + '/Symbol/v1/GetMarketUnit',
     },
     Customer: {
+        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
+        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
+        ToggleFavorite: baseUrl + '/Customer/v1/ToggleFavorite',
+        GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
+        GetGroups: baseUrl + '/Customer/v1/GetGroups',
+
         Search: baseUrl + '/Customer/v1/Search',
         GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
         GetCustomerFinancial: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
         GetGroupInformation: baseUrl + '/Customer/v1/GetGroupInformation',
         // MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
-        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
-        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
         MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
         GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
         Get: baseUrl + '/Customer/v1/GetCustomers',
+        GetTurnOver: baseUrl + '/Customer/v1/CustomerTurnOverGt',
     },
     MarketDepth: {
         // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
@@ -96,6 +102,7 @@ export const Apis = () => ({
         Modify: baseUrl + '/Order/v1/Modify',
         Trades: baseUrl + '/Order/v1/Trades',
         OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
+        OfflineRequestHistory: baseUrl + '/Order/v1/TradeRequestHistory',
     },
     SupervisorMessage: {
         Get: baseUrl + `/Message/v1/TodaySupervisorMessage`,
@@ -139,6 +146,7 @@ export const Apis = () => ({
     },
     Portfolio: {
         CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
+        CardexHistory: baseUrl + '/Portfolio/v1/CardexHistory',
     },
     tvChart: {
         index: `${baseUrl}/TV/v1`,

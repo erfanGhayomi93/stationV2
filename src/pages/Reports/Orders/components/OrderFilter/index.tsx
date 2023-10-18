@@ -10,6 +10,7 @@ import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/Advance
 import Select from 'src/common/components/Select';
 import { customerTypeFieldOptions, sideFieldOptions } from 'src/pages/Reports/Trades/constant';
 import { orderStatusFieldOptions } from '../../constant';
+import dayjs from 'dayjs';
 
 interface IProps {
     params: IOrdersListStateType;
@@ -23,7 +24,7 @@ const OrdersFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
     const { t } = useTranslation();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-    const handleValueCahnge = (part: keyof IOrdersListStateType, value: any) => {
+    const handleValueChange = <T extends keyof IOrdersListStateType>(part: T, value: IOrdersListStateType[T]) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
@@ -34,34 +35,40 @@ const OrdersFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
             <div className="w-full h-full grid grid-cols-20 gap-4">
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
                     <CustomerMegaSelect
-                        setSelected={(selected) => handleValueCahnge('CustomerISIN', selected)}
+                        setSelected={(selected) => handleValueChange('CustomerISIN', selected)}
                         selected={params.CustomerISIN as any}
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3">
-                    <SymbolMiniSelect multiple selected={params.SymbolISIN} setSelected={(selected) => handleValueCahnge('SymbolISIN', selected)} />
+                    <SymbolMiniSelect multiple selected={params.SymbolISIN} setSelected={(selected) => handleValueChange('SymbolISIN', selected)} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatepicker value={params.FromDate} onChange={(v) => handleValueCahnge('FromDate', v)} />
+                    <AdvancedDatepicker
+                        value={params.FromDate}
+                        onChange={(value) => handleValueChange('FromDate', dayjs(value).format('YYYY-MM-DDT00:00:00'))}
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatepicker value={params.ToDate} onChange={(v) => handleValueCahnge('ToDate', v)} />
+                    <AdvancedDatepicker
+                        value={params.ToDate}
+                        onChange={(value) => handleValueChange('ToDate', dayjs(value).format('YYYY-MM-DDT23:59:59'))}
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
-                    <Select onChange={(selected) => handleValueCahnge('Side', selected)} value={params.Side} options={sideFieldOptions} />
+                    <Select onChange={(selected) => handleValueChange('Side', selected)} value={params.Side} options={sideFieldOptions} />
                 </FilterBlock>
                 {isFilterOpen && (
                     <>
                         <FilterBlock label={t('FilterFieldLabel.CustomerType')} className="col-span-3">
                             <Select
-                                onChange={(selected) => handleValueCahnge('CustomerType', selected)}
+                                onChange={(selected) => handleValueChange('CustomerType', selected)}
                                 value={params.CustomerType}
                                 options={customerTypeFieldOptions}
                             />
                         </FilterBlock>
-                        <FilterBlock label={t('FilterFieldLabel.Status')} className='col-span-3'>
+                        <FilterBlock label={t('FilterFieldLabel.Status')} className="col-span-3">
                             <Select
-                                onChange={(selected) => handleValueCahnge('OrderStatus', selected)}
+                                onChange={(selected) => handleValueChange('OrderStatus', selected)}
                                 value={params.OrderStatus}
                                 options={orderStatusFieldOptions}
                             />

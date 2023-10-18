@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { pushEngine } from 'src/ls/pushEngine';
-import WorkflowWidget from 'src/common/components/WorkFlow/context/WorkflowContext';
 import Footer from './Footer';
 import Header from './Header';
 import Sider from './Sider';
@@ -46,7 +45,6 @@ const AppLayout = () => {
     }, []);
 
     return (
-        <WorkflowWidget>
             <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50 min-w-[1330px] overflow-x-auto">
                 <div className="h-full w-full grid grid-cols-one-min">
                     <ProviderSlider>
@@ -61,7 +59,6 @@ const AppLayout = () => {
                     </div>
                 </div>
             </div>
-        </WorkflowWidget>
     );
 };
 

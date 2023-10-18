@@ -26,7 +26,7 @@ interface Props<TData> extends AgGridReactProps<TData> {
 const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
     //
     const { t } = useTranslation();
-    const theme = useAppSelector(getTheme)
+    const theme = useAppSelector(getTheme);
 
     const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
     const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
@@ -35,7 +35,9 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         return {
             sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
-            date: { valueFormatter: ({ value }) => (value ? dayjs(value).calendar('jalali').format('YYYY-MM-DD   HH:mm:ss') : value) },
+            date: {
+                valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY-MM-DD   HH:mm:ss') : value),
+            },
         };
     }, []);
 

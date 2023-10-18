@@ -38,8 +38,8 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
 
     return (
         <div className={clsx("bg-L-basic dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100", {
-            "h-10": !!isBigSize , 
-            "h-8": !isBigSize , 
+            "h-10": !!isBigSize,
+            "h-8": !isBigSize,
         })}>
             <div className="flex items-center gap-1 relative grow">
                 <div className="pr-2">
@@ -84,7 +84,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
                                 height={18}
                             />
                             {selections?.length ? (
-                                <span className="ltr absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full">
+                                <span className="ltr absolute flex items-center justify-center aspect-square w-[18px] -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full">
                                     {selections?.length && selections?.length < 10 ? selections?.length : '+9'}
                                 </span>
                             ) : null}

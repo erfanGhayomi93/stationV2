@@ -41,7 +41,7 @@
         "react-simple-keyboard": "^3.4.223",
         "react-toastify": "^9.0.8",
         "react-tracked": "^1.7.10",
-        "react-virtuoso": "^2.19.0",
+        "react-virtuoso": "^4.6.0",
         "typescript": "4.9.5",
         "web-vitals": "^2.1.4"
     },

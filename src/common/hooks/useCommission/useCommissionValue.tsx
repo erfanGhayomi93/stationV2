@@ -12,19 +12,21 @@ interface IuseCommissionType extends IuseCommissionValueType {
 }
 
 export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
-    const { data: commissionData } = useCommissionQuery<Commission[]>({ select: (data) => data.commissions });
+    const { data: commissionData } = useCommissionQuery<Commission[]>();
     return (
-        commissionData?.find((market) => market.marketUnit === marketUnit) || {
-            marketUnit: undefined,
-            buyCommissionValue: 0,
-            sellCommissionValue: 0,
+        commissionData?.find((market) => market.marketUnitTitle === marketUnit) || {
+            buyCommission: 0,
+            commissionType: '',
+            marketTitle: undefined,
+            marketUnitTitle: undefined,
+            sellCommission: 0,
         }
     );
 };
 
 const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
-    const { buyCommissionValue, sellCommissionValue } = useCommissionValue({ marketUnit });
-    const commissionValue = side === 'Buy' ? buyCommissionValue : sellCommissionValue;
+    const { buyCommission, sellCommission } = useCommissionValue({ marketUnit });
+    const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
     const commission = Math.ceil(commissionValue * price * quantity * 100) / 100;
     const unitCommission = Math.ceil(commissionValue * price * 1 * 100) / 100;
     return { commission, unitCommission };
@@ -37,8 +39,8 @@ export const useCostValue = ({ marketUnit, price, quantity, side }: IuseCommissi
 
 export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const cost = useCostValue({ quantity, price, marketUnit, side });
-    const { sellCommissionValue } = useCommissionValue({ marketUnit });
-    return Math.ceil(cost / (quantity - quantity * sellCommissionValue) || 0);
+    const { sellCommission } = useCommissionValue({ marketUnit });
+    return Math.ceil(cost / (quantity - quantity * sellCommission) || 0);
 };
 
 export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {

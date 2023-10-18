@@ -1,4 +1,4 @@
-import WorkflowChanger from 'src/common/components/WorkFlow/components/WorkflowChanger';
+import WorkflowChanger from 'src/common/components/WorkFlow';
 import BrokerData from './BrokerData';
 import Clock from './Clock';
 import MarketIndexes from './MarketIndexes';

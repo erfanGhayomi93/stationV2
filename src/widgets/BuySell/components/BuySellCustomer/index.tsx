@@ -1,24 +1,26 @@
 import clsx from 'clsx';
 import { FC, useMemo, useState } from 'react';
-import { useMultiCustomerListQuery } from 'src/app/queries/customer';
+import { useAdvancedSearchQuery } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
 import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
 import InputSearch from './input';
 
-interface IBuySellCustomerType {}
+interface IBuySellCustomerType { }
 
-const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
+const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
     const appDispatch = useAppDispatch();
+
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        appDispatch(setSelectedCustomers(customer));
+        // console.log("customer", customer)
+        // appDispatch(setSelectedCustomers(customer));
     };
 
     const selectedCustomers = useAppSelector(getSelectedCustomers)
@@ -27,7 +29,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
         data: qData,
         isLoading,
         isFetching,
-    } = useMultiCustomerListQuery<IGoMultiCustomerType[]>(
+    } = useAdvancedSearchQuery(
         { term },
         {
             onSuccess: () => {
@@ -73,11 +75,11 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({}) => {
                         onSelectionChange={(selected) => onSelectionChanged(selected)}
                         onPanelVisibiltyChange={(value) => setPanel(value)}
                         onMinimumEntered={setMin}
-                        multiple={true}
                         selections={selectedCustomers}
                         keyId={'customerISIN'}
                         showPanel={panel}
                         min={3}
+                        multiple
                     >
                         <div>
                             <InputSearch loading={isFetching} selectionCount={selectedCustomers.length} />
@@ -97,7 +99,7 @@ export default BuySellCustomer;
 export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
     return (
         <>
-            {(isLoading || isFetching) && (
+            {(isFetching) && (
                 <div className="p-5 flex items-center justify-center w-full h-full  text-L-gray-600 bg-L-basic dark:bg-D-basic">
                     <div className="flex items-center justify-center gap-2 text-L-gray-500">
                         <span>در حال بارگذاری</span>

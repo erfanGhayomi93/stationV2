@@ -30,7 +30,7 @@ function BasketPage() {
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
-            <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('page_title.basket')}</h1>
+            <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.basket')}</h1>
             <TopBasket {...{ activeBasket, saveIndexBasketSelected }} />
             <FilterBasket {...{ handleFilter, isShowFilter, setisShowFilter }} />
             <TableBasket {...{ activeBasket, listAfterFilter, dataFilter, isShowFilter }} />

@@ -15,9 +15,12 @@ const Trades = lazy(() => safeLazyImport(() => import('src/pages/Reports/Trades'
 const TurnOver = lazy(() => safeLazyImport(() => import('src/pages/Reports/TurnOver')));
 const Calender = lazy(() => safeLazyImport(() => import('src/pages/Market/calender')));
 const TradingView = lazy(() => safeLazyImport(() => import('src/pages/Market/Chart/context/index')));
+const Requests = lazy(() => safeLazyImport(() => import('src/pages/Reports/Requests')));
+const PortfolioMain = lazy(() => safeLazyImport(() => import('src/pages/portfolio/list/index')));
 
 import AppLayout from '../Layout';
 import AuthLayout from '../Layout/AuthLayout';
+
 
 const AppRoutes: FC = () => {
 
@@ -76,6 +79,19 @@ const AppRoutes: FC = () => {
                         {
                             path: '/Reports/turnover',
                             element: <TurnOver />,
+                        },
+                        {
+                            path: '/Reports/requests',
+                            element: <Requests />,
+                        }
+                    ]
+                },
+                {
+                    path: "/portfolio",
+                    children: [
+                        {
+                            path: "/portfolio",
+                            element: <PortfolioMain />
                         }
                     ]
                 },
@@ -85,15 +101,15 @@ const AppRoutes: FC = () => {
                         {
                             path: "/Market/Calender",
                             element: <Calender />
-                        }, 
+                        },
                         {
                             path: "/Market/Chart",
                             element: <TradingView />
                         }
                     ]
-                },{
-                    path:"*" ,
-                    element : <Page404 />
+                }, {
+                    path: "*",
+                    element: <Page404 />
                 }
             ]
         }
@@ -119,73 +135,3 @@ const AppRoutes: FC = () => {
 };
 
 export default AppRoutes;
-
-// const unAuthorizedRoutes = {
-//     Login: {
-//         path: '/Login',
-//         name: 'Login',
-//         pageTitle: 'صفحه ورود',
-//         component: Login,
-//     },
-//     ForgetPassword: {
-//         path: '/forgetPassword',
-//         name: 'ForgetPassword',
-//         pageTitle: 'فراموشی رمز عبور',
-//         component: ForgetPassword,
-//     },
-// };
-
-// const authorizedRoutes = {
-//     Home: {
-//         path: '/',
-//         name: 'Home',
-//         pageTitle: 'صفحه اصلی',
-//         component: Home,
-//     },
-//     Reports: {
-//         path: '/Reports/:activeTab',
-//         name: 'Reports',
-//         pageTitle: 'صفحه اصلی',
-//         component: Reports,
-//         children : [
-//
-//         ]
-//
-//     },
-//     Basket: {
-//         path: '/basket',
-//         name: 'basket',
-//         pageTitle: 'سبد معامله‌گر',
-//         component: Basket,
-//     },
-//     WatchList: {
-//         path: '/Watchlist',
-//         name: 'Watchlist',
-//         pageTitle: 'دیدبان',
-//         component: Watchlist,
-//     },
-//     Page404: {
-//         path: '*',
-//         name: 'Page404',
-//         pageTitle: 'صفحه ناموجود',
-//         component: Page404,
-//     },
-//     PageCrash: {
-//         path: '/PageCrash',
-//         name: 'PageCrash',
-//         pageTitle: 'صفحه ناموجود',
-//         component: PageCrash,
-//     },
-//     Help: {
-//         path: '/Help',
-//         name: 'Help',
-//         pageTitle: 'کمک',
-//         component: Help,
-//     },
-// };
-
-// const AUTHORIZED_ROUTES = Object.values(authorizedRoutes);
-
-// const UN_AUTHORIZED_ROUTES = Object.values(unAuthorizedRoutes);
-
-// export { AUTHORIZED_ROUTES, UN_AUTHORIZED_ROUTES, unAuUN_AUTHORIZED_ROUTESthorizedRoutes };

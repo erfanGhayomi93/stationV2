@@ -39,7 +39,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange, filterCustom
     const items: Item[] = [
         { label: 'حقیقی', value: 'Natural' },
         { label: 'حقوقی', value: 'Legal' },
-        { label: 'گروه', value: 'CustomerTag' },
+        // { label: 'گروه', value: 'CustomerTag' },
     ];
 
     return (

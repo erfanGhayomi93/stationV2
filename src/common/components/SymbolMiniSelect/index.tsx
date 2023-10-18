@@ -6,6 +6,8 @@ import Combo from '../ComboSelect';
 import SymbolResult from '../SearchResult/SymbolSearchResult/SymbolResult';
 import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedSymbolMulti } from 'src/redux/slices/option';
 
 interface ISymbolMiniSelectType {
     multiple?: boolean;
@@ -21,6 +23,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
+    const selectedSymbolMulti = useAppSelector(getSelectedSymbolMulti);
 
 
     const {
@@ -52,7 +55,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
             return (
                 <>
                     <div
-                        className={clsx('bg-white  overflow-y-auto absolute w-full z-10 top-0  origin-top', {
+                        className={clsx('bg-L-basic dark:bg-D-basic rounded border border-L-gray-400 dark:border-D-gray-400 overflow-y-auto absolute w-full z-10 top-0  origin-top', {
                             'scale-y-0': !active,
                             'shadow-md max-h-[300px]': !isOnModal,
                             ' max-h-[400px] mt-1 border border-L-gray-300 dark:border-D-gray-300': !!isOnModal,
@@ -78,7 +81,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             //         </Fragment>
                             //     ))}
                             // </>
-                            <SymbolSelected selected={selected} />
+                            <SymbolSelected selected={selectedSymbolMulti} />
                         ) : (
                             <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
                         )}
@@ -98,7 +101,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 onSelectionChange={(selected) => handleSelect(selected)}
                 onPanelVisibiltyChange={(value) => setPanel(value)}
                 onMinimumEntered={setMin}
-                selections={selected}
+                selections={selectedSymbolMulti}
                 keyId={'symbolISIN'}
                 showPanel={panel}
                 min={2}

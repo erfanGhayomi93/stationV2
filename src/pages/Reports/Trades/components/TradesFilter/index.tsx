@@ -7,6 +7,7 @@ import FilterBlock from 'src/common/components/FilterBlock';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { customerTypeFieldOptions, sideFieldOptions, stationFieldOptions, timeFieldOptions } from '../../constant';
+import dayjs from 'dayjs';
 
 interface IProps {
     params: ITradeStateType;
@@ -21,7 +22,7 @@ const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
     const [isOpenFilter, setIsOpenFilter] = useState(false);
     const { CustomerISIN, CustomerType, SymbolISIN, Side, Time, ToDate, FromDate, MyStationOnly } = params;
 
-    const handleValueChange = (part: keyof ITradeStateType, value: any) => {
+    const handleValueChange = <T extends keyof ITradeStateType>(part: T, value: ITradeStateType[T]) => {
         setParams((pre) => ({ ...pre, [part]: value }));
     };
 
@@ -40,10 +41,10 @@ const TradesFilter = ({ params, setParams, onSubmit, onClear }: IProps) => {
                     <Select onChange={(selected) => handleValueChange('Time', selected)} value={Time} options={timeFieldOptions} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')}>
-                    <AdvancedDatepicker value={FromDate} onChange={(value) => handleValueChange('FromDate', value)} />
+                    <AdvancedDatepicker value={FromDate} onChange={(value) => handleValueChange('FromDate', dayjs(value).format('YYYY-MM-DDT00:00:00'))} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')}>
-                    <AdvancedDatepicker value={ToDate} onChange={(value) => handleValueChange('ToDate', value)} />
+                    <AdvancedDatepicker value={ToDate} onChange={(value) => handleValueChange('ToDate', dayjs(value).format('YYYY-MM-DDT23:59:59'))} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Side')}>
                     <Select onChange={(selected) => handleValueChange('Side', selected)} value={Side} options={sideFieldOptions} />
