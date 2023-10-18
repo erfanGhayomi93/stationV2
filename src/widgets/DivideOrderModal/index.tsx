@@ -21,13 +21,13 @@ const DivideOrderModal = () => {
     const [priceInput, setPriceInput] = useState(price);
     const [customers, setCustomers] = useState<DividedOrderRowType[]>([]);
     const dispatch = useBuySellDispatch();
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const closeModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });
     };
 
-    const handleDivideOrders = (quantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
+    const handleDivideOrders = (quantity: number, price: number, selectedCustomers: IGoMultiCustomerType[]) => {
         //
         let dividedOrderArray: DividedOrderRowType[] = [];
 
@@ -35,12 +35,12 @@ const DivideOrderModal = () => {
             const symbolMaxQuantity = symbolData?.maxTradeQuantity || 1;
             const quantityPerCustomer = Math.floor(totalQuantity / selectedCustomers.length);
 
-            const createOrder = (customerISIN: string, customerTitle: string, quantity: number) => {
+            const createOrder = (customerISIN: string, customerTitle: string, quantity: number, price: number) => {
                 return {
                     customerISIN,
                     customerTitle,
                     id: getUniqId(),
-                    price: priceInput,
+                    price,
                     quantity,
                     status: null,
                 };
@@ -48,7 +48,10 @@ const DivideOrderModal = () => {
 
             for (const { customerISIN, title } of selectedCustomers) {
                 const orderQuantity = Math.min(quantityPerCustomer, symbolMaxQuantity);
-                dividedOrderArray.push(createOrder(customerISIN, title, orderQuantity));
+
+                if (orderQuantity > 0) {
+                    dividedOrderArray.push(createOrder(customerISIN, title, orderQuantity, price));
+                } else return;
             }
 
             const remainingQuantity = quantity - dividedOrderArray.length * symbolMaxQuantity;
@@ -72,7 +75,7 @@ const DivideOrderModal = () => {
             setQuantityInput(quantity);
             setPriceInput(price);
 
-            const dividedOrders = handleDivideOrders(quantity, selectedCustomers);
+            const dividedOrders = handleDivideOrders(quantity, price, selectedCustomers);
             setCustomers(dividedOrders);
         }
     }, [divide]);
@@ -80,7 +83,7 @@ const DivideOrderModal = () => {
     const handleQuantityChange = (value: number) => {
         setQuantityInput(value);
 
-        const dividedOrders = handleDivideOrders(value, selectedCustomers);
+        const dividedOrders = handleDivideOrders(value, priceInput, selectedCustomers);
         setCustomers(dividedOrders);
     };
 
