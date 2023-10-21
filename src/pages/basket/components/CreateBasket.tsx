@@ -14,9 +14,9 @@ type ICreateBasket = {
 };
 
 const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
-    const [name, setname] = useState<string>('');
-    const [date, setdata] = useState<Date | string>(new Date);
-    const [time, settime] = useState<any>(null);
+    const [name, setName] = useState<string>('');
+    const [date, setDate] = useState<Date | string>(new Date());
+    const [time, setTime] = useState<string>();
 
     const { mutate: AddNewBasketReq } = useCreateBasket({
         onSuccess: (result) => {
@@ -31,15 +31,14 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     });
 
     const clearData = () => {
-        setname('');
-        setdata('');
-        settime(null);
+        setName('');
+        setDate('');
+        setTime('');
     };
 
     const AddNewBasket = () => {
-        const dateMiladi = dayjs(date).format("YYYY/MM/DD")
-        const timeMiladi = time?.convert(gregorian, gregorian_en).toString();
-        const sendDate = `${dateMiladi}T${timeMiladi}.000`;
+        const dateMiladi = dayjs(date).format('YYYY/MM/DD');
+        const sendDate = `${dateMiladi}T${time}.000`;
         // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
         const queryParams = { name, sendDate };
 
@@ -53,31 +52,25 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
         };
     }, []);
 
-
     return (
         <div dir="rtl" className="rounded-md border-L-gray-400 dark:border-D-gray-400 border p-4 text-right mb-4">
-            <div className="flex items-center mb-4">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">نام سبد :</p>
-            
-                    <Input data-cy="basket-create-input-name" value={name} onChange={(e) => setname(e.target.value)} />
-                
+            <div className="flex gap-2 items-center mb-4">
+                <p className="min-w-[75px] font-medium text-L-gray-500 dark:text-D-gray-700">نام سبد :</p>
+
+                <Input data-cy="basket-create-input-name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
-            <div className="flex items-center mb-4">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
-                <div className="flex-1" data-cy="basket-create-input-date">
-                    <AdvancedDatepicker value={date} onChange={(date) => setdata(date)}  />
+            <div className='flex items-center gap-4'>
+                <div className="flex flex-1 gap-2 items-center">
+                    <p className="min-w-[75px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
+                    <div className="flex-1" data-cy="basket-create-input-date">
+                        <AdvancedDatepicker placement='top' value={date} onChange={(date) => setDate(date)} />
+                    </div>
                 </div>
-            </div>
-            <div className="flex items-center">
-                <p className="min-w-[100px] font-medium text-L-gray-500 dark:text-D-gray-700">زمان ارسال :</p>
-                <div className="flex-1" data-cy="basket-create-input-time">
-                    <AdvancedTimePicker
-                        value={time}
-                        onChange={(date) => {
-                            settime(date);
-                        }}
-                        className="text-L-gray-500 dark:text-D-gray-500"
-                    />
+                <div className="flex flex-1 gap-2 items-center">
+                    <p className="min-w-[75px] font-medium text-L-gray-500 dark:text-D-gray-700">زمان ارسال :</p>
+                    <div className="flex-1" data-cy="basket-create-input-time">
+                      <TimePicker onChange={(value) => setTime(value)}/>
+                    </div>
                 </div>
             </div>
             <div dir="ltr" className="flex mt-7">
