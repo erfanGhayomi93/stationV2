@@ -13,13 +13,14 @@ type TPortfolioTableType = {
   loading: boolean,
   data?: GlobalPaginatedApiResponse<IGTPortfolioResultType[]>
   PaginatorHandler: (action: 'PageNumber' | 'PageSize', value: number) => void
+  setGridApi: (x: GridReadyEvent) => void;
 }
 
-export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, PaginatorHandler }) => {
+export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, PaginatorHandler, setGridApi }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dataModal, setDataModal] = useState<IGTPortfolioResultType | undefined>()
 
-  const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
+  // const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
 
 
   const { t } = useTranslation()
@@ -42,9 +43,12 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
     (): ColDefType<IGTPortfolioResultType>[] => [
       {
         headerName: t('ag_columns_headerName.row'),
+        field: 'agTableIndex',
         minWidth: 60,
         maxWidth: 80,
         valueFormatter: ({ node }) => String(((pageNumber || 0) - 1) * (pageSize || 0) + node?.rowIndex! + 1),
+        lockVisible: true,
+        pinned: "right"
       }
       ,
       // { headerName: t('ag_columns_headerName.lastTradedPrice'), field: 'lastTradedPrice', cellClass: 'font-bold' },
@@ -98,7 +102,10 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
       },
       {
         headerName: t('ag_columns_headerName.actions'),
-        cellRenderer: ({ data }: ICellRendererParams<IGTPortfolioResultType>) => <ActionsCell data={data} historyModalAction={historyModalAction} setDataModal={setDataModal} />
+        field: 'agTableAction',
+        cellRenderer: ({ data }: ICellRendererParams<IGTPortfolioResultType>) => <ActionsCell data={data} historyModalAction={historyModalAction} setDataModal={setDataModal} />,
+        lockVisible: true,
+        pinned: "left"
       },
 
 
@@ -126,7 +133,7 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
           suppressColumnMoveAnimation={true}
           suppressDragLeaveHidesColumns={true}
           getRowId={({ data }) => data.symbolISIN + data.customerIsin}
-          // onGridReady={(p) => setGridApi(p)}
+          onGridReady={(p) => setGridApi(p)}
           onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
           onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
           onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}

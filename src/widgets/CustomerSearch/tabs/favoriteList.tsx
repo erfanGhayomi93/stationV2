@@ -28,16 +28,22 @@ const FavoriteList = () => {
     }
 
     const filteredData = useMemo(() => {
-        if (!customers) return []
-        else if (!customerType && !debouncedTerm) return customers
-        return customers
-            .filter(item => {
-                const type = !customerType || item.customerType === customerType
-                const term = !debouncedTerm || item.title?.includes(debouncedTerm as string)
-                if (type && term) return true
-                return false
-            })
-    }, [customers, customerType, debouncedTerm])
+        if (!customers) return [];
+        if (!customerType && !debouncedTerm) return customers;
+
+        const trimmedTerm = debouncedTerm?.trim().toLowerCase(); // Trim and lowercase the term for case-insensitive matching
+
+        return customers.filter(item => {
+            const typeMatch = !customerType || item.customerType === customerType;
+            const termMatch =
+                !trimmedTerm ||
+                item.title.includes(trimmedTerm) ||
+                item.nationalCode.includes(trimmedTerm) ||
+                item.bourseCode.includes(trimmedTerm);
+
+            return typeMatch && termMatch;
+        });
+    }, [customers, customerType, debouncedTerm]);
 
 
     return (
@@ -45,7 +51,7 @@ const FavoriteList = () => {
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
-                        <SearchInput placeholder='نام مشتری' />
+                        <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
                         <div className='w-[100px]'>
                             <Select
