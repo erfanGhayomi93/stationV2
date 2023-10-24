@@ -35,6 +35,7 @@ const GroupSearch = () => {
         isDefaultUse ? refetchDefaultGroups() : refetchCustomers()
     }
 
+
     const rowUI = useMemo(() => {
         let listGroups = isDefaultUse ? defaultGroups : searchGroups
         if (!listGroups) listGroups = []

@@ -51,24 +51,21 @@ const CustomerSearch = () => {
             listGroups = listGroups.filter(item => item.customerType === customerType)
         }
 
-        return <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
-            <Virtuoso
-                data={listGroups}
-                className="rounded-lg rounded-t-none"
-                itemContent={(index, data) =>
-                    <ResultItem
-                        key={index}
-                        data={data}
-                        refetchToggleFavorite={refetchToggleFavorite}
-                    />
-                }
-                components={{
-                    Item: ItemRenderer,
-                }}
-                totalCount={listGroups.length}
-
-            />
-        </WidgetLoading>
+        return <Virtuoso
+            data={listGroups}
+            className="rounded-lg rounded-t-none"
+            itemContent={(index, data) =>
+                <ResultItem
+                    key={index}
+                    data={data}
+                    refetchToggleFavorite={refetchToggleFavorite}
+                />
+            }
+            components={{
+                Item: ItemRenderer,
+            }}
+            totalCount={listGroups.length}
+        />
 
     }, [searchCustomers, defaultCustomers, customerType, isDefaultUse])
 
@@ -98,7 +95,9 @@ const CustomerSearch = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    {rowUI}
+                    <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
+                        {rowUI}
+                    </WidgetLoading>
                 </div>
             </div>
         </div>
