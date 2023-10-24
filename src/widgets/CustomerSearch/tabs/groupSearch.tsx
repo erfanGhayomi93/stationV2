@@ -1,4 +1,4 @@
-import { useMemo, MouseEvent, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useGroupCustomer, useGroupDefault } from 'src/app/queries/customer';
 import useDebounce from 'src/common/hooks/useDebounce';
 import ResultHeader from '../components/ResultItem/ResultHeader';
@@ -11,8 +11,11 @@ const GroupSearch = () => {
     const { state: { params } } = useCustomerSearchState();
     const debouncedTerm = useDebounce(params.term, 500);
 
+    const isDefaultUse = useMemo(() => !params.term?.length, [params.term])
+
+
     const { data: defaultGroups, refetch: refetchDefaultGroups, remove: removeDefaultGroups, isFetching: isFetchingDefault } = useGroupDefault({
-        enabled: false
+        enabled: isDefaultUse
     })
 
     const { data: searchGroups, isFetching: isFetchingSearch, refetch: refetchCustomers } = useGroupCustomer(
@@ -27,16 +30,13 @@ const GroupSearch = () => {
     );
 
 
-    const addToFavoriteList = (e: MouseEvent<SVGSVGElement>, id: string) => {
-        e.preventDefault()
-    }
 
     const refetchToggleFavorite = () => {
-        !!defaultGroups ? refetchDefaultGroups() : refetchCustomers()
+        isDefaultUse ? refetchDefaultGroups() : refetchCustomers()
     }
 
     const rowUI = useMemo(() => {
-        let listGroups = defaultGroups || searchGroups
+        let listGroups = isDefaultUse ? defaultGroups : searchGroups
         if (!listGroups) listGroups = []
         return listGroups
             .map((item, ind) => (
@@ -44,17 +44,11 @@ const GroupSearch = () => {
                     key={ind}
                     ind={ind}
                     customer={item}
-                    addToFavoriteList={addToFavoriteList}
                     refetchToggleFavorite={refetchToggleFavorite}
                 />
             ))
-    }, [searchGroups, defaultGroups])
+    }, [searchGroups, defaultGroups, isDefaultUse])
 
-
-    useEffect(() => {
-        if ((params.term as string).length < 2)
-            refetchDefaultGroups()
-    }, [])
 
 
     return (

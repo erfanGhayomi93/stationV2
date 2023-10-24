@@ -8,18 +8,16 @@ import ResultItem from './ResultItem';
 interface IResultItem {
     customer: IGoMultiCustomerType,
     ind: number,
-    addToFavoriteList: (e: MouseEvent<SVGSVGElement>, id: string) => void ,
     refetchToggleFavorite : () => void
 }
 
-const GroupItem: FC<IResultItem> = ({ customer, ind, addToFavoriteList , refetchToggleFavorite }) => {
+const GroupItem: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
     return (
         <div className="flex text-L-gray-600 dark:text-D-gray-600 w-full">
             <Item
                 customer={customer}
                 key={customer.customerISIN}
                 ind={ind}
-                addToFavoriteList={addToFavoriteList}
                 refetchToggleFavorite={refetchToggleFavorite}
             />
         </div>
