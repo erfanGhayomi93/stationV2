@@ -19,6 +19,7 @@ import 'tippy.js/dist/tippy.css';
 import 'src/assets/scss/main.scss';
 import { GlobalSetterProvider } from './common/context/globalSetterContext';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
+import RamandOMSGateWay from './ls/RamandOMSGateWay';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -29,6 +30,7 @@ const Wrapper = () => {
         <>
                 <TranslatorProvider>
                     <GlobalSetterProvider>
+                        <RamandOMSGateWay />
                         <App />
                         <ToastContainer
                             position="bottom-left"

@@ -7,14 +7,17 @@ import DivideOrderTable from './components/DivideOrderTable';
 import { useBuySellDispatch, useBuySellState } from '../BuySell/context/BuySellContext';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import clsx from 'clsx';
-import { getUniqId, seprateNumber } from 'src/utils/helpers';
+import { getUniqId, handleValidity, seprateNumber } from 'src/utils/helpers';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
+import useSendOrders from './useSendOrders';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const DivideOrderModal = () => {
     //
     const { t } = useTranslation();
-    const { quantity, symbolISIN, amount, divide, side, price } = useBuySellState();
+
+    const { divide, symbolISIN, side, price, quantity, validity, percent, validityDate, strategy } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const [shuffleOrder, setShuffleOrder] = useState(false);
     const [quantityInput, setQuantityInput] = useState<number>(quantity);
@@ -22,6 +25,23 @@ const DivideOrderModal = () => {
     const [customers, setCustomers] = useState<DividedOrderRowType[]>([]);
     const dispatch = useBuySellDispatch();
     const selectedCustomers = useAppSelector(getSelectedCustomers);
+
+    const { sendOrders, orderResult } = useSendOrders();
+
+    useEffect(() => {
+        const updatedOrders = customers.map((order) => {
+            if (orderResult[order.id]) {
+                return {
+                    ...order,
+                    clientKey: orderResult[order.id],
+                    status: 'PENDING',
+                };
+            }
+            return order;
+        });
+
+        setCustomers(updatedOrders as DividedOrderRowType[]);
+    }, [orderResult]);
 
     const closeModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });
@@ -42,7 +62,8 @@ const DivideOrderModal = () => {
                     id: getUniqId(),
                     price,
                     quantity,
-                    status: null,
+                    status: undefined,
+                    clientKey: undefined,
                 };
             };
 
@@ -88,8 +109,37 @@ const DivideOrderModal = () => {
     };
 
     const onSendAll = () => {
-        console.log(customers);
+        const unSentOrders = customers.filter(({ clientKey }) => !clientKey) || [];
+        const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
+            id: id as string,
+            customerISIN: [customerISIN],
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: side,
+            orderDraftId: undefined,
+            orderStrategy: strategy,
+            orderType: 'LimitOrder',
+            percent: percent || 0,
+            price,
+            quantity,
+            symbolISIN: symbolISIN,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+        }));
+
+        sendOrders(0, orders);
     };
+
+    const onOMSMessageHandler = (message: Record<number, string>) => {
+        console.log(message);
+    };
+
+    useEffect(() => {
+        ipcMain.handle('oms_order_status', onOMSMessageHandler);
+        return () => {
+            ipcMain.removeHandler('oms_order_status');
+        };
+    }, []);
 
     return (
         <Modal isOpen={divide} onClose={closeModal} className="w-[720px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
@@ -148,7 +198,12 @@ const DivideOrderModal = () => {
                         </div>
                     </div>
                     <div className="h-[282px]">
-                        <DivideOrderTable rowData={customers} updateData={setCustomers} setQuantityInput={setQuantityInput} />
+                        <DivideOrderTable
+                            rowData={customers}
+                            updateData={setCustomers}
+                            sendOneOrder={sendOrders}
+                            setQuantityInput={setQuantityInput}
+                        />
                     </div>
 
                     <div className="flex gap-4 text-[11px]">

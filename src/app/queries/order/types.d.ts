@@ -1,6 +1,8 @@
 
 type ICustomerIsins = string[];
 interface IOrderRequestType {
+    id?:string;
+    status?:string;
     customerISIN?: ICustomerIsins;
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
