@@ -34,7 +34,6 @@ const DivideOrderModal = () => {
                 return {
                     ...order,
                     clientKey: orderResult[order.id],
-                    status: 'PENDING',
                 };
             }
             return order;
@@ -109,6 +108,7 @@ const DivideOrderModal = () => {
     };
 
     const onSendAll = () => {
+        setCustomers((pre) => pre.map((item) => ({ ...item, status: item.status ? item.status : 'PENDING' })));
         const unSentOrders = customers.filter(({ clientKey }) => !clientKey) || [];
         const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
             id: id as string,
@@ -130,8 +130,74 @@ const DivideOrderModal = () => {
         sendOrders(0, orders);
     };
 
+    const sendOneOrder = (orderId: string) => {
+        const order: IOrderRequestType = {
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: side,
+            orderDraftId: undefined,
+            orderStrategy: strategy,
+            orderType: 'LimitOrder',
+            percent: percent || 0,
+            symbolISIN: symbolISIN,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+
+            price: 0,
+            quantity: 0,
+            customerISIN: [],
+            id: orderId,
+        };
+
+        setCustomers((pre) =>
+            pre.map((item) => {
+                if (item.id === orderId) {
+                    order.price = item.price;
+                    order.quantity = item.quantity;
+                    order.customerISIN = [item.customerISIN];
+
+                    return {
+                        ...item,
+                        status: 'PENDING',
+                    };
+                }
+
+                return item;
+            }),
+        );
+
+        sendOrders(0, [order]);
+    };
+
     const onOMSMessageHandler = (message: Record<number, string>) => {
-        console.log(message);
+        //
+        console.log(message)
+        let timer: NodeJS.Timer;
+        const omsClientKey = message[12];
+        const omsOrderStatus = message[22];
+
+        // LS message ( omsClientKey ) may come sooner than API response, so i check it every 100ms to find omsClientKey in API response.
+        timer = setInterval(() => {
+            //
+            setCustomers((pre) =>
+                pre.map((item) => {
+                    if (item.clientKey === omsClientKey) {
+                        clearInterval(timer);
+                        return {
+                            ...item,
+                            status: omsOrderStatus as DividedOrderRowType['status'],
+                        };
+                    }
+
+                    return item;
+                }),
+            );
+        }, 100);
+
+        // if the omsClientKey is not found after 500ms
+        setTimeout(() => {
+            clearInterval(timer);
+        }, 1000);
     };
 
     useEffect(() => {
@@ -191,7 +257,7 @@ const DivideOrderModal = () => {
                                 lowValue={symbolData?.lowThreshold || 0}
                                 onChange={(value) => {
                                     setPriceInput(value);
-                                    setCustomers((pre) => pre.map((item) => ({ ...item, price: value })));
+                                    setCustomers((pre) => pre.map((item) => ({ ...item, price: value, status: undefined, clientKey: undefined })));
                                 }}
                                 inputValue={priceInput}
                             />
@@ -199,9 +265,10 @@ const DivideOrderModal = () => {
                     </div>
                     <div className="h-[282px]">
                         <DivideOrderTable
+                            symbolMaxQuantity={symbolData?.maxTradeQuantity ?? 1}
                             rowData={customers}
                             updateData={setCustomers}
-                            sendOneOrder={sendOrders}
+                            sendOneOrder={sendOneOrder}
                             setQuantityInput={setQuantityInput}
                         />
                     </div>

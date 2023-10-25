@@ -11,13 +11,13 @@ interface ITableProps {
     rowData: DividedOrderRowType[];
     updateData: React.Dispatch<React.SetStateAction<DividedOrderRowType[]>>;
     setQuantityInput: React.Dispatch<React.SetStateAction<number>>;
-    sendOneOrder: (ind: number, data: IOrderRequestType[]) => void;
+    sendOneOrder: (id: string) => void;
+    symbolMaxQuantity: number;
 }
 
-const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder }: ITableProps) => {
+const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder, symbolMaxQuantity }: ITableProps) => {
     //
     const { t } = useTranslation();
-    const { symbolISIN, side, validity, percent, validityDate, strategy } = useBuySellState();
 
     const onRowValueChange = (value: number, name: 'quantity' | 'price', rowId: string | number) => {
         let totalQuantity = 0;
@@ -52,25 +52,8 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder 
             onErrorNotif({ title: 'سفارش قبلا ارسال شده است' });
             return;
         }
-        const order: IOrderRequestType = {
-            id: data.id as string,
-            customerISIN: [data.customerISIN],
-            CustomerTagId: [],
-            GTTraderGroupId: [],
-            orderSide: side,
-            orderDraftId: undefined,
-            orderStrategy: strategy,
-            orderType: 'LimitOrder',
-            percent: percent || 0,
-            price: data.price,
-            quantity: data.quantity,
-            symbolISIN: symbolISIN,
-            validity: handleValidity(validity),
-            validityDate: validityDate,
-            status: data?.status,
-        };
 
-        sendOneOrder(0, [order]);
+        sendOneOrder(data.id);
     };
 
     const Columns = useMemo(
@@ -91,6 +74,16 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder 
                         onRowValueChange(newValue, 'quantity', data.id);
                     }
                 },
+                valueParser: ({ oldValue, newValue }) => {
+                    if (newValue === oldValue) return oldValue;
+
+                    const newValueAsNumber = Number(newValue);
+
+                    if (newValueAsNumber > symbolMaxQuantity) return oldValue;
+                    if (isNaN(newValueAsNumber) || newValueAsNumber === Infinity || newValueAsNumber === 0) return oldValue;
+
+                    return newValue;
+                },
             },
             {
                 headerName: t('ag_columns_headerName.price'),
@@ -103,6 +96,14 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder 
                         onRowValueChange(newValue, 'price', data.id);
                     }
                 },
+                valueParser: ({ oldValue, newValue }) => {
+                    if (newValue === oldValue) return oldValue;
+
+                    const newValueAsNumber = Number(newValue);
+                    if (isNaN(newValueAsNumber) || newValueAsNumber === Infinity || newValueAsNumber === 0) return oldValue;
+
+                    return newValue;
+                },
             },
             {
                 headerName: t('ag_columns_headerName.status'),
@@ -110,9 +111,9 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder 
                 colId: 'status',
                 cellClass: 'font-bold',
                 cellClassRules: {
-                    'text-L-warning': ({value}) => value === 'PENDING',
-                    'text-L-success-200': ({value}) => value === 'SUCCEEDED',
-                    'text-L-error-200': ({value}) => value === 'Error',
+                    'text-L-warning': ({ value }) => value === 'PENDING',
+                    'text-L-success-200': ({ value }) => value === 'SUCCEEDED',
+                    'text-L-error-200': ({ value }) => value === 'Error',
                 },
                 valueFormatter: ({ value }) =>
                     value === 'PENDING' ? 'درحال پردازش' : value === 'SUCCEEDED' ? 'انجام شد' : value === 'Error' ? 'خطا' : '-',

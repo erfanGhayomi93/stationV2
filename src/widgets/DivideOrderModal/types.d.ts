@@ -1,5 +1,5 @@
 interface DividedOrderRowType {
-    id: number | string;
+    id: string;
     customerTitle: string;
     customerISIN: string;
 	quantity: number;
