@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useAdvancedSearchQuery, useGetCustomers } from 'src/app/queries/customer';
@@ -17,8 +16,11 @@ const CustomerSearch = () => {
     const debouncedTerm = useDebounce(term, 500);
     const [customerType, setCustomerType] = useState("")
 
+    const isDefaultUse = useMemo(() => !term?.length, [term])
+
+
     const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers, isFetching: isFetchingDefault } = useGetCustomers({}, {
-        enabled: false,
+        enabled: isDefaultUse,
     })
 
     const { data: searchCustomers, refetch: refetchCustomers, isFetching: isFetchingSearch } = useAdvancedSearchQuery(
@@ -37,44 +39,36 @@ const CustomerSearch = () => {
     };
 
     const refetchToggleFavorite = () => {
-        !!defaultCustomers ? refetchDefaultCustomer() : refetchCustomers()
+        isDefaultUse ? refetchDefaultCustomer() : refetchCustomers()
     }
 
 
     const rowUI = useMemo(() => {
-        let listGroups = defaultCustomers || searchCustomers
+        let listGroups = isDefaultUse ? defaultCustomers : searchCustomers
 
         if (!listGroups) listGroups = []
         else if (customerType) {
             listGroups = listGroups.filter(item => item.customerType === customerType)
         }
 
-        return <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
-            <Virtuoso
-                data={listGroups}
-                className="rounded-lg rounded-t-none"
-                itemContent={(index, data) =>
-                    <ResultItem
-                        key={index}
-                        data={data}
-                        refetchToggleFavorite={refetchToggleFavorite}
-                    />
-                }
-                components={{
-                    Item: ItemRenderer,
-                }}
-                totalCount={listGroups.length}
+        return <Virtuoso
+            data={listGroups}
+            className="rounded-lg rounded-t-none"
+            itemContent={(index, data) =>
+                <ResultItem
+                    key={index}
+                    data={data}
+                    refetchToggleFavorite={refetchToggleFavorite}
+                />
+            }
+            components={{
+                Item: ItemRenderer,
+            }}
+            totalCount={listGroups.length}
+        />
 
-            />
-        </WidgetLoading>
+    }, [searchCustomers, defaultCustomers, customerType, isDefaultUse])
 
-    }, [searchCustomers, defaultCustomers, customerType, isFetchingSearch, isFetchingDefault])
-
-
-    useEffect(() => {
-        if ((term as string)?.length < 2)
-            refetchDefaultCustomer()
-    }, [])
 
 
     return (
@@ -101,7 +95,9 @@ const CustomerSearch = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    {rowUI}
+                    <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
+                        {rowUI}
+                    </WidgetLoading>
                 </div>
             </div>
         </div>
