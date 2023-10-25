@@ -111,12 +111,11 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
                 colId: 'status',
                 cellClass: 'font-bold',
                 cellClassRules: {
-                    'text-L-warning': ({ value }) => value === 'PENDING',
-                    'text-L-success-200': ({ value }) => value === 'SUCCEEDED',
-                    'text-L-error-200': ({ value }) => value === 'Error',
+                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', undefined].includes(value),
+                    'text-L-success-200': ({ value }) => value === 'OrderDone',
+                    'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
-                valueFormatter: ({ value }) =>
-                    value === 'PENDING' ? 'درحال پردازش' : value === 'SUCCEEDED' ? 'انجام شد' : value === 'Error' ? 'خطا' : '-',
+                valueFormatter: ({ value }) => (value ? t('order_status.' + value) : '-'),
             },
             {
                 headerName: t('ag_columns_headerName.actions'),

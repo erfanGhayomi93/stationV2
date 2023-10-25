@@ -4,6 +4,6 @@ interface DividedOrderRowType {
     customerISIN: string;
 	quantity: number;
 	price: number;
-	status?: 'PENDING' | 'SUCCEEDED' | 'Error';
+	status?: OrderStatusType;
     clientKey?: string;
 }

@@ -154,6 +154,7 @@
 		"OnCancelError": "دستور حذف با خطا مواجه شد",
 		"Expired": "منقضی شد",
 		"draft": "پیش ‌نویس",
+		"Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده از جانب مشتریان به هسته معاملات مسدود می باشد.",
 		"OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
 	},
     "orderSide": {

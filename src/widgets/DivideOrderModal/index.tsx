@@ -108,7 +108,7 @@ const DivideOrderModal = () => {
     };
 
     const onSendAll = () => {
-        setCustomers((pre) => pre.map((item) => ({ ...item, status: item.status ? item.status : 'PENDING' })));
+        setCustomers((pre) => pre.map((item) => ({ ...item, status: item.status ? item.status : 'InOMSQueue' })));
         const unSentOrders = customers.filter(({ clientKey }) => !clientKey) || [];
         const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
             id: id as string,
@@ -158,7 +158,7 @@ const DivideOrderModal = () => {
 
                     return {
                         ...item,
-                        status: 'PENDING',
+                        status: 'InOMSQueue',
                     };
                 }
 
@@ -171,7 +171,6 @@ const DivideOrderModal = () => {
 
     const onOMSMessageHandler = (message: Record<number, string>) => {
         //
-        console.log(message)
         let timer: NodeJS.Timer;
         const omsClientKey = message[12];
         const omsOrderStatus = message[22];
@@ -194,7 +193,7 @@ const DivideOrderModal = () => {
             );
         }, 100);
 
-        // if the omsClientKey is not found after 500ms
+        // if the omsClientKey is not found after 1000ms
         setTimeout(() => {
             clearInterval(timer);
         }, 1000);
