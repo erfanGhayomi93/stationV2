@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    // const { data } = useGlobalSettings<any>();
-    const { data } = useGlobalSettingsMock();
+    const { data } = useGlobalSettings<any>();
+    // const { data } = useGlobalSettingsMock();
     useEffect(() => {
         const routes = Apis();
         setApiRoutes(routes);
@@ -19,31 +19,36 @@ const getOauthUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_OAUTH_PATH')?.value;
 };
 
-const getPortfolioUrl = () => {
+const getBaseUrl = () => {
     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-    return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
+    return data?.find((item) => item.name === 'REACT_APP_BASE_URL')?.value;
 };
 
-const getMarketData = () => {
-    const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-    return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
-};
+// const getPortfolioUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
+// };
+// 
+// const getMarketData = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
+// };
+// 
+// const getBackOffice = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
+// };
+// 
+// const getOrderUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
+// };
+// const getCommonUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
+// };
 
-const getBackOffice = () => {
-    const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-    return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
-};
-
-const getOrderUrl = () => {
-    const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-    return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
-};
-const getCommonUrl = () => {
-    const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-    return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
-};
-
-export const baseUrl = 'https://gtapi-preprd.ramandtech.com';
+// export const getBaseUrl() = 'https://gtapi-preprd.ramandtech.com';
 
 export const Apis = () => ({
     OAuthApi: {
@@ -53,119 +58,119 @@ export const Apis = () => ({
         logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
     },
     User: {
-        GetUserInformation: baseUrl + `/Trader/v1/GetGeneralInformation`,
+        GetUserInformation: getBaseUrl() + `/Trader/v1/GetGeneralInformation`,
     },
     Time: {
-        Get: baseUrl + `/Time/v1/Get`,
+        Get: getBaseUrl() + `/Time/v1/Get`,
     },
     Index: {
-        Symbols: baseUrl + `/Index/v1/Symbols`,
+        Symbols: getBaseUrl() + `/Index/v1/Symbols`,
     },
     Symbol: {
-        Search: baseUrl + '/Symbol/v1/Searchv2',
-        SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
-        SameSectorSymbols: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
-        ChartData: baseUrl + '/Symbol/v1/ChartData',
-        GetMarketUnit: baseUrl + '/Symbol/v1/GetMarketUnit',
+        Search: getBaseUrl() + '/Symbol/v1/Searchv2',
+        SymbolGeneralInformation: getBaseUrl() + '/Symbol/v1/SymbolGeneralInformation',
+        SameSectorSymbols: getBaseUrl() + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+        ChartData: getBaseUrl() + '/Symbol/v1/ChartData',
+        GetMarketUnit: getBaseUrl() + '/Symbol/v1/GetMarketUnit',
     },
     Customer: {
-        AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
-        GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
-        ToggleFavorite: baseUrl + '/Customer/v1/ToggleFavorite',
-        GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
-        GetGroups: baseUrl + '/Customer/v1/GetGroups',
+        AdvancedSearch: getBaseUrl() + '/Customer/v1/AdvancedSearch',
+        GroupAdvancedSearch: getBaseUrl() + '/Customer/v1/GroupAdvancedSearch',
+        ToggleFavorite: getBaseUrl() + '/Customer/v1/ToggleFavorite',
+        GetCustomers: getBaseUrl() + '/Customer/v1/GetCustomers',
+        GetGroups: getBaseUrl() + '/Customer/v1/GetGroups',
 
-        Search: baseUrl + '/Customer/v1/Search',
-        GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
-        GetCustomerFinancial: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
-        GetGroupInformation: baseUrl + '/Customer/v1/GetGroupInformation',
-        // MultiSearch: baseUrl + '/Customer/v1/MultipleSearch',
-        MultiMultiSearch: baseUrl + '/Customer/v1/MultiMultipleSearch',
-        GroupCustomerDetail: baseUrl + '/Customer/v1/GroupCustomerDetail',
-        Get: baseUrl + '/Customer/v1/GetCustomers',
-        GetTurnOver: baseUrl + '/Customer/v1/CustomerTurnOverGt',
+        Search: getBaseUrl() + '/Customer/v1/Search',
+        GetCustomerInformation: getBaseUrl() + '/Customer/v1/GetCustomerInformation',
+        GetCustomerFinancial: getBaseUrl() + '/Customer/v1/GetCustomerFinancialInformation',
+        GetGroupInformation: getBaseUrl() + '/Customer/v1/GetGroupInformation',
+        // MultiSearch: getBaseUrl() + '/Customer/v1/MultipleSearch',
+        MultiMultiSearch: getBaseUrl() + '/Customer/v1/MultiMultipleSearch',
+        GroupCustomerDetail: getBaseUrl() + '/Customer/v1/GroupCustomerDetail',
+        Get: getBaseUrl() + '/Customer/v1/GetCustomers',
+        GetTurnOver: getBaseUrl() + '/Customer/v1/CustomerTurnOverGt',
     },
     MarketDepth: {
         // Get: 'https://marketdata.ramandtech.com/Symbol/v1/GetMarketDepthV2',
-        Get: baseUrl + '/Symbol/v1/GetMarketDepthV2',
+        Get: getBaseUrl() + '/Symbol/v1/GetMarketDepthV2',
     },
     event: {
-        get: baseUrl + '/Portfolio/v1/getEvent',
-        getAttachment: baseUrl + '/Portfolio/v1/getAttachment',
+        get: getBaseUrl() + '/Portfolio/v1/getEvent',
+        getAttachment: getBaseUrl() + '/Portfolio/v1/getAttachment',
     },
     Orders: {
-        Create: baseUrl + '/Order/v1/Create',
-        Get: baseUrl + '/Order/v1/TodayOrdersList',
-        Delete: baseUrl + '/Order/v1/SingleDelete',
-        Lists: baseUrl + '/Order/v1/OrdersList',
-        GroupLists: baseUrl + '/Order/v1/GroupOrdersList',
-        Modify: baseUrl + '/Order/v1/Modify',
-        Trades: baseUrl + '/Order/v1/Trades',
-        OfflineRequests: baseUrl + '/Order/v1/TradeRequests',
-        OfflineRequestHistory: baseUrl + '/Order/v1/TradeRequestHistory',
+        Create: getBaseUrl() + '/Order/v1/Create',
+        Get: getBaseUrl() + '/Order/v1/TodayOrdersList',
+        Delete: getBaseUrl() + '/Order/v1/SingleDelete',
+        Lists: getBaseUrl() + '/Order/v1/OrdersList',
+        GroupLists: getBaseUrl() + '/Order/v1/GroupOrdersList',
+        Modify: getBaseUrl() + '/Order/v1/Modify',
+        Trades: getBaseUrl() + '/Order/v1/Trades',
+        OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
+        OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
     },
     SupervisorMessage: {
-        Get: baseUrl + `/Message/v1/TodaySupervisorMessage`,
-        ReadPost: baseUrl + `/Message/v1/ReadTodaySupervisorMessages?MessageIDs=`,
+        Get: getBaseUrl() + `/Message/v1/TodaySupervisorMessage`,
+        ReadPost: getBaseUrl() + `/Message/v1/ReadTodaySupervisorMessages?MessageIDs=`,
     },
     Messages: {
-        AdminMessage: baseUrl + `/Message/v1/AdminMessage`,
+        AdminMessage: getBaseUrl() + `/Message/v1/AdminMessage`,
     },
     draft: {
-        Create: baseUrl + '/OrderDraft/v1/Create',
-        Get: baseUrl + '/OrderDraft/v1/Get',
-        Delete: baseUrl + '/OrderDraft/v1/Delete',
-        Update: baseUrl + '/OrderDraft/v1/Update',
+        Create: getBaseUrl() + '/OrderDraft/v1/Create',
+        Get: getBaseUrl() + '/OrderDraft/v1/Get',
+        Delete: getBaseUrl() + '/OrderDraft/v1/Delete',
+        Update: getBaseUrl() + '/OrderDraft/v1/Update',
     },
     Basket: {
-        Get: baseUrl + '/Cart/v1/CartList',
-        Create: baseUrl + '/Cart/v1/CreateCart',
-        Edit: baseUrl + '/Cart/v1/EditCart',
-        Delete: baseUrl + '/Cart/v1/DeleteCart',
-        CreateDetail: baseUrl + '/Cart/v1/CreateCartDetail',
-        EditDetail: baseUrl + '/Cart/v1/EditCartDetail',
-        GetDetail: baseUrl + '/Cart/v1/CartDetailList',
-        DeleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
+        Get: getBaseUrl() + '/Cart/v1/CartList',
+        Create: getBaseUrl() + '/Cart/v1/CreateCart',
+        Edit: getBaseUrl() + '/Cart/v1/EditCart',
+        Delete: getBaseUrl() + '/Cart/v1/DeleteCart',
+        CreateDetail: getBaseUrl() + '/Cart/v1/CreateCartDetail',
+        EditDetail: getBaseUrl() + '/Cart/v1/EditCartDetail',
+        GetDetail: getBaseUrl() + '/Cart/v1/CartDetailList',
+        DeleteDetails: getBaseUrl() + '/Cart/v1/CartDetailDelete',
     },
-    Commission: { Get: baseUrl + `/Commission/v1/GetBuyAndSellCommision` },
+    Commission: { Get: getBaseUrl() + `/Commission/v1/GetBuyAndSellCommision` },
     WatchList: {
-        Get: baseUrl + '/Watchlist/v1/WatchLists',
-        Create: baseUrl + '/Watchlist/v1/Create',
-        Delete: baseUrl + '/Watchlist/v1/Delete',
-        Update: baseUrl + '/Watchlist/v1/Update',
-        Sort: baseUrl + '/Watchlist/v1/Sort',
-        // GetWatchlistSymbol: baseUrl + '/Watchlist/v1/GetWatchlistSymbols',
-        GetWatchListSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
-        DeleteSymbol: baseUrl + '/Watchlist/v1/DeleteSymbol',
-        AddSymbol: baseUrl + '/Watchlist/v1/AddSymbol',
-        GetSpecialWatchlistFilter: baseUrl + '/Watchlist/v1/GetSpecialWatchlistFilter',
-        // GetDefaultWatchlistSymbols: baseUrl + '/Watchlist/v1/GetDefaultWatchlistSymbols',
-        GetSymbolInWatchlist: baseUrl + '/Watchlist/v1/GetSymbolInWatchlist',
-        GetMarketSymbol: baseUrl + '/Symbol/v1/GetMarketSymbol',
-        GetSector: baseUrl + '/Symbol/v1/Sectors',
+        Get: getBaseUrl() + '/Watchlist/v1/WatchLists',
+        Create: getBaseUrl() + '/Watchlist/v1/Create',
+        Delete: getBaseUrl() + '/Watchlist/v1/Delete',
+        Update: getBaseUrl() + '/Watchlist/v1/Update',
+        Sort: getBaseUrl() + '/Watchlist/v1/Sort',
+        // GetWatchlistSymbol: getBaseUrl() + '/Watchlist/v1/GetWatchlistSymbols',
+        GetWatchListSymbols: getBaseUrl() + '/Watchlist/v1/GetWatchListSymbols',
+        DeleteSymbol: getBaseUrl() + '/Watchlist/v1/DeleteSymbol',
+        AddSymbol: getBaseUrl() + '/Watchlist/v1/AddSymbol',
+        GetSpecialWatchlistFilter: getBaseUrl() + '/Watchlist/v1/GetSpecialWatchlistFilter',
+        // GetDefaultWatchlistSymbols: getBaseUrl() + '/Watchlist/v1/GetDefaultWatchlistSymbols',
+        GetSymbolInWatchlist: getBaseUrl() + '/Watchlist/v1/GetSymbolInWatchlist',
+        GetMarketSymbol: getBaseUrl() + '/Symbol/v1/GetMarketSymbol',
+        GetSector: getBaseUrl() + '/Symbol/v1/Sectors',
     },
     Portfolio: {
-        CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
-        CardexHistory: baseUrl + '/Portfolio/v1/CardexHistory',
+        CustomerPortfolio: getBaseUrl() + '/Portfolio/v1/Portfolios',
+        CardexHistory: getBaseUrl() + '/Portfolio/v1/CardexHistory',
     },
     tvChart: {
-        index: `${baseUrl}/TV/v1`,
-        config: `${baseUrl}/TV/v1/config`,
-        symbols: `${baseUrl}/TV/v1/symbols`,
-        search: `${baseUrl}/TV/v1/search`,
-        history: `${baseUrl}/TV/v1/history`,
-        marks: `${baseUrl}/TV/v1/marks`,
-        charts: `${baseUrl}/TV/v1/1.1/charts`,
-        studyTemplate: `${baseUrl}/TV/v1/1.1/study_templates`,
-        save: `${baseUrl}/TV/v1/1.1/charts`,
-        delete: `${baseUrl}/TV/v1/1.1/charts`,
-        loadOne: `${baseUrl}/TV/v1/1.1/charts`,
-        loadAll: `${baseUrl}/TV/v1/1.1/charts`,
-        historyRecent: `${baseUrl}/Symbol/v1/GetSearchHistory`,
-        deleteRecent: `${baseUrl}/Symbol/v1/DeleteSearchHistory`,
+        index: `${getBaseUrl()}/TV/v1`,
+        config: `${getBaseUrl()}/TV/v1/config`,
+        symbols: `${getBaseUrl()}/TV/v1/symbols`,
+        search: `${getBaseUrl()}/TV/v1/search`,
+        history: `${getBaseUrl()}/TV/v1/history`,
+        marks: `${getBaseUrl()}/TV/v1/marks`,
+        charts: `${getBaseUrl()}/TV/v1/1.1/charts`,
+        studyTemplate: `${getBaseUrl()}/TV/v1/1.1/study_templates`,
+        save: `${getBaseUrl()}/TV/v1/1.1/charts`,
+        delete: `${getBaseUrl()}/TV/v1/1.1/charts`,
+        loadOne: `${getBaseUrl()}/TV/v1/1.1/charts`,
+        loadAll: `${getBaseUrl()}/TV/v1/1.1/charts`,
+        historyRecent: `${getBaseUrl()}/Symbol/v1/GetSearchHistory`,
+        deleteRecent: `${getBaseUrl()}/Symbol/v1/DeleteSearchHistory`,
     },
     Setting: {
-        GetSetting: baseUrl + `/Setting/v1/GetSettings`,
+        GetSetting: getBaseUrl() + `/Setting/v1/GetSettings`,
     },
 });
 
@@ -177,12 +182,12 @@ export const Apis = () => ({
 // const OrderUrl = 'http://192.168.40.8:8500';
 // const OauthUrl = 'http://192.168.40.8:5011';
 
-// const OrderUrl = baseUrl; // "http://192.168.40.8:8500";
-// const PortfolioUrl = baseUrl; // "http://192.168.40.8:11000";
-// const OauthUrl = baseUrl; // "http://192.168.40.8:5011";
-// const CommonUrl = baseUrl; // "http://192.168.40.8:12000";
-// const BackOffice = baseUrl; // "http://192.168.40.8:9500";
-// const MarketData = baseUrl; // "http://192.168.40.8:7000";
+// const OrderUrl = getBaseUrl(); // "http://192.168.40.8:8500";
+// const PortfolioUrl = getBaseUrl(); // "http://192.168.40.8:11000";
+// const OauthUrl = getBaseUrl(); // "http://192.168.40.8:5011";
+// const CommonUrl = getBaseUrl(); // "http://192.168.40.8:12000";
+// const BackOffice = getBaseUrl(); // "http://192.168.40.8:9500";
+// const MarketData = getBaseUrl(); // "http://192.168.40.8:7000";
 
 // const ResourceUrl = window.REACT_APP_RESOURCE_PATH; // "http://192.168.40.8:5002";
 // const AccountUrl = window.REACT_APP_ACCOUNT_PATH; // "http://192.168.40.8:5020";
