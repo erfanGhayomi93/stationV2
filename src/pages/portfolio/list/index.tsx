@@ -8,6 +8,10 @@ import { PortfolioTable } from "./components/portfolioTable"
 import { useCustomerPortfolio } from "src/app/queries/portfolio"
 import { subscriptionPortfolio } from "src/ls/subscribes"
 import { pushEngine } from "src/ls/pushEngine"
+import { useAppDispatch } from "src/redux/hooks"
+import { emptySelectedCustomers, emptySelectedSymbol } from "src/redux/slices/option"
+import { GridReadyEvent } from "ag-grid-community"
+import AGColumnEditor from "src/common/components/AGTable/AGColumnEditor"
 
 
 
@@ -15,8 +19,12 @@ const PortfolioMain = () => {
     const { t } = useTranslation()
     const [filterData, setFilterData] = useState<TPortfolioListFilter>(initStatePortfolioFilter)
     const [params, setParams] = useState<TPortfolioListFilter>(filterData)
+    const dispatch = useAppDispatch();
+    const [gridApi, setGridApi] = useState<GridReadyEvent>();
 
-    const { SymbolISIN, CustomerISIN, customerType, MarketUnitType, PageNumber, PageSize } = params
+
+
+    const { SymbolISIN, CustomerISIN, customerType, MarketUnitType, PageNumber, PageSize, MarketType } = params
 
     const factoryParams = () => {
         return {
@@ -25,11 +33,12 @@ const PortfolioMain = () => {
             CustomerType: !!customerType ? customerType : undefined,
             pageNumber: PageNumber,
             pageSize: PageSize,
-            MarketUnitType: !!MarketUnitType ? MarketUnitType : undefined
+            MarketUnitType: !!MarketUnitType ? MarketUnitType : undefined,
+            MarketType: !!MarketType ? MarketType : undefined
         }
     }
 
-    const { data, isFetching } = useCustomerPortfolio(factoryParams(), {
+    const { data, isFetching, refetch } = useCustomerPortfolio(factoryParams(), {
         keepPreviousData: true,
         onSuccess(data) {
             pushEngine.unSubscribe('portfolioSymbols')
@@ -57,17 +66,25 @@ const PortfolioMain = () => {
     }
 
     const onClearFilter = () => {
+        dispatch(emptySelectedCustomers());
+        dispatch(emptySelectedSymbol());
         setParams(initStatePortfolioFilter)
         setFilterData(initStatePortfolioFilter)
+    }
+
+    const refreshPage = () => {
+        refetch()
     }
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
                 <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.portfolio')}</h1>
-                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                <div className="flex items-center gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                    <AGColumnEditor gridApi={gridApi} lsKey="requests" />
+
                     <Tippy content={t("Action_Button.Update")} className="text-xs">
-                        <Refresh2Icon className="cursor-pointer outline-none" />
+                        <Refresh2Icon onClick={refreshPage} className="cursor-pointer outline-none" />
                     </Tippy>
                 </div>
             </div>
@@ -83,6 +100,7 @@ const PortfolioMain = () => {
                         loading={isFetching}
                         data={data}
                         PaginatorHandler={PaginatorHandler}
+                        setGridApi={setGridApi}
                     />
                 </div>
             </div>

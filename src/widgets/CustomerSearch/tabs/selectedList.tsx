@@ -31,21 +31,29 @@ const SelectedList = () => {
     const filteredData = useMemo(() => {
         if (!selectedCustomers) return []
         else if (!customerType && !debouncedTerm) return selectedCustomers
+
+        const trimmedTerm = debouncedTerm?.trim().toLowerCase(); //
+
         return selectedCustomers
             .filter(item => {
-                const type = !customerType || item.customerType === customerType
-                const term = !debouncedTerm || item.title?.includes(debouncedTerm as string)
-                if (type && term) return true
-                return false
+                const typeMatch = !customerType || item.customerType === customerType
+                const termMatch = !trimmedTerm ||
+                    item.title?.includes(trimmedTerm) ||
+                    item.nationalCode?.includes(trimmedTerm) ||
+                    item.bourseCode?.includes(trimmedTerm)
+
+                return typeMatch && termMatch
+
             })
     }, [selectedCustomers, customerType, debouncedTerm])
+
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2 ">
                 <div className="flex gap-2 justify-between py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
                     <div className="flex gap-6 flex-1">
-                        <SearchInput placeholder='نام مشتری' />
+                        <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
                         <div className='w-[100px]'>
                             <Select

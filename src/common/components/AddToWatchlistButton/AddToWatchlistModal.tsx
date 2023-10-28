@@ -24,34 +24,30 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const [inputValue, setInputValue] = useState('');
     const closeModal = () => setIsOpen(false);
     const { data: watchlists } = useWatchlistsQuery();
-    // const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
+    const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
 
 
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
-        onSuccess: () => {
-            // queryClient.invalidateQueries(['getWatchListSymbols']);
+        onSuccess: (_, variables) => {
+            if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
-            toast.success('نماد با موفقیت  از دیده بان حذف شد');
 
-            //FIXME:connect to toast adaptor
+            toast.success('نماد با موفقیت  از دیده بان حذف شد');
         },
         onError: (err) => {
             toast.error(`${err}`);
-            //FIXME:connect to toast adaptor
         },
     });
 
     const { mutate: addWatchListSymbol } = addWatchListSymbolMutation({
-        onSuccess: () => {
-            // queryClient.invalidateQueries(['getWatchListSymbols']);
+        onSuccess: (_, variables) => {
+            if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
-            toast.success('نماد با موفقیت به دیده‌بان اضافه شد');
 
-            //FIXME:connect to toast adaptor
+            toast.success('نماد با موفقیت به دیده‌بان اضافه شد');
         },
         onError: (err) => {
             toast.error(`${err}`);
-            //FIXME:connect to toast adaptor
         },
     });
 
@@ -83,15 +79,27 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
         }
     };
 
-    const checkIfExistSymbol = (item: ISymbolInWatchlist) => {
-        // if (!symbolInWatchlist) return false;
-        // for (let i = 0; i < symbolInWatchlist.length; i++) {
-        //     if (symbolInWatchlist[i].symbolISIN === item.symbolISIN && symbolInWatchlist[i].watchlistId === item.watchlistId) {
-        //         return true;
-        //     }
-        // }
-        return false;
-    };
+    const checkIfExistSymbol = (watchlistId: number) => {
+        try {
+            if (!symbolInWatchlist || !watchlistId) return false;
+
+            const watchlist = symbolInWatchlist[watchlistId.toString()] || [];
+            return watchlist.includes(symbolISIN);
+        }
+        catch {
+            return false
+        }
+    }
+
+    // const checkIfExistSymbol = (item: ISymbolInWatchlist) => {
+    //     // if (!symbolInWatchlist) return false;
+    //     // for (let i = 0; i < symbolInWatchlist.length; i++) {
+    //     //     if (symbolInWatchlist[i].symbolISIN === item.symbolISIN && symbolInWatchlist[i].watchlistId === item.watchlistId) {
+    //     //         return true;
+    //     //     }
+    //     // }
+    //     return false;
+    // };
 
     return (
         <Modal isOpen={isOpen} onClose={closeModal} className="min-h-[20rem] w-1/4 rounded-md h-full grid text-1.2 ">
@@ -107,7 +115,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                     </div>
                     <div className=" max-h-[20rem] overflow-y-auto">
                         {watchlists?.map((watchlist) => {
-                            const dataSymbolInWatchlist: ISymbolInWatchlist = { symbolISIN, watchlistId: watchlist.id };
+                            // const dataSymbolInWatchlist: ISymbolInWatchlist = { symbolISIN, watchlistId: watchlist.id };
                             return (
                                 <div
                                     key={watchlist.id}
@@ -118,7 +126,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                     </div>
 
                                     <div className="w-full flex items-center justify-center gap-3 ">
-                                        {checkIfExistSymbol(dataSymbolInWatchlist) ? (
+                                        {checkIfExistSymbol(watchlist.id) ? (
                                             <EyeMinesIcon
                                                 width={23}
                                                 height={23}
