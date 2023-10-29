@@ -67,7 +67,7 @@ AXIOS.interceptors.response.use(
                     apiErrorHandler(error?.response?.data?.errors);
                     break;
                 case 401: // Unauthorized
-                    unAuthorized();
+                   // unAuthorized();
                     break;
                 case 403: // Forbidden
                     onErrorNotif({ title: 'دسترسی غیرمجاز' });
