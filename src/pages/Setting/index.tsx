@@ -18,7 +18,7 @@ const Setting = () => {
                 title: (
                     <div className="flex gap-1 items-center">
                         <UserIcon width={20} height={20} />
-                        <span>{'تنظیمات حساب کاربری'}</span>
+                        <span>{t('setting.userSetting')}</span>
                     </div>
                 ),
                 content: <AccountSetting />,
@@ -30,7 +30,7 @@ const Setting = () => {
                 title: (
                     <div className="flex gap-1 items-center">
                         <GearIcon width={20} height={20} />
-                        <span>{'تنظیمات سیستم'}</span>
+                        <span>{t('setting.systemSetting')}</span>
                     </div>
                 ),
                 content: <SystemSetting />,
@@ -42,7 +42,7 @@ const Setting = () => {
                 title: (
                     <div className="flex gap-1 items-center">
                         <SessionLogIcon width={20} height={20} />
-                        <span>{'سابقه ورود و خروج'}</span>
+                        <span>{t('setting.sessionLog')}</span>
                     </div>
                 ),
                 content: <SessionLog />,

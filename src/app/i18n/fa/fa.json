@@ -40,6 +40,9 @@
         "TSE" : "سایت TSE",
         "all": "همه",
         "myStation": "ایستگاه من",
+		"stationName": "نام ایستگاه",
+		"stationCode": "کد ایستگاه",
+		"traderCode": "کد معامله گری",
         "fullName": "نام و نام خانوادگی",
         "rial": "ریال",
         "fatherName": "نام پدر",
@@ -60,7 +63,9 @@
         "notCustomerSelected": "حداقل یک مشتری باید انتخاب شود",
         "confirm": "ثبت",
         "delete": "حذف",
-        "confirmation": "تاییدیه"
+        "confirmation": "تاییدیه",
+		"password": "رمز عبور",
+		"email": "ایمیل"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -431,7 +436,13 @@
 		"hide_symbol_details": "بستن جزئیات نماد"
      },
      "setting" : {
-        "key_symbol_search": "جستجوی نماد"
+        "key_symbol_search": "جستجوی نماد",
+		"userSetting": "تنظیمات حساب کاربری",
+		"systemSetting": "تنظیمات سیستم",
+		"sessionLog": "سابقه ورود و خروج",
+		"dearUser": "کاربر گرامی",
+		"active2StepLogin": "فعالسازی ورود دو مرحله ای",
+		"2StepLoginDesc": "با فعالسازی ورود دو مرحله ای در هر بار ورود، علاوه بر نام‌کاربری و رمز‌عبور، لازم است رمز یکبار مصرفی که برای شما پیامک می‌شود را نیز وارد نمایید. پیشنهاد می‌شود برای امنیت بیشتر حساب‌کاربری خود، این امکان را فعال کنید"
      },
 	 "portfolioCardexType" : {
 		"Change_Broker_Out" : "خروج از طریق ناظر",

@@ -81,6 +81,11 @@ export { ReactComponent as TradeChartSVG } from 'src/assets/svg/trade-chart.svg'
 export { ReactComponent as CalenderBourseSVG } from 'src/assets/svg/calender-bourse.svg';
 export { ReactComponent as ArrowDown } from 'src/assets/svg/arrowDown.svg';
 export { ReactComponent as SessionLogIcon } from 'src/assets/svg/SessionLog.svg';
+export { ReactComponent as NumberIcon } from 'src/assets/svg/number.svg'; 
+export { ReactComponent as TraderCodeIcon } from 'src/assets/svg/traderCode.svg'; 
+export { ReactComponent as UsernameIcon } from 'src/assets/svg/username.svg'; 
+export { ReactComponent as Lock2Icon } from 'src/assets/svg/lock2.svg';  
+export { ReactComponent as PhoneIcon } from 'src/assets/svg/phone.svg';  
 
 export { ReactComponent as ChartTypeAreaSVG } from "src/assets/svg/chart-type-area.svg";
 export { ReactComponent as ChartTypeBarSVG } from "src/assets/svg/chart-type-bar-mol.svg";
