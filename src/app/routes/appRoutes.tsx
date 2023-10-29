@@ -17,6 +17,7 @@ const Calender = lazy(() => safeLazyImport(() => import('src/pages/Market/calend
 const TradingView = lazy(() => safeLazyImport(() => import('src/pages/Market/Chart/context/index')));
 const Requests = lazy(() => safeLazyImport(() => import('src/pages/Reports/Requests')));
 const PortfolioMain = lazy(() => safeLazyImport(() => import('src/pages/portfolio/list/index')));
+const Setting = lazy(() => safeLazyImport(() => import('src/pages/Setting')));
 
 import AppLayout from '../Layout';
 import AuthLayout from '../Layout/AuthLayout';
@@ -94,6 +95,10 @@ const AppRoutes: FC = () => {
                             element: <PortfolioMain />
                         }
                     ]
+                },
+                {
+                    path: '/setting',
+                    element: <Setting />
                 },
                 {
                     path: "/Market",

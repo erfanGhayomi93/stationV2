@@ -31,7 +31,8 @@
         "Reports/trades" : "معاملات",
         "Reports/turnover" : "گردش حساب",
 		"Reports/requests": "درخواست ها",
-        "portfolio": "پرتفوی"
+        "portfolio": "پرتفوی",
+		"Setting": "تنظیمات"
     },
     "common" : {
         "fetchingData": "در حال دریافت اطلاعات ...",
