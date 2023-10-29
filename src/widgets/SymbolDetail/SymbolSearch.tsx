@@ -31,7 +31,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
         [],
     );
 
-    const createOptions = (symbols: any[]) => {
+    const createOptions = (symbols: SymbolSearchResult[]) => {
         if (!symbols.length) return [];
 
         return symbols.map((symbol) => (

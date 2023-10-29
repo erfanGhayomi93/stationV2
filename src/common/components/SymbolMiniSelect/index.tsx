@@ -8,6 +8,7 @@ import SymbolSelected from '../SearchResult/SymbolSelected';
 import InputSearch from './input';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbolMulti } from 'src/redux/slices/option';
+import { useRecentSymbolHistory } from 'src/app/queries/tradingView';
 
 interface ISymbolMiniSelectType {
     multiple?: boolean;
@@ -24,7 +25,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     const [panel, setPanel] = useState(false);
 
     const selectedSymbolMulti = useAppSelector(getSelectedSymbolMulti);
-
+    const { data: searchHistory } = useRecentSymbolHistory();
 
     const {
         data: qData,
@@ -83,7 +84,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                             // </>
                             <SymbolSelected selected={selectedSymbolMulti} />
                         ) : (
-                            <SymbolResult min={min} qData={qData || []} isLoading={isLoading} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
+                            <SymbolResult min={min} searchHistory={searchHistory || []} qData={qData || []} isLoading={isLoading && !!term.length} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
                         )}
                     </div>
                 </>
@@ -107,7 +108,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 min={2}
             >
                 <div>
-                    <InputSearch isBigSize={isBigSize} loading={isLoading || isFetching} />
+                    <InputSearch setMin={setMin} isBigSize={isBigSize} loading={isLoading || isFetching} />
 
                     <div>
                         <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
