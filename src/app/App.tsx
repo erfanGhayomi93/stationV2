@@ -35,7 +35,7 @@ const App = () => {
         appState === 'LoggedIn' && localSymbolISIN && appDispatch(setSelectedSymbol(localSymbolISIN));
     }, [appState]);
     //
-    if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
+   // if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
     if (appState === 'Crashed' || resolvedLanguage !== 'fa') return <CrashPage />;
 
     return (
