@@ -55,7 +55,7 @@ const Setting = () => {
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col gap-3">
-            <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.Setting')}</h1>
+            <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.setting')}</h1>
             <TabsList
                 fill={false}
                 onChange={(idx) => setActiveTab(idx)}

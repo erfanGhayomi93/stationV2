@@ -32,7 +32,7 @@
         "Reports/turnover" : "گردش حساب",
 		"Reports/requests": "درخواست ها",
         "portfolio": "پرتفوی",
-		"Setting": "تنظیمات"
+		"setting": "تنظیمات"
     },
     "common" : {
         "fetchingData": "در حال دریافت اطلاعات ...",
@@ -346,7 +346,11 @@
 		"requestValidity": "اعتبار درخواست",
 		"portfolioType" : "تراکنش" , 
 		"commissionPrice" : "کارمزد",
-		"profit" : "سود / زیان"
+		"profit" : "سود / زیان",
+		"deviceAddress": "آدرس دستگاه",
+		"deviceType": "نوع دستگاه",
+		"enterTime": "زمان ورود",
+		"exitTime": "زمان خروج"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
