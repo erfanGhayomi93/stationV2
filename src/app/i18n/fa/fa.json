@@ -451,7 +451,15 @@
 		"darkTheme": "تیره / شب",
 		"appView": "ظاهر برنامه",
 		"backgroundColor": "رنگ زمینه برنامه",
-		"changeLayout": "تغییر چیدمان"
+		"changeLayout": "تغییر چیدمان",
+		"hotkeys": "کلیدهای میانبر",
+		"key_open_buy_window": "باز کردن پنجره خرید",
+		"key_open_sell_window": "باز کردن پنجره فروش",
+		"key_portoflio": "نمایش تب پرتفوی",
+		"key_deposit": "واریز وجه",
+		"key_withdrawal": "برداشت وجه",
+		"key_setting": "تنظیمات",
+		"key_send_order": "ارسال سفارش" 
      },
 	 "portfolioCardexType" : {
 		"Change_Broker_Out" : "خروج از طریق ناظر",
