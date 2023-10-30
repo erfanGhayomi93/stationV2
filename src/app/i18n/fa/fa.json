@@ -459,7 +459,10 @@
 		"key_deposit": "واریز وجه",
 		"key_withdrawal": "برداشت وجه",
 		"key_setting": "تنظیمات",
-		"key_send_order": "ارسال سفارش" 
+		"key_send_order": "ارسال سفارش",
+		"alarms": "هشدارها",
+		"alarmSendingType": "نوع ارسال هشدارهای شرطی",
+		"alarmDisplayPosition": "محل نمایش هشدازها"
      },
 	 "portfolioCardexType" : {
 		"Change_Broker_Out" : "خروج از طریق ناظر",
