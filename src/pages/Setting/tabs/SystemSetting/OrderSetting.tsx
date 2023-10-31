@@ -1,24 +1,63 @@
-import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { savePlatformSetting, useGetPlatformSetting } from 'src/app/queries/settings/PlatformSetting';
 import Switcher from 'src/common/components/SwitchButton';
+import WidgetLoading from 'src/common/components/WidgetLoading';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getPlatformSettings, updatePlatformSetting } from 'src/redux/slices/platformSetting';
 import TradeInput from 'src/widgets/BuySell/components/Input';
+
+type settingStateType = {
+    label: string;
+    value: boolean;
+    key: keyof PlatformSettingResultTypes;
+};
 
 const OrderSetting = () => {
     //
     const { t } = useTranslation();
-  
+    const dispatch=useAppDispatch()
+    const queryClient = useQueryClient()
 
-    const items = [
-        { label: t('setting.confirmBeforeDeleteOrder'), value: true, key: 'confirmBeforeOrderDelete' },
-        { label: t('setting.confirmBeforeSendOrder'), value: true, key: 'confirmBeforeSendingOrder' },
-        { label: t('setting.sendSupervisorMessageAlarm'), value: true, key: 'surveillanceMessages' },
-        { label: t('setting.getFirstLinePrice'), value: true, key: 'bestPriceFromTopOrder' },
-        { label: t('setting.showSymbolDetailWhileSending'), value: true, key: 'symbolInfoOnSendOrder' },
-        { label: t('setting.showDivideOrder'), value: true, key: 'showOrderSplit' },
-        { label: t('setting.whenPressPlus'), value: true, key: 'plusKeyBehaviorOn' },
-        { label: t('setting.multipleBuySellModal'), value: true, key: 'multipleOrderModal' },
-        { label: t('setting.showGuideInFirstLogin'), value: true, key: 'showIntroGuideOnLogin' },
-    ];
+    const settings = useAppSelector(getPlatformSettings);
+
+    const {} = useGetPlatformSetting({
+        onSuccess: ({succeeded, result}) => {
+            if(succeeded) {
+                dispatch(updatePlatformSetting(result))
+            }
+        }
+    })
+
+    const { mutate: setPlatformSetting, isLoading } = useMutation(savePlatformSetting, {
+        onSuccess: ({ result }) => {
+            if(result){
+                queryClient.invalidateQueries([Apis().Setting.GetPlatformSetting])
+            }
+        },
+    });
+
+    const [orderSetting, setOrderSetting] = useState<settingStateType[]>([
+        { label: t('setting.confirmBeforeDeleteOrder'), value: settings['confirmBeforeOrderDelete'], key: 'confirmBeforeOrderDelete' },
+        { label: t('setting.confirmBeforeSendOrder'), value: settings['confirmBeforeSendingOrder'], key: 'confirmBeforeSendingOrder' },
+        { label: t('setting.sendSupervisorMessageAlarm'), value: settings['surveillanceMessages'], key: 'surveillanceMessages' },
+        { label: t('setting.getFirstLinePrice'), value: settings['bestPriceFromTopOrder'], key: 'bestPriceFromTopOrder' },
+        { label: t('setting.showSymbolDetailWhileSending'), value: settings['symbolInfoOnSendOrder'], key: 'symbolInfoOnSendOrder' },
+        { label: t('setting.showDivideOrder'), value: settings['showOrderSplit'], key: 'showOrderSplit' },
+        { label: t('setting.whenPressPlus'), value: settings['plusKeyBehaviorOn'], key: 'plusKeyBehaviorOn' },
+        { label: t('setting.multipleBuySellModal'), value: settings['multipleOrderModal'], key: 'multipleOrderModal' },
+        { label: t('setting.showGuideInFirstLogin'), value: settings['showIntroGuideOnLogin'], key: 'showIntroGuideOnLogin' },
+    ]);
+
+    useEffect(() => {
+        setOrderSetting((pre) => pre.map((item) => ({ ...item, value: settings[item.key] as boolean })));
+    }, [settings]);
+
+    const onUpdateSettings = (name: keyof PlatformSettingResultTypes, value: boolean) => {
+        setPlatformSetting({ ...settings, [name]: value });
+    };
 
     return (
         <div className="h-full text-D-basic flex flex-col gap-4 text-sm dark:text-L-basic">
@@ -38,10 +77,10 @@ const OrderSetting = () => {
                 </div>
             </div>
             <div className="flex-1 flex flex-wrap">
-                {items.map((item) => (
-                    <div key={item.key} className="flex w-1/2 items-center justify-between py-3 even:pr-2 odd:pl-2 border-b last:border-b-0">
-                        <span>{item.label}</span>
-                        <Switcher value={item.value} />
+                {orderSetting.map(({ key, label, value }) => (
+                    <div key={key} className="flex w-1/2 items-center justify-between py-3 even:pr-2 odd:pl-2 border-b last:border-b-0">
+                        <span>{label}</span>
+                        <Switcher value={value} onCheck={(value) => onUpdateSettings(key, value)} />
                     </div>
                 ))}
             </div>
