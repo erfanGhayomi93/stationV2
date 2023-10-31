@@ -172,6 +172,7 @@ export const Apis = () => ({
     },
     Setting: {
         GetSetting: getBaseUrl() + `/Setting/v1/GetSettings`,
+        GetPlatformSetting: getBaseUrl() + `/Setting/v1/GetPlatformSettings`,
     },
 });
 

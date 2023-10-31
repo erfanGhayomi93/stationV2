@@ -462,7 +462,19 @@
 		"key_send_order": "ارسال سفارش",
 		"alarms": "هشدارها",
 		"alarmSendingType": "نوع ارسال هشدارهای شرطی",
-		"alarmDisplayPosition": "محل نمایش هشدازها"
+		"alarmDisplayPosition": "محل نمایش هشدازها",
+		"order": "سفارش",
+		"defaultBuyVolume": "حجم پیش فرض خرید",
+		"defaultSellVolume": "حجم پیش فرض فروش",
+		"confirmBeforeDeleteOrder": "گرفتن تایید قبل از حذف سفارش",
+		"confirmBeforeSendOrder": "گرفتن تایید برای ارسال سفارش",
+		"sendSupervisorMessageAlarm": "ارسال اعلان 'پیام ناظر بازار'",
+		"getFirstLinePrice": "گرفتن قیمت از سر خط",
+		"showSymbolDetailWhileSending": "نمایش اطلاعات نماد در ارسال سفارش",
+		"showDivideOrder": "نمایش تقسیم سفارش",
+		"whenPressPlus": "وقتی + زد",
+		"multipleBuySellModal": "چند مودال خرید و فروش",
+		"showGuideInFirstLogin": "نمایش راهنما در هنگام اولین ورود"
      },
 	 "portfolioCardexType" : {
 		"Change_Broker_Out" : "خروج از طریق ناظر",
