@@ -5,7 +5,15 @@ import { EditIcon, Envelope2Icon, Lock2Icon, NumberIcon, PhoneIcon, UsernameIcon
 import { useNavigate } from 'react-router-dom';
 import EditUserNameInput from './EditUserNameInput';
 
-const UpdateUser = () => {
+interface Props {
+    stationName: string;
+    stationCode: string;
+    phoneNumber: string;
+    email: string;
+    userName: string;
+}
+
+const UpdateUser = ({ email, phoneNumber, stationCode, stationName, userName }: Props) => {
     //
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState(false);
@@ -17,7 +25,7 @@ const UpdateUser = () => {
     return (
         <div className="flex min-h-[120px]">
             <div className="flex-1 flex flex-col justify-between">
-                <RowDisplay name={t('common.stationName')} value="ایستگاه یک" icon={<NumberIcon />} />
+                <RowDisplay name={t('common.stationName')} value={stationName} icon={<NumberIcon />} />
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
                 <div className="w-2/3 flex justify-between items-center">
                     <div className="flex gap-1 items-center text-L-primary-50 dark:text-D-primary-50">
@@ -28,10 +36,10 @@ const UpdateUser = () => {
                     </div>
                     <div className="text-D-basic dark:text-L-basic font-medium flex gap-2">
                         {isEditing ? (
-                            <EditUserNameInput toggleEditing={toggleEditing}/>
+                            <EditUserNameInput toggleEditing={toggleEditing} defaultValue={userName} />
                         ) : (
                             <>
-                                {'username'}
+                                {userName}
                                 <span className="cursor-pointer" onClick={toggleEditing}>
                                     <EditIcon />
                                 </span>
@@ -40,10 +48,10 @@ const UpdateUser = () => {
                     </div>
                 </div>
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
-                <RowDisplay name={t('common.phoneNumber')} value="09124565879" icon={<PhoneIcon />} />
+                <RowDisplay name={t('common.phoneNumber')} value={phoneNumber} icon={<PhoneIcon />} />
             </div>
             <div className="flex-1 flex flex-col justify-between">
-                <RowDisplay name={t('common.stationCode')} value="ایستگاه کد" icon={<NumberIcon />} />
+                <RowDisplay name={t('common.stationCode')} value={stationCode} icon={<NumberIcon />} />
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
                 <div className="w-2/3 flex justify-between items-center">
                     <div className="flex gap-1 items-center text-L-primary-50 dark:text-D-primary-50">
@@ -60,7 +68,7 @@ const UpdateUser = () => {
                     </div>
                 </div>
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
-                <RowDisplay name={t('common.email')} value="ایستگاه یک" icon={<Envelope2Icon />} />
+                <RowDisplay name={t('common.email')} value={email} icon={<Envelope2Icon />} />
             </div>
         </div>
     );

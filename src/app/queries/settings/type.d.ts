@@ -108,3 +108,15 @@ interface PlatformSettingResultTypes {
     alertType: string;
     alertPosition: string;
 }
+
+interface UserSettingResultTypes {
+    userId: number;
+    name: string;
+    traderCode: string;
+    nationalCode: string;
+    stationName: string;
+    userName: string;
+    phone: string;
+    stationCode: string;
+    email:string;
+}

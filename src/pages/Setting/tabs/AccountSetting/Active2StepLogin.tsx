@@ -2,18 +2,24 @@ import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumberIcon, TraderCodeIcon, UserIcon } from 'src/common/icons';
 
-const Active2StepLogin = () => {
+interface Props {
+    fullName: string;
+    traderCode: string;
+    nationalCode: string;
+}
+
+const Active2StepLogin = ({ fullName, traderCode, nationalCode }: Props) => {
     //
     const { t } = useTranslation();
 
     return (
         <div className="flex">
             <div className="flex-1 flex flex-col justify-between">
-                <RowDisplay name={t('common.fullName')} value={'سهیل خسروی'} icon={<UserIcon />} />
+                <RowDisplay name={t('common.fullName')} value={fullName} icon={<UserIcon />} />
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
-                <RowDisplay name={t('common.traderCode')} value={'خسرو09898'} icon={<TraderCodeIcon />} />
+                <RowDisplay name={t('common.traderCode')} value={traderCode} icon={<TraderCodeIcon />} />
                 <div className="border-b dark:border-D-gray-300 w-2/3"></div>
-                <RowDisplay name={t('common.nationalCode')} value={'سهیل خسروی'} icon={<NumberIcon />} />
+                <RowDisplay name={t('common.nationalCode')} value={nationalCode} icon={<NumberIcon />} />
             </div>
             <div className="flex-1 flex flex-col gap-4 text-D-basic dark:text-L-basic">
                 <p>{t('setting.dearUser')}</p>

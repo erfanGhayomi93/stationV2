@@ -29,17 +29,17 @@ const getBaseUrl = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
 // };
-// 
+//
 // const getMarketData = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
 // };
-// 
+//
 // const getBackOffice = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
 // };
-// 
+//
 // const getOrderUrl = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
@@ -174,6 +174,7 @@ export const Apis = () => ({
         GetSetting: getBaseUrl() + `/Setting/v1/GetSettings`,
         GetPlatformSetting: getBaseUrl() + `/Setting/v1/GetPlatformSettings`,
         SavePlatformSetting: getBaseUrl() + `/Setting/v1/SavePlatformSettings`,
+        GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
     },
 });
 

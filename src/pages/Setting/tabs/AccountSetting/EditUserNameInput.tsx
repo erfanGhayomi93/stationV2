@@ -2,10 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import Input from 'src/common/components/Input';
 import { Check, UnCheck } from 'src/common/icons';
 
-const EditUserNameInput = ({ toggleEditing }: { toggleEditing: () => void }) => {
+const EditUserNameInput = ({ defaultValue, toggleEditing }: { defaultValue: string; toggleEditing: () => void }) => {
     //
     const inputRef = useRef<HTMLInputElement>(null);
-    const [value, setValue] = useState('username')
+    const [value, setValue] = useState(defaultValue);
 
     useEffect(() => {
         if (inputRef.current) {
@@ -18,7 +18,7 @@ const EditUserNameInput = ({ toggleEditing }: { toggleEditing: () => void }) => 
             value={value}
             onChange={(e) => setValue(e.target.value)}
             ref={inputRef}
-            style={{direction: 'ltr'}}
+            style={{ direction: 'ltr' }}
             addonBefore={
                 <div className="flex gap-1 items-center bg-L-basic dark:bg-D-basic">
                     <span

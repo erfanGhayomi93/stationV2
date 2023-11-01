@@ -25,7 +25,7 @@ const OrderSetting = () => {
     const {} = useGetPlatformSetting({
         onSuccess: ({succeeded, result}) => {
             if(succeeded) {
-                dispatch(updatePlatformSetting(result))
+               result && dispatch(updatePlatformSetting(result))
             }
         }
     })
