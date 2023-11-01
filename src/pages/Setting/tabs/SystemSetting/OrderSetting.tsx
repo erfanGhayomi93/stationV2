@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetPlatformSetting, useSetPlatformSetting } from 'src/app/queries/settings/PlatformSetting';
 import Switcher from 'src/common/components/SwitchButton';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { setAppState } from 'src/redux/slices/global';
 import { getPlatformSettings, updatePlatformSetting } from 'src/redux/slices/platformSetting';
 import TradeInput from 'src/widgets/BuySell/components/Input';
 
@@ -16,19 +17,10 @@ type settingStateType = {
 const OrderSetting = () => {
     //
     const { t } = useTranslation();
-    const dispatch=useAppDispatch()
 
     const settings = useAppSelector(getPlatformSettings);
-    
+
     const { mutate: setOrderSettings, isLoading } = useSetPlatformSetting();
-    
-    const {} = useGetPlatformSetting({
-        onSuccess: ({succeeded, result}) => {
-            if(succeeded) {
-               result && dispatch(updatePlatformSetting(result))
-            }
-        }
-    })
 
     const [orderSetting, setOrderSetting] = useState<settingStateType[]>([
         { label: t('setting.confirmBeforeDeleteOrder'), value: settings['confirmBeforeOrderDelete'], key: 'confirmBeforeOrderDelete' },
