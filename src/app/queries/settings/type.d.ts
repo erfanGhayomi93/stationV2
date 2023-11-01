@@ -94,14 +94,6 @@ interface PlatformSettingResultTypes {
     theme: string;
     layoutId: number;
     hotKeyEnabled: boolean;
-    openBuyWindowHotKey: string;
-    openSellWindoHotKey: string;
-    symbolSearchHotKey: string;
-    showPortfolioWindowHotKey: string;
-    depositHotKey: string;
-    withdrawHotKey: string;
-    settingsHotKey: string;
-    sendOrderHotKey: string;
     defaultBuyVolume: string;
     defaultSellVolume: string;
     confirmBeforeOrderDelete: boolean;

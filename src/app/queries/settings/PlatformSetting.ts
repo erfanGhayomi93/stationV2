@@ -1,5 +1,6 @@
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
 import AXIOS from "src/api/axiosInstance"
+import { queryClient } from "src/app/queryClient";
 import { Apis } from "src/common/hooks/useApiRoutes/useApiRoutes"
 
 const getPlatformSetting = async () => {
@@ -19,3 +20,12 @@ export const savePlatformSetting = async (postOptions: PlatformSettingResultType
     const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Setting.SavePlatformSetting, postOptions)
     return data;
 }
+
+
+export const useSetPlatformSetting = () => useMutation(savePlatformSetting, {
+    onSuccess: ({ result }) => {
+        if(result){
+            queryClient.invalidateQueries([Apis().Setting.GetPlatformSetting])
+        }
+    },
+})

@@ -1,10 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { savePlatformSetting, useGetPlatformSetting } from 'src/app/queries/settings/PlatformSetting';
+import { useGetPlatformSetting, useSetPlatformSetting } from 'src/app/queries/settings/PlatformSetting';
 import Switcher from 'src/common/components/SwitchButton';
-import WidgetLoading from 'src/common/components/WidgetLoading';
-import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getPlatformSettings, updatePlatformSetting } from 'src/redux/slices/platformSetting';
 import TradeInput from 'src/widgets/BuySell/components/Input';
@@ -19,10 +17,11 @@ const OrderSetting = () => {
     //
     const { t } = useTranslation();
     const dispatch=useAppDispatch()
-    const queryClient = useQueryClient()
 
     const settings = useAppSelector(getPlatformSettings);
-
+    
+    const { mutate: setOrderSettings, isLoading } = useSetPlatformSetting();
+    
     const {} = useGetPlatformSetting({
         onSuccess: ({succeeded, result}) => {
             if(succeeded) {
@@ -30,14 +29,6 @@ const OrderSetting = () => {
             }
         }
     })
-
-    const { mutate: setPlatformSetting, isLoading } = useMutation(savePlatformSetting, {
-        onSuccess: ({ result }) => {
-            if(result){
-                queryClient.invalidateQueries([Apis().Setting.GetPlatformSetting])
-            }
-        },
-    });
 
     const [orderSetting, setOrderSetting] = useState<settingStateType[]>([
         { label: t('setting.confirmBeforeDeleteOrder'), value: settings['confirmBeforeOrderDelete'], key: 'confirmBeforeOrderDelete' },
@@ -56,7 +47,7 @@ const OrderSetting = () => {
     }, [settings]);
 
     const onUpdateSettings = (name: keyof PlatformSettingResultTypes, value: boolean) => {
-        setPlatformSetting({ ...settings, [name]: value });
+        setOrderSettings({ ...settings, [name]: value });
     };
 
     return (
