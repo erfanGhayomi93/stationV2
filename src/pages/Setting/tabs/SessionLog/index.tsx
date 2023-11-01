@@ -1,69 +1,79 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import ActionCell from './ActionCell';
-import dayjs from 'dayjs';
+import { useGetSessionLog } from 'src/app/queries/settings/sessionLog';
 
 const SessionLog = () => {
     //
     const { t } = useTranslation();
-    const [pagination, setPagination] = useState({
-        PageNumber: 1,
-        PageSize: 25,
+    const [pagination, setPagination] = useState<GetSessionLogRequestParam>({
+        pageNumber: 1,
+        pageSize: 25,
     });
 
-    const { PageNumber, PageSize } = pagination;
+    const { data, isFetching, refetch: refetchLogins } = useGetSessionLog(pagination);
+
+    useEffect(() => {
+        refetchLogins();
+    }, [pagination]);
+
+    const { pageNumber, pageSize } = pagination;
 
     const Columns = useMemo(
-        (): ColDefType<any>[] => [
+        (): ColDefType<SessionLogResultType>[] => [
             {
                 headerName: t('ag_columns_headerName.row'),
                 sortable: false,
                 minWidth: 60,
                 maxWidth: 80,
-                valueFormatter: ({ node }) => String((PageNumber - 1) * PageSize + node?.rowIndex! + 1),
+                valueFormatter: ({ node }) => String((pageNumber - 1) * pageSize + node?.rowIndex! + 1),
             },
-            { headerName: t('ag_columns_headerName.deviceAddress'), field: 'deviceAddress' },
+            { headerName: t('ag_columns_headerName.deviceAddress'), field: 'ip' },
             { headerName: t('ag_columns_headerName.userName'), field: 'userName' },
             { headerName: t('ag_columns_headerName.deviceType'), field: 'deviceType' },
-            { headerName: t('ag_columns_headerName.status'), field: 'status', cellClass: 'text-L-success-200' },
-            { headerName: t('ag_columns_headerName.enterTime'), field: 'enterTime', type: 'date' },
-            { headerName: t('ag_columns_headerName.exitTime'), field: 'exitTime', type: 'date' },
-            { headerName: t('ag_columns_headerName.actions'), cellRenderer: ActionCell },
+            {
+                headerName: t('ag_columns_headerName.status'),
+                field: 'status',
+                cellClassRules: {
+                    'text-L-success-200': ({ value }) => value === 'Active',
+                    'text-L-error-200': ({ value }) => value === 'Inactive',
+                },
+                valueFormatter: ({ value }) => (value === 'Active' ? 'فعال' : 'غیر فعال'),
+            },
+            { headerName: t('ag_columns_headerName.enterTime'), field: 'loginDate', type: 'date' },
+            { headerName: t('ag_columns_headerName.exitTime'), field: 'logoutDate', type: 'date' },
+            { headerName: t('ag_columns_headerName.actions'), cellRenderer: ActionCell, cellRendererParams: { refetchLogins } },
         ],
-        [PageNumber, PageSize],
+        [pageNumber, pageSize],
     );
     const paginatorHandler = useCallback((action: 'PageSize' | 'PageNumber', value: number) => {
-        setPagination((pre) => ({ ...pre, [action]: value }));
+        const act = action === 'PageNumber' ? 'pageNumber' : 'pageSize';
+        setPagination((pre) => ({ ...pre, [act]: value }));
     }, []);
 
-    const rowData = [
-        {
-            deviceAddress: '93.118.109.23',
-            userName: 'soheilkh59',
-            deviceType: 'دسکتاپ',
-            status: 'آنلاین',
-            enterTime: dayjs(),
-            exitTime: dayjs(),
-        },
-    ];
-
     return (
-        <WidgetLoading spining={false}>
+        <WidgetLoading spining={isFetching}>
             <div className="h-full flex flex-col">
                 <div className="grow">
-                    <AGTable columnDefs={Columns} rowData={rowData} />
+                    <AGTable
+                        columnDefs={Columns}
+                        rowData={data?.result || []}
+                        suppressScrollOnNewData={true}
+                        suppressRowVirtualisation={true}
+                        suppressColumnVirtualisation={true}
+                    />
                 </div>
                 <div className="pt-4 border-t border-L-gray-300 dark:border-D-gray-300">
                     <Paginator
-                        loading={false}
-                        pageNumber={PageNumber}
-                        pageSize={PageSize}
-                        totalPages={20}
-                        hasNextPage={true}
-                        hasPreviousPage={true}
+                        loading={isFetching}
+                        pageNumber={pageNumber}
+                        pageSize={pageSize}
+                        totalPages={data?.totalCount}
+                        hasNextPage={data?.hasNextPage}
+                        hasPreviousPage={data?.hasPreviousPage}
                         PaginatorHandler={paginatorHandler}
                     />
                 </div>

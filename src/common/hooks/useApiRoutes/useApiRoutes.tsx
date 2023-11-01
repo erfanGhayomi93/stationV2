@@ -175,6 +175,8 @@ export const Apis = () => ({
         GetPlatformSetting: getBaseUrl() + `/Setting/v1/GetPlatformSettings`,
         SavePlatformSetting: getBaseUrl() + `/Setting/v1/SavePlatformSettings`,
         GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
+        SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
+        TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
 });
 

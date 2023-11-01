@@ -118,5 +118,20 @@ interface UserSettingResultTypes {
     userName: string;
     phone: string;
     stationCode: string;
-    email:string;
+    email: string;
+}
+
+interface GetSessionLogRequestParam {
+    pageNumber: number;
+    pageSize: number;
+}
+
+interface SessionLogResultType {
+    uniqueId: string;
+    ip: string;
+    userName: string;
+    deviceType: string;
+    status: string;
+    loginDate: string;
+    logoutDate: string;
 }
