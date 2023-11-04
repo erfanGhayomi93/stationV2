@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsPreprd();
+    // const { data } = useGlobalSettings();
+    const { data } = useGlobalSettingsPreprd();
 
     useEffect(() => {
         const routes = Apis();
@@ -29,17 +29,17 @@ const getBaseUrl = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
 // };
-// 
+//
 // const getMarketData = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
 // };
-// 
+//
 // const getBackOffice = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
 // };
-// 
+//
 // const getOrderUrl = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
 //     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
@@ -172,6 +172,11 @@ export const Apis = () => ({
     },
     Setting: {
         GetSetting: getBaseUrl() + `/Setting/v1/GetSettings`,
+        GetPlatformSetting: getBaseUrl() + `/Setting/v1/GetPlatformSettings`,
+        SavePlatformSetting: getBaseUrl() + `/Setting/v1/SavePlatformSettings`,
+        GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
+        SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
+        TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
 });
 

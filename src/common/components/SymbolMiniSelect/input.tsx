@@ -6,10 +6,11 @@ import { ComboSelectContext } from '../ComboSelect/context';
 
 interface IInputSearchType {
     loading: boolean;
-    isBigSize?: boolean
+    isBigSize?: boolean;
+    setMin: (x: boolean) => void;
 }
 
-const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
+const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize, setMin }) => {
     const {
         setPanel,
         setValue,
@@ -24,6 +25,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
         setValue('');
         !multiple && clearSelected();
         searchRef.current?.focus();
+        setMin(true);
     };
 
     const handleReset = () => {
@@ -37,10 +39,15 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
     };
 
     return (
-        <div className={clsx("bg-L-basic dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100", {
-            "h-10": !!isBigSize,
-            "h-8": !isBigSize,
-        })}>
+        <div
+            className={clsx(
+                'bg-L-basic dark:bg-D-basic border dark:border-D-gray-400 border-L-gray-400 rounded-md flex items-center gap-1 pl-1 text-1.3 duration-250 dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100',
+                {
+                    'h-10': !!isBigSize,
+                    'h-8': !isBigSize,
+                },
+            )}
+        >
             <div className="flex items-center gap-1 relative grow">
                 <div className="pr-2">
                     <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
@@ -50,6 +57,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize }) => {
                     className="h-full text-xs grow w-full px-1 outline-none truncate pl-8 border-b border-transparent  bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-D-gray-700  duration-150 "
                     onKeyDown={(e) => setPanel(e.key !== 'Escape' ? true : false)}
                     onClick={() => handleReset()}
+                    onFocus={() => setPanel(true)}
                 />
                 <div
                     onClick={() => handleClear()}

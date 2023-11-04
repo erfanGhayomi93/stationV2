@@ -1,6 +1,8 @@
 
 type ICustomerIsins = string[];
 interface IOrderRequestType {
+    id?:string;
+    status?:string;
     customerISIN?: ICustomerIsins;
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
@@ -72,9 +74,11 @@ type OrderStatusType =
     | 'OnModifyError'
     | 'OnCancelError'
     | 'Expired'
+    | 'draft'
     | 'RejectByGAP'
     | 'OnCancelingWithBroker'
     | 'TradeCancel'
+    | 'Contract_InCremental_DisAllowed_FromTSE'
     | '';
 interface IOrderResponseType {
     successClientKeys: string[];

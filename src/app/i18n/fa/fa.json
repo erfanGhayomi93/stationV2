@@ -31,7 +31,8 @@
         "Reports/trades" : "معاملات",
         "Reports/turnover" : "گردش حساب",
 		"Reports/requests": "درخواست ها",
-        "portfolio": "پرتفوی"
+        "portfolio": "پرتفوی",
+		"setting": "تنظیمات"
     },
     "common" : {
         "fetchingData": "در حال دریافت اطلاعات ...",
@@ -39,6 +40,9 @@
         "TSE" : "سایت TSE",
         "all": "همه",
         "myStation": "ایستگاه من",
+		"stationName": "نام ایستگاه",
+		"stationCode": "کد ایستگاه",
+		"traderCode": "کد معامله گری",
         "fullName": "نام و نام خانوادگی",
         "rial": "ریال",
         "fatherName": "نام پدر",
@@ -59,7 +63,9 @@
         "notCustomerSelected": "حداقل یک مشتری باید انتخاب شود",
         "confirm": "ثبت",
         "delete": "حذف",
-        "confirmation": "تاییدیه"
+        "confirmation": "تاییدیه",
+		"password": "رمز عبور",
+		"email": "ایمیل"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -154,6 +160,7 @@
 		"OnCancelError": "دستور حذف با خطا مواجه شد",
 		"Expired": "منقضی شد",
 		"draft": "پیش ‌نویس",
+		"Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده از جانب مشتریان به هسته معاملات مسدود می باشد.",
 		"OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
 	},
     "orderSide": {
@@ -339,7 +346,11 @@
 		"requestValidity": "اعتبار درخواست",
 		"portfolioType" : "تراکنش" , 
 		"commissionPrice" : "کارمزد",
-		"profit" : "سود / زیان"
+		"profit" : "سود / زیان",
+		"deviceAddress": "آدرس دستگاه",
+		"deviceType": "نوع دستگاه",
+		"enterTime": "زمان ورود",
+		"exitTime": "زمان خروج"
     },
     "Input" : {
         "placeholderWatchlist" : "نام دیده بان(حداقل دو حرف)"
@@ -429,7 +440,41 @@
 		"hide_symbol_details": "بستن جزئیات نماد"
      },
      "setting" : {
-        "key_symbol_search": "جستجوی نماد"
+        "key_symbol_search": "جستجوی نماد",
+		"userSetting": "تنظیمات حساب کاربری",
+		"systemSetting": "تنظیمات سیستم",
+		"sessionLog": "سابقه ورود و خروج",
+		"dearUser": "کاربر گرامی",
+		"active2StepLogin": "فعالسازی ورود دو مرحله ای",
+		"2StepLoginDesc": "با فعالسازی ورود دو مرحله ای در هر بار ورود، علاوه بر نام‌کاربری و رمز‌عبور، لازم است رمز یکبار مصرفی که برای شما پیامک می‌شود را نیز وارد نمایید. پیشنهاد می‌شود برای امنیت بیشتر حساب‌کاربری خود، این امکان را فعال کنید",
+		"lightTheme": "روشن / روز",
+		"darkTheme": "تیره / شب",
+		"appView": "ظاهر برنامه",
+		"backgroundColor": "رنگ زمینه برنامه",
+		"changeLayout": "تغییر چیدمان",
+		"hotkeys": "کلیدهای میانبر",
+		"key_open_buy_window": "باز کردن پنجره خرید",
+		"key_open_sell_window": "باز کردن پنجره فروش",
+		"key_portoflio": "نمایش تب پرتفوی",
+		"key_deposit": "واریز وجه",
+		"key_withdrawal": "برداشت وجه",
+		"key_setting": "تنظیمات",
+		"key_send_order": "ارسال سفارش",
+		"alarms": "هشدارها",
+		"alarmSendingType": "نوع ارسال هشدارهای شرطی",
+		"alarmDisplayPosition": "محل نمایش هشدازها",
+		"order": "سفارش",
+		"defaultBuyVolume": "حجم پیش فرض خرید",
+		"defaultSellVolume": "حجم پیش فرض فروش",
+		"confirmBeforeDeleteOrder": "گرفتن تایید قبل از حذف سفارش",
+		"confirmBeforeSendOrder": "گرفتن تایید برای ارسال سفارش",
+		"sendSupervisorMessageAlarm": "ارسال اعلان 'پیام ناظر بازار'",
+		"getFirstLinePrice": "گرفتن قیمت از سر خط",
+		"showSymbolDetailWhileSending": "نمایش اطلاعات نماد در ارسال سفارش",
+		"showDivideOrder": "نمایش تقسیم سفارش",
+		"whenPressPlus": "وقتی + زد",
+		"multipleBuySellModal": "چند مودال خرید و فروش",
+		"showGuideInFirstLogin": "نمایش راهنما در هنگام اولین ورود"
      },
 	 "portfolioCardexType" : {
 		"Change_Broker_Out" : "خروج از طریق ناظر",
