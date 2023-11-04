@@ -62,7 +62,7 @@ export const useSymbolSearchQuery = (
 
 
 const getRecentSymbolHistory = async (signal?: AbortSignal) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<SearchSymbolType[]>>(Apis().tvChart.historyRecent, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(Apis().tvChart.historyRecent, {
         signal
     });
 
@@ -70,7 +70,7 @@ const getRecentSymbolHistory = async (signal?: AbortSignal) => {
 };
 
 export const useRecentSymbolHistory = (
-    options?: Omit<UseQueryOptions<SearchSymbolType[], Error, SearchSymbolType[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
+    options?: Omit<UseQueryOptions<SymbolSearchResult[], Error, SymbolSearchResult[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
     return useQuery(['userRecentSymbolHistory'], ({ signal }) => getRecentSymbolHistory(signal), options);
 };

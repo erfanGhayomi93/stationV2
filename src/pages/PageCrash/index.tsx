@@ -9,7 +9,8 @@ const PageCrash = () => {
     //
 
     return (
-        <div className="">
+        <div className="text-center text-2xl">
+            App Crashed
             {/* <CustomerMegaSelect /> */}
         </div>
     );

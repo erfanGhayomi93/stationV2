@@ -7,14 +7,17 @@ import DivideOrderTable from './components/DivideOrderTable';
 import { useBuySellDispatch, useBuySellState } from '../BuySell/context/BuySellContext';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import clsx from 'clsx';
-import { getUniqId, seprateNumber } from 'src/utils/helpers';
+import { getUniqId, handleValidity, seprateNumber } from 'src/utils/helpers';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
+import useSendOrders from './useSendOrders';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const DivideOrderModal = () => {
     //
     const { t } = useTranslation();
-    const { quantity, symbolISIN, amount, divide, side, price } = useBuySellState();
+
+    const { divide, symbolISIN, side, price, quantity, validity, percent, validityDate, strategy } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const [shuffleOrder, setShuffleOrder] = useState(false);
     const [quantityInput, setQuantityInput] = useState<number>(quantity);
@@ -22,6 +25,22 @@ const DivideOrderModal = () => {
     const [customers, setCustomers] = useState<DividedOrderRowType[]>([]);
     const dispatch = useBuySellDispatch();
     const selectedCustomers = useAppSelector(getSelectedCustomers);
+
+    const { sendOrders, orderResult } = useSendOrders();
+
+    useEffect(() => {
+        const updatedOrders = customers.map((order) => {
+            if (orderResult[order.id]) {
+                return {
+                    ...order,
+                    clientKey: orderResult[order.id],
+                };
+            }
+            return order;
+        });
+
+        setCustomers(updatedOrders as DividedOrderRowType[]);
+    }, [orderResult]);
 
     const closeModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });
@@ -42,7 +61,8 @@ const DivideOrderModal = () => {
                     id: getUniqId(),
                     price,
                     quantity,
-                    status: null,
+                    status: undefined,
+                    clientKey: undefined,
                 };
             };
 
@@ -88,8 +108,103 @@ const DivideOrderModal = () => {
     };
 
     const onSendAll = () => {
-        console.log(customers);
+        setCustomers((pre) => pre.map((item) => ({ ...item, status: item.status ? item.status : 'InOMSQueue' })));
+        const unSentOrders = customers.filter(({ clientKey }) => !clientKey) || [];
+        const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
+            id: id as string,
+            customerISIN: [customerISIN],
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: side,
+            orderDraftId: undefined,
+            orderStrategy: strategy,
+            orderType: 'LimitOrder',
+            percent: percent || 0,
+            price,
+            quantity,
+            symbolISIN: symbolISIN,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+        }));
+
+        sendOrders(0, orders);
     };
+
+    const sendOneOrder = (orderId: string) => {
+        const order: IOrderRequestType = {
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: side,
+            orderDraftId: undefined,
+            orderStrategy: strategy,
+            orderType: 'LimitOrder',
+            percent: percent || 0,
+            symbolISIN: symbolISIN,
+            validity: handleValidity(validity),
+            validityDate: validityDate,
+
+            price: 0,
+            quantity: 0,
+            customerISIN: [],
+            id: orderId,
+        };
+
+        setCustomers((pre) =>
+            pre.map((item) => {
+                if (item.id === orderId) {
+                    order.price = item.price;
+                    order.quantity = item.quantity;
+                    order.customerISIN = [item.customerISIN];
+
+                    return {
+                        ...item,
+                        status: 'InOMSQueue',
+                    };
+                }
+
+                return item;
+            }),
+        );
+
+        sendOrders(0, [order]);
+    };
+
+    const onOMSMessageHandler = (message: Record<number, string>) => {
+        //
+        let timer: NodeJS.Timer;
+        const omsClientKey = message[12];
+        const omsOrderStatus = message[22];
+
+        // LS message ( omsClientKey ) may come sooner than API response, so i check it every 100ms to find omsClientKey in API response.
+        timer = setInterval(() => {
+            //
+            setCustomers((pre) =>
+                pre.map((item) => {
+                    if (item.clientKey === omsClientKey) {
+                        clearInterval(timer);
+                        return {
+                            ...item,
+                            status: omsOrderStatus as DividedOrderRowType['status'],
+                        };
+                    }
+
+                    return item;
+                }),
+            );
+        }, 100);
+
+        // if the omsClientKey is not found after 1000ms
+        setTimeout(() => {
+            clearInterval(timer);
+        }, 1000);
+    };
+
+    useEffect(() => {
+        ipcMain.handle('oms_order_status', onOMSMessageHandler);
+        return () => {
+            ipcMain.removeHandler('oms_order_status');
+        };
+    }, []);
 
     return (
         <Modal isOpen={divide} onClose={closeModal} className="w-[720px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
@@ -141,14 +256,20 @@ const DivideOrderModal = () => {
                                 lowValue={symbolData?.lowThreshold || 0}
                                 onChange={(value) => {
                                     setPriceInput(value);
-                                    setCustomers((pre) => pre.map((item) => ({ ...item, price: value })));
+                                    setCustomers((pre) => pre.map((item) => ({ ...item, price: value, status: undefined, clientKey: undefined })));
                                 }}
                                 inputValue={priceInput}
                             />
                         </div>
                     </div>
                     <div className="h-[282px]">
-                        <DivideOrderTable rowData={customers} updateData={setCustomers} setQuantityInput={setQuantityInput} />
+                        <DivideOrderTable
+                            symbolMaxQuantity={symbolData?.maxTradeQuantity ?? 1}
+                            rowData={customers}
+                            updateData={setCustomers}
+                            sendOneOrder={sendOneOrder}
+                            setQuantityInput={setQuantityInput}
+                        />
                     </div>
 
                     <div className="flex gap-4 text-[11px]">
