@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@headlessui/react": "^1.6.6",
+        "@hookform/resolvers": "^2.9.10",
         "@reduxjs/toolkit": "^1.8.5",
         "@tanstack/react-query": "^4.13.0",
         "@tanstack/react-query-devtools": "^4.13.0",
@@ -33,17 +34,20 @@
         "querystring": "^0.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-hook-form": "^7.47.0",
         "react-i18next": "^13.0.2",
         "react-multi-date-picker": "^3.3.0",
+        "react-number-format": "^5.3.1",
         "react-redux": "^8.0.2",
         "react-router-dom": "^6.15.0",
         "react-scripts": "5.0.1",
-        "react-simple-keyboard": "^3.4.223",
+        "react-simple-keyboard": "^3.7.33",
         "react-toastify": "^9.0.8",
         "react-tracked": "^1.7.10",
         "react-virtuoso": "^4.6.0",
         "typescript": "4.9.5",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "yup": "^0.32.11"
     },
     "scripts": {
         "start": "react-scripts start",

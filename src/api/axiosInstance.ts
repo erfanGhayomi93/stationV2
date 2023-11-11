@@ -1,10 +1,11 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
-import { NavigateFunction  } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
 import { AppDispatch, store } from 'src/redux/store';
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
+import i18next from 'i18next';
 
 import qs from 'qs';
 import ipcMain from 'src/common/classes/IpcMain';
@@ -38,7 +39,8 @@ AXIOS.interceptors.response.use(
         // Any status code that lie within the range of 2xx cause this function to trigger
 
         if (response?.data?.succeeded === false) {
-            apiErrorHandler(response?.data?.errors);
+            onErrorNotif({ title: i18next.t('Errors.' + response?.data?.errors[0]) });
+            // apiErrorHandler(response?.data?.errors);
 
             // const error: any = new Error(response.data.errors);
             const error = new AxiosError(
@@ -154,7 +156,7 @@ export const unAuthorized = () => {
     appDispatch && appDispatch(setAppState('LoggedOut'));
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
-    ipcMain.send("unAuthorized")
+    ipcMain.send('unAuthorized');
     // routerNavigate && routerNavigate('/login');
 };
 

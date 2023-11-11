@@ -10,6 +10,8 @@ const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
 const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket/context/BasketContext')));
 const Watchlist = lazy(() => safeLazyImport(() => import('src/pages/Watchlist')));
 const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword')));
+const ValidationForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword/validation')));
+const ChangePasswordForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword/changePassword')));
 const Orders = lazy(() => safeLazyImport(() => import('src/pages/Reports/Orders')));
 const Trades = lazy(() => safeLazyImport(() => import('src/pages/Reports/Trades')));
 const TurnOver = lazy(() => safeLazyImport(() => import('src/pages/Reports/TurnOver')));
@@ -36,8 +38,22 @@ const AppRoutes: FC = () => {
                     index: true,
                 },
                 {
-                    path: '/ForgetPassword',
-                    element: <ForgetPassword />,
+                    path: '/forgetPassword',
+                    // element: <ForgetPassword />,
+                    children: [
+                        {
+                            element: <ForgetPassword />,
+                            index: true
+                        },
+                        {
+                            element: <ValidationForgetPassword />,
+                            path: "validation",
+                        },
+                        {
+                            element: <ChangePasswordForgetPassword />,
+                            path: "changePassword",
+                        },
+                    ]
                 },
             ]
         },

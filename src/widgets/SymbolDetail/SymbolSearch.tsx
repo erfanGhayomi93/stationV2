@@ -92,7 +92,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
                                     placeholder={placeholder ? placeholder : symbolData?.symbolTitle || 'جستجوی نماد'}
                                     className="grow  border-none p-2 text-1.2 leading-5 text-L-gray-500 dark:text-L-gray-500 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
                                     onChange={(e) => setTerm(e?.target?.value || '')}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         comboButton.current && comboButton.current.click()}}
                                 />
                                 <Combobox.Button ref={comboButton}></Combobox.Button>
