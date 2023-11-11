@@ -74,7 +74,7 @@ const CustomerSearch = () => {
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2">
-                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
+                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200 justify-between items-center">
                     <div className="flex gap-6 flex-1">
                         <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
@@ -89,6 +89,13 @@ const CustomerSearch = () => {
                                 ]}
                             />
                         </div>
+                    </div>
+                    <div>
+                        <p
+                            onClick={refetchToggleFavorite}
+                        >
+                            refresh
+                        </p>
                     </div>
                 </div>
 

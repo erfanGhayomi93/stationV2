@@ -36,7 +36,7 @@ const App = () => {
     }, [appState]);
     //
     if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <>AppIsLoading...</>;
-    if (appState === 'Crashed' || resolvedLanguage !== 'fa') return <CrashPage />;
+    // if (appState === 'Crashed' || resolvedLanguage !== 'fa') return <CrashPage />;
 
     return (
         <RouteWrapper>

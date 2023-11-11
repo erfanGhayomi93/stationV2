@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    // const { data } = useGlobalSettings();
-    const { data } = useGlobalSettingsPreprd();
+    const { data } = useGlobalSettings();
+    // const { data } = useGlobalSettingsPreprd();
 
     useEffect(() => {
         const routes = Apis();
@@ -57,6 +57,9 @@ export const Apis = () => ({
         captcha: getOauthUrl() + '/Captcha/v1/create',
         twoFactor: getOauthUrl() + '/OAuthApi/v1/TwoFactorAuthorizer',
         logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
+        forgetPasswordRequest: getOauthUrl() + '/GTForgetPassword/v1/Request',
+        forgetPasswordValidation: getOauthUrl() + '/GTForgetPassword/v1/Validation',
+        forgetPasswordChangePassword: getOauthUrl() + '/GTForgetPassword/v1/ChangePassword',
     },
     User: {
         GetUserInformation: getBaseUrl() + `/Trader/v1/GetGeneralInformation`,

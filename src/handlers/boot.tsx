@@ -20,6 +20,7 @@ export const fetchUser = async (dispatch: AppDispatch) => {
         const { data } = await AXIOS.get(Apis().User.GetUserInformation);
         dispatch(setAppUser({ userName: data?.result.userName, firstName: 'جواد', lastName: 'بینایی' , customerISIN : "18990015846237", brokerCode: data?.result.brokerCode }));
     } catch (error: any) {
+        console.log("fetchuser",error?.response?.status)
         if (![401].includes(error?.response?.status)) dispatch(setAppState('Crashed'));
     }
 

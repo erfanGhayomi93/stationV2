@@ -47,6 +47,20 @@ export const jsonParseSafely = (jsonString: string, onFail: any): any => {
     }
 };
 
+export const calcExpireDate = (ExpireDate: number | undefined) => {
+    if (!ExpireDate)
+      return {
+        minutes: 0,
+        seconds: 0,
+      };
+    let minutes = Math.floor(ExpireDate / 60);
+    let seconds = ExpireDate - minutes * 60;
+    return {
+      minutes,
+      seconds,
+    };
+  };
+
 export const getUniqId = (): string => (Math.random() + 1).toString(36).substring(2);
 
 export const factoryQueryKey = <T extends object>(obj: T): string => {
