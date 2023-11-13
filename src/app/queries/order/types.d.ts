@@ -85,6 +85,13 @@ interface IOrderResponseType {
     errorNumbers: number;
 }
 
+interface ISingleDeleteOrderResult {
+    clientKey: string | null;
+    orderId: number;
+    response: string;
+    succeeded: boolean;
+}
+
 interface IGTOrderListResultType {
     orderId: number;
     symbolISIN: string;
