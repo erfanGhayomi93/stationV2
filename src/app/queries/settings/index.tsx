@@ -135,7 +135,7 @@ const stageMock = {
         },
         {
             "name": "REACT_APP_PUSHENGINE_PATH",
-            "value": "https://pushengine.ramandtech.com"
+            "value": "https://pushengine-stage.ramandtech.com"
         },
         {
             "name": "REACT_APP_PUSHENGINE_PORT",

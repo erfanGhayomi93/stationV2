@@ -1,10 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
-import { useBuySellState } from 'src/widgets/BuySell/context/BuySellContext';
-import { handleValidity } from 'src/utils/helpers';
 import { onErrorNotif } from 'src/handlers/notification';
 
 interface ITableProps {
@@ -110,6 +108,7 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
                 field: 'status',
                 colId: 'status',
                 cellClass: 'font-bold',
+                minWidth: 180,
                 cellClassRules: {
                     'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', undefined].includes(value),
                     'text-L-success-200': ({ value }) => value === 'OrderDone',
