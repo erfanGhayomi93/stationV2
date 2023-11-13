@@ -57,9 +57,14 @@ export const Apis = () => ({
         captcha: getOauthUrl() + '/Captcha/v1/create',
         twoFactor: getOauthUrl() + '/OAuthApi/v1/TwoFactorAuthorizer',
         logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
+
         forgetPasswordRequest: getOauthUrl() + '/GTForgetPassword/v1/Request',
         forgetPasswordValidation: getOauthUrl() + '/GTForgetPassword/v1/Validation',
         forgetPasswordChangePassword: getOauthUrl() + '/GTForgetPassword/v1/ChangePassword',
+
+        changePasswordRequest: getOauthUrl() + '/GTChangePassword/v1/Request',
+        changePasswordValidation: getOauthUrl() + '/GTChangePassword/v1/Validation',
+        changePasswordSetPassword: getOauthUrl() + '/GTChangePassword/v1/ChangePassword',
     },
     User: {
         GetUserInformation: getBaseUrl() + `/Trader/v1/GetGeneralInformation`,

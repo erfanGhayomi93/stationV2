@@ -12,7 +12,7 @@ export const changePasswordValidate = () => {
         is: (e: any) => !e,
         then: yup.string().required(
           t('Errors.Input.Required', {
-            n: t('FormSide.Input.OldPassword.Label'),
+            n: t('FormSide.Input.CurrentPassword.Label'),
           })!
         ),
         otherwise: yup.string(),

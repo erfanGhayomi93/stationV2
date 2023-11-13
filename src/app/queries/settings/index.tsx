@@ -43,6 +43,7 @@ const getGlobalSettingsPreprd = async () => {
 };
 
 export const useGlobalSettingsPreprd = (options?: any) => {
+    console.log("1111111111111111")
     const dispatch = useAppDispatch()
     return useQuery(['GetGlobalSettings'], getGlobalSettingsPreprd, {
         onSuccess: (data) => {

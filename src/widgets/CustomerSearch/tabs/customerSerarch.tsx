@@ -9,6 +9,9 @@ import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { Refresh2Icon } from 'src/common/icons';
+import Tippy from '@tippyjs/react';
+import dayjs from 'dayjs';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -17,10 +20,14 @@ const CustomerSearch = () => {
     const [customerType, setCustomerType] = useState("")
 
     const isDefaultUse = useMemo(() => !term?.length, [term])
+    const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
 
 
     const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers, isFetching: isFetchingDefault } = useGetCustomers({}, {
         enabled: isDefaultUse,
+        onSuccess() {
+            setTimeRefresh(dayjs())
+        }
     })
 
     const { data: searchCustomers, refetch: refetchCustomers, isFetching: isFetchingSearch } = useAdvancedSearchQuery(
@@ -30,6 +37,7 @@ const CustomerSearch = () => {
                 if (!!defaultCustomers) {
                     removeDefaultCustomers()
                 }
+                setTimeRefresh(dayjs())
             },
         }
     );
@@ -90,12 +98,20 @@ const CustomerSearch = () => {
                             />
                         </div>
                     </div>
-                    <div>
-                        <p
-                            onClick={refetchToggleFavorite}
-                        >
-                            refresh
-                        </p>
+                    <div
+                        onClick={refetchToggleFavorite}
+                        className='cursor-pointer select-none'
+                    >
+                        <Tippy hideOnClick={false} content={
+                            <div className='flex flex-col gap-1'>
+                                <span>آخـرین بـروز رســانی</span>
+                                <span>{timeRefresh.calendar("jalali").format("HH:mm  YYYY/MM/DD")}</span>
+                            </div>
+                        }>
+                            <div className='select-none'>
+                                <Refresh2Icon />
+                            </div>
+                        </Tippy>
                     </div>
                 </div>
 

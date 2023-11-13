@@ -24,7 +24,9 @@ export const useLoginFormSubmit = <T,>(
 
 
 
-//*mutate forgetPasswordRequest
+
+
+//*mutate forgetPassword Request
 const forgetPasswordRequestFormSubmit = async (payload: ISubmitForgetPasswordRequest) => {
     const { data } = await AXIOS.post(Apis().OAuthApi.forgetPasswordRequest, payload);
     return data || {};
@@ -36,7 +38,7 @@ export const useForgetPasswordRequestMutate = (
     ...options,
 });
 
-//*mutate forgetPasswordValidation
+//*mutate forgetPassword Validation
 const forgetPasswordValidationFormSubmit = async (payload: ISubmitForgetPasswordValidation) => {
     const { data } = await AXIOS.post(Apis().OAuthApi.forgetPasswordValidation, payload);
     return data || {};
@@ -48,7 +50,7 @@ export const useForgetPasswordValidationMutate = (
     ...options,
 });
 
-//*mutate forgetPasswordChangePassword
+//*mutate forgetPassword ChangePassword
 const forgetPasswordChangeFormSubmit = async (payload: ISubmitForgetPasswordChange) => {
     const { data } = await AXIOS.post(Apis().OAuthApi.forgetPasswordChangePassword, payload);
     return data || {};
@@ -59,6 +61,52 @@ export const useForgetPasswordChangeMutate = (
 ) => useMutation(forgetPasswordChangeFormSubmit, {
     ...options,
 });
+
+
+
+
+
+//*mutate changePassword Request
+
+const changePasswordRequestFormSubmit = async () => {
+    const { data } = await AXIOS.post(Apis().OAuthApi.changePasswordRequest);
+    return data || {};
+};
+
+export const useChangePasswordRequestMutate = (
+    options?: Omit<UseMutationOptions<GlobalApiResponseType<IResultForgetPasswordRequest>>, 'mutationFn'>,
+) => useMutation(changePasswordRequestFormSubmit, {
+    ...options,
+});
+
+//*mutate changePassword validation
+
+const changePasswordValidationFormSubmit = async (payload: ISubmitChangePasswordValidation) => {
+    const { data } = await AXIOS.post(Apis().OAuthApi.changePasswordValidation, payload);
+    return data || {};
+};
+
+export const useChangePasswordValidationMutate = (
+    options?: Omit<UseMutationOptions<GlobalApiResponseType<string>, unknown, ISubmitChangePasswordValidation>, 'mutationFn'>,
+) => useMutation(changePasswordValidationFormSubmit, {
+    ...options,
+});
+
+//*mutate changePassword setPassword
+
+const changePasswordSetPasswordFormSubmit = async (payload: ISubmitChangePasswordSetPassword) => {
+    const { data } = await AXIOS.post(Apis().OAuthApi.changePasswordSetPassword, payload);
+    return data || {};
+};
+
+export const useChangePasswordSetPasswordMutate = (
+    options?: Omit<UseMutationOptions<GlobalApiResponseType<string>, unknown, ISubmitChangePasswordSetPassword>, 'mutationFn'>,
+) => useMutation(changePasswordSetPasswordFormSubmit, {
+    ...options,
+});
+
+
+
 
 
 

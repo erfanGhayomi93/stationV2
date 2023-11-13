@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/common/components/Input';
 import Captcha from 'src/common/components/oAuth/Captcha';
-import { useCaptcha, useForgetPasswordRequestMutate } from '../../app/queries/oAuth';
+import { useCaptcha, useForgetPasswordRequestMutate } from '../../../app/queries/oAuth';
 import { useNavigate } from 'react-router-dom';
 
 

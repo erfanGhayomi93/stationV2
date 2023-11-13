@@ -75,3 +75,17 @@ interface ISubmitForgetPasswordChange {
     userName: string;
     newPassword: string;
 }
+
+interface ISubmitChangePasswordValidation {
+    otp: string;
+    captchaValue: string;
+    captchaKey: string;
+}
+
+interface ISubmitChangePasswordSetPassword {
+    otp: string;
+    captchaValue: string;
+    captchaKey: string;
+    currentPassword: string;
+    newPassword: string;
+}

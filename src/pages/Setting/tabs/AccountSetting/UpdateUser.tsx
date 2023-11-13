@@ -4,23 +4,47 @@ import { useTranslation } from 'react-i18next';
 import { EditIcon, Envelope2Icon, Lock2Icon, NumberIcon, PhoneIcon, UsernameIcon } from 'src/common/icons';
 import { useNavigate } from 'react-router-dom';
 import EditUserNameInput from './EditUserNameInput';
+import { useChangePasswordRequestMutate } from 'src/app/queries/oAuth';
+import { useAppSelector } from 'src/redux/hooks';
+import { getUserData } from 'src/redux/slices/global';
 
 interface Props {
     stationName: string;
     stationCode: string;
     phoneNumber: string;
     email: string;
-    userName: string;
+    // userName: string;
 }
 
-const UpdateUser = ({ email, phoneNumber, stationCode, stationName, userName }: Props) => {
+const UpdateUser = ({ email, phoneNumber, stationCode, stationName }: Props) => {
     //
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
+    const { mobile, userName } = useAppSelector(getUserData)
+
+
     const toggleEditing = () => setIsEditing(!isEditing);
-    const goToChangePassword = () => navigate('/changePassword');
+
+    const { mutate: mutateChangePassword } = useChangePasswordRequestMutate({
+        onSuccess(data) {
+            if (data.succeeded) {
+                const { expireDate, retryToken, starredMessage } = data.result
+                navigate('/changePassword', {
+                    state: {
+                        expireDate: expireDate,
+                        retryToken: retryToken,
+                        starredMessage: starredMessage,
+                    }
+                })
+            }
+        }
+    })
+
+    const goToChangePassword = () => {
+        mutateChangePassword()
+    };
 
     return (
         <div className="flex min-h-[120px]">

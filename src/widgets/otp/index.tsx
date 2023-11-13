@@ -1,9 +1,7 @@
 // import { ChevronLeftIcon } from 'common/Icons';
 import { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-// import { useGetCaptch, useRetrySms } from 'services/login';
-// import Captcha from 'common/Components/Captcha';
-import { useLocation, useNavigate, useNavigation, useRoutes, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
 import InputPin from 'src/common/components/oAuth/inputPin';
@@ -11,9 +9,9 @@ import { useCaptcha } from 'src/app/queries/oAuth';
 import Captcha from 'src/common/components/oAuth/Captcha';
 import ipcMain from 'src/common/classes/IpcMain';
 
-/////////////////////need ///////////////////
-//retryToken ,starredMessage , expireDate , ?temporaryToken from state in react-router
-////////////////////////////////////////////
+
+//* retryToken ,starredMessage , expireDate , ?temporaryToken from state in react-router
+
 
 type IFormOtpType = {
     handleSubmitOtp: (data: ISubmitOtpModuleType) => void;
@@ -34,7 +32,6 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
 
     const { retryToken, starredMessage, expireDate, temporaryToken, mobile, userName } =
         state || {};
-    // const [searchParams] = useSearchParams();
 
     //*form
     const {
@@ -52,6 +49,7 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
     });
     //*otp state
     const [otp, setOtp] = useState<string>('');
+
     //*handle captch
     const { data: captcha, refetch: refetchCaptcha } = useCaptcha();
 
@@ -60,66 +58,10 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
         resetField('captchaValue');
     };
 
-    // const handleNavigate = (result: any) => {
-    //     let retryTokenVar = '';
-    //     let starredMessageVar = '';
-    //     let expireDateVar = '';
-    //     let temporaryTokenVar = '';
-    //     if (result.riModel) {
-    //         const {
-    //             riModel: {
-    //                 retryToken,
-    //                 starredMessage,
-    //                 expireDate,
-    //                 userIdentity: { token },
-    //             },
-    //         } = result;
-    //         retryTokenVar = retryToken;
-    //         starredMessageVar = starredMessage;
-    //         expireDateVar = expireDate;
-    //         temporaryTokenVar = token;
-    //     } else if (result.fpDto) {
-    //         const {
-    //             fpDto: {
-    //                 result: { retryToken, starredMessage, expireDate },
-    //             },
-    //         } = result;
-    //         retryTokenVar = retryToken;
-    //         starredMessageVar = starredMessage;
-    //         expireDateVar = expireDate;
-    //     }
-
-    // navigate.pushHere({
-    //     state: {
-    //         ...state,
-    //         retryToken: retryTokenVar,
-    //         starredMessage: starredMessageVar,
-    //         expireDate: expireDateVar,
-    //         temporaryToken: temporaryTokenVar,
-    //     },
-    //     replace: true,
-    // });
-    // };
-
-    //*RetrySms
-    //   const { mutate: mutateRetrySms } = useRetrySms({
-    //     onSuccess: (data) => {
-    //       if (data.succeeded) {
-    //         handleNavigate(data.result);
-    //       } else {
-    //         if (data?.errors && data?.errors[0] === 'InvalidToken') {
-    //           navigate.pushLogin();
-    //         }
-    //       }
-    //     },
-    //   });
 
     const SendCodeAgain = () => {
         setOtp('');
         SendCodeAgainApi()
-        // mutateRetrySms({
-        //   token: retryToken,
-        // });
     };
 
     const onSubmit: SubmitHandler<formDataType> = (data) => {
@@ -129,17 +71,14 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
             refetchCaptchaMethod();
             return;
         }
-        if (!retryToken) {
-            navigate("/login");
-            return;
-        }
+    
         if (otpRes.length !== 6) {
             refetchCaptchaMethod();
             toast.warning(t('Errors.OtpIsNotValid'));
             return;
         }
 
-        sessionStorage.setItem('otp', JSON.stringify(otpRes));
+        // sessionStorage.setItem('otp', JSON.stringify(otpRes));
 
         const res: ISubmitOtpModuleType = {
             otp: otpRes,
@@ -149,11 +88,8 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
             mobile: mobile,
             userName: userName
         };
-        // setTimeout(() => {
-        //     refetchCaptchaMethod();
-        // }, 500);
-        handleSubmitOtp(res);
 
+        handleSubmitOtp(res);
     };
 
     useEffect(() => {
@@ -163,12 +99,11 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
     }, [])
 
 
-    useLayoutEffect(() => {
-        if (!retryToken) {
-            toast.error('لطفا دوباره ورود کنید');
-            // navigate.pushLogin();
-        }
-    });
+    // useLayoutEffect(() => {
+    //     if (!retryToken) {
+    //         toast.error('لطفا دوباره ورود کنید');
+    //     }
+    // });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -208,14 +143,14 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
             </div>
 
             <div className="mt-8 py-4 text-center">
-                <button className="w-full bg-L-primary-50 dark:bg-D-primary-50 rounded text-L-basic dark:text-D-basic p-2 text-sm mb-4 mt-5 flex justify-center items-center gap-x-1">
+                <button type='submit' className="w-full bg-L-primary-50 dark:bg-D-primary-50 rounded text-L-basic dark:text-D-basic p-2 text-sm mb-4 mt-5 flex justify-center items-center gap-x-1">
                     {t(`FormSide.NextStepButton`)}
                 </button>
 
                 <button
                     onClick={(e) => {
                         e.preventDefault();
-                        navigate("/forgetPassword")
+                        navigate(-1)
                     }}
                     className="text-L-primary-50 dark:text-D-primary-50"
                 >
