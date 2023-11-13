@@ -1,97 +1,119 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { changePasswordValidate } from 'src/common/components/oAuth/validations/changePassword';
-import { useCaptcha, useForgetPasswordChangeMutate } from 'src/app/queries/oAuth';
-import { PasswordInput } from 'src/common/components/oAuth/passwordInput';
+import React from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { RadioValidate } from 'src/common/components/oAuth/checkSetPassword/RadioValidate';
-import Captcha from 'src/common/components/oAuth/Captcha';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { base64 } from 'src/utils/helpers';
+import { useCaptcha, useChangePasswordSetPasswordMutate } from 'src/app/queries/oAuth';
+import Captcha from 'src/common/components/oAuth/Captcha';
+import { RadioValidate } from 'src/common/components/oAuth/checkSetPassword/RadioValidate';
+import { PasswordInput } from 'src/common/components/oAuth/passwordInput';
+import { changePasswordValidate } from 'src/common/components/oAuth/validations/changePassword';
 import { onSuccessNotif } from 'src/handlers/notification';
+import { base64 } from 'src/utils/helpers';
 
-
-type formDate = {
-    isForget: boolean;
+type formDataType = {
+    currentPassword: string;
     newPassword: string;
     newPasswordConfirm: string;
     captchaValue: string;
 };
 
+type reqDataType = {
+    otp: string;
+    currentPassword: string;
+    newPassword: string;
+    captchaValue: string;
+    captchaKey: string;
+};
 
-const ChangePasswordForgetPassword = () => {
-    const { t } = useTranslation()
-    const schema = changePasswordValidate()
+
+const SetPasswordChangePassword = () => {
+    const { t } = useTranslation();
+    const { state: { otp } } = useLocation()
     const navigate = useNavigate()
 
     const { data: captcha, refetch: refetchCaptcha } = useCaptcha();
-    const { state: { mobile, userName } } = useLocation()
+    const { mutate: mutateSetPassword } = useChangePasswordSetPasswordMutate({
+        onSuccess(data) {
+            if (data.succeeded) {
+                onSuccessNotif({ title: t("FormSide.Success.Change.Password") })
+                navigate("/setting")
+            }
+            else {
+                handleRefetchCaptch()
+            }
+        },
+        onError() {
+            handleRefetchCaptch()
+        }
+    })
 
+    const schema = changePasswordValidate()
 
     const {
         register,
         handleSubmit,
+        watch,
+        resetField,
         setValue,
         getValues,
-        resetField,
-        watch,
         formState: { errors },
-    } = useForm<formDate>({
+    } = useForm<formDataType>({
         defaultValues: {
-            isForget: true, //*isForget just use for validation
+            currentPassword: '',
             newPassword: '',
             newPasswordConfirm: '',
             captchaValue: '',
         },
         mode: 'onChange',
-        resolver: yupResolver(schema as any),
+        resolver: yupResolver(schema),
     });
 
-    const { mutate } = useForgetPasswordChangeMutate({
-        onSuccess(data) {
-            if (data.succeeded) {
-                onSuccessNotif({ title: t("FormSide.Success.Change.Password") })
-                navigate("/login")
-            } else {
-                handleRefetchCaptch()
-            }
-        },
-        onMutate() {
-            handleRefetchCaptch()
-        },
-    })
-
-
-    const onSubmit: SubmitHandler<formDate> = (data) => {
+    const onSubmit: SubmitHandler<formDataType> = (data) => {
         if (!captcha?.key) {
             handleRefetchCaptch();
             return;
         }
 
-        const otp = sessionStorage.getItem('otp') || '';
-        const otpRes = JSON.parse(otp);
-        mutate({
-            captchaKey: captcha.key,
-            captchaValue: data.captchaValue,
-            mobile: mobile,
-            userName: userName,
+        const reqData: reqDataType = {
+            otp: otp,
+            currentPassword: base64.encode(data.currentPassword),
             newPassword: base64.encode(data.newPassword),
-            otp: otpRes,
-        });
+            captchaValue: data.captchaValue,
+            captchaKey: captcha?.key,
+        };
+
+
+        mutateSetPassword(reqData)
+
     };
 
-    //*hanle methode
     const handleRefetchCaptch = (): void => {
         refetchCaptcha();
         resetField('captchaValue');
     };
 
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
+                <label htmlFor="currentPassword-changePassword" className="text-L-gray-700 dark:text-D-gray-700 font-medium">
+                    {t(`FormSide.Input.CurrentPassword.Label`)}
+                </label>
+
+                <PasswordInput
+                    register={register}
+                    error={errors.currentPassword}
+                    setValues={setValue}
+                    name="currentPassword"
+                    labelInput={t(`FormSide.Input.CurrentPassword.Label`)}
+                    placeHolder={t(`FormSide.Input.CurrentPassword.Placeholder`)}
+                    watch={watch}
+                />
+            </div>
+
+            <div className='mt-6'>
                 <label htmlFor="newPassword-changePassword" className="text-L-gray-700 dark:text-D-gray-700 font-medium">
-                    {t(`FormSide.Input.Password.Label`)}
+                    {t(`FormSide.Input.NewPassword.Label`)}
                 </label>
 
                 <PasswordInput
@@ -99,8 +121,8 @@ const ChangePasswordForgetPassword = () => {
                     error={errors.newPassword}
                     setValues={setValue}
                     name="newPassword"
-                    labelInput={t(`FormSide.Input.Password.Label`)}
-                    placeHolder={t(`FormSide.Input.Password.Placeholder`)}
+                    labelInput={t(`FormSide.Input.NewPassword.Label`)}
+                    placeHolder={t(`FormSide.Input.NewPassword.Placeholder`)}
                     watch={watch}
                 />
             </div>
@@ -109,7 +131,7 @@ const ChangePasswordForgetPassword = () => {
 
             <div className='mt-6'>
                 <label htmlFor="newPasswordConfirm-changePassword" className="text-L-gray-700 dark:text-D-gray-700 font-medium">
-                    {t(`FormSide.Input.NewPassword.Label`)}
+                    {t(`FormSide.Input.ConfirmNewPassword.Label`)}
                 </label>
 
                 <PasswordInput
@@ -155,4 +177,4 @@ const ChangePasswordForgetPassword = () => {
 }
 
 
-export default ChangePasswordForgetPassword
+export default SetPasswordChangePassword

@@ -5,7 +5,7 @@ import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import clsx from 'clsx';
 import { useMutationToggleFavorite } from 'src/app/queries/customer';
 
-const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavorite: (customerIsin : string) => void }> = ({ customer : data, refetchToggleFavorite }) => {
+const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavorite: (customerIsin: string) => void }> = ({ customer: data, refetchToggleFavorite }) => {
     const { setState } = useCustomerSearchState();
 
     const { mutate } = useMutationToggleFavorite({
@@ -33,7 +33,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
 
     return (
         <div className="flex items-center justify-center gap-2 py-2 h-full">
-            <Tippy content="اضافه به لیست دلخواه" className="text-xs">
+            <Tippy hideOnClick={false} content="اضافه به لیست دلخواه" className="text-xs">
                 <button
                     onClick={() => handleFavorite(data)}
                 >
@@ -44,7 +44,16 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 </button>
             </Tippy>
 
-            <Tippy content="اطلاعات مشتری" className="text-xs">
+            <Tippy
+                onShow={(instance) => {
+                    let clear = setTimeout(() => {
+                        instance.hide();
+                        clearTimeout(clear)
+                    }, 2000)
+                }}
+                content="اطلاعات مشتری"
+                className="text-xs"
+            >
                 <button
                     onClick={() => showDetailModal(data)}
                 >
@@ -52,14 +61,23 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 </button>
             </Tippy>
 
-            <Tippy content="پرتفوی مشتری" className="text-xs">
+            <Tippy
+                onShow={(instance) => {
+                    let clear = setTimeout(() => {
+                        instance.hide();
+                        clearTimeout(clear)
+                    }, 2000)
+                }}
+                content="پرتفوی مشتری"
+                className="text-xs"
+            >
                 <button
                     onClick={() => showPortfolioModal(data)}
                 >
                     <PortfolioDetailIcon className="hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
                 </button>
             </Tippy>
-        </div>
+        </div >
     );
 };
 

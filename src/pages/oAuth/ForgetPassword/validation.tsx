@@ -15,7 +15,8 @@ const ValidationForgetPassword = () => {
                 navigate("/forgetPassword/changePassword", {
                     state: {
                         mobile: variables.mobile,
-                        userName: variables.userName
+                        userName: variables.userName,
+                        otp: variables.otp
                     }
                 })
             } else {
@@ -26,6 +27,10 @@ const ValidationForgetPassword = () => {
             ipcMain.send("Refresh-captcha")
         }
     })
+
+    const NavigateBack = () => {
+        navigate("forgetPassword")
+    }
 
     const { mutate: mutateSendCode } = useForgetPasswordRequestMutate({
         onSuccess(data) {
@@ -40,7 +45,12 @@ const ValidationForgetPassword = () => {
                         userName: userName,
                     }
                 })
+            } else {
+                NavigateBack()
             }
+        },
+        onError() {
+            NavigateBack()
         },
     })
 

@@ -22,7 +22,7 @@ const AccountSetting = () => {
                     phoneNumber={userSetting?.phone || '-'}
                     stationCode={userSetting?.stationCode || '-'}
                     stationName={userSetting?.stationName || '-'}
-                    userName={userSetting?.userName || ''}
+                    // userName={userSetting?.userName || ''}
                 />
             </div>
         </div>

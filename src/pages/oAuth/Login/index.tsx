@@ -13,7 +13,7 @@ import { onErrorNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppUser } from 'src/redux/slices/global';
 // import { base64 } from 'src/utils/helpers';
-import { useCaptcha, useLoginFormSubmit } from '../../app/queries/oAuth';
+import { useCaptcha, useLoginFormSubmit } from '../../../app/queries/oAuth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import Input from 'src/common/components/Input';
@@ -82,7 +82,7 @@ const Login = () => {
         onSuccess: (result) => {
             if (result.loginResultType === 'Successful') {
                 setAuthorizeData(result?.token);
-                appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی', customerISIN: "001" }));
+                // appDispatch(setAppUser({ userName: 'soheilkh', firstName: 'جواد', lastName: 'بینایی', customerISIN: "001", mobile: "" }));
                 navigate('/');
             }
         },

@@ -66,6 +66,7 @@ interface UserType {
     userName: string;
     customerISIN: string;
     brokerCode?: string;
+    mobile : string
 }
 
 declare interface SearchSymbolType {

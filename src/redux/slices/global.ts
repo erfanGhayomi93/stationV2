@@ -9,7 +9,7 @@ interface GlobalStateTest {
 
 const initialState: GlobalStateTest = {
     appState: 'Booting',
-    userData: { firstName: '', lastName: '', userName: '', customerISIN: "", brokerCode: undefined },
+    userData: { firstName: '', lastName: '', userName: '', customerISIN: "", brokerCode: undefined , mobile : "" },
 };
 
 const globalSlice = createSlice({
