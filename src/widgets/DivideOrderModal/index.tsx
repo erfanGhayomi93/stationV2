@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ControllerInput from 'src/common/components/ControllerInput';
 import Modal from 'src/common/components/Modal';
@@ -11,7 +11,7 @@ import { getUniqId, handleValidity, seprateNumber } from 'src/utils/helpers';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import useSendOrders from './useSendOrders';
-import ipcMain from 'src/common/classes/IpcMain';
+import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 
 const DivideOrderModal = () => {
     //
@@ -25,6 +25,20 @@ const DivideOrderModal = () => {
     const [customers, setCustomers] = useState<DividedOrderRowType[]>([]);
     const dispatch = useBuySellDispatch();
     const selectedCustomers = useAppSelector(getSelectedCustomers);
+
+    const { subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway({
+        onOMSMessageReceived: (message) => onOMSMessageHandler(message),
+    });
+
+    const checkQuantityTickSize = (quantity: number) => {
+        const quantityTickSize = symbolData?.orderQuantityTickSize ?? 1;
+
+        const isDivisibleByTickSize = quantity % quantityTickSize === 0;
+
+        if (isDivisibleByTickSize) return quantity;
+
+        return Math.floor(quantity / quantityTickSize) * quantityTickSize;
+    };
 
     const { sendOrders, orderResult } = useSendOrders();
 
@@ -70,7 +84,7 @@ const DivideOrderModal = () => {
                 const orderQuantity = Math.min(quantityPerCustomer, symbolMaxQuantity);
 
                 if (orderQuantity > 0) {
-                    dividedOrderArray.push(createOrder(customerISIN, title, orderQuantity, price));
+                    dividedOrderArray.push(createOrder(customerISIN, title, checkQuantityTickSize(orderQuantity), price));
                 } else return;
             }
 
@@ -92,12 +106,21 @@ const DivideOrderModal = () => {
     useEffect(() => {
         //
         if (divide) {
+            const customerISINs = customers.map(({ customerISIN }) => customerISIN);
+
+            subscribeCustomers(customerISINs);
+
             setQuantityInput(quantity);
+
             setPriceInput(price);
 
             const dividedOrders = handleDivideOrders(quantity, price, selectedCustomers);
             setCustomers(dividedOrders);
         }
+
+        return () => {
+            unSubscribeCustomers();
+        };
     }, [divide]);
 
     const handleQuantityChange = (value: number) => {
@@ -109,7 +132,9 @@ const DivideOrderModal = () => {
 
     const onSendAll = () => {
         setCustomers((pre) => pre.map((item) => ({ ...item, status: item.status ? item.status : 'InOMSQueue' })));
+
         const unSentOrders = customers.filter(({ clientKey }) => !clientKey) || [];
+
         const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
             id: id as string,
             customerISIN: [customerISIN],
@@ -199,15 +224,8 @@ const DivideOrderModal = () => {
         }, 1000);
     };
 
-    useEffect(() => {
-        ipcMain.handle('oms_order_status', onOMSMessageHandler);
-        return () => {
-            ipcMain.removeHandler('oms_order_status');
-        };
-    }, []);
-
     return (
-        <Modal isOpen={divide} onClose={closeModal} className="w-[720px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
+        <Modal isOpen={divide} onClose={closeModal} className="w-[800px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
             <div className="grid h-full grid-rows-min-one">
                 <div className="w-full text-white font-semibold bg-L-blue-200 dark:bg-D-blue-200 h-10 flex items-center justify-between px-5">
                     <div className="w-full">

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
@@ -11,6 +12,7 @@ const useSendOrders = () => {
     const ORDER_SENDING_GAP = 350;
     const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
 
+    const queryClient = useQueryClient()
     const appDispatch = useAppDispatch();
     const dispatch = useBuySellDispatch();
     const { sequential } = useBuySellState();
@@ -43,6 +45,7 @@ const useSendOrders = () => {
             .finally(() => {
                 if (nextIndex >= orders.length) {
                     clearTimeout(timer);
+                    queryClient.invalidateQueries(['orderList', 'OnBoard'])
                     return;
                 }
 

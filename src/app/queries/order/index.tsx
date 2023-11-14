@@ -25,12 +25,12 @@ export const useGetOrders = (params: ITodayOpenOrderType) => {
 
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (orderId: number) => {
-    let { data } = await AXIOS.post(Apis().Orders.Delete as string, {}, { params: { orderId } });
+    let { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(Apis().Orders.Delete as string, {}, { params: { orderId } });
     return data.result || [];
 };
 
-export const useSingleDeleteOrders = () => {
-    return useMutation(singleDeleteOrderFn);
+export const useSingleDeleteOrders = (options?:Omit<UseMutationOptions<ISingleDeleteOrderResult, unknown, number, unknown>, "mutationFn"> | undefined) => {
+    return useMutation(singleDeleteOrderFn, options);
 };
 
 // Get Order List

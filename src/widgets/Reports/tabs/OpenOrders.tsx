@@ -20,9 +20,16 @@ type IOpenOrders = {
 };
 
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
+    const { data: dataBeforeFilter, isFetching, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
-    const { mutate } = useSingleDeleteOrders();
+    const { mutate } = useSingleDeleteOrders({
+        onSuccess: ({response}) => {
+            if(response === 'Ok') {
+                refetchOpenOrders()
+            }
+        }
+    });
+
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
@@ -141,7 +148,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div>
             <WidgetLoading spining={isFetching}>
-                <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+                <AGTable rowData={dataBeforeFilter} columnDefs={columns} enableBrowserTooltips={false} />
 
                 {/* <TableVirtuoso
                     data={dataAfterfilter}

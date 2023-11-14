@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
+import { pushEngine } from './pushEngine';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
-import { getSelectedCustomers } from 'src/redux/slices/option';
-import { pushEngine } from './pushEngine';
-import ipcMain from 'src/common/classes/IpcMain';
 
-const RamandOMSGateWay = () => {
+interface IUseRamandOMSGatewayProps {
+    onOMSMessageReceived?: (x: Record<number, string>) => void;
+    onAdminMessageReceived?: (x: Record<number, string>) => void;
+    onSystemMessageReceived?: (x: Record<number, string>) => void;
+}
+
+const useRamandOMSGateway = ({ onOMSMessageReceived, onAdminMessageReceived, onSystemMessageReceived }: IUseRamandOMSGatewayProps) => {
     //
-    const selectedCustomers = useAppSelector(getSelectedCustomers);
     const { brokerCode } = useAppSelector(getUserData);
-
-    const customers = selectedCustomers.map(({ customerISIN }) => `${brokerCode}_${customerISIN}`);
-    const items = [...customers, `${brokerCode ?? '189'}_All`];
 
     const translateMessage = (value: string) => {
         const message = value.split('^');
@@ -32,18 +31,21 @@ const RamandOMSGateWay = () => {
     };
 
     const handleOMSMessage = (message: Record<number, string>) => {
-        ipcMain.send('oms_order_status', message)
+        onOMSMessageReceived && onOMSMessageReceived(message);
     };
 
     const handleAdminMessage = (message: Record<number, string>) => {
-        console.log('AdminMessage',message)
+        onAdminMessageReceived && onAdminMessageReceived(message);
     };
 
     const handleSystemMessage = (message: Record<number, string>) => {
-        console.log('SystemMessage',message)
+        onSystemMessageReceived && onSystemMessageReceived(message);
     };
 
-    useEffect(() => {
+    const subscribeCustomers = (customerISINs: string[]) => {
+        const customers = customerISINs.map((customerISIN) => `${brokerCode}_${customerISIN}`);
+        const items = [...customers, `${brokerCode ?? '189'}_All`];
+
         const isSubscribed = pushEngine.getSubscribeById('supervisorMessage');
         if (isSubscribed) pushEngine.unSubscribe('supervisorMessage');
 
@@ -61,9 +63,14 @@ const RamandOMSGateWay = () => {
                 else if (changedFields['SystemMessage']) handleSystemMessage(translateMessage(changedFields['SystemMessage']));
             },
         });
-    }, [items]);
+    };
 
-    return null;
+    const unSubscribeCustomers = () => pushEngine.unSubscribe('supervisorMessage');
+
+    return {
+        subscribeCustomers,
+        unSubscribeCustomers,
+    };
 };
 
-export default RamandOMSGateWay;
+export default useRamandOMSGateway;

@@ -45,8 +45,8 @@ const AppLayout = () => {
     useEffect(() => {
         // must get from config (api or file)
         pushEngine.connect({
-            DomainName: 'https://pushengine.ramandtech.com',
-            DomainPort: 443,
+            DomainName: window.REACT_APP_PUSHENGINE_PATH,
+            DomainPort: +window.REACT_APP_PUSHENGINE_PORT,
             AdapterSet: 'Ramand_Remoter_Adapter',
             User: 'Soheilkh', // get from app context
             Password: 'This is My Password', // get from app context
