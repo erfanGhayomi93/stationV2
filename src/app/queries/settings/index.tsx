@@ -131,7 +131,7 @@ const stageMock = {
     data: [
         {
             "name": "REACT_APP_BROKER_CODE",
-            "value": "189"
+            "value": "347"
         },
         {
             "name": "REACT_APP_PUSHENGINE_PATH",
