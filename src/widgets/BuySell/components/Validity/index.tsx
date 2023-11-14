@@ -28,9 +28,9 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     }, [validity]);
 
     return (
-        <div className="flex  gap-2 w-full">
-            <div className="flex pr-2 items-center flex-1 gap-2">
-                <span className="w-[46px]">اعتبار</span>
+        <div className="flex gap-2 w-full">
+            <div className="flex items-center flex-1">
+                <span className="w-16 pr-2">اعتبار</span>
 
                 <div className="flex-1">
                     <Select

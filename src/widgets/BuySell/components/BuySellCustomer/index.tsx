@@ -65,7 +65,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
     return (
         <div className="flex w-full gap-4 pr-2">
             <label className="w-full flex items-center justify-center ">
-                <span className="w-[64px] whitespace-nowrap ">مشتری</span>
+                <span className="w-16 whitespace-nowrap ">مشتری</span>
                 <div className="w-full">
                     <Combo.Provider
                         value={term}

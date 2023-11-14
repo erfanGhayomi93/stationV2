@@ -33,7 +33,7 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
 
 
     return (
-        <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-[35px]">
+        <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-9">
             <div className="w-full flex items-center gap-4 justify-start pr-3 truncate select-text">
                 <input
                     type="checkbox"

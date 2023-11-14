@@ -5,7 +5,7 @@ const Messages = () => {
     //
     return (
         <div className="px-2 dark:text-D-primary-50 text-L-primary-50 cursor-pointer">
-            <Envelope />
+            <Envelope className='w-5 h-5'/>
         </div>
     );
 };

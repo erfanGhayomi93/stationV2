@@ -13,7 +13,7 @@ const UserActions = () => {
 
     return (
         <div className="mx-2 text-L-error-200 cursor-pointer dark:text-L-error-200" onClick={() => logOutUser()}>
-            <PowerOff />
+            <PowerOff className='w-6 h-6' />
         </div>
     );
 };

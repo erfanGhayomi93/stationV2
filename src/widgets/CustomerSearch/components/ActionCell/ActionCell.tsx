@@ -48,7 +48,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 <button
                     onClick={() => showDetailModal(data)}
                 >
-                    <MoreDotsIcon width={14} height={14} className="text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 rotate-90" />
+                    <MoreDotsIcon className="w-3.5 h-3.5 text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 rotate-90" />
                 </button>
             </Tippy>
 
@@ -56,7 +56,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 <button
                     onClick={() => showPortfolioModal(data)}
                 >
-                    <PortfolioDetailIcon className="hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
+                    <PortfolioDetailIcon className="w-4 h-4 hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
                 </button>
             </Tippy>
         </div>

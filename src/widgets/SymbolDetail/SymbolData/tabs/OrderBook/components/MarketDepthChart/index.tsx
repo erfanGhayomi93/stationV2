@@ -346,12 +346,12 @@ const MarketDepthChart = () => {
         <WidgetLoading spining={isLoading}>
             <div
                 style={{
-                    minHeight: '250px',
-                    maxHeight: '250px',
+                    minHeight: '15.5rem',
+                    maxHeight: '15.5rem',
                 }}
                 className="relative overflow-hidden mt-3"
             >
-                <canvas style={{ height: '250px' }} className="w-full m-0" ref={onCanvasLoad} />
+                <canvas className="w-full h-64 m-0" ref={onCanvasLoad} />
             </div>
         </WidgetLoading>
     );
