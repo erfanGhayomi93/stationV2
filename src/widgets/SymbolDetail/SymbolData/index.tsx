@@ -97,10 +97,10 @@ const SymbolData = () => {
                     onChange={(idx) => setActiveTab(idx)}
                     selectedIndex={activeTab}
                     items={items}
-                    buttonClass=" text-L-gray-500 dark:text-D-gray-500 "
+                    buttonClass="text-L-gray-500 dark:text-D-gray-500"
                     className="w-full grid rounded-md relative text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
                     pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
-                    tabListClassName="bg-L-basic dark:bg-D-basic  relative z-[0] text-1.2"
+                    tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-1.2"
                 />
             </SymbolTabsContext>
         </div>

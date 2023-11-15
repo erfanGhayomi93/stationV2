@@ -108,7 +108,7 @@ const TabButton: FC<ITabButtonType> = ({
             {({ selected }) => (
                 <div
                     className={clsx(
-                        ' py-2 px-4 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute',
+                        ' p-2 border-solid outline-none flex items-center justify-center cursor-pointer relative after:-bottom-1 after:w-full after:h-1 after:absolute',
                         fill ? 'w-full' : '',
                         selected ? selectedButtonClass : buttonClass,
                     )}

@@ -17,7 +17,7 @@ const TseBtn = ({ insCode, className, ...rest }: Props) => {
     return (
         <Tippy content={t("common.TSE")} className="text-xs">
             <button onClick={onBtnClick} className={`flex items-center justify-center p-1 rounded-sm  ${className}`} {...rest}>
-                <TseIcon />
+                <TseIcon className='w-5 h-5'/>
             </button>
         </Tippy>
     );

@@ -16,7 +16,7 @@ const WorkflowChanger: FC<IWorkflowChangerType> = ({}) => {
             onClick={handleChangeWorkflow}
             className="text-L-gray-400 dark:text-D-gray-400 justify-between items-center flex hover:text-L-primary-50 hover:dark:text-D-primary-100"
         >
-            <FlowIcon />
+            <FlowIcon className='w-5 h-5'/>
         </button>
     );
 };

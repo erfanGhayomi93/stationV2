@@ -104,7 +104,7 @@ const Best5Row = () => {
 
     return (
         <WidgetLoading spining={isFetching}>
-            <div className="w-full h-[148px]">
+            <div className="w-full h-[9.2rem]">
                 <div className="grid grid-cols-2 grid-rows-1 overflow-auto" style={{ overflow: 'overlay' }}>
                     <div className="">
                         {orders &&

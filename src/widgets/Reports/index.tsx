@@ -90,7 +90,16 @@ const Reports = () => {
         </>
     );
 
-    return <TabsList onChange={(idx) => setActiveTab(idx)} selectedIndex={activeTab} items={items} leftNode={leftNode} />;
+    return (
+        <TabsList
+            onChange={(idx) => setActiveTab(idx)}
+            selectedIndex={activeTab}
+            items={items}
+            leftNode={leftNode}
+            buttonClass="px-4 last:absolute last:left-0 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200"
+            selectedButtonClass="px-4 after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold "
+        />
+    );
 };
 
 export default Reports;
