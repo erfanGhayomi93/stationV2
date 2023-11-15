@@ -30,7 +30,7 @@ const OrderBookTable = () => {
     return (
         <div ref={containerRef} className="grid grid-rows-min-one h-full overflow-auto">
             <div>{isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}</div>
-            {isDepthChartOpen && <MarketDepthChart />}
+            <div className='h-64'>{isDepthChartOpen && <MarketDepthChart />}</div>
         </div>
     );
 };
