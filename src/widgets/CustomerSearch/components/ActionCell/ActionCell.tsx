@@ -38,8 +38,8 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                     onClick={() => handleFavorite(data)}
                 >
                     <StarIcon className={clsx({
-                        "text-L-gray-400 dark:text-D-gray-400 hover:text-L-primary-50 hover:dark:text-D-primary-50": !data.isFavorite,
-                        "text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50": data.isFavorite,
+                        "w-[1.35rem] h-[1.35rem] text-L-gray-400 dark:text-D-gray-400 hover:text-L-primary-50 hover:dark:text-D-primary-50": !data.isFavorite,
+                        "w-[1.35rem] h-[1.35rem] text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50": data.isFavorite,
                     })} />
                 </button>
             </Tippy>
@@ -74,7 +74,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 <button
                     onClick={() => showPortfolioModal(data)}
                 >
-                    <PortfolioDetailIcon className="w-4 h-4 hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
+                    <PortfolioDetailIcon className="w-[1.13rem] h-[1.13rem] hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
                 </button>
             </Tippy>
         </div >

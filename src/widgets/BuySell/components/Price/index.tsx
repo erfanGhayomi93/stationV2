@@ -9,7 +9,7 @@ interface IBuySellPriceType {}
 
 const BuySellPrice: FC<IBuySellPriceType> = ({}) => {
     const dispatch = useBuySellDispatch();
-    const lockIcon = useMemo(() => <LockIcon className="text-L-gray-500 dark:text-D-gray-500" />, []);
+    const lockIcon = useMemo(() => <LockIcon className="h-4 w-5 text-L-gray-500 dark:text-D-gray-500" />, []);
 
     const { price, symbolISIN, isCalculatorEnabled, amount, quantity, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });

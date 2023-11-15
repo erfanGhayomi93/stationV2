@@ -86,7 +86,7 @@ const CustomerSearch = () => {
                     <div className="flex gap-6 flex-1">
                         <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
-                        <div className='w-[100px]'>
+                        <div className='w-28'>
                             <Select
                                 onChange={(selected) => setCustomerType(selected)}
                                 value={customerType}
@@ -109,7 +109,7 @@ const CustomerSearch = () => {
                             </div>
                         }>
                             <div className='select-none'>
-                                <Refresh2Icon />
+                                <Refresh2Icon className='w-5 h-5'/>
                             </div>
                         </Tippy>
                     </div>

@@ -15,8 +15,8 @@ interface IControllerInputType {
     max?: number;
 }
 const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputValue, lowValue, children, placeholder, title, unit, max }) => {
-    const chevronIconUp = useMemo(() => <ChevronIcon className=" text-L-gray-500 dark:text-D-gray-500" />, []);
-    const chevronIconDown = useMemo(() => <ChevronIcon className="rotate-180 text-L-gray-500 dark:text-D-gray-500" />, []);
+    const chevronIconUp = useMemo(() => <ChevronIcon className="w-2 h-2 text-L-gray-500 dark:text-D-gray-500" />, []);
+    const chevronIconDown = useMemo(() => <ChevronIcon className="w-2 h-2 rotate-180 text-L-gray-500 dark:text-D-gray-500" />, []);
     return (
         <label className="w-full flex items-center justify-center ">
             <span className="w-16 whitespace-nowrap ">{title}</span>
