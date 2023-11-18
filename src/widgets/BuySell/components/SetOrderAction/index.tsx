@@ -11,6 +11,7 @@ import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContex
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import { useTranslation } from 'react-i18next';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+import Button from 'src/common/components/Buttons/Button';
 
 interface ISetOrderActionType {}
 
@@ -38,7 +39,9 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const { t } = useTranslation();
 
     const appDispatch = useAppDispatch();
+
     const { sendOrders, ordersLoading } = useSendOrders();
+
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
@@ -162,45 +165,18 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             .filter(Boolean) as IOrderRequestType[];
 
         sendOrders(0, orders);
-
-        // selectedCustomers.forEach((c: IGoMultiCustomerType) => {
-        //     if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
-        //     // else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
-        //     // else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
-        // });
-        // mutate({
-        //     customerISIN,
-        //     CustomerTagId,
-        //     GTTraderGroupId,
-        //     orderSide: side,
-        //     orderDraftId: undefined,
-        //     orderStrategy: strategy,
-        //     orderType: 'LimitOrder',
-        //     percent: percent || 0,
-        //     price: price,
-        //     quantity: quantity,
-        //     symbolISIN: symbolISIN,
-        //     validity: handleValidity(validity),
-        //     validityDate: validityDate,
-        // });
     };
 
     return (
         <>
             {side === 'Buy' ? (
-                <button
-                    onClick={handleSubmit}
-                    className="bg-L-success-200 h-8 dark:bg-D-success-200 rounded text-L-basic flex items-center justify-center grow"
-                >
+                <Button variant="success" loading={ordersLoading} onClick={handleSubmit}>
                     {isPrimaryComeFrom(comeFrom) ? 'ارسال خرید' : 'ثبت تغییرات'}
-                </button>
+                </Button>
             ) : (
-                <button
-                    onClick={handleSubmit}
-                    className="bg-L-error-200 h-8 dark:bg-D-error-200 rounded text-L-basic flex items-center justify-center grow"
-                >
+                <Button variant="error" loading={ordersLoading} onClick={handleSubmit}>
                     {isPrimaryComeFrom(comeFrom) ? ' ارسال فروش' : 'ثبت تغییرات'}
-                </button>
+                </Button>
             )}
         </>
     );
