@@ -1,12 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const useSendOrders = () => {
     //
     let timer: NodeJS.Timer;
     const ORDER_SENDING_GAP = 350;
     const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
+    const [ordersLoading, setOrdersLoading] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -28,6 +30,7 @@ const useSendOrders = () => {
     const createOrderSteps = (orders: IOrderRequestType[]) => {
         //
         let orderStep: IOrderRequestType[][] = [];
+        
         const splitedOrders = splitOrdersByCustomers(orders);
 
         const getOrderStepLength = () => {
@@ -63,9 +66,13 @@ const useSendOrders = () => {
     const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
         //
         if (!orders.length) return;
+
+        setOrdersLoading(true);
+
         const orderStepsArray: IOrderRequestType[][] = createOrderSteps(orders);
-        //
+
         setOrderResult({});
+
         const orderStep = orderStepsArray[index];
 
         const nextIndex = index + 1;
@@ -84,44 +91,23 @@ const useSendOrders = () => {
 
                 setOrderResult((pre) => ({ ...pre, ...result }));
             })
+            .catch((error) => console.log(error))
             .finally(() => {
                 queryClient.invalidateQueries(['orderList', 'OnBoard']);
                 if (nextIndex >= orderStepsArray.length) {
                     clearTimeout(timer);
+                    ipcMain.send('update_customer');
+                    setOrdersLoading(false);
                     return;
                 }
                 timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
             });
-
-        // await setOrder(orderStep?.[0])
-        //     .then((response) => {
-        //         const order = orderStep[0];
-        //         const { id: orderID } = order;
-        //         // onSuccessNotif();
-        //         // if (sequential) resetByeSellData(dispatch, appDispatch);
-        //         if (response.successClientKeys[0] && orderID) {
-        //             setOrderResult((pre) => ({ ...pre, [orderID]: response.successClientKeys[0] }));
-        //         }
-        //     })
-        //     .catch(() => {
-        //         onErrorNotif();
-
-        //         // orderID && setOrderResult((pre) => ({ ...pre, [orderID]: 'Error' }));
-        //     })
-        //     .finally(() => {
-        //         if (nextIndex >= orders.length) {
-        //             clearTimeout(timer);
-        //             queryClient.invalidateQueries(['orderList', 'OnBoard']);
-        //             return;
-        //         }
-
-        //         timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
-        //     });
     };
 
     return {
         sendOrders,
         orderResult,
+        ordersLoading,
     };
 };
 

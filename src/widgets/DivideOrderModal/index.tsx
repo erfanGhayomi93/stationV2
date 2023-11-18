@@ -40,7 +40,7 @@ const DivideOrderModal = () => {
         return Math.floor(quantity / quantityTickSize) * quantityTickSize;
     };
 
-    const { sendOrders, orderResult } = useSendOrders();
+    const { sendOrders, orderResult, ordersLoading } = useSendOrders();
 
     useEffect(() => {
         const updatedOrders = customers.map((order) => {

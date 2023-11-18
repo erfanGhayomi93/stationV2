@@ -5,11 +5,12 @@ import { setOrder, useUpdateOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
+import { getUniqId, handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import { useTranslation } from 'react-i18next';
+import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 
 interface ISetOrderActionType {}
 
@@ -37,6 +38,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const { t } = useTranslation();
 
     const appDispatch = useAppDispatch();
+    const { sendOrders, ordersLoading } = useSendOrders();
     const { mutate } = useMutation(setOrder, {
         onSuccess: () => {
             onSuccessNotif();
@@ -110,8 +112,13 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
 
     const handleSubmit = () => {
         if (!selectedCustomers.length) {
-            onErrorNotif({ title: t('common.notCustomerSelected') });
-            return;
+            return onErrorNotif({ title: t('common.notCustomerSelected') });
+        }
+        if (!price || price <= 0) {
+            return onErrorNotif({ title: t('common.invalidOrderPrice') });
+        }
+        if (!quantity || quantity <= 0) {
+            return onErrorNotif({ title: t('common.invalidOrderQuantity') });
         }
         if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
             dispatch({ type: 'SET_DIVIDE', value: true });
@@ -127,30 +134,55 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     };
 
     const handleOrder = () => {
-        let customerISIN: ICustomerIsins = [];
+        // let customerISIN: ICustomerIsins = [];
         let CustomerTagId: ICustomerIsins = [];
         let GTTraderGroupId: ICustomerIsins = [];
 
-        selectedCustomers.forEach((c: IGoMultiCustomerType) => {
-            if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
-            // else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
-            // else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
-        });
-        mutate({
-            customerISIN,
-            CustomerTagId,
-            GTTraderGroupId,
-            orderSide: side,
-            orderDraftId: undefined,
-            orderStrategy: strategy,
-            orderType: 'LimitOrder',
-            percent: percent || 0,
-            price: price,
-            quantity: quantity,
-            symbolISIN: symbolISIN,
-            validity: handleValidity(validity),
-            validityDate: validityDate,
-        });
+        const orders: IOrderRequestType[] = selectedCustomers
+            .map(({ customerISIN, customerType }) => {
+                if ([ICustomerTypeEnum.Legal, ICustomerTypeEnum.Natural].includes(customerType as ICustomerTypeEnum)) {
+                    return {
+                        id: getUniqId(),
+                        customerISIN: [customerISIN],
+                        CustomerTagId,
+                        GTTraderGroupId,
+                        orderSide: side,
+                        orderDraftId: undefined,
+                        orderStrategy: strategy,
+                        orderType: 'LimitOrder',
+                        percent: percent || 0,
+                        price: price,
+                        quantity: quantity,
+                        symbolISIN: symbolISIN,
+                        validity: handleValidity(validity),
+                        validityDate: validityDate,
+                    };
+                }
+            })
+            .filter(Boolean) as IOrderRequestType[];
+
+        sendOrders(0, orders);
+
+        // selectedCustomers.forEach((c: IGoMultiCustomerType) => {
+        //     if (c.customerType === ICustomerTypeEnum.Legal || c.customerType === ICustomerTypeEnum.Natural) customerISIN.push(c.customerISIN);
+        //     // else if (c.customerType === ICustomerTypeEnum.CustomerTag) CustomerTagId.push(c.title);
+        //     // else if (c.customerType === ICustomerTypeEnum.TraderGroup) GTTraderGroupId.push(c.customerISIN);
+        // });
+        // mutate({
+        //     customerISIN,
+        //     CustomerTagId,
+        //     GTTraderGroupId,
+        //     orderSide: side,
+        //     orderDraftId: undefined,
+        //     orderStrategy: strategy,
+        //     orderType: 'LimitOrder',
+        //     percent: percent || 0,
+        //     price: price,
+        //     quantity: quantity,
+        //     symbolISIN: symbolISIN,
+        //     validity: handleValidity(validity),
+        //     validityDate: validityDate,
+        // });
     };
 
     return (

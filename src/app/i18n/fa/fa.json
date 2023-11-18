@@ -62,6 +62,8 @@
         "cancel": "لغو",
 		"save": "ذخیره",
         "notCustomerSelected": "حداقل یک مشتری باید انتخاب شود",
+		"invalidOrderPrice": "ورودی 'قیمت' معتبر نمی باشد",
+		"invalidOrderQuantity": "ورودی 'تعداد' معتبر نمی باشد",
         "confirm": "ثبت",
         "delete": "حذف",
         "confirmation": "تاییدیه",
