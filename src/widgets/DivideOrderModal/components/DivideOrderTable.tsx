@@ -42,7 +42,7 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
 
     const onRowDelete = (data: DividedOrderRowType) => {
         updateData((pre) => pre.filter((item) => item.id !== data.id));
-        setQuantityInput((pre) => pre - data.quantity);
+        // setQuantityInput((pre) => pre - data.quantity);
     };
 
     const onRowSend = (data: DividedOrderRowType) => {

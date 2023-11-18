@@ -35,7 +35,7 @@ const DivideOrderModal = () => {
 
         const isDivisibleByTickSize = quantity % quantityTickSize === 0;
 
-        if (isDivisibleByTickSize) return quantity;
+        if (isDivisibleByTickSize || quantity < quantityTickSize) return quantity;
 
         return Math.floor(quantity / quantityTickSize) * quantityTickSize;
     };
@@ -62,6 +62,7 @@ const DivideOrderModal = () => {
 
     const handleDivideOrders = (quantity: number, price: number, selectedCustomers: IGoMultiCustomerType[]) => {
         //
+        const mainQuantity = quantity * selectedCustomers.length;
         let dividedOrderArray: DividedOrderRowType[] = [];
 
         const calculateOrders = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
@@ -88,13 +89,13 @@ const DivideOrderModal = () => {
                 } else return;
             }
 
-            const remainingQuantity = quantity - dividedOrderArray.length * symbolMaxQuantity;
+            const remainingQuantity = mainQuantity - dividedOrderArray.length * symbolMaxQuantity;
             if (remainingQuantity > 0) {
                 calculateOrders(remainingQuantity, selectedCustomers);
             }
         };
 
-        calculateOrders(quantity, selectedCustomers);
+        calculateOrders(mainQuantity, selectedCustomers);
 
         dividedOrderArray.sort((customerA, customerB) => {
             return customerA.customerTitle.localeCompare(customerB.customerTitle);

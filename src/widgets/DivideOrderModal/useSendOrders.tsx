@@ -1,10 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
-import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppDispatch } from 'src/redux/hooks';
-import { resetByeSellData } from 'src/widgets/BuySell';
-import { useBuySellDispatch, useBuySellState } from 'src/widgets/BuySell/context/BuySellContext';
 
 const useSendOrders = () => {
     //
@@ -12,45 +8,115 @@ const useSendOrders = () => {
     const ORDER_SENDING_GAP = 350;
     const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
 
-    const queryClient = useQueryClient()
-    const appDispatch = useAppDispatch();
-    const dispatch = useBuySellDispatch();
-    const { sequential } = useBuySellState();
+    const queryClient = useQueryClient();
+
+    const splitOrdersByCustomers = (orders: IOrderRequestType[]) => {
+        return orders.reduce((acc: any, order) => {
+            const ISIN = order.customerISIN?.[0];
+            if (ISIN) {
+                if (!acc[ISIN]) {
+                    acc[ISIN] = [];
+                }
+
+                acc[ISIN].push(order);
+            }
+
+            return acc;
+        }, {});
+    };
+
+    const createOrderSteps = (orders: IOrderRequestType[]) => {
+        //
+        let orderStep: IOrderRequestType[][] = [];
+        const splitedOrders = splitOrdersByCustomers(orders);
+
+        const getOrderStepLength = () => {
+            let maxLength: number = 0;
+            for (const key in splitedOrders) {
+                const length = splitedOrders[key].length;
+                if (length > maxLength) {
+                    maxLength = length;
+                }
+            }
+
+            return maxLength;
+        };
+
+        const stepLength = getOrderStepLength();
+
+        for (let i = 0; i < stepLength; i++) {
+            let group: IOrderRequestType[] = [];
+
+            for (const key in splitedOrders) {
+                if (splitedOrders[key][i]) {
+                    group.push(splitedOrders[key][i]);
+                }
+            }
+            if (group.length > 0) {
+                orderStep.push(group);
+            }
+        }
+
+        return orderStep;
+    };
 
     const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
         //
-        if(!orders.length) return;
-        setOrderResult({})
-        const order = orders[index];
-        const { id: orderID, status } = order || {};
+        if (!orders.length) return;
+        const orderStepsArray: IOrderRequestType[][] = createOrderSteps(orders);
+        //
+        setOrderResult({});
+        const orderStep = orderStepsArray[index];
+
         const nextIndex = index + 1;
 
-        if (status && nextIndex <= orders.length) {
-            sendOrders(nextIndex, orders);
-        }
-
-        await setOrder(order)
+        await Promise.all(orderStep.map((order) => setOrder(order)))
             .then((response) => {
-                // onSuccessNotif();
-                // if (sequential) resetByeSellData(dispatch, appDispatch);
-                if (response.successClientKeys[0] && orderID) {
-                    setOrderResult((pre) => ({ ...pre, [orderID]: response.successClientKeys[0] }));
-                }
-            })
-            .catch(() => {
-                onErrorNotif();
+                const result = response.reduce((acc, res, index) => {
+                    const order = orderStep[index];
+                    const { id: orderID } = order;
+                    if (orderID && res.successClientKeys[0]) {
+                        Object.defineProperty(acc, orderID, { value: res.successClientKeys[0] });
+                    }
 
-                orderID && setOrderResult((pre) => ({ ...pre, [orderID]: 'Error' }));
+                    return acc;
+                }, {});
+
+                setOrderResult((pre) => ({ ...pre, ...result }));
             })
             .finally(() => {
-                if (nextIndex >= orders.length) {
+                queryClient.invalidateQueries(['orderList', 'OnBoard']);
+                if (nextIndex >= orderStepsArray.length) {
                     clearTimeout(timer);
-                    queryClient.invalidateQueries(['orderList', 'OnBoard'])
                     return;
                 }
-
                 timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
             });
+
+        // await setOrder(orderStep?.[0])
+        //     .then((response) => {
+        //         const order = orderStep[0];
+        //         const { id: orderID } = order;
+        //         // onSuccessNotif();
+        //         // if (sequential) resetByeSellData(dispatch, appDispatch);
+        //         if (response.successClientKeys[0] && orderID) {
+        //             setOrderResult((pre) => ({ ...pre, [orderID]: response.successClientKeys[0] }));
+        //         }
+        //     })
+        //     .catch(() => {
+        //         onErrorNotif();
+
+        //         // orderID && setOrderResult((pre) => ({ ...pre, [orderID]: 'Error' }));
+        //     })
+        //     .finally(() => {
+        //         if (nextIndex >= orders.length) {
+        //             clearTimeout(timer);
+        //             queryClient.invalidateQueries(['orderList', 'OnBoard']);
+        //             return;
+        //         }
+
+        //         timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
+        //     });
     };
 
     return {
