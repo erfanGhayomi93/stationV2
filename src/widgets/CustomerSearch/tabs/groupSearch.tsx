@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGroupCustomer, useGroupDefault } from 'src/app/queries/customer';
 import useDebounce from 'src/common/hooks/useDebounce';
 import ResultHeader from '../components/ResultItem/ResultHeader';
@@ -9,6 +9,7 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import Tippy from '@tippyjs/react';
 import { Refresh2Icon } from 'src/common/icons';
 import dayjs from 'dayjs';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const GroupSearch = () => {
     const { state: { params } } = useCustomerSearchState();
@@ -61,6 +62,11 @@ const GroupSearch = () => {
             ))
     }, [searchGroups, defaultGroups, isDefaultUse])
 
+    useEffect(() => {
+        ipcMain.handle("update_customer", refetchToggleFavorite)
+
+        return () => ipcMain.removeHandler("update_customer")
+    }, [])
 
 
     return (
