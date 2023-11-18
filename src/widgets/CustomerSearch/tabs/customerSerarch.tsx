@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useAdvancedSearchQuery, useGetCustomers } from 'src/app/queries/customer';
@@ -12,6 +12,7 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { Refresh2Icon } from 'src/common/icons';
 import Tippy from '@tippyjs/react';
 import dayjs from 'dayjs';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -77,6 +78,12 @@ const CustomerSearch = () => {
 
     }, [searchCustomers, defaultCustomers, customerType, isDefaultUse])
 
+
+    useEffect(() => {
+        ipcMain.handle("update_customer", refetchToggleFavorite)
+
+        return () => ipcMain.removeHandler("update_customer")
+    }, [])
 
 
     return (

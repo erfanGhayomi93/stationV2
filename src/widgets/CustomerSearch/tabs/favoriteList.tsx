@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useGetCustomers } from 'src/app/queries/customer';
@@ -13,6 +13,7 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import dayjs from 'dayjs';
 import Tippy from '@tippyjs/react';
 import { Refresh2Icon } from 'src/common/icons';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const FavoriteList = () => {
     const { t } = useTranslation();
@@ -22,8 +23,8 @@ const FavoriteList = () => {
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
 
 
-    const { data: customers, isFetching, refetch } = useGetCustomers({ IsFavorite: true } , {
-        onSuccess(){
+    const { data: customers, isFetching, refetch } = useGetCustomers({ IsFavorite: true }, {
+        onSuccess() {
             setTimeRefresh(dayjs())
         }
     });
@@ -53,6 +54,13 @@ const FavoriteList = () => {
             return typeMatch && termMatch;
         });
     }, [customers, customerType, debouncedTerm]);
+
+    useEffect(() => {
+        ipcMain.handle("update_customer", refetchToggleFavorite)
+
+        return () => ipcMain.removeHandler("update_customer")
+    }, [])
+
 
 
     return (
