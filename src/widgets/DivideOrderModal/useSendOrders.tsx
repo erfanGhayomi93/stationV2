@@ -30,7 +30,7 @@ const useSendOrders = () => {
     const createOrderSteps = (orders: IOrderRequestType[]) => {
         //
         let orderStep: IOrderRequestType[][] = [];
-        
+
         const splitedOrders = splitOrdersByCustomers(orders);
 
         const getOrderStepLength = () => {
@@ -71,13 +71,11 @@ const useSendOrders = () => {
 
         const orderStepsArray: IOrderRequestType[][] = createOrderSteps(orders);
 
-        setOrderResult({});
-
         const orderStep = orderStepsArray[index];
 
         const nextIndex = index + 1;
 
-        await Promise.all(orderStep.map((order) => setOrder(order)))
+        return await Promise.all(orderStep.map((order) => setOrder(order)))
             .then((response) => {
                 const result = response.reduce((acc, res, index) => {
                     const order = orderStep[index];
@@ -88,12 +86,14 @@ const useSendOrders = () => {
 
                     return acc;
                 }, {});
-
-                setOrderResult((pre) => ({ ...pre, ...result }));
+                setOrderResult(result);
             })
             .catch((error) => console.log(error))
             .finally(() => {
+                queryClient.invalidateQueries(['orderList', 'Error']);
                 queryClient.invalidateQueries(['orderList', 'OnBoard']);
+                queryClient.invalidateQueries(['orderList', 'Done']);
+
                 if (nextIndex >= orderStepsArray.length) {
                     clearTimeout(timer);
                     ipcMain.send('update_customer');
