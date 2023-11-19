@@ -21,7 +21,7 @@ Deploy-Job:
     - Test
   artifacts:
   rules:
-    - if: $CI_COMMIT_BRANCH == "Develop"
+    - if: $CI_COMMIT_BRANCH == "Develop" 
 stage-Job:
   stage: deploy
   script:
@@ -122,3 +122,68 @@ Dr-Srv-Job01:
   artifacts:
   rules:
     - if: $CI_COMMIT_BRANCH == "Production"
+Production-TSS-Job01:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build)
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Stop-Service -Name "UIWT_347_14050"
+    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\6BTwzkSvD\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Start-Service -Name "UIWT_347_14050" 
+    - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - TSS-webApi01
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+Production-TSS-Job02:
+  stage: deploy
+  script:
+    - $date = get-date -format  "dd-MM-yyyy"
+    - Start-Sleep -Seconds 300
+    - mkdir -p "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - $User = "RAMANDTECH\copycicd"
+    - $PWord = ConvertTo-SecureString -String "CiCd@123456789" -AsPlainText -Force
+    - $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord 
+    - $MYSESSION = New-PSSession -ComputerName "TSS-WebAPI01" -Credential $Credential
+
+    - Stop-Service -Name "UIWT_347_14050"
+    - Copy-item -Force -Recurse -Verbose -FromSession $MYSESSION -Path D:\Gitlab-Runner\builds\6BTwzkSvD\0\ui\onlinestationui\build\* -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Start-Service -Name "UIWT_347_14050" 
+    - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - Web01
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+Production-TSS-Job03:
+  stage: deploy
+  script:
+    - $date = get-date -format  "dd-MM-yyyy"
+    - Start-Sleep -Seconds 300
+    - mkdir -p "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - $User = "RAMANDTECH\copycicd"
+    - $PWord = ConvertTo-SecureString -String "CiCd@123456789" -AsPlainText -Force
+    - $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord 
+    - $MYSESSION = New-PSSession -ComputerName "TSS-WebAPI01" -Credential $Credential
+
+    - Stop-Service -Name "UIWT_347_14050"
+    - Copy-item -Force -Recurse -Verbose -FromSession $MYSESSION -Path D:\Gitlab-Runner\builds\6BTwzkSvD\0\ui\onlinestationui\build\* -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Start-Service -Name "UIWT_347_14050" 
+    - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - Web02
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
