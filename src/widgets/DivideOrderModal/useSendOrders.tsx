@@ -2,6 +2,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
 import ipcMain from 'src/common/classes/IpcMain';
+import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
 const useSendOrders = () => {
     //
@@ -9,6 +12,14 @@ const useSendOrders = () => {
     const ORDER_SENDING_GAP = 350;
     const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
     const [ordersLoading, setOrdersLoading] = useState(false);
+
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
+
+    const { subscribeCustomers } = useRamandOMSGateway();
+
+    const subscribeHandler = () => {
+        subscribeCustomers(selectedCustomers.map(({ customerISIN }) => customerISIN));
+    };
 
     const queryClient = useQueryClient();
 
@@ -66,6 +77,8 @@ const useSendOrders = () => {
     const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
         //
         if (!orders.length) return;
+
+        if (index === 0) subscribeHandler();
 
         setOrdersLoading(true);
 
