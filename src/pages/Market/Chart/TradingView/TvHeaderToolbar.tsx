@@ -716,21 +716,21 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		});
 
 		return () => {
-			ipcMain.removeHandler('tv_chart:update_symbol');
+			ipcMain.removeChannel('tv_chart:update_symbol');
 
-			ipcMain.removeHandler('tv_chart:compare_symbol');
+			ipcMain.removeChannel('tv_chart:compare_symbol');
 
-			ipcMain.removeHandler('tv_chart:set_indicator');
+			ipcMain.removeChannel('tv_chart:set_indicator');
 
-			ipcMain.removeHandler('tv_chart:save_study_template');
+			ipcMain.removeChannel('tv_chart:save_study_template');
 
-			ipcMain.removeHandler('tv_chart:load_chart');
+			ipcMain.removeChannel('tv_chart:load_chart');
 
-			ipcMain.removeHandler('tv_chart:save_layout_template');
+			ipcMain.removeChannel('tv_chart:save_layout_template');
 
-			ipcMain.removeHandler('tv_chart:delete_saved_chart');
+			ipcMain.removeChannel('tv_chart:delete_saved_chart');
 
-			ipcMain.removeHandler('tv_chart:empty_charts');
+			ipcMain.removeChannel('tv_chart:empty_charts');
 		};
 	}, [activeChart]);
 

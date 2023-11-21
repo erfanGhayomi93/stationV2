@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
+import Keyboard from 'react-simple-keyboard';
 
 interface VirtualKeyboardType {
   visibleKeypad: boolean;
@@ -45,7 +45,7 @@ export const VirtualKeyboard = forwardRef(
       <div
         className={clsx(
           !visibleKeypad && 'hidden',
-          'absolute z-[1000] w-[95%] md:w-[386px] ltr text-xl md:text-2xl left-2 md:left-auto',
+          'absolute z-[1000] w-[95%] md:w-[386px] ltr text-sm',
           strech && 'md:w-[416px]'
         )}
         ref={parentRef}
