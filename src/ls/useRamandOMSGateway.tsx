@@ -3,10 +3,14 @@ import { pushEngine } from './pushEngine';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
 
-const useRamandOMSGateway = () => {
-    //
-    const { brokerCode } = useAppSelector(getUserData);
+type IRamandOMSInstanceType = {
+    subscribeCustomers: (customerISINs: string[], brokerCode: string) => void;
+    unSubscribeCustomers: () => void;
+    isSubscribedBefore: () => boolean | undefined;
+};
 
+const createRamandOMSGateway = () => {
+    //
     const translateMessage = (value: string) => {
         const message = value.split('^');
         const msgObj: Record<number, string> = {};
@@ -39,8 +43,7 @@ const useRamandOMSGateway = () => {
 
     const isSubscribedBefore = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
 
-    const subscribeCustomers = (customerISINs: string[]) => {
-        
+    const subscribeCustomers = (customerISINs: string[], brokerCode: string) => {
         const customers = customerISINs.map((customerISIN) => `${brokerCode}_${customerISIN}`);
 
         const items = [...customers, `${brokerCode ?? '189'}_All`];
@@ -68,8 +71,12 @@ const useRamandOMSGateway = () => {
     return {
         subscribeCustomers,
         unSubscribeCustomers,
-        isSubscribedBefore
+        isSubscribedBefore,
     };
 };
+
+const ramandOMSInstance: IRamandOMSInstanceType = createRamandOMSGateway();
+
+const useRamandOMSGateway = () => ramandOMSInstance;
 
 export default useRamandOMSGateway;

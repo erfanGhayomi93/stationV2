@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import { Cell } from 'rsuite-table';
 // import 'rsuite-table/dist/css/rsuite-table.css'; // or 'rsuite-table/dist/css/rsuite-table.css'
@@ -14,6 +14,9 @@ import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import CellTextFilter from '../components/CellFilter/CellTextFilter';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
+import ipcMain from 'src/common/classes/IpcMain';
+import { pushEngine } from 'src/ls/pushEngine';
+import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 
 type IOpenOrders = {
     ClickLeftNode: any;
@@ -23,12 +26,26 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const { mutate } = useSingleDeleteOrders({
-        onSuccess: ({response}) => {
-            if(response === 'Ok') {
-                refetchOpenOrders()
+        onSuccess: ({ response }) => {
+            if (response === 'Ok') {
+                refetchOpenOrders();
             }
-        }
+        },
     });
+
+    const subs = pushEngine.getSubscribeById('supervisorMessage')?.getItems()
+     const {isSubscribedBefore} = useRamandOMSGateway()
+
+    console.log(subs)
+    console.log(isSubscribedBefore())
+
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandler);
+    });
+
+    const onOMSMessageHandler = (message: Record<number, string>) => {
+        console.log(message);
+    };
 
     const appDispath = useAppDispatch();
     const { isFilter } = ClickLeftNode;
