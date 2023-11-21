@@ -1,4 +1,3 @@
-import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useForgetPasswordRequestMutate, useForgetPasswordValidationMutate } from 'src/app/queries/oAuth'
 import ipcMain from 'src/common/classes/IpcMain'

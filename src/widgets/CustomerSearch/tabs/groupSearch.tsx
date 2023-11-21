@@ -65,7 +65,7 @@ const GroupSearch = () => {
     useEffect(() => {
         ipcMain.handle("update_customer", refetchToggleFavorite)
 
-        return () => ipcMain.removeHandler("update_customer")
+        return () => ipcMain.removeHandler("update_customer", refetchToggleFavorite)
     }, [])
 
 

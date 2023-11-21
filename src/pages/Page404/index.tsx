@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from 'react';
 import { useCustomerListInfinit } from 'src/app/queries/customer';
 import Combo from 'src/common/components/ComboSelect';
 import { ComboSelectContext } from 'src/common/components/ComboSelect/context';
-import PasswordInput from 'src/common/components/PasswordInput';
+// import PasswordInput from 'src/common/components/PasswordInput';
 
 const Page404 = () => {
     //
@@ -43,7 +43,7 @@ const Page404 = () => {
         <div>
             not found
             <div hidden className="flex flex-col gap-2">
-                <PasswordInput />
+                {/* <PasswordInput /> */}
 
                 <Combo.Provider
                     value={term}
@@ -64,7 +64,7 @@ const Page404 = () => {
                     </div>
                 </Combo.Provider>
 
-                <PasswordInput />
+                {/* <PasswordInput /> */}
 
                 <button onClick={() => setTerm('مجید')}>majid</button>
                 <button

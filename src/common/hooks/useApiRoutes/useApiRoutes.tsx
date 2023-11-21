@@ -25,31 +25,6 @@ const getBaseUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_BASE_URL')?.value;
 };
 
-// const getPortfolioUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
-// };
-//
-// const getMarketData = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
-// };
-//
-// const getBackOffice = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
-// };
-//
-// const getOrderUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
-// };
-// const getCommonUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
-// };
-
-// export const getBaseUrl() = 'https://gtapi-preprd.ramandtech.com';
 
 export const Apis = () => ({
     OAuthApi: {
@@ -187,6 +162,34 @@ export const Apis = () => ({
         TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
 });
+
+
+
+// const getPortfolioUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
+// };
+//
+// const getMarketData = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
+// };
+//
+// const getBackOffice = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
+// };
+//
+// const getOrderUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
+// };
+// const getCommonUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
+// };
+
+// export const getBaseUrl() = 'https://gtapi-preprd.ramandtech.com';
 
 //
 // const CommonUrl = 'http://192.168.40.8:12000';

@@ -168,18 +168,20 @@ const RecentSymbols = () => {
 		}
 	}, [])
 
+	const refreshRecentHistoryHandler = () => {
+		let clearTime: NodeJS.Timeout;
+		clearTime = setTimeout(() => {
+			refetchRecentHistory()
+			clearTimeout(clearTime)
+		}, 500);
+	}
+
 
 	useEffect(() => {
-		let clearTime: NodeJS.Timeout;
-		ipcMain.handle<string>('tv_chart:refetch_recent_history', () => {
-			clearTime = setTimeout(() => {
-				refetchRecentHistory()
-				clearTimeout(clearTime)
-			}, 500);
-		});
+		ipcMain.handle<string>('tv_chart:refetch_recent_history', refreshRecentHistoryHandler);
 
 		return () => {
-			ipcMain.removeHandler('tv_chart:refetch_recent_history');
+			ipcMain.removeHandler('tv_chart:refetch_recent_history', refreshRecentHistoryHandler);
 		}
 	}, [])
 
@@ -200,7 +202,7 @@ const RecentSymbols = () => {
 					</button>
 				</Tippy>
 
-				{Array.isArray(recentSymbols) && recentSymbols.length > 0
+				{Array.isArray(recentSymbols) && !!recentSymbols
 					? (
 						<ul className='flex items-center py-1 gap-1 h-full'>
 							{recentSymbols

@@ -11,7 +11,6 @@ const getGlobalSettings = async () => {
     return data || [];
 };
 
-//prettier-ignore
 export const useGlobalSettings = (
     options?:
         | (Omit<UseQueryOptions<ISettingsType[], unknown, ISettingsType[], string[]>, 'initialData' | 'queryFn' | 'queryKey'> & {
