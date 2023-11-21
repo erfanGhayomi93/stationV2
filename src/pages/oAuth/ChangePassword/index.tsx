@@ -1,9 +1,6 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useChangePasswordRequestMutate, useChangePasswordValidationMutate } from 'src/app/queries/oAuth'
 import ipcMain from 'src/common/classes/IpcMain'
-import { useAppSelector } from 'src/redux/hooks'
-import { getUserData } from 'src/redux/slices/global'
 import OtpModule from 'src/widgets/otp'
 
 const ChangePassword = () => {

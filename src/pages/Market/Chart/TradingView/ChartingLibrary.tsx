@@ -147,7 +147,7 @@ export const ChartingLibrary = () => {
 		ipcMain.handle('tv_chart:set_layout', (layoutId: '1' | '2c' | '2r' | '3c' | '3r' | '2-2' | '4r' | '4c') => setState({ type: "Set_Active_Layout", value: layoutId }));
 
 		return () => {
-			ipcMain.removeHandler('tv_chart:set_layout');
+			ipcMain.removeChannel('tv_chart:set_layout');
 		};
 	}, [activeChart]);
 

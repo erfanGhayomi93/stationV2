@@ -71,7 +71,7 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
             refetchCaptchaMethod();
             return;
         }
-    
+
         if (otpRes.length !== 6) {
             refetchCaptchaMethod();
             toast.warning(t('Errors.OtpIsNotValid'));
@@ -95,7 +95,7 @@ const OtpModule: FC<IFormOtpType> = ({ handleSubmitOtp, SendCodeAgainApi }) => {
     useEffect(() => {
         ipcMain.handle("Refresh-captcha", refetchCaptchaMethod)
 
-        return () => ipcMain.removeHandler("Refresh-captcha")
+        return () => ipcMain.removeHandler("Refresh-captcha", refetchCaptchaMethod)
     }, [])
 
 

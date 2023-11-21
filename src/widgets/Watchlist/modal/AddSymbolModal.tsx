@@ -58,8 +58,8 @@ export const AddSymbolModal = () => {
     ipcMain.handle("RemoveSymbolInWatchlist", handleRemoveSymbolInWatchlist)
 
     return () => {
-      ipcMain.removeHandler("AddSymbolInWatchlist")
-      ipcMain.removeHandler("RemoveSymbolInWatchlist")
+      ipcMain.removeHandler("AddSymbolInWatchlist", handleAddSymbolInWatchlist)
+      ipcMain.removeHandler("RemoveSymbolInWatchlist", handleRemoveSymbolInWatchlist)
     }
   }, [selectedWatchlistId])
 

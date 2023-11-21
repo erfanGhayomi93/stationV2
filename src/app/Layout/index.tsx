@@ -6,19 +6,15 @@ import Header from './Header';
 import Sider from './Sider';
 import { ProviderSlider } from './Sider/context';
 import ipcMain from 'src/common/classes/IpcMain';
-import { useTranslation } from 'react-i18next';
 import { findTitlePage } from 'src/utils/helpers';
 import { useGetPlatformSetting } from '../queries/settings/PlatformSetting';
-import { useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppState } from 'src/redux/slices/global';
 import { updatePlatformSetting } from 'src/redux/slices/platformSetting';
 
 const AppLayout = () => {
     const navigate = useNavigate();
-    const { t } = useTranslation();
     const appDispatch = useAppDispatch();
-
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -56,6 +52,7 @@ const AppLayout = () => {
             pushEngine.disConnect();
         };
     }, []);
+
 
     return (
         <div className="h-screen w-screen  bg-L-gray-50 dark:bg-D-gray-50 min-w-[1330px] overflow-x-auto">
