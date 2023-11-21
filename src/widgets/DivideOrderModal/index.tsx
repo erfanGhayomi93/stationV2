@@ -11,7 +11,7 @@ import { getUniqId, handleValidity, seprateNumber } from 'src/utils/helpers';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import useSendOrders from './useSendOrders';
-import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const DivideOrderModal = () => {
     //
@@ -26,21 +26,17 @@ const DivideOrderModal = () => {
     const dispatch = useBuySellDispatch();
     const selectedCustomers = useAppSelector(getSelectedCustomers);
 
-    const { subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway({
-        onOMSMessageReceived: (message) => onOMSMessageHandler(message),
-    });
-
     const checkQuantityTickSize = (quantity: number) => {
         const quantityTickSize = symbolData?.orderQuantityTickSize ?? 1;
 
         const isDivisibleByTickSize = quantity % quantityTickSize === 0;
 
-        if (isDivisibleByTickSize) return quantity;
+        if (isDivisibleByTickSize || quantity < quantityTickSize) return quantity;
 
         return Math.floor(quantity / quantityTickSize) * quantityTickSize;
     };
 
-    const { sendOrders, orderResult } = useSendOrders();
+    const { sendOrders, orderResult, ordersLoading } = useSendOrders();
 
     useEffect(() => {
         const updatedOrders = customers.map((order) => {
@@ -62,6 +58,7 @@ const DivideOrderModal = () => {
 
     const handleDivideOrders = (quantity: number, price: number, selectedCustomers: IGoMultiCustomerType[]) => {
         //
+        const mainQuantity = quantity * selectedCustomers.length;
         let dividedOrderArray: DividedOrderRowType[] = [];
 
         const calculateOrders = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
@@ -88,13 +85,13 @@ const DivideOrderModal = () => {
                 } else return;
             }
 
-            const remainingQuantity = quantity - dividedOrderArray.length * symbolMaxQuantity;
+            const remainingQuantity = mainQuantity - dividedOrderArray.length * symbolMaxQuantity;
             if (remainingQuantity > 0) {
                 calculateOrders(remainingQuantity, selectedCustomers);
             }
         };
 
-        calculateOrders(quantity, selectedCustomers);
+        calculateOrders(mainQuantity, selectedCustomers);
 
         dividedOrderArray.sort((customerA, customerB) => {
             return customerA.customerTitle.localeCompare(customerB.customerTitle);
@@ -106,21 +103,15 @@ const DivideOrderModal = () => {
     useEffect(() => {
         //
         if (divide) {
-            const customerISINs = customers.map(({ customerISIN }) => customerISIN);
-
-            subscribeCustomers(customerISINs);
-
             setQuantityInput(quantity);
 
             setPriceInput(price);
 
             const dividedOrders = handleDivideOrders(quantity, price, selectedCustomers);
+
             setCustomers(dividedOrders);
         }
 
-        return () => {
-            unSubscribeCustomers();
-        };
     }, [divide]);
 
     const handleQuantityChange = (value: number) => {
@@ -223,6 +214,10 @@ const DivideOrderModal = () => {
             clearInterval(timer);
         }, 1000);
     };
+
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandler);
+    });
 
     return (
         <Modal isOpen={divide} onClose={closeModal} className="w-[800px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">

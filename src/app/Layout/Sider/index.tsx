@@ -68,7 +68,7 @@ const Sider = () => {
     const menuItems = useMemo(
         (): MenuItemType[] => [
             {
-                icon: <HomeIcon height={20} width={20} />,
+                icon: <HomeIcon className='w-5 h-5' />,
                 label: 'صفحه اصلی',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -77,7 +77,7 @@ const Sider = () => {
                 onClick: () => navigate('/'),
             },
             {
-                icon: <EyeFrameIcon height={20} width={20} />,
+                icon: <EyeFrameIcon className='w-5 h-5' />,
                 label: 'دیده بان',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -86,7 +86,7 @@ const Sider = () => {
                 onClick: () => navigate('/Watchlist'),
             },
             {
-                icon: <BasketIcon height={20} width={20} />,
+                icon: <BasketIcon className='w-5 h-5' />,
                 label: 'سبد معامله گر',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -95,7 +95,7 @@ const Sider = () => {
                 onClick: () => navigate('/basket'),
             },
             {
-                icon: <FileIcon height={20} width={20} />,
+                icon: <FileIcon className='w-5 h-5' />,
                 label: 'پرتفوی',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -116,7 +116,7 @@ const Sider = () => {
             //     ],
             // },
             {
-                icon: <FileIcon height={20} width={20} />,
+                icon: <FileIcon className='w-5 h-5' />,
                 label: 'گزارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -126,28 +126,28 @@ const Sider = () => {
                 children: [
                     {
                         label: 'سفارشات',
-                        icon: <OrdersIcon height={20} width={20} />,
+                        icon: <OrdersIcon className='w-5 h-5' />,
                         isActive: false,
                         id: '/Reports/orders',
                         onClick: () => navigate('/Reports/orders'),
                     },
                     {
                         label: 'معاملات',
-                        icon: <TradesIcon height={20} width={20} />,
+                        icon: <TradesIcon className='w-5 h-5' />,
                         isActive: false,
                         id: '/Reports/trades',
                         onClick: () => navigate('/Reports/trades'),
                     },
                     {
                         label: 'گردش حساب',
-                        icon: <TurnoverIcon height={20} width={20} />,
+                        icon: <TurnoverIcon className='w-5 h-5' />,
                         isActive: false,
                         id: '/Reports/turnover',
                         onClick: () => navigate('/Reports/turnover'),
                     },
                     {
                         label: 'درخواست ها',
-                        icon: <TurnoverIcon height={20} width={20} />,
+                        icon: <TurnoverIcon className='w-5 h-5' />,
                         isActive: false,
                         id: '/Reports/requests',
                         onClick: () => navigate('/Reports/requests'),
@@ -158,14 +158,14 @@ const Sider = () => {
                 label: 'ابزار تکنیکال',
                 position: 'top',
                 placeOfDisplay: 'both',
-                icon: <TradeChartSVG height={20} width={20} />,
+                icon: <TradeChartSVG className='w-5 h-5' />,
                 isActive: false,
                 id: '/Market/Chart',
                 onClick: () => navigate('/Market/Chart'),
             },
             {
                 label: 'تقویم بورسی',
-                icon: <CalenderBourseSVG height={20} width={20} />,
+                icon: <CalenderBourseSVG className='w-5 h-5' />,
                 isActive: false,
                 id: '/Market/Calender',
                 onClick: () => navigate('/Market/Calender'),
@@ -199,7 +199,7 @@ const Sider = () => {
             // },
             {
                 id: '/setting',
-                icon: <GearIcon height={20} width={20} />,
+                icon: <GearIcon className='w-5 h-5' />,
                 label: 'تنظیمات',
                 position: 'bottom',
                 placeOfDisplay: 'both',
@@ -207,7 +207,7 @@ const Sider = () => {
                 onClick:  () => navigate('/setting'),
             },
             {
-                icon: <Envelope2Icon height={20} width={20} />,
+                icon: <Envelope2Icon className='w-5 h-5' />,
                 label: 'پیام های بازار',
                 position: 'bottom',
                 placeOfDisplay: 'both',

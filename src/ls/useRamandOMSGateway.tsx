@@ -1,14 +1,9 @@
+import ipcMain from 'src/common/classes/IpcMain';
 import { pushEngine } from './pushEngine';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
 
-interface IUseRamandOMSGatewayProps {
-    onOMSMessageReceived?: (x: Record<number, string>) => void;
-    onAdminMessageReceived?: (x: Record<number, string>) => void;
-    onSystemMessageReceived?: (x: Record<number, string>) => void;
-}
-
-const useRamandOMSGateway = ({ onOMSMessageReceived, onAdminMessageReceived, onSystemMessageReceived }: IUseRamandOMSGatewayProps) => {
+const useRamandOMSGateway = () => {
     //
     const { brokerCode } = useAppSelector(getUserData);
 
@@ -31,23 +26,26 @@ const useRamandOMSGateway = ({ onOMSMessageReceived, onAdminMessageReceived, onS
     };
 
     const handleOMSMessage = (message: Record<number, string>) => {
-        onOMSMessageReceived && onOMSMessageReceived(message);
+        ipcMain.send('onOMSMessageReceived', message);
     };
 
     const handleAdminMessage = (message: Record<number, string>) => {
-        onAdminMessageReceived && onAdminMessageReceived(message);
+        ipcMain.send('onAdminMessageReceived', message);
     };
 
     const handleSystemMessage = (message: Record<number, string>) => {
-        onSystemMessageReceived && onSystemMessageReceived(message);
+        ipcMain.send('onSystemMessageReceived', message);
     };
 
+    const isSubscribedBefore = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
+
     const subscribeCustomers = (customerISINs: string[]) => {
+        
         const customers = customerISINs.map((customerISIN) => `${brokerCode}_${customerISIN}`);
+
         const items = [...customers, `${brokerCode ?? '189'}_All`];
 
-        const isSubscribed = pushEngine.getSubscribeById('supervisorMessage');
-        if (isSubscribed) pushEngine.unSubscribe('supervisorMessage');
+        if (isSubscribedBefore()) pushEngine.unSubscribe('supervisorMessage');
 
         pushEngine.subscribe({
             id: 'supervisorMessage',
@@ -70,6 +68,7 @@ const useRamandOMSGateway = ({ onOMSMessageReceived, onAdminMessageReceived, onS
     return {
         subscribeCustomers,
         unSubscribeCustomers,
+        isSubscribedBefore
     };
 };
 

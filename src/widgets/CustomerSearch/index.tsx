@@ -38,8 +38,8 @@ const CustomerWidget = () => {
                 key: 'SelectedList',
                 title: <div className='flex gap-1 items-center'>
                     <SelectedListIcon className={clsx({
-                        "text-L-gray-500 dark:text-D-gray-500": activeTab !== "SelectedList",
-                        "text-L-primary-50 dark:text-D-primary-50": activeTab === "SelectedList",
+                        "w-5 h-5 text-L-gray-500 dark:text-D-gray-500": activeTab !== "SelectedList",
+                        "w-5 h-5 text-L-primary-50 dark:text-D-primary-50": activeTab === "SelectedList",
                     })} />
                     <span>لیست انتخاب شده ها</span>
                 </div>,
