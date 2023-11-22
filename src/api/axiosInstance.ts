@@ -40,7 +40,7 @@ AXIOS.interceptors.response.use(
 
         if (response?.data?.succeeded === false) {
             try {
-                const findError = !!response?.data?.errors ? response?.data?.errors[0] : response.data?.result.loginResultType;
+                const findError = !!response?.data?.errors.length ? response?.data?.errors[0] : response.data?.result.loginResultType;
                 onErrorNotif({ title: i18next.t('Errors.' + findError) });
                 // apiErrorHandler(response?.data?.errors);
                 const error = new AxiosError(
