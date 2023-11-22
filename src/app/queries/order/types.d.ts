@@ -24,6 +24,7 @@ interface ITodayOpenOrderType {
     GtOrderStateRequestType?: 'OnBoard' | 'Done' | 'Error';
 }
 interface IOrderGetType {
+    clientKey: string;
     orderId: number;
     customerISIN: string;
     symbolTitle: string;
@@ -39,6 +40,7 @@ interface IOrderGetType {
     customerTitle: string;
     position: number;
     valuePosition: number;
+    status?: OrderStatusType | 'OnBoard' | 'Done' | 'Error';
 }
 
 type IOrderSelected = {

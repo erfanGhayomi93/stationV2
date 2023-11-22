@@ -1,12 +1,11 @@
 import ipcMain from 'src/common/classes/IpcMain';
 import { pushEngine } from './pushEngine';
-import { useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
 
 type IRamandOMSInstanceType = {
     subscribeCustomers: (customerISINs: string[], brokerCode: string) => void;
     unSubscribeCustomers: () => void;
-    isSubscribedBefore: () => boolean | undefined;
+    isSubscribed: () => boolean | undefined;
+    currentSubscribed: () => String[] | undefined;
 };
 
 const createRamandOMSGateway = () => {
@@ -41,14 +40,16 @@ const createRamandOMSGateway = () => {
         ipcMain.send('onSystemMessageReceived', message);
     };
 
-    const isSubscribedBefore = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
+    const isSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
+
+    const currentSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.getItems();
 
     const subscribeCustomers = (customerISINs: string[], brokerCode: string) => {
-        const customers = customerISINs.map((customerISIN) => `${brokerCode}_${customerISIN}`);
+        const customers = customerISINs.map((customerISIN) => `${brokerCode || '189'}_${customerISIN}`);
 
-        const items = [...customers, `${brokerCode ?? '189'}_All`];
+        const items = [...customers, `${brokerCode || '189'}_All`];
 
-        if (isSubscribedBefore()) pushEngine.unSubscribe('supervisorMessage');
+        if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
         pushEngine.subscribe({
             id: 'supervisorMessage',
@@ -71,7 +72,8 @@ const createRamandOMSGateway = () => {
     return {
         subscribeCustomers,
         unSubscribeCustomers,
-        isSubscribedBefore,
+        isSubscribed,
+        currentSubscribed,
     };
 };
 
