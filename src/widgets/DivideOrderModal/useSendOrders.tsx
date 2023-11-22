@@ -4,6 +4,7 @@ import { setOrder } from 'src/app/queries/order';
 import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppSelector } from 'src/redux/hooks';
+import { getUserData } from 'src/redux/slices/global';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 
 const useSendOrders = () => {
@@ -13,12 +14,14 @@ const useSendOrders = () => {
     const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
     const [ordersLoading, setOrdersLoading] = useState(false);
 
+    const { brokerCode } = useAppSelector(getUserData);
+
     const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const { subscribeCustomers } = useRamandOMSGateway();
 
     const subscribeHandler = () => {
-        subscribeCustomers(selectedCustomers.map(({ customerISIN }) => customerISIN));
+        subscribeCustomers(selectedCustomers.map(({ customerISIN }) => customerISIN), brokerCode || '');
     };
 
     const queryClient = useQueryClient();

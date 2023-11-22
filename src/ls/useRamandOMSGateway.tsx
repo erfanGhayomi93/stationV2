@@ -1,12 +1,15 @@
 import ipcMain from 'src/common/classes/IpcMain';
 import { pushEngine } from './pushEngine';
-import { useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
 
-const useRamandOMSGateway = () => {
+type IRamandOMSInstanceType = {
+    subscribeCustomers: (customerISINs: string[], brokerCode: string) => void;
+    unSubscribeCustomers: () => void;
+    isSubscribed: () => boolean | undefined;
+    currentSubscribed: () => String[] | undefined;
+};
+
+const createRamandOMSGateway = () => {
     //
-    const { brokerCode } = useAppSelector(getUserData);
-
     const translateMessage = (value: string) => {
         const message = value.split('^');
         const msgObj: Record<number, string> = {};
@@ -37,15 +40,16 @@ const useRamandOMSGateway = () => {
         ipcMain.send('onSystemMessageReceived', message);
     };
 
-    const isSubscribedBefore = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
+    const isSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
 
-    const subscribeCustomers = (customerISINs: string[]) => {
-        
-        const customers = customerISINs.map((customerISIN) => `${brokerCode}_${customerISIN}`);
+    const currentSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.getItems();
 
-        const items = [...customers, `${brokerCode ?? '189'}_All`];
+    const subscribeCustomers = (customerISINs: string[], brokerCode: string) => {
+        const customers = customerISINs.map((customerISIN) => `${brokerCode || '189'}_${customerISIN}`);
 
-        if (isSubscribedBefore()) pushEngine.unSubscribe('supervisorMessage');
+        const items = [...customers, `${brokerCode || '189'}_All`];
+
+        if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
         pushEngine.subscribe({
             id: 'supervisorMessage',
@@ -68,8 +72,13 @@ const useRamandOMSGateway = () => {
     return {
         subscribeCustomers,
         unSubscribeCustomers,
-        isSubscribedBefore
+        isSubscribed,
+        currentSubscribed,
     };
 };
+
+const ramandOMSInstance: IRamandOMSInstanceType = createRamandOMSGateway();
+
+const useRamandOMSGateway = () => ramandOMSInstance;
 
 export default useRamandOMSGateway;
