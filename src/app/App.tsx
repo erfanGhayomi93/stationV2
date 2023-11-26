@@ -34,7 +34,7 @@ const App = () => {
     }, [appState]);
 
     // if (!hasCookie) unAuthorized()
-    if (appState === 'Booting' || appState === 'Loading' || !isTranslationResourceReady) return <Loading />;
+    if (appState === 'Loading' || !isTranslationResourceReady) return <Loading />;
     // if (appState === 'Crashed' || resolvedLanguage !== 'fa') return <CrashPage />;
 
     return (
