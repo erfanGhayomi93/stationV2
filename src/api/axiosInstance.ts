@@ -72,7 +72,7 @@ AXIOS.interceptors.response.use(
                     apiErrorHandler(error?.response?.data?.errors);
                     break;
                 case 401: // Unauthorized
-                   // unAuthorized();
+                    unAuthorized();
                     break;
                 case 403: // Forbidden
                     onErrorNotif({ title: 'دسترسی غیرمجاز' });
@@ -157,9 +157,9 @@ export const setAuthorizeData = (client_id: string) => {
 export const unAuthorized = () => {
     const appDispatch = store.dispatch;
     appDispatch && appDispatch(setAppState('LoggedOut'));
-    Cookies.remove(tokenCookieName);
-    delete AXIOS.defaults.headers.common['Authorization'];
-    ipcMain.send('unAuthorized');
+    // Cookies.remove(tokenCookieName);
+    // delete AXIOS.defaults.headers.common['Authorization'];
+    // ipcMain.send('unAuthorized');
     // routerNavigate && routerNavigate('/login');
 };
 
