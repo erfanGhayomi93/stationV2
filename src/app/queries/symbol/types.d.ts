@@ -52,6 +52,7 @@ type SymbolData = {
     sectorCode: string;
     unitCount: number;
     orderPriceTickSize: number;
+    orderQuantityTickSize: number;
     baseVolume: number;
     floatFree: number;
     pe: number;

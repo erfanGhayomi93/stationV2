@@ -1,10 +1,11 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
-import { NavigateFunction  } from 'react-router-dom';
+import Cookies, { CookieAttributes } from 'js-cookie';
+import { NavigateFunction } from 'react-router-dom';
 import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
 import { AppDispatch, store } from 'src/redux/store';
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
+import i18next from 'i18next';
 
 import qs from 'qs';
 import ipcMain from 'src/common/classes/IpcMain';
@@ -12,7 +13,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 let routerNavigate: NavigateFunction | undefined;
 // let appDispatch: AppDispatch | undefined;
 
-const tokenCookieName = 'ROS_client_id';
+export const tokenCookieName = 'ROS_client_id';
 
 const AXIOS = axios.create({
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
@@ -38,19 +39,23 @@ AXIOS.interceptors.response.use(
         // Any status code that lie within the range of 2xx cause this function to trigger
 
         if (response?.data?.succeeded === false) {
-            apiErrorHandler(response?.data?.errors);
-
-            // const error: any = new Error(response.data.errors);
-            const error = new AxiosError(
-                response.data.errors ? response.data.errors : 'Client Error',
-                '400',
-                response.config,
-                response.request,
-                response,
-            );
-            // Attach the response instance, in case we would like to access it.
-            error.response = response;
-            return Promise.reject(error);
+            try {
+                const findError = !!response?.data?.errors.length ? response?.data?.errors[0] : response.data?.result.loginResultType;
+                onErrorNotif({ title: i18next.t('Errors.' + findError) });
+                // apiErrorHandler(response?.data?.errors);
+                const error = new AxiosError(
+                    response.data.errors ? response.data.errors : 'Client Error',
+                    '400',
+                    response.config,
+                    response.request,
+                    response,
+                );
+                // Attach the response instance, in case we would like to access it.
+                error.response = response;
+                return Promise.reject(error);
+            } catch (err) {
+                console.log('check error in response interceptors', err);
+            }
         }
 
         return response;
@@ -135,7 +140,7 @@ export const setAuthorizeData = (client_id: string) => {
 
     const expiresTimeInDay = process.env.REACT_APP_CLIENT_ID_TIMEOUT ? +process.env.REACT_APP_CLIENT_ID_TIMEOUT : 1;
 
-    const options: any = {
+    const options: CookieAttributes = {
         expires: expiresTimeInDay,
         path: '/',
     };
@@ -154,7 +159,7 @@ export const unAuthorized = () => {
     appDispatch && appDispatch(setAppState('LoggedOut'));
     Cookies.remove(tokenCookieName);
     delete AXIOS.defaults.headers.common['Authorization'];
-    ipcMain.send("unAuthorized")
+    ipcMain.send('unAuthorized');
     // routerNavigate && routerNavigate('/login');
 };
 

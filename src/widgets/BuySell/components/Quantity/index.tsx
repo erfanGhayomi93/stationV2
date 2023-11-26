@@ -49,7 +49,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
     const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
     const {} = useCommissionValue({ marketUnit: symbolData?.marketUnit });
-    const calculatorIcon = useMemo(() => <CalculatorIcon className="text-L-gray-500 dark:text-D-gray-500" />, []);
+    const calculatorIcon = useMemo(() => <CalculatorIcon className="h-5 w-4 text-L-gray-500 dark:text-D-gray-500" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
@@ -106,7 +106,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
             >
                 <div className={'flex w-full gap-4 pr-2 duration-150'}>
                     <label className="w-full flex items-center justify-center ">
-                        <span className="w-[64px] whitespace-nowrap "> {mode === 'AMOUNT' ? 'مبلغ' : 'درصد'}</span>
+                        <span className="w-16 whitespace-nowrap "> {mode === 'AMOUNT' ? 'مبلغ' : 'درصد'}</span>
                         <div className="w-full flex border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md">
                             <div className="w-full">
                                 <TradeInput

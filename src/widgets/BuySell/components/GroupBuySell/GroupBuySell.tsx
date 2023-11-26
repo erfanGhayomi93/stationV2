@@ -10,7 +10,7 @@ import BuySellValidity from '../Validity';
 const GroupBuySell = () => {
     return (
         <div className="flex flex-col text-1.2 p-2 h-full relative justify-between">
-            <div className="flex flex-col py-1 grow justify-around">
+            <div className="flex flex-col py-1 grow gap-2 justify-around">
                 <BuySellCustomer />
                 <BuySellSymbol />
                 <BuySellPrice />

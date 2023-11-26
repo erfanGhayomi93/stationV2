@@ -6,10 +6,13 @@ import { safeLazyImport } from 'src/utils/helpers';
 
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
 const Page404 = lazy(() => safeLazyImport(() => import('src/pages/Page404')));
-const Login = lazy(() => safeLazyImport(() => import('src/pages/Login')));
+const Login = lazy(() => safeLazyImport(() => import('src/pages/oAuth/Login')));
 const Basket = lazy(() => safeLazyImport(() => import('src/pages/basket/context/BasketContext')));
 const Watchlist = lazy(() => safeLazyImport(() => import('src/pages/Watchlist')));
-const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/ForgetPassword')));
+const ForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ForgetPassword')));
+const ValidationForgetPassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ForgetPassword/validation')));
+const ForgetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ForgetPassword/changePassword')));
+const ChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ChangePassword')));
 const Orders = lazy(() => safeLazyImport(() => import('src/pages/Reports/Orders')));
 const Trades = lazy(() => safeLazyImport(() => import('src/pages/Reports/Trades')));
 const TurnOver = lazy(() => safeLazyImport(() => import('src/pages/Reports/TurnOver')));
@@ -17,9 +20,11 @@ const Calender = lazy(() => safeLazyImport(() => import('src/pages/Market/calend
 const TradingView = lazy(() => safeLazyImport(() => import('src/pages/Market/Chart/context/index')));
 const Requests = lazy(() => safeLazyImport(() => import('src/pages/Reports/Requests')));
 const PortfolioMain = lazy(() => safeLazyImport(() => import('src/pages/portfolio/list/index')));
+const Setting = lazy(() => safeLazyImport(() => import('src/pages/Setting')));
 
 import AppLayout from '../Layout';
 import AuthLayout from '../Layout/AuthLayout';
+import SetPasswordChangePassword from 'src/pages/oAuth/ChangePassword/setPassword';
 
 
 const AppRoutes: FC = () => {
@@ -35,8 +40,40 @@ const AppRoutes: FC = () => {
                     index: true,
                 },
                 {
-                    path: '/ForgetPassword',
-                    element: <ForgetPassword />,
+                    path: '/forgetPassword',
+                    // element: <ForgetPassword />,
+                    children: [
+                        {
+                            element: <ForgetPassword />,
+                            index: true
+                        },
+                        {
+                            element: <ValidationForgetPassword />,
+                            path: "validation",
+                        },
+                        {
+                            element: <ForgetPasswordChangePassword />,
+                            path: "changePassword",
+                        },
+                    ]
+                },
+                {
+                    path: '/changePassword',
+                    // element: <ForgetPassword />,
+                    children: [
+                        {
+                            element: <ChangePassword />,
+                            index: true
+                        },
+                        {
+                            element: <SetPasswordChangePassword />,
+                            path: "setPassword",
+                        },
+                        // {
+                        //     element: <ForgetPasswordChangePassword />,
+                        //     path: "setPassword",
+                        // },
+                    ]
                 },
             ]
         },
@@ -94,6 +131,10 @@ const AppRoutes: FC = () => {
                             element: <PortfolioMain />
                         }
                     ]
+                },
+                {
+                    path: '/setting',
+                    element: <Setting />
                 },
                 {
                     path: "/Market",

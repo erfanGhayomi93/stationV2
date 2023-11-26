@@ -1,7 +1,6 @@
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 import { FC, Fragment, useEffect, useState } from 'react';
-import { pushEngine } from 'src/ls/pushEngine';
 import { useSliderDispatch } from 'src/app/Layout/Sider/context';
 import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
 import { useMessagesSuppervisor } from 'src/app/queries/messages';
@@ -10,7 +9,6 @@ import { CloseIcon } from 'src/common/icons';
 import SearchInput from './components/SearchInput';
 import { WatcherMessages } from './components/WatcherMessages';
 import AdminMessages from './components/AdminMessages';
-
 
 type SUpervisorMassage = {
     flagToggle: boolean;
@@ -24,20 +22,9 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
     // const [selectedIndex, setSelectedIndex] = useState(0); 17390069635676
     const [searchValue, setsearchValue] = useState('');
     const MessagesSuppervisor = useMessagesSuppervisor({
-        onSuccess: (data) => {
-            pushEngine.subscribe({
-                id: 'supervisorMessage',
-                mode: 'RAW',
-                isSnapShot: 'no',
-                adapterName: 'RamandOMSGateway',
-                items: ['173_1890078169235', '173_All'],
-                fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
-                onFieldsUpdate: (item) => {
-                    // console.log('item', item);
-                },
-            });
-        },
+        onSuccess: (data) => {},
     });
+
     const dispatch = useSliderDispatch();
 
     useEffect(() => {

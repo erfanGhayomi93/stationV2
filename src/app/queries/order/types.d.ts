@@ -1,7 +1,9 @@
 
 type ICustomerIsins = string[];
 interface IOrderRequestType {
-    customerISIN?: ICustomerIsins;
+    id?:string;
+    status?:string;
+    customerISIN: ICustomerIsins;
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
     symbolISIN: string;
@@ -22,6 +24,7 @@ interface ITodayOpenOrderType {
     GtOrderStateRequestType?: 'OnBoard' | 'Done' | 'Error';
 }
 interface IOrderGetType {
+    clientKey: string;
     orderId: number;
     customerISIN: string;
     symbolTitle: string;
@@ -37,6 +40,7 @@ interface IOrderGetType {
     customerTitle: string;
     position: number;
     valuePosition: number;
+    status?: OrderStatusType | 'OnBoard' | 'Done' | 'Error';
 }
 
 type IOrderSelected = {
@@ -72,13 +76,22 @@ type OrderStatusType =
     | 'OnModifyError'
     | 'OnCancelError'
     | 'Expired'
+    | 'draft'
     | 'RejectByGAP'
     | 'OnCancelingWithBroker'
     | 'TradeCancel'
+    | 'Contract_InCremental_DisAllowed_FromTSE'
     | '';
 interface IOrderResponseType {
     successClientKeys: string[];
     errorNumbers: number;
+}
+
+interface ISingleDeleteOrderResult {
+    clientKey: string | null;
+    orderId: number;
+    response: string;
+    succeeded: boolean;
 }
 
 interface IGTOrderListResultType {

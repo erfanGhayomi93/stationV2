@@ -47,6 +47,20 @@ export const jsonParseSafely = (jsonString: string, onFail: any): any => {
     }
 };
 
+export const calcExpireDate = (ExpireDate: number | undefined) => {
+    if (!ExpireDate)
+        return {
+            minutes: 0,
+            seconds: 0,
+        };
+    let minutes = Math.floor(ExpireDate / 60);
+    let seconds = ExpireDate - minutes * 60;
+    return {
+        minutes,
+        seconds,
+    };
+};
+
 export const getUniqId = (): string => (Math.random() + 1).toString(36).substring(2);
 
 export const factoryQueryKey = <T extends object>(obj: T): string => {
@@ -321,6 +335,10 @@ export const howLongAgo = (timeStamp: any) => {
     return result;
 };
 
+export const orderStatusValueFormatter = (data: any) => {
+    return i18next.t('order_status.' + data.value);
+}
+
 export const valueFormatterSide = (data: any): string => {
     return i18next.t('orderSide.' + data.value);
 };
@@ -502,3 +520,5 @@ export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
 
     return obj;
 }
+
+export const removeDuplicatesInArray = (arr: any[]) => arr.filter((item, index) => arr.indexOf(item) === index);

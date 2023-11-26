@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { useAdvancedSearchQuery, useGetCustomers } from 'src/app/queries/customer';
@@ -9,6 +9,10 @@ import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { Refresh2Icon } from 'src/common/icons';
+import Tippy from '@tippyjs/react';
+import dayjs from 'dayjs';
+import ipcMain from 'src/common/classes/IpcMain';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -17,10 +21,14 @@ const CustomerSearch = () => {
     const [customerType, setCustomerType] = useState("")
 
     const isDefaultUse = useMemo(() => !term?.length, [term])
+    const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
 
 
     const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers, isFetching: isFetchingDefault } = useGetCustomers({}, {
         enabled: isDefaultUse,
+        onSuccess() {
+            setTimeRefresh(dayjs())
+        }
     })
 
     const { data: searchCustomers, refetch: refetchCustomers, isFetching: isFetchingSearch } = useAdvancedSearchQuery(
@@ -30,6 +38,7 @@ const CustomerSearch = () => {
                 if (!!defaultCustomers) {
                     removeDefaultCustomers()
                 }
+                setTimeRefresh(dayjs())
             },
         }
     );
@@ -70,15 +79,21 @@ const CustomerSearch = () => {
     }, [searchCustomers, defaultCustomers, customerType, isDefaultUse])
 
 
+    useEffect(() => {
+        ipcMain.handle("update_customer", refetchToggleFavorite)
+
+        return () => ipcMain.removeHandler("update_customer", refetchToggleFavorite)
+    }, [])
+
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2">
-                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200">
+                <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200 justify-between items-center">
                     <div className="flex gap-6 flex-1">
                         <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
 
-                        <div className='w-[100px]'>
+                        <div className='w-28'>
                             <Select
                                 onChange={(selected) => setCustomerType(selected)}
                                 value={customerType}
@@ -89,6 +104,21 @@ const CustomerSearch = () => {
                                 ]}
                             />
                         </div>
+                    </div>
+                    <div
+                        onClick={refetchToggleFavorite}
+                        className='cursor-pointer select-none'
+                    >
+                        <Tippy hideOnClick={false} content={
+                            <div className='flex flex-col gap-1'>
+                                <span>آخـرین بـروز رســانی</span>
+                                <span>{timeRefresh.calendar("jalali").format("HH:mm  YYYY/MM/DD")}</span>
+                            </div>
+                        }>
+                            <div className='select-none'>
+                                <Refresh2Icon className='w-5 h-5'/>
+                            </div>
+                        </Tippy>
                     </div>
                 </div>
 

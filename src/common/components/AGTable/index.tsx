@@ -54,10 +54,10 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         };
     }, []);
 
-    const onGridSizeChanged = useCallback(({ api }: any) => api.sizeColumnsToFit(), []);
-    const onRowDataUpdated = useCallback(({ api }: any) => api.sizeColumnsToFit(), []);
-    const onRowDataChanged = useCallback(({ api }: any) => api.sizeColumnsToFit(), []);
-    const onFirstDataRendered = useCallback(({ api }: any) => api.sizeColumnsToFit(), []);
+    const onGridSizeChanged = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
+    const onRowDataUpdated = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
+    const onRowDataChanged = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
+    const onFirstDataRendered = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
 
     return (
         <div className={containerClassName} style={containerStyle}>

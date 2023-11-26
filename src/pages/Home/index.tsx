@@ -27,7 +27,7 @@ const Home = () => {
                     <div className="col-span-6">
                         <CustomerSearchContext />
                     </div>
-                    <div className="col-span-3 h-[475px]">
+                    <div className="col-span-3 h-fit">
                         <BuySellWidget />
                     </div>
                     <div className="col-span-9">

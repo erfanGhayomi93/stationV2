@@ -3,15 +3,12 @@ import AXIOS from 'src/api/axiosInstance';
 // import { baseUrl } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setAppState } from 'src/redux/slices/global';
- const getGlobalSettings = async () => {
+const getGlobalSettings = async () => {
     // const { data } = await AXIOS.get<ISettingsType[]>('https://common.ramandtech.com/Setting/v1/GTGetSettings');
     const { data } = await AXIOS.get<ISettingsType[]>('https://wtapi-preprd.ramandtech.com' + '/Setting/v1/GetSettings');
-
-    console.log({ data });
     return data || [];
 };
 
-//prettier-ignore
 export const useGlobalSettings = (
     options?:
         | (Omit<UseQueryOptions<ISettingsType[], unknown, ISettingsType[], string[]>, 'initialData' | 'queryFn' | 'queryKey'> & {
@@ -37,7 +34,7 @@ export const useGlobalSettings = (
 
 
 
- const getGlobalSettingsPreprd = async () => {
+const getGlobalSettingsPreprd = async () => {
     const { data } = await preprdMock
     return data || [];
 };
@@ -59,48 +56,48 @@ export const useGlobalSettingsPreprd = (options?: any) => {
 };
 
 const preprdMock = {
-    data : [
+    data: [
         {
-          "name": "REACT_APP_BROKER_CODE",
-          "value": "189"
+            "name": "REACT_APP_BROKER_CODE",
+            "value": "347"
         },
         {
-          "name": "REACT_APP_PUSHENGINE_PATH",
-          "value": "https://pushengine.ramandtech.com"
+            "name": "REACT_APP_PUSHENGINE_PATH",
+            "value": "https://pushengine.ramandtech.com"
         },
         {
-          "name": "REACT_APP_PUSHENGINE_PORT",
-          "value": "443"
+            "name": "REACT_APP_PUSHENGINE_PORT",
+            "value": "443"
         },
         {
-          "name": "REACT_APP_BASE_URL",
-          "value": "https://gt-preprd.ramandtech.com"
+            "name": "REACT_APP_BASE_URL",
+            "value": "https://wtapi-preprd.ramandtech.com"
         },
         {
-          "name": "REACT_APP_OAUTH_PATH",
-          "value": "https://oauth-preprd.ramandtech.com"
+            "name": "REACT_APP_OAUTH_PATH",
+            "value": "https://oauth-preprd.ramandtech.com"
         },
         {
-          "name": "REACT_APP_RESOURCE_PATH",
-          "value": "https://resource-preprd.ramandtech.com"
+            "name": "REACT_APP_RESOURCE_PATH",
+            "value": "https://resource-preprd.ramandtech.com"
         },
         {
-          "name": "REACT_APP_ENV",
-          "value": "production"
+            "name": "REACT_APP_ENV",
+            "value": "production"
         },
         {
-          "name": "REACT_APP_LANG",
-          "value": "Fa"
+            "name": "REACT_APP_LANG",
+            "value": "Fa"
         },
         {
-          "name": "REACT_APP_RES_PATH",
-          "value": "https://resource-preprd.ramandtech.com/ResourceJS"
+            "name": "REACT_APP_RES_PATH",
+            "value": "https://resource-preprd.ramandtech.com/ResourceJS"
         },
         {
-          "name": "REACT_APP_RES_NAME",
-          "value": "GOTStation"
+            "name": "REACT_APP_RES_NAME",
+            "value": "GOTStation"
         }
-      ]
+    ]
 }
 
 const getGlobalSettingsStage = async () => {
@@ -130,11 +127,11 @@ const stageMock = {
     data: [
         {
             "name": "REACT_APP_BROKER_CODE",
-            "value": "189"
+            "value": "347"
         },
         {
             "name": "REACT_APP_PUSHENGINE_PATH",
-            "value": "https://pushengine.ramandtech.com"
+            "value": "https://pushengine-stage.ramandtech.com"
         },
         {
             "name": "REACT_APP_PUSHENGINE_PORT",
@@ -142,7 +139,7 @@ const stageMock = {
         },
         {
             "name": "REACT_APP_BASE_URL",
-            "value": "https://gt-stage.ramandtech.com"
+            "value": "https://wtapi-stage.ramandtech.com"
         },
         {
             "name": "REACT_APP_OAUTH_PATH",

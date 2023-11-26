@@ -74,6 +74,41 @@ const MarketDepth = () => {
         [data],
     );
 
+    const clickByeOrder = (mode: 'Buy' | 'Sell', ind: number) => {
+        const data = mode === "Buy" ? buyData : sellData
+        const dataVolume = data[ind].volume
+        const dataPrice = data[ind].price
+        const sideOrder = "Buy"
+        console.log("data", dataVolume ,dataPrice )
+    }
+
+    const clickSellOrder = (mode: 'Buy' | 'Sell', ind: number) => {
+        const data = mode === "Buy" ? buyData : sellData
+        const dataVolume = data[ind].volume
+        const dataPrice = data[ind].price
+        const sideOrder = "Sell"
+        console.log("data", dataVolume ,dataPrice )
+    }
+
+    const clickCollectOrder = (mode: 'Buy' | 'Sell', ind: number) => {
+        const data = mode === "Buy" ? buyData : sellData
+
+        const collectData = data.slice(0, ind + 1)
+
+        let collectVolume = 0
+        const sideOrder = mode === "Sell" ? "Buy" : "Sell"
+
+        collectData.map(item => {
+            collectVolume += item.volume
+        })
+
+
+        console.log(collectData, "vol", collectVolume)
+    }
+
+
+
+
     return (
         <WidgetLoading spining={isLoading}>
             <div className="grid grid-cols-2 grid-rows-1 h-fit">
@@ -89,6 +124,9 @@ const MarketDepth = () => {
                                 isOdd={inx % 2 === 0}
                                 isInRange={isPriceInRange(price)}
                                 percent={percent}
+                                clickByeOrder={(mode) => clickByeOrder(mode, inx)}
+                                clickCollectOrder={(mode) => clickCollectOrder(mode, inx)}
+                                clickSellOrder={(mode) => clickSellOrder(mode, inx)}
                             />
                         );
                     })}
@@ -105,6 +143,9 @@ const MarketDepth = () => {
                                 isOdd={inx % 2 === 0}
                                 isInRange={isPriceInRange(price)}
                                 percent={percent}
+                                clickByeOrder={(mode) => clickByeOrder(mode, inx)}
+                                clickCollectOrder={(mode) => clickCollectOrder(mode, inx)}
+                                clickSellOrder={(mode) => clickSellOrder(mode, inx)}
                             />
                         );
                     })}

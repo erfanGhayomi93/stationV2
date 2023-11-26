@@ -52,6 +52,8 @@ export { ReactComponent as HistoryIcon } from 'src/assets/svg/History.svg';
 export { ReactComponent as HomeIcon } from 'src/assets/svg/Home.svg';
 export { ReactComponent as SendIcon } from 'src/assets/svg/IoMdSend.svg';
 export { ReactComponent as KeyboardIcon } from 'src/assets/svg/KeyboardIcon.svg';
+export { ReactComponent as KeyboardHide } from 'src/assets/svg/KeyboardHide.svg';
+export { ReactComponent as KeyboardShow } from 'src/assets/svg/keyboardShow.svg';
 export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
 export { ReactComponent as EditIcon } from 'src/assets/svg/MdEdit.svg';
 export { ReactComponent as MenuIcon } from 'src/assets/svg/Menu.svg';
@@ -81,6 +83,19 @@ export { ReactComponent as TradeChartSVG } from 'src/assets/svg/trade-chart.svg'
 export { ReactComponent as CalenderBourseSVG } from 'src/assets/svg/calender-bourse.svg';
 export { ReactComponent as ArrowDown } from 'src/assets/svg/arrowDown.svg';
 
+// Setting
+export { ReactComponent as SessionLogIcon } from 'src/assets/svg/SessionLog.svg';
+export { ReactComponent as NumberIcon } from 'src/assets/svg/number.svg'; 
+export { ReactComponent as TraderCodeIcon } from 'src/assets/svg/traderCode.svg'; 
+export { ReactComponent as UsernameIcon } from 'src/assets/svg/username.svg'; 
+export { ReactComponent as Lock2Icon } from 'src/assets/svg/lock2.svg';  
+export { ReactComponent as PhoneIcon } from 'src/assets/svg/phone.svg';  
+export { ReactComponent as SunIcon } from 'src/assets/svg/sun.svg';  
+export { ReactComponent as MoonIcon } from 'src/assets/svg/moon.svg';  
+export { ReactComponent as CloseRoundIcon } from 'src/assets/svg/closeRound.svg';  
+export { ReactComponent as SuccessRoundIcon } from 'src/assets/svg/successRound.svg';  
+export { ReactComponent as ErrorRoundIcon } from 'src/assets/svg/errorRound.svg';  
+
 export { ReactComponent as ChartTypeAreaSVG } from "src/assets/svg/chart-type-area.svg";
 export { ReactComponent as ChartTypeBarSVG } from "src/assets/svg/chart-type-bar-mol.svg";
 export { ReactComponent as ChartTypeBaselineSVG } from "src/assets/svg/chart-type-baseline.svg";
@@ -105,6 +120,9 @@ export { ReactComponent as Chart3ColSVG } from "src/assets/svg/chart-3c.svg";
 export { ReactComponent as Chart3RowSVG } from "src/assets/svg/chart-3r.svg";
 export { ReactComponent as Chart4ColSVG } from "src/assets/svg/chart-4c.svg";
 export { ReactComponent as Chart4RowSVG } from "src/assets/svg/chart-4r.svg";
+
+export { ReactComponent as Logo189Icon } from 'src/assets/svg/farabi_logo.svg';
+export { ReactComponent as Logo173Icon } from 'src/assets/svg/tgs_logo.svg';
 
 
 export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';

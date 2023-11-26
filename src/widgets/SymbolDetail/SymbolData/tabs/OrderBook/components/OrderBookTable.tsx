@@ -28,9 +28,9 @@ const OrderBookTable = () => {
     if (orderBookViewMode === 'Column') return <Kucoin isDepthChartOpen={isDepthChartOpen} />;
 
     return (
-        <div ref={containerRef} className="flex flex-col h-full overflow-auto">
+        <div ref={containerRef} className="grid grid-rows-min-one h-full overflow-auto">
             <div>{isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}</div>
-            <div>{isDepthChartOpen && <MarketDepthChart />}</div>
+            <div className='h-64'>{isDepthChartOpen && <MarketDepthChart />}</div>
         </div>
     );
 };

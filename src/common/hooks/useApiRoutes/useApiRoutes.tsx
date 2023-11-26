@@ -25,31 +25,6 @@ const getBaseUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_BASE_URL')?.value;
 };
 
-// const getPortfolioUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
-// };
-// 
-// const getMarketData = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
-// };
-// 
-// const getBackOffice = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
-// };
-// 
-// const getOrderUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
-// };
-// const getCommonUrl = () => {
-//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
-//     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
-// };
-
-// export const getBaseUrl() = 'https://gtapi-preprd.ramandtech.com';
 
 export const Apis = () => ({
     OAuthApi: {
@@ -57,6 +32,14 @@ export const Apis = () => ({
         captcha: getOauthUrl() + '/Captcha/v1/create',
         twoFactor: getOauthUrl() + '/OAuthApi/v1/TwoFactorAuthorizer',
         logout: getOauthUrl() + '/GTOAuthApi/v1/Logout',
+
+        forgetPasswordRequest: getOauthUrl() + '/GTForgetPassword/v1/Request',
+        forgetPasswordValidation: getOauthUrl() + '/GTForgetPassword/v1/Validation',
+        forgetPasswordChangePassword: getOauthUrl() + '/GTForgetPassword/v1/ChangePassword',
+
+        changePasswordRequest: getOauthUrl() + '/GTChangePassword/v1/Request',
+        changePasswordValidation: getOauthUrl() + '/GTChangePassword/v1/Validation',
+        changePasswordSetPassword: getOauthUrl() + '/GTChangePassword/v1/ChangePassword',
     },
     User: {
         GetUserInformation: getBaseUrl() + `/Trader/v1/GetGeneralInformation`,
@@ -172,8 +155,41 @@ export const Apis = () => ({
     },
     Setting: {
         GetSetting: getBaseUrl() + `/Setting/v1/GetSettings`,
+        GetPlatformSetting: getBaseUrl() + `/Setting/v1/GetPlatformSettings`,
+        SavePlatformSetting: getBaseUrl() + `/Setting/v1/SavePlatformSettings`,
+        GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
+        SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
+        TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
 });
+
+
+
+// const getPortfolioUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_PORTFOLIO_PATH')?.value;
+// };
+//
+// const getMarketData = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_MARKETDATA_PATH')?.value;
+// };
+//
+// const getBackOffice = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_BACKOFFICE_PATH')?.value;
+// };
+//
+// const getOrderUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_ORDER_PATH')?.value;
+// };
+// const getCommonUrl = () => {
+//     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];
+//     return data?.find((item) => item.name === 'REACT_APP_COMMON_PATH')?.value;
+// };
+
+// export const getBaseUrl() = 'https://gtapi-preprd.ramandtech.com';
 
 //
 // const CommonUrl = 'http://192.168.40.8:12000';

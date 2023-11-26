@@ -8,7 +8,7 @@ import { getSelectedSymbol } from 'src/redux/slices/option';
 interface IBuySellSymbolType {}
 
 const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
     const dispatch = useBuySellDispatch();
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData });
     const setSymbolISIN = (value: string) => dispatch({ type: 'SET_SYMBOL', value });
@@ -19,10 +19,10 @@ const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
     }, [selectedSymbol]);
 
     return (
-        <label className="w-full flex items-center justify-center pr-2">
-            <span className="w-[64px] whitespace-nowrap ">نماد</span>
+        <div className="w-full flex items-center justify-center pr-2">
+            <span className="w-16 whitespace-nowrap ">نماد</span>
             <SymbolSearch />
-        </label>
+        </div>
     );
 };
 

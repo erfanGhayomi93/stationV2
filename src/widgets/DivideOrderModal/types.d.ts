@@ -1,8 +1,9 @@
 interface DividedOrderRowType {
-    id: number | string;
+    id: string;
     customerTitle: string;
     customerISIN: string;
 	quantity: number;
 	price: number;
-	status: 'PENDING' | 'SUCCEEDED' | 'ERROR' | null;
+	status?: OrderStatusType;
+    clientKey?: string;
 }

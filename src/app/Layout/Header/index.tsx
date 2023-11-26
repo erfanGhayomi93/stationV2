@@ -9,7 +9,7 @@ import UserData from './UserData';
 const Header = () => {
     //
     return (
-        <div className="bg-L-basic dark:bg-D-basic border-b text-1.2 border-L-gray-400 dark:border-D-gray-400 text--gray-500 dark:text-D-gray-700 h-[48px] flex items-center justify-start px-4 py-2">
+        <div className="bg-L-basic dark:bg-D-basic border-b text-1.2 border-L-gray-400 dark:border-D-gray-400 text--gray-500 dark:text-D-gray-700 h-12 flex items-center justify-start px-4 py-2">
             <div>
                 <BrokerData />
             </div>

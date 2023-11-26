@@ -25,7 +25,7 @@ const Footer = () => {
 
 
     return (
-        <div className="w-auto bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic text-1.2 h-[32px] max-w-full  items-center mx-4 mb-2 box-border grid grid-cols-min-one rounded">
+        <div className="w-auto bg-L-basic dark:bg-D-basic dark:text-L-basic text-D-basic text-1.2 h-8 max-w-full  items-center mx-4 mb-2 box-border grid grid-cols-min-one rounded">
             <div className="h-full overflow-hidden w-[50%] flex items-center">
                 <PinIcon className='text-L-warning dark:text-D-warning ml-2 mr-7' />
 

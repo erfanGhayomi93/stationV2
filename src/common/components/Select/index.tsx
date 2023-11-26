@@ -32,7 +32,7 @@ const Select: FC<ISelectType> = ({
 }) => {
     return (
         <div className="w-full h-full flex items-center justify-center relative">
-            {title ? <span className="w-[64px] whitespace-nowrap relative ">{title}</span> : <></>}
+            {title ? <span className="w-16 whitespace-nowrap relative ">{title}</span> : <></>}
             <Listbox value={value} onChange={onChange} {...rest}>
                 <div className="relative w-full ">
                     <Listbox.Button
