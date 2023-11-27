@@ -1,10 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import { useAppSelector } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
 import { useMarketDepthState } from '../../context';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
 type HalfRowType = {
     price: number;
@@ -18,6 +20,8 @@ const MarketDepth = () => {
     const {
         marketDepthData: { asks, bids, isLoading },
     } = useMarketDepthState();
+
+    const dispatch = useAppDispatch()
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
 
@@ -74,36 +78,45 @@ const MarketDepth = () => {
         [data],
     );
 
+    const forwardToByeSell = (price : number , quantity : number , side : BuySellSide) => {
+        dispatch(setPartDataBuySellAction({
+            data: {
+                price,
+                quantity,
+                side,
+            },
+            comeFrom: ComeFromKeepDataEnum.DepthMarket,
+        }))
+    }
+
     const clickByeOrder = (mode: 'Buy' | 'Sell', ind: number) => {
         const data = mode === "Buy" ? buyData : sellData
-        const dataVolume = data[ind].volume
-        const dataPrice = data[ind].price
-        const sideOrder = "Buy"
-        console.log("data", dataVolume ,dataPrice )
+        const price = data[ind].price
+        const quantity = data[ind].volume
+
+        forwardToByeSell(price , quantity , "Buy")
     }
 
     const clickSellOrder = (mode: 'Buy' | 'Sell', ind: number) => {
         const data = mode === "Buy" ? buyData : sellData
-        const dataVolume = data[ind].volume
-        const dataPrice = data[ind].price
-        const sideOrder = "Sell"
-        console.log("data", dataVolume ,dataPrice )
+        const price = data[ind].price
+        const quantity = data[ind].volume
+
+        forwardToByeSell(price , quantity , "Sell")
     }
 
     const clickCollectOrder = (mode: 'Buy' | 'Sell', ind: number) => {
         const data = mode === "Buy" ? buyData : sellData
-
+        const sideOrder = mode === "Sell" ? "Buy" : "Sell"
         const collectData = data.slice(0, ind + 1)
+        const price = data[0].price
 
         let collectVolume = 0
-        const sideOrder = mode === "Sell" ? "Buy" : "Sell"
-
         collectData.map(item => {
             collectVolume += item.volume
         })
 
-
-        console.log(collectData, "vol", collectVolume)
+        forwardToByeSell(price , collectVolume , sideOrder)
     }
 
 

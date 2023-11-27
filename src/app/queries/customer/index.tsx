@@ -121,9 +121,11 @@ export const useGetCustomers = (
 
 
 
-const searchMultiMultiCustomer = async ({ CustomerISINs, CustomerTagTitles, GtTraderGroupId }: stateCustomer) => {
+const searchMultiMultiCustomer = async ({ CustomerISINs }: stateCustomer) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
-        params: { CustomerISINs, CustomerTagTitles, GtTraderGroupId },
+        params: { CustomerISINs
+            // CustomerTagTitles, GtTraderGroupId
+         },
         paramsSerializer: (params) => {
             return stringify(params);
         },
