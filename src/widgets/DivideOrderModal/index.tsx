@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ControllerInput from 'src/common/components/ControllerInput';
 import Modal from 'src/common/components/Modal';
@@ -16,6 +16,8 @@ import ipcMain from 'src/common/classes/IpcMain';
 const DivideOrderModal = () => {
     //
     const { t } = useTranslation();
+
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
     const { divide, symbolISIN, side, price, quantity, validity, percent, validityDate, strategy } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
@@ -36,21 +38,23 @@ const DivideOrderModal = () => {
         return Math.floor(quantity / quantityTickSize) * quantityTickSize;
     };
 
-    const { sendOrders, orderResult, ordersLoading } = useSendOrders();
-
-    useEffect(() => {
-        const updatedOrders = customers.map((order) => {
-            if (orderResult[order.id]) {
-                return {
-                    ...order,
-                    clientKey: orderResult[order.id],
-                };
-            }
-            return order;
-        });
-
-        setCustomers(updatedOrders as DividedOrderRowType[]);
-    }, [orderResult]);
+    const { sendOrders, ordersLoading } = useSendOrders({
+        onOrderResultReceived: (orderResult) => {
+            setCustomers(
+                (pre) =>
+                    pre.map((order) => {
+                        if (order.clientKey) return order;
+                        if (orderResult[order.id]) {
+                            return {
+                                ...order,
+                                ...(orderResult[order.id] as Partial<DividedOrderRowType>),
+                            };
+                        }
+                        return order;
+                    }) as DividedOrderRowType[],
+            );
+        },
+    });
 
     const closeModal = () => {
         dispatch({ type: 'SET_DIVIDE', value: false });
@@ -111,7 +115,6 @@ const DivideOrderModal = () => {
 
             setCustomers(dividedOrders);
         }
-
     }, [divide]);
 
     const handleQuantityChange = (value: number) => {
@@ -185,39 +188,41 @@ const DivideOrderModal = () => {
         sendOrders(0, [order]);
     };
 
-    const onOMSMessageHandler = (message: Record<number, string>) => {
-        //
-        let timer: NodeJS.Timer;
-        const omsClientKey = message[12];
-        const omsOrderStatus = message[22];
+    onOMSMessageHandlerRef.current = useMemo(
+        () => (message: Record<number, string>) => {
+            let timer: NodeJS.Timer;
+            const omsClientKey = message[12];
+            const omsOrderStatus = message[22];
 
-        // LS message ( omsClientKey ) may come sooner than API response, so i check it every 100ms to find omsClientKey in API response.
-        timer = setInterval(() => {
-            //
-            setCustomers((pre) =>
-                pre.map((item) => {
-                    if (item.clientKey === omsClientKey) {
-                        clearInterval(timer);
-                        return {
-                            ...item,
-                            status: omsOrderStatus as DividedOrderRowType['status'],
-                        };
-                    }
+            // LS message ( omsClientKey ) may come sooner than API response, so i check it every 100ms to find omsClientKey in API response.
+            timer = setInterval(() => {
+                //
+                setCustomers((pre) =>
+                    pre.map((item) => {
+                        if (item.clientKey === omsClientKey) {
+                            clearInterval(timer);
+                            return {
+                                ...item,
+                                status: omsOrderStatus as DividedOrderRowType['status'],
+                            };
+                        }
 
-                    return item;
-                }),
-            );
-        }, 100);
+                        return item;
+                    }),
+                );
+            }, 100);
 
-        // if the omsClientKey is not found after 1000ms
-        setTimeout(() => {
-            clearInterval(timer);
-        }, 1000);
-    };
+            // if the omsClientKey is not found after 1000ms
+            setTimeout(() => {
+                clearInterval(timer);
+            }, 1000);
+        },
+        [],
+    );
 
     useEffect(() => {
-        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandler);
-    });
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+    }, []);
 
     return (
         <Modal isOpen={divide} onClose={closeModal} className="w-[800px] h-[540px] bg-L-basic dark:bg-D-basic  rounded-md">
