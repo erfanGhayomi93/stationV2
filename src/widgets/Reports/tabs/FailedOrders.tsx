@@ -5,7 +5,7 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
@@ -22,7 +22,22 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const { isFilter } = ClickLeftNode;
 
     const handleCopy = (data?: IOrderGetType) => {
-        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.FailedOrder }));
+        if (!data) return
+
+        appDispath(setPartDataBuySellAction(
+            {
+                data: {
+                    price: data.price,
+                    quantity: data.quantity,
+                    side: data.orderSide,
+                    symbolISIN: data.symbolISIN,
+                    validity: data.validity,
+                    validityDate: data.validityDate,
+                    id: data.orderId
+                },
+                comeFrom: ComeFromKeepDataEnum.FailedOrder,
+                customerIsin: [data.customerISIN]
+            }));
     };
 
     const columns = useMemo(
@@ -33,7 +48,7 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
             { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
-            { headerName: 'توضیحات', field: 'lastErrorCode', valueFormatter:({value}) => t('order_errors.' + value) },
+            { headerName: 'توضیحات', field: 'lastErrorCode', valueFormatter: ({ value }) => t('order_errors.' + value) },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },

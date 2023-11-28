@@ -16,11 +16,11 @@ type IListDetailsBasket = {
     price: number;
     quantity: number;
     percent: number;
-    side: string;
+    side: BuySellSide;
     deleted: false;
     date: string;
     userId: number;
-    validity: string;
+    validity: validity;
     validityDate: string;
     customerISINs: string;
     orderStrategy: string;
@@ -37,7 +37,7 @@ interface ICreateCartDetailType {
     price: number;
     quantity: number;
     percent: number;
-    side: string;
+    side: BuySellSide;
     deleted?: boolean;
     date?: Date;
     userId?: number;

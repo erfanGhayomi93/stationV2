@@ -6,7 +6,10 @@ interface GlobalSetterState {
 }
 
 export const GlobalSetterInitialState: GlobalSetterState = { resetBuySellState: () => {} };
+
 const useValue = () => useState<GlobalSetterState>(GlobalSetterInitialState);
+
+
 export const {
     Provider: GlobalSetterProvider,
     useTrackedState: useGlobalSetterState,

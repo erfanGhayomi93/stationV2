@@ -36,7 +36,7 @@ interface IDraftResponseType {
     gtGroups : any[]
     date: string;
     orderId: number;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     percent: number;
     price: number;
     quantity: number;
@@ -55,6 +55,6 @@ type IToggleFavorite = {
 
 type stateCustomer = {
     CustomerISINs: string[];
-    CustomerTagTitles?: string[];
-    GtTraderGroupId?: string[];
+    // CustomerTagTitles?: string[];
+    // GtTraderGroupId?: string[];
 };
