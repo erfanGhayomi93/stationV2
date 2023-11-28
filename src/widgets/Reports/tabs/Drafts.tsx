@@ -13,6 +13,7 @@ import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 type IDraft = {
     ClickLeftNode: any;
 };
@@ -53,27 +54,29 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         });
     };
 
-    const appDispath = useAppDispatch();
-    const handleEdit = (data?: IDraftResponseType) => {
+    const appDispatch = useAppDispatch();
+    const handleEdit = async (data?: IDraftResponseType) => {
         if (!data) return
+        // First dispatch
+        appDispatch(setSelectedSymbol(data.symbolISIN));
 
-        appDispath(
-            setPartDataBuySellAction(
-                {
-                    data: {
-                        price: data.price,
-                        quantity: data.quantity,
-                        side: data.orderSide,
-                        symbolISIN: data.symbolISIN,
-                        validity: data.validity,
-                        validityDate: data.validityDate,
-                        id: data.orderId
+        // Second dispatch
+        const buySellAction = {
+            data: {
+                price: data.price,
+                quantity: data.quantity,
+                side: data.orderSide,
+                symbolISIN: data.symbolISIN,
+                validity: data.validity,
+                validityDate: data.validityDate,
+                id: data.orderId
+            },
+            comeFrom: ComeFromKeepDataEnum.Draft,
+            customerIsin: data.customers.map(item => item.customerISIN)
+        };
 
-                    },
-                    comeFrom: ComeFromKeepDataEnum.Draft,
-                    customerIsin: data.customers.map(item => item.customerISIN)
-                }
-            ));
+        appDispatch(setPartDataBuySellAction(buySellAction));
+
     };
 
     const valueFormatterCustomers = (value: ICustomers[]) => {

@@ -6,10 +6,11 @@ import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext'
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { clearDataAction, getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { getSelectedSymbol, setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { getSelectedSymbol, setAllSelectedCustomers } from 'src/redux/slices/option';
 import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
 import DivideOrderModal from 'src/widgets/DivideOrderModal';
+import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 interface IBuySellWidgetType { }
 
 export const BuySellInitialState: BuySellState = {
@@ -37,25 +38,26 @@ const BuySellContext = () => {
     const dataContext = useBuySellState()
     const symbolRedux = useAppSelector(getSelectedSymbol)
 
-    const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        // appDispatch(setSelectedCustomers(customer));
-    };
+    const appDispatch = useAppDispatch();
+    const ByeSellDispatch = useBuySellDispatch();
+
+    // const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
+    //     // appDispatch(setPartSelectedCustomers(customer));
+    // };
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {
-            console.log("selectedCustomer", selectedCustomer)
-            onSelectionChanged(selectedCustomer);
+            appDispatch(setAllSelectedCustomers(selectedCustomer))
         },
     });
 
-    const appDispatch = useAppDispatch();
-    const dispatch = useBuySellDispatch();
 
-    useEffect(() => {
-        const resetBuySellState = () => dispatch({ type: 'RESET' });
-        dispatchSetter({ resetBuySellState: resetBuySellState });
-    }, [dispatch, dispatchSetter]);
 
-    const { data: keepData, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
+    // useEffect(() => {
+    //     const resetBuySellState = () => ByeSellDispatch({ type: 'RESET' });
+    //     dispatchSetter({ resetBuySellState: resetBuySellState });
+    // }, [ByeSellDispatch, dispatchSetter]);
+
+    const { data: dataRedux, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
 
     // function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
     //     return comeFrom === ComeFromKeepDataEnum.Draft;
@@ -64,56 +66,63 @@ const BuySellContext = () => {
     //     return comeFrom === ComeFromKeepDataEnum.Basket;
     // }
 
-//     useEffect(() => {
-//         console.log("keepDataRedux", keepData)
-//         console.log("comeFromRedux", comeFrom)
-//         console.log("customerIsinRedux", customerIsin)
-//     }, [keepData, comeFrom, customerIsin])
-// 
-//     useEffect(() => {
-//         console.log("dataContext", dataContext)
-//     }, [dataContext.quantity])
+
+    useUpdateEffect(() => {
+        dataRedux && ByeSellDispatch({
+            type: 'SET_ALL',
+            value: {
+                ...dataContext,
+                ...dataRedux
+            },
+        });
+
+        !!customerIsin && getCustomers({ CustomerISINs: customerIsin });
+    }, [dataRedux])
+
+    useUpdateEffect(() => {
+        !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
+    }, [symbolRedux])
 
 
 
     //     useEffect(() => {
-    //         if (keepData?.symbolISIN) {
-    //             appDispatch(setSelectedSymbol(keepData.symbolISIN));
-    //             if (isDraft(keepData, comeFrom)) {
+    //         if (dataRedux?.symbolISIN) {
+    //             appDispatch(setSelectedSymbol(dataRedux.symbolISIN));
+    //             if (isDraft(dataRedux, comeFrom)) {
     //                 let dataMulti = {
-    //                     CustomerISINs: keepData?.customers.map((item) => item.customerISIN),
-    //                     CustomerTagTitles: keepData?.customerTags.map((item) => item.customerTagTitle),
-    //                     GtTraderGroupId: keepData?.gtGroups.map((item) => item.traderGroupId),
+    //                     CustomerISINs: dataRedux?.customers.map((item) => item.customerISIN),
+    //                     CustomerTagTitles: dataRedux?.customerTags.map((item) => item.customerTagTitle),
+    //                     GtTraderGroupId: dataRedux?.gtGroups.map((item) => item.traderGroupId),
     //                 };
     //                 getCustomers(dataMulti);
-    //                 dispatch({
+    //                 ByeSellDispatch({
     //                     type: 'SET_ALL',
     //                     value: {
     //                         amount: 0,
     //                         divide: false,
     //                         isCalculatorEnabled: false,
     //                         sequential: false,
-    //                         price: keepData.price,
-    //                         quantity: keepData.quantity,
-    //                         side: keepData.orderSide as BuySellSide,
-    //                         // strategy: keepData.orderStrategy as strategy,
-    //                         symbolISIN: keepData.symbolISIN,
-    //                         validity: keepData.validity as validity,
-    //                         validityDate: keepData.validityDate,
-    //                         percent: keepData.percent,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
+    //                         // strategy: dataRedux.orderStrategy as strategy,
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
+    //                         percent: dataRedux.percent,
     //                         strategy: 'normal',
     //                         comeFrom,
-    //                         id: keepData.orderId,
+    //                         id: dataRedux.orderId,
     //                         // FIXME:startegy not found in instanse
     //                     },
     //                 });
-    //             } else if (isBasket(keepData, comeFrom)) {
+    //             } else if (isBasket(dataRedux, comeFrom)) {
     //                 let dataMulti = {
-    //                     CustomerISINs: keepData?.customerISINs.split(','),
+    //                     CustomerISINs: dataRedux?.customerISINs.split(','),
     //                 };
     //                 getCustomers(dataMulti);
     // 
-    //                 dispatch({
+    //                 ByeSellDispatch({
     //                     type: 'SET_ALL',
     //                     value: {
     //                         amount: 0,
@@ -121,24 +130,24 @@ const BuySellContext = () => {
     //                         divide: false,
     //                         isCalculatorEnabled: false,
     //                         sequential: false,
-    //                         price: keepData.price,
-    //                         quantity: keepData.quantity,
-    //                         side: keepData.orderSide as BuySellSide,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
     //                         strategy: 'normal',
-    //                         symbolISIN: keepData.symbolISIN,
-    //                         validity: keepData.validity as validity,
-    //                         validityDate: keepData.validityDate,
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
     //                         comeFrom,
-    //                         id: keepData.orderId,
+    //                         id: dataRedux.orderId,
     //                     },
     //                 });
     //             } else {
     //                 let dataMulti = {
-    //                     CustomerISINs: [keepData?.customerISIN],
+    //                     CustomerISINs: [dataRedux?.customerISIN],
     //                 };
     //                 getCustomers(dataMulti);
     // 
-    //                 dispatch({
+    //                 ByeSellDispatch({
     //                     type: 'SET_ALL',
     //                     value: {
     //                         amount: 0,
@@ -146,42 +155,22 @@ const BuySellContext = () => {
     //                         divide: false,
     //                         isCalculatorEnabled: false,
     //                         sequential: false,
-    //                         price: keepData.price,
-    //                         quantity: keepData.quantity,
-    //                         side: keepData.orderSide as BuySellSide,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
     //                         strategy: 'normal',
-    //                         symbolISIN: keepData.symbolISIN,
-    //                         validity: keepData.validity as validity,
-    //                         validityDate: keepData.validityDate,
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
     //                         comeFrom,
-    //                         id: keepData.orderId,
+    //                         id: dataRedux.orderId,
     //                     },
     //                 });
     //             }
     // 
     //             appDispatch(setDataBuySellAction()); // clear saved date
     //         }
-    //     }, [keepData?.symbolISIN]);
-
-    useEffect(() => {
-        // appDispatch(clearDataAction()); // clear saved date
-        !!symbolRedux && dispatch({ type: "SET_SYMBOL", value: symbolRedux })
-        !!customerIsin && getCustomers({ CustomerISINs: customerIsin });
-
-        const setCommonValues = () => {
-            dispatch({
-                type: 'SET_ALL',
-                value: {
-                    ...dataContext,
-                    ...keepData
-                },
-            });
-        };
-
-        setCommonValues();
-
-    }, [keepData]);
-
+    //     }, [dataRedux?.symbolISIN]);
 
     return (
         <>
@@ -202,34 +191,34 @@ const BuySellWidget = () => {
 
 export default BuySellWidget;
 
-         
-            //             if (comeFrom === ComeFromKeepDataEnum.Draft) {
-            //                 // dataMulti.CustomerISINs = keepData.customers.map((item) => item.customerISIN);
-            //                 // dataMulti.CustomerISINs = keepData.customers.map((item) => item.customerISIN);
-            //             } else if (comeFrom === ComeFromKeepDataEnum.Basket) {
-            //                 // dataMulti.CustomerISINs = keepData.customerISINs.split(',');
-            //                 // Add other properties if needed for the 'basket' case
-            //             } else {
-            //                 // dataMulti.CustomerISINs = [keepData.customerISIN];
-            //                 // Add other properties if needed for the default case
-            //             }
 
-               // dispatch({
-            //     type: 'SET_ALL',
-            //     value: {
-            //         amount: 0,
-            //         percent: 0,
-            //         divide: false,
-            //         isCalculatorEnabled: false,
-            //         sequential: false,
-            //         price: keepData.price,
-            //         quantity: keepData.quantity,
-            //         side: keepData.side,
-            //         strategy: 'normal',
-            //         symbolISIN: keepData.symbolISIN,
-            //         validity: keepData.validity as validity,
-            //         validityDate: keepData.validityDate,
-            //         comeFrom,
-            //         id: keepData.id,
-            //     },
-            // });
+//             if (comeFrom === ComeFromKeepDataEnum.Draft) {
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//             } else if (comeFrom === ComeFromKeepDataEnum.Basket) {
+//                 // dataMulti.CustomerISINs = dataRedux.customerISINs.split(',');
+//                 // Add other properties if needed for the 'basket' case
+//             } else {
+//                 // dataMulti.CustomerISINs = [dataRedux.customerISIN];
+//                 // Add other properties if needed for the default case
+//             }
+
+// ByeSellDispatch({
+//     type: 'SET_ALL',
+//     value: {
+//         amount: 0,
+//         percent: 0,
+//         divide: false,
+//         isCalculatorEnabled: false,
+//         sequential: false,
+//         price: dataRedux.price,
+//         quantity: dataRedux.quantity,
+//         side: dataRedux.side,
+//         strategy: 'normal',
+//         symbolISIN: dataRedux.symbolISIN,
+//         validity: dataRedux.validity as validity,
+//         validityDate: dataRedux.validityDate,
+//         comeFrom,
+//         id: dataRedux.id,
+//     },
+// });

@@ -6,7 +6,7 @@ import CustomerResult from 'src/common/components/SearchResult/CustomerSearchRes
 import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { emptySelectedCustomers, getSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers, setPartSelectedCustomers } from 'src/redux/slices/option';
 import InputSearch from './input';
 
 interface IBuySellCustomerType { }
@@ -20,7 +20,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
 
     const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
         // console.log("customer", customer)
-        // appDispatch(setSelectedCustomers(customer));
+        // appDispatch(setPartSelectedCustomers(customer));
     };
 
     const selectedCustomers = useAppSelector(getSelectedCustomers)

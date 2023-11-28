@@ -6,7 +6,7 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import ipcMain from 'src/common/classes/IpcMain';
@@ -89,7 +89,24 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     };
 
     const handleEdit = (data: IOrderGetType | undefined) => {
-        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
+        if (!data) return
+
+        appDispath(setPartDataBuySellAction(
+            {
+                data: {
+                    price: data.price,
+                    quantity: data.quantity,
+                    side: data.orderSide,
+                    symbolISIN: data.symbolISIN,
+                    validity: data.validity,
+                    validityDate: data.validityDate,
+                    id: data.orderId
+                },
+                comeFrom: ComeFromKeepDataEnum.OpenOrder,
+                customerIsin: [data.customerISIN]
+            }));
+
+        // appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
 
     const columns = useMemo(

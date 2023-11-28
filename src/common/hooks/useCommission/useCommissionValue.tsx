@@ -8,7 +8,7 @@ interface IuseCommissionValueType {
 interface IuseCommissionType extends IuseCommissionValueType {
     price: number;
     quantity: number;
-    side: 'Buy' | 'Sell';
+    side: 'Buy' | 'Sell' | '';
 }
 
 export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
