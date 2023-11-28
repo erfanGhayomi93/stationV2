@@ -1,8 +1,8 @@
 
 type ICustomerIsins = string[];
 interface IOrderRequestType {
-    id?:string;
-    status?:string;
+    id?: string;
+    status?: string;
     customerISIN: ICustomerIsins;
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
@@ -11,7 +11,7 @@ interface IOrderRequestType {
     price: number;
     quantity: number;
     percent: number;
-    validity: string;
+    validity: validity;
     validityDate: string | undefined;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
@@ -54,7 +54,7 @@ type IOrderSelected = {
     sumExecuted: number;
     position: number;
     valuePosition: number;
-    validity: string;
+    validity: validity;
     validityDate?: string;
 };
 // type BuySellSide = 'Cross' | 'Buy' | 'Sell' | '';
@@ -111,7 +111,7 @@ interface IGTOrderListResultType {
     omsOrderState: string;
     sumExecuted: number;
     userName: string;
-    validity: string;
+    validity: validity;
     validityDate: string;
     orderFrom: string;
     parentOrderId: number;
