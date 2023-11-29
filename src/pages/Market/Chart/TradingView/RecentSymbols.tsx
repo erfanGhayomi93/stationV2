@@ -106,7 +106,7 @@ const RecentSymbols = () => {
 	const timer = useRef<NodeJS.Timeout | null>()
 
 
-	const { data: recentSymbols, refetch: refetchRecentHistory } = useRecentSymbolHistory({
+	const { data: recentSymbols, refetch: refetchRecentHistory } = useRecentSymbolHistory({type: "TradingView"},{
 		select(data) {
 			return data.filter(item => item)
 		},
