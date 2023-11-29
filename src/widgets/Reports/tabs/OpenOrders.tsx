@@ -112,8 +112,9 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
             {
-                headerName: 'مشتری یا گروه مشتری',
+                headerName: 'مشتری',
                 field: 'customerTitle',
+                pinned: 'right'
             },
             {
                 headerName: 'نام نماد',
@@ -145,6 +146,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
+                pinned: 'left',
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <ActionCell
                         data={row.data}

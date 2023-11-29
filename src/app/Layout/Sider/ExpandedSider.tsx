@@ -67,7 +67,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                         )}
                     >
                         <button
-                            className={clsx('flex gap-4 item-center px-6 py-4', activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '')}
+                            className={clsx('flex text-sm gap-4 items-center px-6 py-4', activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '')}
                             onClick={() => onMenuItemClick(item)}
                         >
                             {item.icon}
@@ -87,7 +87,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                     >
                                         <div
                                             className={clsx(
-                                                'text-right py-2 px-2 rounded-md',
+                                                'text-right text-sm py-2 px-2 rounded-md',
                                                 activeMenuItem === child.id ? 'bg-L-blue-50 text-L-secondary-50' : '',
                                             )}
                                         >
