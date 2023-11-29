@@ -61,7 +61,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, onTypeChange, filterCustom
                 )}
 
                 <div className="pr-2">
-                    <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
+                    <SearchIcon className="text-L-gray-500 w-[1.1rem] h-[1.1rem] dark:text-D-gray-500" />
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}

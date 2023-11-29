@@ -28,11 +28,11 @@ export const FilterAllMarket = () => {
     return (
         <div className="flex items-stretch">
             <div className="flex items-center ml-7">
-                <p className="ml-1 text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس: </p>
+                <p className="ml-1 text-sm text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس: </p>
                 {/* <ArrowLeftAlt /> */}
             </div>
 
-            <div className="flex items-center gap-3 pl-3 my-1 border-l-2 border-L-gray-400 dark:border-D-gray-400">
+            <div className="flex text-sm items-center gap-3 pl-3 my-1 border-l-2 border-L-gray-400 dark:border-D-gray-400">
                 <p className="pl-1 text-L-gray-600 dark:text-D-gray-600">نوع بازار:</p>
 
                 {marketTypeOptions.map((item, ind) => (
@@ -52,7 +52,7 @@ export const FilterAllMarket = () => {
                 ))}
             </div>
 
-            <div className="flex items-center gap-1 px-3 ">
+            <div className="flex text-sm items-center gap-1 px-3 ">
                 <span className='text-L-gray-600 dark:text-D-gray-600'>صنایع :</span>
                 <div className="min-w-[12.5rem]">
                     <SelectType
