@@ -21,7 +21,7 @@ const Switcher: FC<ISwitcherType> = ({ children = <SwitchButton />, defaultValue
     const [checked, setChecked] = useState<boolean>(defaultValue);
     return (
         <SwitchContext.Provider value={{ checked: value ? value : checked }}>
-            <div dir="ltr" className="relative z-[1] outline-none h-full ">
+            <div dir="ltr" className="relative z-[1] outline-none">
                 <Switch onChange={onCheck ? onCheck : setChecked} checked={value ? value : checked} as={as} className={className}>
                     {children}
                 </Switch>

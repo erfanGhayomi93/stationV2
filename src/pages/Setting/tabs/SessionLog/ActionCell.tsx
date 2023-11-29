@@ -24,7 +24,7 @@ const ActionCell = ({ data, refetchLogins }: Props) => {
     return (
         <div className="h-full flex items-center justify-center">
             <button onClick={forceLogout} className="text-L-error-200">
-                <QuitIcon />
+                <QuitIcon className='w-5 h-5'/>
             </button>
         </div>
     );
