@@ -35,10 +35,7 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
         return orders.reduce((acc: any, order) => {
             const ISIN = order.customerISIN?.[0];
             if (ISIN) {
-                if (!acc[ISIN]) {
-                    acc[ISIN] = [];
-                }
-
+                acc[ISIN] = acc[ISIN] || [];
                 acc[ISIN].push(order);
             }
 
@@ -46,47 +43,22 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
         }, {});
     };
 
-    const createOrderSteps = (orders: IOrderRequestType[]) => {
-        //
-        let orderStep: IOrderRequestType[][] = [];
-
-        const splitedOrders = splitOrdersByCustomers(orders);
-
-        const getOrderStepLength = () => {
-            let maxLength: number = 0;
-            for (const key in splitedOrders) {
-                const length = splitedOrders[key].length;
-                if (length > maxLength) {
-                    maxLength = length;
-                }
-            }
-
-            return maxLength;
-        };
-
-        const stepLength = getOrderStepLength();
-
-        for (let i = 0; i < stepLength; i++) {
-            let group: IOrderRequestType[] = [];
-
-            for (const key in splitedOrders) {
-                if (splitedOrders[key][i]) {
-                    group.push(splitedOrders[key][i]);
-                }
-            }
-            if (group.length > 0) {
-                orderStep.push(group);
-            }
-        }
-
-        return orderStep;
+    // We have to send orders in bunches
+    const createEachBunchOfRequests = (orders: IOrderRequestType[]) => {
+        const splitedOrders: { [key: string]: IOrderRequestType[] } = splitOrdersByCustomers(orders);
+        const stepLength = Math.max(...Object.values(splitedOrders).map((orders) => orders.length), 0);
+        return Array.from({ length: stepLength }, (_, i) =>
+            Object.values(splitedOrders)
+                .map((orders) => orders[i])
+                .filter(Boolean),
+        );
     };
 
     const refetchOrderListsWithDelay = () => {
         setTimeout(() => {
-            queryClient.invalidateQueries(['orderList', 'Error']);
-            queryClient.invalidateQueries(['orderList', 'OnBoard']);
-            queryClient.invalidateQueries(['orderList', 'Done']);
+            ['Error', 'OnBoard', 'Done'].forEach((status) => {
+                queryClient.invalidateQueries(['orderList', status]);
+            });
         }, ORDER_SENDING_GAP);
     };
 
@@ -98,16 +70,16 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
 
         setOrdersLoading(true);
 
-        const orderStepsArray: IOrderRequestType[][] = createOrderSteps(orders);
+        const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 
-        const orderStep = orderStepsArray[index];
+        const ordersBunch = bunchOfRequests[index];
 
         const nextIndex = index + 1;
 
-        return await Promise.allSettled(orderStep.map((order) => setOrder(order)))
+        return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
             .then((response) => {
                 const result = response.reduce((acc, { status, value }: any, index) => {
-                    const order = orderStep[index];
+                    const order = ordersBunch[index];
                     const { id: orderID } = order;
                     const done = status === 'fulfilled';
                     if (orderID) {
@@ -122,7 +94,7 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
             .finally(() => {
                 props?.onOrderResultReceived?.(orderResult.current);
                 refetchOrderListsWithDelay();
-                if (nextIndex >= orderStepsArray.length) {
+                if (nextIndex >= bunchOfRequests.length) {
                     clearTimeout(timer);
                     ipcMain.send('update_customer');
                     setOrdersLoading(false);
