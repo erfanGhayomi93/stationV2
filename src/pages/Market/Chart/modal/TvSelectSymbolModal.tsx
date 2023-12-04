@@ -66,7 +66,7 @@ const TvSelectSymbolModal = ({ actionId }: TvSelectSymbolModalProps) => {
         enabled: false,
     });
 
-    const { data: recentSymbol } = useRecentSymbolHistory();
+    const { data: recentSymbol } = useRecentSymbolHistory({type: "TradingView"});
 
     const symbols = useMemo(() => {
         if (!search.length) {

@@ -73,9 +73,9 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists
     );
 
     return (
-        <div className="py-2 grid grid-cols-min-one w-full ">
+        <div className="py-2 grid grid-cols-min-one w-full">
             <div className="flex gap-3">
-                <div className="py-1 w-[700px]">{itemsScrollableSlider}</div>
+                <div className="py-1 w-[43rem]">{itemsScrollableSlider}</div>
 
                 <div className="flex gap-3 items-center">
                     <div className="flex gap-3 items-center justify-center">
@@ -88,7 +88,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists
                             data-cy="add-watchlist"
                             className="text-L-gray-500  actived:scale-x-0 actived:absolute duration-150 rounded-md dark:text-D-gray-500  hover:text-L-primary-50 dark:hover:text-D-primary-50 outline-none"
                         >
-                            <PlusIcon />
+                            <PlusIcon className='w-6 h-6'/>
                         </button>
 
                         <AddWatchList isAddActive={isAddActive} setIsAddActive={setIsAddActive} />
@@ -98,7 +98,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists
                         onClick={openEditModal}
                         className="text-L-gray-500 rounded-md dark:text-D-gray-500 hover:text-L-primary-50 dark:hover:text-D-primary-50 outline-none"
                     >
-                        <EditIcon2 />
+                        <EditIcon2 className='w-6 h-6'/>
                     </button>
                 </div>
             </div>
@@ -108,7 +108,7 @@ const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists
 
                 {state.watchlistType === 'Ramand' && (
                     <>
-                        <span className="text-L-gray-700 dark:text-D-gray-700">نمایش بر اساس :</span>
+                        <span className="text-L-gray-700 text-sm dark:text-D-gray-700">نمایش بر اساس :</span>
                         <div className="grow min-w-[12.5rem]">
                             <Select onChange={setTypeDefaultWatchlist} value={state.ramandFilterWatchlist} options={watchlistOptions} />
                         </div>

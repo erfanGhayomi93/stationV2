@@ -50,7 +50,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize, setMin }) => {
         >
             <div className="flex items-center gap-1 relative grow">
                 <div className="pr-2">
-                    <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
+                    <SearchIcon className="text-L-gray-500 w-[1.1rem] h-[1.1rem] dark:text-D-gray-500" />
                 </div>
                 <Combo.SearchBox
                     ref={searchRef}
@@ -85,11 +85,9 @@ const InputSearch: FC<IInputSearchType> = ({ loading, isBigSize, setMin }) => {
                         >
                             <SearchPlusIcon
                                 className={clsx(
-                                    ' ',
+                                    'w-[1.1rem] h-[1.1rem]',
                                     panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-500 dark:text-D-gray-500',
                                 )}
-                                width={18}
-                                height={18}
                             />
                             {selections?.length ? (
                                 <span className="ltr absolute flex items-center justify-center aspect-square w-[18px] -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full">

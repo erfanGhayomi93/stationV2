@@ -8,7 +8,7 @@ const AccountSetting = () => {
     //
     const { data: userSetting } = useGetUserSetting();
     return (
-        <div className="m-auto flex flex-col gap-2 w-11/12 xl:w-3/4 max-w-[1320px]">
+        <div className="m-auto flex flex-col gap-2 w-11/12 xl:w-3/4 max-w-[80rem]">
             <div className="p-6 border border-L-gray-300 bg-L-gray-100 dark:border-D-gray-300 dark:bg-D-gray-100 rounded-lg">
                 <Active2StepLogin
                     fullName={userSetting?.name || '-'}

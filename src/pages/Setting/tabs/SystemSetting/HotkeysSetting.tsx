@@ -20,7 +20,7 @@ const HotkeysSetting = () => {
 
     const Hotkey = ({ label, keys }: { label: string; keys: (null | string)[] }) => (
         <div className="flex flex-1 items-center justify-between w-full">
-            <span className="">{label}:</span>
+            <span className="text-xs">{label}:</span>
 
             <div dir="ltr" className="flex items-center gap-2">
                 {keys.map((key) => (

@@ -192,6 +192,10 @@ interface IMarketUnitType {
     sortOrder: number;
 }
 
+interface RecentSymbolHistoryRequest {
+    type: 'TradingView' | 'GeneralSearch'
+}
+
 // interface GetSameSectorResultType {
 //     insCode: string;
 //     companyISIN: string;

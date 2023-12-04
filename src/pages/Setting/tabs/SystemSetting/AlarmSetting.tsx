@@ -7,8 +7,8 @@ const AlarmSetting = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="h-full text-D-basic flex flex-col gap-4 text-sm dark:text-L-basic">
-            <div className="font-medium">{t('setting.alarms')}</div>
+        <div className="h-full text-D-basic flex flex-col gap-4 text-xs dark:text-L-basic">
+            <div className="font-medium text-sm">{t('setting.alarms')}</div>
             <div className="flex justify-between items-center">
                 <span>{t('setting.alarmSendingType')}</span>
                 <div className="w-1/3">

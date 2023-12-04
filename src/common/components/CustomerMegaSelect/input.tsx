@@ -36,7 +36,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
     return (
         <div className="bg-L-basic dark:bg-D-basic border rounded-md flex items-center border-L-gray-400 dark:border-D-gray-400 gap-1 h-8 pl-1 text-xs  dark:focus-within:border-D-infoo-100 focus-within:border-L-info-100">
             <div className="pr-2">
-                <SearchIcon className="text-L-gray-500 dark:text-D-gray-500" />
+                <SearchIcon className="text-L-gray-500 w-[1.1rem] h-[1.1rem] dark:text-D-gray-500" />
             </div>
             <div onMouseOver={() => setKbd(true)} onMouseLeave={() => setKbd(false)} className="flex items-center w-full relative">
                 <Combo.SearchBox
@@ -82,9 +82,7 @@ const InputSearch: FC<IInputSearchType> = ({ loading }) => {
                     )}
                 >
                     <UserCheckIcon
-                        className={clsx(' ', panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-500 dark:text-D-gray-500')}
-                        width={18}
-                        height={18}
+                        className={clsx('w-[1.1rem] h-[1.1rem]', panelContent === 'SELECT' && showPanel ? 'text-L-primary-50' : 'text-L-gray-500 dark:text-D-gray-500')}
                     />
                     {selections?.length ? (
                         <span className="ltr absolute flex items-center justify-center aspect-square w-[18px]   -top-1 -right-2 text-1.1 leading-none text-white bg-L-primary-50 rounded-full">

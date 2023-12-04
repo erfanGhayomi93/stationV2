@@ -139,7 +139,14 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
 
     return (
         <div className="h-full">
-            <AGTable rowData={rowData || []} columnDefs={Columns} stopEditingWhenCellsLoseFocus />
+            <AGTable
+                rowData={rowData || []}
+                columnDefs={Columns}
+                stopEditingWhenCellsLoseFocus
+                suppressScrollOnNewData={true}
+                suppressRowVirtualisation={true}
+                suppressColumnVirtualisation={true}
+            />
         </div>
     );
 };
