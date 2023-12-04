@@ -8,24 +8,27 @@ import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
 
 function BasketPage() {
-    const [activeBasket, setactiveBasket] = useState<number | undefined>(undefined);
-    const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
-    const [listAfterFilter, setlistAfterFilter] = useState<IListDetailsBasket[] | undefined>(undefined);
-    const [dataFilter, setdataFilter] = useState<filterStateType>(initialDataFilterBasket);
+    const [activeBasket, setActiveBasket] = useState<number>(0);
+    const [listAfterFilter, setListAfterFilter] = useState<IListDetailsBasket[]>([]);
+    const [dataFilter, setDataFilter] = useState<filterStateType>(initialDataFilterBasket);
     const [isShowFilter, setisShowFilter] = useState<boolean>(false);
     const { t } = useTranslation();
     const dispatch = useBasketDispatch();
+
+    const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
+
+
     useEffect(() => {
-        setlistAfterFilter(dataListDetailsBasket);
+        !!dataListDetailsBasket && setListAfterFilter(dataListDetailsBasket);
     }, [dataListDetailsBasket]);
 
     const saveIndexBasketSelected = (id: number) => {
-        setactiveBasket(id);
+        setActiveBasket(id);
         dispatch({ type: 'SET_BASKET_ID', value: id });
     };
 
     const handleFilter = (dataFilter: filterStateType) => {
-        setdataFilter(dataFilter);
+        setDataFilter(dataFilter);
     };
 
     return (
