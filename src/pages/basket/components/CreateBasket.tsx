@@ -1,14 +1,12 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
-import gregorian from 'react-date-object/calendars/gregorian';
-import gregorian_en from 'react-date-object/locales/gregorian_en';
 import { useCreateBasket } from 'src/app/queries/basket';
 import { queryClient } from 'src/app/queryClient';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
-import AdvancedTimePicker from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import TimePicker from 'src/common/components/TimePicker';
 import { onSuccessNotif } from 'src/handlers/notification';
+
 type ICreateBasket = {
     toggleAddBasket: () => void;
 };
@@ -39,7 +37,6 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     const AddNewBasket = () => {
         const dateMiladi = dayjs(date).format('YYYY/MM/DD');
         const sendDate = `${dateMiladi}T${time}.000`;
-        // const queryParams = '?name=' + name + '&sendDate=' + sendDate;
         const queryParams = { name, sendDate };
 
         AddNewBasketReq(queryParams);

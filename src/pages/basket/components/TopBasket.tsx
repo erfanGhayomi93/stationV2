@@ -7,16 +7,18 @@ import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import AddBasketModal from '../modal/AddBasketModal';
+
 type ITopBasket = {
-    activeBasket: number | undefined;
+    activeBasket: number;
     saveIndexBasketSelected: (ind: number) => void;
 };
 
 const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) => {
     //
     const { t } = useTranslation();
-    const [isAddActive, setisAddActive] = useState(false);
-    const [isEditActive, setisEditActive] = useState(false);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+
     const { data: listBasket } = useGetBasket();
 
     useEffect(() => {
@@ -24,11 +26,11 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
     }, [listBasket]);
 
     const toggleAddBasket = () => {
-        setisAddActive((prev) => !prev);
+        setShowAddForm((prev) => !prev);
     };
 
     const toggleEditBasket = () => {
-        setisEditActive((prev) => !prev);
+        setShowEditForm((prev) => !prev);
     };
 
     return (
@@ -100,8 +102,8 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                     </Tippy>
                 </div>
             </div>
-            <AddBasketModal {...{ isAddActive, toggleAddBasket }} />
-            <EditBasketModal {...{ isEditActive, toggleEditBasket, listBasket }} />
+            <AddBasketModal {...{ showAddForm, toggleAddBasket }} />
+            <EditBasketModal {...{ showEditForm, toggleEditBasket, listBasket }} />
         </div>
     );
 };
