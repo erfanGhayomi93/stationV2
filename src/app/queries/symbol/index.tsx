@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { queryClient } from 'src/app/queryClient';
 
 const getSymbolGeneralInfo = async (symbolISIN: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolGeneralInfoType>>(Apis().Symbol.SymbolGeneralInformation as string, {
@@ -17,6 +18,9 @@ export const useSymbolGeneralInfo = <T,>(
         enabled: !!symbolISIN,
         staleTime: Infinity,
         cacheTime: Infinity,
+        onSettled: () => {
+            queryClient.invalidateQueries(['userRecentSymbolHistory', 'GeneralSearch']);
+        },
         ...options,
     });
 };
@@ -57,51 +61,34 @@ export const useSymbolSearch = <T = SymbolSearchResult[]>(
     });
 };
 
-const getChartSymbol = async (
-    symbolISIN: string,
-    duration: SymbolChartDate,
-    signal?: AbortSignal
-) => {
-
+const getChartSymbol = async (symbolISIN: string, duration: SymbolChartDate, signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<GetChartSymbolType[]>>(Apis().Symbol.ChartData, {
         signal,
         params: {
             symbolISIN,
-            duration
-        }
+            duration,
+        },
     });
 
     return data?.result || [];
-}
+};
 
 export const useChartSymbol = (
     symbolISIN: string,
     duration: SymbolChartDate,
-    options?:
-        | Omit<UseQueryOptions<GetChartSymbolType[], Error, GetChartSymbolType[], string[]>, 'initialData' | 'queryFn' | 'queryKey'>
-        | undefined,
+    options?: Omit<UseQueryOptions<GetChartSymbolType[], Error, GetChartSymbolType[], string[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
 ) => {
-    return useQuery(["chartSymbol", symbolISIN + "-" + duration], ({ signal }) => getChartSymbol(symbolISIN, duration, signal), {
-        ...options
+    return useQuery(['chartSymbol', symbolISIN + '-' + duration], ({ signal }) => getChartSymbol(symbolISIN, duration, signal), {
+        ...options,
     });
-}
-
-
+};
 
 const getMarketUnit = async (signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IMarketUnitType[]>>(Apis().Symbol.GetMarketUnit, { signal });
     return data;
-}
-
-
+};
 
 export const useMarketUnit = (options?: UseQueryOptions<GlobalApiResponseType<IMarketUnitType[]>>) =>
-    useQuery<GlobalApiResponseType<IMarketUnitType[]>>(["marketUnitList"], ({ signal }) => getMarketUnit(signal), {
-        ...options
-    })
-
-
-
-
-
-
+    useQuery<GlobalApiResponseType<IMarketUnitType[]>>(['marketUnitList'], ({ signal }) => getMarketUnit(signal), {
+        ...options,
+    });

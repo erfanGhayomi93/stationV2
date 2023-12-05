@@ -69,7 +69,7 @@ export const useRecentSymbolHistory = (
     params: RecentSymbolHistoryRequest,
     options?: Omit<UseQueryOptions<SymbolSearchResult[], Error, SymbolSearchResult[], unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
 ) => {
-    return useQuery(['userRecentSymbolHistory'], ({ signal }) => getRecentSymbolHistory(params, signal), options);
+    return useQuery(['userRecentSymbolHistory', params.type], ({ signal }) => getRecentSymbolHistory(params, signal), options);
 };
 
 /*-------------------------------------------------------*/
