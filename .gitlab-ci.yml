@@ -155,6 +155,30 @@ Production-TSS-Job02:
     - Stop-Service -Name "UIWT_347_14050"
     - Copy-item -Force -Recurse -Verbose -FromSession $MYSESSION -Path D:\Gitlab-Runner\builds\6BTwzkSvD\0\ui\onlinestationui\build\* -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
     - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Start-Service -Name "UIWT_347_14050" 
+    - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - TSS-webApi02
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+    
+Production-webapiTSS-Job02:
+  stage: deploy
+  script:
+    - $date = get-date -format  "dd-MM-yyyy"
+    - Start-Sleep -Seconds 300
+    - mkdir -p "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - $User = "RAMANDTECH\copycicd"
+    - $PWord = ConvertTo-SecureString -String "CiCd@123456789" -AsPlainText -Force
+    - $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord 
+    - $MYSESSION = New-PSSession -ComputerName "TSS-WebAPI01" -Credential $Credential
+
+    - Stop-Service -Name "UIWT_347_14050"
+    - Copy-item -Force -Recurse -Verbose -FromSession $MYSESSION -Path D:\Gitlab-Runner\builds\6BTwzkSvD\0\ui\onlinestationui\build\* -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
     #- Start-Service -Name "UIWT_347_14050" 
     - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
     #- cd c:\scripts\StationUI\
@@ -186,4 +210,4 @@ Production-TSS-Job03:
     - Web02
   artifacts:
   rules:
-    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+    - if: $CI_COMMIT_BRANCH == "Production-TSS" 
