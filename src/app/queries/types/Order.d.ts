@@ -1,11 +1,11 @@
 interface IOrderRequestType {
     customerISIN: string[];
     symbolISIN: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     price: number;
     quantity: number;
     percent: number;
-    validity: string;
+    validity: validity;
     validityDate: string | undefined;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
@@ -16,21 +16,21 @@ interface IOrderGetType {
     customerISIN: string;
     symbolTitle: string;
     symbolISIN: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     price: number;
     expectedRemainingQuantity: number;
     sumExecuted: number;
     validityDate?: string;
     quantity: number;
     value: number;
-    validity: string;
+    validity: validity;
     customerTitle: string;
     position: number;
     valuePosition: number;
 }
 
 
-type OrderSideType = 'Cross' | 'Buy' | 'Sell';
+// type OrderSideType = 'Cross' | 'Buy' | 'Sell';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatus =
     | 'InOMSQueue'

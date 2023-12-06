@@ -16,8 +16,8 @@ const Setting = () => {
             {
                 key: 'account',
                 title: (
-                    <div className="flex gap-1 items-center">
-                        <UserIcon width={20} height={20} />
+                    <div className="flex px-2 gap-1 items-center">
+                        <UserIcon className='w-5 h-5' />
                         <span>{t('setting.userSetting')}</span>
                     </div>
                 ),
@@ -28,8 +28,8 @@ const Setting = () => {
             {
                 key: 'system',
                 title: (
-                    <div className="flex gap-1 items-center">
-                        <GearIcon width={20} height={20} />
+                    <div className="flex px-2 gap-1 items-center">
+                        <GearIcon className='w-5 h-5' />
                         <span>{t('setting.systemSetting')}</span>
                     </div>
                 ),
@@ -40,8 +40,8 @@ const Setting = () => {
             {
                 key: 'log',
                 title: (
-                    <div className="flex gap-1 items-center">
-                        <SessionLogIcon width={20} height={20} />
+                    <div className="flex px-2 gap-1 items-center">
+                        <SessionLogIcon className='w-5 h-5' />
                         <span>{t('setting.sessionLog')}</span>
                     </div>
                 ),

@@ -22,7 +22,7 @@ export const apiErrorHandler = (reqApiError: string[]) => {
 //
 // Success
 export const onSuccessNotif = (options?: IonErrorNotifType) => {
-    toast.success(options?.title || 'با موقفیت انجام شد', { ...options });
+    toast.success(options?.title || 'با موفقیت انجام شد', { ...options });
 };
 //
 //

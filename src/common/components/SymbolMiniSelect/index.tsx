@@ -25,7 +25,7 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     const [panel, setPanel] = useState(false);
 
     const selectedSymbolMulti = useAppSelector(getSelectedSymbolMulti);
-    const { data: searchHistory } = useRecentSymbolHistory();
+    const { data: searchHistory } = useRecentSymbolHistory({type: "GeneralSearch"});
 
     const {
         data: qData,

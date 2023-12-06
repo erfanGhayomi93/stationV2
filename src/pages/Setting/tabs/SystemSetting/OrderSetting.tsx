@@ -43,8 +43,8 @@ const OrderSetting = () => {
     };
 
     return (
-        <div className="h-full text-D-basic flex flex-col gap-4 text-sm dark:text-L-basic">
-            <div className="font-medium">{t('setting.order')}</div>
+        <div className="h-full text-D-basic flex flex-col gap-4 text-xs dark:text-L-basic">
+            <div className="font-medium text-sm">{t('setting.order')}</div>
             <div className="flex gap-4">
                 <div className="flex-1 flex items-center justify-between">
                     <span>{t('setting.defaultBuyVolume')}</span>

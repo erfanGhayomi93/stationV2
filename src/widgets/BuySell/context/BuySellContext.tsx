@@ -5,12 +5,13 @@ import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { setSelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
+import { clearDataAction, getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { getSelectedSymbol, setAllSelectedCustomers } from 'src/redux/slices/option';
 import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
 import DivideOrderModal from 'src/widgets/DivideOrderModal';
-interface IBuySellWidgetType {}
+import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
+interface IBuySellWidgetType { }
 
 export const BuySellInitialState: BuySellState = {
     price: 0,
@@ -27,122 +28,149 @@ export const BuySellInitialState: BuySellState = {
     comeFrom: '',
 };
 const useValue = () => useReducer(BuySellReducer, BuySellInitialState);
+
+
 export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useUpdate: useBuySellDispatch } = createContainer(useValue);
+
+
 const BuySellContext = () => {
     const dispatchSetter = useGlobalSetterDispatch();
+    const dataContext = useBuySellState()
+    const symbolRedux = useAppSelector(getSelectedSymbol)
 
-    const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        // appDispatch(setSelectedCustomers(customer));
-    };
+    const appDispatch = useAppDispatch();
+    const ByeSellDispatch = useBuySellDispatch();
+
+    // const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
+    //     // appDispatch(setPartSelectedCustomers(customer));
+    // };
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {
-            onSelectionChanged(selectedCustomer);
+            appDispatch(setAllSelectedCustomers(selectedCustomer))
         },
     });
 
-    const appDispatch = useAppDispatch();
-    const dispatch = useBuySellDispatch();
 
-    useEffect(() => {
-        const resetBuySellState = () => dispatch({ type: 'RESET' });
-        dispatchSetter({ resetBuySellState: resetBuySellState });
-    }, [dispatch, dispatchSetter]);
 
-    const {data:keepData, comeFrom} = useAppSelector(getKeepDataBuySell)
+    // useEffect(() => {
+    //     const resetBuySellState = () => ByeSellDispatch({ type: 'RESET' });
+    //     dispatchSetter({ resetBuySellState: resetBuySellState });
+    // }, [ByeSellDispatch, dispatchSetter]);
 
-    function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
-        return comeFrom === ComeFromKeepDataEnum.Draft;
-    }
-    function isBasket(keepOrder: IOrderGetType | IDraftResponseType | IListDetailsBasket, comeFrom?: string): keepOrder is IListDetailsBasket {
-        return comeFrom === ComeFromKeepDataEnum.Basket;
-    }
+    const { data: dataRedux, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
 
-    useEffect(() => {
-        if (keepData?.symbolISIN) {
-            appDispatch(setSelectedSymbol(keepData.symbolISIN));
-            if (isDraft(keepData, comeFrom)) {
-                let dataMulti = {
-                    CustomerISINs: keepData?.customers.map((item) => item.customerISIN),
-                    CustomerTagTitles: keepData?.customerTags.map((item) => item.customerTagTitle),
-                    GtTraderGroupId: keepData?.gtGroups.map((item) => item.traderGroupId),
-                };
-                getCustomers(dataMulti);
-                dispatch({
-                    type: 'SET_ALL',
-                    value: {
-                        amount: 0,
-                        divide: false,
-                        isCalculatorEnabled: false,
-                        sequential: false,
-                        price: keepData.price,
-                        quantity: keepData.quantity,
-                        side: keepData.orderSide as BuySellSide,
-                        // strategy: keepData.orderStrategy as strategy,
-                        symbolISIN: keepData.symbolISIN,
-                        validity: keepData.validity as validity,
-                        validityDate: keepData.validityDate,
-                        percent: keepData.percent,
-                        strategy: 'normal',
-                        comeFrom,
-                        id: keepData.orderId,
-                        // FIXME:startegy not found in instanse
-                    },
-                });
-            } else if (isBasket(keepData, comeFrom)) {
-                let dataMulti = {
-                    CustomerISINs: keepData?.customerISINs.split(','),
-                };
-                getCustomers(dataMulti);
+    // function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
+    //     return comeFrom === ComeFromKeepDataEnum.Draft;
+    // }
+    // function isBasket(keepOrder: IOrderGetType | IDraftResponseType | IListDetailsBasket, comeFrom?: string): keepOrder is IListDetailsBasket {
+    //     return comeFrom === ComeFromKeepDataEnum.Basket;
+    // }
 
-                dispatch({
-                    type: 'SET_ALL',
-                    value: {
-                        amount: 0,
-                        percent: 0,
-                        divide: false,
-                        isCalculatorEnabled: false,
-                        sequential: false,
-                        price: keepData.price,
-                        quantity: keepData.quantity,
-                        side: keepData.orderSide as BuySellSide,
-                        strategy: 'normal',
-                        symbolISIN: keepData.symbolISIN,
-                        validity: keepData.validity as validity,
-                        validityDate: keepData.validityDate,
-                        comeFrom,
-                        id: keepData.orderId,
-                    },
-                });
-            } else {
-                let dataMulti = {
-                    CustomerISINs: [keepData?.customerISIN],
-                };
-                getCustomers(dataMulti);
 
-                dispatch({
-                    type: 'SET_ALL',
-                    value: {
-                        amount: 0,
-                        percent: 0,
-                        divide: false,
-                        isCalculatorEnabled: false,
-                        sequential: false,
-                        price: keepData.price,
-                        quantity: keepData.quantity,
-                        side: keepData.orderSide as BuySellSide,
-                        strategy: 'normal',
-                        symbolISIN: keepData.symbolISIN,
-                        validity: keepData.validity as validity,
-                        validityDate: keepData.validityDate,
-                        comeFrom,
-                        id: keepData.orderId,
-                    },
-                });
-            }
+    useUpdateEffect(() => {
+        dataRedux && ByeSellDispatch({
+            type: 'SET_ALL',
+            value: {
+                ...dataContext,
+                ...dataRedux
+            },
+        });
 
-            appDispatch(setDataBuySellAction()); // clear saved date
-        }
-    }, [keepData?.symbolISIN]);
+        !!customerIsin && getCustomers({ CustomerISINs: customerIsin });
+    }, [dataRedux])
+
+    useUpdateEffect(() => {
+        !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
+    }, [symbolRedux])
+
+
+
+    //     useEffect(() => {
+    //         if (dataRedux?.symbolISIN) {
+    //             appDispatch(setSelectedSymbol(dataRedux.symbolISIN));
+    //             if (isDraft(dataRedux, comeFrom)) {
+    //                 let dataMulti = {
+    //                     CustomerISINs: dataRedux?.customers.map((item) => item.customerISIN),
+    //                     CustomerTagTitles: dataRedux?.customerTags.map((item) => item.customerTagTitle),
+    //                     GtTraderGroupId: dataRedux?.gtGroups.map((item) => item.traderGroupId),
+    //                 };
+    //                 getCustomers(dataMulti);
+    //                 ByeSellDispatch({
+    //                     type: 'SET_ALL',
+    //                     value: {
+    //                         amount: 0,
+    //                         divide: false,
+    //                         isCalculatorEnabled: false,
+    //                         sequential: false,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
+    //                         // strategy: dataRedux.orderStrategy as strategy,
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
+    //                         percent: dataRedux.percent,
+    //                         strategy: 'normal',
+    //                         comeFrom,
+    //                         id: dataRedux.orderId,
+    //                         // FIXME:startegy not found in instanse
+    //                     },
+    //                 });
+    //             } else if (isBasket(dataRedux, comeFrom)) {
+    //                 let dataMulti = {
+    //                     CustomerISINs: dataRedux?.customerISINs.split(','),
+    //                 };
+    //                 getCustomers(dataMulti);
+    // 
+    //                 ByeSellDispatch({
+    //                     type: 'SET_ALL',
+    //                     value: {
+    //                         amount: 0,
+    //                         percent: 0,
+    //                         divide: false,
+    //                         isCalculatorEnabled: false,
+    //                         sequential: false,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
+    //                         strategy: 'normal',
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
+    //                         comeFrom,
+    //                         id: dataRedux.orderId,
+    //                     },
+    //                 });
+    //             } else {
+    //                 let dataMulti = {
+    //                     CustomerISINs: [dataRedux?.customerISIN],
+    //                 };
+    //                 getCustomers(dataMulti);
+    // 
+    //                 ByeSellDispatch({
+    //                     type: 'SET_ALL',
+    //                     value: {
+    //                         amount: 0,
+    //                         percent: 0,
+    //                         divide: false,
+    //                         isCalculatorEnabled: false,
+    //                         sequential: false,
+    //                         price: dataRedux.price,
+    //                         quantity: dataRedux.quantity,
+    //                         side: dataRedux.orderSide as BuySellSide,
+    //                         strategy: 'normal',
+    //                         symbolISIN: dataRedux.symbolISIN,
+    //                         validity: dataRedux.validity as validity,
+    //                         validityDate: dataRedux.validityDate,
+    //                         comeFrom,
+    //                         id: dataRedux.orderId,
+    //                     },
+    //                 });
+    //             }
+    // 
+    //             appDispatch(setDataBuySellAction()); // clear saved date
+    //         }
+    //     }, [dataRedux?.symbolISIN]);
 
     return (
         <>
@@ -162,3 +190,35 @@ const BuySellWidget = () => {
 };
 
 export default BuySellWidget;
+
+
+//             if (comeFrom === ComeFromKeepDataEnum.Draft) {
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//             } else if (comeFrom === ComeFromKeepDataEnum.Basket) {
+//                 // dataMulti.CustomerISINs = dataRedux.customerISINs.split(',');
+//                 // Add other properties if needed for the 'basket' case
+//             } else {
+//                 // dataMulti.CustomerISINs = [dataRedux.customerISIN];
+//                 // Add other properties if needed for the default case
+//             }
+
+// ByeSellDispatch({
+//     type: 'SET_ALL',
+//     value: {
+//         amount: 0,
+//         percent: 0,
+//         divide: false,
+//         isCalculatorEnabled: false,
+//         sequential: false,
+//         price: dataRedux.price,
+//         quantity: dataRedux.quantity,
+//         side: dataRedux.side,
+//         strategy: 'normal',
+//         symbolISIN: dataRedux.symbolISIN,
+//         validity: dataRedux.validity as validity,
+//         validityDate: dataRedux.validityDate,
+//         comeFrom,
+//         id: dataRedux.id,
+//     },
+// });

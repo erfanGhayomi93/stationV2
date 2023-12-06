@@ -1,19 +1,18 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { Cell } from 'rsuite-table';
-// import 'rsuite-table/dist/css/rsuite-table.css'; // or 'rsuite-table/dist/css/rsuite-table.css'
-import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
+import { setOrder, useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { orderStatusValueFormatter, removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
+import { useQueryClient } from '@tanstack/react-query';
 
 type IOpenOrders = {
     ClickLeftNode: any;
@@ -21,75 +20,101 @@ type IOpenOrders = {
 
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     //
-    const { brokerCode } = useAppSelector(getUserData);
-    const [ordersList, setOrdersList] = useState<IOrderGetType[]>([]);
-    const { isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders(
-        { GtOrderStateRequestType: 'OnBoard' },
-        {
-            onSuccess: (data) => {
-                setOrdersList(data.map((order) => ({ ...order, status: 'OnBoard' })));
-            },
-        },
-    );
 
-    const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+
+    const { brokerCode } = useAppSelector(getUserData);
+
+    const queryClient = useQueryClient();
+
+    const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
+
+    const { isSubscribed, subscribeCustomers, unSubscribeCustomers, currentSubscribed } = useRamandOMSGateway();
 
     useEffect(() => {
-
-        if (ordersList.length && !isSubscribed() && brokerCode) {
-            const customerISINS = ordersList.map(({ customerISIN }) => customerISIN);
+        if (orders?.length && !isSubscribed() && brokerCode) {
+            const customerISINS = orders.map(({ customerISIN }) => customerISIN);
             subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
         }
+    }, [orders]);
 
-    }, [ordersList.length]);
+    const { mutate: deleteOrder } = useSingleDeleteOrders();
 
-    const { mutate: deleteOrder } = useSingleDeleteOrders({
-        onSuccess: ({ response }) => {
-            if (response === 'Ok') {
-                // refetchOpenOrders();
-            }
-        },
-    });
+    const filterTable = (omsClientKey: string) => {
+        let timer: NodeJS.Timer;
 
-    useEffect(() => {
-        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandler);
-    });
-
-    const onOMSMessageHandler = (message: Record<number, string>) => {
-        //
-        console.log('openOrder', message);
-
-        const omsClientKey = message[12];
-        const omsOrderStatus = message[22] as OrderStatusType;
-
-        setOrdersList((pre) =>
-            pre.map((order) => {
-                if (order.clientKey === omsClientKey) {
-                    return { ...order, status: omsOrderStatus };
+        timer = setTimeout(() => {
+            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+                const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
+                if (!filteredData.length) {
+                    unSubscribeCustomers();
                 }
-
-                return order;
-            }),
-        );
-
+                return filteredData;
+            });
+        }, 1500);
     };
 
+    onOMSMessageHandlerRef.current = useMemo(
+        () => (message: Record<number, string>) => {
+            const omsClientKey = message[12];
+            const omsOrderStatus = message[22] as OrderStatusType;
+
+            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+                if (!!oldData) {
+                    const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
+                    const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
+                    const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
+
+                    orders[index] = { ...updatedOrder, status: omsOrderStatus } as IOrderGetType;
+
+                    return [...orders];
+                }
+            });
+
+            if (omsOrderStatus === 'Canceled') {
+                filterTable(omsClientKey);
+            }
+        },
+        [],
+    );
+
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+    }, []);
+
     const appDispath = useAppDispatch();
-    const { isFilter } = ClickLeftNode;
 
     const handleDelete = (data: IOrderGetType | undefined) => {
         data && deleteOrder(data?.orderId);
     };
 
     const handleEdit = (data: IOrderGetType | undefined) => {
-        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
+        if (!data) return
+
+        appDispath(setPartDataBuySellAction(
+            {
+                data: {
+                    price: data.price,
+                    quantity: data.quantity,
+                    side: data.orderSide,
+                    symbolISIN: data.symbolISIN,
+                    validity: data.validity,
+                    validityDate: data.validityDate,
+                    id: data.orderId
+                },
+                comeFrom: ComeFromKeepDataEnum.OpenOrder,
+                customerIsin: [data.customerISIN]
+            }));
+
+        // appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
             {
-                headerName: 'مشتری یا گروه مشتری',
+                headerName: 'مشتری',
                 field: 'customerTitle',
+                pinned: 'right'
             },
             {
                 headerName: 'نام نماد',
@@ -112,15 +137,16 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 field: 'status',
                 minWidth: 160,
                 cellClassRules: {
-                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', undefined].includes(value),
+                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),
                     'text-L-success-200': ({ value }) => value === 'OrderDone',
                     'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
-                valueFormatter: orderStatusValueFormatter,
+                valueFormatter: ({ value }) => t('order_status.' + (value ?? 'OnBoard')),
             },
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
+                pinned: 'left',
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <ActionCell
                         data={row.data}
@@ -139,7 +165,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     return (
         <div className={'h-full p-3'}>
             <WidgetLoading spining={loadingOrders}>
-                <AGTable rowData={ordersList} columnDefs={columns} enableBrowserTooltips={false} />
+                <AGTable rowData={orders || []} columnDefs={columns} enableBrowserTooltips={false} />
             </WidgetLoading>
         </div>
     );

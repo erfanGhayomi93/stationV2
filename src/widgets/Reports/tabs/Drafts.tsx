@@ -8,11 +8,12 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 type IDraft = {
     ClickLeftNode: any;
 };
@@ -48,14 +49,34 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             price: price || 0,
             quantity: quantity || 0,
             symbolISIN: symbolISIN || '',
-            validity: handleValidity(validity || ''),
+            validity: handleValidity(validity as validity),
             validityDate: validityDate,
         });
     };
 
-    const appDispath = useAppDispatch();
-    const handleEdit = (data?: IDraftResponseType) => {
-        appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.Draft }));
+    const appDispatch = useAppDispatch();
+    const handleEdit = async (data?: IDraftResponseType) => {
+        if (!data) return
+        // First dispatch
+        appDispatch(setSelectedSymbol(data.symbolISIN));
+
+        // Second dispatch
+        const buySellAction = {
+            data: {
+                price: data.price,
+                quantity: data.quantity,
+                side: data.orderSide,
+                symbolISIN: data.symbolISIN,
+                validity: data.validity,
+                validityDate: data.validityDate,
+                id: data.orderId
+            },
+            comeFrom: ComeFromKeepDataEnum.Draft,
+            customerIsin: data.customers.map(item => item.customerISIN)
+        };
+
+        appDispatch(setPartDataBuySellAction(buySellAction));
+
     };
 
     const valueFormatterCustomers = (value: ICustomers[]) => {
@@ -102,9 +123,9 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     rowData={dataAfterfilter}
                     columnDefs={columns}
                     rowSelection="multiple"
-                    // enableBrowserTooltips={false}
-                    // suppressRowClickSelection={true}
-                    // onRowSelected={onRowSelected}
+                // enableBrowserTooltips={false}
+                // suppressRowClickSelection={true}
+                // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
         </div>

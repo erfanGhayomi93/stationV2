@@ -3,26 +3,24 @@ import gregorian from 'react-date-object/calendars/gregorian';
 import gregorian_en from 'react-date-object/locales/gregorian_en';
 import { DateObject } from 'react-multi-date-picker';
 import { useDeleteBasket, useUpdateBasket } from 'src/app/queries/basket';
-import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker';
 import AdvancedTimePickerAnalog from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import Modal from 'src/common/components/Modal';
-import Switcher from 'src/common/components/SwitchButton';
 import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
 import { getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from '../components/CreateBasket';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 
 type IEditBasketModalType = {
-    isEditActive: boolean;
+    showEditForm: boolean;
     toggleEditBasket: () => void;
     listBasket: IListBasket[] | undefined;
 };
 
-const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBasket, listBasket }) => {
+const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBasket, listBasket }) => {
     const [editMode, setEditMode] = useState<Partial<IListBasket> | undefined>(undefined);
     const [time, setTime] = useState<any>(null);
-    const [isNewBasket, setisNewBasket] = useState(false);
+    const [ShowNewBasket, setNewBasket] = useState(false);
 
     const handleChangeEditMode = (type: string, value: any) => {
         setEditMode((prev) => ({
@@ -45,27 +43,15 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
         setEditMode(undefined);
     };
 
-    const handleIsPinned = (id: number, value: boolean) => {
-        mutateEdit({ isPinned: value, id });
-    };
-
-    // const clickEnterName = (e: KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === 'Escape') {
-    //         e.preventDefault();
-    //         e.stopPropagation();
-    //         setEditMode(undefined);
-    //     }
-    //     if (e.key === 'Enter' && editMode) {
-    //         e.preventDefault();
-    //         e.stopPropagation();
-    //         handleEditBasket();
-    //     }
+    // const handleIsPinned = (id: number, value: boolean) => {
+    //     mutateEdit({ isPinned: value, id });
     // };
+
 
     return (
         <>
             <Modal
-                isOpen={isEditActive}
+                isOpen={showEditForm}
                 onClose={toggleEditBasket}
                 className="min-h-[20rem] w-[700px] rounded-md h-full grid bg-L-basic dark:bg-D-basic overflow-visible"
             >
@@ -108,10 +94,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                         </div>
                                         <div className="min-w-[130px] w-full flex items-center justify-center ">
                                             {editMode?.id === basket.id ? (
-                                                // <AdvancedDatePicker
-                                                //     value={editMode?.sendDate}
-                                                //     onChange={(date) => handleChangeEditMode('sendDate', date)}
-                                                // />
+                                        
                                                 <AdvancedDatepicker
                                                     value={editMode?.sendDate}
                                                     onChange={(date) => handleChangeEditMode('sendDate', date)}
@@ -127,16 +110,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                                                 <span className="py-1.5  w-100 block">{getFarsiDate(basket.sendDate).time}</span>
                                             )}
                                         </div>
-                                        {/* <div data-cy={'basket-item-toggle-' + basket.name} className="w-full flex items-center justify-center py-1.5">
-                                            <Switcher
-                                                onCheck={(value: boolean) => {
-                                                    editMode?.id === basket.id
-                                                        ? handleChangeEditMode('isPinned', value)
-                                                        : handleIsPinned(basket.id, value);
-                                                }}
-                                                value={editMode?.id === basket.id ? editMode?.isPinned : basket.isPinned}
-                                            />
-                                        </div> */}
+                                        
                                         <div className="w-full flex items-center justify-center gap-3 p-1.5">
                                             {editMode?.id === basket.id ? (
                                                 <>
@@ -180,8 +154,8 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                 </div>
 
                 <div className="p-4">
-                    <div className="flex items-center py-4 cursor-pointer w-fit select-none" onClick={() => setisNewBasket((prev) => !prev)}>
-                        {!isNewBasket ? (
+                    <div className="flex items-center py-4 cursor-pointer w-fit select-none" onClick={() => setNewBasket((prev) => !prev)}>
+                        {!ShowNewBasket ? (
                             <div className="text-L-basic dark:text-D-basic rounded bg-L-primary-50 dark:bg-D-primary-50 drop-shadow border border-L-primary-50 dark:border-D-primary-50">
                                 <PlusIcon width={16} height={16} />
                             </div>
@@ -192,7 +166,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ isEditActive, toggleEditBas
                         )}
                         <p className="text-L-primary-50 dark:text-D-primary-50 pr-4">ایجاد سبد جدید</p>
                     </div>
-                    <div dir="ltr" data-actived={isNewBasket} className="opacity-0 actived:opacity-100 h-0 actived:h-auto transition-all">
+                    <div dir="ltr" data-actived={ShowNewBasket} className="opacity-0 actived:opacity-100 h-0 actived:h-auto transition-all">
                         <div className="w-3/4">
                             <CreateBasket toggleAddBasket={toggleEditBasket} />
                         </div>

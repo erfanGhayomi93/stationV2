@@ -78,10 +78,10 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                     <Input
                         data-cy="add-watchlist-input"
                         className={clsx(
-                            "w-full px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-L-gray-500",
+                            "w-full text-sm px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-L-gray-500",
                             {
-                                'h-[32px]': !FromEditMode,
-                                'h-[40px] w-[256px]': FromEditMode,
+                                'h-8': !FromEditMode,
+                                'h-10 w-64': FromEditMode,
                             },
                         )}
                         value={watchlistName}
@@ -93,7 +93,7 @@ export const AddWatchList: FC<IAddWatchlistType> = (props) => {
                 {!FromEditMode ? (
                     <button
                         data-actived={watchlistName.length > 1}
-                        className="bg-L-gray-400 dark:bg-D-gray-400 actived:bg-L-success-200  actived:dark:bg-D-success-200 h-[32px] w-[36px] flex justify-center items-center rounded-e relative left-[2px]"
+                        className="bg-L-gray-400 dark:bg-D-gray-400 actived:bg-L-success-200  actived:dark:bg-D-success-200 h-8 w-8 flex justify-center items-center rounded-e relative left-[2px]"
                         disabled={watchlistName.length <= 1}
                         type="submit"
                         onClick={AddWatchlist}

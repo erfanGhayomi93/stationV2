@@ -116,8 +116,8 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
             {({ open }) => (
                 <div className="z-50 flex items-center ">
                     <Menu.Button>
-                        <div className="p-[6px] bg-L-gray-300 dark:bg-D-gray-300 rounded cursor-pointer">
-                            <CheckListIcon className="text-L-gray-600 dark:text-D-gray-600" />
+                        <div className="p-1.5 bg-L-gray-300 dark:bg-D-gray-300 rounded cursor-pointer">
+                            <CheckListIcon className="w-6 h-6 text-L-gray-600 dark:text-D-gray-600" />
                         </div>
                     </Menu.Button>
 
@@ -148,13 +148,13 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
                                                 className="px-2 py-[10px] text-xs flex items-center justify-between hover:bg-L-gray-100  dark:hover:bg-D-gray-100"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
-                                                <label className="flex gap-2 text-D-basic dark:text-L-basic cursor-pointer" htmlFor={item.id}>
+                                                <label className="flex items-center gap-2 text-D-basic dark:text-L-basic cursor-pointer" htmlFor={item.id}>
                                                     <input
                                                         type="checkbox"
                                                         id={item.id}
                                                         checked={visibleColumns?.includes(item.id)}
                                                         onChange={(e) => onCheckHandler(e, item.id)}
-                                                        className="cursor-pointer"
+                                                        className="cursor-pointer w-3.5 h-3.5"
                                                     />
                                                     {item.label}
                                                 </label>
@@ -164,7 +164,7 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
                                                     })}
                                                     onClick={() => onPinHandler(item.id)}
                                                 >
-                                                    <PinIcon />
+                                                    <PinIcon className='w-3 h-4'/>
                                                 </button>
                                             </div>
                                         </div>

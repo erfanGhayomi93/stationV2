@@ -370,7 +370,7 @@ export const valueFormatterIndex = (data: any, pageNumber?: number, pageSize?: n
     return data.node.rowIndex + 1;
 };
 
-export const handleValidity = (validity: string): string => {
+export const handleValidity = (validity: validity): validity => {
     if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
     return validity;
 };

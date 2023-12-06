@@ -6,7 +6,7 @@ interface IDraftRequsetType {
     percent: number;
     quantity: number;
     orderSide: string;
-    validity: string;
+    validity: validity;
     validityDate: string | undefined;
     date: string;
     customerISINs: string;
@@ -21,7 +21,7 @@ interface IDraftCreateType {
     price: number;
     quantity: number;
     side: string;
-    validity: string;
+    validity: validity;
     validityDate: string | undefined;
     customerISINs: string;
     customerTitles: string;
@@ -31,12 +31,12 @@ interface IDraftCreateType {
 }
 
 interface IDraftResponseType {
-    customerTags :any[]
-    customers : ICustomer[]
-    gtGroups : any[]
+    customerTags: any[]
+    customers: ICustomer[]
+    gtGroups: any[]
     date: string;
     orderId: number;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     percent: number;
     price: number;
     quantity: number;
@@ -49,12 +49,12 @@ interface IDraftResponseType {
 }
 
 type IToggleFavorite = {
-    customerIsin : string ,
-    isFavorite : boolean
+    customerIsin: string,
+    isFavorite: boolean
 }
 
 type stateCustomer = {
     CustomerISINs: string[];
-    CustomerTagTitles?: string[];
-    GtTraderGroupId?: string[];
+    // CustomerTagTitles?: string[];
+    // GtTraderGroupId?: string[];
 };

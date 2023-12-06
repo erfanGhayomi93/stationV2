@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
 import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
@@ -7,11 +7,13 @@ import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 
-const useSendOrders = () => {
+const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: string | null }) => void }) => {
     //
     let timer: NodeJS.Timer;
     const ORDER_SENDING_GAP = 350;
-    const [orderResult, setOrderResult] = useState<{ [key: string]: string | null }>({});
+
+    const orderResult = useRef<{ [key: string]: string }>({});
+
     const [ordersLoading, setOrdersLoading] = useState(false);
 
     const { brokerCode } = useAppSelector(getUserData);
@@ -21,7 +23,10 @@ const useSendOrders = () => {
     const { subscribeCustomers } = useRamandOMSGateway();
 
     const subscribeHandler = () => {
-        subscribeCustomers(selectedCustomers.map(({ customerISIN }) => customerISIN), brokerCode || '');
+        subscribeCustomers(
+            selectedCustomers.map(({ customerISIN }) => customerISIN),
+            brokerCode || '',
+        );
     };
 
     const queryClient = useQueryClient();
@@ -30,10 +35,7 @@ const useSendOrders = () => {
         return orders.reduce((acc: any, order) => {
             const ISIN = order.customerISIN?.[0];
             if (ISIN) {
-                if (!acc[ISIN]) {
-                    acc[ISIN] = [];
-                }
-
+                acc[ISIN] = acc[ISIN] || [];
                 acc[ISIN].push(order);
             }
 
@@ -41,40 +43,23 @@ const useSendOrders = () => {
         }, {});
     };
 
-    const createOrderSteps = (orders: IOrderRequestType[]) => {
-        //
-        let orderStep: IOrderRequestType[][] = [];
+    // We have to send orders in bunches
+    const createEachBunchOfRequests = (orders: IOrderRequestType[]) => {
+        const splitedOrders: { [key: string]: IOrderRequestType[] } = splitOrdersByCustomers(orders);
+        const stepLength = Math.max(...Object.values(splitedOrders).map((orders) => orders.length), 0);
+        return Array.from({ length: stepLength }, (_, i) =>
+            Object.values(splitedOrders)
+                .map((orders) => orders[i])
+                .filter(Boolean),
+        );
+    };
 
-        const splitedOrders = splitOrdersByCustomers(orders);
-
-        const getOrderStepLength = () => {
-            let maxLength: number = 0;
-            for (const key in splitedOrders) {
-                const length = splitedOrders[key].length;
-                if (length > maxLength) {
-                    maxLength = length;
-                }
-            }
-
-            return maxLength;
-        };
-
-        const stepLength = getOrderStepLength();
-
-        for (let i = 0; i < stepLength; i++) {
-            let group: IOrderRequestType[] = [];
-
-            for (const key in splitedOrders) {
-                if (splitedOrders[key][i]) {
-                    group.push(splitedOrders[key][i]);
-                }
-            }
-            if (group.length > 0) {
-                orderStep.push(group);
-            }
-        }
-
-        return orderStep;
+    const refetchOrderListsWithDelay = () => {
+        setTimeout(() => {
+            ['Error', 'OnBoard', 'Done'].forEach((status) => {
+                queryClient.invalidateQueries(['orderList', status]);
+            });
+        }, ORDER_SENDING_GAP);
     };
 
     const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
@@ -85,32 +70,31 @@ const useSendOrders = () => {
 
         setOrdersLoading(true);
 
-        const orderStepsArray: IOrderRequestType[][] = createOrderSteps(orders);
+        const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 
-        const orderStep = orderStepsArray[index];
+        const ordersBunch = bunchOfRequests[index];
 
         const nextIndex = index + 1;
 
-        return await Promise.all(orderStep.map((order) => setOrder(order)))
+        return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
             .then((response) => {
-                const result = response.reduce((acc, res, index) => {
-                    const order = orderStep[index];
+                const result = response.reduce((acc, { status, value }: any, index) => {
+                    const order = ordersBunch[index];
                     const { id: orderID } = order;
-                    if (orderID && res.successClientKeys[0]) {
-                        Object.defineProperty(acc, orderID, { value: res.successClientKeys[0] });
+                    const done = status === 'fulfilled';
+                    if (orderID) {
+                        Object.defineProperty(acc, orderID, { value: done ? { clientKey: value.successClientKeys[0] ?? '' } : { status: 'Error' } });
                     }
 
                     return acc;
                 }, {});
-                setOrderResult(result);
-            })
-            .catch((error) => console.log(error))
-            .finally(() => {
-                queryClient.invalidateQueries(['orderList', 'Error']);
-                queryClient.invalidateQueries(['orderList', 'OnBoard']);
-                queryClient.invalidateQueries(['orderList', 'Done']);
 
-                if (nextIndex >= orderStepsArray.length) {
+                orderResult.current = result;
+            })
+            .finally(() => {
+                props?.onOrderResultReceived?.(orderResult.current);
+                refetchOrderListsWithDelay();
+                if (nextIndex >= bunchOfRequests.length) {
                     clearTimeout(timer);
                     ipcMain.send('update_customer');
                     setOrdersLoading(false);
@@ -122,7 +106,6 @@ const useSendOrders = () => {
 
     return {
         sendOrders,
-        orderResult,
         ordersLoading,
     };
 };

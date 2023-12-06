@@ -1,6 +1,6 @@
 import { FC, memo, useMemo } from 'react';
 import { useAppDispatch, useAppSelector, useAppValues } from 'src/redux/hooks';
-import { getSelectedCustomers, removeSelectedCustomers, setSelectedCustomers } from 'src/redux/slices/option';
+import { getSelectedCustomers, removeSelectedCustomers, setPartSelectedCustomers } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
 import ActionCellRenderer from '../ActionCell/ActionCell';
 // import { useCustomerSearchState } from '../../context/CustomerSearchContext';
@@ -24,8 +24,8 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
     const onSelectionChanged = useMemo(() => (isChecked: boolean, customer: IGoMultiCustomerType) => {
         try {
             isChecked
-                ? appDispatch(setSelectedCustomers(customer))
-                // : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
+                ? appDispatch(setPartSelectedCustomers(customer))
+                // : appDispatch(setPartSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
                 : appDispatch(removeSelectedCustomers(customer.customerISIN))
         } catch { }
     }, [])

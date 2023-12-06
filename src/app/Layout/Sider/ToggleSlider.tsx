@@ -30,7 +30,7 @@ const ToggleSlider: FC<TOggleSlider> = ({ type, onOpen, onClose }) => {
                         onClick={type === 'close' ? onClose : onOpen}
                         className="cursor-pointer bg-L-blue-50 dark:bg-D-blue-50 w-5 h-6 absolute -left-[22px] -top-[12px] rounded-lg flex items-center justify-center"
                     >
-                        <ChevronIcon className={`-rotate-90 ${type === 'close' ? 'rotate-90' : ''}`} />
+                        <ChevronIcon className={`-rotate-90 w-2 h-3 ${type === 'close' ? 'rotate-90' : ''}`} />
                     </span>
                 </span>
                 {/* {type === 'open' && <ArrowLeft className="absolute left-[-12px] cursor-pointer z-10" width={24} height={24} onClick={onOpen} />} */}

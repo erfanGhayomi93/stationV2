@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes, memo, MouseEvent, MouseEventHandler, useContext, useEffect, useState, useMemo, Children } from 'react';
 import { ComboSelectContext } from '../../context';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedCustomers, getSelectedSymbolMulti, removeSelectedCustomers, removeSelectedSymbol, setSelectedCustomers, setSelectedSymbolMulti } from 'src/redux/slices/option';
+import { getSelectedCustomers, getSelectedSymbolMulti, removeSelectedCustomers, removeSelectedSymbol, setPartSelectedCustomers, setSelectedSymbolMulti } from 'src/redux/slices/option';
 
 export interface IComboDataSetType extends HTMLAttributes<HTMLDivElement> {
     children: JSX.Element | JSX.Element[] | string;
@@ -66,8 +66,8 @@ const ComboDataSet: FC<IComboDataSetType> = ({ children, value, label, className
     const onSelectionChangedCustomer = useMemo(() => (isChecked: boolean, customer: IGoMultiCustomerType) => {
         try {
             isChecked
-                ? appDispatch(setSelectedCustomers(customer))
-                // : appDispatch(setSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
+                ? appDispatch(setPartSelectedCustomers(customer))
+                // : appDispatch(setPartSelectedCustomers(selectedCustomers.filter((item) => item.customerISIN !== customer?.customerISIN)));
                 : appDispatch(removeSelectedCustomers(customer.customerISIN))
         } catch { }
     }, [])

@@ -24,7 +24,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm, {});
     const appDispatch = useAppDispatch();
 
-    const { data: searchHistory } = useRecentSymbolHistory();
+    const { data: searchHistory } = useRecentSymbolHistory({type: "GeneralSearch"});
 
     const TextDisplay = useCallback(
         ({ text }: any) => <div className="relative cursor-default select-none py-2 px-4 text-L-gray-500 dark:text-D-gray-500">{text}</div>,

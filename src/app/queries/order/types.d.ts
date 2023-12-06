@@ -1,24 +1,24 @@
 
 type ICustomerIsins = string[];
 interface IOrderRequestType {
-    id?:string;
-    status?:string;
+    id?: string;
+    status?: string;
     customerISIN: ICustomerIsins;
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
     symbolISIN: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     price: number;
     quantity: number;
     percent: number;
-    validity: string;
+    validity: validity;
     validityDate: string | undefined;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
     orderStrategy: string;
 }
 interface ITodayOpenOrderType {
-    side?: OrderSideType;
+    side?: BuySellSide;
     symbolISIN?: string;
     CustomerISIN?: string;
     GtOrderStateRequestType?: 'OnBoard' | 'Done' | 'Error';
@@ -29,14 +29,14 @@ interface IOrderGetType {
     customerISIN: string;
     symbolTitle: string;
     symbolISIN: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     price: number;
     expectedRemainingQuantity: number;
     sumExecuted: number;
     validityDate?: string;
     quantity: number;
     value: number;
-    validity: string;
+    validity: validity;
     customerTitle: string;
     position: number;
     valuePosition: number;
@@ -47,17 +47,17 @@ type IOrderSelected = {
     orderId: number;
     customerTitle: string;
     symbolTitle: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     quantity: number;
     price: number;
     value: number;
     sumExecuted: number;
     position: number;
     valuePosition: number;
-    validity: string;
+    validity: validity;
     validityDate?: string;
 };
-type OrderSideType = 'Cross' | 'Buy' | 'Sell' | '';
+// type BuySellSide = 'Cross' | 'Buy' | 'Sell' | '';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 type OrderStatusType =
     | 'InOMSQueue'
@@ -111,7 +111,7 @@ interface IGTOrderListResultType {
     omsOrderState: string;
     sumExecuted: number;
     userName: string;
-    validity: string;
+    validity: validity;
     validityDate: string;
     orderFrom: string;
     parentOrderId: number;
@@ -124,7 +124,7 @@ interface IGTOrderListResultType {
 interface IGTOrderListRequest {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType;
+    Side?: BuySellSide;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
     CustomerType?: CustomerType;
@@ -140,7 +140,7 @@ interface IGTOrderListResponseType extends GlobalPaginatedApiResponse<IGTOrderLi
 interface IGTTradesListRequest {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType;
+    Side?: BuySellSide;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
     PageNumber: number;
@@ -159,7 +159,7 @@ interface IGTTradesListResultType {
     symbolISIN: string;
     bourseCode: string;
     nationalCode: string;
-    orderSide: OrderSideType;
+    orderSide: BuySellSide;
     customerType: string;
     tradeDate: string;
     tradeQuantity: number;
@@ -173,7 +173,7 @@ interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesList
 interface IGTOfflineTradesRequests {
     FromDate?: string;
     ToDate?: string;
-    Side?: OrderSideType;
+    Side?: BuySellSide;
     SymbolISIN?: string[];
     CustomerISIN?: string[];
     RequestNo?: string;
