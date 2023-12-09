@@ -12,7 +12,7 @@ import { useWatchListSymbolsQuery, useWatchlistsQuery } from 'src/app/queries/wa
 import { AddSymbol, InfoIcon } from 'src/common/icons';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { ColDef, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import { ClosingPrice, LastTradedPrice, SymbolTradeState } from './components/CellRenderer';
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
@@ -33,6 +33,7 @@ const Watchlists = () => {
                 headerName: 'نماد',
                 field: 'symbolTitle',
                 rowDrag: true,
+                pinned: 'right',
                 minWidth: 175,
                 maxWidth: 175,
                 cellRenderer: SymbolTradeState,
@@ -129,7 +130,7 @@ const Watchlists = () => {
         PageNumber: PageNumber,
     });
 
-    const defaultCols = {
+    const defaultCols: ColDef<IGetWatchlistSymbol> = {
         lockPinned: true,
         flex: 1,
         cellClass: 'text-center dir-ltr',
