@@ -17,9 +17,7 @@ import { ClosingPrice, LastTradedPrice, SymbolTradeState } from './components/Ce
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
 
-type Props = {};
-
-const Watchlists = (props: Props) => {
+const Watchlists = () => {
     const { t } = useTranslation();
     const appDispatch = useAppDispatch();
     const {
@@ -34,7 +32,6 @@ const Watchlists = (props: Props) => {
             {
                 headerName: 'نماد',
                 field: 'symbolTitle',
-                pinned: 'right',
                 rowDrag: true,
                 minWidth: 175,
                 maxWidth: 175,
@@ -42,6 +39,7 @@ const Watchlists = (props: Props) => {
                 rowDragText: (p) => {
                     return p?.rowNode?.data?.symbolTitle || 'جابجایی';
                 },
+                lockVisible: true,
             },
             {
                 headerName: 'آخرین قیمت',
