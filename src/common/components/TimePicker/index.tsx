@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef, useCallback, ChangeEvent, useEffect } from 'react';
+import React, { useState, useRef, forwardRef, useCallback, ChangeEvent, useEffect, KeyboardEvent } from 'react';
 import Input from '../Input';
 import { createPortal } from 'react-dom';
 import styles from './style.module.scss';
@@ -7,23 +7,35 @@ import { zeroPad } from 'src/utils/helpers';
 import { getTheme } from 'src/redux/slices/ui';
 import { useAppSelector } from 'src/redux/hooks';
 
+type HourPrefix = '0' | '1' | '2';
+type MinutePrefix = HourPrefix | '3' | '4' | '5';
+type Digit = MinutePrefix | '6' | '7' | '8' | '9';
+
+export type Time = `${HourPrefix}${Digit}:${MinutePrefix}${Digit}:${HourPrefix}${Digit}`;
+
 type TimePickerProps = {
-    onChange?: (x: string) => void;
+    onChange?: (x: Time) => void;
+    value: Time;
 };
 
-const TimePicker = ({ onChange }: TimePickerProps) => {
-    const [value, setValue] = useState<Record<'second' | 'minute' | 'hour', string>>({
-        second: '00',
-        minute: '00',
-        hour: '00',
+const TimePicker = ({ onChange, value }: TimePickerProps) => {
+    //
+    const hour = value.split(':')[0];
+    const minute = value.split(':')[1];
+    const second = value.split(':')[2];
+    const [input, setInput] = useState<Record<'second' | 'minute' | 'hour', string>>({
+        second,
+        minute,
+        hour,
     });
+
     const [isClockOpen, setIsClockOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const clockRef = useRef<HTMLDivElement | undefined>(undefined);
 
     useEffect(() => {
-        onChange && onChange(`${value.hour}:${value.minute}:${value.second}`);
-    }, [value]);
+        onChange && onChange(`${input.hour}:${input.minute}:${input.second}` as Time);
+    }, [input]);
 
     const onClickDocument = (e: MouseEvent) => {
         const containerEl = containerRef.current;
@@ -66,10 +78,11 @@ const TimePicker = ({ onChange }: TimePickerProps) => {
     return (
         <div ref={containerRef} className="">
             <div className="text-xs">
-                <Input disabled={false} value={`${value.second} : ${value.minute} : ${value.hour}`} onChange={() => {}} onFocus={openClock} />
+                <Input disabled={false} value={`${input.second} : ${input.minute} : ${input.hour}`} onChange={() => {}} onFocus={openClock} />
             </div>
 
-            {isClockOpen && createPortal(<DialogBox setValue={setValue} value={value} ref={onClockRefLoad} />, document.body)}
+            {isClockOpen &&
+                createPortal(<DialogBox setIsClockOpen={setIsClockOpen} setValue={setInput} value={input} ref={onClockRefLoad} />, document.body)}
         </div>
     );
 };
@@ -79,8 +92,9 @@ export default TimePicker;
 type DialogBoxProps = {
     value: Record<'second' | 'minute' | 'hour', string>;
     setValue: React.Dispatch<React.SetStateAction<Record<'second' | 'minute' | 'hour', string>>>;
+    setIsClockOpen: (x: boolean) => void;
 };
-const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue }, ref) => {
+const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue, setIsClockOpen }, ref) => {
     //
     const hourRef = useRef<HTMLDivElement>(null);
     const minRef = useRef<HTMLDivElement>(null);
@@ -88,8 +102,8 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue 
 
     const theme = useAppSelector(getTheme);
 
-    const onSecondChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputValue = Number(e.target.value);
+    const onSecondChange = (v: number | string) => {
+        const inputValue = Number(v);
         if (!secRef.current) return;
         const secondsDegrees = (inputValue / 60) * 360 + 90;
         secRef.current.style.transform = `rotate(${secondsDegrees}deg)`;
@@ -98,8 +112,8 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue 
         setValue((pre) => ({ ...pre, second }));
     };
 
-    const onMinuteChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputValue = Number(e.target.value);
+    const onMinuteChange = (v: number | string) => {
+        const inputValue = Number(v);
         if (!minRef.current) return;
         const minsDegrees = (inputValue / 60) * 360 + (+value?.second / 60) * 6 + 90;
         minRef.current.style.transform = `rotate(${minsDegrees}deg)`;
@@ -108,8 +122,8 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue 
         setValue((pre) => ({ ...pre, minute }));
     };
 
-    const onHourChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputValue = Number(e.target.value);
+    const onHourChange = (v: number | string) => {
+        const inputValue = Number(v);
         if (!hourRef.current) return;
         const hourDegrees = (inputValue / 12) * 360 + (+value?.minute / 60) * 30 + 90;
         hourRef.current.style.transform = `rotate(${hourDegrees}deg)`;
@@ -117,6 +131,12 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue 
         const hour = inputValue > 23 ? '00' : inputValue < 0 ? '23' : zeroPad(inputValue);
         setValue((pre) => ({ ...pre, hour }));
     };
+
+    useEffect(() => {
+        onHourChange(value.hour);
+        onMinuteChange(value.minute);
+        onSecondChange(value.second);
+    }, []);
 
     return (
         <div className={clsx(styles.root, theme === 'dark' && styles.dark)} ref={ref} onClick={(e) => e.stopPropagation()}>
@@ -137,12 +157,36 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue 
                 </div>
             </div>
 
-            <div className="flex w-full mt-6 relative items-center justify-evenly">
-                <input className={styles.numberInput} type="number" value={value.second} onChange={onSecondChange} />
+            <div style={{ direction: 'ltr' }} className="flex w-full mt-6 relative items-center justify-evenly">
+                <input
+                    tabIndex={1}
+                    type="number"
+                    name="second"
+                    className={styles.numberInput}
+                    value={value.hour}
+                    onKeyDown={(e) => e.key === 'Enter' && setIsClockOpen(false)}
+                    onChange={(e) => onHourChange(e.target.value)}
+                />
                 <span>:</span>
-                <input className={styles.numberInput} type="number" value={value.minute} onChange={onMinuteChange} />
+                <input
+                    tabIndex={2}
+                    type="number"
+                    name="min"
+                    className={styles.numberInput}
+                    value={value.minute}
+                    onKeyDown={(e) => e.key === 'Enter' && setIsClockOpen(false)}
+                    onChange={(e) => onMinuteChange(e.target.value)}
+                />
                 <span>:</span>
-                <input className={styles.numberInput} type="number" value={value.hour} onChange={onHourChange} />
+                <input
+                    tabIndex={3}
+                    type="number"
+                    name="hour"
+                    className={styles.numberInput}
+                    value={value.second}
+                    onKeyDown={(e) => e.key === 'Enter' && setIsClockOpen(false)}
+                    onChange={(e) => onSecondChange(e.target.value)}
+                />
             </div>
         </div>
     );
