@@ -51,7 +51,7 @@ const TabsList: FC<ITabType> = ({
                 selectedIndex={items && items.findIndex((item) => item.key === selectedIndex)}
             >
                 <HeadlessTab.List className={tabListClassName}>
-                    <div className="flex justify-between items-center overflow-x-auto overflow-y-hidden">
+                    <div className="flex justify-between items-center overflow-x-auto overflow-y-hidden dark:bg-D-gray-200">
                         <div className="w-full flex">
                             {items ? (
                                 items.map((item) => (

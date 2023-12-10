@@ -6,6 +6,7 @@ import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/Advance
 import Input from 'src/common/components/Input';
 import TimePicker from 'src/common/components/TimePicker';
 import { onSuccessNotif } from 'src/handlers/notification';
+import { disableTillYesterday } from 'src/utils/helpers';
 
 type ICreateBasket = {
     toggleAddBasket: () => void;
@@ -56,17 +57,17 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
 
                 <Input data-cy="basket-create-input-name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
-            <div className='flex items-center gap-4'>
+            <div className="flex items-center gap-4">
                 <div className="flex flex-1 gap-2 items-center">
                     <p className="min-w-[75px] font-medium text-L-gray-500 dark:text-D-gray-700">تاریخ ارسال :</p>
                     <div className="flex-1" data-cy="basket-create-input-date">
-                        <AdvancedDatepicker placement='top' value={date} onChange={(date) => setDate(date)} />
+                        <AdvancedDatepicker placement="top" dateIsDisabled={disableTillYesterday} value={date} onChange={(date) => setDate(date)} />
                     </div>
                 </div>
                 <div className="flex flex-1 gap-2 items-center">
                     <p className="min-w-[75px] font-medium text-L-gray-500 dark:text-D-gray-700">زمان ارسال :</p>
                     <div className="flex-1" data-cy="basket-create-input-time">
-                      <TimePicker onChange={(value) => setTime(value)}/>
+                        <TimePicker onChange={(value) => setTime(value)} />
                     </div>
                 </div>
             </div>
