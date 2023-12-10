@@ -34,7 +34,7 @@ const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType
 
 export const useCostValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const { commission } = useCommission({ quantity, price, marketUnit, side });
-    return Math.ceil(price * quantity + (side === 'Sell' ? commission * -1 : commission));
+    return Math.round(price * quantity + (side === 'Sell' ? commission * -1 : commission));
 };
 
 export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
