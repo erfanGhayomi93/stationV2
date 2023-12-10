@@ -18,8 +18,6 @@ type ITableType = {
     isShowFilter: boolean;
 };
 
-
-
 export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter }) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const { customerTitles, symbolTitle, side } = dataFilter;
@@ -30,34 +28,32 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
         !!data && mutateDelete(data.id);
     };
     const handleEdit = (data?: IListDetailsBasket): void => {
-        if (!data) return
+        if (!data) return;
 
         dispatch({ type: 'SET_BUY_SELL_MODALL', value: true });
         dispatch({ type: 'SET_ORDER_ID', value: data.id });
 
-        appDispatch(setSelectedSymbol(data.symbolISIN))
+        appDispatch(setSelectedSymbol(data.symbolISIN));
         appDispatch(
-            setPartDataBuySellAction(
-                {
-                    data: {
-                        price: data.price,
-                        quantity: data.quantity,
-                        side: data.side,
-                        symbolISIN: data.symbolISIN,
-                        validity: data.validity,
-                        validityDate: data.validityDate,
-                        id: data.id
-                    },
-                    comeFrom: ComeFromKeepDataEnum.Basket,
-                    customerIsin: data.customers.map(item => item.customerISIN)
-                }
-            )
+            setPartDataBuySellAction({
+                data: {
+                    price: data.price,
+                    quantity: data.quantity,
+                    side: data.side,
+                    symbolISIN: data.symbolISIN,
+                    validity: data.validity,
+                    validityDate: data.validityDate,
+                    id: data.id,
+                },
+                comeFrom: ComeFromKeepDataEnum.Basket,
+                customerIsin: data.customers.map((item) => item.customerISIN),
+            }),
         );
     };
 
     const columns = useMemo(
         (): ColDefType<IListDetailsBasket>[] => [
-            { headerName: 'ردیف', field: 'customerTitles', valueFormatter: valueFormatterIndex },
+            { headerName: 'ردیف', field: 'customerTitles', valueFormatter: valueFormatterIndex, sortable: false, maxWidth: 90 },
             { headerName: 'مشتری', field: 'customers', valueFormatter: valueFormatterCustomerTitle },
             { headerName: 'نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
@@ -67,6 +63,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
+                sortable: false,
                 cellRenderer: (row: any) => (
                     <ActionCell<IListDetailsBasket>
                         data={row.data}
@@ -101,10 +98,10 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
                     return false;
                 })}
                 columnDefs={columns}
-            // rowSelection="multiple"
-            // enableBrowserTooltips={false}
-            // suppressRowClickSelection={true}
-            // onRowSelected={onRowSelected}
+                // rowSelection="multiple"
+                // enableBrowserTooltips={false}
+                // suppressRowClickSelection={true}
+                // onRowSelected={onRowSelected}
             />
         </div>
     );

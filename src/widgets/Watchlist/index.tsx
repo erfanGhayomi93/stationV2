@@ -12,14 +12,12 @@ import { useWatchListSymbolsQuery, useWatchlistsQuery } from 'src/app/queries/wa
 import { AddSymbol, InfoIcon } from 'src/common/icons';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { ColDef, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import { ClosingPrice, LastTradedPrice, SymbolTradeState } from './components/CellRenderer';
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
 
-type Props = {};
-
-const Watchlists = (props: Props) => {
+const Watchlists = () => {
     const { t } = useTranslation();
     const appDispatch = useAppDispatch();
     const {
@@ -34,14 +32,15 @@ const Watchlists = (props: Props) => {
             {
                 headerName: 'نماد',
                 field: 'symbolTitle',
-                pinned: 'right',
                 rowDrag: true,
+                pinned: 'right',
                 minWidth: 175,
                 maxWidth: 175,
                 cellRenderer: SymbolTradeState,
                 rowDragText: (p) => {
                     return p?.rowNode?.data?.symbolTitle || 'جابجایی';
                 },
+                lockVisible: true,
             },
             {
                 headerName: 'آخرین قیمت',
@@ -131,7 +130,7 @@ const Watchlists = (props: Props) => {
         PageNumber: PageNumber,
     });
 
-    const defaultCols = {
+    const defaultCols: ColDef<IGetWatchlistSymbol> = {
         lockPinned: true,
         flex: 1,
         cellClass: 'text-center dir-ltr',
