@@ -3,13 +3,14 @@
   --clock-border-color: theme("colors.L.gray.400");
   --clock-brand-color: theme("colors.L.gray.500");
   --clock-time-color: theme("colors.D.basic.DEFAULT");
-
+  --input-border-color: theme("colors.L.info.100");
 
   &.dark {
     --clock-background-color: theme("colors.D.basic.DEFAULT");
     --clock-border-color: theme("colors.D.gray.400");
     --clock-brand-color: theme("colors.L.gray.500");
     --clock-time-color: theme("colors.L.basic.DEFAULT");
+    --input-border-color: theme("colors.L.info.100");
   }
 
   height: auto;
@@ -179,6 +180,10 @@
     border-color: var(--clock-border-color);
     background-color: transparent;
     border-radius: 4px;
+
+    &:focus{
+      border-color: var(--input-border-color);
+    }
   }
   
 

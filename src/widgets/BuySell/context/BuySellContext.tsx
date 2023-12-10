@@ -67,7 +67,7 @@ const BuySellContext = () => {
     // }
 
 
-    useUpdateEffect(() => {
+    useUpdateEffect(() => {        
         dataRedux && ByeSellDispatch({
             type: 'SET_ALL',
             value: {
