@@ -7,6 +7,7 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
     //
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputMode, setInputMode] = useState(false);
+    const [value, setValue] = useState('');
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -14,6 +15,7 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
+        setValue(value);
         api?.setQuickFilter(value);
     };
 
@@ -26,6 +28,7 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
                     placeholder={`نام ${displayName}`}
                     onChange={onInputChange}
                     ref={inputRef}
+                    value={value}
                     onBlur={() => setInputMode(false)}
                 />
             ) : (
