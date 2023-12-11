@@ -42,7 +42,7 @@ const Details = () => {
             value:
                 data?.lastTradeDateTime && !String(data?.lastTradeDateTime).includes('0001')
                     ? //@ts-ignore
-                      dayjs(data?.lastTradeDateTime).calendar('jalali').format('hh:mm YYYY/MM/DD')
+                      dayjs(data?.lastTradeDateTime).calendar('jalali').format('YYYY/MM/DD hh:mm')
                     : '-',
         },
         { key: 3, label: 'ارزش (تعداد)', value: data?.totalTradeValue ? seprateNumber(data?.totalTradeValue) : '-' },
