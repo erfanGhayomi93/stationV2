@@ -156,7 +156,7 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
 
                 <WidgetLoading spining={isFetching}>
                     <div className="p-6 pt-2 h-full">
-                        <AGTable columnDefs={columns} rowData={data?.result} suppressRowVirtualisation={true} suppressColumnVirtualisation={true} />
+                        <AGTable columnDefs={columns} rowData={data?.result} />
                     </div>
                 </WidgetLoading>
             </div>
