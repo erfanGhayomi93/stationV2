@@ -42,7 +42,7 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
         if (datePeriodValidator(filterData.fromDate, filterData.toDate)) {
             setParams(filterData);
         } else {
-            toast.error('بازه انتخابی صحیح نیست',);
+            toast.error('بازه انتخابی صحیح نیست');
         }
     };
 
@@ -86,6 +86,7 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
                 headerName: t('ag_columns_headerName.portfolioType'),
                 field: 'type',
                 maxWidth: 120,
+                sortable: false,
                 valueFormatter: ({ value }) => t(`portfolioCardexType.${value}`),
             },
             {
@@ -145,7 +146,7 @@ export const HistoryPortfolioModal: FC<HistoryPortfolioModalType> = ({ isOpen, s
         <Modal isOpen={isOpen} onClose={setClose} className="min-h-[40rem] w-3/5 bg-L-basic dark:bg-D-basic rounded-md h-full grid">
             <div className="grid grid-rows-min-min-one">
                 <div className="w-full text-white font-semibold bg-L-blue-200 dark:bg-D-blue-200 h-10 flex items-center justify-between px-5">
-                    <div>تاریخچه نماد {dataModal?.symbolTitle}</div>
+                    <div>عملکرد نماد {dataModal?.symbolTitle}</div>
                     <CloseIcon onClick={() => setClose(false)} className="cursor-pointer" />
                 </div>
 
