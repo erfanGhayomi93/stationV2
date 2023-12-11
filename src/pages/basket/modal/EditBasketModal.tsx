@@ -7,7 +7,7 @@ import AdvancedTimePickerAnalog from 'src/common/components/AdvancedTimePickerAn
 import Input from 'src/common/components/Input';
 import Modal from 'src/common/components/Modal';
 import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
-import { getFarsiDate } from 'src/utils/helpers';
+import { disableTillYesterday, getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from '../components/CreateBasket';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import dayjs from 'dayjs';
@@ -95,7 +95,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
                                         <div className="min-w-[130px] w-full flex items-center justify-center ">
                                             {editMode?.id === basket.id ? (
                                                 <AdvancedDatepicker
-                                                    dateIsDisabled={(date) => dayjs(date).diff(dayjs().format('YYYY/MM/DD')) < 0}
+                                                    dateIsDisabled={disableTillYesterday}
                                                     value={editMode?.sendDate}
                                                     onChange={(date) => handleChangeEditMode('sendDate', date)}
                                                 />

@@ -16,31 +16,46 @@ import ipcMain from 'src/common/classes/IpcMain';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
-    const { state: { params: { term } } } = useCustomerSearchState();
+    const {
+        state: {
+            params: { term },
+        },
+    } = useCustomerSearchState();
     const debouncedTerm = useDebounce(term, 500);
-    const [customerType, setCustomerType] = useState("")
+    const [customerType, setCustomerType] = useState('');
 
-    const isDefaultUse = useMemo(() => !term?.length, [term])
-    const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
+    const isDefaultUse = useMemo(() => !term?.length, [term]);
+    const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs());
 
+    const {
+        data: defaultCustomers,
+        refetch: refetchDefaultCustomer,
+        remove: removeDefaultCustomers,
+        isFetching: isFetchingDefault,
+    } = useGetCustomers(
+        {},
+        {
+            enabled: isDefaultUse,
+            onSuccess() {
+                setTimeRefresh(dayjs());
+            },
+        },
+    );
 
-    const { data: defaultCustomers, refetch: refetchDefaultCustomer, remove: removeDefaultCustomers, isFetching: isFetchingDefault } = useGetCustomers({}, {
-        enabled: isDefaultUse,
-        onSuccess() {
-            setTimeRefresh(dayjs())
-        }
-    })
-
-    const { data: searchCustomers, refetch: refetchCustomers, isFetching: isFetchingSearch } = useAdvancedSearchQuery(
+    const {
+        data: searchCustomers,
+        refetch: refetchCustomers,
+        isFetching: isFetchingSearch,
+    } = useAdvancedSearchQuery(
         { term: debouncedTerm },
         {
             onSuccess() {
                 if (!!defaultCustomers) {
-                    removeDefaultCustomers()
+                    removeDefaultCustomers();
                 }
-                setTimeRefresh(dayjs())
+                setTimeRefresh(dayjs());
             },
-        }
+        },
     );
 
     const ItemRenderer = (props: any) => {
@@ -48,75 +63,68 @@ const CustomerSearch = () => {
     };
 
     const refetchToggleFavorite = () => {
-        isDefaultUse ? refetchDefaultCustomer() : refetchCustomers()
-    }
-
+        isDefaultUse ? refetchDefaultCustomer() : refetchCustomers();
+    };
 
     const rowUI = useMemo(() => {
-        let listGroups = isDefaultUse ? defaultCustomers : searchCustomers
+        let listGroups = isDefaultUse ? defaultCustomers : searchCustomers;
 
-        if (!listGroups) listGroups = []
+        if (!listGroups) listGroups = [];
         else if (customerType) {
-            listGroups = listGroups.filter(item => item.customerType === customerType)
+            listGroups = listGroups.filter((item) => item.customerType === customerType);
         }
 
-        return <Virtuoso
-            data={listGroups}
-            className="rounded-lg rounded-t-none"
-            itemContent={(index, data) =>
-                <ResultItem
-                    key={index}
-                    data={data}
-                    refetchToggleFavorite={refetchToggleFavorite}
-                />
-            }
-            components={{
-                Item: ItemRenderer,
-            }}
-            totalCount={listGroups.length}
-        />
-
-    }, [searchCustomers, defaultCustomers, customerType, isDefaultUse])
-
+        return (
+            <Virtuoso
+                data={listGroups}
+                className="rounded-lg rounded-t-none"
+                itemContent={(index, data) => <ResultItem key={index} data={data} refetchToggleFavorite={refetchToggleFavorite} />}
+                components={{
+                    Item: ItemRenderer,
+                }}
+                totalCount={listGroups.length}
+            />
+        );
+    }, [searchCustomers, defaultCustomers, customerType, isDefaultUse]);
 
     useEffect(() => {
-        ipcMain.handle("update_customer", refetchToggleFavorite)
+        ipcMain.handle('update_customer', refetchToggleFavorite);
 
-        return () => ipcMain.removeChannel("update_customer")
-    }, [])
-
+        return () => ipcMain.removeChannel('update_customer');
+    }, []);
 
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2">
                 <div className="flex gap-2 py-2 px-4 w-full rounded bg-L-gray-200 dark:bg-D-gray-200 justify-between items-center">
                     <div className="flex gap-6 flex-1">
-                        <SearchInput placeholder='نام مشتری / کدملی / کدبورسی' />
+                        <SearchInput placeholder="نام مشتری / کدملی / کدبورسی" />
 
-                        <div className='w-28'>
+                        <div className="w-40">
                             <Select
+                                title="نوع مشتری :"
                                 onChange={(selected) => setCustomerType(selected)}
                                 value={customerType}
                                 options={[
-                                    { value: "", label: 'همه' },
-                                    { value: "Natural", label: t('CustomerType.Natural') },
-                                    { value: "Legal", label: t('CustomerType.Legal') },
+                                    { value: '', label: 'همه' },
+                                    { value: 'Natural', label: t('CustomerType.Natural') },
+                                    { value: 'Legal', label: t('CustomerType.Legal') },
                                 ]}
                             />
                         </div>
                     </div>
-                    <div
-                        onClick={refetchToggleFavorite}
-                        className='cursor-pointer select-none'
-                    >
-                        <Tippy hideOnClick={false} content={
-                            <div className='flex flex-col gap-1'>
-                                <span>آخـرین بـروز رســانی</span>
-                                <span>{timeRefresh.calendar("jalali").format("HH:mm  YYYY/MM/DD")}</span>
-                            </div>
-                        }>
-                            <div className='select-none'>
-                                <Refresh2Icon className='w-5 h-5'/>
+                    <div onClick={refetchToggleFavorite} className="cursor-pointer select-none">
+                        <Tippy
+                            hideOnClick={false}
+                            content={
+                                <div className="flex flex-col gap-1">
+                                    <span>آخـرین بـروز رســانی</span>
+                                    <span>{timeRefresh.calendar('jalali').format('HH:mm  YYYY/MM/DD')}</span>
+                                </div>
+                            }
+                        >
+                            <div className="select-none">
+                                <Refresh2Icon className="w-5 h-5" />
                             </div>
                         </Tippy>
                     </div>
@@ -125,9 +133,7 @@ const CustomerSearch = () => {
                 <div className="grid grid-rows-min-one h-full">
                     <ResultHeader />
 
-                    <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>
-                        {rowUI}
-                    </WidgetLoading>
+                    <WidgetLoading spining={isFetchingSearch || isFetchingDefault}>{rowUI}</WidgetLoading>
                 </div>
             </div>
         </div>

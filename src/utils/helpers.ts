@@ -524,3 +524,7 @@ export const removeDuplicatesInArray = (arr: any[]) => arr.filter((item, index) 
 export const datePeriodValidator = (fromDate: string, toDate: string) => {
     return fromDate && toDate && dayjs(toDate).diff(fromDate) < 0 ? false : true;
 };
+
+export const disableTillYesterday = (date: Date) => {
+    return dayjs(date).diff(dayjs().format('YYYY/MM/DD')) < 0;
+};

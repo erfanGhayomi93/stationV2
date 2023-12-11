@@ -115,6 +115,7 @@ const Watchlists = () => {
                 minWidth: 130,
                 maxWidth: 130,
                 pinned: 'left',
+                sortable: false,
                 lockVisible: true,
             },
         ],
