@@ -1,4 +1,4 @@
-import { ColDef, ColGroupDef } from 'ag-grid-community';
+import { ColDef, ColGroupDef, ColumnVisibleEvent, FirstDataRenderedEvent, GridSizeChangedEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -54,10 +54,23 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         };
     }, []);
 
-    const onGridSizeChanged = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
-    const onRowDataUpdated = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
-    const onRowDataChanged = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
-    const onFirstDataRendered = useCallback(({ api }: any) => api?.sizeColumnsToFit(), []);
+    const onGridSizeChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+    const onRowDataUpdated = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+    const onRowDataChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+    const onFirstDataRendered = useCallback(({ api }: FirstDataRenderedEvent) => api?.sizeColumnsToFit(), []);
+    const onColumnVisible = useCallback(({ api, column }: ColumnVisibleEvent) => {
+        setTimeout(() => {
+            try {
+                if (!column) return;
+                const colId = column.getColId();
+                api.flashCells({
+                    columns: [colId],
+                });
+            } catch (e) {
+                //
+            }
+        });
+    }, []);
 
     return (
         <div className={containerClassName} style={containerStyle}>
@@ -81,6 +94,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
                 onRowDataUpdated={onRowDataUpdated}
                 onRowDataChanged={onRowDataChanged}
                 onFirstDataRendered={onFirstDataRendered}
+                onColumnVisible={onColumnVisible}
                 //
                 columnTypes={ColumnTypes}
                 defaultColDef={DefaultColDef}

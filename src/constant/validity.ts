@@ -11,7 +11,7 @@ export const VALIDITY_OPTIONS = [
     {
         id: 4,
         value: 'GoodTillDate',
-        validityDate: undefined,
+        validityDate: dayjs().format('YYYY-MM-DD'),
     },
     {
         id: 5,

@@ -66,11 +66,9 @@ export const getUniqId = (): string => (Math.random() + 1).toString(36).substrin
 export const factoryQueryKey = <T extends object>(obj: T): string => {
     let sortObj = {} as T;
 
-    (Object.keys(obj) as Array<keyof T>)
-        .sort()
-        .forEach((k) => {
-            sortObj[k] = obj[k];
-        });
+    (Object.keys(obj) as Array<keyof T>).sort().forEach((k) => {
+        sortObj[k] = obj[k];
+    });
 
     return JSON.stringify(sortObj);
 };
@@ -300,8 +298,9 @@ export const getFarsiDate = (timeStamp: string) => {
         seconds,
         dayOfWeek,
         farsiMonth,
-        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
-            }`,
+        farsiDate: `${farsiDate[0]}/${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${
+            farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]
+        }`,
         farsiDayMonth: `${farsiDate[1] < 10 ? `0${farsiDate[1]}` : farsiDate[1]}/${farsiDate[2] < 10 ? `0${farsiDate[2]}` : farsiDate[2]}`,
     };
 };
@@ -337,14 +336,14 @@ export const howLongAgo = (timeStamp: any) => {
 
 export const orderStatusValueFormatter = (data: any) => {
     return i18next.t('order_status.' + data.value);
-}
+};
 
 export const valueFormatterSide = (data: any): string => {
     return i18next.t('orderSide.' + data.value);
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.data.validity === 'Day' || data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
+    if (data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
         return getFarsiDate(data.data.validityDate).farsiDate;
     return i18next.t('BSModal.validity_' + data.value);
 };
@@ -435,9 +434,9 @@ export const dateFormatter = (value: string) => {
     } else if (
         matchs[2] === '00' ||
         Number(matchs[2]) >
-        dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
-            .calendar('jalali')
-            .daysInMonth()
+            dayjs(matchs[0] + '/' + matchs[1] + '/' + '01', { jalali: true } as any)
+                .calendar('jalali')
+                .daysInMonth()
     ) {
         return [matchs[0], matchs[1]].filter(Boolean).join('/');
     }
@@ -509,7 +508,6 @@ export const rgbToRgba = (rgb: string, opacity = 1): string => {
     return `rgba(${rgbValues},${opacity})`;
 };
 
-
 export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
     let obj: { [key: string]: any } = {};
     for (const [key, value] of Object.entries(object)) {
@@ -519,6 +517,14 @@ export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
     }
 
     return obj;
-}
+};
 
 export const removeDuplicatesInArray = (arr: any[]) => arr.filter((item, index) => arr.indexOf(item) === index);
+
+export const datePeriodValidator = (fromDate: string, toDate: string) => {
+    return fromDate && toDate && dayjs(toDate).diff(fromDate) < 0 ? false : true;
+};
+
+export const disableTillYesterday = (date: Date) => {
+    return dayjs(date).diff(dayjs().format('YYYY/MM/DD')) < 0;
+};

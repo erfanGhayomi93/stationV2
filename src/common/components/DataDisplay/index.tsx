@@ -22,7 +22,7 @@ const DataDisplay = ({ cols, items, applyDots = true }: Props) => {
                     <div key={key} className="flex items-center px-2 border-l last:border-none border-L-gray-400 dark:border-D-gray-400" style={{ width: `${100 / cols}%` }}>
                         <span>{label}</span>
                         {applyDots && <span>:</span>}
-                        <span className="mr-auto">{value}</span>
+                        <span className="mr-auto ltr">{value}</span>
                     </div>
                 ))}
             </div>

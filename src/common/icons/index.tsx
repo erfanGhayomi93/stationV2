@@ -55,6 +55,8 @@ export { ReactComponent as KeyboardIcon } from 'src/assets/svg/KeyboardIcon.svg'
 export { ReactComponent as KeyboardHide } from 'src/assets/svg/KeyboardHide.svg';
 export { ReactComponent as KeyboardShow } from 'src/assets/svg/keyboardShow.svg';
 export { ReactComponent as LockIcon } from 'src/assets/svg/Lock.svg';
+export { ReactComponent as LockOpen } from 'src/assets/svg/LockOpen.svg';
+export { ReactComponent as LockClose } from 'src/assets/svg/LockClose.svg';
 export { ReactComponent as EditIcon } from 'src/assets/svg/MdEdit.svg';
 export { ReactComponent as MenuIcon } from 'src/assets/svg/Menu.svg';
 export { ReactComponent as MonitorIcon } from 'src/assets/svg/Monitor.svg';

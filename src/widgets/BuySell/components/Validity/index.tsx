@@ -8,9 +8,9 @@ import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContex
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 
 
-interface IBuySellValidityType {}
+interface IBuySellValidityType { }
 
-const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
+const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     const dispatch = useBuySellDispatch();
     const { validity, validityDate } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
@@ -22,10 +22,14 @@ const BuySellValidity: FC<IBuySellValidityType> = ({}) => {
     };
 
     useEffect(() => {
-        const selectedDate = VALIDITY_OPTIONS.find((x) => x.value === validity)?.validityDate;
+        if (validity === 'GoodTillDate') return
 
+        const selectedDate = VALIDITY_OPTIONS.find((x) => x.value === validity)?.validityDate;
         setValidityDate(selectedDate);
+
     }, [validity]);
+
+   
 
     return (
         <div className="flex gap-2 w-full">

@@ -62,45 +62,39 @@ const DivideOrderModal = () => {
 
     const handleDivideOrders = (quantity: number, price: number, selectedCustomers: IGoMultiCustomerType[]) => {
         //
-        const mainQuantity = quantity * selectedCustomers.length;
-        let dividedOrderArray: DividedOrderRowType[] = [];
-
-        const calculateOrders = (totalQuantity: number, selectedCustomers: IGoMultiCustomerType[]) => {
-            const symbolMaxQuantity = symbolData?.maxTradeQuantity || 1;
-            const quantityPerCustomer = Math.floor(totalQuantity / selectedCustomers.length);
-
-            const createOrder = (customerISIN: string, customerTitle: string, quantity: number, price: number) => {
-                return {
-                    customerISIN,
-                    customerTitle,
-                    id: getUniqId(),
-                    price,
-                    quantity,
-                    status: undefined,
-                    clientKey: undefined,
-                };
+        const createOrder = (customerISIN: string, customerTitle: string, quantity: number, price: number) => {
+            return {
+                customerISIN,
+                customerTitle,
+                id: getUniqId(),
+                price,
+                quantity,
+                status: undefined,
+                clientKey: undefined,
             };
-
-            for (const { customerISIN, title } of selectedCustomers) {
-                const orderQuantity = Math.min(quantityPerCustomer, symbolMaxQuantity);
-
-                if (orderQuantity > 0) {
-                    dividedOrderArray.push(createOrder(customerISIN, title, checkQuantityTickSize(orderQuantity), price));
-                } else return;
-            }
-
-            const remainingQuantity = mainQuantity - dividedOrderArray.length * symbolMaxQuantity;
-            if (remainingQuantity > 0) {
-                calculateOrders(remainingQuantity, selectedCustomers);
-            }
         };
 
-        calculateOrders(mainQuantity, selectedCustomers);
+        const maxTradeQuantity = symbolData?.maxTradeQuantity;
+        let dividedOrderArray: DividedOrderRowType[] = [];
 
-        dividedOrderArray.sort((customerA, customerB) => {
-            return customerA.customerTitle.localeCompare(customerB.customerTitle);
-        });
+        if (maxTradeQuantity) {
+            let pureOrdersQuantity = Math.floor(quantity / maxTradeQuantity);
+            let unPureOrderValue = Math.abs(maxTradeQuantity * pureOrdersQuantity - quantity);
 
+            for (let i = 0; i < selectedCustomers.length; i++) {
+                const { customerISIN, title } = selectedCustomers[i];
+
+                let pureOrders = pureOrdersQuantity;
+
+                while (pureOrders) {
+                    dividedOrderArray.push(createOrder(customerISIN, title, checkQuantityTickSize(maxTradeQuantity), price));
+                    pureOrders--;
+                }
+                if (unPureOrderValue) {
+                    dividedOrderArray.push(createOrder(customerISIN, title, checkQuantityTickSize(unPureOrderValue), price));
+                }
+            }
+        }
         return dividedOrderArray;
     };
 

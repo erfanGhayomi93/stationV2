@@ -7,9 +7,10 @@ import AdvancedTimePickerAnalog from 'src/common/components/AdvancedTimePickerAn
 import Input from 'src/common/components/Input';
 import Modal from 'src/common/components/Modal';
 import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
-import { getFarsiDate } from 'src/utils/helpers';
+import { disableTillYesterday, getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from '../components/CreateBasket';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import dayjs from 'dayjs';
 
 type IEditBasketModalType = {
     showEditForm: boolean;
@@ -46,7 +47,6 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
     // const handleIsPinned = (id: number, value: boolean) => {
     //     mutateEdit({ isPinned: value, id });
     // };
-
 
     return (
         <>
@@ -94,8 +94,8 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
                                         </div>
                                         <div className="min-w-[130px] w-full flex items-center justify-center ">
                                             {editMode?.id === basket.id ? (
-                                        
                                                 <AdvancedDatepicker
+                                                    dateIsDisabled={disableTillYesterday}
                                                     value={editMode?.sendDate}
                                                     onChange={(date) => handleChangeEditMode('sendDate', date)}
                                                 />
@@ -110,7 +110,7 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
                                                 <span className="py-1.5  w-100 block">{getFarsiDate(basket.sendDate).time}</span>
                                             )}
                                         </div>
-                                        
+
                                         <div className="w-full flex items-center justify-center gap-3 p-1.5">
                                             {editMode?.id === basket.id ? (
                                                 <>
