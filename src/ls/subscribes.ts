@@ -3,6 +3,7 @@ import { pushEngine } from './pushEngine';
 import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { factoryQueryKey } from 'src/utils/helpers';
+import { json } from 'stream/consumers';
 
 export const subscriptionWatchlistMinor = (
     data: IGetWatchlistSymbol[],
@@ -153,6 +154,23 @@ export const subscriptionPortfolio = (symbols: string[], params: IGTPortfolioReq
                     }
                 },
             );
+        },
+    });
+};
+
+export const SymbolBestOneOrders = (selectedSymbol: string, fields: string[]) => {
+    pushEngine.subscribe({
+        id: 'SymbolBestOneOrders',
+        mode: 'MERGE',
+        isSnapShot: 'yes',
+        adapterName: 'RamandRLCDData',
+        items: [selectedSymbol],
+        fields: fields,
+        onFieldsUpdate: ({ changedFields }) => {
+            queryClient.setQueriesData(['SymbolGeneralInfo', selectedSymbol], (oldData) => {
+                const prevData : SymbolGeneralInfoType = JSON.parse(JSON.stringify(oldData))
+                return { ...prevData, ordersData: { ...prevData, ...changedFields } };
+            });
         },
     });
 };
