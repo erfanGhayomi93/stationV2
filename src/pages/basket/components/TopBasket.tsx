@@ -7,13 +7,16 @@ import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import AddBasketModal from '../modal/AddBasketModal';
+import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
+import { GridReadyEvent } from 'ag-grid-community';
 
 type ITopBasket = {
     activeBasket: number;
     saveIndexBasketSelected: (ind: number) => void;
+    gridApi: GridReadyEvent<IGetWatchlistSymbol> | undefined;
 };
 
-const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) => {
+const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected, gridApi }) => {
     //
     const { t } = useTranslation();
     const [showAddForm, setShowAddForm] = useState(false);
@@ -89,16 +92,16 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected }) =>
                         </button>
                     </Tippy>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
                     <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
                         <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
                             <Excel2Icon width={20} height={18} className="cursor-pointer outline-none" />
                         </button>
                     </Tippy>
                     <Tippy content={t('Action_Button.EditTable')} className="text-xs">
-                        <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
-                            <CheckListIcon width={20} height={18} className="cursor-pointer outline-none" />
-                        </button>
+                        <span>
+                            <AGColumnEditor {...{ gridApi, lsKey: 'Basket' }} />
+                        </span>
                     </Tippy>
                 </div>
             </div>

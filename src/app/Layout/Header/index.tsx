@@ -25,9 +25,9 @@ const Header = () => {
                 <WorkflowChanger />
             </div>
             <div className="h-1/2  mx-1 " />
-            <div>
+            {/* <div>
                 <Messages />
-            </div>
+            </div> */}
             <div className="h-1/2 border mx-1 border-L-gray-400 dark:border-D-gray-400 " />
             <div>
                 <Clock />
