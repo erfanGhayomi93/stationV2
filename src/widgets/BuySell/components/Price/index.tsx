@@ -8,6 +8,7 @@ import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import { SymbolBestOneOrders } from 'src/ls/subscribes';
 import { pushEngine } from 'src/ls/pushEngine';
+import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 
 interface bestPriceBuySell {
     bestBuyLimitPrice_1: number;
@@ -38,7 +39,7 @@ const BuySellPrice: FC = () => {
     })
 
     const { bestBuyLimitPrice_1, bestSellLimitPrice_1 } = data || {}
-    
+
 
     const setPrice = (value: number) => dispatch({ type: 'SET_PRICE', value });
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
@@ -73,17 +74,17 @@ const BuySellPrice: FC = () => {
         isLockPrice ? handleUnLockPrice() : handleLockPrice()
     }
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         isLockPrice && setLockPrice()
     }, [bestBuyLimitPrice_1, bestSellLimitPrice_1])
+
+    useUpdateEffect(() => {
+        handleUnLockPrice()
+    }, [selectedSymbol , side])
 
     useEffect(() => {
         price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity())) : setQuantity(0);
     }, [unitCommission, price, amount, isCalculatorEnabled]);
-
-    useEffect(() => {
-        handleUnLockPrice()
-    }, [selectedSymbol])
 
 
     return (
