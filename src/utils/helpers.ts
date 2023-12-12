@@ -528,3 +528,11 @@ export const datePeriodValidator = (fromDate: string, toDate: string) => {
 export const disableTillYesterday = (date: Date) => {
     return dayjs(date).diff(dayjs().format('YYYY/MM/DD')) < 0;
 };
+
+export const disableCustomPeriod = (date: Date, customeDate: string, mode: 'Till' | 'From') => {
+    if (mode === 'Till') {
+        return dayjs(date).diff(dayjs(customeDate).format('YYYY/MM/DD')) < 0;
+    } else {
+        return dayjs(date).diff(dayjs().format('YYYY/MM/DD')) > 0;
+    }
+};

@@ -6,6 +6,7 @@ import { timeFieldOptions } from 'src/pages/Reports/Trades/constant';
 import { typesOption } from '../constant';
 import AdvancedDatePicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import dayjs from 'dayjs';
+import { disableCustomPeriod } from 'src/utils/helpers';
 
 type THistoryFilterCo = {
     onSubmit: () => void;
@@ -35,10 +36,18 @@ export const HistoryFilter: FC<THistoryFilterCo> = ({ onSubmit, onClear, filterD
                     <Select onChange={(selected) => handleValueChange('time', selected)} value={time} options={timeFieldOptions} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')} className="col-span-3">
-                    <AdvancedDatePicker value={fromDate} onChange={(value) => onDatePickerChange('fromDate', value)} />
+                    <AdvancedDatePicker
+                        value={fromDate}
+                        onChange={(value) => onDatePickerChange('fromDate', value)}
+                        dateIsDisabled={(date) => disableCustomPeriod(date, toDate, 'From')}
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')} className="col-span-3">
-                    <AdvancedDatePicker value={toDate} onChange={(value) => onDatePickerChange('toDate', value)} />
+                    <AdvancedDatePicker
+                        value={toDate}
+                        onChange={(value) => onDatePickerChange('toDate', value)}
+                        dateIsDisabled={(date) => disableCustomPeriod(date, fromDate, 'Till')}
+                    />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.TransactionType')} className="col-span-4 text-right">
                     <Select onChange={(selected) => handleValueChange('type', selected)} value={type} options={typesOption} />
