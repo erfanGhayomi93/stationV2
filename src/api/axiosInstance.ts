@@ -62,7 +62,7 @@ AXIOS.interceptors.response.use(
     },
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
-        console.log({ error });
+        // console.log({ error });
         if (error.response) {
             // Request made and server responded
             console.log('error.response.status', error.response.status);
@@ -122,7 +122,7 @@ AXIOS.interceptors.response.use(
             }
         } else {
             // Something happened in setting up the request that triggered an Error
-            console.error('Error', error.message);
+            // console.error('Error', error.message);
         }
 
         return Promise.reject(error);

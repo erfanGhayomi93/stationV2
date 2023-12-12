@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useCreateBasket } from 'src/app/queries/basket';
 import { queryClient } from 'src/app/queryClient';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
@@ -14,8 +15,8 @@ type ICreateBasket = {
 
 const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
     const [name, setName] = useState<string>('');
-    const [date, setDate] = useState<Date | string>(dayjs().add(1 ,'day').format());
-    const [time, setTime] = useState<Time>("09:45:00");
+    const [date, setDate] = useState<Date | string>(dayjs().add(1, 'day').format());
+    const [time, setTime] = useState<Time>('09:45:00');
 
     const { mutate: AddNewBasketReq } = useCreateBasket({
         onSuccess: (result) => {
@@ -38,10 +39,14 @@ const CreateBasket: FC<ICreateBasket> = ({ toggleAddBasket }) => {
 
     const AddNewBasket = () => {
         const dateMiladi = dayjs(date).format('YYYY/MM/DD');
-        const sendDate = `${dateMiladi}T${time}.000`;
-        const queryParams = { name, sendDate };
 
-        AddNewBasketReq(queryParams);
+        if (name) {
+            const sendDate = `${dateMiladi}T${time}.000`;
+            const queryParams = { name, sendDate };
+            AddNewBasketReq(queryParams);
+        } else {
+            toast.error('نام سبد انتخاب نشده')
+        }
     };
 
     useEffect(() => {

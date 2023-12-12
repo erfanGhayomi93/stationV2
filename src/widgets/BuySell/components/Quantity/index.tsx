@@ -1,62 +1,38 @@
 import { RadioGroup, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, Fragment, memo, useMemo, useState } from 'react';
+import { FC, Fragment, memo, useEffect, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
+import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 import { CalculatorIcon, CoinIcon, PercentIcon } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import TradeInput from '../Input';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 
-interface IBuySellQuantityType {}
-const ToggleButton = () => {
-    return (
-        <>
-            <RadioGroup.Option className="w-full flex items-center cursor-pointer justify-center" value="AMOUNT">
-                {({ checked }) => (
-                    <span
-                        className={clsx(
-                            '  w-full  flex items-center justify-center gap-1 ',
-                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : 'text-L-gray-500 dark:text-D-gray-500 ',
-                        )}
-                    >
-                        <CoinIcon />
-                        مبلغ
-                    </span>
-                )}
-            </RadioGroup.Option>
-            <RadioGroup.Option
-                className="w-full flex items-center cursor-pointer justify-center border-r border-L-gray-500 dark:border-D-gray-500"
-                value="PERCENT"
-            >
-                {({ checked }) => (
-                    <span
-                        className={clsx(
-                            '  w-full   flex items-center justify-center gap-1',
-                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : ' text-L-gray-500 dark:text-D-gray-500',
-                        )}
-                    >
-                        <PercentIcon />
-                        درصد
-                    </span>
-                )}
-            </RadioGroup.Option>
-        </>
-    );
-};
-const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
+
+
+const BuySellQuantity: FC = () => {
     const dispatch = useBuySellDispatch();
-    const { quantity, symbolISIN, isCalculatorEnabled, amount } = useBuySellState();
+    const { quantity, symbolISIN, isCalculatorEnabled, amount, price, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-    const {} = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     const calculatorIcon = useMemo(() => <CalculatorIcon className="h-5 w-4 text-L-gray-500 dark:text-D-gray-500" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
+
+    const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });
+    const { buyCommission, sellCommission } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
     const setPercent = (value: number) => dispatch({ type: 'SET_PERCENT', value });
     const setAmount = (value: number) => dispatch({ type: 'SET_AMOUNT', value });
     const toggleCalculator = (value: boolean) => dispatch({ type: 'TOGGLE_CALCULATOR', value });
-    //
+
+    const selectedCustomer = useAppSelector(getSelectedCustomers)
+
+    useEffect(() => {
+        console.log("selectedCustomer", selectedCustomer)
+    }, [selectedCustomer])
+
 
     const [mode, setMode] = useState<'AMOUNT' | 'PERCENT'>('AMOUNT');
     //
@@ -76,6 +52,23 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
         setAmount(0);
         setPercent(0);
     };
+
+    const getTradedQuantity = () => {
+        try {
+            const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
+            const purchasePower = selectedCustomer[0]?.purchasePower || 0
+            const calcPercent = selectedCustomer.length === 1 && purchasePower > 0 ? purchasePower * (amount / 100) : 0
+            const total = mode === 'AMOUNT' ? amount : calcPercent
+            return side === 'Buy' ? total / (commissionValue * price + price) : total / (-commissionValue * price + price)
+        }
+        catch {
+            return 0
+        }
+    };
+
+    useEffect(() => {
+        price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity())) : setQuantity(0);
+    }, [unitCommission, price, amount, isCalculatorEnabled, selectedCustomer]);
 
     return (
         <>
@@ -113,7 +106,7 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
                                     onChange={(value) => (mode === 'AMOUNT' ? calculateQuantity(value) : setPercentage(value))}
                                     value={amount}
                                     max={mode === 'AMOUNT' ? 100000000000 : 100}
-                                    type={mode === 'AMOUNT' ? 'text' : 'percent'}
+                                    type={mode === 'AMOUNT' ? 'text' : 'text'}
                                     unit={mode === 'AMOUNT' ? <>ريال</> : <>%</>}
                                 />
                             </div>
@@ -136,3 +129,40 @@ const BuySellQuantity: FC<IBuySellQuantityType> = ({}) => {
 };
 
 export default memo(BuySellQuantity);
+
+
+const ToggleButton = () => {
+    return (
+        <>
+            <RadioGroup.Option className="w-full flex items-center cursor-pointer justify-center" value="AMOUNT">
+                {({ checked }) => (
+                    <span
+                        className={clsx(
+                            '  w-full  flex items-center justify-center gap-1 ',
+                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : 'text-L-gray-500 dark:text-D-gray-500 ',
+                        )}
+                    >
+                        <CoinIcon />
+                        مبلغ
+                    </span>
+                )}
+            </RadioGroup.Option>
+            <RadioGroup.Option
+                className="w-full flex items-center cursor-pointer justify-center border-r border-L-gray-500 dark:border-D-gray-500"
+                value="PERCENT"
+            >
+                {({ checked }) => (
+                    <span
+                        className={clsx(
+                            '  w-full   flex items-center justify-center gap-1',
+                            checked ? 'text-L-primary-50 dark:text-D-primary-50' : ' text-L-gray-500 dark:text-D-gray-500',
+                        )}
+                    >
+                        <PercentIcon />
+                        درصد
+                    </span>
+                )}
+            </RadioGroup.Option>
+        </>
+    );
+};

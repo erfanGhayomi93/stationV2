@@ -16,9 +16,10 @@ type ITableType = {
     listAfterFilter: IListDetailsBasket[] | undefined;
     dataFilter: filterStateType;
     isShowFilter: boolean;
+    setGridApi: any;
 };
 
-export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter }) => {
+export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter, setGridApi }) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const { customerTitles, symbolTitle, side } = dataFilter;
     const appDispatch = useAppDispatch();
@@ -53,7 +54,15 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
 
     const columns = useMemo(
         (): ColDefType<IListDetailsBasket>[] => [
-            { headerName: 'ردیف', field: 'customerTitles', valueFormatter: valueFormatterIndex, sortable: false, maxWidth: 90 },
+            {
+                headerName: 'ردیف',
+                field: 'customerTitles',
+                valueFormatter: valueFormatterIndex,
+                lockVisible: true,
+                pinned: 'right',
+                sortable: false,
+                maxWidth: 90,
+            },
             { headerName: 'مشتری', field: 'customers', valueFormatter: valueFormatterCustomerTitle },
             { headerName: 'نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
@@ -64,6 +73,8 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
                 headerName: 'عملیات',
                 field: 'customTitle',
                 sortable: false,
+                lockVisible: true,
+                pinned: 'left',
                 cellRenderer: (row: any) => (
                     <ActionCell<IListDetailsBasket>
                         data={row.data}
@@ -98,6 +109,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
                     return false;
                 })}
                 columnDefs={columns}
+                onGridReady={(p) => setGridApi(p)}
                 // rowSelection="multiple"
                 // enableBrowserTooltips={false}
                 // suppressRowClickSelection={true}

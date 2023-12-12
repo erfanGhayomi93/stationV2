@@ -109,7 +109,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 mb-4">
 
                     <label htmlFor="username-login" className="text-L-gray-700 dark:text-D-gray-700 font-medium">
                         {t(`FormSide.Input.Password.Label`)}
@@ -138,7 +138,7 @@ const Login = () => {
                     {t(`FormSide.ForgetPasswordLabel`)}
                 </span>
 
-                <div className="mt-4">
+                <div className="mt-5">
                     <Captcha
                         register={register}
                         errors={errors}
