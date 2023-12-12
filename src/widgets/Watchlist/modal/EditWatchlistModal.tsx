@@ -73,10 +73,9 @@ const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
     };
 
     const editWatchListName = () => {
-        if (!editMode?.watchListName || !editMode?.id) return;
+        if (!editMode?.watchListName || /^\s*$/.test(editMode?.watchListName) || !editMode?.id) return;
         const { id, watchListName } = editMode;
-
-        editWatchlist({ id, watchListName });
+        editWatchlist({ id, watchListName: watchListName.trimStart() });
         setEditMode(undefined);
     };
 
@@ -238,13 +237,20 @@ const ActionED: FC<IActionEdit> = ({ row, setEditMode, editMode, editWatchListNa
                 <>
                     <div
                         className={clsx(
-                            'border rounded-full p-1 cursor-pointer',
-                            !editMode.watchListName ? 'cursor-no-drop' : 'border-L-success-200 dark:border-L-success-200 ',
+                            'border rounded-full p-1',
+                            editMode.watchListName && !/^\s*$/.test(editMode?.watchListName)
+                                ? 'border-L-success-200 dark:border-L-success-200 cursor-pointer'
+                                : 'cursor-no-dro',
                         )}
                         onClick={editWatchListName}
                     >
                         <Check
-                            className={clsx('', editMode.watchListName ? 'text-L-success-200 dark:text-D-success-200' : 'text-L-gray-300')}
+                            className={clsx(
+                                '',
+                                editMode.watchListName && !/^\s*$/.test(editMode?.watchListName)
+                                    ? 'text-L-success-200 dark:text-D-success-200'
+                                    : 'text-L-gray-300 cursor-no-drop',
+                            )}
                             width={8}
                             height={8}
                         />
