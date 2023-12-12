@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetOfflineRequests } from 'src/app/queries/order';
+import { useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
@@ -8,6 +8,8 @@ import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { onSuccessNotif } from 'src/handlers/notification';
+import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 
 type RequestData = {
     customerTitle: string;
@@ -23,7 +25,7 @@ type RequestData = {
 const Requests = () => {
     //
     const { t } = useTranslation();
-    const { data, isLoading } = useGetOfflineRequests(
+    const { data, isLoading, refetch } = useGetOfflineRequests(
         { PageNumber: 1, PageSize: 100 },
         {
             select: (data) => {
@@ -34,6 +36,15 @@ const Requests = () => {
             },
         },
     );
+
+    const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
+        onSuccess: (result) => {
+            if (result) {
+                onSuccessNotif({ title: 'درخواست با موفقیت حذف گردید.' });
+                refetch();
+            }
+        },
+    });
 
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
@@ -56,8 +67,8 @@ const Requests = () => {
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
-                        handleDelete={(data) => console.log('delete', data)}
-                        handleSend={(data) => console.log('send', data)}
+                        handleDelete={(data) => data?.id && deleteRequest(data?.id)}
+                        handleSend={(data) => {}}
                     />
                 ),
             },
@@ -66,7 +77,7 @@ const Requests = () => {
     );
 
     return (
-        <WidgetLoading spining={isLoading}>
+        <WidgetLoading spining={isLoading || deleteLoading}>
             <div className={'grid h-full p-3'}>
                 <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
             </div>
