@@ -11,6 +11,7 @@ import {
     useWatchlistsQuery,
 } from 'src/app/queries/watchlist';
 import Modal from '../Modal';
+import { onErrorNotif } from 'src/handlers/notification';
 
 type IAddToWatchlist = {
     isOpen: boolean;
@@ -25,7 +26,6 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const closeModal = () => setIsOpen(false);
     const { data: watchlists } = useWatchlistsQuery();
     const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
-
 
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: (_, variables) => {
@@ -85,11 +85,10 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
 
             const watchlist = symbolInWatchlist[watchlistId.toString()] || [];
             return watchlist.includes(symbolISIN);
+        } catch {
+            return false;
         }
-        catch {
-            return false
-        }
-    }
+    };
 
     // const checkIfExistSymbol = (item: ISymbolInWatchlist) => {
     //     // if (!symbolInWatchlist) return false;
@@ -162,7 +161,13 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                 انصراف
                             </button>
                             <button
-                                onClick={() => createWatchList(inputValue)}
+                                onClick={() => {
+                                    if (inputValue.length > 1 && !/^\s*$/.test(inputValue)) {
+                                        createWatchList(inputValue);
+                                    } else {
+                                        onErrorNotif({ title: 'عنوان صحیح نیست' });
+                                    }
+                                }}
                                 className="whitespace-nowrap bg-L-primary-50 h-full px-3 rounded-md text-L-basic"
                             >
                                 ثبت دیده‌بان
