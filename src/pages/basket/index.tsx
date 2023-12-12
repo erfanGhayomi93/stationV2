@@ -6,17 +6,18 @@ import { TableBasket } from './components/TableBasket';
 import TopBasket from './components/TopBasket';
 import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
+import { GridReadyEvent } from 'ag-grid-community';
 
 function BasketPage() {
     const [activeBasket, setActiveBasket] = useState<number>(0);
     const [listAfterFilter, setListAfterFilter] = useState<IListDetailsBasket[]>([]);
     const [dataFilter, setDataFilter] = useState<filterStateType>(initialDataFilterBasket);
     const [isShowFilter, setisShowFilter] = useState<boolean>(false);
+    const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
     const { t } = useTranslation();
     const dispatch = useBasketDispatch();
 
     const { data: dataListDetailsBasket } = useGetDetailsBasket(activeBasket);
-
 
     useEffect(() => {
         !!dataListDetailsBasket && setListAfterFilter(dataListDetailsBasket);
@@ -34,9 +35,9 @@ function BasketPage() {
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
             <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.basket')}</h1>
-            <TopBasket {...{ activeBasket, saveIndexBasketSelected }} />
+            <TopBasket {...{ activeBasket, saveIndexBasketSelected, gridApi }} />
             <FilterBasket {...{ handleFilter, isShowFilter, setisShowFilter }} />
-            <TableBasket {...{ activeBasket, listAfterFilter, dataFilter, isShowFilter }} />
+            <TableBasket {...{ activeBasket, listAfterFilter, dataFilter, isShowFilter, setGridApi }} />
             <InsertBasketItem activeBasket={activeBasket} />
         </div>
     );
