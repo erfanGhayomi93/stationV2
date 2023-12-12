@@ -1,7 +1,6 @@
-import { FC, memo, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 import { LockClose, LockOpen } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useAppSelector } from 'src/redux/hooks';
@@ -22,10 +21,9 @@ const BuySellPrice: FC = () => {
     const lockIconOpen = useMemo(() => <LockOpen className="h-4 w-5 text-L-gray-500 dark:text-D-gray-500" />, []);
     const lockIconClose = useMemo(() => <LockClose className="h-4 w-5 text-L-gray-500 dark:text-D-gray-500" />, []);
 
-    const { price, symbolISIN, isCalculatorEnabled, amount, quantity, side } = useBuySellState();
+    const { price, symbolISIN, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-    const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });
-    const { buyCommission, sellCommission } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
+   
 
     const [isLockPrice, setIsLockPrice] = useState(false)
 
@@ -42,17 +40,12 @@ const BuySellPrice: FC = () => {
 
 
     const setPrice = (value: number) => dispatch({ type: 'SET_PRICE', value });
-    const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
 
     const handleChangePrice = (value: number) => {
         isLockPrice && handleUnLockPrice()
         setPrice(value);
     };
 
-    const getTradedQuantity = () => {
-        const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
-        return side === 'Buy' ? amount / (commissionValue * price + price) : amount / (-commissionValue * price + price);
-    };
 
     const setLockPrice = () => {
         const price = side === 'Buy' ? bestSellLimitPrice_1 : bestBuyLimitPrice_1
@@ -80,11 +73,10 @@ const BuySellPrice: FC = () => {
 
     useUpdateEffect(() => {
         handleUnLockPrice()
-    }, [selectedSymbol , side])
+    }, [selectedSymbol, side])
 
-    useEffect(() => {
-        price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity())) : setQuantity(0);
-    }, [unitCommission, price, amount, isCalculatorEnabled]);
+   
+
 
 
     return (
