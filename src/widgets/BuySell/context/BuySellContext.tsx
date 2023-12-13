@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { useEffect, useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
-import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
-import { ComeFromKeepDataEnum } from 'src/constant/enums';
+// import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
+// import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { clearDataAction, getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { getSelectedSymbol, setAllSelectedCustomers } from 'src/redux/slices/option';
@@ -11,7 +11,6 @@ import BuySell from '..';
 import { BuySellReducer } from './BuySellReducer';
 import DivideOrderModal from 'src/widgets/DivideOrderModal';
 import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
-interface IBuySellWidgetType { }
 
 export const BuySellInitialState: BuySellState = {
     price: 0,
@@ -34,7 +33,7 @@ export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useU
 
 
 const BuySellContext = () => {
-    const dispatchSetter = useGlobalSetterDispatch();
+    // const dispatchSetter = useGlobalSetterDispatch();
     const dataContext = useBuySellState()
     const symbolRedux = useAppSelector(getSelectedSymbol)
 
@@ -67,7 +66,7 @@ const BuySellContext = () => {
     // }
 
 
-    useUpdateEffect(() => {        
+    useUpdateEffect(() => {
         dataRedux && ByeSellDispatch({
             type: 'SET_ALL',
             value: {
@@ -82,6 +81,12 @@ const BuySellContext = () => {
     useUpdateEffect(() => {
         !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
     }, [symbolRedux])
+
+
+
+    useUpdateEffect(() => {
+        ByeSellDispatch({ type: 'SET_PRICE', value: 0 })
+    }, [dataContext.side])
 
 
 

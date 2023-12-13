@@ -343,7 +343,7 @@ export const valueFormatterSide = (data: any): string => {
 };
 
 export const valueFormatterValidity = (data: any) => {
-    if (data.data.validity === 'Day' || data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
+    if (data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
         return getFarsiDate(data.data.validityDate).farsiDate;
     return i18next.t('BSModal.validity_' + data.value);
 };

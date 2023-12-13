@@ -102,12 +102,12 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                 <div className="h-full w-full relative">
                     <div
                         className={clsx(
-                            '  bg-L-success-100 dark:bg-D-success-100 rounded h-full left-0 duration-200',
+                            'absolute bg-L-success-100 dark:bg-D-success-100 rounded h-full left-0 duration-200',
                             isInRange ? '' : 'bg-transparent dark:bg-transparent',
                         )}
                         style={{ width: `${percent * 100}%` }}
                     ></div>
-                    <div className={clsx('flex px-2 py-1 h-full items-center group')}>
+                    <div className={clsx('relative flex px-2 py-1 h-full items-center group')}>
                         {!!clickByeOrder && actionOrder(mode)}
 
                         <span className="text-right" style={{ width: '20%' }}>
@@ -139,7 +139,7 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                         style={{ width: `${percent * 100}%` }}
                     ></div>
                     <div className={clsx('relative flex px-2 py-1 h-full items-center group')}>
-                        <span className="ml-auto  cursor-pointer ">{seprateNumber(price || 0)}</span>
+                        <span className="ml-auto cursor-pointer ">{seprateNumber(price || 0)}</span>
                         <span className="cursor-pointer ">{seprateNumber(volume || 0)}</span>
                         <span className="text-left" style={{ width: '20%' }}>
                             {count || 0}
