@@ -20,11 +20,18 @@ type IDraft = {
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
-    const { mutate } = useDeleteDraft();
+    const { mutate } = useDeleteDraft({
+        onSuccess: () => {
+            onSuccessNotif({ title: 'پیش نویس حذف گردید' });
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
     const { isFilter } = ClickLeftNode;
     const { mutate: mutateSend } = useMutation(setOrder, {
         onSuccess: () => {
-            onSuccessNotif();
+            onSuccessNotif({ title: 'پیش نویس حذف گردید' });
         },
         onError: () => {
             onErrorNotif();
@@ -56,7 +63,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
 
     const appDispatch = useAppDispatch();
     const handleEdit = async (data?: IDraftResponseType) => {
-        if (!data) return
+        if (!data) return;
         // First dispatch
         appDispatch(setSelectedSymbol(data.symbolISIN));
 
@@ -69,14 +76,13 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 symbolISIN: data.symbolISIN,
                 validity: data.validity,
                 validityDate: data.validityDate,
-                id: data.orderId
+                id: data.orderId,
             },
             comeFrom: ComeFromKeepDataEnum.Draft,
-            customerIsin: data.customers.map(item => item.customerISIN)
+            customerIsin: data.customers.map((item) => item.customerISIN),
         };
 
         appDispatch(setPartDataBuySellAction(buySellAction));
-
     };
 
     const valueFormatterCustomers = (value: ICustomers[]) => {
@@ -123,9 +129,9 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     rowData={dataAfterfilter}
                     columnDefs={columns}
                     rowSelection="multiple"
-                // enableBrowserTooltips={false}
-                // suppressRowClickSelection={true}
-                // onRowSelected={onRowSelected}
+                    // enableBrowserTooltips={false}
+                    // suppressRowClickSelection={true}
+                    // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
         </div>
