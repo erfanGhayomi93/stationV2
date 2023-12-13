@@ -1,16 +1,16 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { setOrder, useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
-import { handleValidity, valueFormatterSide } from 'src/utils/helpers';
+import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import { useMutation } from '@tanstack/react-query';
+import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 
 type RequestData = {
     customerTitle: string;
@@ -37,6 +37,9 @@ const Requests = () => {
             },
         },
     );
+
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedDataForDelete = useRef<Record<string, any> | undefined>();
 
     const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
         onSuccess: (result) => {
@@ -77,6 +80,11 @@ const Requests = () => {
         mutateSend(order);
     };
 
+    const handleDelete = (data: IGTOfflineTradesResult | undefined) => {
+        selectedDataForDelete.current = data;
+        setIsOpen(true);
+    };
+
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
@@ -98,7 +106,7 @@ const Requests = () => {
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
-                        handleDelete={(data) => data?.id && deleteRequest(data?.id)}
+                        handleDelete={handleDelete}
                         handleSend={(data) => data && handleSend(data)}
                     />
                 ),
@@ -108,11 +116,26 @@ const Requests = () => {
     );
 
     return (
-        <WidgetLoading spining={isLoading || deleteLoading}>
-            <div className={'grid h-full p-3'}>
-                <AGTable agGridTheme="alpine" rowData={data?.result || []} columnDefs={columns} />
-            </div>
-        </WidgetLoading>
+        <>
+            <WidgetLoading spining={isLoading || deleteLoading}>
+                <div className={'grid h-full p-3'}>
+                    <AGTable agGridTheme="alpine" rowData={data?.result || []} columnDefs={columns} />
+                </div>
+            </WidgetLoading>
+
+            {isOpen && (
+                <ConfirmModal
+                    title={'حذف درخواست'}
+                    description={'آیا از حذف درخواست اطمینان دارید؟'}
+                    onConfirm={() => {
+                        selectedDataForDelete.current?.id && deleteRequest(selectedDataForDelete.current?.id);
+                        setIsOpen(false);
+                    }}
+                    onCancel={() => setIsOpen(false)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
+        </>
     );
 };
 

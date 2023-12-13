@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useRef, useState } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import { setOrder } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -8,18 +8,21 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
+import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 type IDraft = {
     ClickLeftNode: any;
 };
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
+    const [isOpen, setIsOpen] = useState(false);
+
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
             onSuccessNotif({ title: 'پیش نویس حذف گردید' });
@@ -38,8 +41,11 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         },
     });
 
+    const selectedDataForDelete = useRef<IDraftResponseType | undefined>();
+
     const handleDelete = (data?: IDraftResponseType) => {
-        data && mutate(data?.orderId);
+        selectedDataForDelete.current = data;
+        setIsOpen(true);
     };
 
     const handleSend = (data?: IDraftResponseType) => {
@@ -134,6 +140,18 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
+            {isOpen && (
+                <ConfirmModal
+                    title={'حذف پیش نویس'}
+                    description={'آیا از حذف پیش نویس اطمینان دارید؟'}
+                    onConfirm={() => {
+                        selectedDataForDelete.current?.orderId && mutate(selectedDataForDelete.current.orderId);
+                        setIsOpen(false);
+                    }}
+                    onCancel={() => setIsOpen(false)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };
