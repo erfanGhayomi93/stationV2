@@ -31,7 +31,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { isFilter } = ClickLeftNode;
     const { mutate: mutateSend } = useMutation(setOrder, {
         onSuccess: () => {
-            onSuccessNotif({ title: 'پیش نویس حذف گردید' });
+            onSuccessNotif();
         },
         onError: () => {
             onErrorNotif();

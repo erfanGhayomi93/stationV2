@@ -1,15 +1,16 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
+import { setOrder, useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
-import { valueFormatterSide } from 'src/utils/helpers';
+import { handleValidity, valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { onSuccessNotif } from 'src/handlers/notification';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+import { useMutation } from '@tanstack/react-query';
 
 type RequestData = {
     customerTitle: string;
@@ -46,6 +47,36 @@ const Requests = () => {
         },
     });
 
+    const { mutate: mutateSend } = useMutation(setOrder, {
+        onSuccess: () => {
+            onSuccessNotif();
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+
+    const handleSend = (data: Record<string, any>) => {
+        console.log(data);
+        const order: IOrderRequestType = {
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: data?.side,
+            orderDraftId: undefined,
+            orderStrategy: 'Normal',
+            orderType: 'LimitOrder',
+            percent: 0,
+            symbolISIN: data?.symbolISIN,
+            validity: 'GoodTillDate',
+            validityDate: data?.requestExpiration,
+            price: data?.price,
+            quantity: data?.volume,
+            customerISIN: [data?.customerISIN],
+            id: data?.id,
+        };
+        mutateSend(order);
+    };
+
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
@@ -68,7 +99,7 @@ const Requests = () => {
                         data={row.data}
                         type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
                         handleDelete={(data) => data?.id && deleteRequest(data?.id)}
-                        handleSend={(data) => {}}
+                        handleSend={(data) => data && handleSend(data)}
                     />
                 ),
             },
@@ -79,7 +110,7 @@ const Requests = () => {
     return (
         <WidgetLoading spining={isLoading || deleteLoading}>
             <div className={'grid h-full p-3'}>
-                <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
+                <AGTable agGridTheme="alpine" rowData={data?.result || []} columnDefs={columns} />
             </div>
         </WidgetLoading>
     );
