@@ -36,6 +36,10 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected, grid
         setShowEditForm((prev) => !prev);
     };
 
+    const handleExcelExport = () => {
+        
+    }
+
     return (
         <div className="grid grid-cols-2 items-center">
             <div className="my-7 w-full overflow-hidden py-2">
@@ -94,7 +98,10 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected, grid
                 </div>
                 <div className="flex gap-2 items-center">
                     <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
-                        <button className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                        <button
+                            onClick={handleExcelExport}
+                            className="px-[6px] py-[7px] h-fit rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600"
+                        >
                             <Excel2Icon width={20} height={18} className="cursor-pointer outline-none" />
                         </button>
                     </Tippy>

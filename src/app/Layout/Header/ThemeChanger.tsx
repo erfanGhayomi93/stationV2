@@ -18,7 +18,7 @@ const ThemeChanger = () => {
             className="flex mx-2"
         >
             <SwitchButton
-                className={theme === 'light' ? 'bg-yellow-300' : 'bg-blue-950'}
+                className={theme === 'light' ? 'bg-yellow-300' : 'bg-blue-900'}
                 icon={theme === 'light' ? <SunIcon color="white" height={18} /> : <MoonIcon height={18} />}
             />
         </Switcher>

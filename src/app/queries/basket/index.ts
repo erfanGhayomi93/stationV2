@@ -129,3 +129,16 @@ export const useDeleteDetailsBasket = (cartId: number | undefined) =>
             onErrorNotif();
         },
     });
+
+//Download Excel
+const excelExport = async (cartId: number) => {
+    try {
+        let { data } = await AXIOS.post(Apis().Basket.Excel as string, { cartId });
+        return data.result || 0;
+    } catch {
+        return 0;
+    }
+};
+
+export const useGetBasketExcel = (options?: Omit<UseMutationOptions<any, any, any, any>, 'mutationFn'> | undefined) =>
+    useMutation(excelExport, { ...options });
