@@ -30,7 +30,7 @@ const BrokerData = () => {
     // if (!userBroker) return <></>;
 
     return (
-        <div className="flex items-center pl-5" onClick={() => appDispatch(setAppTheme(theme === 'dark' ? 'light' : 'dark'))}>
+        <div className="flex items-center pl-5">
             <span className="ml-2">
                 <img className="h-[45px] aspect-square" src={'/assets/images/logo_' + BrokerCode + ".svg"} />
             </span>

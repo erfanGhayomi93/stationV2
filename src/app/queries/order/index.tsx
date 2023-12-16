@@ -78,6 +78,15 @@ export const getOfflineRequestHistory = async (id: number) => {
     return data?.result || {};
 };
 
+export const deleteRequest = async (Id: number) => {
+    let { data } = await AXIOS.post<GlobalApiResponseType<IDeleteRequest>>(Apis().Orders.DeleteRequest as string, null, { params: { Id } });
+    return data.result || [];
+};
+
+export const useDeleteRequest = (options?: Omit<UseMutationOptions<IDeleteRequest, unknown, number, unknown>, 'mutationFn'> | undefined) => {
+    return useMutation(deleteRequest, options);
+};
+
 ///////////Trades//////////
 
 export const getTradesLists = async (params: IGTTradesListRequest) => {

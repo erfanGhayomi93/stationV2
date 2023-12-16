@@ -91,6 +91,7 @@ export const Apis = () => ({
         Modify: getBaseUrl() + '/Order/v1/Modify',
         Trades: getBaseUrl() + '/Order/v1/Trades',
         OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
+        DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
     },
     SupervisorMessage: {
@@ -108,6 +109,7 @@ export const Apis = () => ({
     },
     Basket: {
         Get: getBaseUrl() + '/Cart/v1/CartList',
+        Excel: getBaseUrl() + '/Cart/v1/GetCartDetailExcel',
         Create: getBaseUrl() + '/Cart/v1/CreateCart',
         Edit: getBaseUrl() + '/Cart/v1/EditCart',
         Delete: getBaseUrl() + '/Cart/v1/DeleteCart',

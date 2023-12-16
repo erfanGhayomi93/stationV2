@@ -5,6 +5,7 @@ import MarketIndexes from './MarketIndexes';
 import Messages from './Messages';
 import UserActions from './UserActions';
 import UserData from './UserData';
+import ThemeChanger from './ThemeChanger';
 
 const Header = () => {
     //
@@ -25,9 +26,9 @@ const Header = () => {
                 <WorkflowChanger />
             </div>
             <div className="h-1/2  mx-1 " />
-            {/* <div>
-                <Messages />
-            </div> */}
+            <div>
+                <ThemeChanger/>
+            </div>
             <div className="h-1/2 border mx-1 border-L-gray-400 dark:border-D-gray-400 " />
             <div>
                 <Clock />
