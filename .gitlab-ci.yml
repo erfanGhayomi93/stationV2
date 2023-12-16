@@ -210,4 +210,24 @@ Production-TSS-Job03:
     - Web02
   artifacts:
   rules:
-    - if: $CI_COMMIT_BRANCH == "Production-TSS" 
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+DR-TSS-Job:
+  stage: deploy
+  script:
+    - npm install
+    - ($env:CI = "false") -and (npm run build)
+    - $date = get-date -format  "dd-MM-yyyy"
+    - mkdir -p "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Stop-Service -Name "UIWT_347_14050"
+    - Copy-item -Force -Recurse -Verbose "D:\GitLab-Runner\builds\i7MM5jVBF\0\ui\OnlineStationUI\build\*" -Destination  "D:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - sc.exe config UIWT_347_14050 binpath="D:\RamandStaticFileHosting\RamandStaticFileHosting.exe -p14050 -aD:\UI\347\UIWT_347_14050\Versions\Station.$date.$Env:AdminApiS\"
+    - Start-Service -Name "UIWT_347_14050" 
+    - ([Environment]::SetEnvironmentVariable("AdminApiS", [int64]$Env:AdminApiS + 1, "Machine"))
+    #- cd c:\scripts\StationUI\
+    #- .\only4backup
+  tags:
+    - DR-TSS-webApi
+
+  artifacts:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"
