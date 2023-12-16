@@ -13,15 +13,18 @@ import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
+import { pushEngine } from 'src/ls/pushEngine';
 
 type IOpenOrders = {
     ClickLeftNode: any;
 };
 
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
-    //
+    const appDispath = useAppDispatch();
 
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+    const clearTimeOut = useRef<NodeJS.Timer | null>(null)
+
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
     const { brokerCode } = useAppSelector(getUserData);
 
@@ -36,44 +39,65 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             const customerISINS = orders.map(({ customerISIN }) => customerISIN);
             subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
         }
+        else if (!orders?.length && isSubscribed()) {
+            unSubscribeCustomers()
+        }
     }, [orders]);
+
+
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
-    const filterTable = (omsClientKey: string) => {
-        let timer: NodeJS.Timer;
+    const RefetchAsync = () => {
+        // let timer: NodeJS.Timer;
 
-        timer = setTimeout(() => {
-            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
-                const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
-                if (!filteredData.length) {
-                    unSubscribeCustomers();
-                }
-                return filteredData;
-            });
+
+        let timer = setTimeout(() => {
+            // console.log("inside clearTimeOut")
+            refetchOpenOrders()
+            clearTimeout(timer)
         }, 1500);
+
+        clearTimeOut.current = timer;
+
+        // console.log("inside setTime")
+        // queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+        //     const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
+        //     // if (!filteredData.length) {
+        //     //     unSubscribeCustomers();
+        //     // }
+        //     return filteredData;
+        // });
     };
+
+
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
+            let timer = clearTimeOut.current as NodeJS.Timer
+
+            console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
 
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {
                     const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
                     const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
                     const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
-
-                    orders[index] = { ...updatedOrder, status: omsOrderStatus } as IOrderGetType;
+                    if (index >= 0) {
+                        orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOrderGetType;
+                    }
 
                     return [...orders];
                 }
             });
 
-            if (omsOrderStatus === 'Canceled') {
-                filterTable(omsClientKey);
+            if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
+                clearTimeout(timer)
+                RefetchAsync();
             }
+
         },
         [],
     );
@@ -82,7 +106,11 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
     }, []);
 
-    const appDispath = useAppDispatch();
+    // useEffect(() => {
+    //     console.log("orders", orders)
+    // }, [orders])
+
+
 
     const handleDelete = (data: IOrderGetType | undefined) => {
         data && deleteOrder(data?.orderId);
@@ -134,7 +162,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'وضعیت',
-                field: 'status',
+                field: 'OrderStatus',
                 minWidth: 160,
                 cellClassRules: {
                     'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),

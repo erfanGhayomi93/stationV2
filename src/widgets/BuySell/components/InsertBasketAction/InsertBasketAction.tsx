@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useCreateDetailsBasket, useEditDetailsBasket } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
@@ -8,14 +8,19 @@ import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { emptySelectedCustomers, getSelectedCustomers } from 'src/redux/slices/option';
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { useTranslation } from 'react-i18next';
 
 interface IInsertBasketActionType { }
 
 const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
     const { id, orderId } = useBasketState();
+    const { t } = useTranslation()
 
     const basketDispatch = useBasketDispatch();
     const { resetBuySellState } = useGlobalSetterState();
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
+
+
     const resetSelectedCustomer = () => {
         appDispatch(emptySelectedCustomers());
     };
@@ -33,6 +38,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
+
     const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket({
         onSuccess: () => {
             onSuccessNotif({ title: 'سفارش با موفقیت به سبد اضافه شد' });
@@ -43,10 +49,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
                 dispatch({ type: 'RESET' });
                 appDispatch(emptySelectedCustomers());
             }
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+        }
     });
     const { mutate: mutateDetailBasket } = useEditDetailsBasket({
         onSuccess: () => {
@@ -58,16 +61,18 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
                 dispatch({ type: 'RESET' });
                 appDispatch(emptySelectedCustomers());
             }
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+        }
     });
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
 
     const handleSetBasket = () => {
-        let isins = selectedCustomers.map((c: any) => c.customerISIN);
+        if (selectedCustomers.length === 0) {
+            onErrorNotif({ title: t('common.notCustomerSelected') });
+            return
+        }
+
+        let isins = selectedCustomers.map((c: IGoMultiCustomerType) => c.customerISIN);
         let isinsCommaSeparator = String(isins);
+
         const result = {
             cartID: id,
             symbolISIN: symbolISIN,
@@ -76,7 +81,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             percent: percent,
             side: side,
             validity: handleValidity(validity),
-            validityDate: validityDate,
+            validityDate: validityDate || null,
             customerISINs: isinsCommaSeparator,
             orderStrategy: 'Normal',
         };
@@ -84,9 +89,14 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
     };
 
     const handleEditBasket = () => {
-        let isins = selectedCustomers.map((c: any) => c.customerISIN);
-        let isinsCommaSeparator = String(isins);
-        const result = {};
+        if (selectedCustomers.length === 0) {
+            onErrorNotif({ title: t('common.notCustomerSelected') });
+            return
+        }
+
+        const isins = selectedCustomers.map((c: IGoMultiCustomerType) => c.customerISIN);
+        const isinsCommaSeparator = String(isins);
+
         mutateDetailBasket({
             id: orderId as number,
             cartID: id as number,
@@ -96,7 +106,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             percent: percent as number,
             side: side,
             validity: handleValidity(validity),
-            validityDate: validityDate as any,
+            validityDate: validityDate || null,
             customerISINs: isinsCommaSeparator,
             orderStrategy: 'Normal',
             orderType: 'LimitOrder',

@@ -2,12 +2,10 @@ import dayjs from 'dayjs';
 import { useEffect, useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
-// import { useGlobalSetterDispatch } from 'src/common/context/globalSetterContext';
-// import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { clearDataAction, getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { getSelectedSymbol, setAllSelectedCustomers } from 'src/redux/slices/option';
-import BuySell from '..';
+import BuySell, { resetByeSellData } from '..';
 import { BuySellReducer } from './BuySellReducer';
 import DivideOrderModal from 'src/widgets/DivideOrderModal';
 import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
@@ -36,52 +34,38 @@ const BuySellContext = () => {
     // const dispatchSetter = useGlobalSetterDispatch();
     const dataContext = useBuySellState()
     const symbolRedux = useAppSelector(getSelectedSymbol)
+    const { data: dataRedux, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
 
     const appDispatch = useAppDispatch();
     const ByeSellDispatch = useBuySellDispatch();
 
-    // const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-    //     // appDispatch(setPartSelectedCustomers(customer));
-    // };
+    const clearDataRedux = () => appDispatch(clearDataAction())
+    const clearDataContext = () => ByeSellDispatch({ type: "RESET" })
+
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {
             appDispatch(setAllSelectedCustomers(selectedCustomer))
         },
     });
 
-
-
-    // useEffect(() => {
-    //     const resetBuySellState = () => ByeSellDispatch({ type: 'RESET' });
-    //     dispatchSetter({ resetBuySellState: resetBuySellState });
-    // }, [ByeSellDispatch, dispatchSetter]);
-
-    const { data: dataRedux, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
-
-    // function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
-    //     return comeFrom === ComeFromKeepDataEnum.Draft;
-    // }
-    // function isBasket(keepOrder: IOrderGetType | IDraftResponseType | IListDetailsBasket, comeFrom?: string): keepOrder is IListDetailsBasket {
-    //     return comeFrom === ComeFromKeepDataEnum.Basket;
-    // }
-
-
     useUpdateEffect(() => {
         dataRedux && ByeSellDispatch({
             type: 'SET_ALL',
             value: {
                 ...dataContext,
-                ...dataRedux
+                ...dataRedux,
             },
         });
 
+    }, [dataRedux, comeFrom])
+
+    useUpdateEffect(() => {
         !!customerIsin && getCustomers({ CustomerISINs: customerIsin });
-    }, [dataRedux])
+    } ,[customerIsin])
 
     useUpdateEffect(() => {
         !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
     }, [symbolRedux])
-
 
 
     useUpdateEffect(() => {
@@ -89,8 +73,75 @@ const BuySellContext = () => {
     }, [dataContext.side])
 
 
+    useEffect(() => {
+        () => {
+            resetByeSellData(ByeSellDispatch , appDispatch)
+        }
+    }, [comeFrom])
+  
 
-    //     useEffect(() => {
+    return (
+        <>
+            <BuySell />
+            <DivideOrderModal />
+        </>
+    );
+};
+const BuySellWidget = () => {
+    return (
+        <>
+            <BuySellProvider>
+                <BuySellContext />
+            </BuySellProvider>
+        </>
+    );
+};
+
+export default BuySellWidget;
+
+// function isDraft(keepOrder: IOrderGetType | IDraftResponseType, comeFrom?: string): keepOrder is IDraftResponseType {
+//     return comeFrom === ComeFromKeepDataEnum.Draft;
+// }
+// function isBasket(keepOrder: IOrderGetType | IDraftResponseType | IListDetailsBasket, comeFrom?: string): keepOrder is IListDetailsBasket {
+//     return comeFrom === ComeFromKeepDataEnum.Basket;
+// }
+
+
+//             if (comeFrom === ComeFromKeepDataEnum.Draft) {
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
+//             } else if (comeFrom === ComeFromKeepDataEnum.Basket) {
+//                 // dataMulti.CustomerISINs = dataRedux.customerISINs.split(',');
+//                 // Add other properties if needed for the 'basket' case
+//             } else {
+//                 // dataMulti.CustomerISINs = [dataRedux.customerISIN];
+//                 // Add other properties if needed for the default case
+//             }
+
+// ByeSellDispatch({
+//     type: 'SET_ALL',
+//     value: {
+//         amount: 0,
+//         percent: 0,
+//         divide: false,
+//         isCalculatorEnabled: false,
+//         sequential: false,
+//         price: dataRedux.price,
+//         quantity: dataRedux.quantity,
+//         side: dataRedux.side,
+//         strategy: 'normal',
+//         symbolISIN: dataRedux.symbolISIN,
+//         validity: dataRedux.validity as validity,
+//         validityDate: dataRedux.validityDate,
+//         comeFrom,
+//         id: dataRedux.id,
+//     },
+// });
+
+
+
+
+  //     useEffect(() => {
     //         if (dataRedux?.symbolISIN) {
     //             appDispatch(setSelectedSymbol(dataRedux.symbolISIN));
     //             if (isDraft(dataRedux, comeFrom)) {
@@ -176,54 +227,3 @@ const BuySellContext = () => {
     //             appDispatch(setDataBuySellAction()); // clear saved date
     //         }
     //     }, [dataRedux?.symbolISIN]);
-
-    return (
-        <>
-            <BuySell />
-            <DivideOrderModal />
-        </>
-    );
-};
-const BuySellWidget = () => {
-    return (
-        <>
-            <BuySellProvider>
-                <BuySellContext />
-            </BuySellProvider>
-        </>
-    );
-};
-
-export default BuySellWidget;
-
-
-//             if (comeFrom === ComeFromKeepDataEnum.Draft) {
-//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
-//                 // dataMulti.CustomerISINs = dataRedux.customers.map((item) => item.customerISIN);
-//             } else if (comeFrom === ComeFromKeepDataEnum.Basket) {
-//                 // dataMulti.CustomerISINs = dataRedux.customerISINs.split(',');
-//                 // Add other properties if needed for the 'basket' case
-//             } else {
-//                 // dataMulti.CustomerISINs = [dataRedux.customerISIN];
-//                 // Add other properties if needed for the default case
-//             }
-
-// ByeSellDispatch({
-//     type: 'SET_ALL',
-//     value: {
-//         amount: 0,
-//         percent: 0,
-//         divide: false,
-//         isCalculatorEnabled: false,
-//         sequential: false,
-//         price: dataRedux.price,
-//         quantity: dataRedux.quantity,
-//         side: dataRedux.side,
-//         strategy: 'normal',
-//         symbolISIN: dataRedux.symbolISIN,
-//         validity: dataRedux.validity as validity,
-//         validityDate: dataRedux.validityDate,
-//         comeFrom,
-//         id: dataRedux.id,
-//     },
-// });

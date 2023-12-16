@@ -39,13 +39,13 @@ import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
 interface InitState {
     data?: BuySellState;
-    comeFrom?: ComeFromKeepDataEnum | undefined;
+    comeFrom?: ComeFromKeepDataEnum | '';
     customerIsin?: string[];
 }
 
 const initialState: InitState = {
     data: undefined,
-    comeFrom: ComeFromKeepDataEnum.OpenOrder,
+    comeFrom: '',
     customerIsin: [],
 };
 
@@ -69,7 +69,7 @@ const keepDataBuySellSlice = createSlice({
             state.customerIsin = action.payload.customerIsin;
         },
         clearDataAction: (state) => {
-            state = initialState;
+            (state.data = initialState.data), (state.comeFrom = initialState.comeFrom), (state.customerIsin = initialState.customerIsin);
         },
     },
 });

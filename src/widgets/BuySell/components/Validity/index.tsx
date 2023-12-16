@@ -14,7 +14,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     const dispatch = useBuySellDispatch();
     const { validity, validityDate } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
-    const setValidityDate = (value: string | undefined) => dispatch({ type: 'SET_VALIDITY_DATE', value });
+    const setValidityDate = (value: string | null) => dispatch({ type: 'SET_VALIDITY_DATE', value });
     const { t } = useTranslation();
 
     const handleValidityState = (select: any) => {
@@ -25,7 +25,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
         if (validity === 'GoodTillDate') return
 
         const selectedDate = VALIDITY_OPTIONS.find((x) => x.value === validity)?.validityDate;
-        setValidityDate(selectedDate);
+        setValidityDate(selectedDate || null);
 
     }, [validity]);
 

@@ -12,7 +12,7 @@ import { filterStateType } from './FilterBasket';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 
 type ITableType = {
-    activeBasket: number | undefined;
+    activeBasket: number ;
     listAfterFilter: IListDetailsBasket[] | undefined;
     dataFilter: filterStateType;
     isShowFilter: boolean;
@@ -43,7 +43,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
                     side: data.side,
                     symbolISIN: data.symbolISIN,
                     validity: data.validity,
-                    validityDate: data.validityDate,
+                    validityDate: data.validityDate || null,
                     id: data.id,
                 },
                 comeFrom: ComeFromKeepDataEnum.Basket,
