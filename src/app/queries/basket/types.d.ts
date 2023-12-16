@@ -21,7 +21,7 @@ type IListDetailsBasket = {
     date: string;
     userId: number;
     validity: validity;
-    validityDate: string;
+    validityDate: string | null;
     customerISINs: string;
     orderStrategy: string;
     orderType: string;
@@ -42,7 +42,7 @@ interface ICreateCartDetailType {
     date?: Date;
     userId?: number;
     validity: string;
-    validityDate: Date;
+    validityDate: string | null;
     customerISINs: string;
     orderStrategy: string;
     orderType: OrderTypeType;

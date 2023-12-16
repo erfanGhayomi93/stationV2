@@ -7,7 +7,7 @@ interface IDraftRequsetType {
     quantity: number;
     orderSide: string;
     validity: validity;
-    validityDate: string | undefined;
+    validityDate: string | null;
     date: string;
     customerISINs: string;
     orderStrategy?: string;
@@ -22,7 +22,7 @@ interface IDraftCreateType {
     quantity: number;
     side: string;
     validity: validity;
-    validityDate: string | undefined;
+    validityDate: string | null;
     customerISINs: string;
     customerTitles: string;
     percent: number;
@@ -43,7 +43,7 @@ interface IDraftResponseType {
     symbolISIN: string;
     symbolTitle: string;
     validity: validity;
-    validityDate: string;
+    validityDate: string | null;
     // customerISINs: string;
     // customerTitles: string[];
 }

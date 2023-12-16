@@ -51,6 +51,8 @@ const createRamandOMSGateway = () => {
 
         if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
+        // console.log("subscribe", items)
+
         pushEngine.subscribe({
             id: 'supervisorMessage',
             mode: 'RAW',
@@ -59,6 +61,8 @@ const createRamandOMSGateway = () => {
             items: items,
             fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
             onFieldsUpdate: ({ changedFields }) => {
+                // console.log("changedFieldsFromMain", changedFields)
+
                 //
                 if (changedFields['OMSMessage']) handleOMSMessage(translateMessage(changedFields['OMSMessage']));
                 else if (changedFields['AdminMessage']) handleAdminMessage(translateMessage(changedFields['AdminMessage']));

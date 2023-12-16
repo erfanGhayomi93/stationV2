@@ -9,15 +9,20 @@ import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import { useTranslation } from 'react-i18next';
+import { clearDataAction, getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
 
-interface ISetDraftActionType {}
+interface ISetDraftActionType { }
 
-const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
-    const { side, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, comeFrom } = useBuySellState();
+const SetDraftAction: FC<ISetDraftActionType> = ({ }) => {
+    const { side, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent } = useBuySellState();
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
     const { t } = useTranslation();
+
+    const { comeFrom } = useAppSelector(getKeepDataBuySell)
+
+
     const { mutate: mutateCreateDraft } = useCreateDraft({
         onSuccess: () => {
             onSuccessNotif();
@@ -63,10 +68,10 @@ const SetDraftAction: FC<ISetDraftActionType> = ({}) => {
             quantity: quantity,
             side: side,
             validity: handleValidity(validity),
-            validityDate: validityDate,
+            validityDate: validityDate || null,
             percent: percent || 0,
             orderStrategy: strategy,
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder',
             customerTitles: '',
         });
     };

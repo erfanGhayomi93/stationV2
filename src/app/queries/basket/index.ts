@@ -105,12 +105,12 @@ export const getDetailsBasketFn = async (cartId: number | undefined) => {
     }
 };
 
-export const useGetDetailsBasket = (cartId: number | undefined) =>
+export const useGetDetailsBasket = (cartId: number) =>
     useQuery(['BasketDetailsList', cartId], () => getDetailsBasketFn(cartId), {
         enabled: !!cartId,
     });
 ///////////////delete details Basket///////////////////
-const deleteDetailsBasketFn = async (cartDetailId: number) => {
+const deleteDetailsBasketFn = async (cartDetailId?: number) => {
     try {
         let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.DeleteDetails as string, {}, { params: { cartDetailId } });
         return data.result || 0;
@@ -119,13 +119,10 @@ const deleteDetailsBasketFn = async (cartDetailId: number) => {
     }
 };
 
-export const useDeleteDetailsBasket = (cartId: number | undefined) =>
+export const useDeleteDetailsBasket = (cartId: number) =>
     useMutation(deleteDetailsBasketFn, {
         onSuccess: () => {
             onSuccessNotif({ title: 'حذف مشتری از سبد با موفقیت انجام شد' });
             return queryClient.invalidateQueries(['BasketDetailsList', cartId]);
-        },
-        onError: () => {
-            onErrorNotif();
         },
     });

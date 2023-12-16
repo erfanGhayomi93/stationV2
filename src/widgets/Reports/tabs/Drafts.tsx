@@ -50,7 +50,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             quantity: quantity || 0,
             symbolISIN: symbolISIN || '',
             validity: handleValidity(validity as validity),
-            validityDate: validityDate,
+            validityDate: validityDate || null,
         });
     };
 

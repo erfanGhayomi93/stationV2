@@ -4,10 +4,13 @@ import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import { emptySelectedCustomers } from 'src/redux/slices/option';
 import GroupBuySell from './components/GroupBuySell/GroupBuySell';
 import { useBuySellDispatch, useBuySellState } from './context/BuySellContext';
+import { clearDataAction } from 'src/redux/slices/keepDataBuySell';
 
 export const resetByeSellData = (dispatch: any, appDispatch: Dispatch) => {
     dispatch({ type: 'RESET' });
-    appDispatch(emptySelectedCustomers());
+    appDispatch(clearDataAction())
+
+    // appDispatch(emptySelectedCustomers());
 };
 const BuySell = () => {
     //

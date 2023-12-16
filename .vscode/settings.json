@@ -1,8 +1,8 @@
 {
 	// "workbench.colorTheme": "One Dark Pro",
 	"editor.codeActionsOnSave": {
-		"source.organizeImports": false,
-		"source.sortImports": false
+		"source.organizeImports": "never",
+		"source.sortImports": "never"
 	},
 	"cSpell.words": [
 		"actived",

@@ -16,11 +16,11 @@ export const VALIDITY_OPTIONS = [
     {
         id: 5,
         value: 'FillAndKill',
-        validityDate: undefined,
+        validityDate: null,
     },
     {
         id: 6,
         value: 'GoodTillCancelled',
-        validityDate: undefined,
+        validityDate: null,
     },
 ];

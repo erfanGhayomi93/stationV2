@@ -12,7 +12,7 @@ interface IOrderRequestType {
     quantity: number;
     percent: number;
     validity: validity;
-    validityDate: string | undefined;
+    validityDate: string | null;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
     orderStrategy: string;
@@ -55,7 +55,7 @@ type IOrderSelected = {
     position: number;
     valuePosition: number;
     validity: validity;
-    validityDate?: string;
+    validityDate: string | null;
 };
 // type BuySellSide = 'Cross' | 'Buy' | 'Sell' | '';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
@@ -112,7 +112,7 @@ interface IGTOrderListResultType {
     sumExecuted: number;
     userName: string;
     validity: validity;
-    validityDate: string;
+    validityDate: string | null;
     orderFrom: string;
     parentOrderId: number;
     childOrderId: number;
