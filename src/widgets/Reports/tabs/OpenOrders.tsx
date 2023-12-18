@@ -13,7 +13,6 @@ import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
-import { pushEngine } from 'src/ls/pushEngine';
 
 type IOpenOrders = {
     ClickLeftNode: any;
@@ -22,7 +21,7 @@ type IOpenOrders = {
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
 
-    const clearTimeOut = useRef<NodeJS.Timer | null>(null)
+    let clearTimeOut = useRef<ReturnType<typeof setTimeout>>()
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
@@ -47,28 +46,26 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
 
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
+    // 
+    //     const RefetchAsync = () => {
+    //         // let timer: NodeJS.Timer;
+    // 
+    // 
+    //         clearTimeOut.current = setTimeout(() => {
+    //             // console.log("inside clearTimeOut")
+    //             
+    //             clearTimeout(clearTimeOut.current)
+    //         }, 300);
+    //     };
 
-    const RefetchAsync = () => {
-        // let timer: NodeJS.Timer;
-
-
-        let timer = setTimeout(() => {
-            // console.log("inside clearTimeOut")
-            refetchOpenOrders()
-            clearTimeout(timer)
-        }, 1500);
-
-        clearTimeOut.current = timer;
-
-        // console.log("inside setTime")
-        // queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
-        //     const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
-        //     // if (!filteredData.length) {
-        //     //     unSubscribeCustomers();
-        //     // }
-        //     return filteredData;
-        // });
-    };
+    // console.log("inside setTime")
+    // queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+    //     const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
+    //     // if (!filteredData.length) {
+    //     //     unSubscribeCustomers();
+    //     // }
+    //     return filteredData;
+    // });
 
 
 
@@ -76,7 +73,6 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
         () => (message: Record<number, string>) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
-            let timer = clearTimeOut.current as NodeJS.Timer
 
             console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
 
@@ -93,13 +89,23 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 }
             });
 
-            if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
-                clearTimeout(timer)
-                RefetchAsync();
-            }
+            console.log("clearTimeOut.current", clearTimeOut.current)
+            clearTimeout(clearTimeOut.current)
+            clearTimeOut.current = setTimeout(() => {
+                if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
+                    refetchOpenOrders()
+                    // clearTimeout(clearTimeOut.current)
+                    // RefetchAsync();
+                } else if (omsOrderStatus === 'Error') {
+                    refetchOpenOrders()
+                    queryClient.invalidateQueries(['orderList', 'Error'])
+                }
+
+                clearTimeout(clearTimeOut.current)
+            }, 3000);
 
         },
-        [],
+        [clearTimeOut.current],
     );
 
     useEffect(() => {
@@ -162,7 +168,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'وضعیت',
-                field: 'OrderStatus',
+                field: 'orderState',
                 minWidth: 160,
                 cellClassRules: {
                     'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),

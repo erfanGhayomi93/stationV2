@@ -51,7 +51,7 @@ const createRamandOMSGateway = () => {
 
         if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
-        // console.log("subscribe", items)
+        console.log("subscribe", items)
 
         pushEngine.subscribe({
             id: 'supervisorMessage',
