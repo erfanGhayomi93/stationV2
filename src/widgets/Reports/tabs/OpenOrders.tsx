@@ -14,6 +14,7 @@ import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
 import { pushEngine } from 'src/ls/pushEngine';
+import AGActionCell from 'src/common/components/AGActionCell';
 
 type IOpenOrders = {
     ClickLeftNode: any;
@@ -22,9 +23,9 @@ type IOpenOrders = {
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const appDispath = useAppDispatch();
 
-    const clearTimeOut = useRef<NodeJS.Timer | null>(null)
+    const clearTimeOut = useRef<NodeJS.Timer | null>(null);
 
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
     const { brokerCode } = useAppSelector(getUserData);
 
@@ -38,24 +39,20 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
         if (orders?.length && !isSubscribed() && brokerCode) {
             const customerISINS = orders.map(({ customerISIN }) => customerISIN);
             subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
-        }
-        else if (!orders?.length && isSubscribed()) {
-            unSubscribeCustomers()
+        } else if (!orders?.length && isSubscribed()) {
+            unSubscribeCustomers();
         }
     }, [orders]);
-
-
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
     const RefetchAsync = () => {
         // let timer: NodeJS.Timer;
 
-
         let timer = setTimeout(() => {
             // console.log("inside clearTimeOut")
-            refetchOpenOrders()
-            clearTimeout(timer)
+            refetchOpenOrders();
+            clearTimeout(timer);
         }, 1500);
 
         clearTimeOut.current = timer;
@@ -70,15 +67,13 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
         // });
     };
 
-
-
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
-            let timer = clearTimeOut.current as NodeJS.Timer
+            let timer = clearTimeOut.current as NodeJS.Timer;
 
-            console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
+            console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
 
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {
@@ -94,10 +89,9 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             });
 
             if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
-                clearTimeout(timer)
+                clearTimeout(timer);
                 RefetchAsync();
             }
-
         },
         [],
     );
@@ -110,17 +104,15 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     //     console.log("orders", orders)
     // }, [orders])
 
-
-
     const handleDelete = (data: IOrderGetType | undefined) => {
         data && deleteOrder(data?.orderId);
     };
 
     const handleEdit = (data: IOrderGetType | undefined) => {
-        if (!data) return
+        if (!data) return;
 
-        appDispath(setPartDataBuySellAction(
-            {
+        appDispath(
+            setPartDataBuySellAction({
                 data: {
                     price: data.price,
                     quantity: data.quantity,
@@ -128,11 +120,12 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                     symbolISIN: data.symbolISIN,
                     validity: data.validity,
                     validityDate: data.validityDate,
-                    id: data.orderId
+                    id: data.orderId,
                 },
                 comeFrom: ComeFromKeepDataEnum.OpenOrder,
-                customerIsin: [data.customerISIN]
-            }));
+                customerIsin: [data.customerISIN],
+            }),
+        );
 
         // appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
@@ -142,7 +135,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             {
                 headerName: 'مشتری',
                 field: 'customerTitle',
-                pinned: 'right'
+                pinned: 'right',
             },
             {
                 headerName: 'نام نماد',
@@ -176,12 +169,13 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 field: 'customTitle',
                 pinned: 'left',
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
-                    <ActionCell
-                        data={row.data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                    />
+                    // <ActionCell
+                    //     data={row.data}
+                    //     type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
+                    //     handleDelete={handleDelete}
+                    //     handleEdit={handleEdit}
+                    // />
+                    <AGActionCell requiredButtons={['Edit', 'Delete']} onDeleteClick={handleDelete} onEditClick={handleEdit} data={row?.data} />
                 ),
             },
         ],
