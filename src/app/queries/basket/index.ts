@@ -1,9 +1,10 @@
-import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
 
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { excelDownloader } from 'src/utils/helpers';
 
 ////////////////get Basket////////////////////////
 export const getBasketFn = async () => {
@@ -139,13 +140,12 @@ export const useDeleteDetailsBasket = (cartId: number) =>
 
 //Download Excel
 const excelExport = async (cartId: number) => {
-    try {
-        let { data } = await AXIOS.post(Apis().Basket.Excel as string, { cartId });
-        return data.result || 0;
-    } catch {
-        return 0;
+    let { data } = await AXIOS.get(Apis().Basket.Excel as string, { params: { cartId } });
+    if (data) {
+        excelDownloader(data);
     }
+    return data;
 };
 
-export const useGetBasketExcel = (options?: Omit<UseMutationOptions<any, any, any, any>, 'mutationFn'> | undefined) =>
-    useMutation(excelExport, { ...options });
+export const useGetBasketExcel = (cartId: number, options?: Omit<UseQueryOptions<any, any, any, any>, 'mutationFn'> | undefined) =>
+    useQuery(['BasketExcel', cartId], ({ queryKey }) => excelExport(queryKey[1] as number), { ...options, enabled: false });
