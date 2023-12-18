@@ -93,6 +93,14 @@ interface ISingleDeleteOrderResult {
     succeeded: boolean;
 }
 
+interface ISingleModifyOrderReq {
+    price: number;
+    quantity: number;
+    validity: validity;
+    validityDate: string | null;
+    id: number;
+}
+
 interface IGTOrderListResultType {
     orderId: number;
     symbolISIN: string;
