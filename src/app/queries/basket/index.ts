@@ -96,17 +96,27 @@ export const useEditDetailsBasket = (
 ) => useMutation(EditCartDetail, { ...options });
 
 ////////////////get Basket////////////////////////
-export const getDetailsBasketFn = async (cartId: number | undefined) => {
+export const getDetailsBasketFn = async (params: { cartId: number | undefined; PageNumber: number; PageSize: number }) => {
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<IListDetailsBasket[]>>(Apis().Basket.GetDetail as string, { params: { cartId } });
-        return data.result || [];
+        let { data } = await AXIOS.get<IListDetailsBasket>(Apis().Basket.GetDetail, { params });
+        return data;
     } catch {
-        return [];
+        return {
+            hasNextPage: false,
+            hasPreviousPage: false,
+            pageNumber: 1,
+            pageSize: 10,
+            result: [],
+            totalCount: '1',
+            errors: [],
+            succeeded: false,
+            totalPages: 0,
+        } as IListDetailsBasket;
     }
 };
 
-export const useGetDetailsBasket = (cartId: number) =>
-    useQuery(['BasketDetailsList', cartId], () => getDetailsBasketFn(cartId), {
+export const useGetDetailsBasket = (cartId: number, params: { PageNumber: number; PageSize: number }) =>
+    useQuery(['BasketDetailsList', cartId, params], () => getDetailsBasketFn({ cartId, ...params }), {
         enabled: !!cartId,
     });
 ///////////////delete details Basket///////////////////

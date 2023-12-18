@@ -10,23 +10,37 @@ type IListBasket = {
 };
 
 type IListDetailsBasket = {
-    id: number;
-    cartID: number;
-    symbolISIN: string;
-    price: number;
-    quantity: number;
-    percent: number;
-    side: BuySellSide;
-    deleted: false;
-    date: string;
-    userId: number;
-    validity: validity;
-    validityDate: string | null;
-    customerISINs: string;
-    orderStrategy: string;
-    orderType: string;
-    customers: ICustomer[];
-    symbolTitle: string;
+    result: {
+        id: number;
+        cartID: number;
+        traderISIN: string;
+        symbolISIN: string;
+        price: number;
+        quantity: number;
+        percent: number;
+        side: BuySellSide;
+        deleted: true;
+        date: string;
+        userId: 0;
+        validity: validity;
+        validityDate: string;
+        customerISINs: string;
+        orderStrategy: string;
+        orderType: string;
+        symbolTitle: string;
+        customers: {
+            customerISIN: string;
+            customerTitle: string;
+        }[];
+    }[];
+    pageNumber: number;
+    totalPages: number;
+    totalCount: string;
+    pageSize: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+    succeeded: boolean;
+    errors: string[];
 };
 
 interface ICreateCartDetailType {
