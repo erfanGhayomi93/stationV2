@@ -5,7 +5,7 @@ import { queryClient } from 'src/app/queryClient';
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
     const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsPreprd();
+    // const { data } = useGlobalSettingsStage();
 
     useEffect(() => {
         const routes = Apis();
@@ -89,8 +89,10 @@ export const Apis = () => ({
         Lists: getBaseUrl() + '/Order/v1/OrdersList',
         GroupLists: getBaseUrl() + '/Order/v1/GroupOrdersList',
         Modify: getBaseUrl() + '/Order/v1/Modify',
+        ModifySingleTrade: getBaseUrl() + '/Order/v1/ModifySingleTrade',
         Trades: getBaseUrl() + '/Order/v1/Trades',
         OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
+        DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
     },
     SupervisorMessage: {
@@ -108,6 +110,7 @@ export const Apis = () => ({
     },
     Basket: {
         Get: getBaseUrl() + '/Cart/v1/CartList',
+        Excel: getBaseUrl() + '/Cart/v1/GetCartDetailExcel',
         Create: getBaseUrl() + '/Cart/v1/CreateCart',
         Edit: getBaseUrl() + '/Cart/v1/EditCart',
         Delete: getBaseUrl() + '/Cart/v1/DeleteCart',

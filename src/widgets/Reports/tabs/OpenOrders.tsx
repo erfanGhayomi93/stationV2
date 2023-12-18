@@ -19,9 +19,11 @@ type IOpenOrders = {
 };
 
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
-    //
+    const appDispath = useAppDispatch();
 
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+    let clearTimeOut = useRef<ReturnType<typeof setTimeout>>()
+
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
     const { brokerCode } = useAppSelector(getUserData);
 
@@ -36,53 +38,85 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             const customerISINS = orders.map(({ customerISIN }) => customerISIN);
             subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
         }
+        else if (!orders?.length && isSubscribed()) {
+            unSubscribeCustomers()
+        }
     }, [orders]);
 
+
+
     const { mutate: deleteOrder } = useSingleDeleteOrders();
+    // 
+    //     const RefetchAsync = () => {
+    //         // let timer: NodeJS.Timer;
+    // 
+    // 
+    //         clearTimeOut.current = setTimeout(() => {
+    //             // console.log("inside clearTimeOut")
+    //             
+    //             clearTimeout(clearTimeOut.current)
+    //         }, 300);
+    //     };
 
-    const filterTable = (omsClientKey: string) => {
-        let timer: NodeJS.Timer;
+    // console.log("inside setTime")
+    // queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+    //     const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
+    //     // if (!filteredData.length) {
+    //     //     unSubscribeCustomers();
+    //     // }
+    //     return filteredData;
+    // });
 
-        timer = setTimeout(() => {
-            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
-                const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
-                if (!filteredData.length) {
-                    unSubscribeCustomers();
-                }
-                return filteredData;
-            });
-        }, 1500);
-    };
+
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
 
+            console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
+
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {
                     const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
                     const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
                     const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
-
-                    orders[index] = { ...updatedOrder, status: omsOrderStatus } as IOrderGetType;
+                    if (index >= 0) {
+                        orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOrderGetType;
+                    }
 
                     return [...orders];
                 }
             });
 
-            if (omsOrderStatus === 'Canceled') {
-                filterTable(omsClientKey);
-            }
+            console.log("clearTimeOut.current", clearTimeOut.current)
+            clearTimeout(clearTimeOut.current)
+            clearTimeOut.current = setTimeout(() => {
+                if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
+                    refetchOpenOrders()
+                    // clearTimeout(clearTimeOut.current)
+                    // RefetchAsync();
+                } else if (omsOrderStatus === 'Error') {
+                    refetchOpenOrders()
+                    queryClient.invalidateQueries(['orderList', 'Error'])
+                }
+
+                clearTimeout(clearTimeOut.current)
+            }, 3000);
+
         },
-        [],
+        [clearTimeOut.current],
     );
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
     }, []);
 
-    const appDispath = useAppDispatch();
+    // useEffect(() => {
+    //     console.log("orders", orders)
+    // }, [orders])
+
+
 
     const handleDelete = (data: IOrderGetType | undefined) => {
         data && deleteOrder(data?.orderId);
@@ -134,7 +168,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'وضعیت',
-                field: 'status',
+                field: 'orderState',
                 minWidth: 160,
                 cellClassRules: {
                     'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),

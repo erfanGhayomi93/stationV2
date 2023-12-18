@@ -36,13 +36,15 @@ const deleteDraftQuery = async (draftId: number): Promise<number | []> => {
     return data.result || [];
 };
 
-export const useDeleteDraft = () => {
+export const useDeleteDraft = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: () => void }) => {
     return useMutation(deleteDraftQuery, {
         onSuccess: () => {
             queryClient.invalidateQueries(['draftList']);
+            onSuccess && onSuccess();
         },
         onError: (err) => {
             console.log('err', err);
+            onError && onError();
         },
     });
 };
@@ -53,6 +55,6 @@ const updateDraftQuery = async (params: any) => {
     return data.result || [];
 };
 
-export const useUpdateDraft = (option?: Omit<UseMutationOptions<number[], Error , any , unknown>, 'mutationKey' | 'mutationFn'>) => {
+export const useUpdateDraft = (option?: Omit<UseMutationOptions<number[], Error, any, unknown>, 'mutationKey' | 'mutationFn'>) => {
     return useMutation(updateDraftQuery, option);
 };

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useRef, useState } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import { setOrder } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -8,19 +8,32 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
+import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
+import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 type IDraft = {
     ClickLeftNode: any;
 };
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
-    const { mutate } = useDeleteDraft();
+    const [isOpen, setIsOpen] = useState(false);
+    const { sendOrders, ordersLoading } = useSendOrders();
+
+
+    const { mutate } = useDeleteDraft({
+        onSuccess: () => {
+            onSuccessNotif({ title: 'پیش نویس حذف گردید' });
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
     const { isFilter } = ClickLeftNode;
     const { mutate: mutateSend } = useMutation(setOrder, {
         onSuccess: () => {
@@ -31,32 +44,43 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         },
     });
 
+    const selectedDataForDelete = useRef<IDraftResponseType | undefined>();
+
     const handleDelete = (data?: IDraftResponseType) => {
-        data && mutate(data?.orderId);
+        selectedDataForDelete.current = data;
+        setIsOpen(true);
     };
 
     const handleSend = (data?: IDraftResponseType) => {
-        const { customers, customerTags, gtGroups, orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
-        mutateSend({
-            customerISIN: customers?.map((item) => item?.customerISIN) || [],
-            CustomerTagId: customerTags?.map((item) => item?.customerTagTitle) || [],
-            GTTraderGroupId: gtGroups?.map((item) => item?.traderGroupId) || [],
+        const { customers , orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
+        if(!customers){
+            return
+        }
+
+        console.log("data",data)
+
+      const order : IOrderRequestType[] = customers.map( item => ({
+            customerISIN: [item.customerISIN] as ICustomerIsins,
+            CustomerTagId: [],
+            GTTraderGroupId: [],
             orderSide: orderSide || 'Buy',
             orderDraftId: orderId,
             orderStrategy: 'normal',
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder',
             percent: percent || 0,
             price: price || 0,
             quantity: quantity || 0,
             symbolISIN: symbolISIN || '',
             validity: handleValidity(validity as validity),
-            validityDate: validityDate,
-        });
+            validityDate: validityDate || null,
+        }))
+
+        sendOrders(0 , order)
     };
 
     const appDispatch = useAppDispatch();
     const handleEdit = async (data?: IDraftResponseType) => {
-        if (!data) return
+        if (!data) return;
         // First dispatch
         appDispatch(setSelectedSymbol(data.symbolISIN));
 
@@ -69,14 +93,13 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 symbolISIN: data.symbolISIN,
                 validity: data.validity,
                 validityDate: data.validityDate,
-                id: data.orderId
+                id: data.orderId,
             },
             comeFrom: ComeFromKeepDataEnum.Draft,
-            customerIsin: data.customers.map(item => item.customerISIN)
+            customerIsin: data.customers.map((item) => item.customerISIN),
         };
 
         appDispatch(setPartDataBuySellAction(buySellAction));
-
     };
 
     const valueFormatterCustomers = (value: ICustomers[]) => {
@@ -123,11 +146,23 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     rowData={dataAfterfilter}
                     columnDefs={columns}
                     rowSelection="multiple"
-                // enableBrowserTooltips={false}
-                // suppressRowClickSelection={true}
-                // onRowSelected={onRowSelected}
+                    // enableBrowserTooltips={false}
+                    // suppressRowClickSelection={true}
+                    // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
+            {isOpen && (
+                <ConfirmModal
+                    title={'حذف پیش نویس'}
+                    description={'آیا از حذف پیش نویس اطمینان دارید؟'}
+                    onConfirm={() => {
+                        selectedDataForDelete.current?.orderId && mutate(selectedDataForDelete.current.orderId);
+                        setIsOpen(false);
+                    }}
+                    onCancel={() => setIsOpen(false)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };

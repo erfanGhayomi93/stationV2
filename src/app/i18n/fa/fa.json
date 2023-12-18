@@ -529,22 +529,22 @@
         "showGuideInFirstLogin": "نمایش راهنما در هنگام اولین ورود"
     },
     "portfolioCardexType": {
-        "Change_Broker_Out": "خروج از طریق ناظر",
+        "Initial": "",
+        "Change_Broker_Out": "تغییر کارگزار ناظر(خروج سهم)",
         "Portfolio_Change_BonusShare": "تخصیص سهم جایزه",
-        "Capital_Increase_Share_Premium": "افزایش سرمایه سهم",
+        "Capital_Increase_Share_Premium": "افزایش سرمایه از محل صرف سهم",
         "Capital_Increase_Contribution": "افزایش سرمایه از آورده نقدی",
-        "Manual_Buy": "تراکنش دستی خرید",
+        "Manual_Buy": "خرید(تراکنش دستی)",
         "Trade_Buy": "خرید",
-        "Portfolio_Change_Out": "خروج سهم",
+        "Portfolio_Change_Out": "تغییر کارگزار ناظر",
         "DPS": "سود نقدی",
-        "Change_Broker": "تغییر ناظر",
-        "DDN_Buy": "DDN-خرید",
-        "Manual_Sell": "تراکنش دستی فروش",
+        "Change_Broker": "تغییر کارگزار ناظر(ورود سهم)",
+        "DDN_Buy": "(DDN)خرید",
+        "Manual_Sell": "فروش(تراکنش دستی)",
         "Trade_Sell": "فروش",
-        "DDN_Sell": "DDN-فروش",
+        "DDN_Sell": "(DDN)فروش",
         "Capital_Increase_Reserve": "افزایش سرمایه از محل اندوخته",
-        "Portfolio_Change_In": "ورود سهم",
-        "Initial": ""
+        "Portfolio_Change_In": "تغییر کارگزار ناظر"
     },
     "SymbolDetails": {
         "orderBook": "صف",

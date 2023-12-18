@@ -11,6 +11,18 @@ export const setOrder = async (params: IOrderRequestType) => {
         }
     );
 };
+////////////////////////////////////
+
+const singleModifyOrderFn = async (params: ISingleModifyOrderReq) => {
+    let { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(Apis().Orders.ModifySingleTrade, { ...params });
+    return data.result || [];
+};
+
+export const useSingleModifyOrders = (
+    options?: Omit<UseMutationOptions<ISingleDeleteOrderResult, unknown, ISingleModifyOrderReq, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(singleModifyOrderFn, options);
+};
 
 //////////////getOrder////////////////////
 const getOrderFn = async (params: ITodayOpenOrderType) => {
@@ -38,7 +50,6 @@ export const useSingleDeleteOrders = (
 // Get Order List
 
 export const getOrderLists = async (params: IGTOrderListRequest) => {
-    console.log('params', params);
     const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(Apis().Orders.Lists, {
         params,
     });
@@ -76,6 +87,15 @@ export const getOfflineRequestHistory = async (id: number) => {
         params: { id },
     });
     return data?.result || {};
+};
+
+export const deleteRequest = async (Id: number) => {
+    let { data } = await AXIOS.post<GlobalApiResponseType<IDeleteRequest>>(Apis().Orders.DeleteRequest as string, null, { params: { Id } });
+    return data.result || [];
+};
+
+export const useDeleteRequest = (options?: Omit<UseMutationOptions<IDeleteRequest, unknown, number, unknown>, 'mutationFn'> | undefined) => {
+    return useMutation(deleteRequest, options);
 };
 
 ///////////Trades//////////

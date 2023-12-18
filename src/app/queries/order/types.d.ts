@@ -1,4 +1,3 @@
-
 type ICustomerIsins = string[];
 interface IOrderRequestType {
     id?: string;
@@ -12,7 +11,7 @@ interface IOrderRequestType {
     quantity: number;
     percent: number;
     validity: validity;
-    validityDate: string | undefined;
+    validityDate: string | null;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
     orderStrategy: string;
@@ -55,7 +54,7 @@ type IOrderSelected = {
     position: number;
     valuePosition: number;
     validity: validity;
-    validityDate?: string;
+    validityDate: string | null;
 };
 // type BuySellSide = 'Cross' | 'Buy' | 'Sell' | '';
 type OrderTypeType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
@@ -94,6 +93,14 @@ interface ISingleDeleteOrderResult {
     succeeded: boolean;
 }
 
+interface ISingleModifyOrderReq {
+    price: number;
+    quantity: number;
+    validity: validity;
+    validityDate: string | null;
+    id: number;
+}
+
 interface IGTOrderListResultType {
     orderId: number;
     symbolISIN: string;
@@ -112,7 +119,7 @@ interface IGTOrderListResultType {
     sumExecuted: number;
     userName: string;
     validity: validity;
-    validityDate: string;
+    validityDate: string | null;
     orderFrom: string;
     parentOrderId: number;
     childOrderId: number;
@@ -135,7 +142,7 @@ interface IGTOrderListRequest {
     MyStationOnly?: boolean;
 }
 
-interface IGTOrderListResponseType extends GlobalPaginatedApiResponse<IGTOrderListResultType[]> { }
+interface IGTOrderListResponseType extends GlobalPaginatedApiResponse<IGTOrderListResultType[]> {}
 
 interface IGTTradesListRequest {
     FromDate?: string;
@@ -149,8 +156,6 @@ interface IGTTradesListRequest {
     CustomerType?: CustomerType;
     MyStationOnly: boolean;
 }
-
-
 
 interface IGTTradesListResultType {
     customerISIN: string;
@@ -167,8 +172,7 @@ interface IGTTradesListResultType {
     totalPrice: number;
 }
 
-interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> { }
-
+interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}
 
 interface IGTOfflineTradesRequests {
     FromDate?: string;
@@ -187,13 +191,12 @@ interface IGTOfflineTradesRequests {
     PageNumber: number;
 }
 
-
 interface IGTOfflineTradesResult {
     id: number;
     traderId: number;
     bourseCode: string;
     traderTitle: string;
-    cancellationRequest: boolean,
+    cancellationRequest: boolean;
     channel: string;
     customerISIN: string;
     customerTitle: string;
@@ -217,12 +220,17 @@ interface IGTOfflineTradesResult {
     volume: number;
 }
 
-interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> { }
-
+interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> {}
 
 interface IGTOfflineRequestHistoryResult {
     id: number;
     userName: string;
     dateTime: string;
     state: string;
+}
+
+interface IDeleteRequest {
+    result: boolean;
+    succeeded: boolean;
+    errors: any;
 }

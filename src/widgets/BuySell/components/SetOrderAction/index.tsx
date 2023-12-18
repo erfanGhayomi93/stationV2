@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
-import { setOrder, useUpdateOrders } from 'src/app/queries/order';
+import { setOrder, useSingleModifyOrders, useUpdateOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
@@ -12,10 +12,11 @@ import { getSelectedCustomers } from 'src/redux/slices/option';
 import { useTranslation } from 'react-i18next';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import Button from 'src/common/components/Buttons/Button';
+import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
 
-interface ISetOrderActionType {}
+interface ISetOrderActionType { }
 
-const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
+const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     const {
         side,
         amount,
@@ -29,7 +30,6 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         validity,
         validityDate,
         percent,
-        comeFrom,
         id,
     } = useBuySellState();
     const dispatch = useBuySellDispatch();
@@ -38,106 +38,124 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
     const { t } = useTranslation();
 
+    const { comeFrom } = useAppSelector(getKeepDataBuySell)
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
     const appDispatch = useAppDispatch();
 
     const { sendOrders, ordersLoading } = useSendOrders();
 
-    const { mutate } = useMutation(setOrder, {
-        onSuccess: () => {
-            onSuccessNotif();
-            if (sequential) resetByeSellData(dispatch, appDispatch);
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
-    const { mutate: mutateUpdateOrder } = useUpdateOrders({
-        onSuccess: () => {
-            onSuccessNotif();
-            queryClient.invalidateQueries(['orderList', 'OnBoard']);
-            if (sequential) resetByeSellData(dispatch, appDispatch);
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
+    // const { mutate } = useMutation(setOrder, {
+    //     onSuccess: () => {
+    //         onSuccessNotif();
+    //         if (sequential) resetByeSellData(dispatch, appDispatch);
+    //     },
+    //     onError: () => {
+    //         onErrorNotif();
+    //     },
+    // });
+
+    // const { mutate: mutateUpdateOrder } = useUpdateOrders({
+    //     onSuccess: () => {
+    //         onSuccessNotif();
+    //         queryClient.invalidateQueries(['orderList', 'OnBoard']);
+    //         // if (sequential) 
+    //         resetByeSellData(dispatch, appDispatch);
+    //     },
+    //     onError: () => {
+    //         onErrorNotif();
+    //     },
+    // });
+
+    const { mutate: mutateUpdateOrder } = useSingleModifyOrders()
+
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {
             onSuccessNotif();
             queryClient.invalidateQueries(['draftList']);
-            if (sequential) resetByeSellData(dispatch, appDispatch);
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+            // if (sequential)
+            resetByeSellData(dispatch, appDispatch);
+        }
     });
-    const selectedCustomers = useAppSelector(getSelectedCustomers);
+
 
     const handleUpdateDraft = () => {
+        const customerISINs = selectedCustomers.map(item => item.customerISIN)
         mutateUpdateDraft({
-            customers: selectedCustomers.map((item) => ({
-                customerType: item.customerType,
-                title: item.title,
-                customerISIN: item.customerISIN,
-            })),
-            id,
+            customerISINs: String(customerISINs),
+            id: String(id),
             symbolISIN,
-            orderSide: side,
+            side: side,
             price,
             quantity,
-            percent,
+            percent: percent || 0,
             validity: handleValidity(validity),
             validityDate: validityDate,
-            orderType: 'LimitOrder ',
+            orderType: 'MarketOrder',
             orderStrategy: 'Normal',
+            customerTagTitles: "",
+            customerTagNames: "",
+            gtTraderGroupId: ""
         });
     };
 
     const handleUpdateOrder = () => {
+        
+        if (!id) {
+            alert("it hasnt id")
+            return
+        }
+
         mutateUpdateOrder({
-            customers: selectedCustomers.map((item) => ({
-                customerType: item.customerType,
-                title: item.title,
-                customerISIN: item.customerISIN,
-            })),
             id,
-            symbolISIN,
-            orderSide: side,
             price,
             quantity,
-            percent,
-            validity: handleValidity(validity),
-            validityDate: validityDate,
-            orderType: 'LimitOrder ',
-            orderStrategy: 'Normal',
-        });
+            validity,
+            validityDate
+        })
+        
+        // mutateUpdateOrder({
+        //     customers: selectedCustomers.map((item) => ({
+        //         customerType: item.customerType,
+        //         title: item.title,
+        //         customerISIN: item.customerISIN,
+        //     })),
+        //     id,
+        //     symbolISIN,
+        //     orderSide: side,
+        //     price,
+        //     quantity,
+        //     percent,
+        //     validity: handleValidity(validity),
+        //     validityDate: validityDate,
+        //     orderType: 'LimitOrder',
+        //     orderStrategy: 'Normal',
+        // });
     };
 
     const handleSubmit = () => {
         if (!selectedCustomers.length) {
-            return onErrorNotif({ title: t('common.notCustomerSelected') });
+            onErrorNotif({ title: t('common.notCustomerSelected') });
         }
-        if (!price || price <= 0) {
-            return onErrorNotif({ title: t('common.invalidOrderPrice') });
+        else if (!price || price <= 0) {
+            onErrorNotif({ title: t('common.invalidOrderPrice') });
         }
-        if (!quantity || quantity <= 0) {
-            return onErrorNotif({ title: t('common.invalidOrderQuantity') });
+        else if (!quantity || quantity <= 0) {
+            onErrorNotif({ title: t('common.invalidOrderQuantity') });
         }
-        if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
-            dispatch({ type: 'SET_DIVIDE', value: true });
-            return;
-        }
-        if (comeFrom === ComeFromKeepDataEnum.Draft) {
+        else if (comeFrom === ComeFromKeepDataEnum.Draft) {
             handleUpdateDraft();
         } else if (comeFrom === ComeFromKeepDataEnum.OpenOrder) {
             handleUpdateOrder();
-        } else {
+        }
+        else if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
+            dispatch({ type: 'SET_DIVIDE', value: true });
+        }
+        else {
             handleOrder();
         }
     };
 
     const handleOrder = () => {
-        // let customerISIN: ICustomerIsins = [];
         let CustomerTagId: ICustomerIsins = [];
         let GTTraderGroupId: ICustomerIsins = [];
 

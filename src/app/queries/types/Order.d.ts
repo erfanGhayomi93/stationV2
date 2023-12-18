@@ -6,7 +6,7 @@ interface IOrderRequestType {
     quantity: number;
     percent: number;
     validity: validity;
-    validityDate: string | undefined;
+    validityDate: string | null;
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
     orderStrategy: string;
@@ -20,13 +20,14 @@ interface IOrderGetType {
     price: number;
     expectedRemainingQuantity: number;
     sumExecuted: number;
-    validityDate?: string;
+    validityDate: string | null;
     quantity: number;
     value: number;
     validity: validity;
     customerTitle: string;
     position: number;
     valuePosition: number;
+    orderState : OrderStatus
 }
 
 

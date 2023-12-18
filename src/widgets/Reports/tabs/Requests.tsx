@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetOfflineRequests } from 'src/app/queries/order';
+import { setOrder, useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
@@ -8,6 +8,9 @@ import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useMutation } from '@tanstack/react-query';
+import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 
 type RequestData = {
     customerTitle: string;
@@ -23,7 +26,7 @@ type RequestData = {
 const Requests = () => {
     //
     const { t } = useTranslation();
-    const { data, isLoading } = useGetOfflineRequests(
+    const { data, isLoading, refetch } = useGetOfflineRequests(
         { PageNumber: 1, PageSize: 100 },
         {
             select: (data) => {
@@ -34,6 +37,53 @@ const Requests = () => {
             },
         },
     );
+
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedDataForDelete = useRef<Record<string, any> | undefined>();
+
+    const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
+        onSuccess: (result) => {
+            if (result) {
+                onSuccessNotif({ title: 'درخواست با موفقیت حذف گردید.' });
+                refetch();
+            }
+        },
+    });
+
+    const { mutate: mutateSend } = useMutation(setOrder, {
+        onSuccess: () => {
+            onSuccessNotif();
+        },
+        onError: () => {
+            onErrorNotif();
+        },
+    });
+
+    const handleSend = (data: Record<string, any>) => {
+        console.log(data);
+        const order: IOrderRequestType = {
+            CustomerTagId: [],
+            GTTraderGroupId: [],
+            orderSide: data?.side,
+            orderDraftId: undefined,
+            orderStrategy: 'Normal',
+            orderType: 'LimitOrder',
+            percent: 0,
+            symbolISIN: data?.symbolISIN,
+            validity: 'GoodTillDate',
+            validityDate: data?.requestExpiration,
+            price: data?.price,
+            quantity: data?.volume,
+            customerISIN: [data?.customerISIN],
+            id: data?.id,
+        };
+        mutateSend(order);
+    };
+
+    const handleDelete = (data: IGTOfflineTradesResult | undefined) => {
+        selectedDataForDelete.current = data;
+        setIsOpen(true);
+    };
 
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
@@ -56,8 +106,8 @@ const Requests = () => {
                     <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
-                        handleDelete={(data) => console.log('delete', data)}
-                        handleSend={(data) => console.log('send', data)}
+                        handleDelete={handleDelete}
+                        handleSend={(data) => data && handleSend(data)}
                     />
                 ),
             },
@@ -66,11 +116,26 @@ const Requests = () => {
     );
 
     return (
-        <WidgetLoading spining={isLoading}>
-            <div className={'grid h-full p-3'}>
-                <AGTable agGridTheme="balham" rowData={data?.result || []} columnDefs={columns} />
-            </div>
-        </WidgetLoading>
+        <>
+            <WidgetLoading spining={isLoading || deleteLoading}>
+                <div className={'grid h-full p-3'}>
+                    <AGTable agGridTheme="alpine" rowData={data?.result || []} columnDefs={columns} />
+                </div>
+            </WidgetLoading>
+
+            {isOpen && (
+                <ConfirmModal
+                    title={'حذف درخواست'}
+                    description={'آیا از حذف درخواست اطمینان دارید؟'}
+                    onConfirm={() => {
+                        selectedDataForDelete.current?.id && deleteRequest(selectedDataForDelete.current?.id);
+                        setIsOpen(false);
+                    }}
+                    onCancel={() => setIsOpen(false)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
+        </>
     );
 };
 

@@ -27,7 +27,7 @@ export const downloadBlobFile = (blob: Blob, fileName: string) => {
 };
 
 export const isPrimaryComeFrom = (comeFrom: string | undefined): boolean => {
-    return !comeFrom || comeFrom === ComeFromKeepDataEnum.FailedOrder;
+    return comeFrom === '' || comeFrom === ComeFromKeepDataEnum.FailedOrder || !comeFrom;
 };
 
 export const makeArrayUniqueByKey = (arr: any[], key: string) => {
