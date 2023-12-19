@@ -6,7 +6,7 @@ import { ExcelIcon, HistoryIcon } from 'src/common/icons';
 import DoneOrders from './tabs/DoneOrders';
 import Drafts from './tabs/Drafts';
 import FailedOrders from './tabs/FailedOrders';
-import GroupOrders from './tabs/GroupOrders';
+// import GroupOrders from './tabs/GroupOrders';
 import OpenOrders from './tabs/OpenOrders';
 import Requests from './tabs/Requests';
 
@@ -81,7 +81,7 @@ const Reports = () => {
             </Tooltip> */}
             <Tippy content="گزارشات" className="text-xs">
                 <button
-                    onClick={() => navigate('/Reports')}
+                    onClick={() => navigate('/Reports/orders')}
                     className="ml-4 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
                 >
                     <HistoryIcon width={12} height={14} />

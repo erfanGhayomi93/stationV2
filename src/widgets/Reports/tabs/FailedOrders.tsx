@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { FC, useMemo } from 'react';
 import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -11,6 +10,7 @@ import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterOrder from '../components/useHandleFilterOrder';
 import { useTranslation } from 'react-i18next';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 type IFailedOrders = {
     ClickLeftNode: any;
 };
@@ -18,13 +18,15 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     const { t } = useTranslation()
     const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Error' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
-    const appDispath = useAppDispatch();
+    const appDispatch = useAppDispatch();
     const { isFilter } = ClickLeftNode;
 
     const handleCopy = (data?: IOrderGetType) => {
         if (!data) return
 
-        appDispath(setPartDataBuySellAction(
+        appDispatch(setSelectedSymbol(data.symbolISIN));
+
+        appDispatch(setPartDataBuySellAction(
             {
                 data: {
                     price: data.price,

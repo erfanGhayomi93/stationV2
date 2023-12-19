@@ -1,8 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
 import { ICellRendererParams } from 'ag-grid-community';
 import { FC, useMemo, useRef, useState } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
-import { setOrder } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
@@ -16,6 +14,7 @@ import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+
 type IDraft = {
     ClickLeftNode: any;
 };
@@ -35,14 +34,6 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         },
     });
     const { isFilter } = ClickLeftNode;
-    const { mutate: mutateSend } = useMutation(setOrder, {
-        onSuccess: () => {
-            onSuccessNotif();
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
 
     const selectedDataForDelete = useRef<IDraftResponseType | undefined>();
 
@@ -56,8 +47,6 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         if(!customers){
             return
         }
-
-        console.log("data",data)
 
       const order : IOrderRequestType[] = customers.map( item => ({
             customerISIN: [item.customerISIN] as ICustomerIsins,
