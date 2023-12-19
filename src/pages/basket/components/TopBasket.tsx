@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
-import { useGetBasket } from 'src/app/queries/basket';
-import { CalendarIcon, EditIcon2, Excel2Icon, FiClock, CheckListIcon, PlusIcon } from 'src/common/icons';
+import { useEffect, useState } from 'react';
+import { useGetBasket, useGetBasketExcel } from 'src/app/queries/basket';
+import { CalendarIcon, EditIcon2, Excel2Icon, FiClock, PlusIcon } from 'src/common/icons';
 import { getFarsiDate } from 'src/utils/helpers';
 import EditBasketModal from '../modal/EditBasketModal';
 import Tippy from '@tippyjs/react';
@@ -16,13 +16,14 @@ type ITopBasket = {
     gridApi: GridReadyEvent<IGetWatchlistSymbol> | undefined;
 };
 
-const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected, gridApi }) => {
+const TopBasket = ({ activeBasket, saveIndexBasketSelected, gridApi }: ITopBasket) => {
     //
     const { t } = useTranslation();
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
 
     const { data: listBasket } = useGetBasket();
+    const { refetch: getExcel } = useGetBasketExcel(activeBasket);
 
     useEffect(() => {
         listBasket && saveIndexBasketSelected(listBasket[0]?.id);
@@ -36,9 +37,7 @@ const TopBasket: FC<ITopBasket> = ({ activeBasket, saveIndexBasketSelected, grid
         setShowEditForm((prev) => !prev);
     };
 
-    const handleExcelExport = () => {
-        
-    }
+    const handleExcelExport = () => getExcel();
 
     return (
         <div className="grid grid-cols-2 items-center">

@@ -10,25 +10,38 @@ import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actio
 import { useBasketDispatch } from '../context/BasketContext';
 import { filterStateType } from './FilterBasket';
 import { setSelectedSymbol } from 'src/redux/slices/option';
+import { Paginator } from 'src/common/components/Paginator/Paginator';
 
 type ITableType = {
-    activeBasket: number ;
-    listAfterFilter: IListDetailsBasket[] | undefined;
+    activeBasket: number;
+    listAfterFilter: IListDetailsBasket | undefined;
     dataFilter: filterStateType;
     isShowFilter: boolean;
     setGridApi: any;
+    dataListLoading: boolean;
+    handlePageInfoChange: (action: 'PageNumber' | 'PageSize', value: number) => void;
 };
 
-export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dataFilter, isShowFilter, setGridApi }) => {
+type TRowData = IListDetailsBasket['result'][number];
+
+export const TableBasket = ({
+    activeBasket,
+    listAfterFilter,
+    dataFilter,
+    isShowFilter,
+    setGridApi,
+    dataListLoading,
+    handlePageInfoChange,
+}: ITableType) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const { customerTitles, symbolTitle, side } = dataFilter;
     const appDispatch = useAppDispatch();
     const dispatch = useBasketDispatch();
 
-    const handleDelete = (data?: IListDetailsBasket): void => {
+    const handleDelete = (data?: TRowData) => {
         !!data && mutateDelete(data.id);
     };
-    const handleEdit = (data?: IListDetailsBasket): void => {
+    const handleEdit = (data?: TRowData) => {
         if (!data) return;
 
         dispatch({ type: 'SET_BUY_SELL_MODALL', value: true });
@@ -53,7 +66,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
     };
 
     const columns = useMemo(
-        (): ColDefType<IListDetailsBasket>[] => [
+        (): ColDefType<TRowData>[] => [
             {
                 headerName: 'ردیف',
                 field: 'customerTitles',
@@ -76,7 +89,7 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
                 lockVisible: true,
                 pinned: 'left',
                 cellRenderer: (row: any) => (
-                    <ActionCell<IListDetailsBasket>
+                    <ActionCell
                         data={row.data}
                         type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
                         handleDelete={handleDelete}
@@ -89,32 +102,46 @@ export const TableBasket: FC<ITableType> = ({ activeBasket, listAfterFilter, dat
     );
 
     return (
-        <div
-            className={clsx('flex-1 mt-4 overflow-y-auto', {
-                // 'h-[445px]': isShowFilter,
-                // 'h-[545px]': !isShowFilter,
-            })}
-        >
-            <AGTable
-                rowData={listAfterFilter?.filter((item) => {
-                    if (!customerTitles && !symbolTitle && side === 'All') return true;
-                    else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
-                    else if (side && item?.side.includes(side)) return true;
-                    else if (customerTitles) {
-                        const customerTitlesString = String(item.customers?.map((i) => i?.customerTitle));
-                        if (customerTitlesString.includes(customerTitles)) {
-                            return true;
-                        }
-                    }
-                    return false;
+        <>
+            <div
+                className={clsx('flex-1 mt-4 overflow-y-auto', {
+                    // 'h-[445px]': isShowFilter,
+                    // 'h-[545px]': !isShowFilter,
                 })}
-                columnDefs={columns}
-                onGridReady={(p) => setGridApi(p)}
-                // rowSelection="multiple"
-                // enableBrowserTooltips={false}
-                // suppressRowClickSelection={true}
-                // onRowSelected={onRowSelected}
+            >
+                <AGTable
+                    rowData={
+                        listAfterFilter?.result.filter((item) => {
+                            if (!customerTitles && !symbolTitle && side === 'All') return true;
+                            else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
+                            else if (side && item?.side.includes(side)) return true;
+                            else if (customerTitles) {
+                                const customerTitlesString = String(item.customers?.map((i) => i?.customerTitle));
+                                if (customerTitlesString.includes(customerTitles)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        })
+                    }
+                    columnDefs={columns}
+                    onGridReady={(p) => setGridApi(p)}
+                    // rowSelection="multiple"
+                    // enableBrowserTooltips={false}
+                    // suppressRowClickSelection={true}
+                    // onRowSelected={onRowSelected}
+                />
+            </div>
+            <div className="border-t my-3"></div>
+            <Paginator
+                loading={dataListLoading}
+                pageNumber={listAfterFilter?.pageNumber || 0}
+                pageSize={listAfterFilter?.pageSize || 0}
+                totalPages={listAfterFilter?.totalPages}
+                hasNextPage={listAfterFilter?.hasNextPage}
+                hasPreviousPage={listAfterFilter?.hasPreviousPage}
+                PaginatorHandler={handlePageInfoChange}
             />
-        </div>
+        </>
     );
 };

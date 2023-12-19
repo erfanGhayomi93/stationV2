@@ -536,3 +536,24 @@ export const disableCustomPeriod = (date: Date, customeDate: string, mode: 'Till
         return dayjs(date).diff(dayjs().format('YYYY/MM/DD')) > 0;
     }
 };
+
+export const excelDownloader = ({
+    contentType,
+    fileContent,
+    fileDownloadName,
+}: {
+    fileContent: string;
+    contentType: string;
+    fileDownloadName: string;
+}) => {
+    const decodedContent = atob(fileContent);
+    const uint8Array = new Uint8Array(decodedContent.length);
+    for (let i = 0; i < decodedContent.length; i++) {
+        uint8Array[i] = decodedContent.charCodeAt(i);
+    }
+    const blob = new Blob([uint8Array], { type: contentType });
+    const link = document.createElement('a');
+    link.download = fileDownloadName;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+};

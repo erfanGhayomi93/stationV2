@@ -125,6 +125,7 @@ export { ReactComponent as Chart4RowSVG } from "src/assets/svg/chart-4r.svg";
 
 export { ReactComponent as Logo189Icon } from 'src/assets/svg/farabi_logo.svg';
 export { ReactComponent as Logo173Icon } from 'src/assets/svg/tgs_logo.svg';
+export { ReactComponent as RiskAnnouncementIcon } from 'src/assets/svg/RiskAnnouncementIcon.svg';
 
 
 export { ReactComponent as ListLayoutSVG } from 'src/assets/svg/ListLayout.svg';
