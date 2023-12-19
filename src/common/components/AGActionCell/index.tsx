@@ -1,7 +1,8 @@
 import Tippy from '@tippyjs/react';
 import { ICellRendererParams } from 'ag-grid-community';
-import React from 'react';
+import React, { useState } from 'react';
 import { CopyIcon, DeleteIcon, EditIcon, SendIcon } from 'src/common/icons';
+import ConfirmationModal from '../ConfirmModal/ConfirmationModal';
 
 type TButtonTypes = 'Send' | 'Edit' | 'Copy' | 'Delete';
 
@@ -24,6 +25,8 @@ interface IProps extends Partial<ICellRendererParams> {
     onEditClick?: (data: ICellRendererParams['data']) => void;
     onCopyClick?: (data: ICellRendererParams['data']) => void;
     onDeleteClick?: (data: ICellRendererParams['data']) => void;
+    deleteModalTitle?: string;
+    deleteModalDescription?: string;
 }
 
 const AGActionCell = ({
@@ -37,8 +40,12 @@ const AGActionCell = ({
     onDeleteClick,
     onEditClick,
     onSendClick,
+    deleteModalTitle = 'حذف',
+    deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
 }: IProps) => {
     //
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
     const allButtons: TButtons = [
         {
             buttonType: 'Send',
@@ -67,7 +74,7 @@ const AGActionCell = ({
         {
             buttonType: 'Delete',
             disabled: disableDelete,
-            onClick: () => onDeleteClick && onDeleteClick(data),
+            onClick: () => setIsConfirmModalOpen(true),
             Icon: DeleteIcon,
             title: 'حذف',
             hide: false,
@@ -84,14 +91,29 @@ const AGActionCell = ({
                     <React.Fragment key={index}>
                         {!hide && (
                             <Tippy content={title} className="text-xs">
-                                <button data-actived={!disabled} className="hidden actived:inline-block" onClick={onClick}>
-                                    <Icon className="text-L-gray-600 dark:text-D-gray-600" />
+                                <button
+                                    disabled={disabled}
+                                    className="text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed"
+                                    onClick={onClick}
+                                >
+                                    <Icon />
                                 </button>
                             </Tippy>
                         )}
                     </React.Fragment>
                 );
             })}
+            {isConfirmModalOpen && (
+                <ConfirmationModal
+                    isOpen={isConfirmModalOpen}
+                    setIsOpen={setIsConfirmModalOpen}
+                    title={deleteModalTitle}
+                    description={deleteModalDescription}
+                    onConfirm={() => onDeleteClick && onDeleteClick(data)}
+                    onCancel={() => setIsConfirmModalOpen(false)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };
