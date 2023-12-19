@@ -9,8 +9,9 @@ import { getSelectedSymbol } from 'src/redux/slices/option';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { SandClockIcon } from 'src/common/icons';
+import { RiskAnnouncementIcon, SandClockIcon } from 'src/common/icons';
 import { t } from 'i18next';
+import Tippy from '@tippyjs/react';
 
 const SymbolHeader = () => {
     //
@@ -24,9 +25,10 @@ const SymbolHeader = () => {
             insCode: data?.symbolData?.insCode,
             companyCode: data?.symbolData?.companyCode,
             symbolEvents: data?.symbolData?.eventsWithinNextTenDays || [],
+            hasRiskAnnouncement: data?.symbolData?.hasRiskAnnouncement,
+            exchange: data?.symbolData?.exchange,
         }),
     });
-
     const eventsIds = data?.symbolEvents.filter(({ type }) => type === 'Meeting').map(({ id }) => id) || [];
     const mergedAllEventsIds = eventsIds.join(''); // => unique string for save in ls.
 
@@ -51,12 +53,21 @@ const SymbolHeader = () => {
                         {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
                         </div>
                     </div> */}
-                    <div className=" flex items-center gap-2">
-                        <SymbolState symbolState={data?.symbolState || ''} />
-
-                        <div className="flex flex-col">
-                            <span className="font-bold dark:text-L-basic text-D-basic">{data?.symbolTitle || '-'}</span>
-                            <small className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</small>
+                    <div className=" flex items-center gap-2 mb-2">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                                <SymbolState symbolState={data?.symbolState || ''} />
+                                <h4 className="dark:text-L-basic">{data?.symbolTitle || '-'}</h4>
+                                <h4 className="text-L-gray-500 dark:text-D-gray-500">
+                                    {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
+                                </h4>
+                                {data?.hasRiskAnnouncement && (
+                                    <Tippy content={t('Tooltip.hasRiskAnnouncement')} className="cursor-help">
+                                        <RiskAnnouncementIcon className="cursor-help" />
+                                    </Tippy>
+                                )}
+                            </div>
+                            <h4 className="text-L-gray-500 dark:text-D-gray-500 mr-4">{data?.companyName || '-'}</h4>
                         </div>
                     </div>
                 </div>
