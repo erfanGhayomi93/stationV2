@@ -13,15 +13,17 @@ import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 
 type IOpenOrders = {
     ClickLeftNode: any;
 };
 
-const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
-    const appDispath = useAppDispatch();
+let timeOut: NodeJS.Timeout | undefined = undefined
 
-    let clearTimeOut = useRef<ReturnType<typeof setTimeout>>()
+const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
+    const appDispatch = useAppDispatch();
+
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
@@ -46,33 +48,21 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
 
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
-    // 
-    //     const RefetchAsync = () => {
-    //         // let timer: NodeJS.Timer;
-    // 
-    // 
-    //         clearTimeOut.current = setTimeout(() => {
-    //             // console.log("inside clearTimeOut")
-    //             
-    //             clearTimeout(clearTimeOut.current)
-    //         }, 300);
-    //     };
 
-    // console.log("inside setTime")
-    // queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
-    //     const filteredData = oldData?.filter(({ clientKey }) => clientKey !== omsClientKey) || [];
-    //     // if (!filteredData.length) {
-    //     //     unSubscribeCustomers();
-    //     // }
-    //     return filteredData;
-    // });
-
+    const refetchOnboard = () => {
+        timeOut = setTimeout(() => {
+            refetchOpenOrders()
+            ipcMain.send('update_customer');
+            clearTimeout(timeOut)
+        }, 2000);
+    }
 
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
+
 
             console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
 
@@ -89,32 +79,25 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 }
             });
 
-            console.log("clearTimeOut.current", clearTimeOut.current)
-            clearTimeout(clearTimeOut.current)
-            clearTimeOut.current = setTimeout(() => {
-                if (omsOrderStatus === 'Canceled' || omsOrderStatus === 'OnBoardModify') {
-                    refetchOpenOrders()
-                    // clearTimeout(clearTimeOut.current)
-                    // RefetchAsync();
-                } else if (omsOrderStatus === 'Error') {
-                    refetchOpenOrders()
-                    queryClient.invalidateQueries(['orderList', 'Error'])
-                }
+            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired'].includes(omsOrderStatus)) {
+                clearTimeout(timeOut)
+                refetchOnboard()
+            }
+            else if (omsOrderStatus === 'Error') {
+                clearTimeout(timeOut)
+                refetchOnboard()
+                queryClient.invalidateQueries(['orderList', 'Error'])
+            }
 
-                clearTimeout(clearTimeOut.current)
-            }, 3000);
 
         },
-        [clearTimeOut.current],
+        [],
     );
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
     }, []);
 
-    // useEffect(() => {
-    //     console.log("orders", orders)
-    // }, [orders])
 
 
 
@@ -125,7 +108,9 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const handleEdit = (data: IOrderGetType | undefined) => {
         if (!data) return
 
-        appDispath(setPartDataBuySellAction(
+        appDispatch(setSelectedSymbol(data.symbolISIN));
+
+        appDispatch(setPartDataBuySellAction(
             {
                 data: {
                     price: data.price,
@@ -140,7 +125,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 customerIsin: [data.customerISIN]
             }));
 
-        // appDispath(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
+        // appDispatch(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
 
     const columns = useMemo(

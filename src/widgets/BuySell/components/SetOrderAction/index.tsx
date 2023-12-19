@@ -66,7 +66,11 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     //     },
     // });
 
-    const { mutate: mutateUpdateOrder } = useSingleModifyOrders()
+    const { mutate: mutateUpdateOrder } = useSingleModifyOrders({
+        onSuccess() {
+            resetByeSellData(dispatch, appDispatch);
+        },
+    })
 
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {
