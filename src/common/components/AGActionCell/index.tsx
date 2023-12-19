@@ -83,6 +83,13 @@ const AGActionCell = ({
 
     const requestedButtons = allButtons.filter(({ buttonType }) => requiredButtons.includes(buttonType));
 
+    const handleConfirm = () => {
+        if (onDeleteClick) {
+            onDeleteClick(data)
+            setIsConfirmModalOpen(false)
+        }
+    }
+
     return (
         <div className="flex items-center justify-center gap-4 py-2 h-full">
             {requestedButtons.map((button, index) => {
@@ -109,7 +116,7 @@ const AGActionCell = ({
                     setIsOpen={setIsConfirmModalOpen}
                     title={deleteModalTitle}
                     description={deleteModalDescription}
-                    onConfirm={() => onDeleteClick && onDeleteClick(data)}
+                    onConfirm={handleConfirm}
                     onCancel={() => setIsConfirmModalOpen(false)}
                     confirmBtnLabel="تایید"
                 />
