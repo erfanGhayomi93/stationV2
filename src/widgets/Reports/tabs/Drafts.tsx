@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useMemo, useRef, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
@@ -12,8 +12,8 @@ import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+import AGActionCell from 'src/common/components/AGActionCell';
 
 type IDraft = {
     ClickLeftNode: any;
@@ -21,9 +21,7 @@ type IDraft = {
 const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
-    const [isOpen, setIsOpen] = useState(false);
     const { sendOrders, ordersLoading } = useSendOrders();
-
 
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
@@ -35,20 +33,17 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     });
     const { isFilter } = ClickLeftNode;
 
-    const selectedDataForDelete = useRef<IDraftResponseType | undefined>();
-
     const handleDelete = (data?: IDraftResponseType) => {
-        selectedDataForDelete.current = data;
-        setIsOpen(true);
+        data?.orderId && mutate(data?.orderId);
     };
 
     const handleSend = (data?: IDraftResponseType) => {
-        const { customers , orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
-        if(!customers){
-            return
+        const { customers, orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
+        if (!customers) {
+            return;
         }
 
-      const order : IOrderRequestType[] = customers.map( item => ({
+        const order: IOrderRequestType[] = customers.map((item) => ({
             customerISIN: [item.customerISIN] as ICustomerIsins,
             CustomerTagId: [],
             GTTraderGroupId: [],
@@ -62,9 +57,9 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             symbolISIN: symbolISIN || '',
             validity: handleValidity(validity as validity),
             validityDate: validityDate || null,
-        }))
+        }));
 
-        sendOrders(0 , order)
+        sendOrders(0, order);
     };
 
     const appDispatch = useAppDispatch();
@@ -107,12 +102,12 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                 headerName: 'عملیات',
                 field: 'customTitle',
                 cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
-                    <ActionCell
+                    <AGActionCell
                         data={row.data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                        handleSend={handleSend}
+                        requiredButtons={['Send', 'Edit', 'Delete']}
+                        onSendClick={handleSend}
+                        onEditClick={handleEdit}
+                        onDeleteClick={handleDelete}
                     />
                 ),
             },
@@ -140,18 +135,6 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
-            {isOpen && (
-                <ConfirmModal
-                    title={'حذف پیش نویس'}
-                    description={'آیا از حذف پیش نویس اطمینان دارید؟'}
-                    onConfirm={() => {
-                        selectedDataForDelete.current?.orderId && mutate(selectedDataForDelete.current.orderId);
-                        setIsOpen(false);
-                    }}
-                    onCancel={() => setIsOpen(false)}
-                    confirmBtnLabel="تایید"
-                />
-            )}
         </div>
     );
 };

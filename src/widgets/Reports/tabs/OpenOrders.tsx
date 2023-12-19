@@ -14,6 +14,7 @@ import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
 import { setSelectedSymbol } from 'src/redux/slices/option';
+import AGActionCell from 'src/common/components/AGActionCell';
 
 type IOpenOrders = {
     ClickLeftNode: any;
@@ -167,12 +168,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 field: 'customTitle',
                 pinned: 'left',
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
-                    <ActionCell
-                        data={row.data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT]}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                    />
+                    <AGActionCell data={row.data} requiredButtons={['Edit', 'Delete']} onEditClick={handleEdit} onDeleteClick={handleDelete} />
                 ),
             },
         ],
