@@ -23,7 +23,7 @@ export const initialDataFilterBasket = {
     side: 'All',
 };
 
-export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter, setisShowFilter }) => {
+export const FilterBasket = ({ handleFilter, isShowFilter, setisShowFilter }: filterBasketType) => {
     const [dataFilter, setdataFilter] = useState<filterStateType>(initialDataFilterBasket);
 
     const handleChange = (type: string, value: string) => {
@@ -77,6 +77,5 @@ export const FilterBasket: FC<filterBasketType> = ({ handleFilter, isShowFilter,
                 </div>
             </div>
         </div>
-
     );
 };

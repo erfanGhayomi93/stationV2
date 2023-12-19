@@ -5,7 +5,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
-import { getSelectedCustomers } from 'src/redux/slices/option';
+// import { getSelectedCustomers } from 'src/redux/slices/option';
 import { removeDuplicatesInArray } from 'src/utils/helpers';
 
 const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: string | null }) => void }) => {
@@ -22,7 +22,7 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
     const queryClient = useQueryClient();
 
 
-    const selectedCustomers = useAppSelector(getSelectedCustomers);
+    // const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const { subscribeCustomers } = useRamandOMSGateway();
 
@@ -32,9 +32,6 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
         const onboradList: IOrderGetType[] = queryClient.getQueryData(["orderList", "OnBoard"]) || []
         const customerIsinsOnboard = onboradList.map(item => item.customerISIN)
         const activeCustomerIsins = [...customerIsinsOnboard, ...customerIsinsOrder]
-
-        // const customerIsinsArray = customerIsins as string[];
-        console.log("onboradList", removeDuplicatesInArray(activeCustomerIsins))
 
         subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins),
             brokerCode || '',
@@ -106,9 +103,9 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
             })
             .finally(() => {
                 props?.onOrderResultReceived?.(orderResult.current);
-                refetchOrderListsWithDelay();
                 if (nextIndex >= bunchOfRequests.length) {
                     clearTimeout(timer);
+                    refetchOrderListsWithDelay();
                     ipcMain.send('update_customer');
                     setOrdersLoading(false);
                     return;

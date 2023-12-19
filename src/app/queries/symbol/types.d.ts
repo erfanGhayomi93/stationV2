@@ -74,7 +74,8 @@ type SymbolData = {
     fiscalYear?: any;
     symbolType: string;
     bourseKey: string;
-    eventsWithinNextTenDays: SymbolEvents[]
+    eventsWithinNextTenDays: SymbolEvents[];
+    hasRiskAnnouncement: boolean;
 };
 
 type OrdersData = {

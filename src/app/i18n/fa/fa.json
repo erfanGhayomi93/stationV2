@@ -489,7 +489,8 @@
         "cross_of_lot": "از میزان لات تعیین شده عبور کردید",
         "message_show_filter": "نمایش فیلتر",
         "message_hide_filter": "عدم نمایش فیلتر",
-        "hide_symbol_details": "بستن جزئیات نماد"
+        "hide_symbol_details": "بستن جزئیات نماد",
+        "hasRiskAnnouncement": "دارای بیانیه ریسک"
     },
     "setting": {
         "key_symbol_search": "جستجوی نماد",
