@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
-import { setOrder, useUpdateOrders } from 'src/app/queries/order';
+import { setOrder, useSingleModifyOrders, useUpdateOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
@@ -54,18 +54,20 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     //     },
     // });
 
-    const { mutate: mutateUpdateOrder } = useUpdateOrders({
-        onSuccess: () => {
-            onSuccessNotif();
-            queryClient.invalidateQueries(['orderList', 'OnBoard']);
-            // if (sequential) 
-            resetByeSellData(dispatch, appDispatch);
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
-    
+    // const { mutate: mutateUpdateOrder } = useUpdateOrders({
+    //     onSuccess: () => {
+    //         onSuccessNotif();
+    //         queryClient.invalidateQueries(['orderList', 'OnBoard']);
+    //         // if (sequential) 
+    //         resetByeSellData(dispatch, appDispatch);
+    //     },
+    //     onError: () => {
+    //         onErrorNotif();
+    //     },
+    // });
+
+    const { mutate: mutateUpdateOrder } = useSingleModifyOrders()
+
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {
             onSuccessNotif();
@@ -97,23 +99,37 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     };
 
     const handleUpdateOrder = () => {
+        
+        if (!id) {
+            alert("it hasnt id")
+            return
+        }
+
         mutateUpdateOrder({
-            customers: selectedCustomers.map((item) => ({
-                customerType: item.customerType,
-                title: item.title,
-                customerISIN: item.customerISIN,
-            })),
             id,
-            symbolISIN,
-            orderSide: side,
             price,
             quantity,
-            percent,
-            validity: handleValidity(validity),
-            validityDate: validityDate,
-            orderType: 'LimitOrder',
-            orderStrategy: 'Normal',
-        });
+            validity,
+            validityDate
+        })
+        
+        // mutateUpdateOrder({
+        //     customers: selectedCustomers.map((item) => ({
+        //         customerType: item.customerType,
+        //         title: item.title,
+        //         customerISIN: item.customerISIN,
+        //     })),
+        //     id,
+        //     symbolISIN,
+        //     orderSide: side,
+        //     price,
+        //     quantity,
+        //     percent,
+        //     validity: handleValidity(validity),
+        //     validityDate: validityDate,
+        //     orderType: 'LimitOrder',
+        //     orderStrategy: 'Normal',
+        // });
     };
 
     const handleSubmit = () => {

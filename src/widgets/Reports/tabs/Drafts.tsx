@@ -15,6 +15,7 @@ import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
+import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 type IDraft = {
     ClickLeftNode: any;
 };
@@ -22,6 +23,8 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const [isOpen, setIsOpen] = useState(false);
+    const { sendOrders, ordersLoading } = useSendOrders();
+
 
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
@@ -49,22 +52,30 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     };
 
     const handleSend = (data?: IDraftResponseType) => {
-        const { customers, customerTags, gtGroups, orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
-        mutateSend({
-            customerISIN: customers?.map((item) => item?.customerISIN) || [],
-            CustomerTagId: customerTags?.map((item) => item?.customerTagTitle) || [],
-            GTTraderGroupId: gtGroups?.map((item) => item?.traderGroupId) || [],
+        const { customers , orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
+        if(!customers){
+            return
+        }
+
+        console.log("data",data)
+
+      const order : IOrderRequestType[] = customers.map( item => ({
+            customerISIN: [item.customerISIN] as ICustomerIsins,
+            CustomerTagId: [],
+            GTTraderGroupId: [],
             orderSide: orderSide || 'Buy',
             orderDraftId: orderId,
             orderStrategy: 'normal',
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder',
             percent: percent || 0,
             price: price || 0,
             quantity: quantity || 0,
             symbolISIN: symbolISIN || '',
             validity: handleValidity(validity as validity),
             validityDate: validityDate || null,
-        });
+        }))
+
+        sendOrders(0 , order)
     };
 
     const appDispatch = useAppDispatch();
