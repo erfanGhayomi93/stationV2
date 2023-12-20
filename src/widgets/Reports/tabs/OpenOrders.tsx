@@ -168,7 +168,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 field: 'customTitle',
                 pinned: 'left',
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
-                    <AGActionCell data={row.data} requiredButtons={['Edit', 'Delete']} onEditClick={handleEdit} onDeleteClick={handleDelete} />
+                    <AGActionCell data={row.data} requiredButtons={['Edit', 'Delete', 'Info']} onEditClick={handleEdit} onDeleteClick={handleDelete} />
                 ),
             },
         ],
