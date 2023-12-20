@@ -7,7 +7,7 @@ import { onSuccessNotif } from 'src/handlers/notification';
 export const seprateNumber = (num: number | undefined): any => {
     if (num && !isNaN(num)) {
         let sepCode = String(num);
-        return sepCode.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return "\u200E" + sepCode.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     } else return num;
 };
 
