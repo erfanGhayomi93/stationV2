@@ -283,7 +283,7 @@ const MarketDepthChart = () => {
                             autoSkip: true,
                             maxRotation: 0,
                             maxTicksLimit: 6,
-                            callback: (value) => `\u200E${seprateNumber(+value ?? 0)}`,
+                            callback: (value) => `\u200E${seprateNumber(parseFloat(Number(value).toFixed(2)) ?? 0)}`,
                         },
 
                         border: {
@@ -307,7 +307,7 @@ const MarketDepthChart = () => {
                             autoSkip: false,
                             maxRotation: 0,
                             maxTicksLimit: 10,
-                            callback: (value) => `\u200E${abbreviateNumber(Number(value) || 0)}`,
+                            callback: (value) => `\u200E${abbreviateNumber(parseFloat(Number(value).toFixed(2)) || 0)}`,
                         },
 
                         border: {
