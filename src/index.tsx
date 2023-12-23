@@ -19,11 +19,14 @@ import 'tippy.js/dist/tippy.css';
 import 'src/assets/scss/main.scss';
 import { GlobalSetterProvider } from './common/context/globalSetterContext';
 import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
+import { useAppSelector } from './redux/hooks';
+import { getTheme } from './redux/slices/ui';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const Wrapper = () => {
     const { apiRoutes } = useApiPath();
+    const theme = useAppSelector(getTheme);
 
     return apiRoutes ? (
         <>
@@ -36,9 +39,10 @@ const Wrapper = () => {
                             hideProgressBar={true}
                             newestOnTop={false}
                             closeOnClick
-                            rtl={false}
+                            rtl={true}
                             draggable
                             pauseOnHover
+                            theme={theme}
                         />
                     </GlobalSetterProvider>
                 </TranslatorProvider>

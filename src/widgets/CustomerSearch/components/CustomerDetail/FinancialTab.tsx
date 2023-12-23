@@ -25,7 +25,7 @@ const FinancialTab = () => {
             <div className="px-4 pt-6 pb-4 flex flex-col gap-5">
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('TradeRemain')}>
-                        {activePanel === 'TradeRemain' ? <InfoFillIcon /> : <InfoIcon />}
+                        {activePanel === 'TradeRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.negotiable_balance')}</span>
                     </div>
                     {activePanel === 'TradeRemain' && (
@@ -50,7 +50,7 @@ const FinancialTab = () => {
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('WithdrawalRemain')}>
-                        {activePanel === 'WithdrawalRemain' ? <InfoFillIcon /> : <InfoIcon />}
+                        {activePanel === 'WithdrawalRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.withdrawal_balance')}</span>
                     </div>
                     {activePanel === 'WithdrawalRemain' && (
@@ -81,7 +81,7 @@ const FinancialTab = () => {
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('BrokerRemain')}>
-                        {activePanel === 'BrokerRemain' ? <InfoFillIcon /> : <InfoIcon />}
+                        {activePanel === 'BrokerRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.broker_balance')}</span>
                     </div>
                     {activePanel === 'BrokerRemain' && (

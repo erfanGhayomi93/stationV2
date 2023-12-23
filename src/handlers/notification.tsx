@@ -33,3 +33,9 @@ export const onSuccessNotif = (options?: IonErrorNotifType) => {
 export const onErrorNotif = (options?: IonErrorNotifType) => {
     toast.error(options?.title || 'متاسفانه انجام نشد', { ...options });
 };
+
+// info
+
+export const onInfoNotif = (options?: IonErrorNotifType) => {
+    toast.info(options?.title || 'پیام پیش فرض سیستم می باشد', { ...options });
+};

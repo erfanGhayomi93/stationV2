@@ -250,7 +250,7 @@ const DivideOrderModal = () => {
                             </label>
                         </div>
                     </div>
-                    <div className="text-xs text-L-gray-600 dark:text-D-gray-600 flex gap-2 bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-2 py-2 gap-4 items-center">
+                    <div className="text-xs text-L-gray-600 dark:text-D-gray-600 flex bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-2 py-2 gap-4 items-center">
                         <span>{t('DivideOrder.divideOrder')}</span>
                         <div className="w-56">
                             <ControllerInput

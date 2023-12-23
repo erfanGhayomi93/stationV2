@@ -42,6 +42,18 @@ interface IOrderGetType {
     status?: OrderStatusType | 'OnBoard' | 'Done' | 'Error';
 }
 
+type TTodayDoneTrades = {
+    customerISIN: string;
+    customerTitle: string;
+    symbolISIN: string;
+    symbolTitle: string;
+    orderSide: string;
+    price: number;
+    quantity: number;
+    totalPrice: number;
+    tradeDate: string;
+};
+
 type IOrderSelected = {
     orderId: number;
     customerTitle: string;

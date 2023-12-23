@@ -1,59 +1,58 @@
 import Tippy from '@tippyjs/react';
-import { ICellRendererParams } from 'ag-grid-community';
 import React, { useState } from 'react';
-import { CopyIcon, DeleteIcon, EditIcon, SendIcon } from 'src/common/icons';
+import { CopyIcon, DeleteIcon, EditIcon, InfoFillIcon, SendIcon } from 'src/common/icons';
 import ConfirmationModal from '../ConfirmModal/ConfirmationModal';
+import { IProps, TButtons } from './agActionCell.t';
 
-type TButtonTypes = 'Send' | 'Edit' | 'Copy' | 'Delete';
-
-type TButtons = {
-    buttonType: TButtonTypes;
-    disabled?: boolean;
-    onClick: () => void;
-    Icon: React.FC<React.SVGProps<SVGSVGElement>>;
-    title: string;
-    hide: boolean;
-}[];
-
-interface IProps extends Partial<ICellRendererParams> {
-    requiredButtons: TButtonTypes[];
-    disableSend?: boolean;
-    disableEdit?: boolean;
-    disableCopy?: boolean;
-    disableDelete?: boolean;
-    onSendClick?: (data: ICellRendererParams['data']) => void;
-    onEditClick?: (data: ICellRendererParams['data']) => void;
-    onCopyClick?: (data: ICellRendererParams['data']) => void;
-    onDeleteClick?: (data: ICellRendererParams['data']) => void;
-    deleteModalTitle?: string;
-    deleteModalDescription?: string;
-}
-
-const AGActionCell = ({
-    data,
-    requiredButtons,
-    disableCopy,
-    disableDelete,
-    disableEdit,
-    disableSend,
-    onCopyClick,
-    onDeleteClick,
-    onEditClick,
-    onSendClick,
-    deleteModalTitle = 'حذف',
-    deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
-}: IProps) => {
+const AGActionCell = (props: IProps) => {
     //
+    const {
+        data,
+        requiredButtons,
+        disableInfo,
+        disableCopy,
+        disableDelete,
+        disableEdit,
+        disableSend,
+        onInfoClick,
+        onCopyClick,
+        onDeleteClick,
+        onEditClick,
+        onSendClick,
+        infoStyle = {},
+        sendStyle = {},
+        editStyle = {},
+        copyStyle = {},
+        deleteStyle = {},
+        infoClass = '',
+        sendClass = '',
+        editClass = '',
+        copyClass = '',
+        deleteClass = '',
+        deleteModalTitle = 'حذف',
+        deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
+    } = props;
+
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
     const allButtons: TButtons = [
+        {
+            buttonType: 'Info',
+            disabled: disableInfo,
+            onClick: () => onInfoClick && onInfoClick(data),
+            Icon: InfoFillIcon,
+            title: 'جزئیات',
+            styles: infoStyle,
+            classes: infoClass,
+        },
         {
             buttonType: 'Send',
             disabled: disableSend,
             onClick: () => onSendClick && onSendClick(data),
             Icon: SendIcon,
             title: 'ارسال',
-            hide: false,
+            styles: sendStyle,
+            classes: sendClass,
         },
         {
             buttonType: 'Edit',
@@ -61,7 +60,8 @@ const AGActionCell = ({
             onClick: () => onEditClick && onEditClick(data),
             Icon: EditIcon,
             title: 'ویرایش',
-            hide: false,
+            styles: editStyle,
+            classes: editClass,
         },
         {
             buttonType: 'Copy',
@@ -69,7 +69,8 @@ const AGActionCell = ({
             onClick: () => onCopyClick && onCopyClick(data),
             Icon: CopyIcon,
             title: 'کپی',
-            hide: false,
+            styles: copyStyle,
+            classes: copyClass,
         },
         {
             buttonType: 'Delete',
@@ -77,7 +78,8 @@ const AGActionCell = ({
             onClick: () => setIsConfirmModalOpen(true),
             Icon: DeleteIcon,
             title: 'حذف',
-            hide: false,
+            styles: deleteStyle,
+            classes: deleteClass,
         },
     ];
 
@@ -85,28 +87,27 @@ const AGActionCell = ({
 
     const handleConfirm = () => {
         if (onDeleteClick) {
-            onDeleteClick(data)
-            setIsConfirmModalOpen(false)
+            onDeleteClick(data);
+            setIsConfirmModalOpen(false);
         }
-    }
+    };
 
     return (
         <div className="flex items-center justify-center gap-4 py-2 h-full">
             {requestedButtons.map((button, index) => {
-                const { Icon, onClick, hide, title, disabled } = button;
+                const { Icon, onClick, title, disabled, classes, styles } = button;
                 return (
                     <React.Fragment key={index}>
-                        {!hide && (
-                            <Tippy content={title} className="text-xs">
-                                <button
-                                    disabled={disabled}
-                                    className="text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed"
-                                    onClick={onClick}
-                                >
-                                    <Icon />
-                                </button>
-                            </Tippy>
-                        )}
+                        <Tippy content={title} className="text-xs">
+                            <button
+                                disabled={disabled}
+                                className={`text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed ${classes}`}
+                                style={styles}
+                                onClick={onClick}
+                            >
+                                <Icon />
+                            </button>
+                        </Tippy>
                     </React.Fragment>
                 );
             })}
