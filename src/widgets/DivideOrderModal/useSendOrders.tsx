@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setOrder } from 'src/app/queries/order';
 import ipcMain from 'src/common/classes/IpcMain';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
@@ -15,11 +16,18 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
 
     const orderResult = useRef<{ [key: string]: string }>({});
 
+    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
+
     const [ordersLoading, setOrdersLoading] = useState(false);
 
     const { brokerCode } = useAppSelector(getUserData);
 
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        console.log("pushNotification", pushNotification)
+    }, [pushNotification])
+
 
 
     // const selectedCustomers = useAppSelector(getSelectedCustomers);
@@ -86,6 +94,8 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
 
         const nextIndex = index + 1;
 
+        let dataStore: any = {}
+
         return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
             .then((response) => {
                 const result = response.reduce((acc, { status, value }: any, index) => {
@@ -94,15 +104,19 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
                     const done = status === 'fulfilled';
                     if (orderID) {
                         Object.defineProperty(acc, orderID, { value: done ? { clientKey: value.successClientKeys[0] ?? '' } : { status: 'Error' } });
+
+                        dataStore[orderID] = { clientKey: value.successClientKeys[0] ?? '' }
                     }
 
                     return acc;
                 }, {});
 
                 orderResult.current = result;
+
             })
             .finally(() => {
                 props?.onOrderResultReceived?.(orderResult.current);
+                setPushNotification({ ...pushNotification, ...dataStore })
                 if (nextIndex >= bunchOfRequests.length) {
                     clearTimeout(timer);
                     refetchOrderListsWithDelay();

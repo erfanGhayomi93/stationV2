@@ -36,7 +36,7 @@ const Wrapper = () => {
                             hideProgressBar={true}
                             newestOnTop={false}
                             closeOnClick
-                            rtl={false}
+                            rtl={true}
                             draggable
                             pauseOnHover
                         />
