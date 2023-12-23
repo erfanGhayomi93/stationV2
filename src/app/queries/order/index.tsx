@@ -35,6 +35,15 @@ export const useGetOrders = (params: ITodayOpenOrderType, options?: UseQueryOpti
     return useQuery<IOrderGetType[]>(['orderList', params.GtOrderStateRequestType], () => getOrderFn(params), options);
 };
 
+//New Api
+
+const getTodayDoneTrades = async () => {
+    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.Get);
+    return data.result || [];
+};
+
+export const useGetTodayDoneTrades = (options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTrades'], getTodayDoneTrades, options);
+
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (orderId: number) => {
     let { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(Apis().Orders.Delete as string, {}, { params: { orderId } });
