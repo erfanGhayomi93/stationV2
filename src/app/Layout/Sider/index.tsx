@@ -115,13 +115,13 @@ const Sider = () => {
                 id: '/Reports/orders',
                 onClick: () => navigate('/Reports/orders'),
                 children: [
-                    {
-                        icon: <FileIcon className="w-5 h-5" />,
-                        label: 'پرتفوی',
-                        isActive: false,
-                        id: '/portfolio',
-                        onClick: () => navigate('/portfolio'),
-                    },
+                    // {
+                    //     icon: <FileIcon className="w-5 h-5" />,
+                    //     label: 'پرتفوی',
+                    //     isActive: false,
+                    //     id: '/portfolio',
+                    //     onClick: () => navigate('/portfolio'),
+                    // },
                     {
                         label: 'سفارشات',
                         icon: <OrdersIcon className="w-5 h-5" />,

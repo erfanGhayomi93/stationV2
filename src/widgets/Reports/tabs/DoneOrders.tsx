@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { useGetOrders } from 'src/app/queries/order';
+import { useGetOrders, useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
@@ -10,9 +10,11 @@ type IDoneOrders = {
     ClickLeftNode: any;
 };
 const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
-    const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Done' });
-    const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
-    const { isFilter } = ClickLeftNode;
+    // const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Done' });
+    // const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
+    // const { isFilter } = ClickLeftNode;
+    //New Api
+    const { data: todayDoneTrades, isLoading } = useGetTodayDoneTrades();
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
@@ -36,12 +38,12 @@ const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
     );
 
     return (
-        <div className={'grid grid-rows-min-one h-full p-3'}>
-            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+        <div className={'flex h-full p-3'}>
+            {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
-            </div>
-            <WidgetLoading spining={isFetching}>
-                <AGTable rowData={dataAfterfilter} columnDefs={columns} enableBrowserTooltips={false} />
+            </div> */}
+            <WidgetLoading spining={isLoading}>
+                <AGTable rowData={todayDoneTrades} columnDefs={columns} enableBrowserTooltips={false} />
             </WidgetLoading>
         </div>
     );
