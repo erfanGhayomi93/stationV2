@@ -12,7 +12,6 @@ type IRamandOMSInstanceType = {
 
 const createRamandOMSGateway = () => {
 
-
     const translateMessage = (value: string) => {
         const message = value.split('^');
         const msgObj: Record<number, string> = {};
@@ -32,20 +31,30 @@ const createRamandOMSGateway = () => {
     };
 
     const handlePushNotification = (message: Record<number, string>) => {
+        const pushNotificationString = localStorage.getItem("PushNotificationStore")
+        const pushNotification: storeLocalType = !!pushNotificationString ? JSON.parse(pushNotificationString) : {}
+
+        console.log("pushNotification", pushNotification)
+
         const omsClientKey = message[12];
         const omsOrderStatus = message[22] as OrderStatusType;
 
         const orderMessageType = message[200]
         const orderMessage = message[208]
 
-        if (["OnBoard", "PartOfTheOrderDone", "OrderDone","OnBoardModify","InOMSQueue","Canceled"].includes(omsOrderStatus)) {
-            onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: i18next.t('order_status.' + (omsOrderStatus)) })
+        const detailsNotif = !!pushNotification[omsClientKey] ? `${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle}` : ""
+
+        console.log("detailsNotif", detailsNotif)
+
+
+        if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
+            onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}(${detailsNotif})` })
 
         } else if (["Error"].includes(omsOrderStatus)) {
-            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: i18next.t('order_errors.' + (orderMessageType)) })
+            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_errors.' + (orderMessageType))}(${detailsNotif})` })
 
-        } else if ([ "Expired", "DeleteByEngine",].includes(omsOrderStatus)) {
-            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: i18next.t('order_status.' + (omsOrderStatus)) })
+        } else if (["Expired", "DeleteByEngine",].includes(omsOrderStatus)) {
+            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}(${detailsNotif})` })
         }
 
         console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)

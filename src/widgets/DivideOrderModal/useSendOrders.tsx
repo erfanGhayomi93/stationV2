@@ -1,11 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { setOrder } from 'src/app/queries/order';
+import { setOrder, useMutationSendOrder } from 'src/app/queries/order';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ipcMain from 'src/common/classes/IpcMain';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
+import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
 // import { getSelectedCustomers } from 'src/redux/slices/option';
 import { removeDuplicatesInArray } from 'src/utils/helpers';
 
@@ -18,15 +20,48 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
 
     const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
 
+    const selectedCustomers = useAppSelector(getSelectedCustomers)
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
+    const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+
+
+    // console.log("selectedCustomers", getSelectedCustomers)
+
     const [ordersLoading, setOrdersLoading] = useState(false);
 
     const { brokerCode } = useAppSelector(getUserData);
 
     const queryClient = useQueryClient();
 
-    useEffect(() => {
-        console.log("pushNotification", pushNotification)
-    }, [pushNotification])
+    const { mutate: mutateSendOrder } = useMutationSendOrder({
+        onSuccess(data, variables, context) {
+            console.log("variables", variables, "context", context)
+            let selectedCustomersName: { [key: string]: string } = {}
+            selectedCustomers.forEach(item => {
+                selectedCustomersName[item.customerISIN] = item.title
+            })
+
+
+            let storeLocal: storeLocalType = {}
+
+            data.successClientKeys.forEach((successClientKey, ind) => {
+                storeLocal[successClientKey] = {
+                    customerTitle: selectedCustomersName[variables.customerISIN[ind]],
+                    symbolTitle: symbolTitle as string
+                }
+            })
+
+            setPushNotification({ ...pushNotification, ...storeLocal })
+
+
+            console.log("storeLocal", storeLocal)
+
+        },
+    })
+
+    // useEffect(() => {
+    //     console.log("pushNotification", pushNotification)
+    // }, [pushNotification])
 
 
 
@@ -79,53 +114,82 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
     };
 
     const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
-        //
+
         if (!orders.length) return;
 
         const customers = orders.map(item => item.customerISIN[0])
 
-        if (index === 0) subscribeHandler(customers);
+        subscribeHandler(customers);
 
         setOrdersLoading(true);
 
+        console.log("orders", orders)
+
         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 
-        const ordersBunch = bunchOfRequests[index];
+        console.log("bunchOfRequests", bunchOfRequests)
 
-        const nextIndex = index + 1;
-
-        let dataStore: any = {}
-
-        return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
-            .then((response) => {
-                const result = response.reduce((acc, { status, value }: any, index) => {
-                    const order = ordersBunch[index];
-                    const { id: orderID } = order;
-                    const done = status === 'fulfilled';
-                    if (orderID) {
-                        Object.defineProperty(acc, orderID, { value: done ? { clientKey: value.successClientKeys[0] ?? '' } : { status: 'Error' } });
-
-                        dataStore[orderID] = { clientKey: value.successClientKeys[0] ?? '' }
-                    }
-
-                    return acc;
-                }, {});
-
-                orderResult.current = result;
-
-            })
-            .finally(() => {
-                props?.onOrderResultReceived?.(orderResult.current);
-                setPushNotification({ ...pushNotification, ...dataStore })
-                if (nextIndex >= bunchOfRequests.length) {
-                    clearTimeout(timer);
-                    refetchOrderListsWithDelay();
-                    ipcMain.send('update_customer');
-                    setOrdersLoading(false);
-                    return;
+        bunchOfRequests.forEach((orderGroups, ind) => {
+            setTimeout(() => {
+                let order: IOrderRequestType = {
+                    ...orderGroups[0],
+                    customerISIN: []
                 }
-                timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
-            });
+
+                orderGroups.forEach(item => {
+                    order.customerISIN = [...order.customerISIN, ...item.customerISIN]
+                })
+
+                console.log("order", order)
+                mutateSendOrder(order)
+
+            }, ind > 0 ? 3000 : 0);
+        })
+
+
+
+        //         if (index === 0) subscribeHandler(customers);
+        // 
+        //         setOrdersLoading(true);
+        // 
+        //         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
+        // 
+        //         const ordersBunch = bunchOfRequests[index];
+        // 
+        //         const nextIndex = index + 1;
+        // 
+        //         let dataStore: any = {}
+        // 
+        //         return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
+        //             .then((response) => {
+        //                 const result = response.reduce((acc, { status, value }: any, index) => {
+        //                     const order = ordersBunch[index];
+        //                     const { id: orderID } = order;
+        //                     const done = status === 'fulfilled';
+        //                     if (orderID) {
+        //                         Object.defineProperty(acc, orderID, { value: done ? { clientKey: value.successClientKeys[0] ?? '' } : { status: 'Error' } });
+        // 
+        //                         dataStore[orderID] = { clientKey: value.successClientKeys[0] ?? '' }
+        //                     }
+        // 
+        //                     return acc;
+        //                 }, {});
+        // 
+        //                 orderResult.current = result;
+        // 
+        //             })
+        //             .finally(() => {
+        //                 props?.onOrderResultReceived?.(orderResult.current);
+        //                 setPushNotification({ ...pushNotification, ...dataStore })
+        //                 if (nextIndex >= bunchOfRequests.length) {
+        //                     clearTimeout(timer);
+        //                     refetchOrderListsWithDelay();
+        //                     ipcMain.send('update_customer');
+        //                     setOrdersLoading(false);
+        //                     return;
+        //                 }
+        //                 timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
+        //             });
     };
 
     return {

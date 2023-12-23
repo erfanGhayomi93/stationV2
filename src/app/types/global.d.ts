@@ -108,3 +108,7 @@ type RecentSymbolType = {
 	companyName?: string;
 	[key: string]: unknown
 }
+
+type storeLocalType = {
+    [successClientKey: string]: { customerTitle: string, symbolTitle: string }
+}
