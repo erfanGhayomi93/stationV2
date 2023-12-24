@@ -94,7 +94,7 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
         return isInRange ? (
             <div
                 className={clsx(
-                    'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded my-1',
+                    'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded m-1',
                     isOdd ? 'bg-L-gray-100 dark:bg-D-gray-100' : '',
                     isInRange ? '' : 'bg-transparent dark:bg-transparent opacity-60',
                 )}
