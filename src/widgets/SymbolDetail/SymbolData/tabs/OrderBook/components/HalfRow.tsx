@@ -91,7 +91,7 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
 
 
     if (mode === 'Buy') {
-        return (
+        return isInRange ? (
             <div
                 className={clsx(
                     'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded my-1',
@@ -118,11 +118,11 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                     </div>
                 </div>
             </div>
-        );
+        ) : <></>;
     }
 
     if (mode === 'Sell') {
-        return (
+        return isInRange ? (
             <div
                 className={clsx(
                     'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded m-1',
@@ -150,7 +150,7 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                     </div>
                 </div>
             </div>
-        );
+        ) : <></>;
     }
 
     return <div></div>;
