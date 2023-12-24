@@ -67,7 +67,10 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                         )}
                     >
                         <button
-                            className={clsx('flex text-sm gap-4 items-center px-6 py-4', activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '')}
+                            className={clsx(
+                                'flex text-sm gap-4 items-center px-6 py-4',
+                                activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '',
+                            )}
                             onClick={() => onMenuItemClick(item)}
                         >
                             {item.icon}
@@ -130,7 +133,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                 leaveTo="opacity-0  translate-x-40"
                             >
                                 <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0">
-                                    <div className="w-[18rem] h-screen overflow-visible bar bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col py-5 pt-3">
+                                    <div className="w-[18rem] h-screen overflow-visible bar bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col pt-3">
                                         <div className="flex flex-col items-center">
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
@@ -153,6 +156,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                                             item.position === 'bottom',
                                                     ),
                                                 )}
+                                                <div className="bg-L-blue-100 dark:bg-[#111523] p-2 mt-6">{`نسخه ${'1.0.1'}`}</div>
                                             </div>
                                         </div>
                                     </div>
