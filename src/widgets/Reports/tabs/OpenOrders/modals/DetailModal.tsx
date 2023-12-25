@@ -1,5 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import AXIOS from 'src/api/axiosInstance';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import Modal from 'src/common/components/Modal';
@@ -25,6 +26,8 @@ const DetailModal = ({ isOpen, onClose, OrderId }: Props) => {
         enabled: Boolean(OrderId),
     });
 
+    const { t } = useTranslation();
+
     const colDefs = useMemo(
         (): ColDefType<TResponse>[] => [
             {
@@ -36,6 +39,7 @@ const DetailModal = ({ isOpen, onClose, OrderId }: Props) => {
             {
                 headerName: 'وضعیت',
                 field: 'state',
+                valueFormatter: ({ value }) => t(`order_status.${value}`),
             },
         ],
         [],
