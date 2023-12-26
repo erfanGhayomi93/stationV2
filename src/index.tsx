@@ -43,6 +43,7 @@ const Wrapper = () => {
                             draggable
                             pauseOnHover
                             theme={theme}
+                            limit={3}
                         />
                     </GlobalSetterProvider>
                 </TranslatorProvider>

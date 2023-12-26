@@ -26,7 +26,7 @@ let timeOut: NodeJS.Timeout | undefined = undefined;
 const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     const appDispatch = useAppDispatch();
 
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
     const { brokerCode } = useAppSelector(getUserData);
 
@@ -62,7 +62,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
 
-            console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
+            // console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
 
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {
@@ -184,7 +184,13 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
     return (
         <div className={'h-full p-3'}>
             <WidgetLoading spining={loadingOrders}>
-                <AGTable rowData={orders || []} columnDefs={columns} enableBrowserTooltips={false} />
+                <AGTable
+                    rowData={orders || []}
+                    columnDefs={columns}
+                    enableBrowserTooltips={false}
+                    animateRows={true}
+                    suppressRowVirtualisation={true}
+                />
             </WidgetLoading>
             {detailModalState?.isOpen && (
                 <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} OrderId={detailModalState?.OrderId} />
