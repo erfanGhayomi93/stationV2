@@ -1,31 +1,28 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { setOrder, useMutationSendOrder } from 'src/app/queries/order';
+import { useMutationSendOrder } from 'src/app/queries/order';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import ipcMain from 'src/common/classes/IpcMain';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
 import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
-// import { getSelectedCustomers } from 'src/redux/slices/option';
 import { removeDuplicatesInArray } from 'src/utils/helpers';
 
-const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: string | null }) => void }) => {
+const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
     //
-    let timer: NodeJS.Timer;
-    const ORDER_SENDING_GAP = 350;
-
-    const orderResult = useRef<{ [key: string]: string }>({});
+    const ORDER_SENDING_GAP = 400;
 
     const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
-
     const selectedCustomers = useAppSelector(getSelectedCustomers)
     const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+    const [clientIdStore, setClientIdStore] = useState({})
 
+    useEffect(() => {
+        (!!Object.keys(clientIdStore).length && !!onOrderResultReceived) && onOrderResultReceived(clientIdStore)
+    }, [clientIdStore])
 
-    // console.log("selectedCustomers", getSelectedCustomers)
 
     const [ordersLoading, setOrdersLoading] = useState(false);
 
@@ -34,9 +31,9 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
     const queryClient = useQueryClient();
 
     const { mutate: mutateSendOrder } = useMutationSendOrder({
-        onSuccess(data, variables, context) {
-            console.log("variables", variables, "context", context)
+        onSuccess(data, variables) {
             let selectedCustomersName: { [key: string]: string } = {}
+
             selectedCustomers.forEach(item => {
                 selectedCustomersName[item.customerISIN] = item.title
             })
@@ -52,20 +49,9 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
             })
 
             setPushNotification({ ...pushNotification, ...storeLocal })
-
-
-            console.log("storeLocal", storeLocal)
-
         },
     })
 
-    // useEffect(() => {
-    //     console.log("pushNotification", pushNotification)
-    // }, [pushNotification])
-
-
-
-    // const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const { subscribeCustomers } = useRamandOMSGateway();
 
@@ -105,15 +91,15 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
         );
     };
 
-    const refetchOrderListsWithDelay = () => {
-        setTimeout(() => {
-            ['Error', 'OnBoard', 'Done'].forEach((status) => {
-                queryClient.invalidateQueries(['orderList', status]);
-            });
-        }, ORDER_SENDING_GAP);
-    };
+    // const refetchOrderListsWithDelay = () => {
+    //     setTimeout(() => {
+    //         ['Error', 'OnBoard', 'Done'].forEach((status) => {
+    //             queryClient.invalidateQueries(['orderList', status]);
+    //         });
+    //     }, ORDER_SENDING_GAP);
+    // };
 
-    const sendOrders = async (index: number, orders: IOrderRequestType[]) => {
+    const sendOrders = (orders: IOrderRequestType[]) => {
 
         if (!orders.length) return;
 
@@ -123,73 +109,44 @@ const useSendOrders = (props?: { onOrderResultReceived?: (x: { [key: string]: st
 
         setOrdersLoading(true);
 
-        console.log("orders", orders)
 
         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 
-        console.log("bunchOfRequests", bunchOfRequests)
+        async function send() {
+            for (let ind = 0; ind < bunchOfRequests.length; ind++) {
+                const orderGroups = bunchOfRequests[ind];
 
-        bunchOfRequests.forEach((orderGroups, ind) => {
-            setTimeout(() => {
+                ind !== 0 && await new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
+
                 let order: IOrderRequestType = {
                     ...orderGroups[0],
-                    customerISIN: []
+                    customerISIN: [],
+                };
+
+                orderGroups.forEach((item) => {
+                    order.customerISIN = [...order.customerISIN, ...item.customerISIN];
+                });
+
+                let storeClientKey: { [key: string]: string } = {};
+
+                mutateSendOrder(order, {
+                    onSuccess(data) {
+                        orderGroups.forEach((item, index) => {
+                            storeClientKey[item.id || item.orderDraftId || item.customerISIN[0]] =
+                                data.successClientKeys[index];
+                            setClientIdStore(storeClientKey);
+                        });
+                    },
+                });
+
+                if (orderGroups.length === ind + 1) {
+                    setOrdersLoading(false);
                 }
+            }
+        }
 
-                orderGroups.forEach(item => {
-                    order.customerISIN = [...order.customerISIN, ...item.customerISIN]
-                })
+        send();
 
-                console.log("order", order)
-                mutateSendOrder(order)
-
-            }, ind > 0 ? 3000 : 0);
-        })
-
-
-
-        //         if (index === 0) subscribeHandler(customers);
-        // 
-        //         setOrdersLoading(true);
-        // 
-        //         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
-        // 
-        //         const ordersBunch = bunchOfRequests[index];
-        // 
-        //         const nextIndex = index + 1;
-        // 
-        //         let dataStore: any = {}
-        // 
-        //         return await Promise.allSettled(ordersBunch.map((order) => setOrder(order)))
-        //             .then((response) => {
-        //                 const result = response.reduce((acc, { status, value }: any, index) => {
-        //                     const order = ordersBunch[index];
-        //                     const { id: orderID } = order;
-        //                     const done = status === 'fulfilled';
-        //                     if (orderID) {
-        //                         Object.defineProperty(acc, orderID, { value: done ? { clientKey: value.successClientKeys[0] ?? '' } : { status: 'Error' } });
-        // 
-        //                         dataStore[orderID] = { clientKey: value.successClientKeys[0] ?? '' }
-        //                     }
-        // 
-        //                     return acc;
-        //                 }, {});
-        // 
-        //                 orderResult.current = result;
-        // 
-        //             })
-        //             .finally(() => {
-        //                 props?.onOrderResultReceived?.(orderResult.current);
-        //                 setPushNotification({ ...pushNotification, ...dataStore })
-        //                 if (nextIndex >= bunchOfRequests.length) {
-        //                     clearTimeout(timer);
-        //                     refetchOrderListsWithDelay();
-        //                     ipcMain.send('update_customer');
-        //                     setOrdersLoading(false);
-        //                     return;
-        //                 }
-        //                 timer = setTimeout(() => sendOrders(nextIndex, orders), ORDER_SENDING_GAP);
-        //             });
     };
 
     return {

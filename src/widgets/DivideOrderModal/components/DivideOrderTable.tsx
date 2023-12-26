@@ -4,44 +4,47 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import { onErrorNotif } from 'src/handlers/notification';
+import { queryClient } from 'src/app/queryClient';
 
 interface ITableProps {
     rowData: DividedOrderRowType[];
-    updateData: React.Dispatch<React.SetStateAction<DividedOrderRowType[]>>;
     setQuantityInput: React.Dispatch<React.SetStateAction<number>>;
     sendOneOrder: (id: string) => void;
     symbolMaxQuantity: number;
 }
 
-const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder, symbolMaxQuantity }: ITableProps) => {
+const DivideOrderTable = ({ rowData, setQuantityInput, sendOneOrder, symbolMaxQuantity }: ITableProps) => {
     //
     const { t } = useTranslation();
 
     const onRowValueChange = (value: number, name: 'quantity' | 'price', rowId: string | number) => {
         let totalQuantity = 0;
 
-        updateData((pre) =>
-            pre.map((item) => {
-                if (item.id === rowId) {
-                    totalQuantity += name === 'price' ? Number(item.quantity) : Number(value);
-                    return {
-                        ...item,
-                        [name]: Number(value),
-                        clientKey: undefined,
-                        status: undefined,
-                    };
-                }
+        queryClient.setQueryData(['divideOrderCache'], (oldData: DividedOrderRowType[] | undefined) => {
+            if (!!oldData) {
+                return oldData.map((item) => {
+                    if (item.id === rowId) {
+                        totalQuantity += name === 'price' ? Number(item.quantity) : Number(value);
+                        return {
+                            ...item,
+                            [name]: Number(value),
+                            clientKey: undefined,
+                            status: undefined,
+                            isError: false
+                        };
+                    }
 
-                totalQuantity += item.quantity;
-                return item;
-            }),
-        );
+                    totalQuantity += item.quantity;
+                    return item;
+                })
+            }
+        })
 
         setQuantityInput(totalQuantity);
     };
 
     const onRowDelete = (data: DividedOrderRowType) => {
-        updateData((pre) => pre.filter((item) => item.id !== data.id));
+        queryClient.setQueryData(['divideOrderCache'], (oldData: DividedOrderRowType[] | undefined) => oldData?.filter(item => item.id !== data.id))
         setQuantityInput((pre) => pre - data.quantity);
     };
 
@@ -114,7 +117,7 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
                     'text-L-success-200': ({ value }) => value === 'OrderDone',
                     'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
-                valueFormatter: ({ value }) => (value ? t('order_status.' + value) : '-'),
+                valueFormatter: ({ value, data }) => (!value ? '-' : !data?.isError ? t('order_status.' + value) : t('order_errors.' + value)),
             },
             {
                 headerName: t('ag_columns_headerName.actions'),
@@ -123,7 +126,7 @@ const DivideOrderTable = ({ rowData, updateData, setQuantityInput, sendOneOrder,
                 cellRenderer: ({ api, data, rowIndex }: ICellRendererParams) => (
                     <ActionCell
                         data={data}
-                        type={[TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND]}
+                        type={!data?.clientKey ? [TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND] : [TypeActionEnum.EDIT, TypeActionEnum.SEND]}
                         handleEdit={() => {
                             api.startEditingCell({ rowIndex, colKey: 'price' });
                             api.startEditingCell({ rowIndex, colKey: 'quantity' });

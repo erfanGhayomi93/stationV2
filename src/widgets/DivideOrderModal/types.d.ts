@@ -5,5 +5,6 @@ interface DividedOrderRowType {
 	quantity: number;
 	price: number;
 	status?: OrderStatusType;
+    isError : boolean 
     clientKey?: string;
 }

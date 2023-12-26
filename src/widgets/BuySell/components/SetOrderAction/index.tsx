@@ -8,11 +8,13 @@ import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getUniqId, handleValidity, isPrimaryComeFrom } from 'src/utils/helpers';
 import { resetByeSellData } from '../..';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
-import { getSelectedCustomers } from 'src/redux/slices/option';
+import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
 import { useTranslation } from 'react-i18next';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import Button from 'src/common/components/Buttons/Button';
 import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
+import useLocalStorage from 'src/common/hooks/useLocalStorage';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 
 interface ISetOrderActionType { }
 
@@ -38,37 +40,32 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
     const { t } = useTranslation();
 
+    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
+
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
+    const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+
+
+
     const { comeFrom } = useAppSelector(getKeepDataBuySell)
     const selectedCustomers = useAppSelector(getSelectedCustomers);
     const appDispatch = useAppDispatch();
 
     const { sendOrders, ordersLoading } = useSendOrders();
 
-    // const { mutate } = useMutation(setOrder, {
-    //     onSuccess: () => {
-    //         onSuccessNotif();
-    //         if (sequential) resetByeSellData(dispatch, appDispatch);
-    //     },
-    //     onError: () => {
-    //         onErrorNotif();
-    //     },
-    // });
-
-    // const { mutate: mutateUpdateOrder } = useUpdateOrders({
-    //     onSuccess: () => {
-    //         onSuccessNotif();
-    //         queryClient.invalidateQueries(['orderList', 'OnBoard']);
-    //         // if (sequential) 
-    //         resetByeSellData(dispatch, appDispatch);
-    //     },
-    //     onError: () => {
-    //         onErrorNotif();
-    //     },
-    // });
 
     const { mutate: mutateUpdateOrder } = useSingleModifyOrders({
-        onSuccess() {
+        onSuccess(result) {
             resetByeSellData(dispatch, appDispatch);
+
+            const storeLocal: storeLocalType = {
+                [result.clientKey || ""]: {
+                    customerTitle: selectedCustomers[0].title,
+                    symbolTitle: symbolTitle || ""
+                }
+            }
+
+            setPushNotification({ ...pushNotification, ...storeLocal })
         },
     })
 
@@ -103,7 +100,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     };
 
     const handleUpdateOrder = () => {
-        
+
         if (!id) {
             alert("it hasnt id")
             return
@@ -116,7 +113,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             validity,
             validityDate
         })
-        
+
         // mutateUpdateOrder({
         //     customers: selectedCustomers.map((item) => ({
         //         customerType: item.customerType,
@@ -186,7 +183,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             })
             .filter(Boolean) as IOrderRequestType[];
 
-        sendOrders(0, orders);
+        sendOrders(orders);
     };
 
     return (

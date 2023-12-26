@@ -1,7 +1,7 @@
 import ipcMain from 'src/common/classes/IpcMain';
 import { pushEngine } from './pushEngine';
 import i18next from 'i18next';
-import { onErrorNotif, onInfoNotif, onSuccessNotif } from 'src/handlers/notification';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 
 type IRamandOMSInstanceType = {
     subscribeCustomers: (customerISINs: string[], brokerCode: string) => void;
@@ -30,35 +30,41 @@ const createRamandOMSGateway = () => {
         return msgObj;
     };
 
+    const setLocalStorage = (pushNotification: storeLocalType) => {
+        const pushNotificationStringfy = JSON.stringify(pushNotification)
+        localStorage.setItem("PushNotificationStore", pushNotificationStringfy)
+    }
+
+
+
     const handlePushNotification = (message: Record<number, string>) => {
         const pushNotificationString = localStorage.getItem("PushNotificationStore")
-        const pushNotification: storeLocalType = !!pushNotificationString ? JSON.parse(pushNotificationString) : {}
+        let pushNotification: storeLocalType = !!pushNotificationString ? JSON.parse(pushNotificationString) : {}
 
-        console.log("pushNotification", pushNotification)
 
         const omsClientKey = message[12];
         const omsOrderStatus = message[22] as OrderStatusType;
-
         const orderMessageType = message[200]
-        const orderMessage = message[208]
 
-        const detailsNotif = !!pushNotification[omsClientKey] ? `${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle}` : ""
-
-        console.log("detailsNotif", detailsNotif)
+        const detailsNotif = !!pushNotification[omsClientKey] ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
 
 
         if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
-            onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}(${detailsNotif})` })
+            onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
 
         } else if (["Error"].includes(omsOrderStatus)) {
-            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_errors.' + (orderMessageType))}(${detailsNotif})` })
+            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}` })
 
         } else if (["Expired", "DeleteByEngine",].includes(omsOrderStatus)) {
-            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}(${detailsNotif})` })
+            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
         }
 
-        console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus)
-        console.log("orderMessageType", orderMessageType, "orderMessage", orderMessage)
+        if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
+            delete pushNotification[omsClientKey]
+
+            setLocalStorage(pushNotification)
+        }
+
     }
 
     const handleOMSMessage = (message: Record<number, string>) => {
