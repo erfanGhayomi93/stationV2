@@ -61,7 +61,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 </button>
             </Tippy>
 
-            <Tippy
+            {/* <Tippy
                 onShow={(instance) => {
                     let clear = setTimeout(() => {
                         instance.hide();
@@ -76,7 +76,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 >
                     <PortfolioDetailIcon className="w-[1.13rem] h-[1.13rem] hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
                 </button>
-            </Tippy>
+            </Tippy> */}
         </div >
     );
 };
