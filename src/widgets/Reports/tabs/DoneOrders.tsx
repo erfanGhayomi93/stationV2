@@ -23,7 +23,7 @@ const DoneOrders: FC<IDoneOrders> = ({ ClickLeftNode }) => {
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'ارزش معامله', field: 'value', type: 'abbreviatedNumber' },
+            { headerName: 'ارزش معامله', field: 'totalPrice', type: 'abbreviatedNumber' },
             // { headerName: 'تعداد انجام شده', field: 'sumExecuted', type: 'sepratedNumber' },
             // { headerName: 'تعداد صف پیش رو', field: 'position', type: 'sepratedNumber' },
             // { headerName: 'حجم پیش رو در صف', field: 'valuePosition', type: 'sepratedNumber' },

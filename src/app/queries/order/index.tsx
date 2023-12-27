@@ -38,7 +38,7 @@ export const useGetOrders = (params: ITodayOpenOrderType, options?: UseQueryOpti
 //New Api
 
 const getTodayDoneTrades = async () => {
-    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.Get);
+    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTrades);
     return data.result || [];
 };
 
