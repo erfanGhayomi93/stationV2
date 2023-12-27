@@ -1,9 +1,10 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import option from 'src/redux/slices/option';
 
 export const setOrder = async (params: IOrderRequestType) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(Apis().Orders.Create as string, { ...params });
+    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(Apis().Orders.Create, { ...params });
     return (
         data.result || {
             successClientKeys: [],
@@ -11,6 +12,11 @@ export const setOrder = async (params: IOrderRequestType) => {
         }
     );
 };
+
+
+export const useMutationSendOrder = (option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IOrderRequestType, unknown>, 'mutationFn'> | undefined,) => {
+    return useMutation(setOrder, option)
+}
 ////////////////////////////////////
 
 const singleModifyOrderFn = async (params: ISingleModifyOrderReq) => {

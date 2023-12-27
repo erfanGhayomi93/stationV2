@@ -59,7 +59,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             validityDate: validityDate || null,
         }));
 
-        sendOrders(0, order);
+        sendOrders(order);
     };
 
     const appDispatch = useAppDispatch();
