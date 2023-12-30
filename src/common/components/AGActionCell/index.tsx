@@ -98,7 +98,7 @@ const AGActionCell = (props: IProps) => {
     };
 
     return (
-        <div className="flex items-center justify-center gap-4 py-2 h-full">
+        <div className="flex items-center justify-center gap-3 py-2 h-full">
             {requestedButtons.map((button, index) => {
                 const { Icon, onClick, title, disabled, classes, styles } = button;
                 return (
