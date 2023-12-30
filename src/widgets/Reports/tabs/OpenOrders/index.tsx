@@ -1,14 +1,13 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { setOrder, useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
+import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
-import ActionCell, { TypeActionEnum } from '../../components/actionCell';
 import ipcMain from 'src/common/classes/IpcMain';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { getUserData } from 'src/redux/slices/global';
@@ -23,20 +22,15 @@ type IOpenOrders = {
 
 let timeOut: NodeJS.Timeout | undefined = undefined;
 
-const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
+const OpenOrders: FC<IOpenOrders> = () => {
     const appDispatch = useAppDispatch();
-
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
-
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
     const { brokerCode } = useAppSelector(getUserData);
-
     const queryClient = useQueryClient();
+    const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
     const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
-
     const { isSubscribed, subscribeCustomers, unSubscribeCustomers, currentSubscribed } = useRamandOMSGateway();
-
-    const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; OrderId: number | undefined }>({ isOpen: false, OrderId: undefined });
 
     useEffect(() => {
         if (orders?.length && !isSubscribed() && brokerCode) {
@@ -121,11 +115,9 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
         // appDispatch(setDataBuySellAction({ data, comeFrom: ComeFromKeepDataEnum.OpenOrder }));
     };
 
-    const handleInfoClick = (data: IOrderGetType | undefined) => {
-        setDetailModalState({ isOpen: true, OrderId: data?.orderId });
-    };
+    const handleInfoClick = (data: IOrderGetType | undefined) => setDetailModalState({ isOpen: true, data: data });
 
-    const handleInfoClose = () => setDetailModalState({ isOpen: false, OrderId: undefined });
+    const handleInfoClose = () => setDetailModalState({ isOpen: false, data: undefined });
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
@@ -193,7 +185,7 @@ const OpenOrders: FC<IOpenOrders> = ({ ClickLeftNode }) => {
                 />
             </WidgetLoading>
             {detailModalState?.isOpen && (
-                <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} OrderId={detailModalState?.OrderId} />
+                <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} modalData={detailModalState?.data} />
             )}
         </div>
     );

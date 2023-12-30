@@ -29,6 +29,11 @@ const AGActionCell = (props: IProps) => {
         editClass = '',
         copyClass = '',
         deleteClass = '',
+        hideCopy = false,
+        hideDelete = false,
+        hideEdit = false,
+        hideSend = false,
+        hideInfo = false,
         deleteModalTitle = 'حذف',
         deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
     } = props;
@@ -43,7 +48,7 @@ const AGActionCell = (props: IProps) => {
             Icon: InfoFillIcon,
             title: 'جزئیات',
             styles: infoStyle,
-            classes: infoClass,
+            classes: `${hideInfo ? 'hidden' : ''} ${infoClass}`,
         },
         {
             buttonType: 'Send',
@@ -52,7 +57,7 @@ const AGActionCell = (props: IProps) => {
             Icon: SendIcon,
             title: 'ارسال',
             styles: sendStyle,
-            classes: sendClass,
+            classes: `${hideSend ? 'hidden' : ''} ${sendClass}`,
         },
         {
             buttonType: 'Edit',
@@ -61,7 +66,7 @@ const AGActionCell = (props: IProps) => {
             Icon: EditIcon,
             title: 'ویرایش',
             styles: editStyle,
-            classes: editClass,
+            classes: `${hideEdit ? 'hidden' : ''} ${editClass}`,
         },
         {
             buttonType: 'Copy',
@@ -70,7 +75,7 @@ const AGActionCell = (props: IProps) => {
             Icon: CopyIcon,
             title: 'کپی',
             styles: copyStyle,
-            classes: copyClass,
+            classes: `${hideCopy ? 'hidden' : ''} ${copyClass}`,
         },
         {
             buttonType: 'Delete',
@@ -79,7 +84,7 @@ const AGActionCell = (props: IProps) => {
             Icon: DeleteIcon,
             title: 'حذف',
             styles: deleteStyle,
-            classes: deleteClass,
+            classes: `${hideDelete ? 'hidden' : ''} ${deleteClass}`,
         },
     ];
 
@@ -93,7 +98,7 @@ const AGActionCell = (props: IProps) => {
     };
 
     return (
-        <div className="flex items-center justify-center gap-4 py-2 h-full">
+        <div className="flex items-center justify-center gap-3 py-2 h-full">
             {requestedButtons.map((button, index) => {
                 const { Icon, onClick, title, disabled, classes, styles } = button;
                 return (

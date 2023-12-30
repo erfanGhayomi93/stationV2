@@ -818,7 +818,8 @@
         "UserOrPasswordNotValid": "نام‌کاربری یا رمزعبور اشتباه است",
         "UserIsLock": "برای دقایقی حساب شما مسدود شده است",
         "IncludeSpecificChar": "رمز عبور باید شامل حروف خاص باشد",
-        "TooManyForgetPasswordRequest": "تعداد درخواست ها بیش از حد مجاز است."
+        "TooManyForgetPasswordRequest": "تعداد درخواست ها بیش از حد مجاز است.",
+        "WatchListNameCantBeNull": "نام دیده بان نمیتواند خالی باشد"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
