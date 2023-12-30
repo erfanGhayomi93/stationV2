@@ -12,7 +12,7 @@ type SymbolEvents = {
     symbolName: string;
     symbolISIN: string;
     type: SymbolEventsType;
-}
+};
 
 type SymbolData = {
     insCode: string;
@@ -157,6 +157,36 @@ type SymbolSearchResult = {
     symbolTag: string;
 };
 
+interface OptionGeneralInformation {
+    initialMargin: number;
+    maintenanceMargin: number;
+    requiredMargin: number;
+    openPosition: number;
+    strikePrice: number;
+    contractStartDate: string;
+    contractEndDate: string;
+    cashSettlementDate: string;
+    companyISIN: string;
+    maxCOP: number;
+    maxCAOP: number;
+    maxBOP: number;
+    maxMOP: number;
+    maxOrders: number;
+    baseCompanyISIN: string;
+    contractSize: number;
+    cefo: number;
+    physicalSettlementDate: string;
+    closingPrice: number;
+    tradeVolume: number;
+    yesterdayPrice: number;
+    maxPrice: number;
+    minPrice: number;
+    basePriceClosing: number;
+    basePriceLast: number;
+    openingPrice: number;
+    dueDays: number;
+}
+
 interface GetSameSectorRequest {
     symbolISIN: string;
 }
@@ -194,7 +224,7 @@ interface IMarketUnitType {
 }
 
 interface RecentSymbolHistoryRequest {
-    type: 'TradingView' | 'GeneralSearch'
+    type: 'TradingView' | 'GeneralSearch';
 }
 
 // interface GetSameSectorResultType {
@@ -273,4 +303,4 @@ interface RecentSymbolHistoryRequest {
 //
 // }
 
-interface GetSameSectorResponseType extends GlobalApiResponseType<GetSameSectorResultType[]> { }
+interface GetSameSectorResponseType extends GlobalApiResponseType<GetSameSectorResultType[]> {}

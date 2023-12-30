@@ -3,6 +3,7 @@ interface IOrderRequestType {
     id?: string;
     status?: string;
     customerISIN: ICustomerIsins;
+    customerTitle: ICustomerIsins; //for show in notification
     CustomerTagId?: ICustomerIsins;
     GTTraderGroupId?: ICustomerIsins;
     symbolISIN: string;

@@ -21,6 +21,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
     useEffect(() => {
         (!!Object.keys(clientIdStore).length && !!onOrderResultReceived) && onOrderResultReceived(clientIdStore)
+        console.log("clientIdStore", clientIdStore)
     }, [clientIdStore])
 
 
@@ -32,21 +33,15 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
     const { mutate: mutateSendOrder } = useMutationSendOrder({
         onSuccess(data, variables) {
-            let selectedCustomersName: { [key: string]: string } = {}
-
-            selectedCustomers.forEach(item => {
-                selectedCustomersName[item.customerISIN] = item.title
-            })
-
-
             let storeLocal: storeLocalType = {}
 
             data.successClientKeys.forEach((successClientKey, ind) => {
                 storeLocal[successClientKey] = {
-                    customerTitle: selectedCustomersName[variables.customerISIN[ind]],
-                    symbolTitle: symbolTitle as string
+                    customerTitle: variables.customerTitle[ind],
+                    symbolTitle: !!symbolTitle ? symbolTitle : ""
                 }
             })
+
 
             setPushNotification({ ...pushNotification, ...storeLocal })
         },
@@ -121,10 +116,12 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                 let order: IOrderRequestType = {
                     ...orderGroups[0],
                     customerISIN: [],
+                    customerTitle: []
                 };
 
                 orderGroups.forEach((item) => {
                     order.customerISIN = [...order.customerISIN, ...item.customerISIN];
+                    order.customerTitle = [...order.customerTitle, ...item.customerTitle];
                 });
 
                 let storeClientKey: { [key: string]: string } = {};
@@ -132,10 +129,11 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                 mutateSendOrder(order, {
                     onSuccess(data) {
                         orderGroups.forEach((item, index) => {
+                            console.log("orderGroups-item", item)
                             storeClientKey[item.id || item.orderDraftId || item.customerISIN[0]] =
                                 data.successClientKeys[index];
-                            setClientIdStore(storeClientKey);
                         });
+                        setClientIdStore(storeClientKey);
                     },
                 });
 

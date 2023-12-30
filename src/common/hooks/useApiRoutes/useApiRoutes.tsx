@@ -56,6 +56,7 @@ export const Apis = () => ({
         SameSectorSymbols: getBaseUrl() + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
         ChartData: getBaseUrl() + '/Symbol/v1/ChartData',
         GetMarketUnit: getBaseUrl() + '/Symbol/v1/GetMarketUnit',
+        optionInformation: "https://marketdata-stage.ramandtech.com" + '/Symbol/v1/optiongeneralInformation',
     },
     Customer: {
         AdvancedSearch: getBaseUrl() + '/Customer/v1/AdvancedSearch',

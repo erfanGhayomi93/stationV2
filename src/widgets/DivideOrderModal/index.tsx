@@ -29,6 +29,11 @@ const DivideOrderModal = () => {
 
     const { data: customers } = useQuery<DividedOrderRowType[]>(['divideOrderCache'], () => [], {})
 
+    // useEffect(() => {
+    //     console.log("customers", customers)
+    // }, [customers])
+
+
 
     const checkQuantityTickSize = (quantity: number) => {
         const quantityTickSize = symbolData?.orderQuantityTickSize ?? 1;
@@ -132,9 +137,10 @@ const DivideOrderModal = () => {
 
         const unSentOrders = customers?.filter(({ clientKey }) => !clientKey) || [];
 
-        const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity }) => ({
+        const orders: IOrderRequestType[] = unSentOrders.map(({ customerISIN, id, price, quantity, customerTitle }) => ({
             id: id as string,
             customerISIN: [customerISIN],
+            customerTitle: [customerTitle],
             CustomerTagId: [],
             GTTraderGroupId: [],
             orderSide: side,
@@ -170,6 +176,7 @@ const DivideOrderModal = () => {
             price: customer?.price || 0,
             quantity: customer?.quantity || 0,
             customerISIN: [customer?.customerISIN || ""],
+            customerTitle: [customer?.customerTitle || ""],
             id: orderId,
         };
 

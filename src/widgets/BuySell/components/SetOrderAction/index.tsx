@@ -40,7 +40,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
     const { t } = useTranslation();
 
-    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
+    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", {})
 
     const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
@@ -65,7 +65,10 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
                 }
             }
 
-            setPushNotification({ ...pushNotification, ...storeLocal })
+            const timeOut = setTimeout(() => {
+                setPushNotification({ ...pushNotification, ...storeLocal })
+                clearTimeout(timeOut)
+            }, 1000);
         },
     })
 
@@ -161,11 +164,12 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
         let GTTraderGroupId: ICustomerIsins = [];
 
         const orders: IOrderRequestType[] = selectedCustomers
-            .map(({ customerISIN, customerType }) => {
+            .map(({ customerISIN, customerType, title }) => {
                 if ([ICustomerTypeEnum.Legal, ICustomerTypeEnum.Natural].includes(customerType as ICustomerTypeEnum)) {
                     return {
                         id: getUniqId(),
                         customerISIN: [customerISIN],
+                        customerTitle: [title],
                         CustomerTagId,
                         GTTraderGroupId,
                         orderSide: side,
