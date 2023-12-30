@@ -46,8 +46,9 @@ const createRamandOMSGateway = () => {
         const omsOrderStatus = message[22] as OrderStatusType;
         const orderMessageType = message[200]
 
+        // console.log("pushNotification",pushNotification)
         const detailsNotif = !!pushNotification[omsClientKey] ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
-
+        // console.log("detailsNotif",detailsNotif)
 
         if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
             onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
@@ -68,8 +69,12 @@ const createRamandOMSGateway = () => {
     }
 
     const handleOMSMessage = (message: Record<number, string>) => {
-        ipcMain.send('onOMSMessageReceived', message);
-        handlePushNotification(message)
+        const timeOut = setTimeout(() => {
+            ipcMain.send('onOMSMessageReceived', message);
+            handlePushNotification(message)
+
+            clearTimeout(timeOut)
+        }, 500);
     };
 
     const handleAdminMessage = (message: Record<number, string>) => {
@@ -91,7 +96,7 @@ const createRamandOMSGateway = () => {
 
         if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
-        console.log("subscribe", items)
+        // console.log("subscribe", items)
 
         pushEngine.subscribe({
             id: 'supervisorMessage',

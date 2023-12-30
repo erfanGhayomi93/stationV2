@@ -8,9 +8,10 @@ import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useMutation } from '@tanstack/react-query';
+import { onSuccessNotif } from 'src/handlers/notification';
+// import { useMutation } from '@tanstack/react-query';
 import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
+import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import dayjs from 'dayjs';
 
@@ -43,6 +44,9 @@ const Requests = () => {
     const [isOpen, setIsOpen] = useState(false);
     const selectedDataForDelete = useRef<Record<string, any> | undefined>();
 
+    const { sendOrders } = useSendOrders();
+
+
     const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
         onSuccess: (result) => {
             if (result) {
@@ -52,14 +56,14 @@ const Requests = () => {
         },
     });
 
-    const { mutate: mutateSend } = useMutation(setOrder, {
-        onSuccess: () => {
-            onSuccessNotif();
-        },
-        onError: () => {
-            onErrorNotif();
-        },
-    });
+    // const { mutate: mutateSend } = useMutation(setOrder, {
+    //     onSuccess: () => {
+    //         onSuccessNotif();
+    //     },
+    //     onError: () => {
+    //         onErrorNotif();
+    //     },
+    // });
 
     const handleSend = (data: Record<string, any>) => {
         console.log(data);
@@ -77,9 +81,11 @@ const Requests = () => {
             price: data?.price,
             quantity: data?.volume,
             customerISIN: [data?.customerISIN],
+            customerTitle: [data?.customerTitle],
             id: data?.id,
         };
-        mutateSend(order);
+
+        sendOrders([order]);
     };
 
     const handleDelete = (data: IGTOfflineTradesResult | undefined) => {
