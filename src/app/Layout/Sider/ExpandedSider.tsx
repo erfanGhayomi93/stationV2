@@ -138,7 +138,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                             <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         </div>
                                         <div className="flex flex-col h-full justify-between">
-                                            <div>
+                                            <div className="bg-L-blue-50 dark:bg-D-blue-50">
                                                 {renderMenu(
                                                     menuItems.filter(
                                                         (item) =>
@@ -148,7 +148,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                                 )}
                                             </div>
 
-                                            <div>
+                                            <div className="bg-L-blue-50 dark:bg-D-blue-50">
                                                 {renderMenu(
                                                     menuItems.filter(
                                                         (item) =>

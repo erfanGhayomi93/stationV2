@@ -23,6 +23,7 @@ interface IOrderGetType {
     validityDate: string | null;
     quantity: number;
     value: number;
+    hostOrderNumber: string;
     validity: validity;
     customerTitle: string;
     position: number;

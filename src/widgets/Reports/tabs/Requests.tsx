@@ -4,13 +4,15 @@ import { setOrder, useDeleteRequest, useGetOfflineRequests } from 'src/app/queri
 // import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
-import { valueFormatterSide } from 'src/utils/helpers';
+import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
 import { ICellRendererParams } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useMutation } from '@tanstack/react-query';
 import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
+import AGActionCell from 'src/common/components/AGActionCell';
+import dayjs from 'dayjs';
 
 type RequestData = {
     customerTitle: string;
@@ -103,11 +105,12 @@ const Requests = () => {
                 headerName: t('ag_columns_headerName.actions'),
                 field: 'customTitle',
                 cellRenderer: (row: ICellRendererParams<IGTOfflineTradesResult>) => (
-                    <ActionCell
+                    <AGActionCell
+                        requiredButtons={['Send', 'Delete']}
                         data={row.data}
-                        type={[TypeActionEnum.SEND, TypeActionEnum.DELETE]}
-                        handleDelete={handleDelete}
-                        handleSend={(data) => data && handleSend(data)}
+                        onSendClick={(data) => data && handleSend(data)}
+                        onDeleteClick={handleDelete}
+                        hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
                 ),
             },
