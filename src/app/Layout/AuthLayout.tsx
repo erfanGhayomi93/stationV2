@@ -24,7 +24,7 @@ const AuthLayout = () => {
             style={{ backgroundImage: `url(/assets/images/${pathName})` }}
         >
             <div className="flex flex-col max-w-[1900px] mx-auto w-full h-full select-none">
-                <div className="flex grow gap-6 items-center md:justify-center xl:justify-start pb-3 mr-0 xl:mr-[11%]">
+                <div className="flex grow gap-6 items-center md:justify-center xl:justify-start pb-3 mr-0 xl:mr-[8%]">
                     <div className={clsx('pt-3')}>
                         <div
                             className={clsx(

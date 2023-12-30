@@ -157,7 +157,7 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(({ value, setValue,
                 </div>
             </div>
 
-            <div style={{ direction: 'ltr' }} className="flex w-full mt-6 relative items-center justify-evenly">
+            <div style={{ direction: 'ltr' }} className="flex w-full mt-6 relative items-center justify-evenly" lang="en-US">
                 <input
                     tabIndex={1}
                     type="number"

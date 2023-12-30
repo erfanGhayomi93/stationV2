@@ -1,5 +1,5 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AXIOS from 'src/api/axiosInstance';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -8,10 +8,10 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { CloseIcon } from 'src/common/icons';
 
-type Props = {
+export type TDetailModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    OrderId: number | undefined;
+    modalData?: IOrderGetType;
 };
 
 type TResponse = {
@@ -20,13 +20,17 @@ type TResponse = {
     state: string;
 };
 
-const DetailModal = ({ isOpen, onClose, OrderId }: Props) => {
+const DetailModal = ({ isOpen, onClose, modalData }: TDetailModalProps) => {
     //
-    const { data, isFetching } = useGetOrderState(OrderId, {
-        enabled: Boolean(OrderId),
+    const { data, isFetching } = useGetOrderState(modalData?.orderId, {
+        enabled: Boolean(modalData?.orderId),
     });
 
     const { t } = useTranslation();
+
+    const modalTitle = `جزئیات سفارش ${modalData?.customerTitle || 'مشتری'} ${
+        modalData?.hostOrderNumber ? 'با شماره سفارش ' + modalData?.hostOrderNumber : ''
+    }`;
 
     const colDefs = useMemo(
         (): ColDefType<TResponse>[] => [
@@ -48,15 +52,15 @@ const DetailModal = ({ isOpen, onClose, OrderId }: Props) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} className="w-[500px] h-[344px] rounded">
             <div className="w-full h-full bg-L-basic dark:bg-D-basic flex flex-col shadow-md">
-                <div className="flex justify-between items-center bg-L-primary-50 dark:bg-D-primary-200 px-6 h-12">
-                    <span className="font-medium text-base text-white">{'جزئیات'}</span>
+                <div className="flex justify-between items-center bg-[#0C4073] dark:bg-D-primary-200 px-6 h-12">
+                    <span className="font-normal text-sm text-white">{modalTitle}</span>
                     <button className="p-1" onClick={onClose}>
                         <CloseIcon className="text-white" />
                     </button>
                 </div>
                 <div className="flex-1 p-6">
                     <WidgetLoading spining={isFetching}>
-                        <AGTable columnDefs={colDefs} rowData={data} />
+                        <AGTable columnDefs={colDefs} rowData={data} suppressRowHoverHighlight />
                     </WidgetLoading>
                 </div>
             </div>

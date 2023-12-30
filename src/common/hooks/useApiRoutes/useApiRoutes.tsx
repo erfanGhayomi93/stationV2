@@ -25,7 +25,6 @@ const getBaseUrl = () => {
     return data?.find((item) => item.name === 'REACT_APP_BASE_URL')?.value;
 };
 
-
 export const Apis = () => ({
     OAuthApi: {
         authorization: getOauthUrl() + '/GTOAuthApi/v1/GTAuthorization',
@@ -96,6 +95,7 @@ export const Apis = () => ({
         OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
         DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
+        TodayDoneTrades: getBaseUrl() + '/Order/v1/TodayDoneTrades',
     },
     SupervisorMessage: {
         Get: getBaseUrl() + `/Message/v1/TodaySupervisorMessage`,
@@ -167,8 +167,6 @@ export const Apis = () => ({
         TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
 });
-
-
 
 // const getPortfolioUrl = () => {
 //     const data = queryClient.getQueryData(['GetGlobalSettings']) as ISettingsType[];

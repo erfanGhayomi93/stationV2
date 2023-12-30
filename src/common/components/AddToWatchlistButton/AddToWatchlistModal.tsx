@@ -1,7 +1,5 @@
 import { FC, KeyboardEvent, useState } from 'react';
-import { toast } from 'react-toastify';
 import { CloseIcon, EyeMinesIcon, EyePlusIcon, PlusIcon } from 'src/common/icons';
-
 import { useQueryClient } from '@tanstack/react-query';
 import {
     addWatchListSymbolMutation,
@@ -11,7 +9,9 @@ import {
     useWatchlistsQuery,
 } from 'src/app/queries/watchlist';
 import Modal from '../Modal';
-import { onErrorNotif } from 'src/handlers/notification';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { isFieldEmpty } from 'src/utils/helpers';
+import { t } from 'i18next';
 
 type IAddToWatchlist = {
     isOpen: boolean;
@@ -23,7 +23,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
     const queryClient = useQueryClient();
     const [isEditActive, setIsEditActive] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    const closeModal = () => setIsOpen(false);
+
     const { data: watchlists } = useWatchlistsQuery();
     const { data: symbolInWatchlist } = useSymbolInWatchlistQuery();
 
@@ -31,11 +31,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
         onSuccess: (_, variables) => {
             if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
-
-            toast.success('نماد با موفقیت  از دیده بان حذف شد');
-        },
-        onError: (err) => {
-            toast.error(`${err}`);
+            onSuccessNotif({ title: 'نماد با موفقیت  از دیده بان حذف شد' });
         },
     });
 
@@ -43,28 +39,19 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
         onSuccess: (_, variables) => {
             if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
-
-            toast.success('نماد با موفقیت به دیده‌بان اضافه شد');
-        },
-        onError: (err) => {
-            toast.error(`${err}`);
+            onSuccessNotif({ title: 'نماد با موفقیت به دیده‌بان اضافه شد' });
         },
     });
 
     const { mutate: createWatchList } = createWatchListMutation({
         onSuccess: () => {
             queryClient.invalidateQueries(['getWatchLists']);
-            toast.success('دیده‌بان با موفقیت اضافه شد');
+            onSuccessNotif({ title: 'دیده‌بان با موفقیت اضافه شد' });
             setInputValue('');
             setIsEditActive(false);
-
-            //FIXME:connect to toast adaptor
-        },
-        onError: (err) => {
-            toast.error(`${err}`);
-            //FIXME:connect to toast adaptor
         },
     });
+
     const handleEditWatchlistName = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Escape') {
             e.preventDefault();
@@ -75,9 +62,14 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
         if (e.key === 'Enter') {
             e.preventDefault();
             e.stopPropagation();
-            createWatchList(inputValue);
+            handleCreateWatchList();
         }
     };
+
+    const closeModal = () => setIsOpen(false);
+
+    const handleCreateWatchList = () =>
+        isFieldEmpty(inputValue) ? onErrorNotif({ title: t('Errors.WatchListNameCantBeNull') }) : createWatchList(inputValue);
 
     const checkIfExistSymbol = (watchlistId: number) => {
         try {
@@ -114,7 +106,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                     </div>
                     <div className=" max-h-[20rem] overflow-y-auto">
                         {watchlists
-                            ?.filter(item => item.isEditable)
+                            ?.filter((item) => item.isEditable)
                             ?.map((watchlist) => {
                                 // const dataSymbolInWatchlist: ISymbolInWatchlist = { symbolISIN, watchlistId: watchlist.id };
                                 return (
@@ -163,13 +155,8 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                 انصراف
                             </button>
                             <button
-                                onClick={() => {
-                                    if (inputValue.length > 1 && !/^\s*$/.test(inputValue)) {
-                                        createWatchList(inputValue);
-                                    } else {
-                                        onErrorNotif({ title: 'عنوان صحیح نیست' });
-                                    }
-                                }}
+                                type="submit"
+                                onClick={handleCreateWatchList}
                                 className="whitespace-nowrap bg-L-primary-50 h-full px-3 rounded-md text-L-basic"
                             >
                                 ثبت دیده‌بان
@@ -178,7 +165,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                     ) : (
                         <button className="flex items-center justify-center py-2 px-2 gap-2" onClick={() => setIsEditActive(true)}>
                             <PlusIcon className="border border-dashed rounded-full text-L-primary-50 border-L-primary-50" />
-                            <span className='text-D-basic dark:text-L-basic'>افزودن دیده‌بان جدید</span>
+                            <span className="text-D-basic dark:text-L-basic">افزودن دیده‌بان جدید</span>
                         </button>
                     )}
                 </div>

@@ -62,8 +62,8 @@ const SymbolHeader = () => {
                                     {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
                                 </h4>
                                 {data?.hasRiskAnnouncement && (
-                                    <Tippy content={t('Tooltip.hasRiskAnnouncement')} className="cursor-help">
-                                        <RiskAnnouncementIcon className="cursor-help" />
+                                    <Tippy content={t('Tooltip.hasRiskAnnouncement')}>
+                                        <RiskAnnouncementIcon />
                                     </Tippy>
                                 )}
                             </div>
