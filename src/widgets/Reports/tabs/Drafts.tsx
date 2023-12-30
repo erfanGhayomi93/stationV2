@@ -14,6 +14,7 @@ import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
+import { resolve } from 'path';
 
 type IDraft = {
     ClickLeftNode: any;
@@ -22,6 +23,8 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const { sendOrders, ordersLoading } = useSendOrders();
+
+    const dispatch = useAppDispatch()
 
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
@@ -37,7 +40,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
         data?.orderId && mutate(data?.orderId);
     };
 
-    const handleSend = (data?: IDraftResponseType) => {
+    const handleSend = async (data?: IDraftResponseType) => {
         const { customers, orderSide, orderId, percent, price, quantity, symbolISIN, validity, validityDate } = data || {};
         if (!customers) {
             return;
@@ -45,6 +48,7 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
 
         const order: IOrderRequestType[] = customers.map((item) => ({
             customerISIN: [item.customerISIN] as ICustomerIsins,
+            customerTitle: [item.customerTitle] as ICustomerIsins,
             CustomerTagId: [],
             GTTraderGroupId: [],
             orderSide: orderSide || 'Buy',
@@ -59,7 +63,14 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             validityDate: validityDate || null,
         }));
 
-        sendOrders(order);
+        await new Promise((resolve) => {
+            !!symbolISIN && dispatch(setSelectedSymbol(symbolISIN))
+            resolve(1)
+        }).then(() => {
+            sendOrders(order);
+        })
+
+
     };
 
     const appDispatch = useAppDispatch();
@@ -130,9 +141,9 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
                     rowData={dataAfterfilter}
                     columnDefs={columns}
                     rowSelection="multiple"
-                    // enableBrowserTooltips={false}
-                    // suppressRowClickSelection={true}
-                    // onRowSelected={onRowSelected}
+                // enableBrowserTooltips={false}
+                // suppressRowClickSelection={true}
+                // onRowSelected={onRowSelected}
                 />
             </WidgetLoading>
         </div>

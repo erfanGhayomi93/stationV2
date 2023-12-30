@@ -24,6 +24,28 @@ export const useSymbolGeneralInfo = <T,>(
         ...options,
     });
 };
+//////////////////////
+
+
+const getOption = async (symbolISIN: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<OptionGeneralInformation[]>>(Apis().Symbol.optionInformation, { params: { symbolISIN } });
+    return data.result || [];
+};
+
+export const useOptionGeneralInformation = (symbolISIN: string) =>
+    useQuery(["optionInformation", symbolISIN] , () => getOption(symbolISIN),
+        {
+            enabled: !!symbolISIN,
+        },
+    );
+
+
+
+
+
+
+
+////////////////////////
 
 const getSameSectorSymbols = async (symbolISIN: string) => {
     const { data } = await AXIOS.get<GetSameSectorResponseType>(Apis().Symbol.SameSectorSymbols, { params: { symbolISIN } });

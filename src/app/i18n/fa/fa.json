@@ -166,6 +166,7 @@
         "Exchange": "بازار بورس",
         "CommodityExchange": "بورس کالا",
         "Future": "آتی",
+        "Option": "اختیار",
         "BaseFaraBourse": "بازار پایه فرابورس",
         "BaseFaraBourseNoPublish": "پایه فرابورس (منتشر نمی شود)",
         "Bourse": "بازار بورس",
@@ -273,6 +274,7 @@
         "ParseMessageFailed_BrokerIdNotValid": "خطا در ارسال سفارش - کارگزاری نامعتبر",
         "ParseMessageFailed_MessageActionNotValid": "خطا در ارسال سفارش - عملیات نامعتبر",
         "ParseMessageFailed_CustomerShardIdNotValid": "خطا در ارسال سفارش - سمت سفارش نامعتبر",
+        "Not_Enough_Remain": "مانده کافی نمی‌باشد.",
         "NotEnoughRemain": "مانده کافی نمی‌باشد.",
         "AgreementNotApproved": "توافق نامه مربوطه تایید نشده است",
         "ParseMessageFailed_AccountIdNotValid": "خطا در ارسال سفارش - حساب مشتری نامعتبر",
@@ -549,6 +551,7 @@
     },
     "SymbolDetails": {
         "orderBook": "صف",
+        "AuthorityDetails": "جزئیات اختیار",
         "additionalData": "اطلاعات تکمیلی",
         "symbolChart": "نمودار نماد",
         "messages": "پیام ها",
@@ -557,6 +560,22 @@
         "candleChart": "نمودار شمعی",
         "meetingWithinNextTenDays": "کمتر از 10 روز مانده به مجمع عمومی فوق العاده (تقویم بورسی)"
     },
+    "symbol_option": {
+		"opening_price": "اولین قیمت",
+		"yesterday_price": "قیمت دیروز",
+		"strike_price": "قیمت اعمال",
+		"cash_settlement_date": "تاریخ تسویه نقدی",
+		"open_position": "تعداد موقعیت‌های باز بازار",
+		"trade_volume": "حجم معاملات",
+		"required_margin": "وجه تضمین لازم",
+		"initial_margin": "وجه تضمین اولیه",
+		"max_price": "بیشترین قیمت",
+		"min_price": "کمترین قیمت",
+		"contract_size": "اندازه قرارداد",
+		"base_price_closing": "قیمت دارایی پایه",
+		"physical_settlement_date": "تاریخ تسویه فیزیکی",
+		"due_days": "روزهای مانده به سررسید"
+	},
     "OrderBook": {
         "viewMode": "حالت نمایش",
         "showMarketDepth": "نمایش عمق بازار",

@@ -13,6 +13,7 @@ import SameGroup from './tabs/SameGroup';
 import OrderBookWidget from './tabs/OrderBook/context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolTabsContext from './context';
+import AuthorityDetails from './tabs/AuthorityDetails';
 
 const SymbolData = () => {
     //
@@ -39,6 +40,13 @@ const SymbolData = () => {
                 key: 'OrderBook',
                 title: t('SymbolDetails.orderBook'),
                 content: <OrderBookWidget />,
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            },
+            {
+                key: 'AuthorityDetails',
+                title: t('SymbolDetails.AuthorityDetails'),
+                content: <AuthorityDetails />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
