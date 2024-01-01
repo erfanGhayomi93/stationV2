@@ -32,6 +32,7 @@
         "Reports/turnover": "گردش حساب",
         "Reports/requests": "درخواست ها",
         "portfolio": "پرتفوی",
+        "optionSettlement": "تسویه اختیار معامله",
         "setting": "تنظیمات"
     },
     "common": {
@@ -561,21 +562,21 @@
         "meetingWithinNextTenDays": "کمتر از 10 روز مانده به مجمع عمومی فوق العاده (تقویم بورسی)"
     },
     "symbol_option": {
-		"opening_price": "اولین قیمت",
-		"yesterday_price": "قیمت دیروز",
-		"strike_price": "قیمت اعمال",
-		"cash_settlement_date": "تاریخ تسویه نقدی",
-		"open_position": "تعداد موقعیت‌های باز بازار",
-		"trade_volume": "حجم معاملات",
-		"required_margin": "وجه تضمین لازم",
-		"initial_margin": "وجه تضمین اولیه",
-		"max_price": "بیشترین قیمت",
-		"min_price": "کمترین قیمت",
-		"contract_size": "اندازه قرارداد",
-		"base_price_closing": "قیمت دارایی پایه",
-		"physical_settlement_date": "تاریخ تسویه فیزیکی",
-		"due_days": "روزهای مانده به سررسید"
-	},
+        "opening_price": "اولین قیمت",
+        "yesterday_price": "قیمت دیروز",
+        "strike_price": "قیمت اعمال",
+        "cash_settlement_date": "تاریخ تسویه نقدی",
+        "open_position": "تعداد موقعیت‌های باز بازار",
+        "trade_volume": "حجم معاملات",
+        "required_margin": "وجه تضمین لازم",
+        "initial_margin": "وجه تضمین اولیه",
+        "max_price": "بیشترین قیمت",
+        "min_price": "کمترین قیمت",
+        "contract_size": "اندازه قرارداد",
+        "base_price_closing": "قیمت دارایی پایه",
+        "physical_settlement_date": "تاریخ تسویه فیزیکی",
+        "due_days": "روزهای مانده به سررسید"
+    },
     "OrderBook": {
         "viewMode": "حالت نمایش",
         "showMarketDepth": "نمایش عمق بازار",
@@ -845,5 +846,9 @@
         "WithValueAndVolume": "حجم و قیمت",
         "WithRevenue": "سرمایه و قیمت روز",
         "WithRevenueAndValue": "سرمایه و قیمت"
+    },
+    "OptionSettlement": {
+        "CashTabTitle": "تسویه نقدی",
+        "PhysicalTabTitle": "تسویه فیزیکی"
     }
 }

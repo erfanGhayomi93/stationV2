@@ -1,29 +1,29 @@
-import { Dialog, Disclosure, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import React, { FC, Fragment, useEffect, useState } from 'react';
 import { ChevronIcon } from 'src/common/icons';
 import { MenuItemType } from '.';
 import ToggleSlider from './ToggleSlider';
 import clsx from 'clsx';
 import styles from './expandedSider.module.scss';
+import { useLocation } from 'react-router-dom';
 
 interface IExpandedSiderType {
     isOpen: boolean;
     onClose: (value: boolean) => void;
     menuItems: MenuItemType[];
-    setActiveMenuItem: (arg: string) => void;
-    activeMenuItem: string;
 }
 
-const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, activeMenuItem, setActiveMenuItem }) => {
+const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) => {
     //
     const [openedList, setOpenedList] = useState<string>('');
+    const { pathname } = useLocation();
 
-    const findParentKey = (id: string): React.Key => {
+    const findParentKey = (pathname: string) => {
         let parentKey: string = '';
         for (let i = 0; i < menuItems.length; i++) {
             const node = menuItems[i];
             if (node.children) {
-                if (node.children.some((item) => item.id === id)) {
+                if (node.children.some((item) => pathname === item.id)) {
                     parentKey = node.id;
                 }
             }
@@ -32,10 +32,8 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
     };
 
     useEffect(() => {
-        if (activeMenuItem) {
-            setOpenedList(findParentKey(activeMenuItem) as string);
-        }
-    }, [isOpen]);
+        setOpenedList(findParentKey(pathname));
+    }, [pathname]);
 
     const renderMenu = (items: MenuItemType[]) => {
         //
@@ -46,31 +44,35 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
             }
             onClose(true);
             menu?.onClick?.();
-            setActiveMenuItem(menu.id);
             setOpenedList('');
         };
 
         const onSubmenuItemClick = (subMenu: Omit<MenuItemType, 'position' | 'placeOfDisplay'>, parentId: string) => {
             subMenu.onClick?.();
             setOpenedList(parentId);
-            setActiveMenuItem(subMenu.id);
             onClose(true);
         };
+
+        const isMenuHighlighted = (id: string) => {
+            if (id !== '/') {
+                return pathname.includes(id);
+            } else {
+                return pathname === id;
+            }
+        };
+
         return (
             <>
                 {items.map((item, ind) => (
                     <div
                         key={ind}
                         className={clsx(
-                            'mt-3 overflow-hidden duration-300 ease-out flex flex-col',
+                            'overflow-hidden duration-300 ease-in-out flex flex-col',
                             openedList === item.id ? 'bg-L-blue-100 dark:bg-[#111523] max-h-[25rem]' : 'max-h-[2.5rem]',
                         )}
                     >
                         <button
-                            className={clsx(
-                                'flex text-sm gap-4 items-center px-6 py-4',
-                                activeMenuItem === item.id && !item.children ? 'text-L-secondary-50' : '',
-                            )}
+                            className={clsx('flex text-sm gap-4 items-center px-6 py-4', isMenuHighlighted(item.id) ? 'text-L-secondary-50' : '')}
                             onClick={() => onMenuItemClick(item)}
                         >
                             {item.icon}
@@ -85,13 +87,13 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                             item.children.map((child, ind) => (
                                 <div key={ind} className="px-7">
                                     <button
-                                        className={clsx(styles.submenu, activeMenuItem === child.id && styles['active-submenu'])}
+                                        className={clsx(styles.submenu, pathname === child.id && styles['active-submenu'])}
                                         onClick={() => onSubmenuItemClick(child, item.id)}
                                     >
                                         <div
                                             className={clsx(
                                                 'text-right text-sm py-2 px-2 rounded-md',
-                                                activeMenuItem === child.id ? 'bg-L-blue-50 text-L-secondary-50' : '',
+                                                pathname === child.id ? 'bg-L-blue-50 text-L-secondary-50' : '',
                                             )}
                                         >
                                             {child.label}
@@ -134,11 +136,9 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                             >
                                 <Dialog.Panel className="w-[calc(18rem+12px)] h-screen absolute right-0">
                                     <div className="w-[18rem] h-screen overflow-visible bar bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col pt-3">
-                                        <div className="flex flex-col items-center">
-                                            <ToggleSlider type="close" onClose={() => onClose(false)} />
-                                        </div>
+                                        <ToggleSlider type="close" onClose={() => onClose(false)} />
                                         <div className="flex flex-col h-full justify-between">
-                                            <div className="bg-L-blue-50 dark:bg-D-blue-50">
+                                            <div className="bg-L-blue-50 dark:bg-D-blue-50 flex flex-col gap-3">
                                                 {renderMenu(
                                                     menuItems.filter(
                                                         (item) =>
@@ -148,7 +148,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                                 )}
                                             </div>
 
-                                            <div className="bg-L-blue-50 dark:bg-D-blue-50">
+                                            <div className="bg-L-blue-50 dark:bg-D-blue-50 flex flex-col gap-3">
                                                 {renderMenu(
                                                     menuItems.filter(
                                                         (item) =>
@@ -156,7 +156,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems, act
                                                             item.position === 'bottom',
                                                     ),
                                                 )}
-                                                <div className="bg-L-blue-100 dark:bg-[#111523] p-2 mt-6">{`نسخه ${'1.0.1'}`}</div>
+                                                <div className="bg-L-blue-100 dark:bg-[#111523] p-2">{`نسخه ${'1.0.1'}`}</div>
                                             </div>
                                         </div>
                                     </div>
