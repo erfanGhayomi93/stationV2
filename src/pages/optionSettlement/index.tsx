@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import Cash from './tabs/cash';
 import Physical from './tabs/physical';
+import { CashIcon, PhysicalSettlementIcon } from 'src/common/icons';
 
 type TActiveTab = 'Cash' | 'Physical';
 
@@ -15,8 +16,8 @@ const OptionSettlement = () => {
             {
                 key: 'Cash',
                 title: (
-                    <div className="flex px-2 gap-1 items-center">
-                        {/* <UserIcon className="w-5 h-5" /> */}
+                    <div className="flex px-2 gap-2 items-center">
+                        <CashIcon className="w-5 h-5" />
                         <span>{t('OptionSettlement.CashTabTitle')}</span>
                     </div>
                 ),
@@ -27,8 +28,8 @@ const OptionSettlement = () => {
             {
                 key: 'system',
                 title: (
-                    <div className="flex px-2 gap-1 items-center">
-                        {/* <GearIcon className="w-5 h-5" /> */}
+                    <div className="flex px-2 gap-2 items-center">
+                        <PhysicalSettlementIcon className="w-5 h-5" />
                         <span>{t('OptionSettlement.PhysicalTabTitle')}</span>
                     </div>
                 ),
