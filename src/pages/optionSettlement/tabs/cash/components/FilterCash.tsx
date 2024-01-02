@@ -1,13 +1,25 @@
 import dayjs from 'dayjs';
 import { t } from 'i18next';
+import { SetStateAction, useState } from 'react';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import FilterActions from 'src/common/components/FilterActions';
 import FilterBlock from 'src/common/components/FilterBlock';
+import MultiSelect from 'src/common/components/MultiSelect';
 import Select from 'src/common/components/Select';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import { timeFieldOptions } from 'src/pages/Reports/Trades/constant';
 
-const FilterCash = () => {
+type TProps = {
+    formValues: Record<string, any>;
+    setFormValues: SetStateAction<{}>;
+    onSubmit: () => void;
+    onClear: () => void;
+};
+
+const FilterCash = ({ formValues, onSubmit, onClear, setFormValues }: TProps) => {
     //
+    const [isFilterBoxOpen, setIsFilterBoxOpen] = useState(false);
+
     const handleValueChange = <T extends keyof ITradeStateType>(part: T, value: ITradeStateType[T]) => {
         // setParams((pre) => ({ ...pre, [part]: value }));
     };
@@ -18,7 +30,7 @@ const FilterCash = () => {
                     <SymbolMiniSelect selected={[]} setSelected={() => {}} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')} className="col-span-2">
-                    <Select  onChange={(selected) => handleValueChange('Time', selected)} options={timeFieldOptions} />
+                    <Select onChange={(selected) => handleValueChange('Time', selected)} options={timeFieldOptions} />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.FromDate')} className="col-span-2">
                     <AdvancedDatepicker value={''} onChange={(value) => handleValueChange('FromDate', dayjs(value).format('YYYY-MM-DDT00:00:00'))} />
@@ -26,22 +38,25 @@ const FilterCash = () => {
                 <FilterBlock label={t('FilterFieldLabel.ToDate')} className="col-span-2">
                     <AdvancedDatepicker value={''} onChange={(value) => handleValueChange('ToDate', dayjs(value).format('YYYY-MM-DDT23:59:59'))} />
                 </FilterBlock>
-                <div className="flex items-center col-span-4 pr-8">
-                    <button
-                        data-cy="basket-filter-button-submit"
-                        // onClick={() => handleFilter(dataFilter)}
-                        className="bg-L-primary-50 dark:bg-D-primary-50 py-1 px-10 ml-4 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
-                    >
-                        جستجو
-                    </button>
-                    <button
-                        data-cy="basket-filter-button-default"
-                        // onClick={handleDefaultState}
-                        className="bg-L-primary-100 dark:bg-D-primary-100 py-1 px-4 border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 rounded"
-                    >
-                        پیش فرض
-                    </button>
-                </div>
+                {isFilterBoxOpen && (
+                    <>
+                        <FilterBlock label={t('وضعیت قرارداد')} className="col-span-3">
+                            <Select options={[]} onChange={() => {}} />
+                        </FilterBlock>
+                        <FilterBlock label={t('نوع اعمال')} className="col-span-4">
+                            <MultiSelect options={[]} onChange={() => {}} />
+                        </FilterBlock>
+                        <FilterBlock label={t('وضعیت درخواست')} className="col-span-3">
+                            <MultiSelect options={[]} onChange={() => {}} />
+                        </FilterBlock>
+                    </>
+                )}
+                <FilterActions
+                    onSubmit={onSubmit}
+                    isFilterBoxOpen={isFilterBoxOpen}
+                    onClear={onClear}
+                    toggleFilterBox={() => setIsFilterBoxOpen((prev) => !prev)}
+                />
             </div>
         </div>
     );

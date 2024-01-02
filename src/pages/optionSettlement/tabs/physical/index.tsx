@@ -1,10 +1,12 @@
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import FilterPhysical from './components/FilterPhysical';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const Physical = () => {
     //
+    const [formValues, setFormValues] = useState({});
+
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
             {
@@ -72,7 +74,7 @@ const Physical = () => {
 
     return (
         <div className="flex flex-col gap-3 h-full w-full">
-            <FilterPhysical />
+            <FilterPhysical formValues={formValues} setFormValues={setFormValues} onClear={() => {}} onSubmit={() => {}} />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} />
             </div>

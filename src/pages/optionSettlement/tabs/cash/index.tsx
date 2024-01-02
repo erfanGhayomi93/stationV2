@@ -1,10 +1,12 @@
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import FilterCash from './components/FilterCash';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const Cash = () => {
     //
+    const [formValues, setFormValues] = useState({});
+
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
             {
@@ -56,7 +58,7 @@ const Cash = () => {
 
     return (
         <div className="flex flex-col gap-3 h-full w-full">
-            <FilterCash />
+            <FilterCash formValues={formValues} setFormValues={setFormValues} onClear={() => {}} onSubmit={() => {}} />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} />
             </div>
