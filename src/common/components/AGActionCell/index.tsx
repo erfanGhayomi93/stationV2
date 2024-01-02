@@ -36,6 +36,8 @@ const AGActionCell = (props: IProps) => {
         hideInfo = false,
         deleteModalTitle = 'حذف',
         deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
+        leftNode,
+        rightNode,
     } = props;
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -99,6 +101,7 @@ const AGActionCell = (props: IProps) => {
 
     return (
         <div className="flex items-center justify-center gap-3 py-2 h-full">
+            {rightNode && rightNode}
             {requestedButtons.map((button, index) => {
                 const { Icon, onClick, title, disabled, classes, styles } = button;
                 return (
@@ -116,6 +119,7 @@ const AGActionCell = (props: IProps) => {
                     </React.Fragment>
                 );
             })}
+            {leftNode && leftNode}
             {isConfirmModalOpen && (
                 <ConfirmationModal
                     isOpen={isConfirmModalOpen}
