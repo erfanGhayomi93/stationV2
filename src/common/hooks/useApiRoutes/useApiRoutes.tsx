@@ -55,7 +55,7 @@ export const Apis = () => ({
         SameSectorSymbols: getBaseUrl() + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
         ChartData: getBaseUrl() + '/Symbol/v1/ChartData',
         GetMarketUnit: getBaseUrl() + '/Symbol/v1/GetMarketUnit',
-        optionInformation: "https://marketdata-stage.ramandtech.com" + '/Symbol/v1/optiongeneralInformation',
+        optionInformation: 'https://marketdata-stage.ramandtech.com' + '/Symbol/v1/optiongeneralInformation',
     },
     Customer: {
         AdvancedSearch: getBaseUrl() + '/Customer/v1/AdvancedSearch',
@@ -165,6 +165,10 @@ export const Apis = () => ({
         GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
         SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
         TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
+    },
+    Options: {
+        GetCashSettlement: getBaseUrl() + `/Option/v1/GetCashSettlement`,
+        GetPhysicalSettlement: getBaseUrl() + `/Option/v1/GetPhysicalSettlements`,
     },
 });
 

@@ -3,13 +3,17 @@ import { useMemo, useState } from 'react';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import Cash from './tabs/cash';
 import Physical from './tabs/physical';
-import { CashIcon, PhysicalSettlementIcon } from 'src/common/icons';
+import { CashIcon, Excel2Icon, PhysicalSettlementIcon, Refresh2Icon } from 'src/common/icons';
+import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
+import Tippy from '@tippyjs/react';
+import { GridReadyEvent } from 'ag-grid-community';
 
 type TActiveTab = 'Cash' | 'Physical';
 
 const OptionSettlement = () => {
     //
     const [activeTab, setActiveTab] = useState<TActiveTab>('Cash');
+    const [gridApi, setGridApi] = useState<GridReadyEvent>();
 
     const items = useMemo<ITabItemType[]>(
         () => [
@@ -21,7 +25,7 @@ const OptionSettlement = () => {
                         <span>{t('OptionSettlement.CashTabTitle')}</span>
                     </div>
                 ),
-                content: <Cash />,
+                content: <Cash setGridApi={setGridApi}/>,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
@@ -33,7 +37,7 @@ const OptionSettlement = () => {
                         <span>{t('OptionSettlement.PhysicalTabTitle')}</span>
                     </div>
                 ),
-                content: <Physical />,
+                content: <Physical setGridApi={setGridApi}/>,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
@@ -43,7 +47,21 @@ const OptionSettlement = () => {
 
     return (
         <div className="bg-L-basic dark:bg-D-basic rounded-md p-6 flex flex-col gap-4">
-            <h1 className="dark:text-D-gray-700 font-medium text-base">{t('titlePage.optionSettlement')}</h1>
+            <div className="flex justify-between">
+                <h1 className="dark:text-D-gray-700 font-medium text-base">{t('titlePage.optionSettlement')}</h1>
+                <div className="flex items-center gap-3 p-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
+                    <AGColumnEditor
+                        gridApi={gridApi}
+                        lsKey={activeTab === 'Cash' ? 'CashSettlementRequestsColumnsState' : 'PhysicalSettlementRequestsColumnsState'}
+                    />
+                    <Tippy content={t('Action_Button.Update')} className="text-xs">
+                        <Refresh2Icon className="cursor-pointer outline-none" onClick={() => {}} />
+                    </Tippy>
+                    <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
+                        <Excel2Icon className="cursor-pointer outline-none" />
+                    </Tippy>
+                </div>
+            </div>
             <TabsList
                 fill={false}
                 onChange={(idx) => setActiveTab(idx as TActiveTab)}
