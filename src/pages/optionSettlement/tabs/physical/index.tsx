@@ -6,6 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initialFilterState } from '../../constants';
+import { ICellRendererParams } from 'ag-grid-community';
+import AGActionCell from 'src/common/components/AGActionCell';
+import { ExtraButtons } from '../commenComponents/ExtraButtons';
 
 type TResponse = {
     result: {
@@ -134,6 +137,13 @@ const Physical = (props: any) => {
                 sortable: false,
                 field: '',
                 headerName: 'عملیات',
+                cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
+                    <AGActionCell
+                        data={row?.data}
+                        requiredButtons={['Edit', 'Delete']}
+                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => {}} />}
+                    />
+                ),
                 pinned: 'left',
                 lockVisible: true,
                 minWidth: 280,
