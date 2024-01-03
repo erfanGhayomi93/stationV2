@@ -849,6 +849,8 @@
     },
     "OptionSettlement": {
         "CashTabTitle": "تسویه نقدی",
-        "PhysicalTabTitle": "تسویه فیزیکی"
+        "PhysicalTabTitle": "تسویه فیزیکی",
+        "UserType_System": "سیستم",
+        "UserType_Backoffice": "بک آفیس"
     }
 }

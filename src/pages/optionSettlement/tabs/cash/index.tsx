@@ -1,7 +1,7 @@
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import FilterSettlement from '../commenComponents/FilterCash';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -9,6 +9,8 @@ import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initia
 import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { t } from 'i18next';
 
 type TResponse = {
     result: {
@@ -54,7 +56,7 @@ type TResponse = {
 const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEvent<any> | undefined>> }) => {
     //
     const [formValues, setFormValues] = useState(initialFilterState);
-    const [params, setParams] = useState(initialFilterState);
+    const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
     const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
@@ -79,6 +81,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {
                 field: 'pandLStatus',
                 headerName: 'وضعیت قرارداد ( سود / زیان )',
+                cellClass: ({ value }) => (value === 'Profit' ? 'text-[#01BC8D]' : value === 'Loss' ? 'text-[#E84830]' : ''),
                 valueFormatter: ({ value }) => (value ? valueFormatter(PandLStatusOptions, value) : value),
             },
             {
@@ -102,8 +105,15 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 type: 'sepratedNumber',
             },
             {
-                field: 'userName',
+                field: 'userType',
                 headerName: 'درخواست کننده',
+                valueFormatter: ({ data }) => {
+                    if (data?.userType) {
+                        return t('OptionSettlement.UserType_' + data?.userType);
+                    } else {
+                        return data?.userName ?? '';
+                    }
+                },
             },
             {
                 field: 'status',
@@ -122,7 +132,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 ),
                 pinned: 'left',
                 lockVisible: true,
-                minWidth: 280,
+                minWidth: 220,
             },
         ],
         [],
@@ -139,9 +149,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 setFormValues={setFormValues}
                 onClear={() => {
                     setFormValues(initialFilterState);
-                    setParams(initialFilterState);
+                    setParams(cleanObjectOfFalsyValues(initialFilterState));
                 }}
-                onSubmit={() => setParams(formValues)}
+                onSubmit={() => setParams(cleanObjectOfFalsyValues(formValues))}
             />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => setGridApi(p)} />

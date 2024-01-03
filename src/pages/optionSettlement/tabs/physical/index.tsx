@@ -9,6 +9,8 @@ import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initia
 import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { t } from 'i18next';
 
 type TResponse = {
     result: {
@@ -58,8 +60,8 @@ type TResponse = {
 const Physical = (props: any) => {
     //
     const [formValues, setFormValues] = useState(initialFilterState);
-    const [params, setParams] = useState(initialFilterState);
-    const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof params));
+    const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
+    const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues));
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;
@@ -88,6 +90,7 @@ const Physical = (props: any) => {
             {
                 field: 'pandLStatus',
                 headerName: 'وضعیت قرارداد ( سود / زیان )',
+                cellClass: ({ value }) => (value === 'Profit' ? 'text-[#01BC8D]' : value === 'Loss' ? 'text-[#E84830]' : ''),
                 valueFormatter: ({ value }) => (value ? valueFormatter(PandLStatusOptions, value) : value),
             },
             {
@@ -111,22 +114,25 @@ const Physical = (props: any) => {
                 type: 'sepratedNumber',
             },
             {
-                field: '',
-                headerName: 'موافقت با تسویه فیزیکی در حالت زیان',
-            },
-            {
-                field: 'penVolume',
+                field: 'doneCount',
                 headerName: 'تعداد نکول',
                 type: 'sepratedNumber',
             },
             {
-                field: 'penValue',
+                field: 'penVolume',
                 headerName: 'مبلغ نکول',
                 type: 'sepratedNumber',
             },
             {
-                field: 'userName',
+                field: 'userType',
                 headerName: 'درخواست کننده',
+                valueFormatter: ({ data }) => {
+                    if (data?.userType) {
+                        return t('OptionSettlement.UserType_' + data?.userType);
+                    } else {
+                        return data?.userName ?? '';
+                    }
+                },
             },
             {
                 field: 'status',
@@ -135,7 +141,6 @@ const Physical = (props: any) => {
             },
             {
                 sortable: false,
-                field: '',
                 headerName: 'عملیات',
                 cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
                     <AGActionCell
@@ -146,7 +151,7 @@ const Physical = (props: any) => {
                 ),
                 pinned: 'left',
                 lockVisible: true,
-                minWidth: 280,
+                minWidth: 220,
             },
         ],
         [],
@@ -163,9 +168,9 @@ const Physical = (props: any) => {
                 setFormValues={setFormValues}
                 onClear={() => {
                     setFormValues(initialFilterState);
-                    setParams(initialFilterState);
+                    setParams(cleanObjectOfFalsyValues(initialFilterState));
                 }}
-                onSubmit={() => setParams(formValues)}
+                onSubmit={() => setParams(cleanObjectOfFalsyValues(formValues))}
             />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => props.setGridApi(p)} />

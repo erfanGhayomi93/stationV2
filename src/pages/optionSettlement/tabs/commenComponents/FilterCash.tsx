@@ -80,14 +80,14 @@ const FilterSettlement = ({ formValues, onSubmit, onClear, setFormValues }: TPro
                                 onChange={(selected) => filterValueSetter('PandLStatus', selected)}
                             />
                         </FilterBlock>
-                        <FilterBlock label={t('نوع اعمال')} className="col-span-3">
+                        <FilterBlock label={t('نوع اعمال')} className="col-span-4">
                             <MultiSelect
                                 value={formValues?.SettlementType}
                                 options={SettlementTypeOptions}
                                 onChange={(selected) => filterValueSetter('SettlementType', selected)}
                             />
                         </FilterBlock>
-                        <FilterBlock label={t('وضعیت درخواست')} className="col-span-3">
+                        <FilterBlock label={t('وضعیت درخواست')} className="col-span-4">
                             <MultiSelect
                                 value={formValues?.RequestStatus}
                                 options={RequestStatusOptions}
