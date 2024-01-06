@@ -11,11 +11,26 @@ const sendSettlementRequest = async (body: TCashbody) => {
     return data?.result;
 };
 
+export const useUpdateCashSettlement = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
+    useMutation(sendSettlementUpdateRequest, options);
+
+const sendSettlementUpdateRequest = async (body: TCashbody) => {
+    const { data } = await AXIOS.post(Apis().Options.UpdateCashSettlement, body);
+    return data?.result;
+};
+
 export const useCreatePhysicalSettlement = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(sendPhysicalSettlementRequest, options);
 
 const sendPhysicalSettlementRequest = async (body: TPhysicalbody) => {
     const { data } = await AXIOS.post(Apis().Options.CreatePhysicalSettlement, body);
+    return data?.result;
+};
+export const useUpdatePhysicalSettlement = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
+    useMutation(sendPhysicalSettlementUpdateRequest, options);
+
+const sendPhysicalSettlementUpdateRequest = async (body: TPhysicalbody) => {
+    const { data } = await AXIOS.post(Apis().Options.UpdatePhysicalSettlement, body);
     return data?.result;
 };
 

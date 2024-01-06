@@ -13,6 +13,7 @@ import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { t } from 'i18next';
 import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 import { useDeletePhysicalSettlement } from 'src/app/queries/option';
+import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 
 type TResponse = {
     result: {
@@ -64,6 +65,7 @@ const Physical = (props: any) => {
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
     const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
+    const [updateSettlementModal, setUpdateSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
 
     const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues));
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
@@ -165,6 +167,7 @@ const Physical = (props: any) => {
                         onDeleteClick={() => handleDelete(row?.data)}
                         disableDelete={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         rightNode={
                             <ExtraButtons
                                 disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
@@ -211,6 +214,9 @@ const Physical = (props: any) => {
                 PaginatorHandler={PaginatorHandler}
             />
             {settlementModal?.isOpen && <PhysicalSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
+            {updateSettlementModal?.isOpen && (
+                <UpdatePhysicalSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
+            )}
         </div>
     );
 };

@@ -13,6 +13,7 @@ import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { t } from 'i18next';
 import CashSettlementModal from './modals/CashSettlementModal';
 import { useDeleteCashSettlement } from 'src/app/queries/option';
+import UpdateCashSettlement from './modals/UpdateCashSettlement';
 
 type TResponse = {
     result: {
@@ -60,6 +61,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
     const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
+    const [updateSettlementModal, setUpdateSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
 
     const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
@@ -145,6 +147,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                         requiredButtons={['Edit', 'Delete']}
                         onDeleteClick={() => handleDelete(row?.data)}
                         disableDelete={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         rightNode={
                             <ExtraButtons
@@ -192,6 +195,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 PaginatorHandler={PaginatorHandler}
             />
             {settlementModal?.isOpen && <CashSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
+            {updateSettlementModal?.isOpen && (
+                <UpdateCashSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
+            )}
         </div>
     );
 };
