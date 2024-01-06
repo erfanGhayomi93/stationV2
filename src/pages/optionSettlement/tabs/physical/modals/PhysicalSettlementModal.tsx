@@ -34,7 +34,6 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
             requestForMaximum: radioValue === 'requestForMaximum',
             countOfDone: positionCount,
             requestForLostOrProfit: maximumCheckValue,
-            lossApproval: false,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
         };
         mutate(requestBody);

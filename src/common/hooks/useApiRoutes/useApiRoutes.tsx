@@ -171,6 +171,8 @@ export const Apis = () => ({
         GetPhysicalSettlement: getBaseUrl() + `/Option/v1/GetPhysicalSettlements`,
         CreateCashSettlement: getBaseUrl() + `/Option/v1/new-cash`,
         CreatePhysicalSettlement: getBaseUrl() + `/Option/v1/new-physical`,
+        DeleteCashSettlement: getBaseUrl() + `/Option/v1/delete-cash`,
+        DeletePhysicalSettlement: getBaseUrl() + `/Option/v1/delete-physical`,
     },
 });
 

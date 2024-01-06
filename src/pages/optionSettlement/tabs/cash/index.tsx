@@ -12,6 +12,7 @@ import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { t } from 'i18next';
 import CashSettlementModal from './modals/CashSettlementModal';
+import { useDeleteCashSettlement } from 'src/app/queries/option';
 
 type TResponse = {
     result: {
@@ -59,7 +60,14 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
     const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
+
     const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
+    const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
+        onSuccess: (result) => {
+            if (result) {
+            }
+        },
+    });
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;
@@ -68,6 +76,8 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const handleOnSettlementClick = (data?: Record<string, any>) => {
         setSettlementModal({ isOpen: true, data });
     };
+
+    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerIsin });
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
@@ -129,11 +139,20 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {
                 sortable: false,
                 headerName: 'عملیات',
-                cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
+                cellRenderer: (row: ICellRendererParams<any>) => (
                     <AGActionCell
                         data={row?.data}
                         requiredButtons={['Edit', 'Delete']}
-                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => handleOnSettlementClick(row?.data)} />}
+                        onDeleteClick={() => handleDelete(row?.data)}
+                        disableDelete={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        rightNode={
+                            <ExtraButtons
+                                disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
+                                onHistoryClick={() => {}}
+                                onSettlementClick={() => handleOnSettlementClick(row?.data)}
+                            />
+                        }
                     />
                 ),
                 pinned: 'left',

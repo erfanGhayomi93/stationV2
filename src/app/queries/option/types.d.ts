@@ -14,6 +14,10 @@ export type TPhysicalbody = {
     requestForLostOrProfit: boolean;
     customerISIN: string;
     countOfDone?: number | string;
-    lossApproval: boolean;
     requestForMaximumApproval: boolean;
+};
+
+export type TCashDeleteBody = {
+    id: number;
+    customerISIN: string;
 };
