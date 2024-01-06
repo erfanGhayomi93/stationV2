@@ -11,6 +11,7 @@ import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { t } from 'i18next';
+import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 
 type TResponse = {
     result: {
@@ -61,10 +62,15 @@ const Physical = (props: any) => {
     //
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
+    const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
     const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues));
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;
+    };
+
+    const handleOnSettlementClick = (data?: Record<string, any>) => {
+        setSettlementModal({ isOpen: true, data });
     };
 
     const colDefs = useMemo(
@@ -146,7 +152,7 @@ const Physical = (props: any) => {
                     <AGActionCell
                         data={row?.data}
                         requiredButtons={['Edit', 'Delete']}
-                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => {}} />}
+                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => handleOnSettlementClick(row?.data)} />}
                     />
                 ),
                 pinned: 'left',
@@ -185,6 +191,7 @@ const Physical = (props: any) => {
                 hasPreviousPage={data?.hasPreviousPage}
                 PaginatorHandler={PaginatorHandler}
             />
+            {settlementModal?.isOpen && <PhysicalSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
         </div>
     );
 };

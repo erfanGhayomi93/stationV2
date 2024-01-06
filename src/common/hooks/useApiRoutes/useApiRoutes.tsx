@@ -169,6 +169,8 @@ export const Apis = () => ({
     Options: {
         GetCashSettlement: getBaseUrl() + `/Option/v1/GetCashSettlement`,
         GetPhysicalSettlement: getBaseUrl() + `/Option/v1/GetPhysicalSettlements`,
+        CreateCashSettlement: getBaseUrl() + `/Option/v1/new-cash`,
+        CreatePhysicalSettlement: getBaseUrl() + `/Option/v1/new-physical`,
     },
 });
 

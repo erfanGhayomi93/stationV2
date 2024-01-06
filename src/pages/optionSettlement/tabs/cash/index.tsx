@@ -11,6 +11,7 @@ import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { t } from 'i18next';
+import CashSettlementModal from './modals/CashSettlementModal';
 
 type TResponse = {
     result: {
@@ -57,10 +58,15 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     //
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
+    const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
     const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;
+    };
+
+    const handleOnSettlementClick = (data?: Record<string, any>) => {
+        setSettlementModal({ isOpen: true, data });
     };
 
     const colDefs = useMemo(
@@ -127,7 +133,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                     <AGActionCell
                         data={row?.data}
                         requiredButtons={['Edit', 'Delete']}
-                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => {}} />}
+                        rightNode={<ExtraButtons onHistoryClick={() => {}} onSettlementClick={() => handleOnSettlementClick(row?.data)} />}
                     />
                 ),
                 pinned: 'left',
@@ -166,6 +172,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 hasPreviousPage={data?.hasPreviousPage}
                 PaginatorHandler={PaginatorHandler}
             />
+            {settlementModal?.isOpen && <CashSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
         </div>
     );
 };
