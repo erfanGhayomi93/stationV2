@@ -3,7 +3,7 @@ import { useEffect, useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { clearDataAction, getKeepDataBuySell, setDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
 import { getSelectedSymbol, setAllSelectedCustomers } from 'src/redux/slices/option';
 import BuySell, { resetByeSellData } from '..';
 import { BuySellReducer } from './BuySellReducer';
@@ -31,16 +31,12 @@ export const { Provider: BuySellProvider, useTrackedState: useBuySellState, useU
 
 
 const BuySellContext = () => {
-    // const dispatchSetter = useGlobalSetterDispatch();
     const dataContext = useBuySellState()
     const symbolRedux = useAppSelector(getSelectedSymbol)
     const { data: dataRedux, comeFrom, customerIsin } = useAppSelector(getKeepDataBuySell)
 
     const appDispatch = useAppDispatch();
     const ByeSellDispatch = useBuySellDispatch();
-
-    const clearDataRedux = () => appDispatch(clearDataAction())
-    const clearDataContext = () => ByeSellDispatch({ type: "RESET" })
 
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {
@@ -68,9 +64,14 @@ const BuySellContext = () => {
     }, [symbolRedux])
 
 
-    useUpdateEffect(() => {
-        ByeSellDispatch({ type: 'SET_PRICE', value: 0 })
-    }, [dataContext.side])
+    // useUpdateEffect(() => {
+    //     ByeSellDispatch({ type: 'SET_PRICE', value: 0 })
+    // }, [dataContext.side])
+// 
+// useEffect(() => {
+//   console.log("dataContext",dataContext)
+// }, [dataContext])
+
 
 
     useEffect(() => {

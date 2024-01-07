@@ -16,6 +16,8 @@ const SymbolDetail = () => {
     // isLoading or isFetching ? depends ...
     const { remove, isLoading, isFetching } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data) => {
+            pushEngine.unSubscribe("SymbolGeneralInfo")
+
             pushEngine.subscribe({
                 id: 'SymbolGeneralInfo',
                 mode: 'MERGE',
@@ -72,11 +74,11 @@ const SymbolDetail = () => {
         },
     });
 
-    useEffect(() => {
-        return () => {
-            remove();
-        };
-    }, [selectedSymbol]);
+    // useEffect(() => {
+    //     return () => {
+    //         // remove();
+    //     };
+    // }, [selectedSymbol]);
 
     return (
         <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">
