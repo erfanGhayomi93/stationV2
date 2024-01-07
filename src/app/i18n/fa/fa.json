@@ -838,7 +838,11 @@
         "UserIsLock": "برای دقایقی حساب شما مسدود شده است",
         "IncludeSpecificChar": "رمز عبور باید شامل حروف خاص باشد",
         "TooManyForgetPasswordRequest": "تعداد درخواست ها بیش از حد مجاز است.",
-        "WatchListNameCantBeNull": "نام دیده بان نمیتواند خالی باشد"
+        "WatchListNameCantBeNull": "نام دیده بان نمیتواند خالی باشد",
+        "WatchListNameIsRepetitious": "نام دیده بان تکراری می باشد.",
+        "SymbolInWatchListMoreThanMaximum": "نمیتوانید به لیست نماد بیشتری اضافه کنید",
+        "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
+        "CartExists": "سبد خرید تکراری است"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
