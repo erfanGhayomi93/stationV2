@@ -22,6 +22,21 @@ type TCashDeleteBody = {
     customerISIN: string;
 };
 
+interface IReqSumPrice {
+    symbolISIN: string;
+    customerISIN: string;
+    brokerCode: string;
+    orderSide: string;
+    quantity: number;
+    price: number;
+}
+interface IResponseSumPrice {
+    totalBlock: number;
+    optionBlock: number;
+    tseBlock: number;
+    orderVolume: number;
+}
+
 interface OptionGeneralInformation {
     initialMargin: number;
     maintenanceMargin: number;

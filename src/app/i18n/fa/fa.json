@@ -77,7 +77,10 @@
         "GTCustomerGroup 0": "گروه من",
         "GTCustomerGroup": "گروه من",
         "TraderGroup": "گروه من",
-        "Individual": "حقیقی"
+        "Individual": "حقیقی" ,
+        "customer_status_Normal": "عادی",
+		"customer_status_AtRisk": "در خطر",
+		"customer_status_CallMargin": "اخطار وجه تضمین"
     },
     "BSModal": {
         "validity_Week": "هفته",
@@ -838,7 +841,11 @@
         "UserIsLock": "برای دقایقی حساب شما مسدود شده است",
         "IncludeSpecificChar": "رمز عبور باید شامل حروف خاص باشد",
         "TooManyForgetPasswordRequest": "تعداد درخواست ها بیش از حد مجاز است.",
-        "WatchListNameCantBeNull": "نام دیده بان نمیتواند خالی باشد"
+        "WatchListNameCantBeNull": "نام دیده بان نمیتواند خالی باشد",
+        "WatchListNameIsRepetitious": "نام دیده بان تکراری می باشد.",
+        "SymbolInWatchListMoreThanMaximum": "نمیتوانید به لیست نماد بیشتری اضافه کنید",
+        "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
+        "CartExists": "سبد خرید تکراری است"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
@@ -866,6 +873,7 @@
         "UserType_Backoffice": "بک آفیس",
         "ConfirmSettlementDesc": "زمان ثبت درخواست تسویه نقدی، از ساعت 14:10 الی 15:00 روز تسویه نقدی می باشد. بر طبق قوانین، ثبت درخواست نقدی صرفا برای قراردادهای درسود امکان پذیر خواهد بود. لازم به ذکراست ثبت درخواست تسویه نقدی به معنای پذیرفته شدن آن نیست و منوط به ثبت درخواست طرف مقابل خواهد بود. اشخاص دارای موقعیت فروش فقط در حالت اعمال حداکثری امکان ثبت درخواست تسویه نقدی را خواهند داشت.",
         "PhysicalSettlementDesc": "زمان ثبت درخواست تسویه فیزیکی، از ساعت 14:10 الی 15:00 روز تسویه نقدی می باشد. لطفا در زمان ثبت درخواست، از کافی بودن مانده حساب خود اطمینان حاصل فرمایید.",
+        "PhysicalPutSettlementDesc": "در موقعیت فروش اختیار معامله، امکان ثبت درخواست تسویه فیزیکی وجود ندارد.",
         "MaximumCashSettlementAgreement": "با درخواست تسویه نقدی در حالت اعمال حداکثری موافقم.",
         "MaximumPhysicalSettlementAgreement": "با تسویه فیزیکی در حالت زیان موافقم.",
         "PhysicalSettlementRadioValue1": "اعمال حداکثری",

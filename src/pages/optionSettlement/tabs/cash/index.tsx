@@ -1,7 +1,7 @@
 import { Paginator } from 'src/common/components/Paginator/Paginator';
-import FilterSettlement from '../commenComponents/FilterCash';
+import FilterSettlement from '../commenComponents/FilterSettlement';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -70,7 +70,11 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
+    const { data, refetch, isLoading } = useQuery(
+        ['CashSettlement', params],
+        ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
+        { enabled: false },
+    );
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -88,11 +92,19 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
 
     const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerIsin });
 
+    useEffect(() => {
+        refetch();
+    }, [params]);
+
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
             {
                 field: 'customerTitle',
                 headerName: 'مشتری',
+            },
+            {
+                field: 'bourseCode',
+                headerName: 'کد بورسی',
             },
             {
                 field: 'symbolTitle',
@@ -104,10 +116,17 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 type: 'sepratedNumber',
             },
             {
+                headerName: 'سمت',
+                field: 'side',
+                valueFormatter: ({ value }) => (value === 'Call' ? 'خرید' : value === 'Put' ? 'فروش' : ''),
+                cellClass: ({ value }) => (value === 'Call' ? 'text-[#01BC8D]' : value === 'Put' ? 'text-[#E84830]' : ''),
+            },
+            {
                 field: 'pandLStatus',
                 headerName: 'وضعیت قرارداد ( سود / زیان )',
                 cellClass: ({ value }) => (value === 'Profit' ? 'text-[#01BC8D]' : value === 'Loss' ? 'text-[#E84830]' : ''),
                 valueFormatter: ({ value }) => (value ? valueFormatter(PandLStatusOptions, value) : value),
+                minWidth: 180,
             },
             {
                 field: 'settlementRequestType',
@@ -123,6 +142,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 field: 'requestCount',
                 headerName: 'تعداد درخواست برای تسویه',
                 type: 'sepratedNumber',
+                minWidth: 150,
             },
             {
                 field: 'doneCount',
@@ -186,7 +206,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                     setFormValues(initialFilterState);
                     setParams(cleanObjectOfFalsyValues(initialFilterState));
                 }}
-                onSubmit={() => setParams(cleanObjectOfFalsyValues(formValues))}
+                onSubmit={() => {
+                    setParams(cleanObjectOfFalsyValues(formValues));
+                }}
             />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => setGridApi(p)} />

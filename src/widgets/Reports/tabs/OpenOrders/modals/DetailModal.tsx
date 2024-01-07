@@ -1,4 +1,5 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AXIOS from 'src/api/axiosInstance';
@@ -37,7 +38,7 @@ const DetailModal = ({ isOpen, onClose, modalData }: TDetailModalProps) => {
             {
                 headerName: 'زمان',
                 field: 'dateTime',
-                type: 'date',
+                valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('HH:mm   YYYY-MM-DD') : value),
                 maxWidth: 153,
             },
             {
@@ -53,7 +54,16 @@ const DetailModal = ({ isOpen, onClose, modalData }: TDetailModalProps) => {
         <Modal isOpen={isOpen} onClose={onClose} className="w-[500px] h-[344px] rounded">
             <div className="w-full h-full bg-L-basic dark:bg-D-basic flex flex-col shadow-md">
                 <div className="flex justify-between items-center bg-[#0C4073] dark:bg-D-primary-200 px-6 h-12">
-                    <span className="font-normal text-sm text-white">{modalTitle}</span>
+                    <span className="font-normal text-sm text-white">
+                        جزئیات سفارش <span className="text-[#A1DDFF]">{modalData?.customerTitle || 'مشتری '} </span>
+                        {modalData?.hostOrderNumber ? (
+                            <>
+                                با شماره سفارش <span className="text-[#A1DDFF]">{modalData?.hostOrderNumber}</span>
+                            </>
+                        ) : (
+                            ''
+                        )}
+                    </span>
                     <button className="p-1" onClick={onClose}>
                         <CloseIcon className="text-white" />
                     </button>
