@@ -169,6 +169,16 @@ export const Apis = () => ({
         SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
         TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
     },
+    Options: {
+        GetCashSettlement: getBaseUrl() + `/Option/v1/GetCashSettlement`,
+        GetPhysicalSettlement: getBaseUrl() + `/Option/v1/GetPhysicalSettlements`,
+        CreateCashSettlement: getBaseUrl() + `/Option/v1/new-cash`,
+        UpdateCashSettlement: getBaseUrl() + `/Option/v1/edit-cash`,
+        CreatePhysicalSettlement: getBaseUrl() + `/Option/v1/new-physical`,
+        UpdatePhysicalSettlement: getBaseUrl() + `/Option/v1/edit-physical`,
+        DeleteCashSettlement: getBaseUrl() + `/Option/v1/delete-cash`,
+        DeletePhysicalSettlement: getBaseUrl() + `/Option/v1/delete-physical`,
+    },
 });
 
 // const getPortfolioUrl = () => {

@@ -1,4 +1,26 @@
+export type TCashbody = {
+    id: number;
+    requestCount: number;
+    customerISIN: string;
+    requestForMaximum: boolean;
+    countOfDone?: number | string;
+    requestForMaximumApproval: boolean;
+};
 
+export type TPhysicalbody = {
+    id: number;
+    requestCount: number;
+    requestForMaximum: boolean;
+    requestForLostOrProfit: boolean;
+    customerISIN: string;
+    countOfDone?: number | string;
+    requestForMaximumApproval: boolean;
+};
+
+export type TCashDeleteBody = {
+    id: number;
+    customerISIN: string;
+};
 
 interface OptionGeneralInformation {
     initialMargin: number;

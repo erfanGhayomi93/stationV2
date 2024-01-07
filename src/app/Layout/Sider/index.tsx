@@ -158,14 +158,14 @@ const Sider = () => {
                 placeOfDisplay: 'both',
                 onClick: () => navigate('/setting'),
             },
-            {
-                icon: <ExiteIcon height={16} width={16} />,
-                label: 'خروج',
-                position: 'bottom',
-                placeOfDisplay: 'both',
-                id: 'exit',
-                onClick: () => logOutUser(),
-            },
+            // {
+            //     icon: <ExiteIcon height={16} width={16} />,
+            //     label: 'خروج',
+            //     position: 'bottom',
+            //     placeOfDisplay: 'both',
+            //     id: 'exit',
+            //     onClick: () => logOutUser(),
+            // },
         ],
         [],
     );
