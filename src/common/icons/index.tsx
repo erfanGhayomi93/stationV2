@@ -45,6 +45,7 @@ export { ReactComponent as FileIcon } from 'src/assets/svg/File.svg';
 export { ReactComponent as File2Icon } from 'src/assets/svg/File2.svg';
 export { ReactComponent as FilterIcon } from 'src/assets/svg/filter.svg';
 export { ReactComponent as FilterListIcon } from 'src/assets/svg/FilterIist.svg';
+export { ReactComponent as RequestListIcon } from 'src/assets/svg/RequestListIcon.svg';
 export { ReactComponent as FlowIcon } from 'src/assets/svg/flow.svg';
 export { ReactComponent as GearIcon } from 'src/assets/svg/Gear.svg';
 export { ReactComponent as HelpIcon } from 'src/assets/svg/Help.svg';
@@ -70,6 +71,7 @@ export { ReactComponent as PortfolioDetailIcon } from 'src/assets/svg/PortfolioD
 export { ReactComponent as PowerOff } from 'src/assets/svg/PowerOff.svg';
 export { ReactComponent as QMarkIcon } from 'src/assets/svg/QMark.svg';
 export { ReactComponent as QuitIcon } from 'src/assets/svg/Quit.svg';
+export { ReactComponent as ExiteIcon } from 'src/assets/svg/ExiteIcon.svg';
 export { ReactComponent as RefreshIcon } from 'src/assets/svg/Refresh.svg';
 export { ReactComponent as OrdersIcon } from 'src/assets/svg/orders.svg';
 export { ReactComponent as TradesIcon } from 'src/assets/svg/trades.svg';
