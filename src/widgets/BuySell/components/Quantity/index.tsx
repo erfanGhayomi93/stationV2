@@ -67,7 +67,7 @@ const BuySellQuantity: FC = () => {
     };
 
     useEffect(() => {
-        price ? isCalculatorEnabled && setQuantity(Math.floor(getTradedQuantity())) : setQuantity(0);
+        (price && isCalculatorEnabled) && setQuantity(Math.floor(getTradedQuantity()))
     }, [unitCommission, price, amount, isCalculatorEnabled, selectedCustomer]);
 
     return (

@@ -10,5 +10,6 @@ export enum ComeFromKeepDataEnum {
     FailedOrder = 'FailedOrder',
     OpenOrder = 'openOrder',
     Basket = 'Basket',
-    DepthMarket = 'DepthMarket'
+    DepthMarket = 'DepthMarket',
+    OpenPosition = 'OpenPosition',
 }

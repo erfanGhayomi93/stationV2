@@ -6,10 +6,12 @@ import { useAppSelector } from 'src/redux/hooks';
 import { seprateNumber } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import { MoreInfo } from 'src/common/icons';
+import Tippy from '@tippyjs/react';
 
-interface IBuySellDetailType {}
+interface IBuySellDetailType { }
 
-const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
+const BuySellDetail: FC<IBuySellDetailType> = ({ }) => {
     const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const dispatch = useBuySellDispatch();
@@ -28,7 +30,18 @@ const BuySellDetail: FC<IBuySellDetailType> = ({}) => {
                     <span>999,999,999,999</span>
                 </div> */}
                 <div className="flex justify-between items-center text-L-gray-500 w-full">
-                    <span>ارزش معامله</span>
+                    <div className='flex gap-x-1'>
+                        {/* <Tippy
+                            content={
+                                <div className="flex flex-col gap-1">
+                                        das
+                                </div>
+                            }
+                        >
+                            <MoreInfo className='text-L-info-100 dark:text-D-info-100' />
+                        </Tippy> */}
+                        <span>ارزش معامله</span>
+                    </div>
                     <span>{seprateNumber(cost)}</span>
                 </div>
                 <div className="flex justify-between items-center text-L-gray-500  w-full ">

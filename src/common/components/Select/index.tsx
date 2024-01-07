@@ -12,6 +12,7 @@ interface ISelectType {
     icon?: JSX.Element;
     inputClassName?: string;
     options: ISelectOptionType[];
+    disabled?: boolean
 }
 
 interface ISelectOptionType {
@@ -28,24 +29,29 @@ const Select: FC<ISelectType> = ({
     label,
     inputClassName,
     icon = <ChevronIcon width={12} height={12} className="  rotate-180 text-gray-400" aria-hidden="true" />,
+    disabled = false,
     ...rest
 }) => {
     return (
         <div className="w-full h-full flex items-center justify-center relative">
             {title ? <span className="w-16 whitespace-nowrap relative ml-2">{title}</span> : <></>}
-            <Listbox value={value} onChange={onChange} {...rest}>
+            <Listbox disabled={disabled} value={value} onChange={onChange} {...rest}>
                 <div className="relative w-full ">
                     <Listbox.Button
                         className={clsx(
                             'relative text-xs flex justify-between h-8 w-full dark:focus-within:border-D-info-100 focus-within:border-L-info-100 cursor-pointer text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
-                            inputClassName
-                                ? inputClassName
-                                : ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-2 pr-3 pl-10  ',
+                            {
+                                ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-2 pr-3 pl-10  ': !inputClassName,
+                                [inputClassName as string]: !!inputClassName,
+                                "!border-L-gray-200 dark:!border-D-gray-200 cursor-auto": !!disabled
+                            }
                         )}
                     >
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
                         {value !== null && value !== undefined ? (
-                            <span className="block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap">
+                            <span className={clsx("block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap", {
+                                "text-L-gray-200 dark:text-D-gray-200": !!disabled
+                            })}>
                                 <>{label}</>
                                 {options?.find((op) => op.value === value)?.label}
                             </span>
