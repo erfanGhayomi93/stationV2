@@ -1,7 +1,7 @@
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
-import { useMemo, useState } from 'react';
-import FilterSettlement from '../commenComponents/FilterCash';
+import { useEffect, useMemo, useState } from 'react';
+import FilterSettlement from '../commenComponents/FilterSettlement';
 import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -74,7 +74,13 @@ const Physical = (props: any) => {
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues));
+    const { data, refetch, isLoading } = useQuery(
+        ['PhysicalSettlement', params],
+        ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues),
+        {
+            enabled: false,
+        },
+    );
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -92,11 +98,19 @@ const Physical = (props: any) => {
 
     const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerIsin });
 
+    useEffect(() => {
+        refetch();
+    }, [params]);
+
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
             {
                 field: 'customerTitle',
                 headerName: 'مشتری',
+            },
+            {
+                field: 'bourseCode',
+                headerName: 'کد بورسی',
             },
             {
                 field: 'symbolTitle',
@@ -108,15 +122,23 @@ const Physical = (props: any) => {
                 type: 'sepratedNumber',
             },
             {
+                headerName: 'سمت',
+                field: 'side',
+                valueFormatter: ({ value }) => (value === 'Call' ? 'خرید' : value === 'Put' ? 'فروش' : ''),
+                cellClass: ({ value }) => (value === 'Call' ? 'text-[#01BC8D]' : value === 'Put' ? 'text-[#E84830]' : ''),
+            },
+            {
                 field: 'cashSettlementDate',
                 headerName: 'تاریخ تسویه فیزیکی',
                 type: 'date',
+                minWidth: 140,
             },
             {
                 field: 'pandLStatus',
                 headerName: 'وضعیت قرارداد ( سود / زیان )',
                 cellClass: ({ value }) => (value === 'Profit' ? 'text-[#01BC8D]' : value === 'Loss' ? 'text-[#E84830]' : ''),
                 valueFormatter: ({ value }) => (value ? valueFormatter(PandLStatusOptions, value) : value),
+                minWidth: 180,
             },
             {
                 field: 'settlementRequestType',
@@ -132,6 +154,7 @@ const Physical = (props: any) => {
                 field: 'requestCount',
                 headerName: 'تعداد درخواست برای تسویه',
                 type: 'sepratedNumber',
+                minWidth: 150,
             },
             {
                 field: 'doneCount',
