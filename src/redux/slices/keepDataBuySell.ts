@@ -3,40 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
-// interface InitState {
-//     data: IDraftResponseType | IOrderGetType | undefined;
-//     comeFrom?: ComeFromKeepDataEnum | undefined;
-// }
-//
-// const initialState: InitState = {
-//     data: undefined,
-//     comeFrom: ComeFromKeepDataEnum.OpenOrder,
-// };
-//
-// const keepDataBuySellSlice = createSlice({
-//     name: 'buySell',
-//     initialState: initialState,
-//     reducers: {
-//         setDataBuySellAction: (state, action: PayloadAction<InitState | undefined>) => {
-//             state.data = action?.payload ? action.payload?.data : undefined;
-//             state.comeFrom = action?.payload?.comeFrom ? action.payload.comeFrom : undefined;
-//         },
-//         setPartDataBuySellAction: (
-//             state,
-//             action: PayloadAction<{ data: Partial<IDraftResponseType | IOrderGetType>; comeFrom: ComeFromKeepDataEnum }>,
-//         ) => {
-//             const prevData = state.data as (IDraftResponseType | IOrderGetType | undefined);
-//             const newData = action.payload?.data as IDraftResponseType | IOrderGetType | undefined;
-//             state.data = { ...prevData, ...newData };
-//             state.comeFrom = action.payload.comeFrom;
-//         },
-//     },
-// });
-//
-// export const { setDataBuySellAction, setPartDataBuySellAction } = keepDataBuySellSlice.actions;
-// export const getKeepDataBuySell = (state: RootState) => state.keepDataBuySellSlice;
-// export default keepDataBuySellSlice.reducer;
-
 interface InitState {
     data?: BuySellState;
     comeFrom?: ComeFromKeepDataEnum | '';
@@ -68,12 +34,17 @@ const keepDataBuySellSlice = createSlice({
             state.comeFrom = action.payload.comeFrom;
             state.customerIsin = action.payload.customerIsin;
         },
+        setSideBuySellAction: (state, action: PayloadAction<BuySellSide>) => {
+            if (state.data && state.data.side) {
+                state.data.side = action.payload;
+            }
+        },
         clearDataAction: (state) => {
             (state.data = initialState.data), (state.comeFrom = initialState.comeFrom), (state.customerIsin = initialState.customerIsin);
         },
     },
 });
 
-export const { setDataBuySellAction, setPartDataBuySellAction, clearDataAction } = keepDataBuySellSlice.actions;
+export const { setDataBuySellAction, setPartDataBuySellAction, setSideBuySellAction , clearDataAction } = keepDataBuySellSlice.actions;
 export const getKeepDataBuySell = (state: RootState) => state.keepDataBuySellSlice;
 export default keepDataBuySellSlice.reducer;

@@ -76,7 +76,8 @@ type SymbolData = {
     bourseKey: string;
     eventsWithinNextTenDays: SymbolEvents[];
     hasRiskAnnouncement: boolean;
-    isOption : boolean
+    isOption: boolean;
+    contractSize: number;
 };
 
 type OrdersData = {
@@ -162,7 +163,6 @@ interface bestPriceBuySell {
     bestBuyLimitPrice_1: number;
     bestSellLimitPrice_1: number;
 }
-
 
 interface GetSameSectorRequest {
     symbolISIN: string;

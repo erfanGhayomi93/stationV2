@@ -99,6 +99,7 @@ export const Apis = () => ({
         DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
         TodayDoneTrades: getBaseUrl() + '/Order/v1/TodayDoneTrades',
+        GetSumPrice: getBaseUrl() + '/Order/v1/GetSumPrice',
     },
     SupervisorMessage: {
         Get: getBaseUrl() + `/Message/v1/TodaySupervisorMessage`,

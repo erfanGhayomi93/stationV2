@@ -10,6 +10,13 @@ const sendSettlementRequest = async (body: TCashbody) => {
     return data?.result;
 };
 
+const getSumPrice = async (params: IReqSumPrice) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<IResponseSumPrice>>(Apis().Orders.GetSumPrice, params);
+    return data.result;
+};
+
+export const useGetSumPrice = (params: IReqSumPrice) =>
+    useQuery<IResponseSumPrice>(['sumPrice', params.price, params.quantity], () => getSumPrice(params), { enabled: false, keepPreviousData: true });
 
 const getOpenPosition = async () => {
     const { data } = await AXIOS.get<IOpenPositionsRes[]>(Apis().Option.GetOpenPositions);
@@ -18,8 +25,6 @@ const getOpenPosition = async () => {
 
 export const useOpenPosition = (options?: UseQueryOptions<IOpenPositionsRes[]>) =>
     useQuery<IOpenPositionsRes[]>(['GetOpenPositions'], () => getOpenPosition(), { ...options });
-
-
 
 export const useUpdateCashSettlement = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(sendSettlementUpdateRequest, options);

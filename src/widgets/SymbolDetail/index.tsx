@@ -16,7 +16,7 @@ const SymbolDetail = () => {
     // isLoading or isFetching ? depends ...
     const { remove, isLoading, isFetching } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data) => {
-            pushEngine.unSubscribe("SymbolGeneralInfo")
+            // pushEngine.unSubscribe("SymbolGeneralInfo")
 
             pushEngine.subscribe({
                 id: 'SymbolGeneralInfo',
