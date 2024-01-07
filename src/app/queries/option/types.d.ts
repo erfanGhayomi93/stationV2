@@ -1,4 +1,4 @@
-export type TCashbody = {
+type TCashbody = {
     id: number;
     requestCount: number;
     customerISIN: string;
@@ -7,7 +7,7 @@ export type TCashbody = {
     requestForMaximumApproval: boolean;
 };
 
-export type TPhysicalbody = {
+type TPhysicalbody = {
     id: number;
     requestCount: number;
     requestForMaximum: boolean;
@@ -17,7 +17,7 @@ export type TPhysicalbody = {
     requestForMaximumApproval: boolean;
 };
 
-export type TCashDeleteBody = {
+type TCashDeleteBody = {
     id: number;
     customerISIN: string;
 };
@@ -52,29 +52,28 @@ interface OptionGeneralInformation {
     dueDays: number;
 }
 
-
 interface IOpenPositionsRes {
-    orderId: number,
-    side: "Put" | "Call",
-    canClosePosition: boolean,
-    availableClosePosition: number,
-    customerISIN: string,
-    symbolISIN: string,
-    positionCount: number,
-    blockedMargin: number,
-    blockedAsset: number,
-    variationMargin: number,
-    physicalSettlementDate: string,
-    cashSettlementDate: string,
-    contractSize: number,
-    strikePrice: number,
-    finalPrice: number,
-    gainedPortfolioLoss: number,
-    profitLoss_ClosingPrice: number,
-    profitLoss_ClosingPricePercent: number,
-    profitLoss_LastPrice: number,
-    profitLoss_LastPricePercent: number,
-    remainDays: number,
-    symbolTitle: string,
-    companyISIN: string,
+    orderId: number;
+    side: 'Put' | 'Call';
+    canClosePosition: boolean;
+    availableClosePosition: number;
+    customerISIN: string;
+    symbolISIN: string;
+    positionCount: number;
+    blockedMargin: number;
+    blockedAsset: number;
+    variationMargin: number;
+    physicalSettlementDate: string;
+    cashSettlementDate: string;
+    contractSize: number;
+    strikePrice: number;
+    finalPrice: number;
+    gainedPortfolioLoss: number;
+    profitLoss_ClosingPrice: number;
+    profitLoss_ClosingPricePercent: number;
+    profitLoss_LastPrice: number;
+    profitLoss_LastPricePercent: number;
+    remainDays: number;
+    symbolTitle: string;
+    companyISIN: string;
 }
