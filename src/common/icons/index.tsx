@@ -86,6 +86,7 @@ export { ReactComponent as AlarmClock } from 'src/assets/svg/alarm-clock.svg';
 export { ReactComponent as TradeChartSVG } from 'src/assets/svg/trade-chart.svg';
 export { ReactComponent as CalenderBourseSVG } from 'src/assets/svg/calender-bourse.svg';
 export { ReactComponent as ArrowDown } from 'src/assets/svg/arrowDown.svg';
+export { ReactComponent as ReverseOptionIcon } from 'src/assets/svg/reverseOption.svg';
 
 // Setting
 export { ReactComponent as SessionLogIcon } from 'src/assets/svg/SessionLog.svg';
@@ -99,6 +100,7 @@ export { ReactComponent as MoonIcon } from 'src/assets/svg/moon.svg';
 export { ReactComponent as CloseRoundIcon } from 'src/assets/svg/closeRound.svg';
 export { ReactComponent as SuccessRoundIcon } from 'src/assets/svg/successRound.svg';
 export { ReactComponent as ErrorRoundIcon } from 'src/assets/svg/errorRound.svg';
+export { ReactComponent as MoreInfo } from 'src/assets/svg/moreInfo.svg';
 
 export { ReactComponent as ChartTypeAreaSVG } from 'src/assets/svg/chart-type-area.svg';
 export { ReactComponent as ChartTypeBarSVG } from 'src/assets/svg/chart-type-bar-mol.svg';

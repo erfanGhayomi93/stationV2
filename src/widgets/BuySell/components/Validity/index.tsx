@@ -6,16 +6,22 @@ import Select from 'src/common/components/Select';
 import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import { useAppSelector } from 'src/redux/hooks';
+import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
+import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
 
 interface IBuySellValidityType { }
 
 const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     const dispatch = useBuySellDispatch();
-    const { validity, validityDate } = useBuySellState();
+    const { validity, validityDate, side } = useBuySellState();
     const setValidity = (value: validity) => dispatch({ type: 'SET_VALIDITY', value });
     const setValidityDate = (value: string | null) => dispatch({ type: 'SET_VALIDITY_DATE', value });
     const { t } = useTranslation();
+
+    const { comeFrom } = useAppSelector(getKeepDataBuySell)
+
 
     const handleValidityState = (select: any) => {
         setValidity(select);
@@ -29,7 +35,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
 
     }, [validity]);
 
-   
+
 
     return (
         <div className="flex gap-2 w-full">
@@ -41,6 +47,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
                         onChange={(selected) => handleValidityState(selected)}
                         value={validity}
                         options={VALIDITY_OPTIONS.map((item) => ({ value: item.value, label: t('BSModal.validity_' + item.value) }))}
+                        disabled={comeFrom === ComeFromKeepDataEnum.OpenPosition && side === "Sell"}
                     />
                 </div>
             </div>

@@ -9,10 +9,11 @@ import FailedOrders from './tabs/FailedOrders';
 // import GroupOrders from './tabs/GroupOrders';
 import OpenOrders from './tabs/OpenOrders';
 import Requests from './tabs/Requests';
+import { OpenPosition } from './tabs/OpenPosition';
 
 const Reports = () => {
     //
-    const [activeTab, setActiveTab] = useState('OpenOrders');
+    const [activeTab, setActiveTab] = useState('OpenPosition');
     const [ClickLeftNode, setClickLeftNode] = useState<any>({
         isFilter: false,
     });
@@ -22,7 +23,7 @@ const Reports = () => {
         setClickLeftNode((prev: any) => ({
             ...prev,
             [type]: !prev[type],
-        }));
+        })); 
     };
 
     const items = useMemo(
@@ -51,6 +52,11 @@ const Reports = () => {
                 key: 'Drafts',
                 title: 'پیش نویس ها',
                 content: <Drafts {...{ ClickLeftNode }} />,
+            },
+            {
+                key: 'OpenPosition',
+                title: 'موقعیت های باز',
+                content: <OpenPosition />,
             },
             // {
             //     key: 'GroupOrders',
