@@ -9,10 +9,7 @@ import { SymbolBestOneOrders } from 'src/ls/subscribes';
 import { pushEngine } from 'src/ls/pushEngine';
 import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 
-interface bestPriceBuySell {
-    bestBuyLimitPrice_1: number;
-    bestSellLimitPrice_1: number;
-}
+
 
 const BuySellPrice: FC = () => {
     const dispatch = useBuySellDispatch();

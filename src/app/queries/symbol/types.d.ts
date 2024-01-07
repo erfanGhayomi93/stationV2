@@ -76,6 +76,7 @@ type SymbolData = {
     bourseKey: string;
     eventsWithinNextTenDays: SymbolEvents[];
     hasRiskAnnouncement: boolean;
+    isOption : boolean
 };
 
 type OrdersData = {
@@ -157,35 +158,11 @@ type SymbolSearchResult = {
     symbolTag: string;
 };
 
-interface OptionGeneralInformation {
-    initialMargin: number;
-    maintenanceMargin: number;
-    requiredMargin: number;
-    openPosition: number;
-    strikePrice: number;
-    contractStartDate: string;
-    contractEndDate: string;
-    cashSettlementDate: string;
-    companyISIN: string;
-    maxCOP: number;
-    maxCAOP: number;
-    maxBOP: number;
-    maxMOP: number;
-    maxOrders: number;
-    baseCompanyISIN: string;
-    contractSize: number;
-    cefo: number;
-    physicalSettlementDate: string;
-    closingPrice: number;
-    tradeVolume: number;
-    yesterdayPrice: number;
-    maxPrice: number;
-    minPrice: number;
-    basePriceClosing: number;
-    basePriceLast: number;
-    openingPrice: number;
-    dueDays: number;
+interface bestPriceBuySell {
+    bestBuyLimitPrice_1: number;
+    bestSellLimitPrice_1: number;
 }
+
 
 interface GetSameSectorRequest {
     symbolISIN: string;

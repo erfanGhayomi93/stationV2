@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
@@ -8,16 +8,13 @@ import {
     BasketIcon,
     CalenderBourseSVG,
     Envelope2Icon,
+    ExiteIcon,
     EyeFrameIcon,
     FileIcon,
     GearIcon,
-    HelpIcon,
     HomeIcon,
-    OrdersIcon,
-    QuitIcon,
+    RequestListIcon,
     TradeChartSVG,
-    TradesIcon,
-    TurnoverIcon,
 } from 'src/common/icons';
 import { logOutReq } from '../Header/UserActions';
 import ExpandedSider from './ExpandedSider';
@@ -27,12 +24,11 @@ import { SLiderActionEnum } from './context/types';
 import clsx from 'clsx';
 
 export type MenuItemType = {
-    icon: JSX.Element;
+    icon?: JSX.Element;
     label: string | JSX.Element;
     position: 'top' | 'bottom';
     id: string;
     placeOfDisplay: 'closed' | 'opened' | 'both';
-    isActive: boolean;
     onClick: (() => void) | undefined;
     children?: Omit<MenuItemType, 'position' | 'placeOfDisplay'>[];
 };
@@ -44,20 +40,8 @@ const Sider = () => {
     const dispatch = useSliderDispatch();
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const [activeMenuItem, setActiveMenuItem] = useState<string>('');
 
-    useEffect(() => {
-        if (!activeMenuItem) {
-            setActiveMenuItem(pathname);
-        }
-    }, [pathname]);
-
-    const toggleSlider = () => {
-        dispatch({ type: SLiderActionEnum.TOGGLE_MESSAGE_MODAL });
-        if (isShowSupervisorMessage) {
-            setActiveMenuItem(pathname);
-        }
-    };
+    const toggleSlider = () => dispatch({ type: SLiderActionEnum.TOGGLE_MESSAGE_MODAL });
 
     const { mutate: logOutUser } = useMutation(logOutReq, {
         onSuccess: (data) => {
@@ -72,7 +56,6 @@ const Sider = () => {
                 label: 'صفحه اصلی',
                 position: 'top',
                 placeOfDisplay: 'both',
-                isActive: false,
                 id: '/',
                 onClick: () => navigate('/'),
             },
@@ -81,7 +64,6 @@ const Sider = () => {
                 label: 'دیده بان',
                 position: 'top',
                 placeOfDisplay: 'both',
-                isActive: false,
                 id: '/Watchlist',
                 onClick: () => navigate('/Watchlist'),
             },
@@ -90,65 +72,57 @@ const Sider = () => {
                 label: 'سبد معامله گر',
                 position: 'top',
                 placeOfDisplay: 'both',
-                isActive: false,
                 id: '/basket',
                 onClick: () => navigate('/basket'),
             },
-            // {
-            //     icon: <TradeChartSVG height={20} width={20} />,
-            //     label: 'بازار',
-            //     position: 'top',
-            //     placeOfDisplay: 'both',
-            //     isActive: false,
-            //     id: '/Market/Chart',
-            //     onClick: () => navigate('/Market/Chart'),
-            //     children: [
-
-            //     ],
-            // },
+            {
+                id: '/Requests',
+                icon: <RequestListIcon />,
+                label: 'درخواست ها',
+                position: 'top',
+                placeOfDisplay: 'both',
+                onClick: () => navigate('/Requests/Offline'),
+                children: [
+                    {
+                        label: 'آفلاین',
+                        id: '/Requests/Offline',
+                        onClick: () => navigate('/Requests/Offline'),
+                    },
+                    {
+                        label: 'تسویه اختیار',
+                        id: '/Requests/OptionSettlement',
+                        onClick: () => navigate('/Requests/OptionSettlement'),
+                    },
+                ],
+            },
             {
                 icon: <FileIcon className="w-5 h-5" />,
                 label: 'گزارشات',
                 position: 'top',
                 placeOfDisplay: 'both',
-                isActive: false,
-                id: '/Reports/orders',
-                onClick: () => navigate('/Reports/orders'),
+                id: '/Reports',
+                onClick: () => navigate('/Reports/Orders'),
                 children: [
                     // {
                     //     icon: <FileIcon className="w-5 h-5" />,
                     //     label: 'پرتفوی',
-                    //     isActive: false,
                     //     id: '/portfolio',
                     //     onClick: () => navigate('/portfolio'),
                     // },
                     {
                         label: 'سفارشات',
-                        icon: <OrdersIcon className="w-5 h-5" />,
-                        isActive: false,
-                        id: '/Reports/orders',
-                        onClick: () => navigate('/Reports/orders'),
+                        id: '/Reports/Orders',
+                        onClick: () => navigate('/Reports/Orders'),
                     },
                     {
                         label: 'معاملات',
-                        icon: <TradesIcon className="w-5 h-5" />,
-                        isActive: false,
-                        id: '/Reports/trades',
-                        onClick: () => navigate('/Reports/trades'),
+                        id: '/Reports/Trades',
+                        onClick: () => navigate('/Reports/Trades'),
                     },
                     {
                         label: 'گردش حساب',
-                        icon: <TurnoverIcon className="w-5 h-5" />,
-                        isActive: false,
-                        id: '/Reports/turnover',
-                        onClick: () => navigate('/Reports/turnover'),
-                    },
-                    {
-                        label: 'درخواست ها',
-                        icon: <TurnoverIcon className="w-5 h-5" />,
-                        isActive: false,
-                        id: '/Reports/requests',
-                        onClick: () => navigate('/Reports/requests'),
+                        id: '/Reports/Turnover',
+                        onClick: () => navigate('/Reports/Turnover'),
                     },
                 ],
             },
@@ -157,83 +131,52 @@ const Sider = () => {
                 position: 'top',
                 placeOfDisplay: 'both',
                 icon: <TradeChartSVG className="w-5 h-5" />,
-                isActive: false,
                 id: '/Market/Chart',
                 onClick: () => navigate('/Market/Chart'),
             },
             {
                 label: 'تقویم بورسی',
                 icon: <CalenderBourseSVG className="w-5 h-5" />,
-                isActive: false,
                 id: '/Market/Calender',
                 onClick: () => navigate('/Market/Calender'),
                 position: 'top',
                 placeOfDisplay: 'both',
             },
-            // {
-            //     icon: <File2Icon height={20} width={20} />,
-            //     label: 'یادداشت ها',
-            //     position: 'top',
-            //     placeOfDisplay: 'both',
-            //     isActive: false,
-            //     onClick: undefined,
-            // },
-            // {
-            //     icon: <Customers height={20} width={20} />,
-            //     label: 'مشتریان',
-            //     position: 'top',
-            //     placeOfDisplay: 'both',
-            //     isActive: false,
-            //     onClick: () => navigate('/Reports'),
-            // },
-
-            // {
-            //     icon: <MonitorIcon height={20} width={20} />,
-            //     label: 'تحلیل',
-            //     position: 'bottom',
-            //     placeOfDisplay: 'both',
-            //     isActive: false,
-            //     onClick: undefined,
-            // },
+            {
+                icon: <Envelope2Icon className="w-5 h-5" />,
+                label: 'پیام ها',
+                position: 'bottom',
+                placeOfDisplay: 'both',
+                id: 'message',
+                onClick: toggleSlider,
+            },
             {
                 id: '/setting',
                 icon: <GearIcon className="w-5 h-5" />,
                 label: 'تنظیمات',
                 position: 'bottom',
                 placeOfDisplay: 'both',
-                isActive: false,
                 onClick: () => navigate('/setting'),
             },
-            {
-                icon: <Envelope2Icon className="w-5 h-5" />,
-                label: 'پیام های بازار',
-                position: 'bottom',
-                placeOfDisplay: 'both',
-                id: 'message',
-                isActive: false,
-                onClick: toggleSlider,
-            },
             // {
-            //     icon: <HelpIcon height={20} width={20} />,
-            //     label: 'راهنما',
-            //     position: 'bottom',
-            //     placeOfDisplay: 'both',
-            //     id: '/Help',
-            //     isActive: false,
-            //     onClick: () => navigate('/Help'),
-            // },
-            // {
-            //     icon: <QuitIcon height={20} width={20} />,
+            //     icon: <ExiteIcon height={16} width={16} />,
             //     label: 'خروج',
             //     position: 'bottom',
             //     placeOfDisplay: 'both',
             //     id: 'exit',
-            //     isActive: false,
             //     onClick: () => logOutUser(),
             // },
         ],
         [],
     );
+
+    const isMenuHighlighted = (id: string) => {
+        if (id !== '/') {
+            return pathname.includes(id);
+        } else {
+            return pathname === id;
+        }
+    };
 
     return (
         <>
@@ -243,10 +186,8 @@ const Sider = () => {
                 countNumberSupervisorMessage={countNumberSupervisorMessage}
             />
             <div className="w-[5rem] min-w-[80px] bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col py-5 pt-3">
-                <div className="flex flex-col items-center">
-                    <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
-                </div>
-                <div className="flex flex-col justify-between h-full mt-4">
+                <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
+                <div className="flex flex-col justify-between h-full mt-2">
                     <div className="flex flex-col items-center">
                         {menuItems
                             .filter((item) => (item.placeOfDisplay === 'closed' || item.placeOfDisplay === 'both') && item.position === 'top')
@@ -254,13 +195,12 @@ const Sider = () => {
                                 <Tippy key={ind} content={item.label} className="text-xs" placement="left">
                                     <button
                                         data-cy={item.id}
-                                        className={clsx('p-4', activeMenuItem === item.id ? 'text-L-secondary-50' : 'text-menu')}
+                                        className={clsx('p-4', isMenuHighlighted(item.id) ? 'text-L-secondary-50' : 'text-menu')}
                                         onClick={() => {
                                             item.onClick?.();
-                                            setActiveMenuItem(item.id);
                                         }}
                                     >
-                                        <>{item.icon}</>
+                                        {item.icon}
                                     </button>
                                 </Tippy>
                             ))}
@@ -279,10 +219,9 @@ const Sider = () => {
                                 >
                                     <button
                                         data-cy={item.id}
-                                        className={clsx('p-4', activeMenuItem === item.id ? 'text-L-secondary-50' : 'text-menu')}
+                                        className={clsx('p-4', isMenuHighlighted(item.id) ? 'text-L-secondary-50' : 'text-menu')}
                                         onClick={() => {
                                             item.onClick?.();
-                                            setActiveMenuItem(item.id);
                                         }}
                                     >
                                         {item.icon}
@@ -292,15 +231,60 @@ const Sider = () => {
                     </div>
                 </div>
             </div>
-            <ExpandedSider
-                isOpen={isOpen}
-                activeMenuItem={activeMenuItem}
-                setActiveMenuItem={setActiveMenuItem}
-                onClose={() => setIsOpen(false)}
-                menuItems={menuItems}
-            />
+            <ExpandedSider isOpen={isOpen} onClose={() => setIsOpen(false)} menuItems={menuItems} />
         </>
     );
 };
 
 export default Sider;
+
+//Commented Menus Portfolio is NOT garbage will be back later on!
+
+// {
+//     icon: <TradeChartSVG height={20} width={20} />,
+//     label: 'بازار',
+//     position: 'top',
+//     placeOfDisplay: 'both',
+//     isActive: false,
+//     id: '/Market/Chart',
+//     onClick: () => navigate('/Market/Chart'),
+//     children: [
+
+//     ],
+// },
+
+// {
+//     icon: <File2Icon height={20} width={20} />,
+//     label: 'یادداشت ها',
+//     position: 'top',
+//     placeOfDisplay: 'both',
+//     isActive: false,
+//     onClick: undefined,
+// },
+// {
+//     icon: <Customers height={20} width={20} />,
+//     label: 'مشتریان',
+//     position: 'top',
+//     placeOfDisplay: 'both',
+//     isActive: false,
+//     onClick: () => navigate('/Reports'),
+// },
+
+// {
+//     icon: <MonitorIcon height={20} width={20} />,
+//     label: 'تحلیل',
+//     position: 'bottom',
+//     placeOfDisplay: 'both',
+//     isActive: false,
+//     onClick: undefined,
+// },
+
+// {
+//     icon: <HelpIcon height={20} width={20} />,
+//     label: 'راهنما',
+//     position: 'bottom',
+//     placeOfDisplay: 'both',
+//     id: '/Help',
+//     isActive: false,
+//     onClick: () => navigate('/Help'),
+// },

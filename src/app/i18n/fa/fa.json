@@ -32,6 +32,7 @@
         "Reports/turnover": "گردش حساب",
         "Reports/requests": "درخواست ها",
         "portfolio": "پرتفوی",
+        "optionSettlement": "تسویه اختیار معامله",
         "setting": "تنظیمات"
     },
     "common": {
@@ -393,7 +394,6 @@
         "totalValue": "ارزش خالص",
         "averagePrice": "قیمت خرید",
         "dayValue": "ارزش روز",
-        "lastTradedPrice": "قیمت روز",
         "bepPrice": "نقطه سر به سر",
         "bep": "بهای تمام شده",
         "lostProfitValue": "مبلغ سود/زیان",
@@ -561,21 +561,21 @@
         "meetingWithinNextTenDays": "کمتر از 10 روز مانده به مجمع عمومی فوق العاده (تقویم بورسی)"
     },
     "symbol_option": {
-		"opening_price": "اولین قیمت",
-		"yesterday_price": "قیمت دیروز",
-		"strike_price": "قیمت اعمال",
-		"cash_settlement_date": "تاریخ تسویه نقدی",
-		"open_position": "تعداد موقعیت‌های باز بازار",
-		"trade_volume": "حجم معاملات",
-		"required_margin": "وجه تضمین لازم",
-		"initial_margin": "وجه تضمین اولیه",
-		"max_price": "بیشترین قیمت",
-		"min_price": "کمترین قیمت",
-		"contract_size": "اندازه قرارداد",
-		"base_price_closing": "قیمت دارایی پایه",
-		"physical_settlement_date": "تاریخ تسویه فیزیکی",
-		"due_days": "روزهای مانده به سررسید"
-	},
+        "opening_price": "اولین قیمت",
+        "yesterday_price": "قیمت دیروز",
+        "strike_price": "قیمت اعمال",
+        "cash_settlement_date": "تاریخ تسویه نقدی",
+        "open_position": "تعداد موقعیت‌های باز بازار",
+        "trade_volume": "حجم معاملات",
+        "required_margin": "وجه تضمین لازم",
+        "initial_margin": "وجه تضمین اولیه",
+        "max_price": "بیشترین قیمت",
+        "min_price": "کمترین قیمت",
+        "contract_size": "اندازه قرارداد",
+        "base_price_closing": "قیمت دارایی پایه",
+        "physical_settlement_date": "تاریخ تسویه فیزیکی",
+        "due_days": "روزهای مانده به سررسید"
+    },
     "OrderBook": {
         "viewMode": "حالت نمایش",
         "showMarketDepth": "نمایش عمق بازار",
@@ -845,5 +845,30 @@
         "WithValueAndVolume": "حجم و قیمت",
         "WithRevenue": "سرمایه و قیمت روز",
         "WithRevenueAndValue": "سرمایه و قیمت"
+    },
+    "options": {
+		"column_customer_title": "مشتری",
+		"column_symbol_title": "نماد",
+        "column_position_count": "تعداد موقعیت",
+        "column_position_side": "موقعیت",
+		"column_blocked_margin": "وجه مسدودی",
+        "column_variation_margin": "وجه تضمین جبرانی",
+        "column_physical_settlement_date": "تسویه فیزیکی",
+        "column_strike_price": "قیمت اعمال",
+        "column_remain_days": "روزهای مانده تا سررسید",
+		"call": "خرید",
+		"put": "فروش"
+	},
+    "OptionSettlement": {
+        "CashTabTitle": "تسویه نقدی",
+        "PhysicalTabTitle": "تسویه فیزیکی",
+        "UserType_System": "سیستم",
+        "UserType_Backoffice": "بک آفیس",
+        "ConfirmSettlementDesc": "زمان ثبت درخواست تسویه نقدی، از ساعت 14:10 الی 15:00 روز تسویه نقدی می باشد. بر طبق قوانین، ثبت درخواست نقدی صرفا برای قراردادهای درسود امکان پذیر خواهد بود. لازم به ذکراست ثبت درخواست تسویه نقدی به معنای پذیرفته شدن آن نیست و منوط به ثبت درخواست طرف مقابل خواهد بود. اشخاص دارای موقعیت فروش فقط در حالت اعمال حداکثری امکان ثبت درخواست تسویه نقدی را خواهند داشت.",
+        "PhysicalSettlementDesc": "زمان ثبت درخواست تسویه فیزیکی، از ساعت 14:10 الی 15:00 روز تسویه نقدی می باشد. لطفا در زمان ثبت درخواست، از کافی بودن مانده حساب خود اطمینان حاصل فرمایید.",
+        "MaximumCashSettlementAgreement": "با درخواست تسویه نقدی در حالت اعمال حداکثری موافقم.",
+        "MaximumPhysicalSettlementAgreement": "با تسویه فیزیکی در حالت زیان موافقم.",
+        "PhysicalSettlementRadioValue1": "اعمال حداکثری",
+        "PhysicalSettlementRadioValue2": "انتخاب تعداد موقعیت های مورد نظر جهت تسویه"
     }
 }

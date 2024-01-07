@@ -41,4 +41,6 @@ export interface IProps extends Partial<ICellRendererParams> {
     onDeleteClick?: (data: ICellRendererParams['data']) => void;
     deleteModalTitle?: string;
     deleteModalDescription?: string;
+    leftNode?: JSX.Element;
+    rightNode?: JSX.Element;
 }
