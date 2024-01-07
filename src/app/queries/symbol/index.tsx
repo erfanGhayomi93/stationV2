@@ -3,21 +3,22 @@ import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { queryClient } from 'src/app/queryClient';
 
-const getSymbolGeneralInfo = async (symbolISIN: string) => {
+const getSymbolGeneralInfo = async (symbolISIN: string, signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolGeneralInfoType>>(Apis().Symbol.SymbolGeneralInformation as string, {
         params: { symbolISIN },
+        signal
     });
     return data?.result;
 };
 
 export const useSymbolGeneralInfo = <T,>(
     symbolISIN: string,
-    options?: { select?: (data: SymbolGeneralInfoType) => T; onSuccess?: (data: T) => void },
+    options?: { select?: (data: SymbolGeneralInfoType) => T; onSuccess?: (data: T) => void, enabled?: boolean },
 ) => {
-    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey }) => getSymbolGeneralInfo(queryKey[1]), {
+    return useQuery(['SymbolGeneralInfo', symbolISIN], ({ queryKey, signal }) => getSymbolGeneralInfo(queryKey[1], signal), {
         enabled: !!symbolISIN,
-        staleTime: Infinity,
-        cacheTime: Infinity,
+        // staleTime: Infinity,
+        // cacheTime: Infinity,
         onSettled: () => {
             queryClient.invalidateQueries(['userRecentSymbolHistory', 'GeneralSearch']);
         },
@@ -28,12 +29,12 @@ export const useSymbolGeneralInfo = <T,>(
 
 
 const getOption = async (symbolISIN: string) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<OptionGeneralInformation[]>>(Apis().Symbol.optionInformation, { params: { symbolISIN } });
+    const { data } = await AXIOS.get<GlobalApiResponseType<OptionGeneralInformation>>(Apis().Option.SymbolInformation, { params: { symbolISIN } });
     return data.result || [];
 };
 
 export const useOptionGeneralInformation = (symbolISIN: string) =>
-    useQuery(["optionInformation", symbolISIN] , () => getOption(symbolISIN),
+    useQuery(["optionInformation", symbolISIN], () => getOption(symbolISIN),
         {
             enabled: !!symbolISIN,
         },

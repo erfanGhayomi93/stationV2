@@ -845,5 +845,18 @@
         "WithValueAndVolume": "حجم و قیمت",
         "WithRevenue": "سرمایه و قیمت روز",
         "WithRevenueAndValue": "سرمایه و قیمت"
-    }
+    },
+    "options": {
+		"column_customer_title": "مشتری",
+		"column_symbol_title": "نماد",
+        "column_position_count": "تعداد موقعیت",
+        "column_position_side": "موقعیت",
+		"column_blocked_margin": "وجه مسدودی",
+        "column_variation_margin": "وجه تضمین جبرانی",
+        "column_physical_settlement_date": "تسویه فیزیکی",
+        "column_strike_price": "قیمت اعمال",
+        "column_remain_days": "روزهای مانده تا سررسید",
+		"call": "خرید",
+		"put": "فروش"
+	}
 }

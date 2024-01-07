@@ -31,6 +31,7 @@ const SymbolData = () => {
             lowThreshold: data?.symbolData?.lowThreshold,
             closingPrice: data?.symbolData?.closingPrice,
             lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
+            isOption: data?.symbolData?.isOption
         }),
     });
 
@@ -44,19 +45,19 @@ const SymbolData = () => {
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
-                key: 'AuthorityDetails',
-                title: t('SymbolDetails.AuthorityDetails'),
-                content: <AuthorityDetails />,
+                key: symbolData?.isOption ? 'AuthorityDetails' : 'AdditionalData',
+                title: symbolData?.isOption ? t('SymbolDetails.AuthorityDetails') : t('SymbolDetails.additionalData'),
+                content: symbolData?.isOption ? <AuthorityDetails /> : <AdditionalData />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
-            {
-                key: 'AdditionalData',
-                title: t('SymbolDetails.additionalData'),
-                content: <AdditionalData />,
-                tabClass: 'pt-4 outline-none',
-                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
-            },
+            // {
+            //     key: 'AdditionalData',
+            //     title: t('SymbolDetails.additionalData'),
+            //     content: <AdditionalData />,
+            //     tabClass: 'pt-4 outline-none',
+            //     selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            // },
             {
                 key: 'Charts',
                 title: t('SymbolDetails.symbolChart'),
@@ -79,7 +80,7 @@ const SymbolData = () => {
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
         ],
-        [],
+        [symbolData?.isOption],
     );
 
     return (
