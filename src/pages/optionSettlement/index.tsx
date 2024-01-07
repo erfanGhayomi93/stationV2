@@ -46,7 +46,7 @@ const OptionSettlement = () => {
     );
 
     return (
-        <div className="bg-L-basic dark:bg-D-basic rounded-md p-6 flex flex-col gap-4">
+        <div className="bg-L-basic dark:bg-D-basic rounded-md p-6 flex flex-col">
             <div className="flex justify-between">
                 <h1 className="dark:text-D-gray-700 font-medium text-base">{t('titlePage.optionSettlement')}</h1>
                 <div className="flex items-center gap-3 p-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
