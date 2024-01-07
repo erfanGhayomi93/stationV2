@@ -14,6 +14,7 @@ import { t } from 'i18next';
 import CashSettlementModal from './modals/CashSettlementModal';
 import { useDeleteCashSettlement } from 'src/app/queries/option';
 import UpdateCashSettlement from './modals/UpdateCashSettlement';
+import HistoryModal from '../commenComponents/HistoryModal';
 
 type TResponse = {
     result: {
@@ -56,12 +57,18 @@ type TResponse = {
     errors: any;
 };
 
+type TModalState = {
+    isOpen: boolean;
+    data?: Record<string, any>;
+};
+
 const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEvent<any> | undefined>> }) => {
     //
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
-    const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
-    const [updateSettlementModal, setUpdateSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
+    const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
+    const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
+    const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
     const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
@@ -152,7 +159,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                         rightNode={
                             <ExtraButtons
                                 disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
-                                onHistoryClick={() => {}}
+                                onHistoryClick={() => setHistoryModalState({ isOpen: true, data: row?.data })}
                                 onSettlementClick={() => handleOnSettlementClick(row?.data)}
                             />
                         }
@@ -198,6 +205,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {updateSettlementModal?.isOpen && (
                 <UpdateCashSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
             )}
+            {historyModalState?.isOpen && <HistoryModal title="نقدی" state={historyModalState} setState={setHistoryModalState} />}
         </div>
     );
 };

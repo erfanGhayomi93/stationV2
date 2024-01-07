@@ -14,6 +14,7 @@ import { t } from 'i18next';
 import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 import { useDeletePhysicalSettlement } from 'src/app/queries/option';
 import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
+import HistoryModal from '../commenComponents/HistoryModal';
 
 type TResponse = {
     result: {
@@ -60,12 +61,18 @@ type TResponse = {
     errors: string[];
 };
 
+type TModalState = {
+    isOpen: boolean;
+    data?: Record<string, any>;
+};
+
 const Physical = (props: any) => {
     //
     const [formValues, setFormValues] = useState(initialFilterState);
     const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
-    const [settlementModal, setSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
-    const [updateSettlementModal, setUpdateSettlementModal] = useState<{ isOpen: boolean; data?: Record<string, any> }>({ isOpen: false, data: {} });
+    const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
+    const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
+    const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
     const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues));
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
@@ -171,7 +178,7 @@ const Physical = (props: any) => {
                         rightNode={
                             <ExtraButtons
                                 disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
-                                onHistoryClick={() => {}}
+                                onHistoryClick={() => setHistoryModalState({ isOpen: true, data: row?.data })}
                                 onSettlementClick={() => handleOnSettlementClick(row?.data)}
                             />
                         }
@@ -217,6 +224,7 @@ const Physical = (props: any) => {
             {updateSettlementModal?.isOpen && (
                 <UpdatePhysicalSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
             )}
+            {historyModalState?.isOpen && <HistoryModal title="فیزیکی" state={historyModalState} setState={setHistoryModalState} />}
         </div>
     );
 };
