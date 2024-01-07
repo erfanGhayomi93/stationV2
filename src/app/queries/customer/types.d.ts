@@ -1,5 +1,6 @@
 type tabCustomerType = 'Customers' | 'GroupCustomer' | 'MyGroup' | 'FavoriteList';
 type ICustomerMultiTypeType = 'Legal' | 'Natural';
+type IStatusCustomerType = 'Normal' | 'CallMargin' | 'AtRisk';
 
 interface IGoMultiCustomerType {
     bourseCode: string;
@@ -10,13 +11,13 @@ interface IGoMultiCustomerType {
     nationalCode: string;
     purchasePower: number;
     title: string;
-    isFavorite : boolean
+    isFavorite: boolean;
 }
 
 interface IReqestCustomer {
-    CustomerISIN ?: string ,
-    CustomerType ?: ICustomerMultiTypeType ,
-    IsFavorite ?: boolean
+    CustomerISIN?: string;
+    CustomerType?: ICustomerMultiTypeType;
+    IsFavorite?: boolean;
 }
 
 interface IGoCustomerResult {
@@ -24,10 +25,6 @@ interface IGoCustomerResult {
     searchResult: PaginatedSearchResult;
     typeCounts: TypeCount[];
 }
-
-
-
-
 
 interface PaginatedSearchResult {
     errors: null | string[];
@@ -61,7 +58,6 @@ interface IGoCustomerRequest extends IPaginateRequest {
     type?: ICustomerMultiTypeType;
 }
 
-
 interface IGoCustomerRequestType {
     term?: string;
     type?: ICustomerMultiTypeType[];
@@ -90,7 +86,6 @@ interface IGetCustomerInformationRequestType {
     customerISIN: string | undefined;
 }
 
-
 interface ICustomerFinancialResult {
     customerISIN: string;
     credit: number;
@@ -104,14 +99,14 @@ interface ICustomerFinancialResult {
     bourseCode: string;
     nationalCode: string;
     finalRemain: number;
+    status?: IStatusCustomerType;
+    marginValue?: number;
 }
 
-interface ICustomerFinancialResponse extends GlobalApiResponseType<ICustomerFinancialResult> { }
-
-
+interface ICustomerFinancialResponse extends GlobalApiResponseType<ICustomerFinancialResult> {}
 
 interface IGetCustomerTurnOverRequestType {
-    Side?: "buy" | "sell" | "deposit" | "withdrawal" | "Remain" | "",
+    Side?: 'buy' | 'sell' | 'deposit' | 'withdrawal' | 'Remain' | '';
     CustomerISIN?: string;
     SymbolISIN?: string;
     IsAggregated?: boolean;
@@ -135,10 +130,9 @@ interface IGetCustomerTurnOverResultType {
     customerISIN: string;
 }
 
-
-interface IGetCustomerTurnOverResponse extends GlobalPaginatedApiResponse<IGetCustomerTurnOverResultType[]> { 
+interface IGetCustomerTurnOverResponse extends GlobalPaginatedApiResponse<IGetCustomerTurnOverResultType[]> {
     finalRemain: number;
     remainMinusLastTrades: number;
     totalCountFilter: number;
-    pageCount: number
+    pageCount: number;
 }

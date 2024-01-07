@@ -90,6 +90,7 @@ export const OpenPosition = () => {
 
     }
 
+
     useUpdateEffect(() => {
         refetch()
     }, [rowState])

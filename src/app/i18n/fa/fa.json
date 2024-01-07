@@ -77,7 +77,10 @@
         "GTCustomerGroup 0": "گروه من",
         "GTCustomerGroup": "گروه من",
         "TraderGroup": "گروه من",
-        "Individual": "حقیقی"
+        "Individual": "حقیقی" ,
+        "customer_status_Normal": "عادی",
+		"customer_status_AtRisk": "در خطر",
+		"customer_status_CallMargin": "اخطار وجه تضمین"
     },
     "BSModal": {
         "validity_Week": "هفته",

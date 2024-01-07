@@ -6,6 +6,7 @@ import { InfoFillIcon, InfoIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+import clsx from 'clsx';
 
 type PanelType = 'TradeRemain' | 'WithdrawalRemain' | 'BrokerRemain';
 
@@ -23,6 +24,29 @@ const FinancialTab = () => {
     return (
         <WidgetLoading spining={isFetching}>
             <div className="px-4 pt-6 pb-4 flex flex-col gap-5">
+                {
+                    data?.status && (
+                        <div className="flex gap-4 items-center">
+                            <div className='flex gap-2 items-center'>
+                                <span className='text-sm font-medium'>وضعیت مشتری:</span>
+                                <span className={
+                                    clsx({
+                                        "text-L-error-200 dark:text-D-error-200": data.status === 'AtRisk',
+                                        "text-L-warning dark:text-D-warning": data.status === 'CallMargin',
+                                        "text-L-gray-600 dark:text-D-gray-600": data.status === 'Normal',
+                                    })
+                                }>{t("CustomerType.customer_status_" + data.status)}</span>
+                            </div>
+
+                            <div className='flex gap-2 items-center'>
+                                <span className='text-sm font-medium'>وجه تضمین:</span>
+                                <span className="text-L-gray-600 dark:text-D-gray-600">{'\u200E' + seprateNumber(data.marginValue)}</span>
+                            </div>
+                        </div>
+                    )
+                }
+
+
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('TradeRemain')}>
                         {activePanel === 'TradeRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
@@ -48,6 +72,9 @@ const FinancialTab = () => {
                         </div>
                     </div>
                 </div>
+
+
+
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('WithdrawalRemain')}>
                         {activePanel === 'WithdrawalRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}

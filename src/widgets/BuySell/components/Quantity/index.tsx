@@ -29,10 +29,6 @@ const BuySellQuantity: FC = () => {
 
     const selectedCustomer = useAppSelector(getSelectedCustomers)
 
-    useEffect(() => {
-        console.log("selectedCustomer", selectedCustomer)
-    }, [selectedCustomer])
-
 
     const [mode, setMode] = useState<'AMOUNT' | 'PERCENT'>('AMOUNT');
     //
