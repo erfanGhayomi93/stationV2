@@ -71,7 +71,7 @@ const Trades = ({}: ITradesPageType) => {
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
             <div className="flex items-center justify-between">
-                <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.Reports/trades')}</h1>
+                <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.Reports/Trades')}</h1>
                 <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
                     <Tippy content={t('Action_Button.Update')} className="text-xs">
                         <span onClick={() => getTradesData()}>

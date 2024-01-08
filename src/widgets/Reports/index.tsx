@@ -13,18 +13,18 @@ import { OpenPosition } from './tabs/OpenPosition';
 
 const Reports = () => {
     //
-    const [activeTab, setActiveTab] = useState('OpenPosition');
+    const [activeTab, setActiveTab] = useState('OpenOrders');
     const [ClickLeftNode, setClickLeftNode] = useState<any>({
         isFilter: false,
     });
     const navigate = useNavigate();
 
-    const handleChangeLeftNode = (type: string) => {
-        setClickLeftNode((prev: any) => ({
-            ...prev,
-            [type]: !prev[type],
-        })); 
-    };
+    // const handleChangeLeftNode = (type: string) => {
+    //     setClickLeftNode((prev: any) => ({
+    //         ...prev,
+    //         [type]: !prev[type],
+    //     })); 
+    // };
 
     const items = useMemo(
         () => [
