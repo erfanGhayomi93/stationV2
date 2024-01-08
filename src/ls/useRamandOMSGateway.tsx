@@ -47,7 +47,7 @@ const createRamandOMSGateway = () => {
         const orderMessageType = message[200]
 
         // console.log("pushNotification",pushNotification)
-        const detailsNotif = !!pushNotification[omsClientKey] ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
+        const detailsNotif = !!pushNotification[omsClientKey].symbolTitle ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
         // console.log("detailsNotif",detailsNotif)
 
         if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {

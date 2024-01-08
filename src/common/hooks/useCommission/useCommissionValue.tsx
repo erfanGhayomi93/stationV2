@@ -27,7 +27,7 @@ export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
 const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
     const { buyCommission, sellCommission } = useCommissionValue({ marketUnit });
     const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
-    const commission = Math.ceil(commissionValue * price * quantity * 1000) / 1000;
+    const commission = Math.ceil(commissionValue * price * quantity);
     // const commission = commissionValue * price * quantity;
     const unitCommission = Math.ceil(commissionValue * price * 1 * 100) / 100;
     return { commission, unitCommission };
