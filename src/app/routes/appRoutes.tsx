@@ -122,15 +122,15 @@ const AppRoutes: FC = () => {
                                 // element: <Reports />,
                                 children: [
                                     {
-                                        path: '/Reports/orders',
+                                        path: '/Reports/Orders',
                                         element: <Orders />,
                                     },
                                     {
-                                        path: '/Reports/trades',
+                                        path: '/Reports/Trades',
                                         element: <Trades />,
                                     },
                                     {
-                                        path: '/Reports/turnover',
+                                        path: '/Reports/Turnover',
                                         element: <TurnOver />,
                                     },
                                 ],

@@ -1,19 +1,19 @@
 import { ICellRendererParams } from "ag-grid-community"
 import clsx from "clsx"
-import { useEffect, useMemo, useState } from "react"
+import dayjs from "dayjs"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useOpenPosition } from "src/app/queries/option"
 import { useSymbolGeneralInfo } from "src/app/queries/symbol"
-import AGActionCell from "src/common/components/AGActionCell"
 import AGTable, { ColDefType } from "src/common/components/AGTable"
 import WidgetLoading from "src/common/components/WidgetLoading"
 import useUpdateEffect from "src/common/hooks/useUpdateEffect"
 import { ReverseOptionIcon } from "src/common/icons"
 import { ComeFromKeepDataEnum } from "src/constant/enums"
-import { useAppDispatch, useAppSelector } from "src/redux/hooks"
+import { useAppDispatch } from "src/redux/hooks"
 import { setPartDataBuySellAction } from "src/redux/slices/keepDataBuySell"
-import { getSelectedSymbol, setSelectedSymbol } from "src/redux/slices/option"
-import { dateFormatter, seprateNumber } from "src/utils/helpers"
+import { setSelectedSymbol } from "src/redux/slices/option"
+import { seprateNumber } from "src/utils/helpers"
 
 type RowStateType = {
     symbolISIN: string;
@@ -32,7 +32,6 @@ const initRowState = {
 export const OpenPosition = () => {
     const { t } = useTranslation()
     const appDispatch = useAppDispatch()
-    const selectedSymbolGlobal = useAppSelector(getSelectedSymbol)
 
     const [rowState, setRowState] = useState<RowStateType>(initRowState)
 
@@ -54,12 +53,11 @@ export const OpenPosition = () => {
         const { symbolISIN, availableClosePosition, side, customerISIN } = rowState
         if (!data) {
             alert("it hasnt data")
+            return
         }
 
-        if (symbolISIN && data) {
+        else if (symbolISIN && data) {
             symbolISIN && appDispatch(setSelectedSymbol(symbolISIN));
-
-            // console.log("data", data?.bestSellLimitPrice_1, data?.bestBuyLimitPrice_1)
 
             appDispatch(
                 setPartDataBuySellAction({
@@ -162,8 +160,8 @@ export const OpenPosition = () => {
             field: "physicalSettlementDate",
             minWidth: 144,
             flex: 1,
-            // valueFormatter: ({ value }) => dateFormatter(value)
-            type: "date"
+            valueFormatter: ({ value }) => dayjs(value).calendar("jalali").format("YYYY/MM/DD")
+            // type: "date"
         },
 
         /* قیمت اعمال */
