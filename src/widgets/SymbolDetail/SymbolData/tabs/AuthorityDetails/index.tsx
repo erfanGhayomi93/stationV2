@@ -32,11 +32,27 @@ const AuthorityDetails = () => {
         { key: 15, label: t("symbol_option.trade_volume"), value: seprateNumber(optionData?.tradeVolume) },
     ];
 
+    const bottomItem = [
+        { key: 16, label: t("symbol_option.maxOP"), value: seprateNumber(optionData?.maxOP) || 0 },
+        { key: 17, label: t("symbol_option.maxCOP"), value: seprateNumber(optionData?.maxCOP) || 0 },
+        { key: 18, label: t("symbol_option.maxCAOP"), value: seprateNumber(optionData?.maxCAOP) || 0 },
+    ]
+
 
     return (
         <div className="w-full h-full">
 
             <DataDisplay items={items} cols={2} />
+
+            {
+                bottomItem.map(item => (
+                    <div key={item.key} className="w-full flex items-center px-3 py-2 odd:bg-L-gray-100 dark:odd:bg-D-gray-100 text-L-gray-700 dark:text-D-gray-700 ">
+                        <span>{item.label}</span>
+                        <span>:</span>
+                        <span className="mr-auto ltr">{item.value}</span>
+                    </div>
+                ))
+            }
 
         </div>
     );
