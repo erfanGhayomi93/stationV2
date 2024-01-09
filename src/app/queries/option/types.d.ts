@@ -65,6 +65,9 @@ interface OptionGeneralInformation {
     basePriceLast: number;
     openingPrice: number;
     dueDays: number;
+    maxOP: number;
+    maxCOP: number;
+    maxCAOP: number;
 }
 
 interface IOpenPositionsRes {

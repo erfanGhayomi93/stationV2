@@ -201,7 +201,7 @@ const Physical = (props: any) => {
                         onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         rightNode={
                             <ExtraButtons
-                                disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
+                                disableSettlement={row?.data?.status !== 'Draft' || !Boolean(row?.data?.enabled)}
                                 onHistoryClick={() => setHistoryModalState({ isOpen: true, data: row?.data })}
                                 onSettlementClick={() => handleOnSettlementClick(row?.data)}
                             />
