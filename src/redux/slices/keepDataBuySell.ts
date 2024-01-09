@@ -26,13 +26,13 @@ const keepDataBuySellSlice = createSlice({
         },
         setPartDataBuySellAction: (
             state,
-            action: PayloadAction<{ data: Partial<BuySellState>; comeFrom: ComeFromKeepDataEnum; customerIsin?: string[] }>,
+            action: PayloadAction<{ data: Partial<BuySellState>; comeFrom?: ComeFromKeepDataEnum; customerIsin?: string[] }>,
         ) => {
             const prevData = state.data as BuySellState;
             const newData = action.payload?.data;
             state.data = { ...prevData, ...newData };
-            state.comeFrom = action.payload.comeFrom;
-            state.customerIsin = action.payload.customerIsin;
+            state.comeFrom = action.payload.comeFrom ? action.payload.comeFrom : state.comeFrom;
+            state.customerIsin = action.payload.customerIsin ? action.payload.customerIsin : state.customerIsin;
         },
         setSideBuySellAction: (state, action: PayloadAction<BuySellSide>) => {
             if (state.data && state.data.side) {
@@ -45,6 +45,6 @@ const keepDataBuySellSlice = createSlice({
     },
 });
 
-export const { setDataBuySellAction, setPartDataBuySellAction, setSideBuySellAction , clearDataAction } = keepDataBuySellSlice.actions;
+export const { setDataBuySellAction, setPartDataBuySellAction, setSideBuySellAction, clearDataAction } = keepDataBuySellSlice.actions;
 export const getKeepDataBuySell = (state: RootState) => state.keepDataBuySellSlice;
 export default keepDataBuySellSlice.reducer;
