@@ -57,7 +57,7 @@ const BuySellContext = () => {
 
     useUpdateEffect(() => {
         !!customerIsin && getCustomers({ CustomerISINs: customerIsin });
-    } ,[customerIsin])
+    }, [customerIsin])
 
     useUpdateEffect(() => {
         !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
@@ -65,10 +65,10 @@ const BuySellContext = () => {
 
     useEffect(() => {
         () => {
-            resetByeSellData(ByeSellDispatch , appDispatch)
+            resetByeSellData(ByeSellDispatch, appDispatch)
         }
     }, [comeFrom])
-  
+
 
     return (
         <>

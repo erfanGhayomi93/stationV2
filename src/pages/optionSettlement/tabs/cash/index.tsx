@@ -15,6 +15,7 @@ import CashSettlementModal from './modals/CashSettlementModal';
 import { useDeleteCashSettlement } from 'src/app/queries/option';
 import UpdateCashSettlement from './modals/UpdateCashSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
+import dayjs from 'dayjs';
 
 type TResponse = {
     result: {
@@ -122,6 +123,12 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 cellClass: ({ value }) => (value === 'Call' ? 'text-[#01BC8D]' : value === 'Put' ? 'text-[#E84830]' : ''),
             },
             {
+                field: 'cashSettlementDate',
+                headerName: 'تاریخ تسویه نقدی',
+                valueFormatter: ({ value }) => dayjs(value).calendar("jalali").format("YYYY/MM/DD"),
+                minWidth: 140,
+            },
+            {
                 field: 'pandLStatus',
                 headerName: 'وضعیت قرارداد ( سود / زیان )',
                 cellClass: ({ value }) => (value === 'Profit' ? 'text-[#01BC8D]' : value === 'Loss' ? 'text-[#E84830]' : ''),
@@ -178,7 +185,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                         disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         rightNode={
                             <ExtraButtons
-                                disableSettlement={row?.data?.status !== 'Draft' || row?.data?.enabled}
+                                disableSettlement={row?.data?.status !== 'Draft' || !Boolean(row?.data?.enabled)}
                                 onHistoryClick={() => setHistoryModalState({ isOpen: true, data: row?.data })}
                                 onSettlementClick={() => handleOnSettlementClick(row?.data)}
                             />
