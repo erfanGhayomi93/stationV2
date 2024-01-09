@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useMemo } from 'react';
 import { seprateNumber } from 'src/utils/helpers';
 
@@ -8,6 +9,7 @@ interface IProps {
     positiveClassName?: string;
     negativeClassName?: string;
     neutralClassName?: string;
+    onClickPrice?: () => void
 }
 
 const PriceView = ({
@@ -17,6 +19,7 @@ const PriceView = ({
     positiveClassName = 'text-green-500',
     negativeClassName = 'text-red-500',
     neutralClassName = 'text-gray-500',
+    onClickPrice
 }: IProps) => {
     //
     const textColorClassName = useMemo(
@@ -27,7 +30,13 @@ const PriceView = ({
     return (
         <div className="flex flex-nowrap whitespace-nowrap snap-center gap-3">
             {label ? <span className="ml-1">{label}:</span> : null}
-            <div className={textColorClassName} style={{ direction: 'ltr' }}>
+            <div
+                className={clsx(textColorClassName, {
+                    "cursor-pointer": !!onClickPrice
+                })}
+                style={{ direction: 'ltr' }}
+                onClick={() => onClickPrice ? onClickPrice() : null}
+            >
                 {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}
             </div>
         </div>

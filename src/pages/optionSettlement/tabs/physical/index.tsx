@@ -15,6 +15,7 @@ import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 import { useDeletePhysicalSettlement } from 'src/app/queries/option';
 import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
+import dayjs from 'dayjs';
 
 type TResponse = {
     result: {
@@ -130,7 +131,7 @@ const Physical = (props: any) => {
             {
                 field: 'cashSettlementDate',
                 headerName: 'تاریخ تسویه فیزیکی',
-                type: 'date',
+                valueFormatter: ({ value }) => dayjs(value).calendar("jalali").format("YYYY/MM/DD"),
                 minWidth: 140,
             },
             {
