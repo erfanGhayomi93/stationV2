@@ -40,6 +40,8 @@ const FilterSettlement = ({ formValues, onSubmit, onClear, setFormValues }: TPro
         setFormValues((prev: any) => ({ ...prev, [field]: value }));
     };
 
+    const changeDateToCustome = () => setFormValues((prev: typeof initialFilterState) => ({ ...prev, Time: 'custom' }));
+
     return (
         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-md px-4 py-2 flex">
             <div className="w-full h-full grid grid-cols-20 gap-4">
@@ -62,13 +64,19 @@ const FilterSettlement = ({ formValues, onSubmit, onClear, setFormValues }: TPro
                 <FilterBlock label={t('FilterFieldLabel.FromDate')} className="col-span-2">
                     <AdvancedDatepicker
                         value={formValues?.StartDate}
-                        onChange={(value) => filterValueSetter('StartDate', dayjs(value).format('YYYY-MM-DDT00:00:00'))}
+                        onChange={(value) => {
+                            changeDateToCustome();
+                            filterValueSetter('StartDate', dayjs(value).format('YYYY-MM-DDT00:00:00'));
+                        }}
                     />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.ToDate')} className="col-span-2">
                     <AdvancedDatepicker
                         value={formValues?.EndDate}
-                        onChange={(value) => filterValueSetter('EndDate', dayjs(value).format('YYYY-MM-DDT23:59:59'))}
+                        onChange={(value) => {
+                            changeDateToCustome();
+                            filterValueSetter('EndDate', dayjs(value).format('YYYY-MM-DDT23:59:59'));
+                        }}
                     />
                 </FilterBlock>
                 {isFilterBoxOpen && (
