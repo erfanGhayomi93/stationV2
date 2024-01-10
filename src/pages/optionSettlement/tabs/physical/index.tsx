@@ -9,13 +9,15 @@ import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initia
 import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
-import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, datePeriodValidator } from 'src/utils/helpers';
 import { t } from 'i18next';
 import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 import { useDeletePhysicalSettlement } from 'src/app/queries/option';
 import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
+import { useFilterState, useFilterStateDispatch } from '../../filterContext';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 
 type TResponse = {
     result: {
@@ -69,22 +71,18 @@ type TModalState = {
 
 const Physical = (props: any) => {
     //
-    const [formValues, setFormValues] = useState(initialFilterState);
-    const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
+    const filterState = useFilterState();
+    const setFilterState = useFilterStateDispatch();
+    const [params, setParams] = useState(cleanObjectOfFalsyValues(filterState));
     const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, refetch, isLoading } = useQuery(
-        ['PhysicalSettlement', params],
-        ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof formValues),
-        {
-            enabled: false,
-        },
-    );
+    const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof filterState));
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
+                onSuccessNotif({ title: 'عملیات با موفقیت انجام شد' });
             }
         },
     });
@@ -98,10 +96,6 @@ const Physical = (props: any) => {
     };
 
     const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerIsin });
-
-    useEffect(() => {
-        refetch();
-    }, [params]);
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
@@ -131,7 +125,7 @@ const Physical = (props: any) => {
             {
                 field: 'cashSettlementDate',
                 headerName: 'تاریخ تسویه فیزیکی',
-                valueFormatter: ({ value }) => dayjs(value).calendar("jalali").format("YYYY/MM/DD"),
+                valueFormatter: ({ value }) => dayjs(value).calendar('jalali').format('YYYY/MM/DD'),
                 minWidth: 140,
             },
             {
@@ -220,16 +214,24 @@ const Physical = (props: any) => {
         setParams((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
     };
 
+    const handleSubmit = () => {
+        if (datePeriodValidator(filterState?.StartDate, filterState?.EndDate)) {
+            setParams(cleanObjectOfFalsyValues(filterState));
+        } else {
+            onErrorNotif({ title: 'بازه انتخاب شده صحیح نیست' });
+        }
+    };
+
     return (
         <div className="flex flex-col gap-3 h-full w-full">
             <FilterSettlement
-                formValues={formValues}
-                setFormValues={setFormValues}
+                formValues={filterState}
+                setFormValues={setFilterState}
                 onClear={() => {
-                    setFormValues(initialFilterState);
+                    setFilterState(initialFilterState);
                     setParams(cleanObjectOfFalsyValues(initialFilterState));
                 }}
-                onSubmit={() => setParams(cleanObjectOfFalsyValues(formValues))}
+                onSubmit={handleSubmit}
             />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => props.setGridApi(p)} />

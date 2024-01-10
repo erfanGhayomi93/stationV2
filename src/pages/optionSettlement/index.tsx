@@ -7,6 +7,7 @@ import { CashIcon, Excel2Icon, PhysicalSettlementIcon, Refresh2Icon } from 'src/
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import Tippy from '@tippyjs/react';
 import { GridReadyEvent } from 'ag-grid-community';
+import { ProviderFilterState } from './filterContext';
 
 type TActiveTab = 'Cash' | 'Physical';
 
@@ -25,7 +26,7 @@ const OptionSettlement = () => {
                         <span>{t('OptionSettlement.CashTabTitle')}</span>
                     </div>
                 ),
-                content: <Cash setGridApi={setGridApi}/>,
+                content: <Cash setGridApi={setGridApi} />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
@@ -37,7 +38,7 @@ const OptionSettlement = () => {
                         <span>{t('OptionSettlement.PhysicalTabTitle')}</span>
                     </div>
                 ),
-                content: <Physical setGridApi={setGridApi}/>,
+                content: <Physical setGridApi={setGridApi} />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
@@ -62,16 +63,18 @@ const OptionSettlement = () => {
                     </Tippy>
                 </div>
             </div>
-            <TabsList
-                fill={false}
-                onChange={(idx) => setActiveTab(idx as TActiveTab)}
-                selectedIndex={activeTab}
-                items={items}
-                buttonClass=" text-L-gray-500 dark:text-D-gray-500"
-                className="w-full grid rounded-md relative text-1.2 grid-rows-min-one overflow-y-auto h-full"
-                pannelClassName="overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
-                tabListClassName="border-b border-L-gray-400 dark:border-D-gray-400 text-sm"
-            />
+            <ProviderFilterState>
+                <TabsList
+                    fill={false}
+                    onChange={(idx) => setActiveTab(idx as TActiveTab)}
+                    selectedIndex={activeTab}
+                    items={items}
+                    buttonClass=" text-L-gray-500 dark:text-D-gray-500"
+                    className="w-full grid rounded-md relative text-1.2 grid-rows-min-one overflow-y-auto h-full"
+                    pannelClassName="overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
+                    tabListClassName="border-b border-L-gray-400 dark:border-D-gray-400 text-sm"
+                />
+            </ProviderFilterState>
         </div>
     );
 };

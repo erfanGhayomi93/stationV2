@@ -9,13 +9,15 @@ import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initia
 import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
-import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, datePeriodValidator } from 'src/utils/helpers';
 import { t } from 'i18next';
 import CashSettlementModal from './modals/CashSettlementModal';
 import { useDeleteCashSettlement } from 'src/app/queries/option';
 import UpdateCashSettlement from './modals/UpdateCashSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
+import { useFilterState, useFilterStateDispatch } from '../../filterContext';
+import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 
 type TResponse = {
     result: {
@@ -65,20 +67,18 @@ type TModalState = {
 
 const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEvent<any> | undefined>> }) => {
     //
-    const [formValues, setFormValues] = useState(initialFilterState);
-    const [params, setParams] = useState(cleanObjectOfFalsyValues(initialFilterState));
+    const filterState = useFilterState();
+    const setFilterState = useFilterStateDispatch();
+    const [params, setParams] = useState(cleanObjectOfFalsyValues(filterState));
     const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, refetch, isLoading } = useQuery(
-        ['CashSettlement', params],
-        ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
-        { enabled: false },
-    );
+    const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
             if (result) {
+                onSuccessNotif({ title: 'عملیات با موفقیت انجام شد' });
             }
         },
     });
@@ -92,10 +92,6 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     };
 
     const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerIsin });
-
-    useEffect(() => {
-        refetch();
-    }, [params]);
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
@@ -125,7 +121,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {
                 field: 'cashSettlementDate',
                 headerName: 'تاریخ تسویه نقدی',
-                valueFormatter: ({ value }) => dayjs(value).calendar("jalali").format("YYYY/MM/DD"),
+                valueFormatter: ({ value }) => dayjs(value).calendar('jalali').format('YYYY/MM/DD'),
                 minWidth: 140,
             },
             {
@@ -204,18 +200,24 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         setParams((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
     };
 
+    const handleSubmit = () => {
+        if (datePeriodValidator(filterState?.StartDate, filterState?.EndDate)) {
+            setParams(cleanObjectOfFalsyValues(filterState));
+        } else {
+            onErrorNotif({ title: 'بازه انتخاب شده صحیح نیست' });
+        }
+    };
+
     return (
         <div className="flex flex-col gap-3 h-full w-full">
             <FilterSettlement
-                formValues={formValues}
-                setFormValues={setFormValues}
+                formValues={filterState}
+                setFormValues={setFilterState}
                 onClear={() => {
-                    setFormValues(initialFilterState);
+                    setFilterState(initialFilterState);
                     setParams(cleanObjectOfFalsyValues(initialFilterState));
                 }}
-                onSubmit={() => {
-                    setParams(cleanObjectOfFalsyValues(formValues));
-                }}
+                onSubmit={handleSubmit}
             />
             <div className="flex-1">
                 <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => setGridApi(p)} />

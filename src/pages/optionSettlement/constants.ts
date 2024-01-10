@@ -1,10 +1,12 @@
+import dayjs from "dayjs";
+
 export const initialFilterState = {
     'QueryOption.PageNumber': 1,
     'QueryOption.PageSize': 10,
     SymbolISIN: undefined,
     Time: 'day',
-    StartDate: '2024-01-06T00:00:00',
-    EndDate: '2024-01-06T23:59:59',
+    StartDate: dayjs().format('YYYY-MM-DDT00:00:00'),
+    EndDate: dayjs().format('YYYY-MM-DDT23:59:59'),
     PandLStatus: 'All',
     SettlementType: [],
     RequestStatus: [],
