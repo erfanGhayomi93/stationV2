@@ -58,7 +58,9 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
                             <span className="pt-1">
                                 <InfoFillIcon color="#4895EF" />
                             </span>
-                            <span className="flex text-justify text-xs dark:text-white leading-6">{t('OptionSettlement.PhysicalPutSettlementDesc')}</span>
+                            <span className="flex text-justify text-xs dark:text-white leading-6">
+                                {t('OptionSettlement.PhysicalPutSettlementDesc')}
+                            </span>
                         </div>
                         <button
                             onClick={handleClose}
@@ -85,7 +87,7 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
                                     type="radio"
                                     onChange={(e) => setRadioValue(e?.target?.value)}
                                 />
-                                <label htmlFor="Radio1" className='dark:text-white'>
+                                <label htmlFor="Radio1" className="dark:text-white">
                                     {t('OptionSettlement.PhysicalSettlementRadioValue1') +
                                         `${
                                             settlementState?.data?.openPositionCount
@@ -103,7 +105,9 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
                                     type="radio"
                                     onChange={(e) => setRadioValue(e?.target?.value)}
                                 />
-                                <label htmlFor="Radio2" className='dark:text-white'>{t('OptionSettlement.PhysicalSettlementRadioValue2')}</label>
+                                <label htmlFor="Radio2" className="dark:text-white">
+                                    {t('OptionSettlement.PhysicalSettlementRadioValue2')}
+                                </label>
                                 {radioValue === 'requestForMaximumApproval' && (
                                     <span className="w-[25%]">
                                         <Input
@@ -135,8 +139,9 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
                             </button>
                             <button
                                 disabled={
-                                    radioValue === 'requestForMaximumApproval' &&
-                                    (!positionCount || positionCount > settlementState?.data?.openPositionCount)
+                                    (radioValue === 'requestForMaximumApproval' &&
+                                        (!positionCount || positionCount > settlementState?.data?.openPositionCount)) ||
+                                    !maximumCheckValue
                                 }
                                 onClick={handleSubmit}
                                 className="border rounded border-[#135CA4] bg-[#135CA4] disabled:opacity-50 text-white px-2 py-2 flex-1"
