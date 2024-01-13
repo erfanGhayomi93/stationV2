@@ -46,6 +46,7 @@ const UpdatePhysicalSettlement = ({ settlementState, setSettlementState, onClose
             requestForLostOrProfit: maximumCheckValue,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
             customerISIN: settlementState?.data?.customerISIN,
+            symbolISIN: settlementState?.data?.symbolISIN,
         };
         mutate(requestBody);
     };
@@ -127,6 +128,7 @@ const UpdatePhysicalSettlement = ({ settlementState, setSettlementState, onClose
                                                     : ''
                                             }
                                             type="number"
+                                            value={positionCount}
                                             onChange={(e) => setPositionCount(+e?.target?.value)}
                                         />
                                     </span>
