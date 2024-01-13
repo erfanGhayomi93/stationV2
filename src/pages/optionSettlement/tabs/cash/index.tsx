@@ -184,9 +184,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                         data={row?.data}
                         requiredButtons={['Edit', 'Delete']}
                         onDeleteClick={() => handleDelete(row?.data)}
-                        disableDelete={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        disableDelete={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
-                        disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        disableEdit={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         rightNode={
                             <ExtraButtons
                                 disableSettlement={row?.data?.status !== 'Draft' || !Boolean(row?.data?.enabled)}
