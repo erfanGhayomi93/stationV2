@@ -1,19 +1,16 @@
 type TCashbody = {
     id: number;
-    requestCount: number;
-    customerISIN: string;
+    requestCount?: number | string;
     requestForMaximum: boolean;
-    countOfDone?: number | string;
-    requestForMaximumApproval: boolean;
+    countOfDone: number;
 };
 
 type TPhysicalbody = {
     id: number;
-    requestCount: number;
+    requestCount?: number | string;
     requestForMaximum: boolean;
     requestForLostOrProfit: boolean;
-    customerISIN: string;
-    countOfDone?: number | string;
+    countOfDone: number;
     requestForMaximumApproval: boolean;
 };
 

@@ -28,13 +28,12 @@ const CashSettlementModal = ({ settlementState, setSettlementState, onClose }: T
     const [positionCount, setPositionCount] = useState<number | undefined>();
 
     const handleSubmit = () => {
+        const isRequestMax = radioValue === 'requestForMaximum';
         const requestBody = {
             id: settlementState?.data?.id,
-            requestCount: settlementState?.data?.requestCount,
-            customerISIN: settlementState?.data?.customerISIN,
-            requestForMaximum: radioValue === 'requestForMaximum',
-            countOfDone: positionCount,
-            requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
+            requestCount: isRequestMax ? 0 : positionCount,
+            requestForMaximum: isRequestMax,
+            countOfDone: settlementState?.data?.doneCount,
         };
         mutate(requestBody);
     };
