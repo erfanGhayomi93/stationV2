@@ -148,8 +148,9 @@ const UpdatePhysicalSettlement = ({ settlementState, setSettlementState, onClose
                             </button>
                             <button
                                 disabled={
-                                    radioValue === 'requestForMaximumApproval' &&
-                                    (!positionCount || positionCount > settlementState?.data?.openPositionCount)
+                                    (radioValue === 'requestForMaximumApproval' &&
+                                        (!positionCount || positionCount > settlementState?.data?.openPositionCount)) ||
+                                    !maximumCheckValue
                                 }
                                 onClick={handleSubmit}
                                 className="border rounded border-[#135CA4] bg-[#135CA4] disabled:opacity-50 text-white px-2 py-2 flex-1"
