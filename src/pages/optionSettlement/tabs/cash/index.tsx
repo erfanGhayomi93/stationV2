@@ -74,8 +74,10 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading, refetch } = useQuery(['CashSettlement', params], ({ queryKey }) =>
-        getCashSettlement(queryKey[1] as typeof initialFilterState),
+    const { data, isLoading, refetch } = useQuery(
+        ['CashSettlement', params],
+        ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
+        { enabled: false },
     );
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
@@ -84,6 +86,10 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             }
         },
     });
+
+    useEffect(() => {
+        refetch();
+    }, [params]);
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;

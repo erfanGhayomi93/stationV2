@@ -1,12 +1,12 @@
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
-import { useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import FilterSettlement from '../commenComponents/FilterSettlement';
 import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initialFilterState } from '../../constants';
-import { ICellRendererParams } from 'ag-grid-community';
+import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues, datePeriodValidator } from 'src/utils/helpers';
@@ -69,7 +69,7 @@ type TModalState = {
     data?: Record<string, any>;
 };
 
-const Physical = (props: any) => {
+const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEvent<any> | undefined>> }) => {
     //
     const filterState = useFilterState();
     const setFilterState = useFilterStateDispatch();
@@ -78,9 +78,12 @@ const Physical = (props: any) => {
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading, refetch } = useQuery(['PhysicalSettlement', params], ({ queryKey }) =>
-        getPhysicalSettlement(queryKey[1] as typeof filterState),
+    const { data, isLoading, refetch } = useQuery(
+        ['PhysicalSettlement', params],
+        ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof filterState),
+        { enabled: false },
     );
+
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -88,6 +91,10 @@ const Physical = (props: any) => {
             }
         },
     });
+
+    useEffect(() => {
+        refetch();
+    }, [params]);
 
     const valueFormatter = (options: { label: string; value: string }[], value: string) => {
         return options.find((item) => item.value === value)?.label;
@@ -236,7 +243,7 @@ const Physical = (props: any) => {
                 onSubmit={handleSubmit}
             />
             <div className="flex-1">
-                <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => props.setGridApi(p)} />
+                <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => setGridApi(p)} />
             </div>
             <div className="border-t my-2"></div>
             <Paginator
