@@ -9,14 +9,16 @@ import { onSuccessNotif } from 'src/handlers/notification';
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
     setSettlementState: Dispatch<SetStateAction<TProps['settlementState']>>;
+    onClose: () => void;
 };
 
-const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps) => {
+const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
     const { mutate, isLoading } = useCreatePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
+                onClose();
                 handleClose();
             }
         },
@@ -27,14 +29,15 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState }: TProps
     const [positionCount, setPositionCount] = useState<number | undefined>();
 
     const handleSubmit = () => {
+        const isRequestMax = radioValue === 'requestForMaximum';
         const requestBody = {
             id: settlementState?.data?.id,
-            requestCount: settlementState?.data?.requestCount,
-            customerISIN: settlementState?.data?.customerISIN,
-            requestForMaximum: radioValue === 'requestForMaximum',
-            countOfDone: positionCount,
+            requestCount: isRequestMax ? 0 : positionCount,
+            requestForMaximum: isRequestMax,
+            countOfDone: settlementState?.data?.doneCount,
             requestForLostOrProfit: maximumCheckValue,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
+            customerISIN: settlementState?.data?.customerISIN,
         };
         mutate(requestBody);
     };
