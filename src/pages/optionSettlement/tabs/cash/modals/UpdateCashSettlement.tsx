@@ -9,14 +9,16 @@ import { onSuccessNotif } from 'src/handlers/notification';
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
     setSettlementState: Dispatch<SetStateAction<TProps['settlementState']>>;
+    onClose: () => void;
 };
 
-const UpdateCashSettlement = ({ settlementState, setSettlementState }: TProps) => {
+const UpdateCashSettlement = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
     const { mutate, isLoading } = useUpdateCashSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
+                onClose();
                 handleClose();
             }
         },

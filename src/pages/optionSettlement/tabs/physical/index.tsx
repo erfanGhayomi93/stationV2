@@ -78,7 +78,9 @@ const Physical = (props: any) => {
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading } = useQuery(['PhysicalSettlement', params], ({ queryKey }) => getPhysicalSettlement(queryKey[1] as typeof filterState));
+    const { data, isLoading, refetch } = useQuery(['PhysicalSettlement', params], ({ queryKey }) =>
+        getPhysicalSettlement(queryKey[1] as typeof filterState),
+    );
     const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -246,9 +248,15 @@ const Physical = (props: any) => {
                 hasPreviousPage={data?.hasPreviousPage}
                 PaginatorHandler={PaginatorHandler}
             />
-            {settlementModal?.isOpen && <PhysicalSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
+            {settlementModal?.isOpen && (
+                <PhysicalSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} onClose={() => refetch()} />
+            )}
             {updateSettlementModal?.isOpen && (
-                <UpdatePhysicalSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
+                <UpdatePhysicalSettlement
+                    settlementState={updateSettlementModal}
+                    setSettlementState={setUpdateSettlementModal}
+                    onClose={() => refetch()}
+                />
             )}
             {historyModalState?.isOpen && <HistoryModal title="فیزیکی" state={historyModalState} setState={setHistoryModalState} />}
         </div>

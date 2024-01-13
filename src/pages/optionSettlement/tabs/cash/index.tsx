@@ -74,7 +74,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { data, isLoading } = useQuery(['CashSettlement', params], ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState));
+    const { data, isLoading, refetch } = useQuery(['CashSettlement', params], ({ queryKey }) =>
+        getCashSettlement(queryKey[1] as typeof initialFilterState),
+    );
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -232,9 +234,15 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 hasPreviousPage={data?.hasPreviousPage}
                 PaginatorHandler={PaginatorHandler}
             />
-            {settlementModal?.isOpen && <CashSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} />}
+            {settlementModal?.isOpen && (
+                <CashSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} onClose={() => refetch()} />
+            )}
             {updateSettlementModal?.isOpen && (
-                <UpdateCashSettlement settlementState={updateSettlementModal} setSettlementState={setUpdateSettlementModal} />
+                <UpdateCashSettlement
+                    settlementState={updateSettlementModal}
+                    setSettlementState={setUpdateSettlementModal}
+                    onClose={() => refetch()}
+                />
             )}
             {historyModalState?.isOpen && <HistoryModal title="نقدی" state={historyModalState} setState={setHistoryModalState} />}
         </div>
