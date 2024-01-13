@@ -1,4 +1,4 @@
-import { FC, MutableRefObject, RefObject, useMemo, useRef } from 'react';
+import { FC, useMemo } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import Switcher from 'src/common/components/SwitchButton';
 import { useBuySellDetail } from 'src/common/hooks/useCommission/useCommissionValue';
@@ -9,27 +9,20 @@ import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option
 import { MoreInfo } from 'src/common/icons';
 import Tippy from '@tippyjs/react';
 import { useGetSumPrice } from 'src/app/queries/option';
-import { useGetCustomers } from 'src/app/queries/customer';
 import { getUserData } from 'src/redux/slices/global';
 import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 
 let timeOut: NodeJS.Timeout
 
-interface IBuySellDetailType { }
 
-const BuySellDetail: FC<IBuySellDetailType> = ({ }) => {
+const BuySellDetail: FC = () => {
     const selectedSymbol = useAppSelector(getSelectedSymbol)
     const customers = useAppSelector(getSelectedCustomers)
     const { brokerCode } = useAppSelector(getUserData);
 
-
-
-
-
-
     const dispatch = useBuySellDispatch();
     const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
-    const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
+    // const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
 
     const { price, quantity, sequential, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => ({ marketUnit: data.symbolData.marketUnit, isOption: data.symbolData.isOption, contractSize: data.symbolData.contractSize }) });
@@ -45,7 +38,7 @@ const BuySellDetail: FC<IBuySellDetailType> = ({ }) => {
     })
 
     useUpdateEffect(() => {
-        if (side === 'Sell') {
+        if (side === 'Sell' && symbolData?.isOption) {
             clearTimeout(timeOut)
             timeOut = setTimeout(() => {
                 refetch()

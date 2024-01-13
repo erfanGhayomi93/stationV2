@@ -1,27 +1,30 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutationSendOrder } from 'src/app/queries/order';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
-import { useAppSelector } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
-import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 import { removeDuplicatesInArray } from 'src/utils/helpers';
+// import { resetByeSellData } from '../BuySell';
+import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
 
 const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
     //
     const ORDER_SENDING_GAP = 400;
 
     const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
-    const selectedCustomers = useAppSelector(getSelectedCustomers)
+    // const selectedCustomers = useAppSelector(getSelectedCustomers)
     const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
     const [clientIdStore, setClientIdStore] = useState({})
 
+    const appDispatch = useAppDispatch();
+
     useEffect(() => {
         (!!Object.keys(clientIdStore).length && !!onOrderResultReceived) && onOrderResultReceived(clientIdStore)
-        console.log("clientIdStore", clientIdStore)
     }, [clientIdStore])
 
 
@@ -129,7 +132,6 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                 mutateSendOrder(order, {
                     onSuccess(data) {
                         orderGroups.forEach((item, index) => {
-                            console.log("orderGroups-item", item)
                             storeClientKey[item.id || item.orderDraftId || item.customerISIN[0]] =
                                 data.successClientKeys[index];
                         });
@@ -139,6 +141,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
                 if (orderGroups.length === ind + 1) {
                     setOrdersLoading(false);
+                    appDispatch(setComeFromBuySellAction(""))
                 }
             }
         }

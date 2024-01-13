@@ -2,7 +2,7 @@ import React from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import PriceView from 'src/common/components/PriceView';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPriceBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 
 const SymbolPricePreview = () => {
@@ -20,11 +20,7 @@ const SymbolPricePreview = () => {
     });
 
     const onClickPrice = (value: number) => {
-        appDispatch(setPartDataBuySellAction({
-            data: {
-                price: value
-            }
-        }))
+        appDispatch(setPriceBuySellAction(value))
     }
 
     return (

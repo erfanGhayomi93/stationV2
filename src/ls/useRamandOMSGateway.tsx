@@ -46,9 +46,7 @@ const createRamandOMSGateway = () => {
         const omsOrderStatus = message[22] as OrderStatusType;
         const orderMessageType = message[200]
 
-        // console.log("pushNotification",pushNotification)
-        const detailsNotif = !!pushNotification[omsClientKey].symbolTitle ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
-        // console.log("detailsNotif",detailsNotif)
+        const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
 
         if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
             onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
@@ -96,7 +94,6 @@ const createRamandOMSGateway = () => {
 
         if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
-        // console.log("subscribe", items)
 
         pushEngine.subscribe({
             id: 'supervisorMessage',
@@ -106,7 +103,6 @@ const createRamandOMSGateway = () => {
             items: items,
             fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
             onFieldsUpdate: ({ changedFields }) => {
-                // console.log("changedFieldsFromMain", changedFields)
 
                 //
                 if (changedFields['OMSMessage']) handleOMSMessage(translateMessage(changedFields['OMSMessage']));

@@ -9,14 +9,16 @@ import { onSuccessNotif } from 'src/handlers/notification';
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
     setSettlementState: Dispatch<SetStateAction<TProps['settlementState']>>;
+    onClose: () => void;
 };
 
-const CashSettlementModal = ({ settlementState, setSettlementState }: TProps) => {
+const CashSettlementModal = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
     const { mutate, isLoading } = useCreateCashSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
+                onClose();
                 handleClose();
             }
         },
@@ -26,13 +28,13 @@ const CashSettlementModal = ({ settlementState, setSettlementState }: TProps) =>
     const [positionCount, setPositionCount] = useState<number | undefined>();
 
     const handleSubmit = () => {
+        const isRequestMax = radioValue === 'requestForMaximum';
         const requestBody = {
             id: settlementState?.data?.id,
-            requestCount: settlementState?.data?.requestCount,
+            requestCount: isRequestMax ? 0 : positionCount,
+            requestForMaximum: isRequestMax,
+            countOfDone: settlementState?.data?.doneCount,
             customerISIN: settlementState?.data?.customerISIN,
-            requestForMaximum: radioValue === 'requestForMaximum',
-            countOfDone: positionCount,
-            requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
         };
         mutate(requestBody);
     };
@@ -67,7 +69,7 @@ const CashSettlementModal = ({ settlementState, setSettlementState }: TProps) =>
                                 type="radio"
                                 onChange={(e) => setRadioValue(e?.target?.value)}
                             />
-                            <label htmlFor="Radio1" className='dark:text-white'>
+                            <label htmlFor="Radio1" className="dark:text-white">
                                 {t('OptionSettlement.PhysicalSettlementRadioValue1') +
                                     `${
                                         settlementState?.data?.openPositionCount
@@ -85,7 +87,9 @@ const CashSettlementModal = ({ settlementState, setSettlementState }: TProps) =>
                                 type="radio"
                                 onChange={(e) => setRadioValue(e?.target?.value)}
                             />
-                            <label htmlFor="Radio2" className='dark:text-white'>{t('OptionSettlement.PhysicalSettlementRadioValue2')}</label>
+                            <label htmlFor="Radio2" className="dark:text-white">
+                                {t('OptionSettlement.PhysicalSettlementRadioValue2')}
+                            </label>
                             {radioValue === 'requestForMaximumApproval' && (
                                 <span className="w-[25%]">
                                     <Input

@@ -9,14 +9,16 @@ import { onSuccessNotif } from 'src/handlers/notification';
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
     setSettlementState: Dispatch<SetStateAction<TProps['settlementState']>>;
+    onClose: () => void;
 };
 
-const UpdatePhysicalSettlement = ({ settlementState, setSettlementState }: TProps) => {
+const UpdatePhysicalSettlement = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
     const { mutate, isLoading } = useUpdatePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
+                onClose();
                 handleClose();
             }
         },
@@ -35,14 +37,15 @@ const UpdatePhysicalSettlement = ({ settlementState, setSettlementState }: TProp
     const [positionCount, setPositionCount] = useState<number>(settlementState?.data?.requestCount);
 
     const handleSubmit = () => {
+        const isRequestMax = radioValue === 'requestForMaximum';
         const requestBody = {
             id: settlementState?.data?.id,
-            requestCount: settlementState?.data?.requestCount,
-            customerISIN: settlementState?.data?.customerISIN,
-            requestForMaximum: radioValue === 'requestForMaximum',
-            countOfDone: positionCount,
+            requestCount: isRequestMax ? 0 : positionCount,
+            requestForMaximum: isRequestMax,
+            countOfDone: settlementState?.data?.doneCount,
             requestForLostOrProfit: maximumCheckValue,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
+            customerISIN: settlementState?.data?.customerISIN,
         };
         mutate(requestBody);
     };
@@ -66,7 +69,9 @@ const UpdatePhysicalSettlement = ({ settlementState, setSettlementState }: TProp
                             <span className="pt-1">
                                 <InfoFillIcon color="#4895EF" />
                             </span>
-                            <span className="flex text-justify text-xs dark:text-white leading-6">{t('OptionSettlement.PhysicalPutSettlementDesc')}</span>
+                            <span className="flex text-justify text-xs dark:text-white leading-6">
+                                {t('OptionSettlement.PhysicalPutSettlementDesc')}
+                            </span>
                         </div>
                         <button
                             onClick={handleClose}
