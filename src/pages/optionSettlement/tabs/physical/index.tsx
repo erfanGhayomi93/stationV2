@@ -199,8 +199,8 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
                         data={row?.data}
                         requiredButtons={['Edit', 'Delete']}
                         onDeleteClick={() => handleDelete(row?.data)}
-                        disableDelete={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
-                        disableEdit={row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        disableDelete={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
+                        disableEdit={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         rightNode={
                             <ExtraButtons
