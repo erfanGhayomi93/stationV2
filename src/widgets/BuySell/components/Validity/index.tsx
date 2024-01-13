@@ -7,8 +7,8 @@ import { VALIDITY_OPTIONS } from 'src/constant/validity';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import { useAppSelector } from 'src/redux/hooks';
-import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
-import { ComeFromKeepDataEnum } from 'src/constant/enums';
+import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 
 
 interface IBuySellValidityType { }
@@ -20,8 +20,8 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     const setValidityDate = (value: string | null) => dispatch({ type: 'SET_VALIDITY_DATE', value });
     const { t } = useTranslation();
 
-    const { comeFrom } = useAppSelector(getKeepDataBuySell)
-
+    const selectedSymbol = useAppSelector(getSelectedSymbol)
+    const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => ({ isOption: data.symbolData.isOption }) });
 
     const handleValidityState = (select: any) => {
         setValidity(select);
@@ -36,6 +36,14 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     }, [validity]);
 
 
+    useEffect(() => {
+        if (symbolData?.isOption && validity !== "Day") {
+            setValidity(VALIDITY_OPTIONS[0].value as validity)
+        }
+    }, [symbolData?.isOption])
+
+
+
 
     return (
         <div className="flex gap-2 w-full">
@@ -47,7 +55,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
                         onChange={(selected) => handleValidityState(selected)}
                         value={validity}
                         options={VALIDITY_OPTIONS.map((item) => ({ value: item.value, label: t('BSModal.validity_' + item.value) }))}
-                        disabled={comeFrom === ComeFromKeepDataEnum.OpenPosition && side === "Sell"}
+                        disabled={symbolData?.isOption && side === "Sell"}
                     />
                 </div>
             </div>
