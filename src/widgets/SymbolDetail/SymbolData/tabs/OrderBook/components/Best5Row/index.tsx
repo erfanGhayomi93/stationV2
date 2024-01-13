@@ -15,7 +15,6 @@ const Best5Row = () => {
 
     const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data: SymbolGeneralInfoType) => {
-            console.log("dataOnSuccess", data)
             setOrders(data.ordersData);
         },
     });
@@ -97,7 +96,7 @@ const Best5Row = () => {
         }
 
         return () => {
-            // pushEngine.unSubscribe('SymbolBest5Orders');
+            pushEngine.unSubscribe('SymbolBest5Orders');
         };
     }, [selectedSymbol]);
 

@@ -56,8 +56,8 @@ const TabsList: FC<ITabType> = ({
                             {items ? (
                                 items.map((item) => (
                                     <TabButton
-                                        selectedButtonClass={selectedButtonClass}
                                         buttonClass={buttonClass}
+                                        selectedButtonClass={selectedButtonClass}
                                         {...item}
                                         key={item.key}
                                         fill={fill}

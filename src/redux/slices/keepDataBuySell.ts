@@ -4,13 +4,15 @@ import { RootState } from '../store';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
 interface InitState {
-    data?: BuySellState;
+    data: Partial<BuySellState>;
     comeFrom?: ComeFromKeepDataEnum | '';
     customerIsin?: string[];
 }
 
 const initialState: InitState = {
-    data: undefined,
+    data: {
+        price: 0,
+    },
     comeFrom: '',
     customerIsin: [],
 };
@@ -34,10 +36,11 @@ const keepDataBuySellSlice = createSlice({
             state.comeFrom = action.payload.comeFrom ? action.payload.comeFrom : state.comeFrom;
             state.customerIsin = action.payload.customerIsin ? action.payload.customerIsin : state.customerIsin;
         },
-        setSideBuySellAction: (state, action: PayloadAction<BuySellSide>) => {
-            if (state.data && state.data.side) {
-                state.data.side = action.payload;
-            }
+        setPriceBuySellAction: (state, action: PayloadAction<number>) => {
+            state.data = { price: action.payload };
+        },
+        setComeFromBuySellAction: (state, action: PayloadAction<ComeFromKeepDataEnum | ''>) => {
+            state.comeFrom = action.payload;
         },
         clearDataAction: (state) => {
             (state.data = initialState.data), (state.comeFrom = initialState.comeFrom), (state.customerIsin = initialState.customerIsin);
@@ -45,6 +48,7 @@ const keepDataBuySellSlice = createSlice({
     },
 });
 
-export const { setDataBuySellAction, setPartDataBuySellAction, setSideBuySellAction, clearDataAction } = keepDataBuySellSlice.actions;
+export const { setDataBuySellAction, setPartDataBuySellAction, clearDataAction, setPriceBuySellAction, setComeFromBuySellAction } =
+    keepDataBuySellSlice.actions;
 export const getKeepDataBuySell = (state: RootState) => state.keepDataBuySellSlice;
 export default keepDataBuySellSlice.reducer;

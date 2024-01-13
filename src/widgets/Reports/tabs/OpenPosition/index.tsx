@@ -1,7 +1,7 @@
 import { ICellRendererParams } from "ag-grid-community"
 import clsx from "clsx"
 import dayjs from "dayjs"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useOpenPosition } from "src/app/queries/option"
 import { useSymbolGeneralInfo } from "src/app/queries/symbol"
@@ -37,17 +37,21 @@ export const OpenPosition = () => {
 
     const { data, isFetching } = useOpenPosition()
 
-    const { refetch } = useSymbolGeneralInfo<bestPriceBuySell>(rowState.symbolISIN, {
+    const { data: dataBestPrice, refetch } = useSymbolGeneralInfo<bestPriceBuySell>(rowState.symbolISIN, {
         select: (data) => {
             return {
                 bestBuyLimitPrice_1: data.ordersData.bestBuyLimitPrice_1,
                 bestSellLimitPrice_1: data.ordersData.bestSellLimitPrice_1,
             }
-        },
-        onSuccess(data) {
-            updateByeSellModal(data)
         }
     })
+
+    useEffect(() => {
+        if (!!dataBestPrice) {
+            updateByeSellModal(dataBestPrice)
+        }
+    }, [dataBestPrice])
+
 
     const updateByeSellModal = (data?: bestPriceBuySell) => {
         const { symbolISIN, availableClosePosition, side, customerISIN } = rowState
@@ -71,6 +75,8 @@ export const OpenPosition = () => {
                     customerIsin: [customerISIN],
                 }),
             )
+
+            setRowState(initRowState)
         }
     }
 
@@ -90,7 +96,7 @@ export const OpenPosition = () => {
 
 
     useUpdateEffect(() => {
-        refetch()
+        if (rowState.symbolISIN) refetch()
     }, [rowState])
 
 
