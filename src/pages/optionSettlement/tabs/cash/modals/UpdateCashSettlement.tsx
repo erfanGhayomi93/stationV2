@@ -41,6 +41,7 @@ const UpdateCashSettlement = ({ settlementState, setSettlementState, onClose }: 
             requestCount: isRequestMax ? 0 : positionCount,
             requestForMaximum: isRequestMax,
             countOfDone: settlementState?.data?.doneCount,
+            customerISIN: settlementState?.data?.customerISIN,
         };
         mutate(requestBody);
     };

@@ -34,6 +34,7 @@ const CashSettlementModal = ({ settlementState, setSettlementState, onClose }: T
             requestCount: isRequestMax ? 0 : positionCount,
             requestForMaximum: isRequestMax,
             countOfDone: settlementState?.data?.doneCount,
+            customerISIN: settlementState?.data?.customerISIN,
         };
         mutate(requestBody);
     };

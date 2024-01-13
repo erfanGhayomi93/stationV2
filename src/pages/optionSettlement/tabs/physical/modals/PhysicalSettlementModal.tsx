@@ -37,6 +37,7 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
             countOfDone: settlementState?.data?.doneCount,
             requestForLostOrProfit: maximumCheckValue,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
+            customerISIN: settlementState?.data?.customerISIN,
         };
         mutate(requestBody);
     };

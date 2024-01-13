@@ -3,6 +3,7 @@ type TCashbody = {
     requestCount?: number | string;
     requestForMaximum: boolean;
     countOfDone: number;
+    customerISIN: string;
 };
 
 type TPhysicalbody = {
@@ -12,6 +13,7 @@ type TPhysicalbody = {
     requestForLostOrProfit: boolean;
     countOfDone: number;
     requestForMaximumApproval: boolean;
+    customerISIN: string;
 };
 
 type TCashDeleteBody = {
