@@ -83,6 +83,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif({ title: 'عملیات با موفقیت انجام شد' });
+                refetch()
             }
         },
     });
