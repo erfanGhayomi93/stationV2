@@ -5,7 +5,7 @@ import HalfRow from '../HalfRow';
 import { useMarketDepthState } from '../../context';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { getSelectedSymbol } from 'src/redux/slices/option';
-import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPartDataBuySellAction, setPriceBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
 type HalfRowType = {
@@ -78,7 +78,7 @@ const MarketDepth = () => {
         [data],
     );
 
-    const forwardToByeSell = (price : number , quantity : number , side : BuySellSide) => {
+    const forwardToByeSell = (price: number, quantity: number, side: BuySellSide) => {
         dispatch(setPartDataBuySellAction({
             data: {
                 price,
@@ -94,7 +94,7 @@ const MarketDepth = () => {
         const price = data[ind].price
         const quantity = data[ind].volume
 
-        forwardToByeSell(price , quantity , "Buy")
+        forwardToByeSell(price, quantity, "Buy")
     }
 
     const clickSellOrder = (mode: 'Buy' | 'Sell', ind: number) => {
@@ -102,7 +102,7 @@ const MarketDepth = () => {
         const price = data[ind].price
         const quantity = data[ind].volume
 
-        forwardToByeSell(price , quantity , "Sell")
+        forwardToByeSell(price, quantity, "Sell")
     }
 
     const clickCollectOrder = (mode: 'Buy' | 'Sell', ind: number) => {
@@ -116,8 +116,13 @@ const MarketDepth = () => {
             collectVolume += item.volume
         })
 
-        forwardToByeSell(price , collectVolume , sideOrder)
+        forwardToByeSell(price, collectVolume, sideOrder)
     }
+
+    const setPriceOnBuySellModal = (price: number) => {
+        dispatch(setPriceBuySellAction(price));
+    }
+
 
 
 
@@ -140,6 +145,7 @@ const MarketDepth = () => {
                                 clickByeOrder={(mode) => clickByeOrder(mode, inx)}
                                 clickCollectOrder={(mode) => clickCollectOrder(mode, inx)}
                                 clickSellOrder={(mode) => clickSellOrder(mode, inx)}
+                                clickPrice={setPriceOnBuySellModal}
                             />
                         );
                     })}
@@ -159,6 +165,7 @@ const MarketDepth = () => {
                                 clickByeOrder={(mode) => clickByeOrder(mode, inx)}
                                 clickCollectOrder={(mode) => clickCollectOrder(mode, inx)}
                                 clickSellOrder={(mode) => clickSellOrder(mode, inx)}
+                                clickPrice={setPriceOnBuySellModal}
                             />
                         );
                     })}

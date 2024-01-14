@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useAppSelector } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import HalfRow from '../HalfRow';
 import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import { setPriceBuySellAction } from 'src/redux/slices/keepDataBuySell';
 
 const Best5Row = () => {
     //
@@ -12,6 +13,7 @@ const Best5Row = () => {
     const [totalBuyVolume, setTotalBuyVolume] = useState<number>(0);
     const [totalSellVolume, setTotalSellVolume] = useState<number>(0);
     const selectedSymbol = useAppSelector(getSelectedSymbol);
+    const appDispatch = useAppDispatch()
 
     const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data: SymbolGeneralInfoType) => {
@@ -44,6 +46,10 @@ const Best5Row = () => {
         },
         [data],
     );
+
+    const setPriceOnBuySellModal = (price: number) => {
+        appDispatch(setPriceBuySellAction(price));
+    }
 
     useEffect(() => {
         setTotalVolume();
@@ -118,6 +124,7 @@ const Best5Row = () => {
                                     count={orders[`numberOfOrdersAtBestBuy_${n}` as keyof OrdersData]}
                                     volume={orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData]}
                                     percent={totalBuyVolume ? orders[`bestBuyLimitQuantity_${n}` as keyof OrdersData] / totalBuyVolume : 0}
+                                    clickPrice={setPriceOnBuySellModal}
                                 />
                             ))}
                     </div>
@@ -133,6 +140,7 @@ const Best5Row = () => {
                                     count={orders[`numberOfOrdersAtBestSell_${n}` as keyof OrdersData]}
                                     volume={orders[`bestSellLimitQuantity_${n}` as keyof OrdersData]}
                                     percent={totalSellVolume ? orders[`bestSellLimitQuantity_${n}` as keyof OrdersData] / totalSellVolume : 0}
+                                    clickPrice={setPriceOnBuySellModal}
                                 />
                             ))}
                     </div>

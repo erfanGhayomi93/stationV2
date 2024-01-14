@@ -19,7 +19,7 @@ const BuySell = () => {
     const { side } = useBuySellState();
 
     const setSide = (value: BuySellSide) => dispatch({ type: 'TOGGLE_BUY_SELL', value });
-
+    
     const { comeFrom } = useAppSelector(getKeepDataBuySell)
 
 

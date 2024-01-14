@@ -88,6 +88,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif({ title: 'عملیات با موفقیت انجام شد' });
+                refetch();
             }
         },
     });
