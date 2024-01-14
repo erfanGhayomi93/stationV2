@@ -77,7 +77,7 @@ const UpdateCashSettlement = ({ settlementState, setSettlementState, onClose }: 
                                 type="radio"
                                 onChange={(e) => setRadioValue(e?.target?.value)}
                             />
-                            <label htmlFor="Radio1">
+                            <label htmlFor="Radio1" className="dark:text-white">
                                 {t('OptionSettlement.PhysicalSettlementRadioValue1') +
                                     `${
                                         settlementState?.data?.openPositionCount
@@ -95,7 +95,9 @@ const UpdateCashSettlement = ({ settlementState, setSettlementState, onClose }: 
                                 type="radio"
                                 onChange={(e) => setRadioValue(e?.target?.value)}
                             />
-                            <label htmlFor="Radio2">{t('OptionSettlement.PhysicalSettlementRadioValue2')}</label>
+                            <label htmlFor="Radio2" className="dark:text-white">
+                                {t('OptionSettlement.PhysicalSettlementRadioValue2')}
+                            </label>
                             {radioValue === 'requestForMaximumApproval' && (
                                 <span className="w-[25%]">
                                     <Input
