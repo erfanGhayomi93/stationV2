@@ -19,7 +19,7 @@ const SymbolPricePreview = () => {
         }),
     });
 
-    const onClickPrice = (value: number) => {
+    const setPriceOnBuySellModal = (value: number) => {
         appDispatch(setPriceBuySellAction(value))
     }
 
@@ -27,13 +27,13 @@ const SymbolPricePreview = () => {
         <div className="px-3 py-2 text-1.2 rounded-md bg-L-gray-300 dark:bg-D-gray-300 dark:text-L-basic text-D-basic">
             <div className="grid gap-1 grid-cols-2 justify-items-center ">
                 <PriceView
-                    onClickPrice={() => onClickPrice(data?.closingPrice || 0)}
+                    onClickPrice={() => setPriceOnBuySellModal(data?.closingPrice || 0)}
                     label="قیمت پایانی"
                     price={data?.closingPrice || 0}
                     percentage={data?.closingPriceVarPercent || 0}
                 />
                 <PriceView
-                    onClickPrice={() => onClickPrice(data?.lastTradedPrice || 0)}
+                    onClickPrice={() => setPriceOnBuySellModal(data?.lastTradedPrice || 0)}
                     label="آخرین قیمت"
                     price={data?.lastTradedPrice || 0}
                     percentage={data?.lastTradedPriceVarPercent || 0}
