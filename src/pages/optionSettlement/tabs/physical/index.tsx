@@ -104,7 +104,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerIsin });
+    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN });
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
