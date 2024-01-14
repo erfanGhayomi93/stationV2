@@ -21,10 +21,12 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const { resetBuySellState } = useGlobalSetterState();
     const [term, setTerm] = useState<string>('');
     const debouncedTerm = useDebounce(term, 500);
-    const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm, {});
+    const { data: searchResult, isLoading: isSearchLoading } = useSymbolSearch(debouncedTerm, {
+        enabled: debouncedTerm.length > 1,
+    });
     const appDispatch = useAppDispatch();
 
-    const { data: searchHistory } = useRecentSymbolHistory({type: "GeneralSearch"});
+    const { data: searchHistory } = useRecentSymbolHistory({ type: 'GeneralSearch' });
 
     const TextDisplay = useCallback(
         ({ text }: any) => <div className="relative cursor-default select-none py-2 px-4 text-L-gray-500 dark:text-D-gray-500">{text}</div>,
@@ -93,7 +95,8 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
                                     className="grow  border-none p-2 text-1.2 leading-5 text-L-gray-500 dark:text-L-gray-500 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
                                     onChange={(e) => setTerm(e?.target?.value || '')}
                                     onClick={() => {
-                                        comboButton.current && comboButton.current.click()}}
+                                        comboButton.current && comboButton.current.click();
+                                    }}
                                 />
                                 <Combobox.Button ref={comboButton}></Combobox.Button>
                             </div>
