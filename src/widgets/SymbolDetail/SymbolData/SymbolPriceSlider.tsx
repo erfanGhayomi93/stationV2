@@ -2,10 +2,11 @@ import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { isBetween } from 'src/utils/helpers';
 import styles from './SymbolPriceSlider.module.scss';
 import { getTheme } from 'src/redux/slices/ui';
+import { setPriceBuySellAction } from 'src/redux/slices/keepDataBuySell';
 
 type SymbolPriceSliderProps = {
     // lowThreshold | highThreshold
@@ -30,6 +31,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
     const rootRef = useRef<HTMLDivElement>(null);
 
     const theme = useAppSelector(getTheme)
+
+    const appDispatch = useAppDispatch()
 
     const [config, setConfig] = useState({
         firstTradedPrice: 0,
@@ -91,28 +94,36 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
         }
     };
 
+    const getPrice = (e: React.MouseEvent<HTMLDivElement>) => {
+        const tooltipElement = tooltipRef.current;
+        const rootElement = rootRef.current;
+        if (!tooltipElement || !rootElement) return;
+
+        const rootOffset = rootElement.getBoundingClientRect();
+        const tooltipOffset = tooltipElement.getBoundingClientRect();
+
+        /* Location */
+        let left = e.clientX - rootOffset.left - tooltipOffset.width / 2;
+        if (left < 0) left = 0;
+        else if (left > rootOffset.width - tooltipOffset.width) left = rootOffset.width - tooltipOffset.width;
+        tooltipElement.style.transform = `translateX(${Math.abs(left)}px)`;
+
+        /* Value */
+        const percentage = (e.clientX - rootOffset.left) / rootOffset.width;
+        let price = Math.abs(Math.round((1 - percentage) * (thresholdData[1] - thresholdData[0]) - thresholdData[1]));
+        if (price > thresholdData[1]) price = thresholdData[1];
+        else if (price < thresholdData[0]) price = thresholdData[0];
+        return price;
+    }
+
     const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         try {
             const tooltipElement = tooltipRef.current;
             const rootElement = rootRef.current;
             if (!tooltipElement || !rootElement) return;
+            const price = getPrice(e) || 0;
 
-            const rootOffset = rootElement.getBoundingClientRect();
-            const tooltipOffset = tooltipElement.getBoundingClientRect();
-
-            /* Location */
-            let left = e.clientX - rootOffset.left - tooltipOffset.width / 2;
-            if (left < 0) left = 0;
-            else if (left > rootOffset.width - tooltipOffset.width) left = rootOffset.width - tooltipOffset.width;
-            tooltipElement.style.transform = `translateX(${Math.abs(left)}px)`;
-
-            /* Value */
-            const percentage = (e.clientX - rootOffset.left) / rootOffset.width;
-            let price = Math.abs(Math.round((1 - percentage) * (thresholdData[1] - thresholdData[0]) - thresholdData[1]));
-            if (price > thresholdData[1]) price = thresholdData[1];
-            else if (price < thresholdData[0]) price = thresholdData[0];
             const priceAsPercent = Number((((price - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)) * 1;
-
             const spanChild1 = tooltipElement.querySelectorAll('span')[0] as Element;
             const spanChild2 = tooltipElement.querySelectorAll('span')[1] as Element;
             spanChild1.textContent = `${sepNumbers(price)}`;
@@ -226,13 +237,18 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
         }
     };
 
+    const setPriceOnBuySellModal = (e: React.MouseEvent<HTMLDivElement>) => {
+        const price = getPrice(e) || 0;
+        appDispatch(setPriceBuySellAction(price));
+    }
+
     useEffect(() => {
         draw();
     }, [thresholdData, boundaryData, exchangeData, yesterdayClosingPrice, borderRef.current]);
 
     return (
         <div ref={rootRef} className={clsx(styles.root, theme === 'dark' && styles.dark)}>
-            <div ref={borderRef} className={styles.border} onMouseOver={onMouseOver} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} />
+            <div ref={borderRef} className={styles.border} onMouseOver={onMouseOver} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} onClick={(e) => setPriceOnBuySellModal(e)} />
 
             <div className={styles.tradedValues}>
                 <div className={styles.inner}>
