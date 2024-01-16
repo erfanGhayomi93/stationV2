@@ -15,9 +15,10 @@ interface Props {
     clickByeOrder?: (mode: 'Buy' | 'Sell') => void,
     clickCollectOrder?: (mode: 'Buy' | 'Sell') => void,
     clickSellOrder?: (mode: 'Buy' | 'Sell') => void,
+    clickPrice?: (price: number) => void;
 }
 
-const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickByeOrder, clickCollectOrder, clickSellOrder }: Props) => {
+const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickByeOrder, clickCollectOrder, clickSellOrder, clickPrice }: Props) => {
 
     const optionsOrder = [
         { label: "خرید", onclick: clickByeOrder },
@@ -90,6 +91,7 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
     )
 
 
+
     if (mode === 'Buy') {
         return isInRange ? (
             <div
@@ -114,7 +116,12 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                             {seprateNumber(count || 0)}
                         </span>
                         <span className="cursor-pointer">{seprateNumber(volume || 0)}</span>
-                        <span className="mr-auto cursor-pointer">{seprateNumber(price || 0)}</span>
+                        <span
+                            className="mr-auto cursor-pointer"
+                            onClick={() => !!clickPrice ? clickPrice(price) : null}
+                        >
+                            {seprateNumber(price || 0)}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -139,7 +146,12 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                         style={{ width: `${percent * 100}%` }}
                     ></div>
                     <div className={clsx('relative flex px-2 py-1 h-full items-center group')}>
-                        <span className="ml-auto cursor-pointer ">{seprateNumber(price || 0)}</span>
+                        <span
+                            className="ml-auto cursor-pointer"
+                            onClick={() => !!clickPrice ? clickPrice(price) : null}
+                        >
+                            {seprateNumber(price || 0)}
+                        </span>
                         <span className="cursor-pointer ">{seprateNumber(volume || 0)}</span>
                         <span className="text-left" style={{ width: '20%' }}>
                             {count || 0}
