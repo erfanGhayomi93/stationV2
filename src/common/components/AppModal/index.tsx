@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 type TProps = {
     width?: number;
-    height?: number;
+    height?: number | 'unset';
     isOpen: boolean;
     className?: string;
     titleClassName?: string;
@@ -15,7 +15,7 @@ type TProps = {
 
 const AppModal = ({
     width = 500,
-    height = 300,
+    height = 'unset',
     className = '',
     title = '',
     titleClassName = '',
