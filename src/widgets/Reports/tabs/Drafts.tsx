@@ -130,7 +130,7 @@ const Drafts: FC<IDraft> = () => {
 
     //
     return (
-        <div className={'grid grid-rows-min-one h-full p-3'}>
+        <div className={'grid h-full p-3'}>
             {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div> */}

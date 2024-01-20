@@ -4,11 +4,11 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
-import { setDataBuySellAction, setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from '../components/actionCell';
-import FilterTable from '../components/FilterTable';
-import useHandleFilterOrder from '../components/useHandleFilterOrder';
+// import FilterTable from '../components/FilterTable';
+// import useHandleFilterOrder from '../components/useHandleFilterOrder';
 import { useTranslation } from 'react-i18next';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 type IFailedOrders = {
@@ -16,7 +16,7 @@ type IFailedOrders = {
 const FailedOrders: FC<IFailedOrders> = () => {
     const { t } = useTranslation()
     const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Error' });
-    const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
+    // const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const appDispatch = useAppDispatch();
 
     const handleCopy = (data?: IOrderGetType) => {
@@ -61,12 +61,16 @@ const FailedOrders: FC<IFailedOrders> = () => {
         [],
     );
     return (
-        <div className={'grid grid-rows-min-one h-full p-3'}>
+        <div className={'grid h-full p-3'}>
             {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
             </div> */}
             <WidgetLoading spining={isFetching}>
-                <AGTable rowData={dataAfterfilter as undefined} columnDefs={columns} enableBrowserTooltips={false} />
+                <AGTable
+                    rowData={dataBeforeFilter}
+                    columnDefs={columns}
+                    enableBrowserTooltips={false}
+                />
             </WidgetLoading>
         </div>
     );

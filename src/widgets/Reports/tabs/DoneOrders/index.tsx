@@ -1,7 +1,9 @@
 import { FC, useMemo, useReducer, useRef, useState } from 'react';
 import { useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+// import WidgetLoading from 'src/common/components/WidgetLoading';
 import WidgetLoading from 'src/common/components/WidgetLoading';
+
 import { abbreviateNumber, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
@@ -61,7 +63,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
 
     return (
         <div className={'flex h-full p-3'}>
-            <WidgetLoading spining={isLoading}>
+            <WidgetLoading spining={true}>
                 <AGTable
                     rowData={todayDoneTrades}
                     columnDefs={columns}
