@@ -12,14 +12,12 @@ import useHandleFilterOrder from '../components/useHandleFilterOrder';
 import { useTranslation } from 'react-i18next';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 type IFailedOrders = {
-    ClickLeftNode: any;
 };
-const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
+const FailedOrders: FC<IFailedOrders> = () => {
     const { t } = useTranslation()
     const { data: dataBeforeFilter, isFetching } = useGetOrders({ GtOrderStateRequestType: 'Error' });
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterOrder({ dataBeforeFilter });
     const appDispatch = useAppDispatch();
-    const { isFilter } = ClickLeftNode;
 
     const handleCopy = (data?: IOrderGetType) => {
         if (!data) return
@@ -64,9 +62,9 @@ const FailedOrders: FC<IFailedOrders> = ({ ClickLeftNode }) => {
     );
     return (
         <div className={'grid grid-rows-min-one h-full p-3'}>
-            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+            {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
-            </div>
+            </div> */}
             <WidgetLoading spining={isFetching}>
                 <AGTable rowData={dataAfterfilter as undefined} columnDefs={columns} enableBrowserTooltips={false} />
             </WidgetLoading>

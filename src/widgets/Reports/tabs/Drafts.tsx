@@ -17,9 +17,8 @@ import AGActionCell from 'src/common/components/AGActionCell';
 import { resolve } from 'path';
 
 type IDraft = {
-    ClickLeftNode: any;
 };
-const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
+const Drafts: FC<IDraft> = () => {
     const { data: dataBeforeFilter, isFetching } = useGetDraft();
     const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
     const { sendOrders, ordersLoading } = useSendOrders();
@@ -34,7 +33,6 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
             onErrorNotif();
         },
     });
-    const { isFilter } = ClickLeftNode;
 
     const handleDelete = (data?: IDraftResponseType) => {
         data?.orderId && mutate(data?.orderId);
@@ -133,9 +131,9 @@ const Drafts: FC<IDraft> = ({ ClickLeftNode }) => {
     //
     return (
         <div className={'grid grid-rows-min-one h-full p-3'}>
-            <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
+            {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
                 <FilterTable {...{ FilterData, handleChangeFilterData }} />
-            </div>
+            </div> */}
             <WidgetLoading spining={isFetching}>
                 <AGTable
                     rowData={dataAfterfilter}
