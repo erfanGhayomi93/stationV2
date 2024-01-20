@@ -39,37 +39,31 @@ const SymbolHeader = () => {
         setSeen(true);
         navigate('/Market/Calender', { state: eventsIds });
     };
+
     return (
-        <div>
-            <div className="flex items-center w-full ">
+        <>
+            <div className="flex items-center w-full">
                 <div className="flex items-center gap-1">
                     {!!data?.symbolEvents.length && (
                         <span onClick={() => setIsEventOpen(!isEventOpen)} className={clsx('cursor-pointer ml-2', [!seen && 'animate-spin-slow'])}>
                             <SandClockIcon />
                         </span>
                     )}
-                    {/* <div className="">
-                    <div className="w-[40px] h-[40px] bg-sky-400 rounded-full ">
-                        {data?.companyCode && <img src={`https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg`} alt={''} />}
+                    <span className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                            <SymbolState symbolState={data?.symbolState || ''} />
+                            <h4 className="dark:text-L-basic">{data?.symbolTitle || '-'}</h4>
+                            <h4 className="text-L-gray-500 dark:text-D-gray-500">
+                                {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
+                            </h4>
+                            {data?.hasRiskAnnouncement && (
+                                <Tippy content={t('Tooltip.hasRiskAnnouncement')}>
+                                    <RiskAnnouncementIcon />
+                                </Tippy>
+                            )}
                         </div>
-                    </div> */}
-                    <div className=" flex items-center gap-2 mb-2">
-                        <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-2">
-                                <SymbolState symbolState={data?.symbolState || ''} />
-                                <h4 className="dark:text-L-basic">{data?.symbolTitle || '-'}</h4>
-                                <h4 className="text-L-gray-500 dark:text-D-gray-500">
-                                    {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
-                                </h4>
-                                {data?.hasRiskAnnouncement && (
-                                    <Tippy content={t('Tooltip.hasRiskAnnouncement')}>
-                                        <RiskAnnouncementIcon />
-                                    </Tippy>
-                                )}
-                            </div>
-                            <h4 className="text-L-gray-500 dark:text-D-gray-500 mr-4">{data?.companyName || '-'}</h4>
-                        </div>
-                    </div>
+                        <h4 className="text-L-gray-500 dark:text-D-gray-500 mr-4">{data?.companyName || '-'}</h4>
+                    </span>
                 </div>
                 <div className="mr-auto flex items-center">
                     <AddToWatchlistButton symbolISIN={selectedSymbol} />
@@ -80,12 +74,15 @@ const SymbolHeader = () => {
             <div
                 data-actived={isEventOpen}
                 onClick={GoToCalender}
-                className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer overflow-hidden duration-300 max-h-0 actived:max-h-[100px] actived:my-2"
+                className="text-L-primary-50 dark:text-D-primary-50 cursor-pointer overflow-hidden duration-300 max-h-0 actived:max-h-[100px] mr-4"
             >
                 {t('SymbolDetails.meetingWithinNextTenDays')}
             </div>
-        </div>
+        </>
     );
 };
 
 export default React.memo(SymbolHeader);
+
+//link for adding symbol logos, there's a teeny tiny possibility for adding it later on 
+//https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg
