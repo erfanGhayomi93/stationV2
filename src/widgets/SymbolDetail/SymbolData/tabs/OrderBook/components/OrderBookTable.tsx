@@ -29,8 +29,8 @@ const OrderBookTable = () => {
 
     return (
         <div ref={containerRef} className="flex flex-col justify-between h-full">
-            <div className='overflow-auto  mb-2'>{isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}</div>
-            <div className='h-fit'>{isDepthChartOpen && <MarketDepthChart />}</div>
+            <div className="flex-1 overflow-auto  mb-2">{isMarketDepthOpen ? <MarketDepth /> : <Best5Row />}</div>
+            <div className="h-fit">{isDepthChartOpen && <MarketDepthChart />}</div>
         </div>
     );
 };

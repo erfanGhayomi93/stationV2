@@ -22,7 +22,7 @@ type HalfRowType = {
 
 const MarketDepthChart = () => {
     const chart = useRef<ChartJs<'line', Array<any>> | undefined>(undefined);
-    const theme = useAppSelector(getTheme)
+    const theme = useAppSelector(getTheme);
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
 
@@ -248,6 +248,9 @@ const MarketDepthChart = () => {
                 indexAxis: 'y',
                 animation: false,
 
+                maintainAspectRatio: false,
+                responsive: true,
+
                 plugins: {
                     legend: {
                         display: false,
@@ -332,6 +335,21 @@ const MarketDepthChart = () => {
     }, [theme]);
 
     useEffect(() => {
+        const chartAPI = chart.current;
+        if (!chartAPI || !yesterdayClosingPrice) return;
+
+        try {
+            if (typeof chartAPI.options.plugins !== 'object' || !('chartAreaBorder' in chartAPI.options.plugins)) return;
+            else if (chartAPI.options.plugins.chartAreaBorder) {
+                chartAPI.options.plugins.chartAreaBorder.yesterdayClosingPrice = yesterdayClosingPrice;
+                chartAPI.update();
+            }
+        } catch (e) {
+            //
+        }
+    }, [yesterdayClosingPrice]);
+
+    useEffect(() => {
         if (!buyData.length && !sellData.length) return;
 
         updateChartData(aggregateQuantity(buyData, 'buy'), aggregateQuantity(sellData, 'sell'));
@@ -344,13 +362,8 @@ const MarketDepthChart = () => {
 
     return (
         <WidgetLoading spining={isLoading}>
-            <div
-                style={{
-                    maxHeight: '15.5rem',
-                }}
-                className="relative h-[fit-content] overflow-hidden"
-            >
-                <canvas className="w-[97%] m-0" ref={onCanvasLoad} />
+            <div className="w-full h-full">
+                <canvas className="w-full" ref={onCanvasLoad} />
             </div>
         </WidgetLoading>
     );
