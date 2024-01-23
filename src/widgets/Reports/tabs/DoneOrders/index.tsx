@@ -13,7 +13,7 @@ type IDoneOrders = {
     aggregateType: IAggregate
 };
 const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
-    const { data: todayDoneTrades, isLoading } = useGetTodayDoneTrades(aggregateType);
+    const { data: todayDoneTrades, isFetching } = useGetTodayDoneTrades(aggregateType);
     const [, render] = useReducer(p => !p, false)
     const [infoModalState, setInfoModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
@@ -62,7 +62,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
 
     return (
         <div className={'flex h-full p-3'}>
-            <WidgetLoading spining={true}>
+            <WidgetLoading spining={isFetching}>
                 <AGTable
                     rowData={todayDoneTrades}
                     columnDefs={columns}

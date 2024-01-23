@@ -81,7 +81,7 @@ const SymbolData = () => {
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
-                key: 'optionContract',
+                key: 'OptionContract',
                 title: t('SymbolDetails.optionContract'),
                 content: <OptionContract />,
                 tabClass: 'pt-4 outline-none',
