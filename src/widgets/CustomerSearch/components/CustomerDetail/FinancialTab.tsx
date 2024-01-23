@@ -24,32 +24,37 @@ const FinancialTab = () => {
     return (
         <WidgetLoading spining={isFetching}>
             <div className="px-4 pt-6 pb-4 flex flex-col gap-5">
-                {
-                    data?.status && (
-                        <div className="flex gap-4 items-center">
-                            <div className='flex gap-2 items-center'>
-                                <span className='text-sm font-medium'>وضعیت مشتری:</span>
-                                <span className={
-                                    clsx({
-                                        "text-L-error-200 dark:text-D-error-200": data.status === 'AtRisk',
-                                        "text-L-warning dark:text-D-warning": data.status === 'CallMargin',
-                                        "text-L-gray-600 dark:text-D-gray-600": data.status === 'Normal',
-                                    })
-                                }>{t("CustomerType.customer_status_" + data.status)}</span>
-                            </div>
-
-                            <div className='flex gap-2 items-center'>
-                                <span className='text-sm font-medium'>وجه تضمین:</span>
-                                <span className="text-L-gray-600 dark:text-D-gray-600">{'\u200E' + seprateNumber(data.marginValue)}</span>
-                            </div>
+                {data?.status && (
+                    <div className="flex gap-4 items-center">
+                        <div className="flex gap-2 items-center">
+                            <span className="text-sm font-medium">وضعیت مشتری:</span>
+                            <span
+                                className={clsx({
+                                    'text-L-error-200 dark:text-D-error-200': data.status === 'AtRisk',
+                                    'text-L-warning dark:text-D-warning': data.status === 'CallMargin',
+                                    'text-L-gray-600 dark:text-D-gray-600': data.status === 'Normal',
+                                })}
+                            >
+                                {t('CustomerType.customer_status_' + data.status)}
+                            </span>
                         </div>
-                    )
-                }
 
+                        <div className="flex gap-2 items-center">
+                            <span className="text-sm font-medium">وجه تضمین:</span>
+                            <span className="text-L-gray-600 dark:text-D-gray-600">{'\u200E' + seprateNumber(data.marginValue)}</span>
+                        </div>
+                    </div>
+                )}
 
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('TradeRemain')}>
-                        {activePanel === 'TradeRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
+                        {activePanel === 'TradeRemain' ? (
+                            <span className="text-L-info-100">
+                                <InfoFillIcon width={24} height={24} />
+                            </span>
+                        ) : (
+                            <InfoIcon />
+                        )}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.negotiable_balance')}</span>
                     </div>
                     {activePanel === 'TradeRemain' && (
@@ -73,11 +78,15 @@ const FinancialTab = () => {
                     </div>
                 </div>
 
-
-
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('WithdrawalRemain')}>
-                        {activePanel === 'WithdrawalRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
+                        {activePanel === 'WithdrawalRemain' ? (
+                            <span className="text-L-info-100">
+                                <InfoFillIcon width={24} height={24} />
+                            </span>
+                        ) : (
+                            <InfoIcon />
+                        )}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.withdrawal_balance')}</span>
                     </div>
                     {activePanel === 'WithdrawalRemain' && (
@@ -108,7 +117,13 @@ const FinancialTab = () => {
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="w-fit flex gap-2 items-center cursor-pointer" onClick={() => handleChangePanel('BrokerRemain')}>
-                        {activePanel === 'BrokerRemain' ? <InfoFillIcon width={24} height={24} color="#4895EF" /> : <InfoIcon />}
+                        {activePanel === 'BrokerRemain' ? (
+                            <span className="text-L-info-100">
+                                <InfoFillIcon width={24} height={24} />
+                            </span>
+                        ) : (
+                            <InfoIcon />
+                        )}
                         <span className="text-sm font-medium ">{t('customer_financial_situation.broker_balance')}</span>
                     </div>
                     {activePanel === 'BrokerRemain' && (

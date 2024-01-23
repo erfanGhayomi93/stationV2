@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import AXIOS from 'src/api/axiosInstance';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import AppModal from 'src/common/components/AppModal';
 import Modal from 'src/common/components/Modal';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -51,30 +52,27 @@ const DetailModal = ({ isOpen, onClose, modalData }: TDetailModalProps) => {
     );
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} className="w-[500px] h-[344px] rounded">
-            <div className="w-full h-full bg-L-basic dark:bg-D-basic flex flex-col shadow-md">
-                <div className="flex justify-between items-center bg-[#0C4073] dark:bg-D-primary-200 px-6 h-12">
-                    <span className="font-normal text-sm text-white">
-                        جزئیات سفارش <span className="text-[#A1DDFF]">{modalData?.customerTitle || 'مشتری '} </span>
-                        {modalData?.hostOrderNumber ? (
-                            <>
-                                با شماره سفارش <span className="text-[#A1DDFF]">{modalData?.hostOrderNumber}</span>
-                            </>
-                        ) : (
-                            ''
-                        )}
-                    </span>
-                    <button className="p-1" onClick={onClose}>
-                        <CloseIcon className="text-white" />
-                    </button>
-                </div>
-                <div className="flex-1 p-6">
-                    <WidgetLoading spining={isFetching}>
-                        <AGTable columnDefs={colDefs} rowData={data} suppressRowHoverHighlight />
-                    </WidgetLoading>
-                </div>
+        <AppModal
+            isOpen={isOpen}
+            handleClose={onClose}
+            height={344}
+            title={
+                <span className="font-normal text-sm text-white">
+                    جزئیات سفارش <span className="text-L-info-50">{modalData?.customerTitle || 'مشتری '} </span>
+                    {modalData?.hostOrderNumber && (
+                        <>
+                            با شماره سفارش <span className="text-L-info-50">{modalData?.hostOrderNumber}</span>
+                        </>
+                    )}
+                </span>
+            }
+        >
+            <div className="flex-1 p-6">
+                <WidgetLoading spining={isFetching}>
+                    <AGTable columnDefs={colDefs} rowData={data} suppressRowHoverHighlight />
+                </WidgetLoading>
             </div>
-        </Modal>
+        </AppModal>
     );
 };
 

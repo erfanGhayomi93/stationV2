@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useEffect, useRef } from 'react';
 import ViewController from './components/ViewController';
 import OrderBookHeader from './components/OrderBookHeader';
 import OrderBookTable from './components/OrderBookTable';

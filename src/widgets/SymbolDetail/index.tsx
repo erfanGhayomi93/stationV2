@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { pushEngine } from 'src/ls/pushEngine';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { useAppSelector } from 'src/redux/hooks';
