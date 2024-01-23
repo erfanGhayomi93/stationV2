@@ -1,4 +1,6 @@
 type ICustomerIsins = string[];
+
+type IAggregate = '' | 'Customer' | 'Symbol' | 'Both';
 interface IOrderRequestType {
     id?: string;
     status?: string;
@@ -16,6 +18,12 @@ interface IOrderRequestType {
     orderDraftId: number | undefined;
     orderType: OrderTypeType;
     orderStrategy: string;
+}
+
+interface IDoneTradesDetailsReq {
+    customerISIN?: string;
+    symbolISIN?: string;
+    orderSide?: BuySellSide;
 }
 interface ITodayOpenOrderType {
     side?: BuySellSide;
@@ -41,6 +49,7 @@ interface IOrderGetType {
     position: number;
     valuePosition: number;
     status?: OrderStatusType | 'OnBoard' | 'Done' | 'Error';
+    iterationCount?: number;
 }
 
 type TTodayDoneTrades = {
