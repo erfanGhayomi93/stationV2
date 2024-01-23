@@ -8,7 +8,7 @@ interface IModalType extends HTMLAttributes<HTMLDivElement> {
     children: JSX.Element | JSX.Element[];
 }
 
-const Modal: FC<IModalType> = ({ onClose, isOpen, children, className = 'max-w-md' }) => {
+const Modal: FC<IModalType> = ({ onClose, isOpen, children, className = 'max-w-md', style }) => {
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -36,7 +36,10 @@ const Modal: FC<IModalType> = ({ onClose, isOpen, children, className = 'max-w-m
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className={clsx('transform overflow-hidden bg-white shadow-xl transition-all', className)}>
+                                <Dialog.Panel
+                                    style={style}
+                                    className={clsx('transform overflow-hidden bg-white shadow-xl transition-all', className)}
+                                >
                                     {children}
                                 </Dialog.Panel>
                             </Transition.Child>

@@ -32,7 +32,7 @@ const SymbolData = () => {
             lowThreshold: data?.symbolData?.lowThreshold,
             closingPrice: data?.symbolData?.closingPrice,
             lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
-            isOption: data?.symbolData?.isOption
+            isOption: data?.symbolData?.isOption,
         }),
     });
 
@@ -92,34 +92,33 @@ const SymbolData = () => {
     );
 
     return (
-        <div className=" grid grid-cols-1 grid-rows-min-one p-3 gap-2 overflow-hidden h-full border dark:border-D-gray-400  border-L-gray-400  bg-L-basic dark:bg-D-basic  ">
-            {/* // <div className=" grid grid-cols-1 grid-rows-min-one  p-3 gap-2 h-full border dark:border-D-gray-350  border-L-gray-350  bg-L-basic dark:bg-D-basic  "> */}
-
-            <div className=" sticky top-0 z-10 pb-4 bg-L-basic dark:bg-D-basic grid grid-rows-min-one gap-2 w-full ">
-                <div className="flex flex-col gap-2 text-1.2">
-                    <SymbolHeader />
-                    <SymbolPricePreview />
-                </div>
-                <SymbolPriceSlider
-                    yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
-                    thresholdData={[symbolData?.lowThreshold ?? 0, symbolData?.highThreshold ?? 0]}
-                    exchangeData={[symbolData?.closingPrice ?? 0, symbolData?.lastTradedPrice ?? 0]}
-                    boundaryData={[symbolData?.lowestTradePriceOfTradingDay ?? 0, symbolData?.highestTradePriceOfTradingDay ?? 0]}
-                />
-                {/* <SymbolPriceBar /> */}
+        <div className="rounded-md overflow-hidden h-full w-full flex flex-col gap-5 border border-L-gray-400 bg-L-basic dark:border-D-gray-400 dark:bg-D-basic p-3">
+            <div className="text-1.2 flex flex-col gap-2">
+                <SymbolHeader />
+                <SymbolPricePreview />
+                <span className="px-2">
+                    <SymbolPriceSlider
+                        yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
+                        thresholdData={[symbolData?.lowThreshold ?? 0, symbolData?.highThreshold ?? 0]}
+                        exchangeData={[symbolData?.closingPrice ?? 0, symbolData?.lastTradedPrice ?? 0]}
+                        boundaryData={[symbolData?.lowestTradePriceOfTradingDay ?? 0, symbolData?.highestTradePriceOfTradingDay ?? 0]}
+                    />
+                </span>
             </div>
-            <SymbolTabsContext>
-                <TabsList
-                    fill={true}
-                    onChange={(idx) => setActiveTab(idx)}
-                    selectedIndex={activeTab}
-                    items={items}
-                    buttonClass="text-L-gray-600 dark:text-D-gray-600"
-                    className="w-full grid rounded-md relative text-1.1 grid-rows-min-one overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
-                    pannelClassName="overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
-                    tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-1.1"
-                />
-            </SymbolTabsContext>
+            <div className="flex flex-col h-full overflow-hidden">
+                <SymbolTabsContext>
+                    <TabsList
+                        fill={true}
+                        onChange={(idx) => setActiveTab(idx)}
+                        selectedIndex={activeTab}
+                        items={items}
+                        buttonClass="text-L-gray-500 dark:text-D-gray-500"
+                        className="w-full grid text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
+                        pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
+                        tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-1.2"
+                    />
+                </SymbolTabsContext>
+            </div>
         </div>
     );
 };

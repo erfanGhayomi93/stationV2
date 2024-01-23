@@ -123,7 +123,6 @@ const AGActionCell = (props: IProps) => {
             {isConfirmModalOpen && (
                 <ConfirmationModal
                     isOpen={isConfirmModalOpen}
-                    setIsOpen={setIsConfirmModalOpen}
                     title={deleteModalTitle}
                     description={deleteModalDescription}
                     onConfirm={handleConfirm}
