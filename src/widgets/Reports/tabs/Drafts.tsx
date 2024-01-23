@@ -124,11 +124,6 @@ const Drafts: FC<IDraft> = () => {
         [],
     );
 
-    // const onRowSelected = (event: RowSelectedEvent<IDraftResponseType>) => {
-    //     console.log(event);
-    // };
-
-    //
     return (
         <div className={'grid h-full p-3'}>
             {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">

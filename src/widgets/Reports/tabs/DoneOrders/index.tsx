@@ -3,7 +3,6 @@ import { useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 // import WidgetLoading from 'src/common/components/WidgetLoading';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-
 import { abbreviateNumber, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';

@@ -91,8 +91,7 @@ const Reports = () => {
                         <button role="button" type='button'
                             onClick={() => changeAggregateFilter("Customer")}
                             data-actived={isCustomerFilter}
-                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-text-50 dark:text-D-text-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ', {
-                            })}
+                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-text-50 dark:text-D-text-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
                         >
                             <span>مشتری</span>
                             <span

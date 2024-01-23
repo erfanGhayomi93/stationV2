@@ -181,6 +181,19 @@ interface GetSameSectorResultType {
     totalNumberOfSharesTraded: number;
 }
 
+interface IGetOptionContract {
+    symbolISIN: string;
+    sectorCode: string;
+    symbolTitle: string;
+    totalNumberOfSharesTraded: number;
+    lastTradedPriceVarPercent: number;
+    bestBuyPrice: number;
+    bestBuyPricebestBuyLimitPrice_1: number;
+    bestSellPrice: number;
+    bestSellLimitPrice_1: number;
+    lastTradedPrice: number;
+}
+
 interface GetChartSymbolType {
     o: number;
     h: number;

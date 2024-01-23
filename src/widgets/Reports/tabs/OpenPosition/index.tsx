@@ -61,7 +61,7 @@ export const OpenPosition = () => {
         }
 
         else if (symbolISIN && data) {
-            symbolISIN && appDispatch(setSelectedSymbol(symbolISIN));
+            !!symbolISIN && appDispatch(setSelectedSymbol(symbolISIN));
 
             appDispatch(
                 setPartDataBuySellAction({
