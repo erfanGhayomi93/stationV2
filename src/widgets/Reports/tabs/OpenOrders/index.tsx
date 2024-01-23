@@ -17,7 +17,6 @@ import AGActionCell from 'src/common/components/AGActionCell';
 import DetailModal from './modals/DetailModal';
 
 type IOpenOrders = {
-    ClickLeftNode: any;
 };
 
 let timeOut: NodeJS.Timeout | undefined = undefined;

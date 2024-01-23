@@ -41,14 +41,26 @@ export const useGetOrders = (params: ITodayOpenOrderType, options?: UseQueryOpti
     return useQuery<IOrderGetType[]>(['orderList', params.GtOrderStateRequestType], () => getOrderFn(params), options);
 };
 
-//New Api
 
-const getTodayDoneTrades = async () => {
-    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTrades);
+
+const getTodayDoneTradesDetails = async (params: IDoneTradesDetailsReq) => {
+    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTradeDetails, { params });
     return data.result || [];
 };
 
-export const useGetTodayDoneTrades = (options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTrades'], getTodayDoneTrades, options);
+export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
+
+
+
+
+//New Api
+
+const getTodayDoneTrades = async (aggregateType: IAggregate) => {
+    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTrades, { params: { aggregateType: !!aggregateType ? aggregateType : undefined } });
+    return data.result || [];
+};
+
+export const useGetTodayDoneTrades = (aggregateType: IAggregate, options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTrades', aggregateType], () => getTodayDoneTrades(aggregateType), options);
 
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (orderId: number) => {
