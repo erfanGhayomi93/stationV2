@@ -21,6 +21,8 @@ const FinancialTab = () => {
     const { state } = useCustomerSearchState();
     const { data, isFetching } = useCustomerFinancialInformation(state?.detailModalData?.customerISIN);
 
+    const blockValue = data ? data.orderBlockValue + data.paymentRequestBlockValue : 0
+
     return (
         <WidgetLoading spining={isFetching}>
             <div className="px-4 pt-6 pb-4 flex flex-col gap-5">
@@ -37,6 +39,11 @@ const FinancialTab = () => {
                             >
                                 {t('CustomerType.customer_status_' + data.status)}
                             </span>
+                        </div>
+
+                        <div className='gap-2 flex items-center'>
+                            <span className='text-sm font-medium'>مبلغ بلوکه شده:</span>
+                            <span>{blockValue}</span>
                         </div>
 
                         <div className="flex gap-2 items-center">
