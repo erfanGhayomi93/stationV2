@@ -13,10 +13,11 @@ export const setOrder = async (params: IOrderRequestType) => {
     );
 };
 
-
-export const useMutationSendOrder = (option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IOrderRequestType, unknown>, 'mutationFn'> | undefined,) => {
-    return useMutation(setOrder, option)
-}
+export const useMutationSendOrder = (
+    option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IOrderRequestType, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(setOrder, option);
+};
 ////////////////////////////////////
 
 const singleModifyOrderFn = async (params: ISingleModifyOrderReq) => {
@@ -128,3 +129,13 @@ export const useTradesLists = <T = IGTTradesResponseType,>(
 ) => {
     return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options });
 };
+
+export const getTradesListExcel = async (params: IGTTradesListRequest) => {
+    const { data } = await AXIOS.get(Apis().Orders.TradesExcel, { params });
+    return data
+};
+
+export const useTradesListExcel = (
+    params: IGTTradesListRequest,
+    options?: Omit<UseQueryOptions<any, unknown, any, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
+) => useQuery(['getTradesListExcel'], () => getTradesListExcel(params), {...options})

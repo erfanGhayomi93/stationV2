@@ -1,103 +1,239 @@
 import Tippy from '@tippyjs/react';
-import { Excel2Icon, Refresh2Icon } from 'src/common/icons';
-import TradesFilter from './components/TradesFilter';
-import TradesTable from './components/TradesTable';
-import { useState, useEffect, useCallback } from 'react';
+import { InfoIcon, ReportsIcon } from 'src/common/icons';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTradesLists } from 'src/app/queries/order';
+import { useTradesListExcel, useTradesLists } from 'src/app/queries/order';
 import dayjs, { ManipulateType } from 'dayjs';
-import { initialState } from './constant';
-import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
+import { aggregateOnFieldOptions, customerTypeFieldOptions, initialState, sideFieldOptions, timeFieldOptions } from './constant';
 import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
 import { useAppDispatch } from 'src/redux/hooks';
-import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, excelDownloader, valueFormatterSide } from 'src/utils/helpers';
+import ReportLayout from 'src/common/components/ReportLayout';
+import ExcelExportBtn from 'src/common/components/Buttons/ExcelExportBtn';
+import RefreshBtn from 'src/common/components/Buttons/RefreshBtn';
+import WidgetLoading from 'src/common/components/WidgetLoading';
+import AGTable, { ColDefType } from 'src/common/components/AGTable';
+import { Paginator } from 'src/common/components/Paginator/Paginator';
+import { IHeaderParams, _ } from 'ag-grid-community';
+import FilterBlock from 'src/common/components/FilterBlock';
+import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
+import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
+import RadioField from 'src/common/components/RadioGroup';
+import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 
-interface ITradesPageType {}
-
-const Trades = ({}: ITradesPageType) => {
+const Trades = () => {
     //
     const { t } = useTranslation();
-
-    const [params, setParams] = useState<ITradeStateType>(initialState);
-    const { PageNumber, PageSize, Time } = params;
-    const isFirstRender = useIsFirstRender();
+    const [formValues, setFormValues] = useState(initialState);
+    const [apiParams, setApiParams] = useState(formValues);
     const dispatch = useAppDispatch();
 
-    const {
-        data: tradesData,
-        refetch: getTradesData,
-        isFetching,
-    } = useTradesLists({
-        ...(cleanObjectOfFalsyValues(params) as IGTTradesListRequest),
-        SymbolISIN: params.SymbolISIN.map(({ symbolISIN }) => symbolISIN),
-        CustomerISIN: params.CustomerISIN.map(({ customerISIN }) => customerISIN),
+    const { data: tradesData, refetch, isFetching } = useTradesLists(apiParams, { enabled: false });
+    const { refetch: fetchExcel, isFetching: isExcelFetching } = useTradesListExcel(apiParams, {
+        enabled: false,
+        onSuccess: (response) => {
+            if (response?.fileContent) {
+                excelDownloader(response);
+            }
+        },
     });
 
-    cleanObjectOfFalsyValues;
-
     useEffect(() => {
-        !isFirstRender && getTradesData();
-    }, [PageNumber, PageSize]);
+        refetch();
+    }, [apiParams]);
 
-    const onTimeChangeHandler = (time: string | undefined) => {
-        if (!time || time === 'custom') return;
+    const Columns = useMemo(
+        (): ColDefType<IGTTradesListResultType>[] => [
+            {
+                headerName: t('ag_columns_headerName.row'),
+                sortable: false,
+                minWidth: 60,
+                maxWidth: 80,
+                valueFormatter: ({ node }) => String((apiParams?.PageNumber - 1) * apiParams?.PageSize + node?.rowIndex! + 1),
+            },
+            { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
+            { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
+            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
+            {
+                headerName: t('ag_columns_headerName.side'),
+                field: 'orderSide',
+                valueFormatter: valueFormatterSide,
+                cellClassRules: {
+                    'text-L-success-200': ({ value }) => value === 'Buy',
+                    'text-L-error-200': ({ value }) => value === 'Sell',
+                },
+            },
+            { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'date' },
+            { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.finalCost'),
+                field: 'totalPrice',
+                type: 'sepratedNumber',
+                headerComponent: ({ displayName }: IHeaderParams) => (
+                    <Tippy content={t('Tooltip.finalCostWithCommission')} className="text-xs">
+                        <div className="w-full flex justify-center gap-1">
+                            <span>{displayName}</span>
+                            <InfoIcon width="16" height="16" />
+                        </div>
+                    </Tippy>
+                ),
+            },
+        ],
+        [apiParams],
+    );
 
+    const handleFormValueChange = (field: keyof typeof formValues, value: any) => {
+        setFormValues((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
+        setApiParams((pre) => ({ ...pre, [action]: value }));
+    }, []);
+
+    const onTimeFieldChange = (time: ManipulateType | undefined) => {
         const ToDate = dayjs().format('YYYY-MM-DDT23:59:59');
-        const FromDate = dayjs()
-            .subtract(1, time as ManipulateType)
-            .format('YYYY-MM-DDT00:00:00');
-
-        setParams((pre) => ({
+        const FromDate = dayjs().subtract(1, time).format('YYYY-MM-DDT00:00:00');
+        setFormValues((pre) => ({
             ...pre,
             FromDate,
             ToDate,
         }));
     };
 
-    useEffect(() => {
-        onTimeChangeHandler(Time);
-    }, [Time]);
+    const handleDateChange = (value: string, field: 'FromDate' | 'ToDate') => {
+        setFormValues((prev) => ({ ...prev, Time: '' }));
+        handleFormValueChange(field, value);
+    };
 
-    const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setParams((pre) => ({ ...pre, [action]: value }));
-    }, []);
-
-    const onClearFilters = () => {
+    const handleClearClick = () => {
         dispatch(emptySelectedCustomers());
         dispatch(emptySelectedSymbol());
-        setParams(initialState);
+        setFormValues({ ...initialState });
+        setApiParams(cleanObjectOfFalsyValues({ ...initialState }) as IGTTradesListRequest);
+    };
+
+    const isFilterValuesChanged = () => {
+        const initialValue = cleanObjectOfFalsyValues(initialState);
+        const params = cleanObjectOfFalsyValues(apiParams);
+        if (initialValue?.CustomerISIN?.length !== params?.CustomerISIN?.length) return true;
+        else if (initialValue?.SymbolISIN?.length !== params?.SymbolISIN?.length) return true;
+        else if (initialValue?.FromDate !== params?.FromDate) return true;
+        else if (initialValue?.GetTradesAggregateType !== params?.GetTradesAggregateType) return true;
+        else if (initialValue?.Side !== params?.Side) return true;
+        else if (initialValue?.ToDate !== params?.ToDate) return true;
+        else if (initialValue?.CustomerType !== params?.CustomerType) return true;
+        else return false;
     };
 
     return (
-        <div className="bg-L-basic dark:bg-D-basic p-6 grid grid-rows-min-one gap-5">
-            <div className="flex items-center justify-between">
-                <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.Reports/Trades')}</h1>
-                <div className="flex gap-2 px-2 py-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
-                    <Tippy content={t('Action_Button.Update')} className="text-xs">
-                        <span onClick={() => getTradesData()}>
-                            <Refresh2Icon className="cursor-pointer outline-none" />
-                        </span>
-                    </Tippy>
-                    <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
-                        <span onClick={onClearFilters}>
-                            <Excel2Icon className="cursor-pointer outline-none" />
-                        </span>
-                    </Tippy>
-                </div>
-            </div>
-            <div className="grid gap-4 grid-rows-min-one">
-                <TradesFilter params={params} setParams={setParams} onSubmit={getTradesData} onClear={onClearFilters} />
-                <div className="grid grid-rows-one-min">
-                    <TradesTable
-                        data={tradesData}
-                        loading={isFetching}
-                        pageNumber={PageNumber}
-                        pagesize={PageSize}
-                        PaginatorHandler={PaginatorHandler}
+        <ReportLayout
+            hasBreadcrumb
+            BreadCumbCurrentPage="معاملات"
+            isFiltered={isFilterValuesChanged()}
+            BreadCumbBasePage={
+                <>
+                    <span>
+                        <ReportsIcon />
+                    </span>
+                    گزارشات
+                </>
+            }
+            onSubmit={() => setApiParams(cleanObjectOfFalsyValues({ ...formValues, Time: '' }) as IGTTradesListRequest)}
+            onClear={handleClearClick}
+            formFields={
+                <div className="flex flex-col gap-2">
+                    <FilterBlock label={t('FilterFieldLabel.Customer')} viewCol>
+                        <CustomerMegaSelect
+                            selected={formValues.CustomerISIN}
+                            setSelected={(value) =>
+                                handleFormValueChange(
+                                    'CustomerISIN',
+                                    value?.map((x) => x?.customerISIN),
+                                )
+                            }
+                        />
+                    </FilterBlock>
+                    <FilterBlock label={t('FilterFieldLabel.Symbol')} viewCol>
+                        <SymbolMiniSelect
+                            multiple
+                            selected={formValues.SymbolISIN}
+                            setSelected={(value) =>
+                                handleFormValueChange(
+                                    'SymbolISIN',
+                                    value?.map((x) => x?.symbolISIN),
+                                )
+                            }
+                        />
+                    </FilterBlock>
+                    <RadioField
+                        onChange={(value) => {
+                            handleFormValueChange('Time', value);
+                            onTimeFieldChange(value as ManipulateType);
+                        }}
+                        options={timeFieldOptions}
+                        value={formValues.Time}
+                        label={t('FilterFieldLabel.Time')}
+                    />
+                    <div className="flex w-full gap-3">
+                        <FilterBlock label={t('FilterFieldLabel.FromDate')} viewCol className="w-full">
+                            <AdvancedDatepicker
+                                value={formValues?.FromDate}
+                                onChange={(value) => handleDateChange(dayjs(value).format('YYYY-MM-DDT00:00:00'), 'FromDate')}
+                            />
+                        </FilterBlock>
+                        <FilterBlock label={t('FilterFieldLabel.ToDate')} viewCol className="w-full">
+                            <AdvancedDatepicker
+                                value={formValues?.ToDate}
+                                onChange={(value) => handleDateChange(dayjs(value).format('YYYY-MM-DDT23:59:59'), 'ToDate')}
+                            />
+                        </FilterBlock>
+                    </div>
+                    <RadioField
+                        onChange={(value) => handleFormValueChange('Side', value)}
+                        options={sideFieldOptions}
+                        value={formValues?.Side}
+                        label={t('FilterFieldLabel.Side')}
+                    />
+                    <RadioField
+                        onChange={(value) => handleFormValueChange('CustomerType', value)}
+                        options={customerTypeFieldOptions}
+                        value={formValues?.CustomerType}
+                        label={t('FilterFieldLabel.CustomerType')}
+                    />
+                    <RadioField
+                        onChange={(value) => handleFormValueChange('GetTradesAggregateType', value)}
+                        options={aggregateOnFieldOptions}
+                        value={formValues?.GetTradesAggregateType}
+                        label={t('FilterFieldLabel.AggregateType')}
                     />
                 </div>
-            </div>
-        </div>
+            }
+            HeaderLeftNode={
+                <>
+                    <RefreshBtn onClick={() => refetch()} />
+                    <ExcelExportBtn onClick={() => fetchExcel()} />
+                </>
+            }
+            reportNode={
+                <>
+                    <WidgetLoading spining={isFetching}>
+                        <AGTable rowData={tradesData?.result || []} columnDefs={Columns} />
+                    </WidgetLoading>
+                    <div className="border-t flex justify-end items-center pt-4 ">
+                        <Paginator
+                            loading={isFetching}
+                            pageNumber={apiParams?.PageNumber}
+                            pageSize={apiParams?.PageSize}
+                            totalPages={tradesData?.totalPages}
+                            hasNextPage={tradesData?.hasNextPage}
+                            hasPreviousPage={tradesData?.hasPreviousPage}
+                            PaginatorHandler={PaginatorHandler}
+                        />
+                    </div>
+                </>
+            }
+        />
     );
 };
 

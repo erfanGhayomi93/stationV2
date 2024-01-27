@@ -34,8 +34,8 @@
         "Requests/OptionSettlement": "تسویه اختیار معامله",
         "Requests/Offline": "درخواست های آفلاین",
         "portfolio": "پرتفوی",
-        "Market/Chart" : "ابزار تکنیکال" ,
-        "Market/Calender" : "تقویم بورسی",
+        "Market/Chart": "ابزار تکنیکال",
+        "Market/Calender": "تقویم بورسی",
         "optionSettlement": "تسویه اختیار معامله",
         "setting": "تنظیمات"
     },
@@ -81,10 +81,10 @@
         "GTCustomerGroup 0": "گروه من",
         "GTCustomerGroup": "گروه من",
         "TraderGroup": "گروه من",
-        "Individual": "حقیقی" ,
+        "Individual": "حقیقی",
         "customer_status_Normal": "عادی",
-		"customer_status_AtRisk": "در خطر",
-		"customer_status_CallMargin": "اخطار وجه تضمین"
+        "customer_status_AtRisk": "در خطر",
+        "customer_status_CallMargin": "اخطار وجه تضمین"
     },
     "BSModal": {
         "validity_Week": "هفته",
@@ -339,7 +339,8 @@
         "AggregateAble": "تجمیعی",
         "Status": "وضعیت",
         "TradeStation": "ایستگاه معاملاتی",
-        "RequestNO": "شماره درخواست"
+        "RequestNO": "شماره درخواست",
+        "AggregateType": "تجمیع بر اساس"
     },
     "TransactionTypes": {
         "Buy": "خرید",
@@ -583,8 +584,8 @@
         "physical_settlement_date": "تاریخ تسویه فیزیکی",
         "due_days": "روزهای مانده به سررسید",
         "maxCOP": "سقف تعداد موقعیت های باز مشتریان حقیقی",
-		"maxCAOP": "سقف تعداد موقعیت های باز مشتریان حقوقی",
-		"maxOP": "سقف تعداد موقعیت های باز در بازار"
+        "maxCAOP": "سقف تعداد موقعیت های باز مشتریان حقوقی",
+        "maxOP": "سقف تعداد موقعیت های باز در بازار"
     },
     "OrderBook": {
         "viewMode": "حالت نمایش",
@@ -861,18 +862,18 @@
         "WithRevenueAndValue": "سرمایه و قیمت"
     },
     "options": {
-		"column_customer_title": "مشتری",
-		"column_symbol_title": "نماد",
+        "column_customer_title": "مشتری",
+        "column_symbol_title": "نماد",
         "column_position_count": "تعداد موقعیت",
         "column_position_side": "موقعیت",
-		"column_blocked_margin": "وجه مسدودی",
+        "column_blocked_margin": "وجه مسدودی",
         "column_variation_margin": "وجه تضمین جبرانی",
         "column_physical_settlement_date": "تسویه فیزیکی",
         "column_strike_price": "قیمت اعمال",
         "column_remain_days": "روزهای مانده تا سررسید",
-		"call": "خرید",
-		"put": "فروش"
-	},
+        "call": "خرید",
+        "put": "فروش"
+    },
     "OptionSettlement": {
         "CashTabTitle": "تسویه نقدی",
         "PhysicalTabTitle": "تسویه فیزیکی",

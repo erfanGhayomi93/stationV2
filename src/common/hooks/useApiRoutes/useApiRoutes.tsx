@@ -56,9 +56,9 @@ export const Apis = () => ({
         ChartData: getBaseUrl() + '/Symbol/v1/ChartData',
         GetMarketUnit: getBaseUrl() + '/Symbol/v1/GetMarketUnit',
     },
-    Option : {
-        SymbolInformation : getBaseUrl() + '/Option/v1/SymbolInformation' , 
-        GetOpenPositions : getBaseUrl() + '/Option/v1/GetOpenPositions' , 
+    Option: {
+        SymbolInformation: getBaseUrl() + '/Option/v1/SymbolInformation',
+        GetOpenPositions: getBaseUrl() + '/Option/v1/GetOpenPositions',
     },
     Customer: {
         AdvancedSearch: getBaseUrl() + '/Customer/v1/AdvancedSearch',
@@ -95,6 +95,7 @@ export const Apis = () => ({
         Modify: getBaseUrl() + '/Order/v1/Modify',
         ModifySingleTrade: getBaseUrl() + '/Order/v1/ModifySingleTrade',
         Trades: getBaseUrl() + '/Order/v1/Trades',
+        TradesExcel: getBaseUrl() + '/Order/v1/TradesExcel',
         OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
         DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',

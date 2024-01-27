@@ -161,13 +161,14 @@ interface IGTTradesListRequest {
     FromDate?: string;
     ToDate?: string;
     Side?: BuySellSide;
-    SymbolISIN?: string[];
-    CustomerISIN?: string[];
+    SymbolISIN: SymbolSearchResult[];
+    CustomerISIN: IGoCustomerSearchResult[];
     PageNumber: number;
     PageSize: number;
     Time?: string;
     CustomerType?: CustomerType;
     MyStationOnly: boolean;
+    GetTradesAggregateType: 'Customer' | 'Symbol' | 'Both';
 }
 
 interface IGTTradesListResultType {
