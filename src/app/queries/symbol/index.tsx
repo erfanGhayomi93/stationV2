@@ -44,6 +44,21 @@ export const useOptionGeneralInformation = (symbolISIN: string) =>
 
 
 
+const getOptionContractSymbols = async (symbolISIN: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGetOptionContract[]>>(Apis().Symbol.optionContract, { params: { symbolISIN } });
+    return data.result || [];
+};
+
+export const useGetOptionContract = (symbolISIN: string, options?: UseQueryOptions<IGetOptionContract[]>) =>
+    useQuery<IGetOptionContract[]>(
+        [Apis().Symbol.optionContract, symbolISIN],
+        () => getOptionContractSymbols(symbolISIN),
+        {
+            enabled: !!symbolISIN,
+            ...options,
+        },
+    );
+
 
 
 ////////////////////////

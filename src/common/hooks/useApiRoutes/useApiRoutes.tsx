@@ -53,6 +53,7 @@ export const Apis = () => ({
         Search: getBaseUrl() + '/Symbol/v1/Searchv2',
         SymbolGeneralInformation: getBaseUrl() + '/Symbol/v1/SymbolGeneralInformation',
         SameSectorSymbols: getBaseUrl() + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+        optionContract: getBaseUrl() + '/Symbol/v1/GetSameCompanyContractsOptionSymbolsBySymbolISIN',
         ChartData: getBaseUrl() + '/Symbol/v1/ChartData',
         GetMarketUnit: getBaseUrl() + '/Symbol/v1/GetMarketUnit',
     },
@@ -100,6 +101,7 @@ export const Apis = () => ({
         DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
         OfflineRequestHistory: getBaseUrl() + '/Order/v1/TradeRequestHistory',
         TodayDoneTrades: getBaseUrl() + '/Order/v1/TodayDoneTrades',
+        TodayDoneTradeDetails: getBaseUrl() + '/Order/v1/TodayDoneTradeDetails',
         GetSumPrice: getBaseUrl() + '/Order/v1/GetSumPrice',
     },
     SupervisorMessage: {

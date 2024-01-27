@@ -14,10 +14,11 @@ import OrderBookWidget from './tabs/OrderBook/context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolTabsContext from './context';
 import AuthorityDetails from './tabs/AuthorityDetails';
+import { OptionContract } from './tabs/OptionContract';
 
 const SymbolData = () => {
     //
-    const [activeTab, setActiveTab] = useState('Orders');
+    const [activeTab, setActiveTab] = useState('optionContract');
     const { t } = useTranslation();
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
@@ -76,6 +77,13 @@ const SymbolData = () => {
                 key: 'SameGroup',
                 title: t('SymbolDetails.sameGroup'),
                 content: <SameGroup />,
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            },
+            {
+                key: 'optionContract',
+                title: t('SymbolDetails.optionContract'),
+                content: <OptionContract />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
