@@ -16,7 +16,7 @@ const SubmitFilterBox = ({ onClearClick, onSubmitClick }: Props) => {
                 </button>
             </Tippy>
             <button onClick={onSubmitClick} className="w-full p-2 bg-L-primary-50 text-white rounded-md">
-                جستجو
+                اعمال فیلتر
             </button>
         </div>
     );
