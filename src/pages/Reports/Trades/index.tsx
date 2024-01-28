@@ -14,7 +14,7 @@ import RefreshBtn from 'src/common/components/Buttons/RefreshBtn';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
-import { IHeaderParams, _ } from 'ag-grid-community';
+import { IHeaderParams} from 'ag-grid-community';
 import FilterBlock from 'src/common/components/FilterBlock';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';

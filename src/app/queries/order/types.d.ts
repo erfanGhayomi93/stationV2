@@ -154,14 +154,16 @@ interface IGTOrderListRequest {
     FromDate?: string;
     ToDate?: string;
     Side?: BuySellSide;
-    SymbolISIN?: string[];
-    CustomerISIN?: string[];
+    SymbolISIN: SymbolSearchResult[];
+    CustomerISIN: IGoCustomerSearchResult[];
     CustomerType?: CustomerType;
     OrderStatus?: OrderStatusType;
     Validity?: validity;
     PageNumber: number;
     PageSize: number;
+    AggregateType: string;
     MyStationOnly?: boolean;
+    Time: string;
 }
 
 interface IGTOrderListResponseType extends GlobalPaginatedApiResponse<IGTOrderListResultType[]> {}
