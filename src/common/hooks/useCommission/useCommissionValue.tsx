@@ -8,6 +8,7 @@ interface IuseCommissionValueType {
 interface IuseCommissionType extends IuseCommissionValueType {
     price: number;
     quantity: number;
+    contractSize: number
     side: 'Buy' | 'Sell' | '';
 }
 
@@ -24,34 +25,35 @@ export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
     );
 };
 
-const useCommission = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
+const useCommission = ({ marketUnit, price, quantity, side, contractSize }: IuseCommissionType) => {
     const { buyCommission, sellCommission } = useCommissionValue({ marketUnit });
     const commissionValue = side === 'Buy' ? buyCommission : sellCommission;
-    const commission = Math.ceil(commissionValue * price * quantity);
-    // const commission = commissionValue * price * quantity;
-    const unitCommission = Math.ceil(commissionValue * price * 1 * 100) / 100;
+    const commission = Math.round(commissionValue * price * quantity * contractSize);
+    const unitCommission = Math.round(commissionValue * price * contractSize * 1 * 100) / 100;
     return { commission, unitCommission };
 };
 
-export const useCostValue = ({ price, quantity }: { price: number, quantity: number }) => {
-    return Math.round(price * quantity);
+export const useCostValue = ({ price, quantity, contractSize }: { price: number, quantity: number, contractSize: number }) => {
+    return Math.round(price * quantity * contractSize);
 };
 
-export const useTotalValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side });
-    return Math.ceil((price * quantity + (side === 'Sell' ? commission * -1 : commission)) * 1000) / 1000;
+export const useTotalValue = ({ marketUnit, price, quantity, side, contractSize }: IuseCommissionType) => {
+    const { commission } = useCommission({ quantity, price, marketUnit, side, contractSize });
+    const cost = useCostValue({ quantity, price, contractSize });
+
+    return Math.round((cost + (side === 'Sell' ? commission * -1 : commission)) * 1000) / 1000;
 };
 
-export const useDrawValue = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
-    const totalValue = useTotalValue({ quantity, price, marketUnit, side });
+export const useDrawValue = ({ marketUnit, price, quantity, side, contractSize }: IuseCommissionType) => {
+    const totalValue = useTotalValue({ quantity, price, marketUnit, side, contractSize });
     const { sellCommission } = useCommissionValue({ marketUnit });
-    return Math.ceil(totalValue / (quantity - quantity * sellCommission) || 0);
+    return Math.round(totalValue / (quantity - quantity * sellCommission) || 0);
 };
 
-export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Buy' });
-    const totalValue = useTotalValue({ quantity, price, marketUnit, side: 'Buy' });
-    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Buy' });
+export const useBuyDetail = ({ marketUnit, price, quantity, contractSize }: Omit<IuseCommissionType, 'side'>) => {
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Buy', contractSize });
+    const totalValue = useTotalValue({ quantity, price, marketUnit, side: 'Buy', contractSize });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Buy', contractSize });
     return {
         commission,
         totalValue,
@@ -59,10 +61,10 @@ export const useBuyDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissio
     };
 };
 
-export const useSellDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissionType, 'side'>) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Sell' });
-    const totalValue = useTotalValue({ quantity, price, marketUnit, side: 'Sell' });
-    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Sell' });
+export const useSellDetail = ({ marketUnit, price, quantity, contractSize }: Omit<IuseCommissionType, 'side'>) => {
+    const { commission } = useCommission({ quantity, price, marketUnit, side: 'Sell', contractSize });
+    const totalValue = useTotalValue({ quantity, price, marketUnit, side: 'Sell', contractSize });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side: 'Sell', contractSize });
     return {
         commission,
         totalValue,
@@ -70,11 +72,11 @@ export const useSellDetail = ({ marketUnit, price, quantity }: Omit<IuseCommissi
     };
 };
 
-export const useBuySellDetail = ({ marketUnit, price, quantity, side }: IuseCommissionType) => {
-    const { commission } = useCommission({ quantity, price, marketUnit, side });
-    const cost = useCostValue({ quantity, price });
-    const totalValue = useTotalValue({ quantity, price, marketUnit, side });
-    const drawValue = useDrawValue({ quantity, price, marketUnit, side });
+export const useBuySellDetail = ({ marketUnit, price, quantity, side, contractSize }: IuseCommissionType) => {
+    const { commission } = useCommission({ quantity, price, marketUnit, side, contractSize });
+    const cost = useCostValue({ quantity, price, contractSize });
+    const totalValue = useTotalValue({ quantity, price, marketUnit, side, contractSize });
+    const drawValue = useDrawValue({ quantity, price, marketUnit, side, contractSize });
     return {
         commission,
         cost,

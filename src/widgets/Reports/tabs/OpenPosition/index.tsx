@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next"
 import { useOpenPosition } from "src/app/queries/option"
 import { useSymbolGeneralInfo } from "src/app/queries/symbol"
 import AGTable, { ColDefType } from "src/common/components/AGTable"
+import Input from "src/common/components/Input"
+import input from "src/common/components/SymbolMiniSelect/input"
 import WidgetLoading from "src/common/components/WidgetLoading"
 import useUpdateEffect from "src/common/hooks/useUpdateEffect"
 import { ReverseOptionIcon } from "src/common/icons"
@@ -34,6 +36,7 @@ export const OpenPosition = () => {
     const appDispatch = useAppDispatch()
 
     const [rowState, setRowState] = useState<RowStateType>(initRowState)
+    const [InputSearch, setInputSearch] = useState("")
 
     const { data, isFetching } = useOpenPosition()
 
@@ -99,6 +102,13 @@ export const OpenPosition = () => {
         if (rowState.symbolISIN) refetch()
     }, [rowState])
 
+
+    const filterData = () => {
+        if (!InputSearch) return data
+        if (!data) return []
+
+        return data.filter((item) => item.customerTitle.trim().includes(InputSearch.trim()))
+    }
 
 
     const columns = useMemo((): ColDefType<IOpenPositionsRes>[] => [
@@ -223,8 +233,19 @@ export const OpenPosition = () => {
     return (
         <>
             <WidgetLoading spining={isFetching}>
-                <div className={'h-full p-3'}>
-                    <AGTable agGridTheme="alpine" rowData={data || []} columnDefs={columns} />
+                <div className={'h-full p-3 grid grid-rows-min-one'}>
+                    <div className="w-[250px] mb-2">
+                        <Input
+                            placeholder="جستجو بر اساس مشتری"
+                            value={InputSearch}
+                            onChange={(e) => setInputSearch(e.target.value)}
+                            containerClassName="w-48"
+                        />
+                    </div>
+
+                    <div>
+                        <AGTable agGridTheme="alpine" rowData={filterData()} columnDefs={columns} />
+                    </div>
                 </div>
             </WidgetLoading>
         </>
