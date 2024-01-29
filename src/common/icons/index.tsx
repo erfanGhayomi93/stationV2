@@ -7,8 +7,14 @@ export { ReactComponent as ArrowRight } from 'src/assets/svg/arrowRight.svg';
 
 export { ReactComponent as FilterPlusIcon } from 'src/assets/svg/filterPlus.svg';
 export { ReactComponent as FilterMinusIcon } from 'src/assets/svg/filterMinus.svg';
+export { ReactComponent as NewFilterMinusIcon } from 'src/assets/svg/newFilterMinus.svg';
+export { ReactComponent as NewFilterPlusIcon } from 'src/assets/svg/newFilterPlus.svg';
+export { ReactComponent as IsFilterActiveIcon } from 'src/assets/svg/isFilterActive.svg';
 export { ReactComponent as Excel2Icon } from 'src/assets/svg/Excel2.svg';
 export { ReactComponent as Refresh2Icon } from 'src/assets/svg/refresh2.svg';
+export { ReactComponent as CurvedRefreshIcon } from 'src/assets/svg/CurvedRefreshIcon.svg';
+export { ReactComponent as BreadcrumbSeprator } from 'src/assets/svg/breadcrumbSeprator.svg';
+
 // Sidebar
 export { ReactComponent as BasketIcon } from 'src/assets/svg/Basket.svg';
 export { ReactComponent as ModalBasketIcon } from 'src/assets/svg/Basket2.svg';
@@ -87,6 +93,7 @@ export { ReactComponent as TradeChartSVG } from 'src/assets/svg/trade-chart.svg'
 export { ReactComponent as CalenderBourseSVG } from 'src/assets/svg/calender-bourse.svg';
 export { ReactComponent as ArrowDown } from 'src/assets/svg/arrowDown.svg';
 export { ReactComponent as ReverseOptionIcon } from 'src/assets/svg/reverseOption.svg';
+export { ReactComponent as ReportsIcon } from 'src/assets/svg/reportsIcon.svg';
 
 // Setting
 export { ReactComponent as SessionLogIcon } from 'src/assets/svg/SessionLog.svg';

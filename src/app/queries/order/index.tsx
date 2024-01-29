@@ -13,10 +13,11 @@ export const setOrder = async (params: IOrderRequestType) => {
     );
 };
 
-
-export const useMutationSendOrder = (option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IOrderRequestType, unknown>, 'mutationFn'> | undefined,) => {
-    return useMutation(setOrder, option)
-}
+export const useMutationSendOrder = (
+    option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IOrderRequestType, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(setOrder, option);
+};
 ////////////////////////////////////
 
 const singleModifyOrderFn = async (params: ISingleModifyOrderReq) => {
@@ -41,26 +42,25 @@ export const useGetOrders = (params: ITodayOpenOrderType, options?: UseQueryOpti
     return useQuery<IOrderGetType[]>(['orderList', params.GtOrderStateRequestType], () => getOrderFn(params), options);
 };
 
-
-
 const getTodayDoneTradesDetails = async (params: IDoneTradesDetailsReq) => {
     let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTradeDetails, { params });
     return data.result || [];
 };
 
-export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
-
-
-
+export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<any>, 'queryFn'>) =>
+    useQuery(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
 
 //New Api
 
 const getTodayDoneTrades = async (aggregateType: IAggregate) => {
-    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTrades, { params: { aggregateType: !!aggregateType ? aggregateType : undefined } });
+    let { data } = await AXIOS.get<GlobalApiResponseType<TTodayDoneTrades[]>>(Apis().Orders.TodayDoneTrades, {
+        params: { aggregateType: !!aggregateType ? aggregateType : undefined },
+    });
     return data.result || [];
 };
 
-export const useGetTodayDoneTrades = (aggregateType: IAggregate, options?: Omit<UseQueryOptions<any>, 'queryFn'>) => useQuery(['TodayDoneTrades', aggregateType], () => getTodayDoneTrades(aggregateType), options);
+export const useGetTodayDoneTrades = (aggregateType: IAggregate, options?: Omit<UseQueryOptions<any>, 'queryFn'>) =>
+    useQuery(['TodayDoneTrades', aggregateType], () => getTodayDoneTrades(aggregateType), options);
 
 //////////////delete Order////////////////////
 const singleDeleteOrderFn = async (orderId: number) => {
@@ -87,6 +87,16 @@ export const useOrderLists = <T = GlobalPaginatedApiResponse<IGTOrderListResultT
     options?: (Omit<UseQueryOptions<GlobalPaginatedApiResponse<IGTOrderListResultType[]>, unknown, GlobalPaginatedApiResponse<IGTOrderListResultType[]>, any[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
     return useQuery(['getOrderLists'], ({ queryKey }) => getOrderLists(param as IGTOrderListRequest), { ...options });
 };
+
+export const getOrderListExcel = async (params: IGTOrderListRequest) => {
+    const { data } = await AXIOS.get(Apis().Orders.Excel, { params });
+    return data;
+};
+
+export const useOrderListExcel = (
+    params: IGTOrderListRequest,
+    options?: Omit<UseQueryOptions<any, unknown, any, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
+) => useQuery(['getOrderListExcel'], () => getOrderListExcel(params as IGTOrderListRequest), { ...options });
 
 //////////////Modify////////////////////
 
@@ -140,3 +150,13 @@ export const useTradesLists = <T = IGTTradesResponseType,>(
 ) => {
     return useQuery(['getTradesLists'], ({ queryKey }) => getTradesLists(param as IGTTradesListRequest), { ...options });
 };
+
+export const getTradesListExcel = async (params: IGTTradesListRequest) => {
+    const { data } = await AXIOS.get(Apis().Orders.TradesExcel, { params });
+    return data;
+};
+
+export const useTradesListExcel = (
+    params: IGTTradesListRequest,
+    options?: Omit<UseQueryOptions<any, unknown, any, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
+) => useQuery(['getTradesListExcel'], () => getTradesListExcel(params), { ...options });
