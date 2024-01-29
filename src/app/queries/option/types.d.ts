@@ -93,4 +93,5 @@ interface IOpenPositionsRes {
     remainDays: number;
     symbolTitle: string;
     companyISIN: string;
+    customerTitle : string
 }

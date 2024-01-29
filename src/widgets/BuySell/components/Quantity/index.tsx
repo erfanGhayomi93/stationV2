@@ -19,7 +19,7 @@ const BuySellQuantity: FC = () => {
     const calculatorIcon = useMemo(() => <CalculatorIcon className="h-5 w-4 text-L-gray-500 dark:text-D-gray-500" />, []);
     const toggleButton = useMemo(() => <ToggleButton />, []);
 
-    const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });
+    // const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });
     const { buyCommission, sellCommission } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
     //
     const setQuantity = (value: number) => dispatch({ type: 'SET_QUANTITY', value });
@@ -64,7 +64,7 @@ const BuySellQuantity: FC = () => {
 
     useEffect(() => {
         (price && isCalculatorEnabled) && setQuantity(Math.floor(getTradedQuantity()))
-    }, [unitCommission, price, amount, isCalculatorEnabled, selectedCustomer]);
+    }, [price, amount, isCalculatorEnabled, selectedCustomer]);
 
     return (
         <>

@@ -7,7 +7,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 import AGTable from 'src/common/components/AGTable';
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import Select from 'src/common/components/SelectAsync';
-import WidgetLoading from 'src/common/components/WidgetLoading';
+// import WidgetLoading from 'src/common/components/WidgetLoading';
 import { pushEngine } from 'src/ls/pushEngine';
 import { subscriptionWatchlistMinor } from 'src/ls/subscribes';
 import { useAppDispatch } from 'src/redux/hooks';
@@ -58,11 +58,6 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 			},
 		}
 	);
-
-	useEffect(() => {
-		console.log("watchlistSymbol", watchlistSymbol)
-	}, [watchlistSymbol])
-
 
 
 	const onRowClicked = ({ data }: RowClickedEvent<IGetWatchlistSymbol>) => {

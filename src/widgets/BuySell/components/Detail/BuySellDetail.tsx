@@ -24,9 +24,9 @@ const BuySellDetail: FC = () => {
     const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
     // const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
 
-    const { price, quantity, sequential, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => ({ marketUnit: data.symbolData.marketUnit, isOption: data.symbolData.isOption, contractSize: data.symbolData.contractSize }) });
-    const { commission, cost, drawValue, totalValue } = useBuySellDetail({ quantity, price, marketUnit: symbolData?.marketUnit, side });
+    const { price, quantity, sequential, side } = useBuySellState();
+    const { commission, cost, drawValue, totalValue } = useBuySellDetail({ quantity, price, marketUnit: symbolData?.marketUnit, side, contractSize: symbolData?.isOption ? symbolData.contractSize : 1 });
 
     const { data, refetch } = useGetSumPrice({
         brokerCode: brokerCode || "",
@@ -76,7 +76,7 @@ const BuySellDetail: FC = () => {
                                             </div>
                                             <div className='flex justify-between gap-2'>
                                                 <span>ارزش (تعداد * قیمت * اندازه قرارداد):</span>
-                                                <span>{seprateNumber(cost * Number(symbolData.contractSize))}</span>
+                                                <span>{seprateNumber(cost)}</span>
                                             </div>
                                         </div>
                                     }
