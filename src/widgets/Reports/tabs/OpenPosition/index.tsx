@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next"
 import { useOpenPosition } from "src/app/queries/option"
 import { useSymbolGeneralInfo } from "src/app/queries/symbol"
 import AGTable, { ColDefType } from "src/common/components/AGTable"
+import AGHeaderSearchInput from "src/common/components/AGTable/HeaderSearchInput"
 import Input from "src/common/components/Input"
-import input from "src/common/components/SymbolMiniSelect/input"
 import WidgetLoading from "src/common/components/WidgetLoading"
 import useUpdateEffect from "src/common/hooks/useUpdateEffect"
 import { ReverseOptionIcon } from "src/common/icons"
@@ -116,11 +116,13 @@ export const OpenPosition = () => {
         {
             headerName: t("options.column_customer_title"),
             field: "customerTitle",
+            headerComponent: AGHeaderSearchInput
         },
         /* نماد */
         {
             headerName: t("options.column_symbol_title"),
             field: "symbolTitle",
+            headerComponent: AGHeaderSearchInput
         },
         /* موقعیت */
         {
@@ -233,19 +235,8 @@ export const OpenPosition = () => {
     return (
         <>
             <WidgetLoading spining={isFetching}>
-                <div className={'h-full p-3 grid grid-rows-min-one'}>
-                    <div className="w-[250px] mb-2">
-                        <Input
-                            placeholder="جستجو بر اساس مشتری"
-                            value={InputSearch}
-                            onChange={(e) => setInputSearch(e.target.value)}
-                            containerClassName="w-48"
-                        />
-                    </div>
-
-                    <div>
-                        <AGTable agGridTheme="alpine" rowData={filterData()} columnDefs={columns} />
-                    </div>
+                <div className={'h-full p-3'}>
+                    <AGTable agGridTheme="alpine" rowData={filterData()} columnDefs={columns} />
                 </div>
             </WidgetLoading>
         </>
