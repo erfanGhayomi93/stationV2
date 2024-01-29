@@ -43,7 +43,7 @@ const FinancialTab = () => {
 
                         <div className='gap-2 flex items-center'>
                             <span className='text-sm font-medium'>مبلغ بلوکه شده:</span>
-                            <span>{blockValue}</span>
+                            <span>{'\u200E' + seprateNumber(blockValue)}</span>
                         </div>
 
                         <div className="flex gap-2 items-center">
