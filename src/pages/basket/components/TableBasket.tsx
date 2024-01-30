@@ -8,15 +8,12 @@ import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { valueFormatterCustomerTitle, valueFormatterIndex, valueFormatterSide } from 'src/utils/helpers';
 import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actionCell';
 import { useBasketDispatch } from '../context/BasketContext';
-import { filterStateType } from './FilterBasket';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 
 type ITableType = {
     activeBasket: number;
     listAfterFilter: IListDetailsBasket | undefined;
-    dataFilter: filterStateType;
-    isShowFilter: boolean;
     setGridApi: any;
     dataListLoading: boolean;
     handlePageInfoChange: (action: 'PageNumber' | 'PageSize', value: number) => void;
@@ -27,14 +24,11 @@ type TRowData = IListDetailsBasket['result'][number];
 export const TableBasket = ({
     activeBasket,
     listAfterFilter,
-    dataFilter,
-    isShowFilter,
     setGridApi,
     dataListLoading,
     handlePageInfoChange,
 }: ITableType) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
-    const { customerTitles, symbolTitle, side } = dataFilter;
     const appDispatch = useAppDispatch();
     const dispatch = useBasketDispatch();
 
@@ -110,20 +104,7 @@ export const TableBasket = ({
                 })}
             >
                 <AGTable
-                    rowData={
-                        listAfterFilter?.result.filter((item) => {
-                            if (!customerTitles && !symbolTitle && side === 'All') return true;
-                            else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
-                            else if (side && item?.side.includes(side)) return true;
-                            else if (customerTitles) {
-                                const customerTitlesString = String(item.customers?.map((i) => i?.customerTitle));
-                                if (customerTitlesString.includes(customerTitles)) {
-                                    return true;
-                                }
-                            }
-                            return false;
-                        })
-                    }
+                    rowData={listAfterFilter?.result}
                     columnDefs={columns}
                     onGridReady={(p) => setGridApi(p)}
                     // rowSelection="multiple"
@@ -145,3 +126,18 @@ export const TableBasket = ({
         </>
     );
 };
+
+
+
+// listAfterFilter?.result.filter((item) => {
+//     if (!customerTitles && !symbolTitle && side === 'All') return true;
+//     else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
+//     else if (side && item?.side.includes(side)) return true;
+//     else if (customerTitles) {
+//         const customerTitlesString = String(item.customers?.map((i) => i?.customerTitle));
+//         if (customerTitlesString.includes(customerTitles)) {
+//             return true;
+//         }
+//     }
+//     return false;
+// })
