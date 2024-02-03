@@ -71,3 +71,7 @@ type ICreateBasket = {
     name: string;
     sendDate: string;
 };
+
+interface IGetBasketDetailParams extends filterStateType {
+    cartId: number;
+}
