@@ -8,13 +8,10 @@ import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
-import ActionCell, { TypeActionEnum } from '../components/actionCell';
-import FilterTable from '../components/FilterTable';
 import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
-import { resolve } from 'path';
 
 type IDraft = {
 };
@@ -134,9 +131,7 @@ const Drafts: FC<IDraft> = () => {
                     rowData={dataAfterfilter}
                     columnDefs={columns}
                     rowSelection="multiple"
-                // enableBrowserTooltips={false}
-                // suppressRowClickSelection={true}
-                // onRowSelected={onRowSelected}
+                    suppressRowVirtualisation={true}
                 />
             </WidgetLoading>
         </div>

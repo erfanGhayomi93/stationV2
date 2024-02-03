@@ -81,17 +81,17 @@ const Reports = () => {
     );
 
     const leftNode = (
-        <div className='flex gap-x-4 w-full justify-end'>
+        <div className='flex gap-x-4 w-full justify-end items-center'>
 
             {
                 activeTab === "DoneOrders" && (
-                    <div className='flex gap-x-2 items-center'>
-                        <span className='text-L-gray-600 dark:text-D-gray-600'>تجمیع بر اساس:</span>
+                    <div className='flex gap-x-2 items-center my-2'>
+                        <span className='text-L-gray-600 dark:text-D-gray-600 text-sm'>تجمیع بر اساس:</span>
 
-                        <button role="button" type='button'
+                        <button
                             onClick={() => changeAggregateFilter("Customer")}
                             data-actived={isCustomerFilter}
-                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-text-50 dark:text-D-text-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
+                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
                         >
                             <span>مشتری</span>
                             <span
@@ -101,11 +101,10 @@ const Reports = () => {
                             </span>
                         </button>
 
-                        <button role="button" type='button'
+                        <button
                             onClick={() => changeAggregateFilter("Symbol")}
                             data-actived={isSymbolFilter}
-                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-text-50 dark:text-D-text-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ', {
-                            })}
+                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
                         >
                             <span>نماد</span>
                             <span
@@ -120,29 +119,29 @@ const Reports = () => {
             }
 
 
-            <div className='flex'>
-                <Tippy content="خروجی اکسل" className="text-xs">
+            <div className='flex my-2'>
+                <Tippy content="خروجی اکسل">
                     <button
                         // onClick={() => setisOpen(true)}
-                        className="ml-2 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                        className="ml-2 flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
                     >
-                        <ExcelIcon width={12} height={14} />
+                        <ExcelIcon width={19} height={19} />
                     </button>
                 </Tippy>
                 {/* <Tooltip title='' position='top'> 
                 <button
                     onClick={() => handleChangeLeftNode('isFilter')}
-                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                    className="ml-2 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded"
                 >
-                    <FilterListIcon width={12} height={14} />
+                    <FilterListIcon width={13} height={13} />
                 </button>
             </Tooltip> */}
-                <Tippy content="گزارشات" className="text-xs">
+                <Tippy content="گزارشات">
                     <button
                         onClick={() => navigate('/Reports/orders')}
-                        className="ml-4 flex items-center p-1 justify-center bg-L-gray-300 dark:bg-D-gray-300 rounded text-L-primary-50 dark:text-D-primary-50 border-L-primary-50 dark:border-D-primary-50 border"
+                        className="ml-4 flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
                     >
-                        <HistoryIcon width={12} height={14} />
+                        <HistoryIcon width={19} height={19} />
                     </button>
                 </Tippy>
             </div>

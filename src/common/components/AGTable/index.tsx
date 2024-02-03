@@ -28,7 +28,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
     const { t } = useTranslation();
     const theme = useAppSelector(getTheme);
 
-    const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' }), []);
+    const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' , position : "relative" }), []);
     const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
