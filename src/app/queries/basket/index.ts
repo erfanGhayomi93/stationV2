@@ -4,6 +4,7 @@ import { queryClient } from 'src/app/queryClient';
 
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { filterStateType } from 'src/pages/basket/components/FilterBasket';
 import { excelDownloader } from 'src/utils/helpers';
 
 ////////////////get Basket////////////////////////
@@ -97,7 +98,7 @@ export const useEditDetailsBasket = (
 ) => useMutation(EditCartDetail, { ...options });
 
 ////////////////get Basket////////////////////////
-export const getDetailsBasketFn = async (params: { cartId: number | undefined; PageNumber: number; PageSize: number }) => {
+export const getDetailsBasketFn = async (params: IGetBasketDetailParams) => {
     try {
         let { data } = await AXIOS.get<IListDetailsBasket>(Apis().Basket.GetDetail, { params });
         return data;
@@ -116,9 +117,9 @@ export const getDetailsBasketFn = async (params: { cartId: number | undefined; P
     }
 };
 
-export const useGetDetailsBasket = (cartId: number, params: { PageNumber: number; PageSize: number }) =>
-    useQuery(['BasketDetailsList', cartId, params], () => getDetailsBasketFn({ cartId, ...params }), {
-        enabled: !!cartId,
+export const useGetDetailsBasket = (params: IGetBasketDetailParams) =>
+    useQuery(['BasketDetailsList'], () => getDetailsBasketFn({ ...params }), {
+        enabled: false,
     });
 ///////////////delete details Basket///////////////////
 const deleteDetailsBasketFn = async (cartDetailId?: number) => {

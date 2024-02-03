@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetDetailsBasket } from 'src/app/queries/basket';
 import { FilterBasket, filterStateType, initialDataFilterBasket } from './components/FilterBasket';
 import InsertBasketItem from './components/InsertBasketItem';
@@ -7,43 +7,46 @@ import TopBasket from './components/TopBasket';
 import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
 import { GridReadyEvent } from 'ag-grid-community';
+import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 
 function BasketPage() {
-    const [activeBasket, setActiveBasket] = useState<number>(0);
-    const [dataListParams, setDataListParams] = useState<{ PageNumber: number; PageSize: number }>({ PageNumber: 1, PageSize: 10 });
-    const [listAfterFilter, setListAfterFilter] = useState<IListDetailsBasket>();
-    const [dataFilter, setDataFilter] = useState<filterStateType>(initialDataFilterBasket);
-    const [isShowFilter, setisShowFilter] = useState<boolean>(false);
+    const [detailParams, setDetailParams] = useState<filterStateType>(cleanObjectOfFalsyValues(initialDataFilterBasket) as filterStateType);
     const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
     const { t } = useTranslation();
     const dispatch = useBasketDispatch();
 
-    const { data: dataListDetailsBasket, isLoading: dataListLoading } = useGetDetailsBasket(activeBasket, dataListParams);
+    const {
+        data: basketDetails,
+        isLoading: basketDetailsIsLoading,
+        refetch: fetchBasketDetails,
+    } = useGetDetailsBasket(cleanObjectOfFalsyValues(detailParams) as filterStateType);
 
     useEffect(() => {
-        setListAfterFilter(dataListDetailsBasket);
-    }, [dataListDetailsBasket]);
+        detailParams?.cartId && fetchBasketDetails();
+    }, [detailParams]);
 
     const saveIndexBasketSelected = (id: number) => {
-        setActiveBasket(id);
+        setDetailParams((prev) => ({ ...prev, cartId: id }));
         dispatch({ type: 'SET_BASKET_ID', value: id });
     };
 
-    const handleFilter = (dataFilter: filterStateType) => {
-        setDataFilter(dataFilter);
-    };
-
-    const handlePageInfoChange = (action: 'PageNumber' | 'PageSize', value: number) => {
-        setDataListParams((pre) => ({ ...pre, [action]: value }));
-    };
+    const handlePageInfoChange = (action: 'PageNumber' | 'PageSize', value: number) => setDetailParams((pre) => ({ ...pre, [action]: value }));
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
             <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.basket')}</h1>
-            <TopBasket {...{ activeBasket, saveIndexBasketSelected, gridApi }} />
-            <FilterBasket {...{ handleFilter, isShowFilter, setisShowFilter }} />
-            <TableBasket {...{ activeBasket, listAfterFilter, dataFilter, isShowFilter, setGridApi, dataListLoading, handlePageInfoChange }} />
-            <InsertBasketItem activeBasket={activeBasket} />
+            <TopBasket activeBasket={detailParams.cartId} saveIndexBasketSelected={saveIndexBasketSelected} gridApi={gridApi} />
+            <FilterBasket setDetailParams={setDetailParams} />
+            <TableBasket
+                {...{
+                    activeBasket: detailParams.cartId,
+                    listAfterFilter: basketDetails,
+                    setGridApi,
+                    dataListLoading: basketDetailsIsLoading,
+                    handlePageInfoChange,
+                }}
+            />
+            <InsertBasketItem activeBasket={detailParams.cartId} />
         </div>
     );
 }

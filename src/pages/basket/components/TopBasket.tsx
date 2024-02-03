@@ -29,13 +29,9 @@ const TopBasket = ({ activeBasket, saveIndexBasketSelected, gridApi }: ITopBaske
         listBasket && saveIndexBasketSelected(listBasket[0]?.id);
     }, [listBasket]);
 
-    const toggleAddBasket = () => {
-        setShowAddForm((prev) => !prev);
-    };
+    const toggleAddBasket = () => setShowAddForm((prev) => !prev);
 
-    const toggleEditBasket = () => {
-        setShowEditForm((prev) => !prev);
-    };
+    const toggleEditBasket = () => setShowEditForm((prev) => !prev);
 
     const handleExcelExport = () => getExcel();
 
