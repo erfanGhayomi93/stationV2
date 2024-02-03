@@ -62,6 +62,7 @@ type TTodayDoneTrades = {
     quantity: number;
     totalPrice: number;
     tradeDate: string;
+    commission ?: number
 };
 
 type IOrderSelected = {

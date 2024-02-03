@@ -43,6 +43,7 @@
                 --ag-header-height: 2.25rem,
                 --ag-header-background-color: #2F333D,// D-gray-200
                 --ag-header-column-separator-display: true,
+                
                 --ag-header-column-separator-color: #191E24,
                 // Main Colors
                 --ag-foreground-color: #a0b4e3,
@@ -68,25 +69,25 @@
                  balham: (
                 // font
                 --ag-font-family: 'IRANSansEnNum',
-                --ag-font-size: 0.7rem,
+                --ag-font-size: 0.74rem,
                 // header
                 --ag-header-height: 2.25rem,
                 --ag-header-background-color: #ffffff,
                 --ag-header-column-separator-display: true,
                 --ag-header-column-separator-height: 70%,
-                --ag-header-column-separator-color: #C6D8E7,
+                --ag-header-column-separator-color: #EBF0F5,
                 // Main Colors
                 --ag-foreground-color: #002952,
                 --ag-alpine-active-color: #002952,
                 --ag-header-foreground-color: #939CAD,// gray-500
-                --ag-data-color: #2e3644,
+                --ag-data-color: #333333, //gray-700
                 --ag-row-hover-color: #d2e3fa,
                 --ag-odd-row-background-color: #F3F7FB,// gray-100
                 // Borders
                 --ag-borders: 0px solid,
                 --ag-border-color: #babfc7,
                 --ag-borders-secondary: 0px solid,
-                --ag-cell-horizontal-border: solid #ffffff,
+                --ag-cell-horizontal-border: solid transparent,
                 --ag-borders-critical: 0px solid,
                 // Rows
                 --ag-row-height: 2.25rem,
@@ -97,29 +98,30 @@
                 --ag-grid-size: 3px,
                 --ag-icon-size: 12px,
                 --ag-list-item-height: 35px,
+                --ag-cell-horizontal-padding : 4px
             ),
             balham-dark: (
                 // font
                 --ag-font-family: 'IRANSansEnNum',
-                --ag-font-size: 0.7rem,
+                --ag-font-size: 0.74rem,
                 // header
                 --ag-header-height: 2.25rem,
                 --ag-header-background-color: #181D1F,
                 --ag-header-column-separator-display: true,
                 --ag-header-column-separator-height: 70%,
-                --ag-header-column-separator-color: #546478,
+                --ag-header-column-separator-color: #2F333D,
                 // Main Colors
                 --ag-foreground-color: #a0b4e3,
                 --ag-alpine-active-color: #a0b4e3,
                 --ag-header-foreground-color: #eaecef,
-                --ag-data-color: #eaecef,
+                --ag-data-color: #F0F3FA, //gray-700
                 --ag-row-hover-color: #474d57,
                 --ag-odd-row-background-color: #262F39,
                 // Borders
                 --ag-borders: 0px solid,
                 --ag-border-color: #546478,
                 --ag-borders-secondary: 0px solid,
-                --ag-cell-horizontal-border: solid #191E24,
+                --ag-cell-horizontal-border: solid transparent,
                 --ag-borders-critical: 0px solid,
                 --ag-borders-row: 0px solid,
                 // Rows
@@ -128,6 +130,9 @@
                 // Spacing
                 --ag-grid-size: 3px,
                 --ag-icon-size: 12px,
+
+                --ag-cell-horizontal-padding : 4px
+
             ),
         ),
     )
@@ -135,6 +140,10 @@
 
 .ag-root-wrapper {
     border-radius: 10px;
+    padding: 16px 8px !important;
+    .ag-center-cols-container , .ag-center-cols-viewport , .ag-theme-alpine , .ag-layout-auto-height .ag-center-cols-clipper{
+        min-height: 35px !important;
+    }
 }
 
 .ag-body-viewport.ag-layout-normal .ag-center-cols-viewport {
@@ -149,10 +158,17 @@
 }
 .ag-header .ag-header-cell .ag-header-cell-label {
     justify-content: center !important;
+    font-weight: 400 !important;
+    padding: 0 4px !important;
 }
 
 .ag-header .ag-header-group-cell .ag-header-group-cell-label {
     justify-content: center !important;
+}
+
+ .ag-header-cell:last-child::after{
+    width: 0 !important;
+    height: 0 !important;
 }
 
 
@@ -214,4 +230,8 @@
 				}
 			}
 		}
+}
+
+.ag-center-cols-viewport {
+    min-height: 35px !important;
 }

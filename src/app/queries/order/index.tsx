@@ -47,8 +47,8 @@ const getTodayDoneTradesDetails = async (params: IDoneTradesDetailsReq) => {
     return data.result || [];
 };
 
-export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<any>, 'queryFn'>) =>
-    useQuery(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
+export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<TTodayDoneTrades[] , Error>, 'queryFn'>) =>
+    useQuery<TTodayDoneTrades[] , Error>(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
 
 //New Api
 

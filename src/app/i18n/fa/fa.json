@@ -314,7 +314,8 @@
         "Price_Must_Be_Valid_Against_Tick_Table": "قیمت باید ضریبی از تیک قیمت باشد.",
         "NoTimeToOrder": "امکان ایجاد سفارش در حال حاضر امکان پذیر نیست.",
         "Order_PerSecond_Check_Failed": "محدودیت زمانی فاصله بین ارسال سفارش",
-        "default": "خطایی رخ داده است."
+        "default": "خطایی رخ داده است.",
+        "Contract_IsExpired" : "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد."
     },
     "Action_Button": {
         "Search": "جستجو",
@@ -408,6 +409,8 @@
         "requestValidity": "اعتبار درخواست",
         "portfolioType": "تراکنش",
         "commissionPrice": "کارمزد",
+        "commission": "کارمزد",
+        "quantity": "تعداد",
         "profit": "سود / زیان",
         "deviceAddress": "آدرس دستگاه",
         "deviceType": "نوع دستگاه",

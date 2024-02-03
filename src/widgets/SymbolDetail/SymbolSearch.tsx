@@ -36,29 +36,30 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     const createOptions = (symbols: SymbolSearchResult[]) => {
         if (!symbols.length) return [];
 
-        return symbols.map((symbol) => (
-            <Combobox.Option
-                key={symbol.symbolISIN}
-                className={({ active }) =>
-                    `relative cursor-default text-1.2   select-none py-1 px-3 border-b last:border-none border-L-gray-400 dark:border-D-gray-400 ${
-                        active
+        return symbols
+            .filter(item => item)
+            .map((symbol) => (
+                <Combobox.Option
+                    key={symbol.symbolISIN}
+                    className={({ active }) =>
+                        `relative cursor-default text-1.2   select-none py-1 px-3 border-b last:border-none border-L-gray-400 dark:border-D-gray-400 ${active
                             ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-500 dark:text-D-gray-700'
                             : 'text-L-gray-500 dark:text-D-gray-700 dark:odd:bg-D-gray-100 odd:bg-L-gray-100'
-                    }`
-                }
-                value={symbol}
-            >
-                <div className="flex items-center">
-                    <span className="ml-2">
-                        <SymbolState symbolState={symbol?.symbolState || ''} />
-                    </span>
-                    <div>
-                        <span className={`block truncate font-normal`}>{symbol.symbolTitle}</span>
-                        <small className={`block truncate font-normal`}>{symbol.companyName}</small>
+                        }`
+                    }
+                    value={symbol}
+                >
+                    <div className="flex items-center">
+                        <span className="ml-2">
+                            <SymbolState symbolState={symbol?.symbolState || ''} />
+                        </span>
+                        <div>
+                            <span className={`block truncate font-normal`}>{symbol?.symbolTitle}</span>
+                            <small className={`block truncate font-normal`}>{symbol.companyName}</small>
+                        </div>
                     </div>
-                </div>
-            </Combobox.Option>
-        ));
+                </Combobox.Option>
+            ));
     };
 
     const optionsContent = useMemo(() => {
