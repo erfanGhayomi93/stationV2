@@ -78,7 +78,12 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             </WidgetLoading>
             {
                 infoModalState.isOpen && (
-                    <InfoDoneOrders isOpen={infoModalState.isOpen} modalData={infoModalState?.data} onClose={handleInfoClose} />
+                    <InfoDoneOrders
+                        isOpen={infoModalState.isOpen}
+                        modalData={infoModalState?.data}
+                        onClose={handleInfoClose}
+                        aggregateType={aggregateType}
+                    />
                 )
             }
         </div>
