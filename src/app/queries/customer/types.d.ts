@@ -5,7 +5,7 @@ type IStatusCustomerType = 'Normal' | 'CallMargin' | 'AtRisk';
 interface IGoMultiCustomerType {
     bourseCode: string;
     children: IGoMultiCustomerType[];
-    credit: number;
+    creditValue: number;
     customerISIN: string;
     customerType: ICustomerMultiTypeType;
     nationalCode: string;
