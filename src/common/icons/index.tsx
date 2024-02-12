@@ -28,6 +28,8 @@ export { ReactComponent as CheckListIcon } from 'src/assets/svg/CheckListIcon.sv
 export { ReactComponent as ChevronIcon } from 'src/assets/svg/Chevron.svg';
 export { ReactComponent as ChevronUpDownIcon } from 'src/assets/svg/ChevronUpDown.svg';
 export { ReactComponent as CloseIcon } from 'src/assets/svg/Close.svg';
+export { ReactComponent as BuySellToggleOpenIcon } from 'src/assets/svg/buySellToggle.svg';
+export { ReactComponent as BuySellToggleCloseIcon } from 'src/assets/svg/buySellToggleClose.svg';
 export { ReactComponent as CodalIcon } from 'src/assets/svg/CodalIcon.svg';
 export { ReactComponent as CoinIcon } from 'src/assets/svg/coinIcon.svg';
 export { ReactComponent as CopyIcon } from 'src/assets/svg/Copy.svg';
@@ -38,6 +40,7 @@ export { ReactComponent as EditIcon2 } from 'src/assets/svg/Edit.svg';
 export { ReactComponent as Envelope } from 'src/assets/svg/Envelope.svg';
 export { ReactComponent as Envelope2Icon } from 'src/assets/svg/Envelope2.svg';
 export { ReactComponent as ExcelIcon } from 'src/assets/svg/excel.svg';
+export { ReactComponent as UploadExcelIcon } from 'src/assets/svg/uploadExcel.svg';
 export { ReactComponent as ExpandArrow } from 'src/assets/svg/expandArrow.svg';
 export { ReactComponent as EyeFrameIcon } from 'src/assets/svg/EyeFrame.svg';
 export { ReactComponent as EyeIcon } from 'src/assets/svg/EyeIcon.svg';
@@ -147,6 +150,7 @@ export { ReactComponent as InfoFillIcon } from 'src/assets/svg/infoFillIcon.svg'
 export { ReactComponent as SandClockIcon } from 'src/assets/svg/sand-clock.svg';
 export { ReactComponent as CashIcon } from 'src/assets/svg/CashIcon.svg';
 export { ReactComponent as PhysicalSettlementIcon } from 'src/assets/svg/PhysicalSettlementIcon.svg';
+export { ReactComponent as ClearInputIcon } from 'src/assets/svg/clearInput.svg';
 
 // Footer
 export { ReactComponent as Signal } from 'src/assets/svg/Signal.svg';

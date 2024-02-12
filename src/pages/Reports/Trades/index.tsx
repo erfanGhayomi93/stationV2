@@ -88,7 +88,8 @@ const Trades = () => {
     };
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setApiParams((pre) => ({ ...pre, [action]: value }));
+        setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
+        action === 'PageSize' && setFormValues((pre) => ({ ...pre, [action]: value }));
     }, []);
 
     const onTimeFieldChange = (time: ManipulateType | undefined) => {

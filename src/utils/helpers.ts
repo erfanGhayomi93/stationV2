@@ -519,6 +519,14 @@ export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
     return obj;
 };
 
+export const isObjectContainsFalsy = (object: { [key: string]: any }, keys: string[]) => {
+    for (let i = 0; i < keys.length; i++) {
+        if (!object[keys[i]]) {
+            return true;
+        }
+    }
+};
+
 export const removeDuplicatesInArray = (arr: any[]) => arr.filter((item, index) => arr.indexOf(item) === index);
 
 export const datePeriodValidator = (fromDate: string, toDate: string) => {
