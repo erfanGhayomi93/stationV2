@@ -1,4 +1,4 @@
-import { ColDef, ColGroupDef, ColumnVisibleEvent, FirstDataRenderedEvent, GridSizeChangedEvent } from 'ag-grid-community';
+import { ColDef, ColGroupDef, ColumnVisibleEvent, FirstDataRenderedEvent, GridSizeChangedEvent, RowValueChangedEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -46,6 +46,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
             minWidth: 100,
             suppressMovable: true,
             sortable: true,
+            flex: 1,
             tooltipValueGetter: ({ value, valueFormatted, colDef }) => {
                 if (colDef && colDef.hasOwnProperty('cellRenderer')) return '';
                 return valueFormatted || value;
@@ -54,10 +55,11 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
         };
     }, []);
 
-    const onGridSizeChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
-    const onRowDataUpdated = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
-    const onRowDataChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
-    const onFirstDataRendered = useCallback(({ api }: FirstDataRenderedEvent) => api?.sizeColumnsToFit(), []);
+    // const onGridSizeChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+    // const onRowDataUpdated = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+    // const onRowValueChanged = useCallback(({ api }: RowValueChangedEvent<unknown>) => api?.sizeColumnsToFit(), []);
+    // const onFirstDataRendered = useCallback(({ api }: FirstDataRenderedEvent) => api?.sizeColumnsToFit(), []);
+
     const onColumnVisible = useCallback(({ api, column }: ColumnVisibleEvent) => {
         setTimeout(() => {
             try {
@@ -90,10 +92,12 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
                 scrollbarWidth={5}
                 suppressColumnVirtualisation
                 //
-                onGridSizeChanged={onGridSizeChanged}
-                onRowDataUpdated={onRowDataUpdated}
-                onRowDataChanged={onRowDataChanged}
-                onFirstDataRendered={onFirstDataRendered}
+                // onGridSizeChanged={onGridSizeChanged}
+                // onRowDataUpdated={onRowDataUpdated}
+                // onRowDataChanged={onRowDataChanged}
+                //'onRowDataChanged' is deprecated.
+                // onRowValueChanged={onRowValueChanged}
+                // onFirstDataRendered={onFirstDataRendered}
                 onColumnVisible={onColumnVisible}
                 //
                 columnTypes={ColumnTypes}
