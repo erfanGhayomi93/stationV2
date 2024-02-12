@@ -36,6 +36,17 @@ interface IResponseSumPrice {
     orderVolume: number;
 }
 
+interface IResponsiveAdditionalInfo {
+    ipoFromDate: string;
+    ipoFromTime: string;
+    ipoToTime: string;
+    fromPrice: number;
+    toPrice : number;
+    individualToQuantity: number;
+    legalToQuantity: number;
+    assigneeDate: string;
+}
+
 interface OptionGeneralInformation {
     initialMargin: number;
     maintenanceMargin: number;
@@ -93,5 +104,5 @@ interface IOpenPositionsRes {
     remainDays: number;
     symbolTitle: string;
     companyISIN: string;
-    customerTitle : string
+    customerTitle: string;
 }

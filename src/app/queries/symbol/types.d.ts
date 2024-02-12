@@ -78,6 +78,7 @@ type SymbolData = {
     hasRiskAnnouncement: boolean;
     isOption: boolean;
     contractSize: number;
+    isIpo: boolean;
 };
 
 type OrdersData = {
