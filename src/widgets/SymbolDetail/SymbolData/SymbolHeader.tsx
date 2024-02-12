@@ -27,6 +27,7 @@ const SymbolHeader = () => {
             symbolEvents: data?.symbolData?.eventsWithinNextTenDays || [],
             hasRiskAnnouncement: data?.symbolData?.hasRiskAnnouncement,
             exchange: data?.symbolData?.exchange,
+            isIpo: data?.symbolData.isIpo || false
         }),
     });
     const eventsIds = data?.symbolEvents.filter(({ type }) => type === 'Meeting').map(({ id }) => id) || [];
@@ -61,6 +62,13 @@ const SymbolHeader = () => {
                                     <RiskAnnouncementIcon />
                                 </Tippy>
                             )}
+
+                            {
+                                data?.isIpo && (
+                                    <h4 className='py-1 px-2 text-L-warning dark:text-D-warning bg-L-warning/10 dark:bg-D-warning/10 rounded-lg'>عرضه اولیه</h4>
+                                )
+                            }
+
                         </div>
                         <h4 className="text-L-gray-500 dark:text-D-gray-500 mr-4">{data?.companyName || '-'}</h4>
                     </span>
@@ -84,5 +92,5 @@ const SymbolHeader = () => {
 
 export default React.memo(SymbolHeader);
 
-//link for adding symbol logos, there's a teeny tiny possibility for adding it later on 
+//link for adding symbol logos, there's a teeny tiny possibility for adding it later on
 //https://resource.ramandtech.com/CompanyLogo/${data?.companyCode}_40_40.jpg

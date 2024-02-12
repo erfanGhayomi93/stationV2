@@ -184,6 +184,9 @@ export const Apis = () => ({
         DeleteCashSettlement: getBaseUrl() + `/Option/v1/delete-cash`,
         DeletePhysicalSettlement: getBaseUrl() + `/Option/v1/delete-physical`,
     },
+    Ipo : {
+        GetBySymbolISIN: getBaseUrl() + `/IPO/v1/GetBySymbolISIN`,
+    }
 });
 
 // const getPortfolioUrl = () => {
