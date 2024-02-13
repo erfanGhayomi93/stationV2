@@ -103,8 +103,8 @@ export const ChartingLibrary = () => {
 					const widget = new TradingWidget({
 						options: {
 							symbol: selectedSymbol ?? 'IRO1ATIR0001',
-							client_id: userData?.customerISIN ?? "client_id",
-							user_id: userData?.customerISIN ?? "user_id",
+							client_id: userData.traderCode ?? "client_id",
+							user_id: userData.traderCode ?? "user_id",
 							container: child
 						},
 						theme,

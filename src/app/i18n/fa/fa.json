@@ -238,6 +238,7 @@
         "Option_Permission_NotSet": "مجوز معامله اختیار شما غیر فعال است. لطفا با کارگزاری تماس بگیرید.",
         "Order_ValidityDate_Not_Valid": "اعتبار سفارش نامعتبر می‌باشد.",
         "Customer_Request_Already_Registered": "سفارش عرضه اولیه قبلا ثبت شده است.",
+        "Credit_Not_Allowed_In_Option": "ثبت سفارش معاملات اختیار با مبلغ اعتبار تخصیص یافته امکان پذیر نیست.",
         "SymbolState_Is_Not_Valid": "وضعیت نماد نامعتبر است.",
         "Price_Not_Allowed": "قیمت خارج از محدوده است.",
         "Quantity_Not_Allowed": "تعداد خارج از محدوده مجاز است.",

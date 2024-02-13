@@ -66,7 +66,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 <AGTable
                     rowData={todayDoneTrades}
                     columnDefs={columns}
-                    enableBrowserTooltips={false}
+                    enableBrowserTooltips={true}
                     onCellMouseOver={(event) => {
                         if (rowIndexHover.current !== event.rowIndex) {
                             rowIndexHover.current = event.rowIndex

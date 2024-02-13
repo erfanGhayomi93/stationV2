@@ -132,6 +132,7 @@ const Drafts: FC<IDraft> = () => {
                     columnDefs={columns}
                     rowSelection="multiple"
                     suppressRowVirtualisation={true}
+                    enableBrowserTooltips={true}
                 />
             </WidgetLoading>
         </div>
