@@ -1,5 +1,5 @@
 import { AgGridReact } from 'ag-grid-react';
-import { useMemo, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useRef } from 'react';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { PlusIcon } from 'src/common/icons';
 import HeaderEditors from './components/HeaderEditors';
@@ -9,17 +9,28 @@ import AgCustomerSelect from 'src/common/components/AGEditors/AgCustomerSelect';
 import AgNumberInput from 'src/common/components/AGEditors/AgNumberInput';
 import './style.scss';
 import { onErrorNotif } from 'src/handlers/notification';
+import { IData } from '../..';
+import EditableColumn from './components/EditableColumn';
+import { NewValueParams } from 'ag-grid-community';
 
-const Table = () => {
-    const [data, setData] = useState<any[]>([]);
+interface IProps {
+    data: IData[];
+    dataSetter: Dispatch<SetStateAction<IData[]>>;
+}
+
+const Table = ({ data, dataSetter }: IProps) => {
     const gridRef = useRef<AgGridReact<any>>(null);
     const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
+
+    const onPriceOrCountChange = ({ data, node, newValue }: NewValueParams<any>, field: 'price' | 'count') =>
+        node?.setDataValue('tradeValue', data?.[field] ? +newValue * +data?.[field] : 0);
 
     const columns = useMemo(
         (): ColDefType<any>[] => [
             {
                 headerName: 'ردیف',
-                field: 'row',
+                field: 'rowNumber',
+                valueGetter: ({ node }) => Number(node?.rowIndex) + 1,
                 minWidth: 50,
                 maxWidth: 50,
                 pinned: 'right',
@@ -29,42 +40,53 @@ const Table = () => {
                 headerName: 'مشتری / کدبورسی',
                 field: 'customer',
                 cellEditor: AgCustomerSelect,
+                cellRenderer: EditableColumn,
                 cellEditorPopup: true,
-                valueFormatter: ({ value }) => (value ? value.title + ' - ' + value.bourseCode : ''),
+                valueFormatter: ({ data }) => (data?.title ? data?.title + ' - ' + data?.bourseCode : '-'),
+                cellClass: ({ data }) => (!data?.title ? 'bg-L-error-100 ' : ''),
                 cellStyle: { overflow: 'visible' },
                 flex: 1,
                 editable: true,
             },
             {
                 headerName: 'قدرت خرید',
+                field: 'purchasePower',
                 minWidth: 104,
                 maxWidth: 104,
+                cellClass: ({ value, data }) =>
+                    value == null ? '' : `${+value < +data?.tradeValue ? 'bg-L-error-100 text-L-error-300 font-medium' : ''}`,
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : value),
             },
             {
                 headerName: 'تعداد',
-                field: 'quantity',
-                minWidth: 78,
-                maxWidth: 78,
+                field: 'count',
+                minWidth: 100,
+                maxWidth: 100,
                 headerComponent: HeaderEditors,
+                cellRenderer: EditableColumn,
+                onCellValueChanged: (e) => onPriceOrCountChange(e, 'price'),
                 cellEditor: AgNumberInput,
-                cellStyle: { overflow: 'visible' },
-                headerComponentParams: { setData },
+                cellStyle: { overflow: 'visible', padding: 0 },
+                cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
+                headerComponentParams: { dataSetter },
                 headerClass: 'p-[1px]',
-                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : value),
+                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 editable: true,
             },
             {
                 headerName: 'قیمت',
                 field: 'price',
-                minWidth: 78,
-                maxWidth: 78,
+                minWidth: 100,
+                maxWidth: 100,
                 headerComponent: HeaderEditors,
                 cellEditor: AgNumberInput,
-                cellStyle: { overflow: 'visible' },
-                headerComponentParams: { setData },
+                cellRenderer: EditableColumn,
+                onCellValueChanged: (e) => onPriceOrCountChange(e, 'count'),
+                cellStyle: { overflow: 'visible', padding: 0 },
+                cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
+                headerComponentParams: { dataSetter },
                 headerClass: 'p-[1px]',
-                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : value),
+                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 editable: true,
             },
             {
@@ -73,42 +95,59 @@ const Table = () => {
                 minWidth: 111,
                 maxWidth: 111,
                 headerComponent: HeaderEditors,
+                onCellValueChanged: ({ node, newValue, data }) => {
+                    if (+newValue !== +data?.count * +data?.price && data?.count && data?.price) {
+                        node?.setDataValue('count', 0);
+                        node?.setDataValue('price', 0);
+                    }
+                },
                 cellEditor: AgNumberInput,
-                cellStyle: { overflow: 'visible' },
-                headerComponentParams: { setData },
+                cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
+                cellRenderer: EditableColumn,
+                cellStyle: { overflow: 'visible', padding: 0 },
+                headerComponentParams: { dataSetter },
                 headerClass: 'p-[1px]',
-                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : value),
+                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 editable: true,
             },
             {
                 headerName: 'اعتبار',
-                minWidth: 75,
-                maxWidth: 75,
-                valueFormatter: ({ value }) => (value ? seprateNumber(+value) : value),
+                minWidth: 100,
+                maxWidth: 100,
+                cellClass: ({}) => 'text-L-gray-500',
+                valueFormatter: () => 'روز',
             },
             {
                 headerName: 'عملیات',
                 cellRenderer: ActionCol,
-                minWidth: 136,
-                maxWidth: 136,
+                minWidth: 110,
+                maxWidth: 110,
                 pinned: 'left',
                 sortable: false,
+                cellRendererParams: { dataSetter },
             },
         ],
-        [],
+        [data],
     );
 
     const handleAddButton = () => {
         let isThereFalsyValue = false;
         for (let i = 0; i < data.length; i++) {
-            if (isObjectContainsFalsy(data[i], ['customerISIN', 'quantity', 'price', 'tradeValue'])) {
+            if (isObjectContainsFalsy(data[i], ['count', 'price', 'tradeValue', 'title'])) {
                 isThereFalsyValue = true;
                 break;
             }
         }
 
         if (!isThereFalsyValue) {
-            setData((prev) => [...prev, { row: prev.length + 1 }]);
+            dataSetter((prev) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
+            setTimeout(() => {
+                const rowIndex = data?.length;
+                gridRef.current?.api?.startEditingCell({
+                    colKey: 'customer',
+                    rowIndex,
+                });
+            }, 50);
         } else {
             onErrorNotif({ title: 'لطفا تمامی فیلد ها را کامل نمایید' });
         }
@@ -122,11 +161,12 @@ const Table = () => {
                     rowData={data}
                     columnDefs={columns}
                     navigateToNextHeader={() => null}
-                    editType="fullRow"
-                    onCellValueChanged={(e) =>
-                        setData((prev) => prev.map((x) => (x.row === e.data.row ? { ...e.data, customerISIN: e.data.customer?.customerISIN } : x)))
-                    }
-                    suppressScrollOnNewData={false}
+                    onCellValueChanged={(e) => {
+                        dataSetter((prev) =>
+                            prev.map((x) => (x.uniqId === e.data.uniqId ? { ...e.data, ...e.data.customer, customer: undefined } : x)),
+                        );
+                    }}
+                    suppressScrollOnNewData={true}
                     suppressRowTransform
                 />
             </div>

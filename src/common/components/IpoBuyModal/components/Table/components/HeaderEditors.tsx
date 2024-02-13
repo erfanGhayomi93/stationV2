@@ -3,20 +3,20 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { EditIcon2 } from 'src/common/icons';
 import HeaderInput from './HeaderInput';
 import { validNumber } from 'src/utils/helpers';
+import { IData } from '../../..';
 
 interface IProps extends IHeaderParams {
-    setData: Dispatch<SetStateAction<any[]>>;
+    dataSetter: Dispatch<SetStateAction<IData[]>>;
 }
 
-const HeaderEditors = ({ api, displayName, setData, column }: IProps) => {
+const HeaderEditors = ({ displayName, dataSetter, column }: IProps) => {
     const [isInputActive, setIsInputActive] = useState(false);
     const [fieldValue, setFieldValue] = useState<number>();
 
     const handleFinish = () => {
         const field = column.getColId();
-
         if (field) {
-            setData((prev) => prev.map((item) => ({ ...item, [field]: fieldValue })));
+            dataSetter((prev) => prev.map((item) => ({ ...item, [field]: fieldValue })));
         }
     };
 
