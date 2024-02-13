@@ -69,7 +69,7 @@ const FailedOrders: FC<IFailedOrders> = () => {
                 <AGTable
                     rowData={dataBeforeFilter}
                     columnDefs={columns}
-                    enableBrowserTooltips={false}
+                    enableBrowserTooltips={true}
                 />
             </WidgetLoading>
         </div>

@@ -236,7 +236,12 @@ export const OpenPosition = () => {
         <>
             <WidgetLoading spining={isFetching}>
                 <div className={'h-full p-3'}>
-                    <AGTable agGridTheme="alpine" rowData={filterData()} columnDefs={columns} />
+                    <AGTable
+                        agGridTheme="alpine"
+                        rowData={filterData()}
+                        columnDefs={columns}
+                        enableBrowserTooltips={true}
+                    />
                 </div>
             </WidgetLoading>
         </>
