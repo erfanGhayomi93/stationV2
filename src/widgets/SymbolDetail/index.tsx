@@ -5,15 +5,15 @@ import { useAppSelector } from 'src/redux/hooks';
 import SymbolSearch from './SymbolSearch';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolData from './SymbolData';
+import { IpoData } from './SymbolData/IpoData';
 
 const SymbolDetail = () => {
     //
     const selectedSymbol = useAppSelector(getSelectedSymbol)
 
     const queryClient = useQueryClient();
-
     // isLoading or isFetching ? depends ...
-    const { remove, isLoading, isFetching } = useSymbolGeneralInfo(selectedSymbol, {
+    const { data } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data) => {
             // pushEngine.unSubscribe("SymbolGeneralInfo")
 
@@ -52,7 +52,7 @@ const SymbolDetail = () => {
                 onFieldsUpdate: ({ changedFields, itemName }) => {
                     //@ts-ignore
                     queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
-                        
+
                         const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };
                         const { symbolData, individualLegal } = oldData || tempObj;
 
@@ -73,17 +73,16 @@ const SymbolDetail = () => {
         },
     });
 
-    // useEffect(() => {
-    //     return () => {
-    //         // remove();
-    //     };
-    // }, [selectedSymbol]);
+    const isIpo = data ? (data as SymbolGeneralInfoType)?.symbolData.isIpo : false;
+
 
     return (
         <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">
             <SymbolSearch placeholder="جستجوی نماد" />
 
-            <SymbolData />
+            {!isIpo && <SymbolData />}
+
+            {isIpo && <IpoData selectedSymbol={selectedSymbol} />}
         </div>
     );
 };

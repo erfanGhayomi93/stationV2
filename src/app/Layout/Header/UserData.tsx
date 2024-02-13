@@ -11,7 +11,7 @@ const UserData = () => {
             <span className="ml-1">
                 <UserIcon className="text-L-primary-50 dark:text-D-primary-50 w-5 h-5" />
             </span>
-            <span className="font-bold">{`${userData?.firstName || ''} ${userData?.lastName || ''}`}</span>
+            <span className="font-bold">{userData.traderTitle}</span>
         </div>
     );
 };

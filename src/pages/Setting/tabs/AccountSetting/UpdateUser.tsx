@@ -22,7 +22,7 @@ const UpdateUser = ({ email, phoneNumber, stationCode, stationName }: Props) => 
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
-    const { mobile, userName } = useAppSelector(getUserData)
+    const { userName } = useAppSelector(getUserData)
 
 
     const toggleEditing = () => setIsEditing(!isEditing);

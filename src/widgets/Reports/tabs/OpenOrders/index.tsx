@@ -178,7 +178,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
                 <AGTable
                     rowData={orders || []}
                     columnDefs={columns}
-                    enableBrowserTooltips={false}
+                    enableBrowserTooltips={true}
                     animateRows={true}
                     suppressRowVirtualisation={true}
                 />

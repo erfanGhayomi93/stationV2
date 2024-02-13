@@ -61,54 +61,57 @@ type pathnameTitleType = {
 };
 
 interface UserType {
-    firstName: string;
-    lastName: string;
+    // customerISIN: string;
+    brokerCode: string;
+    credit: number;
+    nationalCode: string;
+    traderCode: string;
+    traderISIN: string;
+    traderTitle: string;
+    twoFactor: boolean;
     userName: string;
-    customerISIN: string;
-    brokerCode?: string;
-    mobile : string
 }
 
 declare interface SearchSymbolType {
-	isDelete?: boolean,
-	symbolISIN: string,
-	companyISIN: string,
-	symbolTitle: string,
-	companyName: string,
-	highPrice: number,
-	lowPrice: number,
-	closingPrice: number,
-	openPrice: number,
-	highThreshold: number,
-	lowThreshold: number,
-	lastTradedPrice: number,
-	symbolGroupCode: string,
-	sectorCode: string,
-	marketCode?: string,
-	marketUnit: string,
-	tradePriceVarPreviousTradePercent: number,
-	yesterdayClosingPrice: number,
-	closingPriceVarReferencePrice: number,
-	closingPriceVarReferencePricePercent: number,
-	symbolOrderState: string,
-	symbolTradeState: string,
-	groupState: string,
-	isInWatchList: boolean,
-	symbolState: string,
-	companyCode?: string,
-	symbolTag: string
+    isDelete?: boolean;
+    symbolISIN: string;
+    companyISIN: string;
+    symbolTitle: string;
+    companyName: string;
+    highPrice: number;
+    lowPrice: number;
+    closingPrice: number;
+    openPrice: number;
+    highThreshold: number;
+    lowThreshold: number;
+    lastTradedPrice: number;
+    symbolGroupCode: string;
+    sectorCode: string;
+    marketCode?: string;
+    marketUnit: string;
+    tradePriceVarPreviousTradePercent: number;
+    yesterdayClosingPrice: number;
+    closingPriceVarReferencePrice: number;
+    closingPriceVarReferencePricePercent: number;
+    symbolOrderState: string;
+    symbolTradeState: string;
+    groupState: string;
+    isInWatchList: boolean;
+    symbolState: string;
+    companyCode?: string;
+    symbolTag: string;
 }
 
 type RecentSymbolType = {
-	symbolTitle: string;
-	symbolISIN: string;
-	symbolState?: string;
-	lastTradedPrice?: number;
-	tradePriceVarPreviousTradePercent?: number;
-	companyName?: string;
-	[key: string]: unknown
-}
+    symbolTitle: string;
+    symbolISIN: string;
+    symbolState?: string;
+    lastTradedPrice?: number;
+    tradePriceVarPreviousTradePercent?: number;
+    companyName?: string;
+    [key: string]: unknown;
+};
 
 type storeLocalType = {
-    [successClientKey: string]: { customerTitle: string, symbolTitle: string }
-}
+    [successClientKey: string]: { customerTitle: string; symbolTitle: string };
+};

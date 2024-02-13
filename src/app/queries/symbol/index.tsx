@@ -25,6 +25,23 @@ export const useSymbolGeneralInfo = <T,>(
         ...options,
     });
 };
+
+//////////////////////
+
+
+const AdditionalInfo = async (symbolISIN: string) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponsiveAdditionalInfo>>(Apis().Ipo.GetBySymbolISIN, { params: { symbolISIN } });
+    return data.result || [];
+};
+
+export const useAdditionalInfo = (symbolISIN: string) =>
+    useQuery(["GetAdditionalInformation", symbolISIN], () => AdditionalInfo(symbolISIN),
+        {
+            enabled: !!symbolISIN,
+        },
+    );
+
+
 //////////////////////
 
 

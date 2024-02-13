@@ -1,0 +1,38 @@
+import Modal from '../Modal';
+import clsx from 'clsx';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ToggleButton from './components/ToggleButton';
+import { useState } from 'react';
+import IpoInfo from './components/IpoInfo';
+import Table from './components/Table';
+
+
+const IpoBuyModal = () => {
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
+
+    return (
+        <Modal
+            isOpen={true}
+            onClose={() => {}}
+            style={{ width: isInfoOpen ? 1250 : 900 }}
+            className={clsx('h-[500px] flex flex-col overflow-visible border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300')}
+        >
+            <Header />
+            <div className="relative flex h-full items-center">
+                <div className={clsx('h-full flex flex-col justify-between', isInfoOpen ? 'w-[900px]' : 'w-full')}>
+                    <Table />
+                    <Footer />
+                </div>
+                <div className={clsx('w-[350px] h-[451px] border-L-gray-200 border-r-[1px] ', !isInfoOpen && 'hidden')}>
+                    <IpoInfo />
+                </div>
+                <div className="w-3 absolute left-[-7px] h-[381px] flex items-center self-start">
+                    <ToggleButton isOpen={isInfoOpen} onClick={() => setIsInfoOpen((prev) => !prev)} />
+                </div>
+            </div>
+        </Modal>
+    );
+};
+
+export default IpoBuyModal;
