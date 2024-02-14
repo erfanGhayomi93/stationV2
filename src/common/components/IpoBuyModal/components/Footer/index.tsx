@@ -1,19 +1,19 @@
 import Seperator from '../Seperator';
 import { seprateNumber } from 'src/utils/helpers';
 import clsx from 'clsx';
-
+import { IData } from '../..';
 
 type TInfoFieldParams = {
     label: string;
-    value: string;
+    value: string | number;
     preFix?: boolean;
     preFixText?: string;
 };
 
-const Footer = () => {
+const Footer = ({ data }: { data: IData[] }) => {
     return (
         <div className="flex justify-between w-full items-center border-L-gray-200 border-t-[1px] px-6 py-3">
-            <PurchaseInfo />
+            <PurchaseInfo data={data} />
             <SendAllButton />
         </div>
     );
@@ -27,16 +27,27 @@ const SendAllButton = () => {
     );
 };
 
-const PurchaseInfo = () => {
+const PurchaseInfo = ({ data }: { data: IData[] }) => {
+    const values = data.reduce(
+        (initialValue, item, index) => {
+            initialValue.count += item.count;
+            initialValue.sumPrice += item.price;
+            initialValue.averagePrice = initialValue.sumPrice / (index + 1);
+            initialValue.tradeValue += item.tradeValue;
+            return initialValue;
+        },
+        { count: 0, averagePrice: 0, tradeValue: 0, sumPrice: 0 },
+    );
+
     return (
         <div className="flex items-center gap-4 h-full">
-            <InfoField label="ردیف" value={'3'} />
+            <InfoField label="ردیف" value={data?.length} />
             <Seperator height={'50%'} />
-            <InfoField label="تعداد" value={'4730'} />
+            <InfoField label="تعداد" value={values.count} />
             <Seperator height={'50%'} />
-            <InfoField label="میانگین قیمت" value={'907000'} preFix preFixText="ریال" />
+            <InfoField label="میانگین قیمت" value={values.averagePrice} preFix preFixText="ریال" />
             <Seperator height={'50%'} />
-            <InfoField label="ارزش معامله" value={'313680000'} preFix preFixText="ریال" />
+            <InfoField label="ارزش معامله" value={values.tradeValue} preFix preFixText="ریال" />
         </div>
     );
 };

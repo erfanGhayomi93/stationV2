@@ -52,7 +52,7 @@ export const IpoData: FC<{ selectedSymbol: string }> = ({ selectedSymbol }) => {
             </div>
 
             <div className='w-full'>
-                <IpoAction />
+                <IpoAction data={FurtherInformationData as TIpoInfo} />
             </div>
 
             <div className="flex flex-col h-full overflow-hidden">

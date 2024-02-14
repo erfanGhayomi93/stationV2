@@ -2,9 +2,7 @@ import { ICellEditorParams } from 'ag-grid-community';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { seprateNumber, validNumber } from 'src/utils/helpers';
 
-type Props = {};
-
-const AgNumberInput = forwardRef((props: ICellEditorParams, ref) => {
+const AgNumberInput = forwardRef(({ parseValue, stopEditing }: ICellEditorParams, ref) => {
     //
     const [value, setValue] = useState<number>();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -13,23 +11,23 @@ const AgNumberInput = forwardRef((props: ICellEditorParams, ref) => {
     useImperativeHandle(ref, () => {
         return {
             getValue() {
-                return props.parseValue(value);
+                return parseValue(value);
             },
         };
     });
 
     const handleClick = (e: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-            props.stopEditing();
+            stopEditing();
         }
     };
 
     useEffect(() => {
         inputRef.current?.focus();
-        // document.addEventListener('click', handleClick, true);
-        // return () => {
-        //     document.addEventListener('click', handleClick, true);
-        // };
+        document.addEventListener('click', handleClick, true);
+        return () => {
+            document.addEventListener('click', handleClick, true);
+        };
     }, []);
 
     return (

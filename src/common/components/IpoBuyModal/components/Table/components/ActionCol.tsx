@@ -1,26 +1,30 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import React, { useState } from 'react';
-import { Check, DeleteIcon, EditIcon2, PlusIcon, SendIcon } from 'src/common/icons';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Check, DeleteIcon, PlusIcon, SendIcon } from 'src/common/icons';
+import { IData } from '../../..';
 
-type Props = {};
+interface Props extends ICellRendererParams {
+    dataSetter: Dispatch<SetStateAction<IData[]>>;
+}
 interface TBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     Icon: React.FC<React.SVGProps<SVGSVGElement>>;
     size?: number;
 }
 
-const ActionCol = (props: ICellRendererParams) => {
-    const [confirmType, setConfirmType] = useState<'Edit' | 'Delete' | undefined>();
+const ActionCol = ({ data, dataSetter }: Props) => {
+    const [isDeleteBtnActive, setIsDeleteBtnActive] = useState(false);
 
-    const handleCancel = () => setConfirmType(undefined);
+    const handleCancel = () => setIsDeleteBtnActive(false);
+    const handleDelete = () => dataSetter((prev) => prev.filter((item) => item.uniqId !== data?.rowNumber));
 
     return (
         <div className="flex justify-center items-center gap-2 py-3 h-full">
-            {confirmType ? (
+            {isDeleteBtnActive ? (
                 <>
                     <CustomeBtn
                         Icon={Check}
                         className="flex justify-center items-center bg-L-gray-300 rounded-3xl w-7 h-7 text-L-success-300"
-                        onClick={handleCancel}
+                        onClick={handleDelete}
                         size={13}
                     />
                     <CustomeBtn
@@ -33,8 +37,7 @@ const ActionCol = (props: ICellRendererParams) => {
             ) : (
                 <>
                     <CustomeBtn Icon={SendIcon} />
-                    <CustomeBtn Icon={EditIcon2} onClick={() => setConfirmType('Edit')} />
-                    <CustomeBtn Icon={DeleteIcon} onClick={() => setConfirmType('Delete')} />
+                    <CustomeBtn Icon={DeleteIcon} onClick={() => setIsDeleteBtnActive(true)} />
                 </>
             )}
         </div>

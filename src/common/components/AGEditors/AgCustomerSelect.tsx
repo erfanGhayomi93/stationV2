@@ -1,35 +1,34 @@
 import { ICellEditorParams } from 'ag-grid-community';
-import React, { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import CustomerMiniSelect from '../CustomerMiniSelect';
 
-const AgCustomerSelect: React.FC<ICellEditorParams> = forwardRef((props, ref) => {
+const AgCustomerSelect: React.FC<ICellEditorParams> = forwardRef(({ parseValue, stopEditing, data }, ref) => {
     //
     const [value, setValue] = useState<IGoMultiCustomerType[]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
-
+    
     useImperativeHandle(ref, () => {
         return {
             getValue() {
-                return props.parseValue(value[0]);
+                return parseValue(value[0]);
             },
         };
     });
     const handleClick = (e: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-            props.stopEditing();
+            stopEditing();
         }
     };
 
     useEffect(() => {
-        // document.addEventListener('click', handleClick, true);
-
-        // return () => {
-        //     document.addEventListener('click', handleClick, true);
-        // };
+        document.addEventListener('click', handleClick, true);
+        return () => {
+            document.addEventListener('click', handleClick, true);
+        };
     }, []);
 
     return (
-        <div ref={containerRef} className="flex justify-center items-center">
+        <div ref={containerRef} className="flex justify-center items-center w-[179px]">
             <CustomerMiniSelect selected={value} setSelected={(value) => setValue(value)} filterCustomerType={false} />
         </div>
     );
