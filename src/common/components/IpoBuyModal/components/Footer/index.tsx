@@ -49,18 +49,20 @@ const Footer = ({ data, symbolData }: { data: IData[]; symbolData: TIpoInfo }) =
     };
 
     const handleSendOrders = () => {
-        let isThereFalsyValue = false;
+        let error = false;
         for (let i = 0; i < data.length; i++) {
             if (isObjectContainsFalsy(data[i], ['count', 'price', 'tradeValue', 'title'])) {
-                isThereFalsyValue = true;
+                onErrorNotif({ title: 'لطفا تمامی فیلد ها را کامل نمایید' });
+                error = true;
+                break;
+            } else if (+data[i].tradeValue > +data[i].purchasePower) {
+                onErrorNotif({ title: 'قدرت خرید کمتر از ارزش معامله است' });
+                error = true;
                 break;
             }
         }
-        if (isThereFalsyValue) {
-            onErrorNotif({ title: 'لطفا تمامی فیلد ها را کامل نمایید' });
-        } else {
-            createSendRequest();
-        }
+
+        !error && createSendRequest();
     };
 
     return (
