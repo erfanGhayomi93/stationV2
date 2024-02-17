@@ -1,7 +1,11 @@
 import Seperator from '../Seperator';
-import { seprateNumber } from 'src/utils/helpers';
+import { isObjectContainsFalsy, seprateNumber } from 'src/utils/helpers';
 import clsx from 'clsx';
 import { IData } from '../..';
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { onErrorNotif } from 'src/handlers/notification';
+import useSendOrdersV2 from '../../hooks/useSendOrdersV2';
+import dayjs from 'dayjs';
 
 type TInfoFieldParams = {
     label: string;
@@ -10,18 +14,66 @@ type TInfoFieldParams = {
     preFixText?: string;
 };
 
-const Footer = ({ data }: { data: IData[] }) => {
+type TOrder = {
+    customerISIN: string;
+    price: number;
+    quantity: number;
+    validity: 'GoodTillDate' | 'Day';
+    validityDate: string;
+    orderType: 'MarketOrder';
+    orderStrategy: 'Normal';
+};
+
+const Footer = ({ data, symbolData }: { data: IData[]; symbolData: TIpoInfo }) => {
+    const { sendOrders, ordersLoading } = useSendOrdersV2();
+
+    const createSendRequest = () => {
+        if (!symbolData?.symbolISIN) {
+            onErrorNotif({ title: 'مشکلی در دریافت اطلاعات نماد وجود دارد' });
+            return;
+        }
+        const validity: { validityDate: string; validity: TOrder['validity'] } = {
+            validityDate: symbolData?.assigneeDate,
+            validity: dayjs(symbolData?.assigneeDate).isSame(dayjs(), 'day') ? 'Day' : 'GoodTillDate',
+        };
+        const orders: TOrder[] = data?.map((item) => ({
+            customerISIN: item.customerISIN,
+            price: item.price,
+            quantity: item.count,
+            validity: validity.validity,
+            validityDate: validity.validityDate,
+            orderType: 'MarketOrder',
+            orderStrategy: 'Normal',
+        }));
+        sendOrders({ items: orders, orderSide: 'Buy', symbolISIN: symbolData?.symbolISIN });
+    };
+
+    const handleSendOrders = () => {
+        let isThereFalsyValue = false;
+        for (let i = 0; i < data.length; i++) {
+            if (isObjectContainsFalsy(data[i], ['count', 'price', 'tradeValue', 'title'])) {
+                isThereFalsyValue = true;
+                break;
+            }
+        }
+        if (isThereFalsyValue) {
+            onErrorNotif({ title: 'لطفا تمامی فیلد ها را کامل نمایید' });
+        } else {
+            createSendRequest();
+        }
+    };
+
     return (
         <div className="flex justify-between w-full items-center border-L-gray-200 border-t-[1px] px-6 py-3">
             <PurchaseInfo data={data} />
-            <SendAllButton />
+            <SendAllButton onClick={handleSendOrders} />
         </div>
     );
 };
 
-const SendAllButton = () => {
+const SendAllButton = (props: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) => {
     return (
-        <button className="bg-L-success-300 text-white py-3 px-12 h-[45px] rounded-md" onClick={() => {}}>
+        <button className="bg-L-success-300 text-white py-3 px-12 h-[45px] rounded-md" {...props}>
             {'ارسال خرید'}
         </button>
     );

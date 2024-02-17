@@ -10,19 +10,19 @@ import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 
 interface IProps {
-    data: TIpoInfo;
+    symbolData: TIpoInfo;
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface IData extends Partial<IGoMultiCustomerType> {
+export interface IData extends IGoMultiCustomerType {
     uniqId: number;
     count: number;
     price: number;
     tradeValue: number;
 }
 
-const IpoBuyModal = ({ data, isOpen, setIsOpen }: IProps) => {
+const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
     //
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const handleCloseModal = () => setIsOpen(false);
@@ -40,14 +40,14 @@ const IpoBuyModal = ({ data, isOpen, setIsOpen }: IProps) => {
             style={{ width: isInfoOpen ? 1250 : 900 }}
             className={clsx('h-[500px] flex flex-col overflow-visible border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300')}
         >
-            <Header handleClose={handleCloseModal} symbolTitle={data?.symbolTitle} symbolState={data?.symbolState} />
+            <Header handleClose={handleCloseModal} symbolTitle={symbolData?.symbolTitle} symbolState={symbolData?.symbolState} />
             <div className="relative flex h-full items-center">
                 <div className={clsx('h-full flex flex-col justify-between', isInfoOpen ? 'w-[900px]' : 'w-full')}>
                     <Table data={customersData} dataSetter={setCustomersData} />
-                    <Footer data={customersData} />
+                    <Footer data={customersData} symbolData={symbolData} />
                 </div>
                 <div className={clsx('w-[350px] h-[451px] border-L-gray-200 border-r-[1px] ', !isInfoOpen && 'hidden')}>
-                    <IpoInfo info={data} />
+                    <IpoInfo info={symbolData} />
                 </div>
                 <div className="w-3 absolute left-[-7px] h-[381px] flex items-center self-start">
                     <ToggleButton isOpen={isInfoOpen} onClick={() => setIsInfoOpen((prev) => !prev)} />

@@ -18,6 +18,24 @@ export const useMutationSendOrder = (
 ) => {
     return useMutation(setOrder, option);
 };
+
+//V2
+
+export const setOrderV2 = async (params: IIPOOrder) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(Apis().Orders.CreateV2, { ...params });
+    return (
+        data.result || {
+            successClientKeys: [],
+            errorNumbers: 0,
+        }
+    );
+};
+
+export const useMutationSendOrderV2 = (
+    option?: Omit<UseMutationOptions<IOrderResponseType, unknown, IIPOOrder, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(setOrderV2, option);
+};
 ////////////////////////////////////
 
 const singleModifyOrderFn = async (params: ISingleModifyOrderReq) => {
@@ -47,8 +65,12 @@ const getTodayDoneTradesDetails = async (params: IDoneTradesDetailsReq) => {
     return data.result || [];
 };
 
-export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<TTodayDoneTrades[] , Error>, 'queryFn'>) =>
-    useQuery<TTodayDoneTrades[] , Error>(['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide], () => getTodayDoneTradesDetails(params), options);
+export const useGetTodayDoneTradesDetails = (params: IDoneTradesDetailsReq, options?: Omit<UseQueryOptions<TTodayDoneTrades[], Error>, 'queryFn'>) =>
+    useQuery<TTodayDoneTrades[], Error>(
+        ['TodayDoneTradesDetails', params.customerISIN, params.symbolISIN, params.orderSide],
+        () => getTodayDoneTradesDetails(params),
+        options,
+    );
 
 //New Api
 

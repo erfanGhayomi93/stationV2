@@ -4,7 +4,7 @@ import { seprateNumber, validNumber } from 'src/utils/helpers';
 
 const AgNumberInput = forwardRef(({ parseValue, stopEditing }: ICellEditorParams, ref) => {
     //
-    const [value, setValue] = useState<number>();
+    const [value, setValue] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 

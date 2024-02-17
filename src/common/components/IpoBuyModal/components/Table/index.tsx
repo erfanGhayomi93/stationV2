@@ -15,7 +15,7 @@ import { NewValueParams } from 'ag-grid-community';
 
 interface IProps {
     data: IData[];
-    dataSetter: Dispatch<SetStateAction<IData[]>>;
+    dataSetter: Dispatch<SetStateAction<any>>;
 }
 
 const Table = ({ data, dataSetter }: IProps) => {
@@ -140,7 +140,7 @@ const Table = ({ data, dataSetter }: IProps) => {
         }
 
         if (!isThereFalsyValue) {
-            dataSetter((prev) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
+            dataSetter((prev: IData[]) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
             setTimeout(() => {
                 const rowIndex = data?.length;
                 gridRef.current?.api?.startEditingCell({
@@ -162,7 +162,7 @@ const Table = ({ data, dataSetter }: IProps) => {
                     columnDefs={columns}
                     navigateToNextHeader={() => null}
                     onCellValueChanged={(e) => {
-                        dataSetter((prev) =>
+                        dataSetter((prev: IData[]) =>
                             prev.map((x) => (x.uniqId === e.data.uniqId ? { ...e.data, ...e.data.customer, customer: undefined } : x)),
                         );
                     }}
