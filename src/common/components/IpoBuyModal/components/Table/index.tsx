@@ -17,9 +17,10 @@ import Tippy from '@tippyjs/react';
 interface IProps {
     data: IData[];
     dataSetter: Dispatch<SetStateAction<any>>;
+    symbolData: TIpoInfo;
 }
 
-const Table = ({ data, dataSetter }: IProps) => {
+const Table = ({ data, dataSetter, symbolData }: IProps) => {
     const gridRef = useRef<AgGridReact<any>>(null);
     const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
 
@@ -125,6 +126,7 @@ const Table = ({ data, dataSetter }: IProps) => {
             {
                 headerName: 'عملیات',
                 cellRenderer: ActionCol,
+                cellEditorParams: { symbolData },
                 minWidth: 110,
                 maxWidth: 110,
                 pinned: 'left',

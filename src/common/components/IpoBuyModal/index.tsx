@@ -43,7 +43,7 @@ const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
             <Header handleClose={handleCloseModal} symbolTitle={symbolData?.symbolTitle} symbolState={symbolData?.symbolState} />
             <div className="relative flex h-full items-center">
                 <div className={clsx('h-full flex flex-col justify-between', isInfoOpen ? 'w-[900px]' : 'w-full')}>
-                    <Table data={customersData} dataSetter={setCustomersData} />
+                    <Table data={customersData} dataSetter={setCustomersData} symbolData={symbolData} />
                     <Footer data={customersData} symbolData={symbolData} />
                 </div>
                 <div className={clsx('w-[350px] h-[451px] border-L-gray-200 border-r-[1px] ', !isInfoOpen && 'hidden')}>

@@ -56,7 +56,7 @@ const Footer = ({ data, symbolData }: { data: IData[]; symbolData: TIpoInfo }) =
                 error = true;
                 break;
             } else if (+data[i].tradeValue > +data[i].purchasePower) {
-                onErrorNotif({ title: 'قدرت خرید کمتر از ارزش معامله است' });
+                onErrorNotif({ title: 'قدرت خرید کافی نیست' });
                 error = true;
                 break;
             }
