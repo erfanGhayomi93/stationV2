@@ -42,6 +42,7 @@ const Table = ({ data, dataSetter }: IProps) => {
                 field: 'customer',
                 cellEditor: AgCustomerSelect,
                 cellRenderer: EditableColumn,
+                cellRendererParams: { tooltipContent: 'مشتری' },
                 cellEditorPopup: true,
                 valueFormatter: ({ data }) => (data?.title ? data?.title + ' - ' + data?.bourseCode : '-'),
                 cellClass: ({ data }) => (!data?.title ? 'bg-L-error-100 ' : ''),
