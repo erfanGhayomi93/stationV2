@@ -12,13 +12,15 @@ import { onErrorNotif } from 'src/handlers/notification';
 import { IData } from '../..';
 import EditableColumn from './components/EditableColumn';
 import { NewValueParams } from 'ag-grid-community';
+import Tippy from '@tippyjs/react';
 
 interface IProps {
     data: IData[];
-    dataSetter: Dispatch<SetStateAction<IData[]>>;
+    dataSetter: Dispatch<SetStateAction<any>>;
+    symbolData: TIpoInfo;
 }
 
-const Table = ({ data, dataSetter }: IProps) => {
+const Table = ({ data, dataSetter, symbolData }: IProps) => {
     const gridRef = useRef<AgGridReact<any>>(null);
     const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
 
@@ -41,6 +43,7 @@ const Table = ({ data, dataSetter }: IProps) => {
                 field: 'customer',
                 cellEditor: AgCustomerSelect,
                 cellRenderer: EditableColumn,
+                cellRendererParams: { tooltipContent: 'مشتری' },
                 cellEditorPopup: true,
                 valueFormatter: ({ data }) => (data?.title ? data?.title + ' - ' + data?.bourseCode : '-'),
                 cellClass: ({ data }) => (!data?.title ? 'bg-L-error-100 ' : ''),
@@ -68,9 +71,10 @@ const Table = ({ data, dataSetter }: IProps) => {
                 cellEditor: AgNumberInput,
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
-                headerComponentParams: { dataSetter },
+                headerComponentParams: { dataSetter, tooltipContent: 'تعداد' },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
+                cellRendererParams: { tooltipContent: 'تعداد' },
                 editable: true,
             },
             {
@@ -84,9 +88,10 @@ const Table = ({ data, dataSetter }: IProps) => {
                 onCellValueChanged: (e) => onPriceOrCountChange(e, 'count'),
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
-                headerComponentParams: { dataSetter },
+                headerComponentParams: { dataSetter, tooltipContent: 'قیمت' },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
+                cellRendererParams: { tooltipContent: 'قیمت' },
                 editable: true,
             },
             {
@@ -105,9 +110,10 @@ const Table = ({ data, dataSetter }: IProps) => {
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
                 cellRenderer: EditableColumn,
                 cellStyle: { overflow: 'visible', padding: 0 },
-                headerComponentParams: { dataSetter },
+                headerComponentParams: { dataSetter, tooltipContent: 'ارزش معامله' },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
+                cellRendererParams: { tooltipContent: 'ارزش معامله' },
                 editable: true,
             },
             {
@@ -120,6 +126,7 @@ const Table = ({ data, dataSetter }: IProps) => {
             {
                 headerName: 'عملیات',
                 cellRenderer: ActionCol,
+                cellEditorParams: { symbolData },
                 minWidth: 110,
                 maxWidth: 110,
                 pinned: 'left',
@@ -140,7 +147,7 @@ const Table = ({ data, dataSetter }: IProps) => {
         }
 
         if (!isThereFalsyValue) {
-            dataSetter((prev) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
+            dataSetter((prev: IData[]) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
             setTimeout(() => {
                 const rowIndex = data?.length;
                 gridRef.current?.api?.startEditingCell({
@@ -162,7 +169,7 @@ const Table = ({ data, dataSetter }: IProps) => {
                     columnDefs={columns}
                     navigateToNextHeader={() => null}
                     onCellValueChanged={(e) => {
-                        dataSetter((prev) =>
+                        dataSetter((prev: IData[]) =>
                             prev.map((x) => (x.uniqId === e.data.uniqId ? { ...e.data, ...e.data.customer, customer: undefined } : x)),
                         );
                     }}
@@ -171,9 +178,11 @@ const Table = ({ data, dataSetter }: IProps) => {
                 />
             </div>
             <div className="flex">
-                <button className="bg-L-primary-100 p-2 rounded-lg mr-2" onClick={handleAddButton}>
-                    <PlusIcon className="text-L-primary-50" />
-                </button>
+                <Tippy content={'افزودن مشتری جدید'}>
+                    <button className="bg-L-primary-100 p-2 rounded-lg mr-2" onClick={handleAddButton}>
+                        <PlusIcon className="text-L-primary-50" />
+                    </button>
+                </Tippy>
             </div>
         </div>
     );

@@ -15,7 +15,7 @@ export const IpoAction = ({ data }: IProps) => {
             <Button variant="success" style={{ width: '100%' }} onClick={() => setIsModalOpen(true)}>
                 خرید عرضه اولیه
             </Button>
-            {isModalOpen && <IpoBuyModal data={data} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />}
+            {isModalOpen && <IpoBuyModal symbolData={data} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />}
         </>
     );
 };

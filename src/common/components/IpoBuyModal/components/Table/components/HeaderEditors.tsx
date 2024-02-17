@@ -4,12 +4,14 @@ import { EditIcon2 } from 'src/common/icons';
 import HeaderInput from './HeaderInput';
 import { validNumber } from 'src/utils/helpers';
 import { IData } from '../../..';
+import Tippy from '@tippyjs/react';
 
 interface IProps extends IHeaderParams {
     dataSetter: Dispatch<SetStateAction<IData[]>>;
+    tooltipContent: string;
 }
 
-const HeaderEditors = ({ displayName, dataSetter, column }: IProps) => {
+const HeaderEditors = ({ displayName, dataSetter, column, tooltipContent }: IProps) => {
     const [isInputActive, setIsInputActive] = useState(false);
     const [fieldValue, setFieldValue] = useState<number>();
 
@@ -33,10 +35,12 @@ const HeaderEditors = ({ displayName, dataSetter, column }: IProps) => {
                     />
                 </div>
             ) : (
-                <div className="font-normal flex justify-center gap-1 w-full" onClick={() => setIsInputActive(true)}>
-                    {displayName}
-                    <EditIcon2 height={16} width={16} />
-                </div>
+                <Tippy content={`ویرایش گروهی ${tooltipContent}`}>
+                    <div className="font-normal flex justify-center gap-1 w-full" onClick={() => setIsInputActive(true)}>
+                        {displayName}
+                        <EditIcon2 height={16} width={16} />
+                    </div>
+                </Tippy>
             )}
         </>
     );
