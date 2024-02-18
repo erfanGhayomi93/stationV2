@@ -34,7 +34,7 @@ type TIpoInfo = {
     ipoDate: string;
     assigneeDate: string;
     isActive: boolean;
-    marketUnit: string;
+    marketUnit?: MarketUnit;
     canSendRequest: boolean;
     remainingSeconds: number;
 };
