@@ -13,19 +13,22 @@ import { IData } from '../..';
 import EditableColumn from './components/EditableColumn';
 import { NewValueParams } from 'ag-grid-community';
 import Tippy from '@tippyjs/react';
+import { uniqueId } from 'cypress/types/lodash';
 
 interface IProps {
     data: IData[];
     dataSetter: Dispatch<SetStateAction<any>>;
     symbolData: TIpoInfo;
+    onChangeCustomerData: (newValue: number, uniqId: string | null, field: keyof IData, typeChange: 'All' | 'ONE') => void
 }
 
-const Table = ({ data, dataSetter, symbolData }: IProps) => {
+const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) => {
     const gridRef = useRef<AgGridReact<any>>(null);
     const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
 
-    const onPriceOrCountChange = ({ data, node, newValue }: NewValueParams<any>, field: 'price' | 'count') =>
-        node?.setDataValue('tradeValue', data?.[field] ? +newValue * +data?.[field] : 0);
+    const onPriceOrCountChange = ({ data, node, newValue }: NewValueParams<any>, field: keyof IData) => {
+        onChangeCustomerData(newValue, data.uniqId, field, "ONE")
+    }
 
     const columns = useMemo(
         (): ColDefType<any>[] => [
@@ -67,11 +70,12 @@ const Table = ({ data, dataSetter, symbolData }: IProps) => {
                 maxWidth: 100,
                 headerComponent: HeaderEditors,
                 cellRenderer: EditableColumn,
-                onCellValueChanged: (e) => onPriceOrCountChange(e, 'price'),
+                // onCellValueChanged: (e) => onPriceOrCountChange(e, 'count'),
                 cellEditor: AgNumberInput,
+                cellEditorParams: { onChangeCustomerData: (newValue: number, uniqId: string) => onChangeCustomerData(newValue, uniqId, "count", 'ONE') },
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
-                headerComponentParams: { dataSetter, tooltipContent: 'تعداد' },
+                headerComponentParams: { tooltipContent: 'تعداد', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "count", 'All') },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 cellRendererParams: { tooltipContent: 'تعداد' },
@@ -84,11 +88,12 @@ const Table = ({ data, dataSetter, symbolData }: IProps) => {
                 maxWidth: 100,
                 headerComponent: HeaderEditors,
                 cellEditor: AgNumberInput,
+                cellEditorParams: { onChangeCustomerData: (newValue: number, uniqId: string) => onChangeCustomerData(newValue, uniqId, "price", 'ONE') },
                 cellRenderer: EditableColumn,
-                onCellValueChanged: (e) => onPriceOrCountChange(e, 'count'),
+                onCellValueChanged: (e) => onPriceOrCountChange(e, 'price'),
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
-                headerComponentParams: { dataSetter, tooltipContent: 'قیمت' },
+                headerComponentParams: { tooltipContent: 'قیمت', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "price", 'All') },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 cellRendererParams: { tooltipContent: 'قیمت' },
@@ -99,7 +104,7 @@ const Table = ({ data, dataSetter, symbolData }: IProps) => {
                 field: 'tradeValue',
                 minWidth: 111,
                 maxWidth: 111,
-                headerComponent: HeaderEditors,
+                // headerComponent: HeaderEditors,
                 onCellValueChanged: ({ node, newValue, data }) => {
                     if (+newValue !== +data?.count * +data?.price && data?.count && data?.price) {
                         node?.setDataValue('count', 0);
@@ -109,18 +114,19 @@ const Table = ({ data, dataSetter, symbolData }: IProps) => {
                 cellEditor: AgNumberInput,
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
                 cellRenderer: EditableColumn,
+                cellEditorParams: { onChangeCustomerData: (newValue: number, uniqId: string) => onChangeCustomerData(newValue, uniqId, "tradeValue", 'ONE') },
                 cellStyle: { overflow: 'visible', padding: 0 },
-                headerComponentParams: { dataSetter, tooltipContent: 'ارزش معامله' },
+                headerComponentParams: { tooltipContent: 'ارزش معامله', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "tradeValue", 'All') },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 cellRendererParams: { tooltipContent: 'ارزش معامله' },
-                editable: true,
+                editable: false,
             },
             {
                 headerName: 'اعتبار',
                 minWidth: 100,
                 maxWidth: 100,
-                cellClass: ({}) => 'text-L-gray-500',
+                cellClass: ({ }) => 'text-L-gray-500',
                 valueFormatter: () => 'روز',
             },
             {
@@ -147,7 +153,7 @@ const Table = ({ data, dataSetter, symbolData }: IProps) => {
         }
 
         if (!isThereFalsyValue) {
-            dataSetter((prev: IData[]) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
+            // dataSetter((prev) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
             setTimeout(() => {
                 const rowIndex = data?.length;
                 gridRef.current?.api?.startEditingCell({

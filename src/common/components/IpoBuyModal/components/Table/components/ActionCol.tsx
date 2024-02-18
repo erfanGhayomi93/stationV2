@@ -33,7 +33,7 @@ const ActionCol = ({ data, dataSetter, symbolData }: Props) => {
     const { sendOrders, ordersLoading } = useSendOrdersV2();
 
     const handleCancel = () => setIsDeleteBtnActive(false);
-    const handleDelete = () => dataSetter((prev) => prev.filter((item) => item.uniqId !== data?.rowNumber));
+    const handleDelete = () => dataSetter((prev) => prev.filter((item) => item.uniqId !== data?.uniqId));
 
     const createSendRequest = () => {
         const validity: { validityDate: string; validity: 'Day' | 'GoodTillDate' } = {
