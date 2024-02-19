@@ -3,21 +3,20 @@ import { Dispatch, SetStateAction, useMemo, useRef } from 'react';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { PlusIcon } from 'src/common/icons';
 import HeaderEditors from './components/HeaderEditors';
-import { isObjectContainsFalsy, seprateNumber } from 'src/utils/helpers';
+import { getUniqId, isObjectContainsFalsy, seprateNumber } from 'src/utils/helpers';
 import ActionCol from './components/ActionCol';
 import AgCustomerSelect from 'src/common/components/AGEditors/AgCustomerSelect';
 import AgNumberInput from 'src/common/components/AGEditors/AgNumberInput';
 import './style.scss';
 import { onErrorNotif } from 'src/handlers/notification';
-import { IData } from '../..';
+import { IData, initialState } from '../..';
 import EditableColumn from './components/EditableColumn';
 import { NewValueParams } from 'ag-grid-community';
 import Tippy from '@tippyjs/react';
-import { uniqueId } from 'cypress/types/lodash';
 
 interface IProps {
     data: IData[];
-    dataSetter: Dispatch<SetStateAction<any>>;
+    dataSetter: Dispatch<SetStateAction<IData[]>>;
     symbolData: TIpoInfo;
     onChangeCustomerData: (newValue: number, uniqId: string | null, field: keyof IData, typeChange: 'All' | 'ONE') => void
 }
@@ -113,7 +112,7 @@ const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) =
                 },
                 cellEditor: AgNumberInput,
                 cellClass: ({ value }) => (!value ? 'bg-L-error-100 ' : ''),
-                cellRenderer: EditableColumn,
+                // cellRenderer: EditableColumn,
                 cellEditorParams: { onChangeCustomerData: (newValue: number, uniqId: string) => onChangeCustomerData(newValue, uniqId, "tradeValue", 'ONE') },
                 cellStyle: { overflow: 'visible', padding: 0 },
                 headerComponentParams: { tooltipContent: 'ارزش معامله', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "tradeValue", 'All') },
@@ -132,12 +131,12 @@ const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) =
             {
                 headerName: 'عملیات',
                 cellRenderer: ActionCol,
-                cellEditorParams: { symbolData },
+                // cellEditorParams: { symbolData },
                 minWidth: 110,
                 maxWidth: 110,
                 pinned: 'left',
                 sortable: false,
-                cellRendererParams: { dataSetter },
+                cellRendererParams: { dataSetter, symbolData },
             },
         ],
         [data],
@@ -153,7 +152,7 @@ const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) =
         }
 
         if (!isThereFalsyValue) {
-            // dataSetter((prev) => [...prev, { uniqId: prev.length + 1, count: 0, price: 0, tradeValue: 0 }]);
+            dataSetter((prev) => [...prev, { ...initialState, uniqId: getUniqId() }]);
             setTimeout(() => {
                 const rowIndex = data?.length;
                 gridRef.current?.api?.startEditingCell({

@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ToggleButton from './components/ToggleButton';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import IpoInfo from './components/IpoInfo';
 import Table from './components/Table';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
 import { getUniqId } from 'src/utils/helpers';
-import { useCommissionValue, useTotalValue } from 'src/common/hooks/useCommission/useCommissionValue';
+import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 
 interface IProps {
     symbolData: TIpoInfo;
@@ -17,12 +17,30 @@ interface IProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+
 export interface IData extends IGoMultiCustomerType {
     uniqId: string;
     count: number;
     price: number;
     tradeValue: number;
 }
+
+export const initialState: IData = {
+    bourseCode: "",
+    children: [],
+    creditValue: 0,
+    customerISIN: "",
+    customerType: "Natural",
+    nationalCode: "",
+    purchasePower: 0,
+    title: "",
+    isFavorite: false,
+    uniqId: "",
+    count: 0,
+    price: 0,
+    tradeValue: 0,
+}
+
 
 const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
     //
@@ -37,13 +55,11 @@ const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
 
     const { buyCommission } = useCommissionValue({ marketUnit: symbolData.marketUnit });
 
-
     const CalcTotalValue = (price: number, quantity: number) => {
         let side = "buy";
         const commission = Math.round(buyCommission * price * quantity);
         const cost = Math.round(price * quantity);
         return Math.round((cost + (side === 'Sell' ? commission * -1 : commission)) * 1000) / 1000;
-
     }
 
     const onChangeCustomerData = useCallback(
