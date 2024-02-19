@@ -88,6 +88,7 @@ export const Apis = () => ({
     },
     Orders: {
         Create: getBaseUrl() + '/Order/v1/Create',
+        CreateV2: getBaseUrl() + '/Order/v1/CreateV2',
         Get: getBaseUrl() + '/Order/v1/TodayOrdersList',
         Details: getBaseUrl() + '/Order/v1/GetOrderStateHistory',
         Delete: getBaseUrl() + '/Order/v1/SingleDelete',

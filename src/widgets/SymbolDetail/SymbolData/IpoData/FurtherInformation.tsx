@@ -96,7 +96,7 @@ export const FurtherInformation: FC<{ data: IResponsiveAdditionalInfo | undefine
 
 
     return (
-        <div className='px-4 shadow-md'>
+        <div className='px-4 rounded-lg shadow-[0_2px_11px_0_rgba(0,0,0,0.05)] '>
             {state.map((item, index) => {
                 return (
                     <div key={index} className='flex items-center justify-between text-xs py-4'>
