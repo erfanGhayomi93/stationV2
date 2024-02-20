@@ -65,9 +65,9 @@ export const IpoList = () => {
     return (
         <Menu>
             {({ open }) => (
-                <div className="z-50 flex items-center">
+                <div className="z-50 flex items-center relative">
                     <Menu.Button>
-                        <span className='bg-L-success-200 dark:bg-D-success-200 text-L-basic dark:text-D-bastext-L-basic rounded-xl px-1 py-0.5'>عرضه اولیه</span>
+                        <span className='bg-L-success-200 dark:bg-D-success-200 text-L-basic dark:text-D-basic rounded-xl px-1 py-0.5'>عرضه اولیه</span>
                     </Menu.Button>
 
                     <Transition
@@ -88,7 +88,7 @@ export const IpoList = () => {
                                 <div>
                                     {
                                         data?.map(item => (
-                                            <div key={item?.symbolISIN} className='flex justify-between p-2 items-center even:bg-L-gray-100 even:dark:bg-gray-100 hover:bg-L-gray-200 hover:dark:bg-gray-200'>
+                                            <div key={item?.symbolISIN} className='flex justify-between p-2 items-center even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-gray-200 hover:dark:bg-D-gray-200'>
                                                 <span className='w-1/3 truncate font-medium'>{item.symbolTitle}</span>
                                                 <span className='flex-1'>{ipoRemaining(item)}</span>
                                                 <span
