@@ -17,7 +17,13 @@
         "189_LogoTitle": "کارگزاری فارابی",
         "347_LogoTitle": "کارگزاری توسعه سهند",
         "1_LogoTitle": "رامند",
-        "serCreditValue": "اعتبار"
+        "serCreditValue": "اعتبار",
+        "ipo": "عرضه اولیه",
+		"ipo_remaining_days": "{{d}} روز مانده",
+		"ipo_remaining_hours": "{{m}} : {{h}} مانده",
+		"ipo_until_hours": "{{m}} : {{h}} تا پایان",
+		"ipo_remaining_minutes": "{{m}} دقیقه مانده ",
+		"ipo_until_minutes": "{{m}} دقیقه تا پایان "
     },
     "titlePage": {
         "home": "صفحه اصلی",

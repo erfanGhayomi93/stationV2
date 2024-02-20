@@ -42,15 +42,15 @@ const CustomerWidget = () => {
                 title: <>لیست دلخواه</>,
                 content: <FavoriteList />,
             },
-            {
-                key: 'IpoList',
-                title: <>عرضه اولیه نماد {symbolGeneralInfo?.symbolData.symbolTitle} </>,
-                content: <CustomerSearch />,
-                buttonClass: clsx("px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200", { "hidden": !isIpo }),
-                selectedButtonClass:
-                    'text-L-warning outline-none dark:text-L-warning font-semibold border-t-2 border-L-warning dark:border-D-warning bg-L-basic dark:bg-D-basic',
-
-            },
+//             {
+//                 key: 'IpoList',
+//                 title: <>عرضه اولیه نماد {symbolGeneralInfo?.symbolData.symbolTitle} </>,
+//                 content: <CustomerSearch />,
+//                 buttonClass: clsx("px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200", { "hidden": !isIpo }),
+//                 selectedButtonClass:
+//                     'text-L-warning outline-none dark:text-L-warning font-semibold border-t-2 border-L-warning dark:border-D-warning bg-L-basic dark:bg-D-basic',
+// 
+//             },
             {
                 key: 'SelectedList',
                 title: <div className='flex gap-1 items-center'>
