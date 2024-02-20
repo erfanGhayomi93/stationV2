@@ -174,6 +174,7 @@ export const Apis = () => ({
         GetUserSetting: getBaseUrl() + `/Setting/v1/GetUserSettings`,
         SessionLog: getBaseUrl() + `/Setting/v1/GetLogins`,
         TerminateSession: getBaseUrl() + `/Setting/v1/TerminateSession`,
+        UpdateUserName: getBaseUrl() + `/Setting/v1/UpdateUserName`,
     },
     Options: {
         GetCashSettlement: getBaseUrl() + `/Option/v1/GetCashSettlement`,
@@ -187,6 +188,7 @@ export const Apis = () => ({
     },
     Ipo : {
         GetBySymbolISIN: getBaseUrl() + `/IPO/v1/GetBySymbolISIN`,
+        Get: getBaseUrl() + `/IPO/v1/Get`,
     }
 });
 

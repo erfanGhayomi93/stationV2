@@ -17,7 +17,7 @@ export const FurtherInformation: FC<{ data: IResponsiveAdditionalInfo | undefine
         if (!data) return "-"
         const todayDate = dayjs(new Date())
         const ipoDate = dayjs(data)
-        if (todayDate.isSame(ipoDate, "date")) return <span className='py-1 px-2 bg-L-error-50 dark:bg-D-error-50 text-L-error-200 dark:text-D-error-200 rounded-md'>امروز</span>
+        if (todayDate.isSame(ipoDate, "date")) return <span className='py-1 px-2 text-L-warning dark:text-D-warning bg-L-warning/10 dark:bg-D-warning/10 rounded-md'>امروز</span>
         return ipoDate.calendar("jalali").format("YYYY/MM/DD")
     }
 

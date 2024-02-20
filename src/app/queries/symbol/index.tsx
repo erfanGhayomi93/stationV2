@@ -29,6 +29,17 @@ export const useSymbolGeneralInfo = <T,>(
 //////////////////////
 
 
+const getIpoFn = async () => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseIpoGet[]>>(Apis().Ipo.Get);
+    return data.result || [];
+};
+
+export const useGetIpo = () => useQuery(["GetIpo"], () => getIpoFn());
+
+
+//////////////////////
+
+
 const AdditionalInfo = async (symbolISIN: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IResponsiveAdditionalInfo>>(Apis().Ipo.GetBySymbolISIN, { params: { symbolISIN } });
     return data.result || [];
