@@ -110,7 +110,7 @@ const InfoField = ({ label, value, preFix, preFixText = '' }: TInfoFieldParams) 
     return (
         <div className={clsx('flex gap-2 text-xs font-bold')}>
             <h5 className="text-L-gray-600">{label + ':'}</h5>
-            <h5>{seprateNumber(+value)}</h5>
+            <h5>{seprateNumber(Math.round(+value))}</h5>
             {preFix ? <h5 className="text-L-gray-500">{preFixText}</h5> : null}
         </div>
     );

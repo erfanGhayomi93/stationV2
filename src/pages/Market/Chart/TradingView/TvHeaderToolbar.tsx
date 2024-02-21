@@ -98,8 +98,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 	const { data: savedStudyTemplates, refetch: refetchSavedStudyTemplates } = useSavedStudyTemplatesQuery(
 		{
-			client: userData?.customerISIN ?? 0,
-			user: userData?.customerISIN ?? 0,
+			client: userData.traderCode ?? 0,
+			user: userData.traderCode ?? 0,
 		},
 		{
 			enabled: false
@@ -109,8 +109,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 	const { isFetching: isFetchingSavedCharts } = useTvSavedChart(
 
 		{
-			client: userData?.customerISIN ?? 0,
-			user: userData?.customerISIN ?? 0,
+			client: userData.traderCode ?? 0,
+			user: userData.traderCode ?? 0,
 		}
 		,
 		{
@@ -142,8 +142,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 			const data = queryClient.getQueryData([
 				'tvSavedCharts',
 				{
-					client: userData?.customerISIN ?? 0,
-					user: userData?.customerISIN ?? 0,
+					client: userData.traderCode ?? 0,
+					user: userData.traderCode ?? 0,
 				}
 			]);
 
@@ -303,8 +303,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 			const response = await axios.get<{ status: string; data: { name: string; content: string; } }>(Apis().tvChart.studyTemplate, {
 				params: {
-					client: String(userData?.customerISIN ?? 0),
-					user: String(userData?.customerISIN ?? 0),
+					client: String(userData.traderCode ?? 0),
+					user: String(userData.traderCode ?? 0),
 					template: studyTemplate.name
 				}
 			});
@@ -328,8 +328,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 
 			axios.delete<{ status: string; data: { name: string; content: string; } }>(Apis().tvChart.studyTemplate, {
 				params: {
-					client: String(userData?.customerISIN ?? 0),
-					user: String(userData?.customerISIN ?? 0),
+					client: String(userData.traderCode ?? 0),
+					user: String(userData.traderCode ?? 0),
 					template: studyName
 				}
 			});
@@ -353,8 +353,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 			}
 
 			const apiURL = getURL(Apis().tvChart.studyTemplate, {
-				client: String(userData?.customerISIN ?? 0),
-				user: String(userData?.customerISIN ?? 0)
+				client: String(userData.traderCode ?? 0),
+				user: String(userData.traderCode ?? 0)
 			});
 
 			const fd = new FormData();
@@ -398,8 +398,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 		try {
 			const response = await axios.delete(Apis().tvChart.delete, {
 				params: {
-					client: userData?.customerISIN ?? 0,
-					user: userData?.customerISIN ?? 0,
+					client: userData.traderCode ?? 0,
+					user: userData.traderCode ?? 0,
 					chart: chartId
 				}
 			});
@@ -430,8 +430,8 @@ const TvHeaderToolbar = ({ activeChart, layout, userData }: TvHeaderToolbarProps
 				widget.save(async (content) => {
 					try {
 						const apiURL = getURL(Apis().tvChart.save, {
-							client: String(userData?.customerISIN ?? 0),
-							user: String(userData?.customerISIN ?? 0)
+							client: String(userData.traderCode ?? 0),
+							user: String(userData.traderCode ?? 0)
 						});
 
 						const symbolExt = widget.activeChart().symbolExt();

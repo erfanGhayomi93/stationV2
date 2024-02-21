@@ -9,7 +9,17 @@ interface GlobalStateTest {
 
 const initialState: GlobalStateTest = {
     appState: 'Booting',
-    userData: { firstName: '', lastName: '', userName: '', customerISIN: "", brokerCode: undefined , mobile : "" },
+    userData: {
+        // customerISIN: '',
+        brokerCode: '',
+        credit: 0,
+        nationalCode: '',
+        traderCode: '',
+        traderISIN: '',
+        traderTitle: '',
+        twoFactor: false,
+        userName: '',
+    },
 };
 
 const globalSlice = createSlice({
@@ -19,7 +29,7 @@ const globalSlice = createSlice({
         setAppState: (state, action: PayloadAction<typeof initialState.appState>) => {
             state.appState = action.payload;
         },
-        setAppUser: (state, action: PayloadAction<typeof initialState.userData>) => {
+        setAppUser: (state, action: PayloadAction<UserType>) => {
             state.userData = action.payload;
             state.appState = 'LoggedIn';
         },
@@ -27,7 +37,7 @@ const globalSlice = createSlice({
 });
 
 export const { setAppState, setAppUser } = globalSlice.actions;
-export const getUserData = (state: RootState) => state.global.userData
-export const getAppState = (state: RootState) => state.global.appState
+export const getUserData = (state: RootState) => state.global.userData;
+export const getAppState = (state: RootState) => state.global.appState;
 
 export default globalSlice.reducer;

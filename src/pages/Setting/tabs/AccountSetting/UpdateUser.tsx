@@ -13,16 +13,17 @@ interface Props {
     stationCode: string;
     phoneNumber: string;
     email: string;
+    userId?: number
     // userName: string;
 }
 
-const UpdateUser = ({ email, phoneNumber, stationCode, stationName }: Props) => {
+const UpdateUser = ({ email, phoneNumber, stationCode, stationName , userId }: Props) => {
     //
     const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
-    const { mobile, userName } = useAppSelector(getUserData)
+    const { userName } = useAppSelector(getUserData)
 
 
     const toggleEditing = () => setIsEditing(!isEditing);
@@ -60,7 +61,7 @@ const UpdateUser = ({ email, phoneNumber, stationCode, stationName }: Props) => 
                     </div>
                     <div className="text-D-basic dark:text-L-basic font-medium flex gap-2">
                         {isEditing ? (
-                            <EditUserNameInput toggleEditing={toggleEditing} defaultValue={userName} />
+                            <EditUserNameInput toggleEditing={toggleEditing} defaultValue={userName} userId={userId} />
                         ) : (
                             <>
                                 {userName}

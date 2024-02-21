@@ -6,19 +6,23 @@ import { validNumber } from 'src/utils/helpers';
 import { IData } from '../../..';
 import Tippy from '@tippyjs/react';
 
-interface IProps extends IHeaderParams {
-    dataSetter: Dispatch<SetStateAction<IData[]>>;
+interface IProps extends IHeaderParams<IData> {
+    onChangeCustomerData: (value: number) => void
     tooltipContent: string;
+
 }
 
-const HeaderEditors = ({ displayName, dataSetter, column, tooltipContent }: IProps) => {
+const HeaderEditors = ({ displayName, onChangeCustomerData, column , tooltipContent }: IProps) => {
     const [isInputActive, setIsInputActive] = useState(false);
     const [fieldValue, setFieldValue] = useState<number>();
 
     const handleFinish = () => {
         const field = column.getColId();
-        if (field) {
-            dataSetter((prev) => prev.map((item) => ({ ...item, [field]: fieldValue })));
+
+
+        if (field && fieldValue) {
+            // dataSetter((prev) => prev.map((item) => ({ ...item, [field]: fieldValue  , tradeValue: field === 'price' ? fieldValue * item.count : item.price * fieldValue })));
+            onChangeCustomerData ? onChangeCustomerData(fieldValue) : null
         }
     };
 
@@ -41,6 +45,7 @@ const HeaderEditors = ({ displayName, dataSetter, column, tooltipContent }: IPro
                         <EditIcon2 height={16} width={16} />
                     </div>
                 </Tippy>
+
             )}
         </>
     );

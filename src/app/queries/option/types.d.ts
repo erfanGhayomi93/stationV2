@@ -36,12 +36,38 @@ interface IResponseSumPrice {
     orderVolume: number;
 }
 
+interface IResponseIpoGet {
+    assigneeDate: string;
+    canSendRequest: boolean;
+    companyISIN: string;
+    exchange: string;
+    fromDate: string;
+    fromPrice: number;
+    individualFromQuantity: number;
+    individualToQuantity: number;
+    ipoDate: string;
+    ipoFromDate: string;
+    ipoFromTime: string;
+    ipoToDate:string;
+    ipoToTime: string;
+    isActive: boolean;
+    legalFromQuantity: number;
+    legalToQuantity: number;
+    marketUnit: MarketUnit;
+    remainingSeconds: number;
+    symbolISIN: string;
+    symbolState: string;
+    symbolTitle: string;
+    toDate: string;
+    toPrice: number;
+}
+
 interface IResponsiveAdditionalInfo {
     ipoFromDate: string;
     ipoFromTime: string;
     ipoToTime: string;
     fromPrice: number;
-    toPrice : number;
+    toPrice: number;
     individualToQuantity: number;
     legalToQuantity: number;
     assigneeDate: string;

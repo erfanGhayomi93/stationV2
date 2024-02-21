@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import jalaliday from 'jalaliday';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import weekday from 'dayjs/plugin/weekday';
-import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import i18next from 'i18next';
 dayjs.extend(jalaliday);
 dayjs.extend(relativeTime);
@@ -18,7 +18,7 @@ dayjs.extend(weekday)
 export const fetchUser = async (dispatch: AppDispatch) => {
     try {
         const { data } = await AXIOS.get(Apis().User.GetUserInformation);
-        dispatch(setAppUser({ userName: data?.result.userName, firstName: 'جواد', lastName: 'بینایی', customerISIN: "18990015846237", brokerCode: data?.result.brokerCode, mobile: "09355164207" }));
+        dispatch(setAppUser(data.result));
     } catch (error: any) {
         if (![401].includes(error?.response?.status)) dispatch(setAppState('Crashed'));
     }

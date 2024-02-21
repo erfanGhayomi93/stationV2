@@ -103,8 +103,8 @@ const TvLoadChartsModal = () => {
 
 	const { data: savedCharts, isFetching } = useTvSavedChart(
 		{
-			client: userData?.customerISIN ?? 0,
-			user: userData?.customerISIN ?? 0,
+			client: userData.traderCode ?? 0,
+			user: userData.traderCode ?? 0,
 		}
 	);
 
@@ -135,8 +135,8 @@ const TvLoadChartsModal = () => {
 				'tvSavedCharts'
 				// ,
 				// {
-				// 	client: userData?.customerISIN ?? 0,
-				// 	user: userData?.customerISIN ?? 0,
+				// 	client: userData.traderCode ?? 0,
+				// 	user: userData.traderCode ?? 0,
 				// }
 			]);
 			const charts = (data ? JSON.parse(JSON.stringify(data)) : []) as TvSavedChartType[];
@@ -149,8 +149,8 @@ const TvLoadChartsModal = () => {
 				'tvSavedCharts'
 				// ,
 				// {
-				// 	client: userData?.customerISIN ?? 0,
-				// 	user: userData?.customerISIN ?? 0,
+				// 	client: userData.traderCode ?? 0,
+				// 	user: userData.traderCode ?? 0,
 				// }
 			], filteredCharts);
 
