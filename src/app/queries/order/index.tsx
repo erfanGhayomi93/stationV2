@@ -99,10 +99,14 @@ export const useSingleDeleteOrders = (
 // Get Order List
 
 export const getOrderLists = async (params: IGTOrderListRequest) => {
-    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(Apis().Orders.Lists, {
-        params,
-    });
-    return data;
+    try {
+        const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(Apis().Orders.Lists, {
+            params,
+        });
+        return data;
+    } catch (error) {
+        return {} as any;
+    }
 };
 //prettier-ignore
 export const useOrderLists = <T = GlobalPaginatedApiResponse<IGTOrderListResultType[]>>(param: IGTOrderListRequest,

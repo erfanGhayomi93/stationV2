@@ -93,6 +93,7 @@ export const Apis = () => ({
         Details: getBaseUrl() + '/Order/v1/GetOrderStateHistory',
         Delete: getBaseUrl() + '/Order/v1/SingleDelete',
         Lists: getBaseUrl() + '/Order/v1/OrdersList',
+        OrderDetails: getBaseUrl() + '/Order/v1/OrdersListDetail',
         Excel: getBaseUrl() + '/Order/v1/OrdersListExcel',
         GroupLists: getBaseUrl() + '/Order/v1/GroupOrdersList',
         Modify: getBaseUrl() + '/Order/v1/Modify',

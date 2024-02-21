@@ -125,30 +125,21 @@ interface ISingleModifyOrderReq {
 }
 
 interface IGTOrderListResultType {
-    orderId: number;
-    symbolISIN: string;
     symbolTitle: string;
     customerISIN: string;
     customerTitle: string;
-    bourseCode: string;
     orderSide: string;
     customerType: string;
-    requestDate: string;
     orderDateTime: string;
     quantity: number;
     price: number;
     totalValue: number;
     omsOrderState: string;
-    sumExecuted: number;
     userName: string;
-    validity: validity;
-    validityDate: string | null;
-    orderFrom: string;
-    parentOrderId: number;
-    childOrderId: number;
-    lastErrorCode: string;
-    clientIP: string;
-    customErrorMsg: string;
+    iteratedCount: number;
+    orderValue: number;
+    idOfTrader: string;
+    symbolISIN: string;
 }
 
 interface IGTOrderListRequest {
@@ -162,7 +153,7 @@ interface IGTOrderListRequest {
     Validity?: validity;
     PageNumber: number;
     PageSize: number;
-    AggregateType: string;
+    AggregateType: 'None' | 'Customer' | 'Symbol' | 'Both';
     MyStationOnly?: boolean;
     Time: string;
 }
@@ -180,7 +171,7 @@ interface IGTTradesListRequest {
     Time?: string;
     CustomerType?: CustomerType;
     MyStationOnly: boolean;
-    GetTradesAggregateType: 'Customer' | 'Symbol' | 'Both';
+    GetTradesAggregateType: 'Customer' | 'Symbol' | 'Both' | 'None';
 }
 
 interface IGTTradesListResultType {

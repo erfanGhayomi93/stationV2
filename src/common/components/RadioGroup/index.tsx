@@ -19,7 +19,7 @@ const RadioField = ({ label = '', value, onChange, options }: Props) => {
                             {({ checked }) => (
                                 <div
                                     className={clsx(
-                                        'flex-1 rounded-md flex justify-center items-center py-2 cursor-pointer',
+                                        'flex-1 rounded-md flex justify-center items-center py-2 cursor-pointer transition-all duration-200',
                                         checked
                                             ? 'text-L-primary-50 border border-L-primary-50 bg-L-gray-50'
                                             : 'text-L-gray-600 border border-transparent bg-L-gray-200 ',
