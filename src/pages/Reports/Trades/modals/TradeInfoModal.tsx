@@ -10,7 +10,7 @@ import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { seprateNumber } from 'src/utils/helpers';
 
 type Props = {
-    modalData: { isOpen: boolean; data?: IGTOrderListResultType };
+    modalData: { isOpen: boolean; data?: IGTTradesListResultType };
     setModalData: Dispatch<SetStateAction<{ isOpen: boolean; data?: Props['modalData']['data'] }>>;
     aggregateType: 'None' | 'Customer' | 'Symbol' | 'Both';
 };
@@ -22,25 +22,24 @@ type TInfoFieldParams = {
     preFixText?: string;
 };
 
-const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
+const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
     const handleClose = () => setModalData({ isOpen: false });
     const [footerData, setFooterData] = useState({
         quantity: 0,
         price: 0,
         row: 0,
-        orderValue: 0,
+        comission: 0,
+        tradeValue: 0,
     });
 
     const { data, isLoading } = useQuery(
         ['OrderDetails'],
         () =>
-            getOrderDetails({
-                IDOfTrader: modalData?.data?.idOfTrader,
+            getTradeDetails({
                 OrderSide: modalData?.data?.orderSide,
                 SymbolISIN: modalData?.data?.symbolISIN,
                 CustomerISIN: modalData?.data?.customerISIN,
-                OrderDateTime: modalData?.data?.orderDateTime,
-                OMSOrderState: modalData?.data?.omsOrderState,
+                TradeDate: modalData?.data?.tradeDate,
             }),
         {
             enabled: !!modalData?.data,
@@ -49,19 +48,20 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
                     setFooterData(
                         value.reduce(
                             (a: typeof footerData, b: Record<string, any>, c: number) => {
-                                a.quantity += b.quantity;
-                                a.price += b.price;
+                                a.quantity += b.tradeQuantity;
+                                a.price += b.tradePrice;
                                 a.row += c + 1;
-                                a.orderValue += b.orderValue;
+                                a.tradeValue += b.totalPrice;
+                                a.comission += b.totalCommission;
                                 return a;
                             },
-                            { price: 0, quantity: 0, row: 0, orderValue: 0 } as typeof footerData,
+                            { comission: 0, price: 0, quantity: 0, row: 0, tradeValue: 0 } as typeof footerData,
                         ),
                     );
                 }
             },
             onError: () => {
-                setFooterData({ orderValue: 0, price: 0, quantity: 0, row: 0 });
+                setFooterData({ comission: 0, price: 0, quantity: 0, row: 0, tradeValue: 0 });
             },
         },
     );
@@ -71,11 +71,11 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             { headerName: 'ردیف', valueGetter: ({ node }) => Number(node?.rowIndex) + 1, maxWidth: 60 },
             ...(aggregateType !== 'Customer' ? [{ headerName: 'مشتری', field: 'customerTitle' }] : []),
             ...(aggregateType !== 'Symbol' ? [{ headerName: 'نماد', field: 'symbolTitle' }] : []),
-            { headerName: 'تعداد', field: 'quantity', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'قیمت', field: 'price', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'ارزش سفارش', field: 'totalValue', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'شماره اعلام', field: 'hostOrderNumber', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'زمان', field: 'orderDateTime', type: 'date', minWidth: 150 },
+            { headerName: 'تعداد', field: 'tradeQuantity', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'قیمت', field: 'tradePrice', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'کارمزد', field: 'totalCommission', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'ارزش معامله', field: 'totalPrice', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'زمان', field: 'tradeDate', type: 'date', minWidth: 150 },
         ],
         [],
     );
@@ -101,7 +101,7 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             width={900}
             title={
                 <span className="font-normal text-sm text-white">
-                    جزئیات سفارش <span className="text-L-info-50">{createTitle()}</span>
+                    جزئیات معامله <span className="text-L-info-50">{createTitle()}</span>
                 </span>
             }
         >
@@ -118,7 +118,9 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
                     <Seperator height={'50%'} />
                     <InfoField label="قیمت" value={footerData.price} preFix preFixText="ریال" />
                     <Seperator height={'50%'} />
-                    <InfoField label="ارزش سفارش" value={footerData.orderValue} preFix preFixText="ریال" />
+                    <InfoField label="کارمزد" value={footerData.comission} preFix preFixText="ریال" />
+                    <Seperator height={'50%'} />
+                    <InfoField label="ارزش معامله" value={footerData.tradeValue} preFix preFixText="ریال" />
                 </div>
             </div>
         </AppModal>
@@ -135,9 +137,9 @@ const InfoField = ({ label, value, preFix, preFixText = '' }: TInfoFieldParams) 
     );
 };
 
-const getOrderDetails = async (params?: Record<string, any>) => {
-    const { data } = await AXIOS.get(Apis().Orders.OrderDetails, { params });
+const getTradeDetails = async (params?: Record<string, any>) => {
+    const { data } = await AXIOS.get(Apis().Orders.TradesDetail, { params });
     return data?.result;
 };
 
-export default OrderInfoModal;
+export default TradeInfoModal;

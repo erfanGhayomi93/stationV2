@@ -263,7 +263,7 @@ const Orders = () => {
             reportNode={
                 <>
                     <WidgetLoading spining={isFetching}>
-                        <AGTable rowData={ordersList?.result || []} columnDefs={Columns} />
+                        <AGTable suppressScrollOnNewData={false} rowData={ordersList?.result || []} columnDefs={Columns} />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator

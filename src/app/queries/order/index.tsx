@@ -164,10 +164,14 @@ export const useDeleteRequest = (options?: Omit<UseMutationOptions<IDeleteReques
 ///////////Trades//////////
 
 export const getTradesLists = async (params: IGTTradesListRequest) => {
-    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(Apis().Orders.Trades, {
-        params,
-    });
-    return data;
+    try {
+        const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IGTTradesListResultType[]>>(Apis().Orders.Trades, {
+            params,
+        });
+        return data;
+    } catch (error) {
+        return {} as any;
+    }
 };
 
 export const useTradesLists = <T = IGTTradesResponseType,>(

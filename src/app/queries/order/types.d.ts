@@ -62,7 +62,7 @@ type TTodayDoneTrades = {
     quantity: number;
     totalPrice: number;
     tradeDate: string;
-    commission ?: number
+    commission?: number;
 };
 
 type IOrderSelected = {
@@ -177,16 +177,18 @@ interface IGTTradesListRequest {
 interface IGTTradesListResultType {
     customerISIN: string;
     customerTitle: string;
-    symbolTitle: string;
-    symbolISIN: string;
     bourseCode: string;
     nationalCode: string;
-    orderSide: BuySellSide;
     customerType: string;
+    symbolISIN: string;
+    symbolTitle: string;
+    orderSide: string;
     tradeDate: string;
     tradeQuantity: number;
     tradePrice: number;
     totalPrice: number;
+    totalCommission: number;
+    iterationCount: number;
 }
 
 interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}
