@@ -1,15 +1,14 @@
 import { FC, memo, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import { LockClose, LockOpen } from 'src/common/icons';
+import { InfoFillIcon, LockClose, LockOpen } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import { SymbolBestOneOrders } from 'src/ls/subscribes';
 import { pushEngine } from 'src/ls/pushEngine';
 import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
-
-
+import Tippy from '@tippyjs/react';
 
 const BuySellPrice: FC = () => {
     const dispatch = useBuySellDispatch();
@@ -72,9 +71,20 @@ const BuySellPrice: FC = () => {
         handleUnLockPrice()
     }, [selectedSymbol, side])
 
-   
+    const handleTippyWarning = () => {
+        if (!price) return false;
 
+        const highThreshold = symbolData?.highThreshold || 0;
+        const lowThreshold = symbolData?.lowThreshold || 0;
 
+        if (highThreshold < price || lowThreshold > price) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const isPriceValid = handleTippyWarning();
 
     return (
         <div className="flex w-full gap-4 pr-2">
@@ -84,12 +94,19 @@ const BuySellPrice: FC = () => {
                 onChange={handleChangePrice}
                 inputValue={price}
                 title="قیمت"
-                unit={<>ريال</>}
+                unit={
+                    <>
+                        <Tippy content={'قیمت در بازه مجاز نمیباشد'} placement="top" className="text-L-warning text-xs">
+                            {isPriceValid ? <InfoFillIcon className="text-L-warning mr-1" /> : <></>}
+                        </Tippy>
+                        ريال
+                    </>
+                }
                 max={1000000000}
             >
-                <button onClick={handleClickButtonLock} className="px-2">{
-                    isLockPrice ? lockIconClose : lockIconOpen
-                }</button>
+                <button onClick={handleClickButtonLock} className="px-2">
+                    {isLockPrice ? lockIconClose : lockIconOpen}
+                </button>
             </ControllerInput>
         </div>
     );
