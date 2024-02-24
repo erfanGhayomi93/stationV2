@@ -8,7 +8,7 @@ type IIPOOrder = {
             quantity: number;
             validity: 'GoodTillDate' | 'Day';
             validityDate: string;
-            orderType: 'MarketOrder';
+            orderType: 'LimitOrder';
             orderStrategy: 'Normal';
         }[],
     
