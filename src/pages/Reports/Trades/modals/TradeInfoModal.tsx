@@ -37,11 +37,12 @@ const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
         () =>
             getTradeDetails({
                 OrderSide: modalData?.data?.orderSide,
-                SymbolISIN: modalData?.data?.symbolISIN,
-                CustomerISIN: modalData?.data?.customerISIN,
+                SymbolISIN: aggregateType !== 'Customer' ? modalData?.data?.symbolISIN : undefined,
+                CustomerISIN: aggregateType !== 'Symbol' ? modalData?.data?.customerISIN : undefined,
                 TradeDate: modalData?.data?.tradeDate,
             }),
         {
+            cacheTime: 0,
             enabled: !!modalData?.data,
             onSuccess: (value) => {
                 if (value) {
