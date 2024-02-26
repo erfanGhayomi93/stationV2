@@ -24,7 +24,7 @@ type TOrder = {
     quantity: number;
     validity: 'GoodTillDate' | 'Day';
     validityDate: string;
-    orderType: 'MarketOrder';
+    orderType: 'LimitOrder';
     orderStrategy: 'Normal';
 };
 
@@ -48,7 +48,7 @@ const ActionCol = ({ data, dataSetter, symbolData }: Props) => {
                 quantity: data.count,
                 validity: validity.validity,
                 validityDate: validity.validityDate,
-                orderType: 'MarketOrder',
+                orderType: 'LimitOrder',
                 orderStrategy: 'Normal',
             },
         ];

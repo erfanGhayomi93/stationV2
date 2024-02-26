@@ -20,6 +20,9 @@ import dayjs, { ManipulateType } from 'dayjs';
 import { aggregateOnFieldOptions, customerTypeFieldOptions, sideFieldOptions, timeFieldOptions } from '../Trades/constant';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import Select from 'src/common/components/Select';
+import AGActionCell from 'src/common/components/AGActionCell';
+import { ICellRendererParams } from 'ag-grid-community';
+import OrderInfoModal from './modals/OrderInfoModal';
 
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -37,6 +40,7 @@ const Orders = () => {
     const { t } = useTranslation();
     const [formValues, setFormValues] = useState(initialState);
     const [apiParams, setApiParams] = useState(formValues);
+    const [infoModalData, setInfoModalData] = useState<{ isOpen: boolean; data?: IGTOrderListResultType }>({ isOpen: false });
     const dispatch = useAppDispatch();
 
     const {
@@ -82,6 +86,7 @@ const Orders = () => {
                 sortable: false,
                 minWidth: 60,
                 maxWidth: 80,
+                pinned: 'right',
                 valueFormatter: ({ node }) => String((apiParams?.PageNumber - 1) * apiParams?.PageSize + node?.rowIndex! + 1),
             },
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
@@ -106,6 +111,21 @@ const Orders = () => {
             },
             { headerName: t('ag_columns_headerName.status'), field: 'omsOrderState', valueFormatter: ({ value }) => t('order_status.' + value) },
             { headerName: t('ag_columns_headerName.date'), field: 'orderDateTime', type: 'date' },
+            {
+                headerName: t('ag_columns_headerName.actions'),
+                pinned: 'left',
+                sortable: false,
+                minWidth: 90,
+                maxWidth: 90,
+                cellRenderer: (row: ICellRendererParams<IGTOrderListResultType>) => (
+                    <AGActionCell
+                        data={row.data}
+                        requiredButtons={['Info']}
+                        disableInfo={!(row?.data?.iteratedCount! > 1)}
+                        onInfoClick={() => setInfoModalData({ data: row?.data, isOpen: true })}
+                    />
+                ),
+            },
         ],
         [apiParams],
     );
@@ -243,7 +263,7 @@ const Orders = () => {
             reportNode={
                 <>
                     <WidgetLoading spining={isFetching}>
-                        <AGTable rowData={ordersList?.result || []} columnDefs={Columns} />
+                        <AGTable suppressScrollOnNewData={false} rowData={ordersList?.result || []} columnDefs={Columns} />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
@@ -256,6 +276,9 @@ const Orders = () => {
                             PaginatorHandler={PaginatorHandler}
                         />
                     </div>
+                    {infoModalData.isOpen && (
+                        <OrderInfoModal modalData={infoModalData} setModalData={setInfoModalData} aggregateType={apiParams?.AggregateType} />
+                    )}
                 </>
             }
         />
