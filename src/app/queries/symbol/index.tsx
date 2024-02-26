@@ -110,7 +110,8 @@ export const useGetSameSectorSymbols = (symbolISIN: string, options?: UseQueryOp
 
 const searchSymbol = async (term: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(Apis().Symbol.Search as string, { params: { term } });
-    return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
+    // return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
+    return data?.result;
 };
 //prettier-ignore
 export const useSymbolSearch = <T = SymbolSearchResult[]>(
