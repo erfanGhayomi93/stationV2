@@ -82,7 +82,7 @@ export const IpoList = () => {
                     >
                         <Menu.Items
                             static={true}
-                            className="absolute left-0 top-3 mt-2 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="absolute left-0 top-4 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         >
                             <Menu.Item>
                                 <div>
