@@ -62,7 +62,7 @@ type TTodayDoneTrades = {
     quantity: number;
     totalPrice: number;
     tradeDate: string;
-    commission ?: number
+    commission?: number;
 };
 
 type IOrderSelected = {
@@ -125,30 +125,21 @@ interface ISingleModifyOrderReq {
 }
 
 interface IGTOrderListResultType {
-    orderId: number;
-    symbolISIN: string;
     symbolTitle: string;
     customerISIN: string;
     customerTitle: string;
-    bourseCode: string;
     orderSide: string;
     customerType: string;
-    requestDate: string;
     orderDateTime: string;
     quantity: number;
     price: number;
     totalValue: number;
     omsOrderState: string;
-    sumExecuted: number;
     userName: string;
-    validity: validity;
-    validityDate: string | null;
-    orderFrom: string;
-    parentOrderId: number;
-    childOrderId: number;
-    lastErrorCode: string;
-    clientIP: string;
-    customErrorMsg: string;
+    iteratedCount: number;
+    orderValue: number;
+    idOfTrader: string;
+    symbolISIN: string;
 }
 
 interface IGTOrderListRequest {
@@ -162,7 +153,7 @@ interface IGTOrderListRequest {
     Validity?: validity;
     PageNumber: number;
     PageSize: number;
-    AggregateType: string;
+    AggregateType: 'None' | 'Customer' | 'Symbol' | 'Both';
     MyStationOnly?: boolean;
     Time: string;
 }
@@ -180,22 +171,24 @@ interface IGTTradesListRequest {
     Time?: string;
     CustomerType?: CustomerType;
     MyStationOnly: boolean;
-    GetTradesAggregateType: 'Customer' | 'Symbol' | 'Both';
+    GetTradesAggregateType: 'Customer' | 'Symbol' | 'Both' | 'None';
 }
 
 interface IGTTradesListResultType {
     customerISIN: string;
     customerTitle: string;
-    symbolTitle: string;
-    symbolISIN: string;
     bourseCode: string;
     nationalCode: string;
-    orderSide: BuySellSide;
     customerType: string;
+    symbolISIN: string;
+    symbolTitle: string;
+    orderSide: string;
     tradeDate: string;
     tradeQuantity: number;
     tradePrice: number;
     totalPrice: number;
+    totalCommission: number;
+    iterationCount: number;
 }
 
 interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}

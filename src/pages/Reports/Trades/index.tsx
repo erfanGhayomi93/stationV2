@@ -14,18 +14,21 @@ import RefreshBtn from 'src/common/components/Buttons/RefreshBtn';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
-import { IHeaderParams} from 'ag-grid-community';
+import { ICellRendererParams, IHeaderParams } from 'ag-grid-community';
 import FilterBlock from 'src/common/components/FilterBlock';
 import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import RadioField from 'src/common/components/RadioGroup';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import AGActionCell from 'src/common/components/AGActionCell';
+import TradeInfoModal from './modals/TradeInfoModal';
 
 const Trades = () => {
     //
     const { t } = useTranslation();
     const [formValues, setFormValues] = useState(initialState);
     const [apiParams, setApiParams] = useState(formValues);
+    const [infoModalData, setInfoModalData] = useState<{ isOpen: boolean; data?: IGTTradesListResultType }>({ isOpen: false });
     const dispatch = useAppDispatch();
 
     const { data: tradesData, refetch, isFetching } = useTradesLists(apiParams, { enabled: false });
@@ -77,6 +80,21 @@ const Trades = () => {
                             <InfoIcon width="16" height="16" />
                         </div>
                     </Tippy>
+                ),
+            },
+            {
+                headerName: t('ag_columns_headerName.actions'),
+                pinned: 'left',
+                sortable: false,
+                minWidth: 90,
+                maxWidth: 90,
+                cellRenderer: (row: ICellRendererParams<IGTTradesListResultType>) => (
+                    <AGActionCell
+                        data={row.data}
+                        requiredButtons={['Info']}
+                        disableInfo={!(row?.data?.iterationCount! > 1)}
+                        onInfoClick={() => setInfoModalData({ data: row?.data, isOpen: true })}
+                    />
                 ),
             },
         ],
@@ -219,7 +237,7 @@ const Trades = () => {
             reportNode={
                 <>
                     <WidgetLoading spining={isFetching}>
-                        <AGTable rowData={tradesData?.result || []} columnDefs={Columns} />
+                        <AGTable suppressScrollOnNewData={false} rowData={tradesData?.result || []} columnDefs={Columns} />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
@@ -232,6 +250,9 @@ const Trades = () => {
                             PaginatorHandler={PaginatorHandler}
                         />
                     </div>
+                    {infoModalData.isOpen && (
+                        <TradeInfoModal modalData={infoModalData} setModalData={setInfoModalData} aggregateType={apiParams?.GetTradesAggregateType} />
+                    )}
                 </>
             }
         />

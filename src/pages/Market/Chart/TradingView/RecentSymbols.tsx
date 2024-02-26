@@ -214,7 +214,7 @@ const RecentSymbols = () => {
 										onClick={() => setActiveSymbol(symbol.symbolISIN)}
 										onDelete={() => onDeleteSymbol(symbol.symbolISIN)}
 										label={t('common.rial')}
-										deletable={recentSymbols.length > 1}
+										deletable={recentSymbols.length > 1 && selectedSymbol !== symbol.symbolISIN }
 									/>
 								))}
 						</ul>

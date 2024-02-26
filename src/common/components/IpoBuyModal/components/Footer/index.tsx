@@ -20,7 +20,7 @@ type TOrder = {
     quantity: number;
     validity: 'GoodTillDate' | 'Day';
     validityDate: string;
-    orderType: 'MarketOrder';
+    orderType: 'LimitOrder';
     orderStrategy: 'Normal';
 };
 
@@ -42,7 +42,7 @@ const Footer = ({ data, symbolData }: { data: IData[]; symbolData: TIpoInfo }) =
             quantity: item.count,
             validity: validity.validity,
             validityDate: validity.validityDate,
-            orderType: 'MarketOrder',
+            orderType: 'LimitOrder',
             orderStrategy: 'Normal',
         }));
         sendOrders({ items: orders, orderSide: 'Buy', symbolISIN: symbolData?.symbolISIN });

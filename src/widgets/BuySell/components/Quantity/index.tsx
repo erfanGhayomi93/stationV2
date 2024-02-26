@@ -4,13 +4,12 @@ import { FC, Fragment, memo, useEffect, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
 import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
-import { CalculatorIcon, CoinIcon, PercentIcon } from 'src/common/icons';
+import { CalculatorIcon, CoinIcon, InfoFillIcon, PercentIcon } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import TradeInput from '../Input';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers } from 'src/redux/slices/option';
-
-
+import Tippy from '@tippyjs/react';
 
 const BuySellQuantity: FC = () => {
     const dispatch = useBuySellDispatch();
@@ -66,6 +65,22 @@ const BuySellQuantity: FC = () => {
         (price && isCalculatorEnabled) && setQuantity(Math.floor(getTradedQuantity()))
     }, [price, amount, isCalculatorEnabled, selectedCustomer]);
 
+
+    const handleTippyWarning = () => {
+        if (!quantity) return false;
+
+        const maxTradeQuantity = symbolData?.maxTradeQuantity || 0;
+        const minTradeQuantity = symbolData?.minTradeQuantity || 0;
+
+        if (maxTradeQuantity < quantity || minTradeQuantity > quantity) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const isQuantityValid = handleTippyWarning();
+
     return (
         <>
             <div className="flex w-full gap-4 pr-2 ">
@@ -75,7 +90,14 @@ const BuySellQuantity: FC = () => {
                     lowValue={symbolData?.minTradeQuantity || 0}
                     onChange={handleQuantity}
                     inputValue={quantity}
-                    unit={<>عدد</>}
+                    unit={
+                        <>
+                            <Tippy content={'تعداد در بازه مجاز نمیباشد'} placement="top" className="text-L-warning text-xs">
+                                {isQuantityValid ? <InfoFillIcon className="text-L-warning mr-1" /> : <></>}
+                            </Tippy>
+                            عدد
+                        </>
+                    }
                 >
                     <button className="px-2" onClick={() => toggleCalculator(!isCalculatorEnabled)}>
                         {calculatorIcon}

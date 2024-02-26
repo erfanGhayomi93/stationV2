@@ -27,7 +27,6 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
     const selectedCustomersName = selectedCustomers.map(({ title }) => title);
     const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
 
-
     const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket({
         onSuccess: () => {
             onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
@@ -76,7 +75,7 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
                 <p>{`تعداد ${seprateNumber(quantity)}`}</p>
                 <p>{`قیمت ${seprateNumber(price)} ریال`}</p>
             </div>
-            <div dir="ltr" className="flex gap-2">
+            <div dir="ltr" className="flex gap-2 items-center">
                 <button
                     onClick={onCancel}
                     className="px-4 py-1 rounded border border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 bg-L-primary-100 dark:bg-D-primary-100"
@@ -86,10 +85,12 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
                 <button
                     data-cy="basket-create-new"
                     onClick={handleSetBasket}
-                    className="px-10 py-1 rounded border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic bg-L-primary-50 dark:bg-D-primary-50"
+                    disabled={!quantity || !price}
+                    className="px-10 py-1 rounded border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic bg-L-primary-50 dark:bg-D-primary-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     ثبت
                 </button>
+                {(!quantity || !price) && <p className=" text-L-error-200 ml-auto">{'تعداد یا قیمت نمیتواند صفر باشد *'}</p>}
             </div>
         </div>
     );

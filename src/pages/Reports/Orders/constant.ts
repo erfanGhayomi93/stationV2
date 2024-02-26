@@ -12,7 +12,7 @@ export const initialState: IGTOrderListRequest = {
     PageSize: 10,
     OrderStatus: '',
     MyStationOnly: false,
-    AggregateType: 'Both',
+    AggregateType: 'None',
     Time: 'day',
 };
 

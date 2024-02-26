@@ -16,9 +16,9 @@ const useSendOrdersV2 = (onOrderResultReceived?: (x: { [key: string]: string }) 
 
     const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', []);
     const selectedSymbol = useAppSelector(getSelectedSymbol);
-    const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+    // const { data: symbolTitle, refetch } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle, enabled: false });
     const [clientIdStore, setClientIdStore] = useState({});
-
+    
     const appDispatch = useAppDispatch();
 
     useEffect(() => {

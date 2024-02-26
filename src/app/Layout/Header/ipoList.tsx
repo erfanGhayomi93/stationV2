@@ -82,23 +82,28 @@ export const IpoList = () => {
                     >
                         <Menu.Items
                             static={true}
-                            className="absolute left-0 top-3 mt-2 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="absolute left-0 top-4 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         >
                             <Menu.Item>
                                 <div>
                                     {
-                                        data?.map(item => (
-                                            <div key={item?.symbolISIN} className='flex justify-between p-2 items-center even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-gray-200 hover:dark:bg-D-gray-200'>
-                                                <span className='w-1/3 truncate font-medium'>{item.symbolTitle}</span>
-                                                <span className='flex-1'>{ipoRemaining(item)}</span>
-                                                <span
-                                                    className='bg-L-success-200 dark:bg-D-success-200 text-L-gray-200 dark:text-D-gray-200 rounded cursor-pointer'
+                                        data
+                                            ?.map(item => (
+                                                <div
+                                                    key={item?.symbolISIN} className='flex justify-between p-2 items-center even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-gray-200 hover:dark:bg-D-gray-200 cursor-pointer'
                                                     onClick={(e) => handleClickIpo(e, item.symbolISIN)}
                                                 >
-                                                    <PlusIcon width={18} height={18} />
-                                                </span>
-                                            </div>
-                                        ))
+                                                    <span className='w-2/5 truncate font-medium'>{item.symbolTitle}</span>
+                                                    <div className='flex justify-between flex-1 whitespace-nowrap'>
+                                                        <span>{ipoRemaining(item)}</span>
+                                                        <span
+                                                            className='bg-L-success-200 dark:bg-D-success-200 text-L-gray-200 dark:text-D-gray-200 rounded mr-1'
+                                                        >
+                                                            <PlusIcon width={18} height={18} />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))
                                     }
                                 </div>
                             </Menu.Item>
