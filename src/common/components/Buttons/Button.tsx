@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     loading?: boolean;
-    variant?: 'primary' | 'success' | 'error' | 'info';
+    variant?: 'primary' | 'success' | 'error' | 'info' | 'disabled';
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, variant = 'primary', loading = false, ...rest }, ref) => {
@@ -35,6 +35,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, variant =
                 'text-L-primary-50 border border-L-primary-50 dark:text-D-primary-50 dark:border-D-primary-50': variant === 'info',
                 'bg-L-success-200 hover:bg-L-success-300': variant === 'success',
                 'bg-L-error-200   hover:bg-L-error-300': variant === 'error',
+                'bg-L-gray-400   hover:bg-L-gray-400': variant === 'disabled',
             })}
             {...rest}
         >
