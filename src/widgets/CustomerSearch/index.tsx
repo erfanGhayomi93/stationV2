@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import TabsList from 'src/common/components/TabsList';
 import CustomerSearch from './tabs/customerSerarch';
 import GroupSearch from './tabs/groupSearch';
@@ -9,16 +9,9 @@ import { SelectedList as SelectedListIcon } from 'src/common/icons';
 import clsx from 'clsx';
 import CustomerPortfolioModal from './modal/CustomerPortfolioModal';
 import CustomerDetailModal from './modal/CustomerDetailModal';
-import { getSelectedSymbol } from 'src/redux/slices/option';
-import { useAppSelector } from 'src/redux/hooks';
-import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 
 const CustomerWidget = () => {
     const { state: { activeTab, isPortfolioModalOpen, isDetailModalOpen }, setState } = useCustomerSearchState()
-
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const { data: symbolGeneralInfo } = useSymbolGeneralInfo<SymbolGeneralInfoType>(selectedSymbol)
-    const isIpo = symbolGeneralInfo ? (symbolGeneralInfo as SymbolGeneralInfoType)?.symbolData.isIpo : false;
 
 
     const setActiveTab = (tab: string) => {
@@ -42,15 +35,15 @@ const CustomerWidget = () => {
                 title: <>لیست دلخواه</>,
                 content: <FavoriteList />,
             },
-//             {
-//                 key: 'IpoList',
-//                 title: <>عرضه اولیه نماد {symbolGeneralInfo?.symbolData.symbolTitle} </>,
-//                 content: <CustomerSearch />,
-//                 buttonClass: clsx("px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200", { "hidden": !isIpo }),
-//                 selectedButtonClass:
-//                     'text-L-warning outline-none dark:text-L-warning font-semibold border-t-2 border-L-warning dark:border-D-warning bg-L-basic dark:bg-D-basic',
-// 
-//             },
+            //             {
+            //                 key: 'IpoList',
+            //                 title: <>عرضه اولیه نماد {symbolGeneralInfo?.symbolData.symbolTitle} </>,
+            //                 content: <CustomerSearch />,
+            //                 buttonClass: clsx("px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200", { "hidden": !isIpo }),
+            //                 selectedButtonClass:
+            //                     'text-L-warning outline-none dark:text-L-warning font-semibold border-t-2 border-L-warning dark:border-D-warning bg-L-basic dark:bg-D-basic',
+            // 
+            //             },
             {
                 key: 'SelectedList',
                 title: <div className='flex gap-1 items-center'>
@@ -63,14 +56,9 @@ const CustomerWidget = () => {
                 content: <SelectedListTab />,
             }
         ],
-        [activeTab, symbolGeneralInfo],
+        [activeTab],
     );
 
-    useEffect(() => {
-        if (!!isIpo) {
-            setActiveTab("IpoList");
-        }
-    }, [symbolGeneralInfo])
 
 
     return (
