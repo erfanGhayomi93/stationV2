@@ -60,6 +60,7 @@ interface IRequestWatchListSymbol {
     type?: IDefaultWatchlistType;
     MarketUnit?: string;
     SectorCode?: string;
+    Exchange?: string;
 }
 ///////////////////////////////////////////
 

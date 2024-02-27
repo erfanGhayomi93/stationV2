@@ -35,7 +35,7 @@ export const FilterAllMarket = () => {
             <div className="flex text-sm items-center gap-3 pl-3 my-1 border-l-2 border-L-gray-400 dark:border-D-gray-400">
                 <p className="pl-1 text-L-gray-600 dark:text-D-gray-600">نوع بازار:</p>
 
-                {marketTypeOptions.map((item, ind) => (
+                {ExchangeOptions.map((item, ind) => (
                     <div key={ind} className="flex">
                         <input
                             name="marketUnit"
@@ -95,14 +95,14 @@ export const FilterAllMarket = () => {
     );
 };
 
-const marketTypeOptions = [
+const ExchangeOptions = [
     {
         label: 'همه',
         type: '',
     },
     {
         label: 'بورس',
-        type: 'Exchange',
+        type: 'Bourse',
     },
     {
         label: 'فرابورس',
