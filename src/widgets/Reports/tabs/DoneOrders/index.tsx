@@ -8,6 +8,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import clsx from 'clsx';
 import { InfoDoneOrders } from './modals/info';
+import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 
 type IDoneOrders = {
     aggregateType: IAggregate
@@ -29,8 +30,8 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
-            { headerName: 'نام نماد', field: 'symbolTitle' },
+            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle', headerComponent: AGHeaderSearchInput },
+            { headerName: 'نام نماد', field: 'symbolTitle', headerComponent: AGHeaderSearchInput },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'میانگین قیمت', field: 'price', type: 'sepratedNumber' },
