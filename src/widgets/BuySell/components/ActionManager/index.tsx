@@ -10,7 +10,7 @@ interface IActionManagerType {}
 const ActionManager: FC<IActionManagerType> = ({}) => {
     const basket = useBasketState();
     return (
-        <div className="flex gap-3  ">
+        <div className="flex gap-3">
             {basket?.visible ? (
                 <InsertBasketAction />
             ) : (
