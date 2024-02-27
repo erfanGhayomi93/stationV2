@@ -92,7 +92,6 @@ const Trades = () => {
                     <AGActionCell
                         data={row.data}
                         requiredButtons={['Info']}
-                        disableInfo={!(row?.data?.iterationCount! > 1)}
                         onInfoClick={() => setInfoModalData({ data: row?.data, isOpen: true })}
                     />
                 ),

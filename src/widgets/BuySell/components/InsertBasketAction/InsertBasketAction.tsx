@@ -9,6 +9,7 @@ import { emptySelectedCustomers, getSelectedCustomers } from 'src/redux/slices/o
 import { handleValidity } from 'src/utils/helpers';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useTranslation } from 'react-i18next';
+import Tippy from '@tippyjs/react';
 
 interface IInsertBasketActionType { }
 
@@ -123,12 +124,17 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
                     ویرایش
                 </button>
             ) : (
-                <button
-                    onClick={handleSetBasket}
-                    className="w-full py-2 bg-L-primary-100 dark:bg-D-primary-100 border border-L-primary-50 text-L-primary-50  dark:border-D-primary-50 dark:text-D-primary-50 rounded-sm"
-                >
-                    ثبت در سبد
-                </button>
+                <Tippy content={'تعداد یا قیمت نمیتواند صفر باشد '} disabled={!!price && !!quantity}>
+                    <div className="w-full">
+                        <button
+                            disabled={!price || !quantity}
+                            onClick={handleSetBasket}
+                            className="w-full py-2 bg-L-primary-100 dark:bg-D-primary-100 border border-L-primary-50 text-L-primary-50  dark:border-D-primary-50 dark:text-D-primary-50 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            ثبت در سبد
+                        </button>
+                    </div>
+                </Tippy>
             )}
         </>
     );

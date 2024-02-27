@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { t } from 'i18next';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import AXIOS from 'src/api/axiosInstance';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -75,7 +76,8 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             { headerName: 'تعداد', field: 'quantity', maxWidth: 100, type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', maxWidth: 100, type: 'sepratedNumber' },
             { headerName: 'ارزش سفارش', field: 'totalValue', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'شماره اعلام', field: 'hostOrderNumber', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'شماره اعلامیه', field: 'hostOrderNumber', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'وضعیت', field: 'omsOrderState', valueFormatter: ({ value }) => t('order_status.' + value) },
             { headerName: 'زمان', field: 'orderDateTime', type: 'date', minWidth: 150 },
         ],
         [],
@@ -99,7 +101,7 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             isOpen={modalData?.isOpen}
             handleClose={handleClose}
             height={500}
-            width={900}
+            width={1100}
             title={
                 <span className="font-normal text-sm text-white">
                     جزئیات سفارش <span className="text-L-info-50">{createTitle()}</span>

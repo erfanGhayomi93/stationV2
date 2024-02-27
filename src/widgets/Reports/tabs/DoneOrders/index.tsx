@@ -7,6 +7,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import clsx from 'clsx';
 import { InfoDoneOrders } from './modals/info';
+import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 
 type IDoneOrders = {
     aggregateType: IAggregate
@@ -31,6 +32,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             {
                 headerName: 'مشتری یا گروه مشتری',
                 field: 'customerTitle',
+                headerComponent: AGHeaderSearchInput,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <div>
                         <span>{row.value}</span>
@@ -45,6 +47,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             {
                 headerName: 'نام نماد',
                 field: 'symbolTitle',
+                headerComponent: AGHeaderSearchInput,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <div>
                         <span>{row.value}</span>

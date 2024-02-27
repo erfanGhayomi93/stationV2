@@ -26,7 +26,7 @@ const getWatchListSymbols = async (params: IRequestWatchListSymbol) => {
         watchlistType
     }
     if (watchlistType === "Market") {
-        MarketUnit && (paramsOnWatchlistType.MarketUnit = MarketUnit)
+        MarketUnit && (paramsOnWatchlistType.Exchange = MarketUnit)
         SectorCode && (paramsOnWatchlistType.SectorCode = SectorCode)
     } else if (watchlistType === 'Ramand') {
         paramsOnWatchlistType.type = type

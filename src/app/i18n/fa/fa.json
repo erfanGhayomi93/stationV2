@@ -19,11 +19,11 @@
         "1_LogoTitle": "رامند",
         "serCreditValue": "اعتبار",
         "ipo": "عرضه اولیه",
-		"ipo_remaining_days": "{{d}} روز مانده",
-		"ipo_remaining_hours": "{{m}} : {{h}} مانده",
-		"ipo_until_hours": "{{m}} : {{h}} تا پایان",
-		"ipo_remaining_minutes": "{{m}} دقیقه مانده ",
-		"ipo_until_minutes": "{{m}} دقیقه تا پایان "
+        "ipo_remaining_days": "{{d}} روز مانده",
+        "ipo_remaining_hours": "{{m}} : {{h}} مانده",
+        "ipo_until_hours": "{{m}} : {{h}} تا پایان",
+        "ipo_remaining_minutes": "{{m}} دقیقه مانده ",
+        "ipo_until_minutes": "{{m}} دقیقه تا پایان "
     },
     "titlePage": {
         "home": "صفحه اصلی",
@@ -865,7 +865,8 @@
         "WatchListNameIsRepetitious": "نام دیده بان تکراری می باشد.",
         "SymbolInWatchListMoreThanMaximum": "نمیتوانید به لیست نماد بیشتری اضافه کنید",
         "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
-        "CartExists": "سبد خرید تکراری است"
+        "CartExists": "سبد خرید تکراری است",
+        "WrongPrice": "قیمت اشتباه است"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
