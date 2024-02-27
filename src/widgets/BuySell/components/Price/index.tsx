@@ -97,7 +97,7 @@ const BuySellPrice: FC = () => {
                 unit={
                     <>
                         <Tippy content={'قیمت در بازه مجاز نمیباشد'} placement="top" className="text-L-warning text-xs">
-                            {isPriceValid ? <InfoFillIcon className="text-L-warning mr-1" /> : <></>}
+                            <InfoFillIcon className={`text-L-warning mr-1 ${isPriceValid ? '' : 'invisible'}`} />
                         </Tippy>
                         ريال
                     </>
