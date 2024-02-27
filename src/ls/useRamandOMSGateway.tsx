@@ -45,6 +45,7 @@ const createRamandOMSGateway = () => {
         const omsClientKey = message[12];
         const omsOrderStatus = message[22] as OrderStatusType;
         const orderMessageType = message[200]
+        const errorMessageType = message[208]
 
         const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
 
@@ -52,7 +53,8 @@ const createRamandOMSGateway = () => {
             onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
 
         } else if (["Error"].includes(omsOrderStatus)) {
-            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}` })
+            const errorTitle = !!errorMessageType ? errorMessageType + detailsNotif : `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}`
+            onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: errorTitle })
 
         } else if (["Expired", "DeleteByEngine",].includes(omsOrderStatus)) {
             onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
