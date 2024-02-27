@@ -93,7 +93,7 @@ const BuySellQuantity: FC = () => {
                     unit={
                         <>
                             <Tippy content={'تعداد در بازه مجاز نمیباشد'} placement="top" className="text-L-warning text-xs">
-                                {isQuantityValid ? <InfoFillIcon className="text-L-warning mr-1" /> : <></>}
+                                <InfoFillIcon className={`text-L-warning mr-1 ${isQuantityValid ? '' : 'invisible'}`} />
                             </Tippy>
                             عدد
                         </>
