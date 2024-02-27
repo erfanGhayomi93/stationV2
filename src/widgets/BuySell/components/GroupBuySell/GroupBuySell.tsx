@@ -3,7 +3,7 @@ import BuySellCustomer from '../BuySellCustomer';
 import BuySellDetail from '../Detail/BuySellDetail';
 import BuySellPrice from '../Price';
 import BuySellQuantity from '../Quantity';
-import BuySellStrategy from '../Strategy';
+// import BuySellStrategy from '../Strategy';
 import BuySellSymbol from '../Symbol';
 import BuySellValidity from '../Validity';
 
@@ -16,9 +16,9 @@ const GroupBuySell = () => {
                 <BuySellPrice />
                 <BuySellQuantity />
                 <BuySellValidity />
-                <BuySellStrategy />
+                {/* <BuySellStrategy /> */}
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 my-6 ">
                 <BuySellDetail />
                 <ActionManager />
             </div>
