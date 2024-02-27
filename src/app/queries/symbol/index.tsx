@@ -2,6 +2,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { queryClient } from 'src/app/queryClient';
+import dayjs from 'dayjs';
 
 const getSymbolGeneralInfo = async (symbolISIN: string, signal?: AbortSignal) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolGeneralInfoType>>(Apis().Symbol.SymbolGeneralInformation as string, {
@@ -34,7 +35,9 @@ const getIpoFn = async () => {
     return data.result || [];
 };
 
-export const useGetIpo = () => useQuery(["GetIpo"], () => getIpoFn());
+export const useGetIpo = () => useQuery(["GetIpo"], () => getIpoFn(), {
+    select: (data) => data.filter(item => !dayjs().isAfter(dayjs("2024-02-26T08:00:00").endOf('day')))
+});
 
 
 //////////////////////
@@ -110,7 +113,8 @@ export const useGetSameSectorSymbols = (symbolISIN: string, options?: UseQueryOp
 
 const searchSymbol = async (term: string) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<SymbolSearchResult[]>>(Apis().Symbol.Search as string, { params: { term } });
-    return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
+    // return Array.isArray(data?.result) ? data.result.slice(0, 10) : [];
+    return data?.result;
 };
 //prettier-ignore
 export const useSymbolSearch = <T = SymbolSearchResult[]>(

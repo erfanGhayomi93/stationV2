@@ -44,6 +44,8 @@ export const initialState: IData = {
 
 const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
     //
+
+
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const handleCloseModal = () => setIsOpen(false);
     const selectedCustomers = useAppSelector(getSelectedCustomers);
