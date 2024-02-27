@@ -103,21 +103,22 @@ const BuySellDetail: FC = () => {
             <div className="flex  text-L-gray-500 px-2 gap-16 min-h-[1.5rem]">
                 {side === 'Buy' ? (
                     <>
-                        <div className="flex justify-between items-center text-L-gray-500 w-full">
+                        <div className="flex justify-between items-center text-L-gray-500 w-1/2">
                             <span>قیمت سر به سر</span>
                             <span>{seprateNumber(drawValue)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-L-gray-500  w-full outline-none">
+                        <div className='w-1/2'></div>
+                        {/* <div className="flex justify-between items-center text-L-gray-500  w-full outline-none">
                             <span>سفارش پی در پی</span>
                             <Switcher onCheck={setSequential} value={sequential} />
-                        </div>
+                        </div> */}
                     </>
                 ) : (
                     <>
-                        <div className="flex justify-between items-center text-L-gray-500  w-full outline-none">
+                        {/* <div className="flex justify-between items-center text-L-gray-500  w-full outline-none">
                             <span>سفارش پی در پی</span>
                             <Switcher onCheck={setSequential} value={sequential} />
-                        </div>
+                        </div> */}
                         <div className="w-full"></div>
                     </>
                 )}

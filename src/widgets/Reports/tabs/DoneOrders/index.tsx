@@ -1,7 +1,6 @@
 import { FC, useMemo, useReducer, useRef, useState } from 'react';
 import { useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-// import WidgetLoading from 'src/common/components/WidgetLoading';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { abbreviateNumber, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -29,8 +28,34 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customerTitle' },
-            { headerName: 'نام نماد', field: 'symbolTitle' },
+            {
+                headerName: 'مشتری یا گروه مشتری',
+                field: 'customerTitle',
+                cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
+                    <div>
+                        <span>{row.value}</span>
+                        {
+                            aggregateType === 'Customer' && (
+                                <span className="pr-1">({row.data?.iterationCount})</span>
+                            )
+                        }
+                    </div>
+                )
+            },
+            {
+                headerName: 'نام نماد',
+                field: 'symbolTitle',
+                cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
+                    <div>
+                        <span>{row.value}</span>
+                        {
+                            (aggregateType === 'Symbol' || aggregateType === 'Both') && (
+                                <span className="pr-1">({row.data?.iterationCount})</span>
+                            )
+                        }
+                    </div>
+                )
+            },
             { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             { headerName: 'میانگین قیمت', field: 'price', type: 'sepratedNumber' },
@@ -56,7 +81,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 ),
             },
         ],
-        [rowIndexHover.current],
+        [rowIndexHover.current, aggregateType],
 
     );
 
