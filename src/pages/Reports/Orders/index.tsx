@@ -121,7 +121,6 @@ const Orders = () => {
                     <AGActionCell
                         data={row.data}
                         requiredButtons={['Info']}
-                        disableInfo={!(row?.data?.iteratedCount! > 1)}
                         onInfoClick={() => setInfoModalData({ data: row?.data, isOpen: true })}
                     />
                 ),

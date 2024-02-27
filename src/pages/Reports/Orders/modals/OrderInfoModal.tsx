@@ -75,7 +75,7 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             { headerName: 'تعداد', field: 'quantity', maxWidth: 100, type: 'sepratedNumber' },
             { headerName: 'قیمت', field: 'price', maxWidth: 100, type: 'sepratedNumber' },
             { headerName: 'ارزش سفارش', field: 'totalValue', maxWidth: 100, type: 'sepratedNumber' },
-            { headerName: 'شماره اعلام', field: 'hostOrderNumber', maxWidth: 100, type: 'sepratedNumber' },
+            { headerName: 'شماره اعلامیه', field: 'hostOrderNumber', maxWidth: 100, type: 'sepratedNumber' },
             { headerName: 'زمان', field: 'orderDateTime', type: 'date', minWidth: 150 },
         ],
         [],
