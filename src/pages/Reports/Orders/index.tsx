@@ -262,7 +262,12 @@ const Orders = () => {
             reportNode={
                 <>
                     <WidgetLoading spining={isFetching}>
-                        <AGTable suppressScrollOnNewData={false} rowData={ordersList?.result || []} columnDefs={Columns} />
+                        <AGTable
+                            suppressScrollOnNewData={false}
+                            rowData={ordersList?.result || []}
+                            columnDefs={Columns}
+                            onSortChanged={({ api }) => api.refreshCells()}
+                        />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
