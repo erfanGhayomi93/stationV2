@@ -4,6 +4,7 @@ import Best5Row from './Best5Row';
 import Kucoin from './Kucoin';
 import MarketDepth from './MarketDepth';
 import MarketDepthChart from './MarketDepthChart';
+import Best5RowKucoin from './Kucoin/Best5RowKucoin';
 
 const OrderBookTable = () => {
     const { isDepthChartOpen, isMarketDepthOpen, orderBookViewMode } = useSymbolTabsState();
@@ -25,7 +26,8 @@ const OrderBookTable = () => {
         }
     }, [isDepthChartOpen, isMarketDepthOpen, orderBookViewMode]);
 
-    if (orderBookViewMode === 'Column') return <Kucoin isDepthChartOpen={isDepthChartOpen} />;
+    if (orderBookViewMode === 'Column')
+        return isMarketDepthOpen ? <Kucoin isDepthChartOpen={isDepthChartOpen} /> : <Best5RowKucoin isDepthChartOpen={isDepthChartOpen} />;
 
     return (
         <div ref={containerRef} className="flex flex-col justify-between h-full">
