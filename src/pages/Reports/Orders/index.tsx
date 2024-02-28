@@ -105,9 +105,8 @@ const Orders = () => {
             { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
             {
                 headerName: t('ag_columns_headerName.tradeValue'),
-                field: 'price',
+                field: 'orderValue',
                 type: 'sepratedNumber',
-                valueGetter: ({ data }) => (data?.price || 0) * (data?.quantity || 0),
             },
             { headerName: t('ag_columns_headerName.status'), field: 'omsOrderState', valueFormatter: ({ value }) => t('order_status.' + value) },
             { headerName: t('ag_columns_headerName.date'), field: 'orderDateTime', type: 'date' },
