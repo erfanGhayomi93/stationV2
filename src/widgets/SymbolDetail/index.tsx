@@ -6,6 +6,7 @@ import SymbolSearch from './SymbolSearch';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolData from './SymbolData';
 import { IpoData } from './SymbolData/IpoData';
+import { useMemo } from 'react';
 
 const SymbolDetail = () => {
     //
@@ -73,8 +74,7 @@ const SymbolDetail = () => {
         },
     });
 
-    const isIpo = data ? (data as SymbolGeneralInfoType)?.symbolData.isIpo : false;
-
+    const isIpo = useMemo(() => (data as SymbolGeneralInfoType)?.symbolData?.isIpo || false, [data]);
 
     return (
         <div className="w-full grid grid-rows-min-one gap-2 overflow-y-clip h-full ">

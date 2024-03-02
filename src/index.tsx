@@ -29,25 +29,23 @@ const Wrapper = () => {
     const theme = useAppSelector(getTheme);
 
     return apiRoutes ? (
-        <>
-                <TranslatorProvider>
-                    <GlobalSetterProvider>
-                        <App />
-                        <ToastContainer
-                            position="bottom-left"
-                            autoClose={5000}
-                            hideProgressBar={true}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={true}
-                            draggable
-                            pauseOnHover
-                            theme={theme}
-                            limit={3}
-                        />
-                    </GlobalSetterProvider>
-                </TranslatorProvider>
-        </>
+        <TranslatorProvider>
+            <GlobalSetterProvider>
+                <App />
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={true}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={true}
+                    draggable
+                    pauseOnHover
+                    theme={theme}
+                    limit={3}
+                />
+            </GlobalSetterProvider>
+        </TranslatorProvider>
     ) : (
         <>loading apis</>
     );
