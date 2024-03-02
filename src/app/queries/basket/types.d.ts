@@ -73,5 +73,5 @@ type ICreateBasket = {
 };
 
 interface IGetBasketDetailParams extends filterStateType {
-    cartId: number;
+    CartId: number;
 }

@@ -140,13 +140,13 @@ export const useDeleteDetailsBasket = (cartId: number) =>
     });
 
 //Download Excel
-const excelExport = async (cartId: number) => {
-    let { data } = await AXIOS.get(Apis().Basket.Excel as string, { params: { cartId } });
+const excelExport = async (params: filterStateType) => {
+    let { data } = await AXIOS.get(Apis().Basket.Excel as string, { params });
     if (data) {
         excelDownloader(data);
     }
     return data;
 };
 
-export const useGetBasketExcel = (cartId: number, options?: Omit<UseQueryOptions<any, any, any, any>, 'mutationFn'> | undefined) =>
-    useQuery(['BasketExcel', cartId], ({ queryKey }) => excelExport(queryKey[1] as number), { ...options, enabled: false });
+export const useGetBasketExcel = (params: filterStateType, options?: Omit<UseQueryOptions<any, any, any, any>, 'mutationFn'> | undefined) =>
+    useQuery(['BasketExcel', params], ({ queryKey }) => excelExport(queryKey[1] as filterStateType), { ...options, enabled: false });
