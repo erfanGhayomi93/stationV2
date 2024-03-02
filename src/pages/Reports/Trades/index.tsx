@@ -236,7 +236,13 @@ const Trades = () => {
             reportNode={
                 <>
                     <WidgetLoading spining={isFetching}>
-                        <AGTable suppressScrollOnNewData={false} rowData={tradesData?.result || []} columnDefs={Columns} />
+                        <AGTable
+                            suppressScrollOnNewData={false}
+                            rowData={tradesData?.result || []}
+                            columnDefs={Columns}
+                            onSortChanged={({ api }) => api.refreshCells()}
+                            debounceVerticalScrollbar
+                        />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator

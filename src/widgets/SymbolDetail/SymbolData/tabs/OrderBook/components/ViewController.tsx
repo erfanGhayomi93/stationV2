@@ -12,7 +12,6 @@ const ViewController = () => {
 
     const toggleMarketDepth = () => {
         dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: !isMarketDepthOpen });
-        dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
     };
 
     const toggleDepthChart = () => {
@@ -21,8 +20,6 @@ const ViewController = () => {
 
     const handleColumnView = () => {
         dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Column' });
-        dispatch({ type: 'TOGGLE_MARKET_DEPTH', payload: true });
-        
     };
 
     const handleRowView = () => {
