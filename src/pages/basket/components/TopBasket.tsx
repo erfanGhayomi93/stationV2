@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGetBasket, useGetBasketExcel } from 'src/app/queries/basket';
 import { CalendarIcon, EditIcon2, Excel2Icon, FiClock, PlusIcon } from 'src/common/icons';
-import { getFarsiDate } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, getFarsiDate } from 'src/utils/helpers';
 import EditBasketModal from '../modal/EditBasketModal';
 import Tippy from '@tippyjs/react';
 import { useTranslation } from 'react-i18next';
@@ -9,21 +9,22 @@ import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableS
 import AddBasketModal from '../modal/AddBasketModal';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import { GridReadyEvent } from 'ag-grid-community';
+import { filterStateType } from './FilterBasket';
 
 type ITopBasket = {
-    activeBasket: number;
+    params: filterStateType;
     saveIndexBasketSelected: (ind: number) => void;
     gridApi: GridReadyEvent<IGetWatchlistSymbol> | undefined;
 };
 
-const TopBasket = ({ activeBasket, saveIndexBasketSelected, gridApi }: ITopBasket) => {
+const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => {
     //
     const { t } = useTranslation();
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
 
     const { data: listBasket } = useGetBasket();
-    const { refetch: getExcel } = useGetBasketExcel(activeBasket);
+    const { refetch: getExcel } = useGetBasketExcel(cleanObjectOfFalsyValues(params) as filterStateType);
 
     useEffect(() => {
         listBasket && saveIndexBasketSelected(listBasket[0]?.id);
@@ -46,18 +47,18 @@ const TopBasket = ({ activeBasket, saveIndexBasketSelected, gridApi }: ITopBaske
                                 .map((item) => (
                                     <div
                                         key={item.id}
-                                        data-actived={activeBasket === item.id}
+                                        data-actived={params.CartId === item.id}
                                         onClick={() => saveIndexBasketSelected(item.id)}
                                         className="flex gap-4 items-center px-2 mx-1 py-1 text-center snap-center flex-nowrap whitespace-nowrap cursor-pointer rounded dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-gray-300 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
                                     >
                                         <p
-                                            data-actived={activeBasket === item.id}
+                                            data-actived={params.CartId === item.id}
                                             className="text-xs actived:font-semibold text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
                                         >
                                             {item.name}
                                         </p>
                                         <div
-                                            data-actived={activeBasket === item.id}
+                                            data-actived={params.CartId === item.id}
                                             className="flex pt-1 text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
                                         >
                                             <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).time}</p>

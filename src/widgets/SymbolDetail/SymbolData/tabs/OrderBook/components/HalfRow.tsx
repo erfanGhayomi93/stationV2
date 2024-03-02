@@ -16,9 +16,10 @@ interface Props {
     clickCollectOrder?: (mode: 'Buy' | 'Sell') => void,
     clickSellOrder?: (mode: 'Buy' | 'Sell') => void,
     clickPrice?: (price: number) => void;
+    sellDirection?: 'rtl' | 'ltr';
 }
 
-const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickByeOrder, clickCollectOrder, clickSellOrder, clickPrice }: Props) => {
+const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickByeOrder, clickCollectOrder, clickSellOrder, clickPrice , sellDirection}: Props) => {
 
     const optionsOrder = [
         { label: "خرید", onclick: clickByeOrder },
@@ -140,20 +141,21 @@ const HalfRow = ({ mode, price, count, volume, isOdd, isInRange, percent, clickB
                 <div className="h-full w-full relative">
                     <div
                         className={clsx(
-                            'absolute bg-L-error-100 dark:bg-D-error-100 rounded h-full right-0 duration-200',
+                            'absolute bg-L-error-100 dark:bg-D-error-100 rounded h-full duration-200',
                             isInRange ? '' : 'bg-transparent dark:bg-transparent',
+                            sellDirection === 'rtl' ? 'left-0' : 'right-0'
                         )}
                         style={{ width: `${percent * 100}%` }}
                     ></div>
-                    <div className={clsx('relative flex px-2 py-1 h-full items-center group')}>
+                    <div className={clsx('relative flex px-2 py-1 h-full items-center group', sellDirection === 'rtl' && ' flex-row-reverse')}>
                         <span
-                            className="ml-auto cursor-pointer"
+                            className={`cursor-pointer ${sellDirection === 'rtl' ? 'mr-auto' : 'ml-auto'}`}
                             onClick={() => !!clickPrice ? clickPrice(price) : null}
                         >
                             {seprateNumber(price || 0)}
                         </span>
                         <span className="cursor-pointer ">{seprateNumber(volume || 0)}</span>
-                        <span className="text-left" style={{ width: '20%' }}>
+                        <span className={sellDirection === 'rtl' ? 'text-right' : 'text-left'} style={{ width: '20%' }}>
                             {count || 0}
                         </span>
 

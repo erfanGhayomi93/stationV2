@@ -17,7 +17,7 @@ export type filterStateType = {
     OrderSide: string;
     PageNumber: number;
     PageSize: number;
-    cartId: number;
+    CartId: number;
 };
 
 export const initialDataFilterBasket: filterStateType = {
@@ -26,10 +26,10 @@ export const initialDataFilterBasket: filterStateType = {
     OrderSide: '',
     PageNumber: 1,
     PageSize: 10,
-    cartId: 0,
+    CartId: 0,
 };
 
-const initialFilterData: Omit<filterStateType, 'PageSize' | 'PageNumber' | 'cartId'> = {
+const initialFilterData: Omit<filterStateType, 'PageSize' | 'PageNumber' | 'CartId'> = {
     CustomerISINs: [],
     OrderSide: '',
     SymbolISIN: [],
@@ -48,7 +48,7 @@ export const FilterBasket = ({ setDetailParams }: filterBasketType) => {
     const handleDefaultState = () => {
         dispatch(emptySelectedCustomers());
         dispatch(emptySelectedSymbol());
-        setDetailParams((prev) => ({ ...initialDataFilterBasket, cartId: prev?.cartId }));
+        setDetailParams((prev) => ({ ...initialDataFilterBasket, CartId: prev?.CartId }));
         setFilterData(initialFilterData);
     };
 

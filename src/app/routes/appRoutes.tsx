@@ -178,9 +178,7 @@ const AppRoutes: FC = () => {
     );
 
     return (
-        <>
-            <RouterProvider router={router} />
-        </>
+        <RouterProvider router={router} />
     );
 };
 

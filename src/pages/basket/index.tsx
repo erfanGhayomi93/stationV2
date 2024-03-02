@@ -22,11 +22,11 @@ function BasketPage() {
     } = useGetDetailsBasket(cleanObjectOfFalsyValues(detailParams) as filterStateType);
 
     useEffect(() => {
-        detailParams?.cartId && fetchBasketDetails();
+        detailParams?.CartId && fetchBasketDetails();
     }, [detailParams]);
 
     const saveIndexBasketSelected = (id: number) => {
-        setDetailParams((prev) => ({ ...prev, cartId: id }));
+        setDetailParams((prev) => ({ ...prev, CartId: id }));
         dispatch({ type: 'SET_BASKET_ID', value: id });
     };
 
@@ -35,18 +35,18 @@ function BasketPage() {
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
             <h1 className="dark:text-D-gray-700 font-medium text-2xl">{t('titlePage.basket')}</h1>
-            <TopBasket activeBasket={detailParams.cartId} saveIndexBasketSelected={saveIndexBasketSelected} gridApi={gridApi} />
+            <TopBasket params={detailParams} saveIndexBasketSelected={saveIndexBasketSelected} gridApi={gridApi} />
             <FilterBasket setDetailParams={setDetailParams} />
             <TableBasket
                 {...{
-                    activeBasket: detailParams.cartId,
+                    activeBasket: detailParams.CartId,
                     listAfterFilter: basketDetails,
                     setGridApi,
                     dataListLoading: basketDetailsIsLoading,
                     handlePageInfoChange,
                 }}
             />
-            <InsertBasketItem activeBasket={detailParams.cartId} />
+            <InsertBasketItem activeBasket={detailParams.CartId} />
         </div>
     );
 }
