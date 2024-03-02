@@ -241,6 +241,7 @@ const Trades = () => {
                             rowData={tradesData?.result || []}
                             columnDefs={Columns}
                             onSortChanged={({ api }) => api.refreshCells()}
+                            debounceVerticalScrollbar
                         />
                     </WidgetLoading>
                     <div className="border-t flex justify-end items-center pt-4 ">
