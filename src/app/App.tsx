@@ -43,10 +43,6 @@ const App = () => {
         }
     }, [appState]);
 
-    useEffect(() => {
-        console.log("appState:", appState);
-    }, [appState])
-
 
     if (appState === 'Booting' || appState === 'Loading' || !resolvedLanguage) return <Loading />;
 
