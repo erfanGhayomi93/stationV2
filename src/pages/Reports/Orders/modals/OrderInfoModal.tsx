@@ -111,7 +111,7 @@ const OrderInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             <div className="h-full w-full flex flex-col p-4 justify-between gap-3">
                 <div className="flex-1">
                     <WidgetLoading spining={isLoading}>
-                        <AGTable columnDefs={colDefs} rowData={data} suppressRowHoverHighlight />
+                        <AGTable columnDefs={colDefs} rowData={data} suppressRowHoverHighlight onSortChanged={({ api }) => api.refreshCells()} />
                     </WidgetLoading>
                 </div>
                 <div className="rounded-lg w-full h-14 mb-1 shadow-[0_0_11px_0_rgba(0,0,0,0.06)] border border-L-gray-300 flex items-center p-4 gap-6">
