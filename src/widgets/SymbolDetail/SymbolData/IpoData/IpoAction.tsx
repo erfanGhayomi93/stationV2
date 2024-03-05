@@ -17,8 +17,8 @@ export const IpoAction = ({ data }: IProps) => {
     useEffect(() => {
         if (data) {
             const now = dayjs()
-            const startTime = dayjs(data.ipoFromDate)
-            const endTime = dayjs(data.ipoToDate);
+            const startTime = dayjs(data?.ipoFromDate)
+            const endTime = dayjs(data?.ipoToDate);
 
             if (now.isAfter(startTime) && now.isBefore(endTime)) {
                 setIsDisabled(false)

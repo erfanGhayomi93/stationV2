@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { emptySelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
@@ -8,30 +8,33 @@ import SymbolDetail from 'src/widgets/SymbolDetail';
 import styles from './style.module.scss';
 import clsx from 'clsx';
 import { getHomeLayout } from 'src/redux/slices/ui';
-import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import { queryClient } from 'src/app/queryClient';
 
 const Home = () => {
-    //
-    const homeLayout = useAppSelector(getHomeLayout)
+    const homeLayout = useAppSelector(getHomeLayout);
     const appDispatch = useAppDispatch();
 
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const { data: symbolGeneralInfo } = useSymbolGeneralInfo<SymbolGeneralInfoType>(selectedSymbol)
-    const isIpo = symbolGeneralInfo ? (symbolGeneralInfo as SymbolGeneralInfoType)?.symbolData.isIpo : false;
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
+    const symbolGeneralInfo = useMemo(
+        () => queryClient.getQueryData(["SymbolGeneralInfo", selectedSymbol]),
+        [selectedSymbol]
+    );
+    const isIpo = useMemo(() => (symbolGeneralInfo as SymbolGeneralInfoType)?.symbolData.isIpo || false, [symbolGeneralInfo]);
 
-
+    const clearSelectedCustomers = useCallback(() => {
+        appDispatch(emptySelectedCustomers());
+    }, [appDispatch]);
 
     useEffect(() => {
         return () => {
-            appDispatch(emptySelectedCustomers());
+            clearSelectedCustomers();
         };
-    }, []);
+    }, [clearSelectedCustomers]);
 
-    const CustomersSection = () => {
+    const CustomersSection = useCallback(() => {
         return (
             <div className={styles['customers-section']}>
                 <div className="grid h-full grid-cols-9 grid-rows-min-one gap-2 ">
-
                     <div className={
                         clsx("min-h-[434px]", {
                             "col-span-6": !isIpo,
@@ -40,30 +43,26 @@ const Home = () => {
                     }>
                         <CustomerSearchContext />
                     </div>
-
-                    {
-                        !isIpo && (
-                            <div className="h-fit col-span-3 min-h-[434px]">
-                                <BuySellWidget />
-                            </div>
-                        )
-                    }
-
+                    {!isIpo && (
+                        <div className="h-fit col-span-3 min-h-[434px]">
+                            <BuySellWidget />
+                        </div>
+                    )}
                     <div className="col-span-9">
                         <Reports />
                     </div>
                 </div>
             </div>
         );
-    };
+    }, [isIpo]);
 
-    const SymbolSection = () => {
+    const SymbolSection = useCallback(() => {
         return (
             <div className={styles['symbol-section']}>
                 <SymbolDetail />
             </div>
         );
-    };
+    }, []);
 
     return (
         <div className={clsx(styles.container, {

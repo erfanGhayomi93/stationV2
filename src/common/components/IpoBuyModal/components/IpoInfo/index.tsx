@@ -13,7 +13,7 @@ const IpoInfo = ({ info }: IProps) => {
     const formatHour = (value: string) => dayjs('0000/00/00T' + (value.includes(':') ? value : '00:00:00')).format('HH:mm');
 
     const formatedInfo = {
-        date: !info.ipoFromDate ? '-' : dayjs().isSame(info.ipoFromDate, 'day') ? 'امروز' : formatDate(info.ipoFromDate),
+        date: !info?.ipoFromDate ? '-' : dayjs().isSame(info?.ipoFromDate, 'day') ? 'امروز' : formatDate(info?.ipoFromDate),
         hour: !info?.ipoToTime || !info?.ipoFromTime ? '-' : formatHour(info?.ipoToTime) + ' - ' + formatHour(info?.ipoFromTime),
         price: !info?.fromPrice || !info?.toPrice ? '-' : `${seprateNumber(info?.fromPrice) || 0} - ${seprateNumber(info?.toPrice) || 0}`,
         maxCountInd: !info?.individualToQuantity ? '-' : seprateNumber(info?.individualToQuantity || 0),
