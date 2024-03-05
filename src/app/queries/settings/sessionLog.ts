@@ -13,6 +13,6 @@ export const useGetSessionLog = (params: GetSessionLogRequestParam, options?: Us
         { ...options })
 
 export const terminateSession = async (sessionId: string) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Setting.TerminateSession, { params: sessionId })
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Setting.TerminateSession, { sessionId: sessionId })
     return data;
 }
