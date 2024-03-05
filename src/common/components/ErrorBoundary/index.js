@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'src/common/components/Buttons/Button';
 
 export default class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -7,6 +8,7 @@ export default class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, errorInfo) {
+        console.log("error", error, "errorInfo", errorInfo)
         // Catch errors in any components below and re-render with error message
         this.setState({
             error: error,
@@ -19,14 +21,20 @@ export default class ErrorBoundary extends React.Component {
         if (this.state.errorInfo) {
             // Error path
             return (
-                <div style={{ direction: "ltr", padding: "30px" }}>
-                    <button onClick={() => window.location.reload()} >Reload </button>
-                    <h2>Something went wrong.</h2>
-                    <details style={{ whiteSpace: 'pre-wrap' }}>
+                <div className='text-right'>
+                    <h2 className='mb-3'>مشکلی رخ داده است.</h2>
+                    <Button
+                        variant='error'
+                        onClick={() => window.location.reload()}
+                        style={{ padding: 10 }}
+                    >
+                        بارگزاری مجدد
+                    </Button>
+                    {/* <details style={{ whiteSpace: 'pre-wrap' }}>
                         {this.state.error && this.state.error.toString()}
                         <br />
                         {this.state.errorInfo.componentStack}
-                    </details>
+                    </details> */}
                 </div>
             );
         }

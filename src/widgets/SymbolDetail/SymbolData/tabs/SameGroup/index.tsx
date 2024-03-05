@@ -10,16 +10,19 @@ import { getSelectedSymbol } from 'src/redux/slices/option';
 const SameGroup = () => {
     const selectedSymbol = useAppSelector(getSelectedSymbol)
 
-    const { data } = useGetSameSectorSymbols(selectedSymbol)
+    const { data } = useGetSameSectorSymbols(selectedSymbol, {
+        onSuccess: (data) => {
+            if (!!data && !!data.length) {
+                subscriptionCoGroupSymbol(data, selectedSymbol)
+            }
+        }
+    })
 
     useEffect(() => {
-        if (!!data && !!data.length) {
-            subscriptionCoGroupSymbol(data, selectedSymbol)
-        }
         return () => {
             pushEngine.unSubscribe("CoGroupSymbol")
         }
-    }, [data])
+    }, [])
 
 
 
