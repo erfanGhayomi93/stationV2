@@ -8,12 +8,13 @@ import Messages from '../tabs/Messages'
 import { useTranslation } from 'react-i18next'
 import { FurtherInformation } from './FurtherInformation'
 import { useAdditionalInfo } from 'src/app/queries/symbol'
+import ErrorBoundary from 'src/common/components/ErrorBoundary'
 
 export const IpoData: FC<{ selectedSymbol: string }> = ({ selectedSymbol }) => {
     const [activeTab, setActiveTab] = useState('FurtherInformation');
     const { t } = useTranslation();
 
-    const { data : FurtherInformationData } = useAdditionalInfo(selectedSymbol)
+    const { data: FurtherInformationData } = useAdditionalInfo(selectedSymbol)
 
 
     const items = useMemo<ITabItemType[]>(
@@ -47,28 +48,30 @@ export const IpoData: FC<{ selectedSymbol: string }> = ({ selectedSymbol }) => {
 
     return (
         <div className="rounded-md overflow-hidden h-full w-full flex flex-col gap-4 border border-L-gray-400 bg-L-basic dark:border-D-gray-400 dark:bg-D-basic p-3">
-            <div className="text-1.2 flex flex-col gap-2">
-                <SymbolHeader />
-            </div>
+            <ErrorBoundary >
+                <div className="text-1.2 flex flex-col gap-2">
+                    <SymbolHeader />
+                </div>
 
-            <div className='w-full'>
-                <IpoAction data={FurtherInformationData as TIpoInfo} />
-            </div>
+                <div className='w-full'>
+                    <IpoAction data={FurtherInformationData as TIpoInfo} />
+                </div>
 
-            <div className="flex flex-col h-full overflow-hidden">
-                <SymbolTabsContext>
-                    <TabsList
-                        fill={true}
-                        onChange={(idx) => setActiveTab(idx)}
-                        selectedIndex={activeTab}
-                        items={items}
-                        buttonClass="text-L-gray-500 dark:text-D-gray-500 border-bottom-"
-                        className="w-full grid text-1.2 grid-rows-min-one overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
-                        pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
-                        tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-xs"
-                    />
-                </SymbolTabsContext>
-            </div>
+                <div className="flex flex-col h-full overflow-hidden">
+                    <SymbolTabsContext>
+                        <TabsList
+                            fill={true}
+                            onChange={(idx) => setActiveTab(idx)}
+                            selectedIndex={activeTab}
+                            items={items}
+                            buttonClass="text-L-gray-500 dark:text-D-gray-500 border-bottom-"
+                            className="w-full grid text-1.2 grid-rows-min-one overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
+                            pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
+                            tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-xs"
+                        />
+                    </SymbolTabsContext>
+                </div>
+            </ErrorBoundary>
         </div>
     )
 }

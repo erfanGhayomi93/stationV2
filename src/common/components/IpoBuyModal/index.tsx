@@ -55,7 +55,7 @@ const IpoBuyModal = ({ symbolData, isOpen, setIsOpen }: IProps) => {
             : [],
     );
 
-    const { buyCommission } = useCommissionValue({ marketUnit: symbolData.marketUnit });
+    const { buyCommission } = useCommissionValue({ marketUnit: symbolData?.marketUnit });
 
     const CalcTotalValue = (price: number, quantity: number) => {
         let side = "buy";

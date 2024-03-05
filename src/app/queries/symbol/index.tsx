@@ -104,8 +104,8 @@ export const useGetSameSectorSymbols = (symbolISIN: string, options?: UseQueryOp
         [Apis().Symbol.SameSectorSymbols, symbolISIN],
         ({ queryKey }) => getSameSectorSymbols(queryKey[1] as string),
         {
-            cacheTime: Infinity,
-            staleTime: Infinity,
+            // cacheTime: Infinity,
+            // staleTime: Infinity,
             enabled: !!symbolISIN,
             ...options,
         },
