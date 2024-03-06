@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { getTheme } from 'src/redux/slices/ui';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
-    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex' | 'dateWithoutTime';
+    type?: 'rowSelect' | 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex' | 'dateWithoutTime';
 }
 
 export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'children'> {
@@ -33,6 +33,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
+            rowSelect: { sortable: false, checkboxSelection: true, headerCheckboxSelection: true, minWidth: 35, maxWidth: 35 },
             sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
             date: {

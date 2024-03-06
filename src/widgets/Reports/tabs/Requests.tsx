@@ -1,49 +1,47 @@
-import { useMemo, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDeleteRequest, useGetOfflineRequests } from 'src/app/queries/order';
-// import { useGetOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-// import { useMutation } from '@tanstack/react-query';
-import ConfirmModal from 'src/common/components/ConfirmModal/ConfirmModal';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import dayjs from 'dayjs';
+import { AgGridReact } from 'ag-grid-react';
 
-type RequestData = {
-    customerTitle: string;
-    symbolISIN: string;
-    orderSide: string;
-    quantity: number;
-    sumExecuted: number;
-    price: number;
-    valuePosition: number;
-    // creditRequest: Boolean;
+type TProps = {
+    setRequestsTabData: Dispatch<
+        SetStateAction<{
+            allCount: number;
+            selectedCount: number;
+        }>
+    >;
 };
 
-const Requests = () => {
-    //
+const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
+    const gridRef = useRef<AgGridReact>(null);
+
     const { t } = useTranslation();
+    const { sendOrders } = useSendOrders();
+
+    useImperativeHandle(parentRef, () => ({ sendRequests: () => sendAll() }));
+
     const { data, isLoading, refetch } = useGetOfflineRequests(
         { PageNumber: 1, PageSize: 100 },
         {
             select: (data) => {
-                const { result, ...rest } = data;
-                const filteredData = result.filter(({ state }) => ['Registration', 'Accepted', 'Execution'].includes(state));
-
-                return { ...rest, result: filteredData };
+                const filteredData = data?.result.filter(({ state }) => ['Registration', 'Accepted', 'Execution'].includes(state));
+                return { ...data, result: filteredData };
             },
         },
     );
 
-    const [isOpen, setIsOpen] = useState(false);
-    const selectedDataForDelete = useRef<Record<string, any> | undefined>();
-
-    const { sendOrders } = useSendOrders();
+    useEffect(() => {
+        data && setRequestsTabData((prev) => ({ ...prev, allCount: data.result.length }));
+    }, [data]);
 
     const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
         onSuccess: (result) => {
@@ -54,14 +52,7 @@ const Requests = () => {
         },
     });
 
-    // const { mutate: mutateSend } = useMutation(setOrder, {
-    //     onSuccess: () => {
-    //         onSuccessNotif();
-    //     },
-    //     onError: () => {
-    //         onErrorNotif();
-    //     },
-    // });
+    const handleDelete = (id?: number) => (id ? deleteRequest(id) : onErrorNotif());
 
     const handleSend = (data: Record<string, any>) => {
         const order: IOrderRequestType = {
@@ -85,10 +76,13 @@ const Requests = () => {
         sendOrders([order]);
     };
 
-    const handleDelete = (id?: number) => (id ? deleteRequest(id) : onErrorNotif());
+    const sendAll = () => {
+        console.log(gridRef.current?.api.getSelectedNodes());
+    };
 
     const columns = useMemo(
         (): ColDefType<IGTOfflineTradesResult>[] => [
+            { type: 'rowSelect' },
             { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', headerComponent: AGHeaderSearchInput },
             { headerName: t('ag_columns_headerName.side'), field: 'side', valueFormatter: valueFormatterSide },
@@ -108,7 +102,7 @@ const Requests = () => {
                     <AGActionCell
                         requiredButtons={['Send', 'Delete']}
                         data={row.data}
-                        onSendClick={(data) => data && handleSend(data)}
+                        onSendClick={(data) => (data ? handleSend(data) : null)}
                         onDeleteClick={() => handleDelete(row.data?.id)}
                         hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
@@ -118,15 +112,28 @@ const Requests = () => {
         [],
     );
 
+    const handleRowSelect = ({ api }: RowSelectedEvent<IGTOfflineTradesResult>) => {
+        setRequestsTabData((prev) => ({ ...prev, selectedCount: api.getSelectedRows().length }));
+    };
+
     return (
         <>
             <WidgetLoading spining={isLoading || deleteLoading}>
                 <div className={'grid h-full p-3'}>
-                    <AGTable agGridTheme="alpine" rowData={data?.result || []} columnDefs={columns} />
+                    <AGTable
+                        ref={gridRef}
+                        agGridTheme="alpine"
+                        rowData={data?.result || []}
+                        columnDefs={columns}
+                        rowSelection="multiple"
+                        onRowSelected={handleRowSelect}
+                    />
                 </div>
             </WidgetLoading>
         </>
     );
-};
+});
+
+Requests.displayName = 'Requests';
 
 export default Requests;

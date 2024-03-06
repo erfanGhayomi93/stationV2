@@ -1,5 +1,5 @@
 import Tippy from '@tippyjs/react';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TabsList from 'src/common/components/TabsList';
 import { Check, ExcelIcon, HistoryIcon } from 'src/common/icons';
@@ -17,7 +17,11 @@ const Reports = () => {
     const [activeTab, setActiveTab] = useState('OpenOrders');
     const [aggregateType, setAggregateType] = useState<IAggregate>("")
 
-    const isCustomerFilter = aggregateType === "Customer" || aggregateType === "Both"
+    const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
+
+    const requestsRef = useRef({ sendRequests: () => {} });
+
+    const isCustomerFilter = aggregateType === "Customer" || aggregateType === "Both";
     const isSymbolFilter = aggregateType === "Symbol" || aggregateType === "Both"
 
     const navigate = useNavigate();
@@ -44,7 +48,7 @@ const Reports = () => {
             {
                 key: 'Requests',
                 title: 'درخواست‌ها',
-                content: <Requests />,
+                content: <Requests ref={requestsRef} setRequestsTabData={setRequestsTabData} />,
             },
             {
                 key: 'OpenOrders',
@@ -80,46 +84,71 @@ const Reports = () => {
         [aggregateType],
     );
 
+    const handleSendRequestsButtonTitle = () => {
+        const { allCount, selectedCount } = requestsTabData;
+
+        if (allCount) {
+            return allCount === selectedCount ? '(همه)' : `(${selectedCount + '/' + allCount})`;
+        } else {
+            return '';
+        }
+    };
+
     const leftNode = (
-        <div className='flex gap-x-4 w-full justify-end items-center'>
+        <div className="flex gap-x-4 w-full h-full justify-end items-center">
+            {activeTab === 'DoneOrders' ? (
+                <div className="flex gap-x-2 items-center my-2">
+                    <span className="text-L-gray-600 dark:text-D-gray-600 text-sm">تجمیع بر اساس:</span>
 
-            {
-                activeTab === "DoneOrders" && (
-                    <div className='flex gap-x-2 items-center my-2'>
-                        <span className='text-L-gray-600 dark:text-D-gray-600 text-sm'>تجمیع بر اساس:</span>
-
-                        <button
-                            onClick={() => changeAggregateFilter("Customer")}
+                    <button
+                        onClick={() => changeAggregateFilter('Customer')}
+                        data-actived={isCustomerFilter}
+                        className={clsx(
+                            'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
+                        )}
+                    >
+                        <span>مشتری</span>
+                        <span
                             data-actived={isCustomerFilter}
-                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
+                            className={clsx(
+                                'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
+                            )}
                         >
-                            <span>مشتری</span>
-                            <span
-                                data-actived={isCustomerFilter}
-                                className={clsx("w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50")}>
-                                {isCustomerFilter && <Check className="text-white" width={9} height={9} />}
-                            </span>
-                        </button>
+                            {isCustomerFilter && <Check className="text-white" width={9} height={9} />}
+                        </span>
+                    </button>
 
-                        <button
-                            onClick={() => changeAggregateFilter("Symbol")}
+                    <button
+                        onClick={() => changeAggregateFilter('Symbol')}
+                        data-actived={isSymbolFilter}
+                        className={clsx(
+                            'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
+                        )}
+                    >
+                        <span>نماد</span>
+                        <span
                             data-actived={isSymbolFilter}
-                            className={clsx('px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ')}
+                            className={clsx(
+                                'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
+                            )}
                         >
-                            <span>نماد</span>
-                            <span
-                                data-actived={isSymbolFilter}
-                                className={clsx("w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50")}>
-                                {isSymbolFilter && <Check className="text-white" width={9} height={9} />}
-                            </span>
-                        </button>
+                            {isSymbolFilter && <Check className="text-white" width={9} height={9} />}
+                        </span>
+                    </button>
+                </div>
+            ) : activeTab === 'Requests' ? (
+                <button
+                    className="rounded h-8 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
+                    onClick={() => requestsRef.current.sendRequests()}
+                    disabled={!!!requestsTabData.selectedCount}
+                >
+                    {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
+                </button>
+            ) : (
+                <></>
+            )}
 
-                    </div>
-                )
-            }
-
-
-            <div className='flex my-2'>
+            <div className="flex my-2">
                 <Tippy content="خروجی اکسل">
                     <button
                         // onClick={() => setisOpen(true)}
