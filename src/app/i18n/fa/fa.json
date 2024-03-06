@@ -786,6 +786,7 @@
     },
     "BuySellRequestState": {
         "Registration": "ثبت",
+        "SendError": "خطا",
         "Accepted": "پذیرش",
         "Cancelled": "انصراف",
         "Execution": "اقدام",

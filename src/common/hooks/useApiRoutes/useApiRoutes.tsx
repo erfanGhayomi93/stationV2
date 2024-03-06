@@ -61,6 +61,11 @@ export const Apis = () => ({
         SymbolInformation: getBaseUrl() + '/Option/v1/SymbolInformation',
         GetOpenPositions: getBaseUrl() + '/Option/v1/GetOpenPositions',
     },
+
+    BuySellRequest: {
+        GetOpenRequests: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequests',
+    },
+
     Customer: {
         AdvancedSearch: getBaseUrl() + '/Customer/v1/AdvancedSearch',
         GroupAdvancedSearch: getBaseUrl() + '/Customer/v1/GroupAdvancedSearch',
@@ -188,10 +193,10 @@ export const Apis = () => ({
         DeleteCashSettlement: getBaseUrl() + `/Option/v1/delete-cash`,
         DeletePhysicalSettlement: getBaseUrl() + `/Option/v1/delete-physical`,
     },
-    Ipo : {
+    Ipo: {
         GetBySymbolISIN: getBaseUrl() + `/IPO/v1/GetBySymbolISIN`,
         Get: getBaseUrl() + `/IPO/v1/Get`,
-    }
+    },
 });
 
 // const getPortfolioUrl = () => {
