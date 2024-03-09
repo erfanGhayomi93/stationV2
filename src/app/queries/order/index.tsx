@@ -137,6 +137,16 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 
 ////////////Offline Requests///////////
 
+export const getOpenRequests = async (params: IGetOpenRequestsParams) => {
+    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOpenRequests, { params });
+    return data || {};
+};
+
+export const useGetOpenRequests = (params?: IGetOpenRequestsParams, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
+    useQuery<IGTOfflineTradesResponse>(['GetOpenRequests'], () => getOpenRequests(params as IGetOpenRequestsParams), { ...options });
+
+{/* old version will change later */}
+
 export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });
     return data || {};

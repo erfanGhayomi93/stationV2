@@ -45,7 +45,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 )
             },
             {
-                headerName: 'نام نماد',
+                headerName: 'نماد',
                 field: 'symbolTitle',
                 headerComponent: AGHeaderSearchInput,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
