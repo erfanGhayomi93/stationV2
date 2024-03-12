@@ -1,6 +1,7 @@
 import { IHeaderParams } from 'ag-grid-community';
 import React, { useState, useRef, useEffect } from 'react';
 import Input from 'src/common/components/Input';
+import useIsFirstRender from 'src/common/hooks/useIsFirstRender';
 import { SearchIcon } from 'src/common/icons';
 
 interface IProps extends IHeaderParams {
@@ -14,15 +15,22 @@ const HeaderSearch = ({ displayName, onBlur = () => {}, onChange = () => {}, val
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputMode, setInputMode] = useState(false);
     const [inputValue, setInputValue] = useState(value);
+    const isFirstRender = useIsFirstRender();
 
     useEffect(() => {
         inputRef.current?.focus();
-    }, [inputMode, inputValue]);
+    });
+
+    useEffect(() => {
+        const timeOut = setTimeout(() => !isFirstRender && onChange && onChange(inputValue), 1000);
+        return () => {
+            clearTimeout(timeOut);
+        };
+    }, [inputValue]);
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setInputValue(value)
-        onChange && onChange(value);
+        setInputValue(value);
     };
 
     const onBlurFunc = (e: React.FocusEvent<HTMLInputElement, Element>) => {
