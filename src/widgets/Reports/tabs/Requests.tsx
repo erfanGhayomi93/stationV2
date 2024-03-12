@@ -42,11 +42,6 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
 
     const { data, refetch, fetchNextPage, isFetching } = useGetOpenRequests(params, { enabled: false });
 
-    const restartQuery = (addRefetch?: boolean) => {
-        queryClient.removeQueries({ queryKey: ['GetOpenRequests'] });
-        addRefetch && refetch();
-    };
-
     const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
         onSuccess: (result) => {
             if (result) {
@@ -89,13 +84,10 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     }, [data]);
 
     useEffect(() => {
+        refetch();
         return () => {
-            restartQuery(false);
+            queryClient.removeQueries({ queryKey: ['GetOpenRequests'] });
         };
-    }, []);
-
-    useEffect(() => {
-        restartQuery(true);
     }, [params]);
 
     const columns = useMemo(
