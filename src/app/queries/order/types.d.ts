@@ -241,6 +241,13 @@ interface IGTOfflineTradesResult {
 
 interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> {}
 
+interface OpentRequestsHistory {
+    symbolISIN: string;
+    date: string;
+    state: string;
+    action: string;
+}
+
 interface IGTOfflineRequestHistoryResult {
     id: number;
     userName: string;
