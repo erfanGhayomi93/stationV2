@@ -15,33 +15,32 @@ import clsx from 'clsx';
 const Reports = () => {
     //
     const [activeTab, setActiveTab] = useState('OpenOrders');
-    const [aggregateType, setAggregateType] = useState<IAggregate>("")
+    const [aggregateType, setAggregateType] = useState<IAggregate>('');
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
 
-    const requestsRef = useRef({ sendRequests: () => {} });
+    const requestsRef = useRef({ sendRequests: () => {}, sendAllRequests: () => {} });
 
-    const isCustomerFilter = aggregateType === "Customer" || aggregateType === "Both";
-    const isSymbolFilter = aggregateType === "Symbol" || aggregateType === "Both"
+    const isCustomerFilter = aggregateType === 'Customer' || aggregateType === 'Both';
+    const isSymbolFilter = aggregateType === 'Symbol' || aggregateType === 'Both';
 
     const navigate = useNavigate();
 
     const changeAggregateFilter = (aggregate: IAggregate) => {
-        let type: IAggregate = "";
+        let type: IAggregate = '';
 
-        if (aggregateType === "") {
+        if (aggregateType === '') {
             type = aggregate;
         } else if (aggregate === aggregateType) {
-            type = "";
-        } else if ((aggregate === "Customer" && aggregateType === "Symbol") || (aggregate === "Symbol" && aggregateType === "Customer")) {
-            type = "Both";
+            type = '';
+        } else if ((aggregate === 'Customer' && aggregateType === 'Symbol') || (aggregate === 'Symbol' && aggregateType === 'Customer')) {
+            type = 'Both';
         } else {
-            type = (aggregateType === "Both") ? (aggregate === "Customer" ? "Symbol" : "Customer") : "";
+            type = aggregateType === 'Both' ? (aggregate === 'Customer' ? 'Symbol' : 'Customer') : '';
         }
 
         setAggregateType(type);
-    }
-
+    };
 
     const items = useMemo(
         () => [
@@ -137,13 +136,21 @@ const Reports = () => {
                     </button>
                 </div>
             ) : activeTab === 'Requests' ? (
-                <button
-                    className="rounded h-8 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
-                    onClick={() => requestsRef.current.sendRequests()}
-                    disabled={!!!requestsTabData.selectedCount}
-                >
-                    {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
-                </button>
+                <div className="flex gap-1">
+                    <button
+                        className="rounded h-8 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
+                        onClick={() => requestsRef.current.sendRequests()}
+                        disabled={!!!requestsTabData.selectedCount}
+                    >
+                        {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
+                    </button>
+                    <button
+                        onClick={() => requestsRef.current.sendAllRequests()}
+                        className="px-6 bg-L-primary-50 dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
+                    >
+                        {'ارسال همه درخواست ها'}
+                    </button>
+                </div>
             ) : (
                 <></>
             )}

@@ -255,9 +255,10 @@ interface IDeleteRequest {
 }
 
 interface IGetOpenRequestsParams {
-    CustomerISIN: string[];
-    SymbolISIN: string[];
-    InputState: 'All' | 'SendError' | 'Registration';
+    CustomerISIN?: string[];
+    SymbolISIN?: string[];
+    InputState?: 'All' | 'SendError' | 'Registration';
+    PageNumber?: number
 }
 
 interface IGetOpenRequestsResponse {
