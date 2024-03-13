@@ -261,11 +261,57 @@ interface IDeleteRequest {
     errors: any;
 }
 
-interface IGetOpenRequestsParams {
-    CustomerISIN?: string[];
+interface IGetOfflineRequestsParams {
+    CustomerSearchTerm?: string;
+    SymbolSearchTerm?: string;
+    InputState?: 'All' | 'SendError' | 'Registration' | 'Send';
+    PageNumber?: number;
+}
+
+interface IGetOfflineRequestsParamsPaginated {
+    FromDate?: string;
+    ToDate?: string;
+    State?: string;
     SymbolISIN?: string[];
-    InputState?: 'All' | 'SendError' | 'Registration';
-    PageNumber?: number
+    CustomerISIN?: string[];
+    RequestNo?: string;
+    MyStationOnly?: boolean;
+    MarketType?: string;
+    Channel?: string;
+    CustomerType?: string;
+    MarketUnit?: string;
+    PageNumber: number;
+    PageSize: number;
+}
+interface IOfflineRequestsPaginatedResponse {
+    id: number;
+    bourseCode: string;
+    traderTitle: string;
+    traderCode: string;
+    cancellationRequest: true;
+    channel: string;
+    customerISIN: string;
+    customerTitle: string;
+    executingStationId: number;
+    executingStationName: string;
+    formNo: number;
+    marketType: string;
+    fund: number;
+    price: number;
+    remainingVolume: number;
+    remainingFund: number;
+    requestExpiration: string;
+    requestDate: string;
+    requestNo: string;
+    requestType: string;
+    symbolISIN: string;
+    state: string;
+    side: string;
+    symbolTitle: string;
+    volume: number;
+    orderValue: number;
+    customerType: string;
+    marketUnit: string;
 }
 
 interface IGetOpenRequestsResponse {
