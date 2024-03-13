@@ -64,6 +64,7 @@ export const Apis = () => ({
 
     BuySellRequest: {
         GetOpenRequests: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequests',
+        GetOpenRequestsHistory: getBaseUrl() + '/BuySellRequest/v1/GetHistory',
     },
 
     Customer: {

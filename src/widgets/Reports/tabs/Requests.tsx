@@ -13,6 +13,7 @@ import { AgGridReact } from 'ag-grid-react';
 import HeaderSelect from '../components/HeaderSelect';
 import { useQueryClient } from '@tanstack/react-query';
 import HeaderSearch from '../components/HeaderSearch';
+import InfoModal from '../components/RequestsModals/InfoModal';
 
 type TProps = {
     setRequestsTabData: Dispatch<
@@ -27,6 +28,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     const gridRef = useRef<AgGridReact>(null);
     const selectedRowsRef = useRef<number[]>([]);
     const [params, setParams] = useState({ CustomerSearchTerm: '', SymbolSearchTerm: '', InputState: 'All', PageNumber: 1 });
+    const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });
 
     const { t } = useTranslation();
     const { sendOrders } = useSendOrders();
@@ -144,6 +146,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                         data={row.data}
                         onSendClick={(data) => (data ? handleSend(data) : null)}
                         onDeleteClick={() => handleDelete(row.data?.id)}
+                        onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
                         hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
                 ),
@@ -191,6 +194,15 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                         rowBuffer={10}
                     />
                 </div>
+                {infoModalParams.isOpen ? (
+                    <InfoModal
+                        data={infoModalParams.data}
+                        isOpen={infoModalParams.isOpen}
+                        onClose={() => setInfoModalParams({ isOpen: false, data: undefined })}
+                    />
+                ) : (
+                    <></>
+                )}
             </WidgetLoading>
         </>
     );

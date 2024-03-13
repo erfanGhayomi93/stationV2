@@ -155,6 +155,19 @@ export const useGetOpenRequests = (
             lastPage.totalPages === lastPage.pageNumber ? undefined : { ...params, PageNumber: lastPage.pageNumber + 1 },
         ...options,
     });
+
+const getOpenRequestsHistory = async (Id: number) => {
+    const { data } = await AXIOS.get<{ result: OpentRequestsHistory[] }>(Apis().BuySellRequest.GetOpenRequestsHistory, { params: { Id } });
+    return data?.result || [];
+};
+
+export const useOpentRequestsHistory = (Id: number, options?: UseQueryOptions<OpentRequestsHistory[]>) =>
+    useQuery<OpentRequestsHistory[]>({
+        queryKey: ['GetOpenRequestsHistory', Id],
+        queryFn: ({ queryKey }) => getOpenRequestsHistory(queryKey[1] as number),
+        ...options,
+    });
+
 {
     /* old version will change later */
 }
