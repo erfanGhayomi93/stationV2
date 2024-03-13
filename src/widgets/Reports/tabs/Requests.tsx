@@ -1,12 +1,11 @@
 import { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDeleteRequest, useGetOpenRequests } from 'src/app/queries/order';
+import { useGetOfflineRequests, useGetOfflineRequestsExcel, useSendRequest } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
 import { BodyScrollEvent, ICellRendererParams, RowDataUpdatedEvent, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+// import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import dayjs from 'dayjs';
 import { AgGridReact } from 'ag-grid-react';
@@ -27,59 +26,102 @@ type TProps = {
 const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     const gridRef = useRef<AgGridReact>(null);
     const selectedRowsRef = useRef<number[]>([]);
-    const [params, setParams] = useState({ CustomerSearchTerm: '', SymbolSearchTerm: '', InputState: 'All', PageNumber: 1 });
+    const [params, setParams] = useState<IGetOfflineRequestsParams>({
+        CustomerSearchTerm: '',
+        SymbolSearchTerm: '',
+        InputState: 'Registration',
+        PageNumber: 1,
+    });
     const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });
 
+    const payloadApiFactory = (data: IGTOfflineTradesResult[], sendAllRequests: boolean): buySellRequestParams => {
+
+        let ids: number[] = []
+        data.forEach(item => {
+            ids.push(item.id)
+        })
+
+        return {
+            ids: ids,
+            CustomerSearchTerm: params.CustomerSearchTerm,
+            SymbolSearchTerm: params.SymbolSearchTerm,
+            InputState: "Registration",
+            sendAllRequests: sendAllRequests,
+        }
+    }
+
     const { t } = useTranslation();
-    const { sendOrders } = useSendOrders();
+    const { mutate: mutateSendRequest } = useSendRequest({
+        onSuccess: () => {
+            refetch()
+        },
+    })
+    // const { sendOrders } = useSendOrders();
 
     const queryClient = useQueryClient();
 
+    const { data: getExcel, refetch: fetchExcel } = useGetOfflineRequestsExcel(params);
+
     useImperativeHandle(parentRef, () => ({
         sendRequests: () => sendRequest(),
-        sendAllRequests: () => {
-            console.log('send all request');
-        },
+        getOfflineRequestsExcel: () => fetchExcel(),
+        sendAllRequests: sendAllRequests
     }));
 
-    const { data, refetch, fetchNextPage, isFetching } = useGetOpenRequests(params, { enabled: false });
+    const { data, refetch, fetchNextPage, isFetching } = useGetOfflineRequests(params, { enabled: false });
 
-    const { mutate: deleteRequest, isLoading: deleteLoading } = useDeleteRequest({
-        onSuccess: (result) => {
-            if (result) {
-                onSuccessNotif({ title: 'درخواست با موفقیت حذف گردید.' });
-                refetch();
-            }
-        },
-    });
+    const handleSend = (data: IGTOfflineTradesResult) => {
 
-    const handleDelete = (id?: number) => (id ? deleteRequest(id) : onErrorNotif());
+        const payload = payloadApiFactory([data], false)
 
-    const handleSend = (data: Record<string, any>) => {
-        const order: IOrderRequestType = {
-            CustomerTagId: [],
-            GTTraderGroupId: [],
-            orderSide: data?.side,
-            orderDraftId: undefined,
-            orderStrategy: 'Normal',
-            orderType: 'LimitOrder',
-            percent: 0,
-            symbolISIN: data?.symbolISIN,
-            validity: 'GoodTillDate',
-            validityDate: data?.requestExpiration,
-            price: data?.price,
-            quantity: data?.volume,
-            customerISIN: [data?.customerISIN],
-            customerTitle: [data?.customerTitle],
-            id: data?.id,
-        };
+        mutateSendRequest(payload)
 
-        sendOrders([order]);
+        // const order: IOrderRequestType = {
+        //     CustomerTagId: [],
+        //     GTTraderGroupId: [],
+        //     orderSide: data?.side,
+        //     orderDraftId: undefined,
+        //     orderStrategy: 'Normal',
+        //     orderType: 'LimitOrder',
+        //     percent: 0,
+        //     symbolISIN: data?.symbolISIN,
+        //     validity: 'GoodTillDate',
+        //     validityDate: data?.requestExpiration,
+        //     price: data?.price,
+        //     quantity: data?.volume,
+        //     customerISIN: [data?.customerISIN],
+        //     customerTitle: [data?.customerTitle],
+        //     id: data?.id,
+        // };
+
+        // sendOrders([order]);
     };
 
     const sendRequest = () => {
-        console.log(gridRef.current?.api.getSelectedNodes());
+        const selectedNodes = gridRef.current?.api.getSelectedNodes();
+
+        if (selectedNodes && selectedNodes.length > 0) {
+            let selectedItem: IGTOfflineTradesResult[] = []
+            selectedNodes.forEach(item => {
+                selectedItem.push(item.data)
+            })
+
+            const payload = payloadApiFactory(selectedItem, false)
+
+            mutateSendRequest(payload)
+
+        }
+
     };
+
+    const sendAllRequests = () => {
+        const dataALL: IGTOfflineTradesResult[] | undefined = data?.pages.map((i) => i.result).flat()
+
+        if (dataALL) {
+            const payload = payloadApiFactory(dataALL, true)
+            mutateSendRequest(payload)
+        }
+    }
 
     useEffect(() => {
         data && setRequestsTabData((prev) => ({ ...prev, allCount: data.pages[0].totalCount }));
@@ -119,7 +161,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                 valueFormatter: valueFormatterSide,
                 cellClass: ({ value }) => (value === 'Buy' ? 'text-L-success-200' : value === 'Sell' ? 'text-L-error-200' : ''),
             },
-            { headerName: t('ag_columns_headerName.count'), field: 'volume', type: 'sepratedNumber' },
+            { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.orderValue'), field: 'orderValue', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'date', minWidth: 150 },
@@ -130,7 +172,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                 valueFormatter: ({ value }) => (value ? t('BuySellRequestState.' + value) : '-'),
                 headerComponentParams: {
                     onChange: (value: string) => {
-                        setParams((prev) => ({ ...prev, InputState: value }));
+                        setParams((prev) => ({ ...prev, InputState: value as IGetOfflineRequestsParams['InputState'] }));
                     },
                     value: params.InputState,
                 },
@@ -138,14 +180,13 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
             {
                 headerName: t('ag_columns_headerName.actions'),
                 field: 'customTitle',
-                minWidth: 120,
-                maxWidth: 120,
+                minWidth: 90,
+                maxWidth: 90,
                 cellRenderer: (row: ICellRendererParams<IGTOfflineTradesResult>) => (
                     <AGActionCell
-                        requiredButtons={['Send', 'Delete', 'Info']}
+                        requiredButtons={['Send', 'Info']}
                         data={row.data}
                         onSendClick={(data) => (data ? handleSend(data) : null)}
-                        onDeleteClick={() => handleDelete(row.data?.id)}
                         onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
                         hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
@@ -191,7 +232,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                         rowSelection="multiple"
                         onSelectionChanged={handleRowSelect}
                         onRowDataUpdated={onRowDataUpdated}
-                        rowBuffer={10}
+                        suppressRowVirtualisation
                     />
                 </div>
                 {infoModalParams.isOpen ? (

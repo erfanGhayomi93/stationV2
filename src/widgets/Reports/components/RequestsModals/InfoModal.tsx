@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { useMemo } from 'react';
-import { useOpentRequestsHistory } from 'src/app/queries/order';
+import { useOfflineRequestsHistory } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AppModal from 'src/common/components/AppModal';
 import WidgetLoading from 'src/common/components/WidgetLoading';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const InfoModal = ({ isOpen, onClose, data }: Props) => {
-    const { data: historyData, isLoading } = useOpentRequestsHistory(data?.id);
+    const { data: historyData, isLoading } = useOfflineRequestsHistory(data?.id);
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [

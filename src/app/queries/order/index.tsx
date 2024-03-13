@@ -2,6 +2,7 @@ import { useInfiniteQuery, UseInfiniteQueryOptions, useMutation, UseMutationOpti
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import option from 'src/redux/slices/option';
+import { excelDownloader } from 'src/utils/helpers';
 
 export const setOrder = async (params: IOrderRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<IOrderResponseType>>(Apis().Orders.Create, { ...params });
@@ -137,34 +138,77 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 
 ////////////Offline Requests///////////
 
-const getOpenRequests = async (apiParams: { CustomerSearchTerm: string; SymbolSearchTerm: string; InputState: string; PageNumber: number }) => {
-    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOpenRequests, {
+
+const sendRequestFn = async (params: buySellRequestParams) => {
+    let { data } = await AXIOS.post(Apis().BuySellRequest.SendRequest, params);
+    return data.result || [];
+};
+
+export const useSendRequest = (options?: Omit<UseMutationOptions<number[], Error, buySellRequestParams>, 'mutationKey' | 'mutationFn'>) => {
+    return useMutation(sendRequestFn, options);
+};
+
+
+
+const getOfflineRequests = async (apiParams: IGetOfflineRequestsParams) => {
+    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOfflineRequests, {
         params: apiParams,
     });
     return data || {};
 };
 
-export const useGetOpenRequests = (
-    params: { CustomerSearchTerm: string; SymbolSearchTerm: string; InputState: string; PageNumber: number },
-    options?: UseInfiniteQueryOptions<IGTOfflineTradesResponse>,
-) =>
+export const useGetOfflineRequests = (params: IGetOfflineRequestsParams, options?: UseInfiniteQueryOptions<IGTOfflineTradesResponse>) =>
     useInfiniteQuery({
         queryKey: ['GetOpenRequests'],
-        queryFn: ({ pageParam = params }) => getOpenRequests(pageParam),
+        queryFn: ({ pageParam = params }) => getOfflineRequests(pageParam),
         getNextPageParam: (lastPage) =>
             lastPage.totalPages === lastPage.pageNumber ? undefined : { ...params, PageNumber: lastPage.pageNumber + 1 },
         ...options,
     });
 
-const getOpenRequestsHistory = async (Id: number) => {
-    const { data } = await AXIOS.get<{ result: OpentRequestsHistory[] }>(Apis().BuySellRequest.GetOpenRequestsHistory, { params: { Id } });
+const getOfflineRequestsHistory = async (Id: number) => {
+    const { data } = await AXIOS.get<{ result: OpentRequestsHistory[] }>(Apis().BuySellRequest.GetOfflineRequestsHistory, { params: { Id } });
     return data?.result || [];
 };
 
-export const useOpentRequestsHistory = (Id: number, options?: UseQueryOptions<OpentRequestsHistory[]>) =>
+export const useOfflineRequestsHistory = (Id: number, options?: UseQueryOptions<OpentRequestsHistory[]>) =>
     useQuery<OpentRequestsHistory[]>({
         queryKey: ['GetOpenRequestsHistory', Id],
-        queryFn: ({ queryKey }) => getOpenRequestsHistory(queryKey[1] as number),
+        queryFn: ({ queryKey }) => getOfflineRequestsHistory(queryKey[1] as number),
+        ...options,
+    });
+
+const GetOfflineRequestsPaginated = async (params: IGetOfflineRequestsParamsPaginated) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>(
+        Apis().BuySellRequest.GetOfflineRequestsPaginated,
+        { params },
+    );
+    return data;
+};
+
+export const useGetOfflineRequestsPaginated = (
+    params: IGetOfflineRequestsParamsPaginated,
+    options?: UseQueryOptions<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>,
+) =>
+    useQuery<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>({
+        queryKey: ['GetOpenRequestsPaginated', params],
+        queryFn: ({ queryKey }) => GetOfflineRequestsPaginated(queryKey[1] as IGetOfflineRequestsParamsPaginated),
+        ...options,
+    });
+
+const GetOfflineRequestsExcel = async (params: IGetOfflineRequestsParams) => {
+    const { data } = await AXIOS.get(Apis().BuySellRequest.GetOfflineRequestsExcel, { params });
+    if (data) {
+        excelDownloader(data);
+    }
+    return data;
+};
+
+export const useGetOfflineRequestsExcel = (params: IGetOfflineRequestsParams, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
+    useQuery({
+        queryKey: ['GetOpenRequestsExcel', params],
+        queryFn: ({ queryKey }) => GetOfflineRequestsExcel(queryKey[1] as IGetOfflineRequestsParams),
+        enabled: false,
         ...options,
     });
 
@@ -172,12 +216,12 @@ export const useOpentRequestsHistory = (Id: number, options?: UseQueryOptions<Op
     /* old version will change later */
 }
 
-export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
+export const getOldOfflineRequests = async (params: IGTOfflineTradesRequests) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });
     return data || {};
 };
 
-export const useGetOfflineRequests = (params: IGTOfflineTradesRequests, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
+export const useGetOldOfflineRequests = (params: IGTOfflineTradesRequests, options?: UseQueryOptions<IGTOfflineTradesResponse>) =>
     useQuery<IGTOfflineTradesResponse>(['getOfflineTrades'], () => getOfflineRequests(params as IGTOfflineTradesRequests), { ...options });
 
 export const getOfflineRequestHistory = async (id: number) => {
