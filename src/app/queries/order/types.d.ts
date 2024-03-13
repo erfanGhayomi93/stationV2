@@ -343,3 +343,8 @@ interface IGetOpenRequestsResponse {
     customerType: string;
     marketUnit: string;
 }
+
+interface buySellRequestParams extends IGetOfflineRequestsParams {
+    ids: number[];
+    sendAllRequests: boolean;
+}

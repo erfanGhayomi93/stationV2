@@ -67,6 +67,7 @@ export const Apis = () => ({
         GetOfflineRequestsHistory: getBaseUrl() + '/BuySellRequest/v1/GetHistory',
         GetOfflineRequestsPaginated: getBaseUrl() + '/BuySellRequest/v1/GetRequests',
         GetOfflineRequestsExcel: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequestsExcel',
+        SendRequest: getBaseUrl() + '/BuySellRequest/v1/SendRequest'
     },
 
     Customer: {

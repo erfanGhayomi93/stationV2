@@ -138,6 +138,18 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 
 ////////////Offline Requests///////////
 
+
+const sendRequestFn = async (params: buySellRequestParams) => {
+    let { data } = await AXIOS.post(Apis().BuySellRequest.SendRequest, params);
+    return data.result || [];
+};
+
+export const useSendRequest = (options?: Omit<UseMutationOptions<number[], Error, buySellRequestParams>, 'mutationKey' | 'mutationFn'>) => {
+    return useMutation(sendRequestFn, options);
+};
+
+
+
 const getOfflineRequests = async (apiParams: IGetOfflineRequestsParams) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOfflineRequests, {
         params: apiParams,
