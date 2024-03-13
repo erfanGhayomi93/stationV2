@@ -392,6 +392,7 @@
         "credit": "بستانکار(ریال)",
         "remain": "مانده (ریال)",
         "tradeValue": "ارزش معامله",
+        "orderValue": "ارزش سفارش",
         "status": "وضعیت",
         "lastPriceAverage": "میانگین قیمت تمام شده",
         "pureValue": "ارزش خالص",
@@ -786,6 +787,7 @@
     },
     "BuySellRequestState": {
         "Registration": "ثبت",
+        "SendError": "خطا",
         "Accepted": "پذیرش",
         "Cancelled": "انصراف",
         "Execution": "اقدام",

@@ -66,7 +66,7 @@ const Trades = () => {
                     'text-L-error-200': ({ value }) => value === 'Sell',
                 },
             },
-            { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'date' },
+            { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'dateWithoutTime' },
             { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
             {

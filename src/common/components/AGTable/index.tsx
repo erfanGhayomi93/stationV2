@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { getTheme } from 'src/redux/slices/ui';
 
 export interface ColDefType<TData> extends Omit<ColDef<TData>, 'type'> {
-    type?: 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex';
+    type?: 'rowSelect' | 'sepratedNumber' | 'abbreviatedNumber' | 'date' | 'agTableIndex' | 'dateWithoutTime';
 }
 
 export interface ColGroupDefType<TData> extends Omit<ColGroupDef<TData>, 'children'> {
@@ -28,15 +28,19 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, r
     const { t } = useTranslation();
     const theme = useAppSelector(getTheme);
 
-    const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%' , position : "relative" }), []);
+    const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%', position: 'relative' }), []);
     const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
 
     const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
         return {
+            rowSelect: { sortable: false, checkboxSelection: true, headerCheckboxSelection: true, minWidth: 35, maxWidth: 35 },
             sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
             abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
             date: {
                 valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('HH:mm:ss   YYYY-MM-DD') : value),
+            },
+            dateWithoutTime: {
+                valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY-MM-DD') : value),
             },
         };
     }, []);

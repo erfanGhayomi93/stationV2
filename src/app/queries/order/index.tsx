@@ -1,4 +1,4 @@
-import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useInfiniteQuery, UseInfiniteQueryOptions, useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import option from 'src/redux/slices/option';
@@ -136,6 +136,41 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 };
 
 ////////////Offline Requests///////////
+
+const getOpenRequests = async (apiParams: { CustomerSearchTerm: string; SymbolSearchTerm: string; InputState: string; PageNumber: number }) => {
+    const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOpenRequests, {
+        params: apiParams,
+    });
+    return data || {};
+};
+
+export const useGetOpenRequests = (
+    params: { CustomerSearchTerm: string; SymbolSearchTerm: string; InputState: string; PageNumber: number },
+    options?: UseInfiniteQueryOptions<IGTOfflineTradesResponse>,
+) =>
+    useInfiniteQuery({
+        queryKey: ['GetOpenRequests'],
+        queryFn: ({ pageParam = params }) => getOpenRequests(pageParam),
+        getNextPageParam: (lastPage) =>
+            lastPage.totalPages === lastPage.pageNumber ? undefined : { ...params, PageNumber: lastPage.pageNumber + 1 },
+        ...options,
+    });
+
+const getOpenRequestsHistory = async (Id: number) => {
+    const { data } = await AXIOS.get<{ result: OpentRequestsHistory[] }>(Apis().BuySellRequest.GetOpenRequestsHistory, { params: { Id } });
+    return data?.result || [];
+};
+
+export const useOpentRequestsHistory = (Id: number, options?: UseQueryOptions<OpentRequestsHistory[]>) =>
+    useQuery<OpentRequestsHistory[]>({
+        queryKey: ['GetOpenRequestsHistory', Id],
+        queryFn: ({ queryKey }) => getOpenRequestsHistory(queryKey[1] as number),
+        ...options,
+    });
+
+{
+    /* old version will change later */
+}
 
 export const getOfflineRequests = async (params: IGTOfflineTradesRequests) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().Orders.OfflineRequests, { params });

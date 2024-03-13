@@ -241,6 +241,13 @@ interface IGTOfflineTradesResult {
 
 interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> {}
 
+interface OpentRequestsHistory {
+    symbolISIN: string;
+    date: string;
+    state: string;
+    action: string;
+}
+
 interface IGTOfflineRequestHistoryResult {
     id: number;
     userName: string;
@@ -252,4 +259,41 @@ interface IDeleteRequest {
     result: boolean;
     succeeded: boolean;
     errors: any;
+}
+
+interface IGetOpenRequestsParams {
+    CustomerISIN?: string[];
+    SymbolISIN?: string[];
+    InputState?: 'All' | 'SendError' | 'Registration';
+    PageNumber?: number
+}
+
+interface IGetOpenRequestsResponse {
+    id: number;
+    bourseCode: string;
+    traderTitle: string;
+    traderCode: string;
+    cancellationRequest: boolean;
+    channel: string;
+    customerISIN: string;
+    customerTitle: string;
+    executingStationId: number;
+    executingStationName: string;
+    formNo: number;
+    marketType: string;
+    fund: number;
+    price: number;
+    remainingVolume: number;
+    remainingFund: number;
+    requestExpiration: string;
+    requestDate: string;
+    requestNo: string;
+    requestType: string;
+    symbolISIN: string;
+    state: string;
+    side: string;
+    symbolTitle: string;
+    volume: number;
+    customerType: string;
+    marketUnit: string;
 }
