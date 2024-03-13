@@ -63,8 +63,10 @@ export const Apis = () => ({
     },
 
     BuySellRequest: {
-        GetOpenRequests: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequests',
-        GetOpenRequestsHistory: getBaseUrl() + '/BuySellRequest/v1/GetHistory',
+        GetOfflineRequests: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequests',
+        GetOfflineRequestsHistory: getBaseUrl() + '/BuySellRequest/v1/GetHistory',
+        GetOfflineRequestsPaginated: getBaseUrl() + '/BuySellRequest/v1/GetRequests',
+        GetOfflineRequestsExcel: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequestsExcel',
     },
 
     Customer: {

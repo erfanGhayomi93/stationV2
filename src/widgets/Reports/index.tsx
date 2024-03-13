@@ -19,7 +19,7 @@ const Reports = () => {
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
 
-    const requestsRef = useRef({ sendRequests: () => {}, sendAllRequests: () => {} });
+    const requestsRef = useRef({ sendRequests: () => {}, sendAllRequests: () => {}, getOfflineRequestsExcel: () => {} });
 
     const isCustomerFilter = aggregateType === 'Customer' || aggregateType === 'Both';
     const isSymbolFilter = aggregateType === 'Symbol' || aggregateType === 'Both';
@@ -93,6 +93,16 @@ const Reports = () => {
         }
     };
 
+    const handleExcelBtn = () => {
+        switch (activeTab) {
+            case 'Requests':
+                requestsRef.current.getOfflineRequestsExcel()
+                break;
+            default:
+                break;
+        }
+    };
+
     const leftNode = (
         <div className="flex gap-x-4 w-full h-full justify-end items-center">
             {activeTab === 'DoneOrders' ? (
@@ -159,6 +169,7 @@ const Reports = () => {
                 <Tippy content="خروجی اکسل">
                     <button
                         // onClick={() => setisOpen(true)}
+                        onClick={handleExcelBtn}
                         className="ml-2 flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
                     >
                         <ExcelIcon width={19} height={19} />

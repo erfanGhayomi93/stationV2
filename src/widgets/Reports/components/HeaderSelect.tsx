@@ -16,13 +16,14 @@ const HeaderSelect = ({ displayName, onChange, value }: IProps) => {
         { value: 'All', label: i18next.t('common.all') },
         { value: 'SendError', label: i18next.t('BuySellRequestState.SendError') },
         { value: 'Registration', label: i18next.t('BuySellRequestState.Registration') },
+        { value: 'Send', label: i18next.t('BuySellRequestState.Send') },
     ];
 
     useEffect(() => {
         isSelectActive && inputRef.current?.focus();
     }, [isSelectActive]);
 
-    return isSelectActive || value !== 'All' ? (
+    return isSelectActive || value !== 'Registration' ? (
         <select
             ref={inputRef}
             value={value}

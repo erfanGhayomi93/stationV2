@@ -794,7 +794,9 @@
         "Filled": "انجام کامل",
         "PartiallyFilled": "انجام ناقص",
         "Invalid": "مردود",
-        "Finished": "اتمام"
+        "Finished": "اتمام",
+        "Done": "اتمام",
+        "Send": "ارسال"
     },
     "BrokerCode_173": {
         "FormSide.LogInText": "ورود به سامانه معاملاتی کارگزاری تدبیرگر سرمایه",
