@@ -33,6 +33,7 @@ const InfoModal = ({ isOpen, onClose, data }: Props) => {
             {
                 headerName: 'عملیات',
                 field: 'action',
+                valueFormatter: ({ value }) => (value ? t('History_Actions.' + value) : value),
             },
         ],
         [],

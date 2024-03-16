@@ -2,7 +2,7 @@ import Tippy from '@tippyjs/react';
 import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TabsList from 'src/common/components/TabsList';
-import { Check, ExcelIcon, HistoryIcon } from 'src/common/icons';
+import { Check, ExcelIcon, HistoryIcon, Refresh2Icon } from 'src/common/icons';
 import DoneOrders from './tabs/DoneOrders';
 import Drafts from './tabs/Drafts';
 import FailedOrders from './tabs/FailedOrders';
@@ -11,6 +11,8 @@ import OpenOrders from './tabs/OpenOrders';
 import Requests from './tabs/Requests';
 import { OpenPosition } from './tabs/OpenPosition';
 import clsx from 'clsx';
+import { t } from 'i18next';
+
 
 const Reports = () => {
     //
@@ -19,7 +21,7 @@ const Reports = () => {
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
 
-    const requestsRef = useRef({ sendRequests: () => {}, sendAllRequests: () => {}, getOfflineRequestsExcel: () => {} });
+    const requestsRef = useRef({ sendRequests: () => { }, sendAllRequests: () => { }, getOfflineRequestsExcel: () => { }, refetchOffline: () => { } });
 
     const isCustomerFilter = aggregateType === 'Customer' || aggregateType === 'Both';
     const isSymbolFilter = aggregateType === 'Symbol' || aggregateType === 'Both';
@@ -103,6 +105,18 @@ const Reports = () => {
         }
     };
 
+    const handleReportsBtn = () => {
+        switch (activeTab) {
+            case 'Requests':
+                navigate('/Requests/Offline');
+                break;
+
+            default:
+                navigate('/Reports/orders');
+                break;
+        }
+    };
+
     const leftNode = (
         <div className="flex gap-x-4 w-full h-full justify-end items-center">
             {activeTab === 'DoneOrders' ? (
@@ -146,9 +160,9 @@ const Reports = () => {
                     </button>
                 </div>
             ) : activeTab === 'Requests' ? (
-                <div className="flex gap-1">
+                <div className="flex gap-x-2 items-center">
                     <button
-                        className="rounded h-8 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
+                        className="rounded h-8 px-2 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
                         onClick={() => requestsRef.current.sendRequests()}
                         disabled={!!!requestsTabData.selectedCount}
                     >
@@ -156,14 +170,28 @@ const Reports = () => {
                     </button>
                     <button
                         onClick={() => requestsRef.current.sendAllRequests()}
-                        className="px-6 bg-L-primary-50 dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
+                        className="px-2 h-8 bg-L-primary-50 dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                     >
                         {'ارسال همه درخواست ها'}
                     </button>
+
+                    <Tippy content={t('Action_Button.Update')} >
+                        <button
+                            onClick={() => requestsRef.current.refetchOffline()}
+                            className="flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
+                        >
+                            <Refresh2Icon
+                                width={19}
+                                height={19}
+                            />
+                        </button>
+                    </Tippy>
+
+                    <div>
+
+                    </div>
                 </div>
-            ) : (
-                <></>
-            )}
+            ) : null}
 
             <div className="flex my-2">
                 <Tippy content="خروجی اکسل">
@@ -185,7 +213,7 @@ const Reports = () => {
             </Tooltip> */}
                 <Tippy content="گزارشات">
                     <button
-                        onClick={() => navigate('/Reports/orders')}
+                        onClick={handleReportsBtn}
                         className="ml-4 flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
                     >
                         <HistoryIcon width={19} height={19} />

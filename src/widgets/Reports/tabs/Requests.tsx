@@ -5,7 +5,6 @@ import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
 import { BodyScrollEvent, ICellRendererParams, RowDataUpdatedEvent, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-// import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import dayjs from 'dayjs';
 import { AgGridReact } from 'ag-grid-react';
@@ -56,48 +55,28 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
             refetch()
         },
     })
-    // const { sendOrders } = useSendOrders();
 
     const queryClient = useQueryClient();
 
-    const { data: getExcel, refetch: fetchExcel } = useGetOfflineRequestsExcel(params);
+    const { refetch: fetchExcel } = useGetOfflineRequestsExcel(params);
 
     useImperativeHandle(parentRef, () => ({
-        sendRequests: () => sendRequest(),
+        sendRequests: () => sendGroupRequest(),
         getOfflineRequestsExcel: () => fetchExcel(),
-        sendAllRequests: sendAllRequests
+        sendAllRequests: sendAllRequests,
+        refetchOffline: refetch
     }));
 
     const { data, refetch, fetchNextPage, isFetching } = useGetOfflineRequests(params, { enabled: false });
 
-    const handleSend = (data: IGTOfflineTradesResult) => {
+    const sendSingleRequest = (data: IGTOfflineTradesResult) => {
 
         const payload = payloadApiFactory([data], false)
 
         mutateSendRequest(payload)
-
-        // const order: IOrderRequestType = {
-        //     CustomerTagId: [],
-        //     GTTraderGroupId: [],
-        //     orderSide: data?.side,
-        //     orderDraftId: undefined,
-        //     orderStrategy: 'Normal',
-        //     orderType: 'LimitOrder',
-        //     percent: 0,
-        //     symbolISIN: data?.symbolISIN,
-        //     validity: 'GoodTillDate',
-        //     validityDate: data?.requestExpiration,
-        //     price: data?.price,
-        //     quantity: data?.volume,
-        //     customerISIN: [data?.customerISIN],
-        //     customerTitle: [data?.customerTitle],
-        //     id: data?.id,
-        // };
-
-        // sendOrders([order]);
     };
 
-    const sendRequest = () => {
+    const sendGroupRequest = () => {
         const selectedNodes = gridRef.current?.api.getSelectedNodes();
 
         if (selectedNodes && selectedNodes.length > 0) {
@@ -164,7 +143,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
             { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.orderValue'), field: 'orderValue', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'date', minWidth: 150 },
+            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'dateWithoutTime', minWidth: 150 },
             {
                 headerName: t('ag_columns_headerName.status'),
                 headerComponent: HeaderSelect,
@@ -186,7 +165,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                     <AGActionCell
                         requiredButtons={['Send', 'Info']}
                         data={row.data}
-                        onSendClick={(data) => (data ? handleSend(data) : null)}
+                        onSendClick={(data) => (data ? sendSingleRequest(data) : null)}
                         onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
                         hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
@@ -220,32 +199,30 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     };
 
     return (
-        <>
-            <WidgetLoading spining={isFetching}>
-                <div className={'grid h-full'}>
-                    <AGTable
-                        ref={gridRef}
-                        rowData={data?.pages.map((i) => i.result).flat()}
-                        agGridTheme="alpine"
-                        columnDefs={columns}
-                        onBodyScrollEnd={handleBodyScroll}
-                        rowSelection="multiple"
-                        onSelectionChanged={handleRowSelect}
-                        onRowDataUpdated={onRowDataUpdated}
-                        suppressRowVirtualisation
-                    />
-                </div>
-                {infoModalParams.isOpen ? (
-                    <InfoModal
-                        data={infoModalParams.data}
-                        isOpen={infoModalParams.isOpen}
-                        onClose={() => setInfoModalParams({ isOpen: false, data: undefined })}
-                    />
-                ) : (
-                    <></>
-                )}
-            </WidgetLoading>
-        </>
+        <WidgetLoading spining={isFetching}>
+            <div className={'grid h-full'}>
+                <AGTable
+                    ref={gridRef}
+                    rowData={data?.pages.map((i) => i.result).flat()}
+                    agGridTheme="alpine"
+                    columnDefs={columns}
+                    onBodyScrollEnd={handleBodyScroll}
+                    rowSelection="multiple"
+                    onSelectionChanged={handleRowSelect}
+                    onRowDataUpdated={onRowDataUpdated}
+                    suppressRowVirtualisation
+                />
+            </div>
+            {infoModalParams.isOpen ? (
+                <InfoModal
+                    data={infoModalParams.data}
+                    isOpen={infoModalParams.isOpen}
+                    onClose={() => setInfoModalParams({ isOpen: false, data: undefined })}
+                />
+            ) : (
+                <></>
+            )}
+        </WidgetLoading>
     );
 });
 
