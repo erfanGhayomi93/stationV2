@@ -50,10 +50,16 @@ const Requests = () => {
 
         return {
             ids: ids,
-            CustomerSearchTerm: "",
-            SymbolSearchTerm: "",
-            InputState: "All",
+            customerISIN: apiParams.CustomerISIN,
+            symbolISIN: apiParams.SymbolISIN,
+            InputState: apiParams.State ?? "All",
             sendAllRequests: sendAllRequests,
+            marketType: apiParams.MarketType,
+            marketUnit: apiParams.MarketUnit,
+            fromDate: apiParams.FromDate,
+            toDate: apiParams.ToDate ?? "",
+            customerType: apiParams.CustomerType ?? "",
+            requestNo: apiParams.RequestNo ?? "",
         }
     }
 
@@ -93,6 +99,14 @@ const Requests = () => {
         }
 
     };
+
+    const sendAllRequests = () => {
+
+        const payload = payloadApiFactory([], true)
+        mutateSendRequest(payload)
+
+    }
+
 
     const sendSingleRequest = (data: IGTOfflineTradesResult) => {
 
@@ -169,7 +183,7 @@ const Requests = () => {
 
     const handleSendRequestsButtonTitle = () => {
         const selectedRowCount = selectedRows.length;
-        const allCount = apiParams?.PageSize;
+        const allCount = data?.result.length || 0;
 
         if (allCount) {
             return selectedRowCount === allCount ? '(همه)' : `(${selectedRowCount + '/' + allCount})`;
@@ -243,12 +257,12 @@ const Requests = () => {
                     >
                         {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
                     </button>
-                    {/* <button
-                        onClick={() => { }}
+                    <button
+                        onClick={sendAllRequests}
                         className="px-6 h-9 bg-L-primary-50 dark:bg-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                     >
-                        {'ارسال همه درخواست ها'}
-                    </button> */}
+                        {`ارسال همه درخواست ها (${data?.totalCount ?? 0})`}
+                    </button>
                     <RefreshBtn onClick={() => refetch()} />
                     <ExcelExportBtn onClick={() => getExcel()} />
                 </>
