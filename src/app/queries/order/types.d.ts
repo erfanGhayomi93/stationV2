@@ -266,14 +266,16 @@ interface IGetOfflineRequestsParams {
     SymbolSearchTerm?: string;
     InputState?: 'All' | 'SendError' | 'Registration' | 'Send';
     PageNumber?: number;
+    PageSize?: number;
 }
 
 interface IGetOfflineRequestsParamsPaginated {
+    Time?: string;
     FromDate?: string;
     ToDate?: string;
     State?: string;
-    SymbolISIN?: string[];
-    CustomerISIN?: string[];
+    SymbolISIN: SymbolSearchResult[];
+    CustomerISIN: IGoCustomerSearchResult[];
     RequestNo?: string;
     MyStationOnly?: boolean;
     MarketType?: string;

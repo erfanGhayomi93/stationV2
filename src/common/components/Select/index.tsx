@@ -11,8 +11,9 @@ interface ISelectType {
     title?: string;
     icon?: JSX.Element;
     inputClassName?: string;
+    optionsClassName?: string;
     options: ISelectOptionType[];
-    disabled?: boolean
+    disabled?: boolean;
 }
 
 interface ISelectOptionType {
@@ -28,6 +29,7 @@ const Select: FC<ISelectType> = ({
     options,
     label,
     inputClassName,
+    optionsClassName,
     icon = <ChevronIcon width={12} height={12} className="  rotate-180 text-gray-400" aria-hidden="true" />,
     disabled = false,
     ...rest
@@ -41,17 +43,23 @@ const Select: FC<ISelectType> = ({
                         className={clsx(
                             'relative text-xs flex justify-between h-8 w-full dark:focus-within:border-D-info-100 focus-within:border-L-info-100 cursor-pointer text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 ',
                             {
-                                ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-2 pr-3 pl-10  ': !inputClassName,
+                                ' bg-L-basic dark:bg-D-basic border-L-gray-400 dark:border-D-gray-400 border rounded-md  py-2 pr-3 pl-10  ':
+                                    !inputClassName,
                                 [inputClassName as string]: !!inputClassName,
-                                "!border-L-gray-200 dark:!border-D-gray-200 cursor-auto": !!disabled
-                            }
+                                '!border-L-gray-200 dark:!border-D-gray-200 cursor-auto': !!disabled,
+                            },
                         )}
                     >
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">{icon}</span>
                         {value !== null && value !== undefined ? (
-                            <span className={clsx("block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap", {
-                                "text-L-gray-200 dark:text-D-gray-200": !!disabled
-                            })}>
+                            <span
+                                className={clsx(
+                                    'block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap',
+                                    {
+                                        'text-L-gray-200 dark:text-D-gray-200': !!disabled,
+                                    },
+                                )}
+                            >
                                 <>{label}</>
                                 {options?.find((op) => op.value === value)?.label}
                             </span>
@@ -60,7 +68,12 @@ const Select: FC<ISelectType> = ({
                         )}
                     </Listbox.Button>
                     <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-                        <Listbox.Options className="absolute border border-L-gray-400 dark:border-D-gray-400 z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic  py-1 text-base shadow-md focus:outline-none ">
+                        <Listbox.Options
+                            className={clsx(
+                                'absolute border border-L-gray-400 dark:border-D-gray-400 z-[20] mt-1 max-h-60 w-full overflow-auto rounded-md bg-L-basic dark:bg-D-basic  py-1 text-base shadow-md focus:outline-none ',
+                                optionsClassName && optionsClassName,
+                            )}
+                        >
                             {options?.map((item, ind) => (
                                 <Listbox.Option
                                     key={ind}
@@ -68,9 +81,7 @@ const Select: FC<ISelectType> = ({
                                         clsx(
                                             'relative text-xs cursor-pointer text-D-basic dark:text-L-basic',
                                             'cursor-default select-none py-2 pl-2 pr-2',
-                                            active
-                                                ? 'bg-L-primary-100 dark:bg-D-primary-100'
-                                                : 'even:bg-L-gray-100 dark:even:bg-D-gray-100',
+                                            active ? 'bg-L-primary-100 dark:bg-D-primary-100' : 'even:bg-L-gray-100 dark:even:bg-D-gray-100',
                                         )
                                     }
                                     value={item.value}

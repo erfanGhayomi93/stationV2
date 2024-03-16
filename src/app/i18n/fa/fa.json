@@ -323,7 +323,7 @@
         "NoTimeToOrder": "امکان ایجاد سفارش در حال حاضر امکان پذیر نیست.",
         "Order_PerSecond_Check_Failed": "محدودیت زمانی فاصله بین ارسال سفارش",
         "default": "خطایی رخ داده است.",
-        "Contract_IsExpired" : "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد."
+        "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد."
     },
     "Action_Button": {
         "Search": "جستجو",
@@ -796,7 +796,8 @@
         "Invalid": "مردود",
         "Finished": "اتمام",
         "Done": "اتمام",
-        "Send": "ارسال"
+        "Send": "ارسال",
+        "OnSending": "در حال ارسال"
     },
     "BrokerCode_173": {
         "FormSide.LogInText": "ورود به سامانه معاملاتی کارگزاری تدبیرگر سرمایه",
@@ -904,5 +905,11 @@
         "MaximumPhysicalSettlementAgreement": "با تسویه فیزیکی در حالت زیان موافقم.",
         "PhysicalSettlementRadioValue1": "اعمال حداکثری",
         "PhysicalSettlementRadioValue2": "انتخاب تعداد موقعیت های مورد نظر جهت تسویه"
+    },
+    "History_Actions": {
+        "ChangeState": "تغییر وضعیت",
+        "Update": "آپدیت",
+        "Delete": "حذف",
+        "Create": "ایجاد"
     }
 }

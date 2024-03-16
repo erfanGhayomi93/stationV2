@@ -118,7 +118,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
             { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.orderValue'), field: 'orderValue', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'date', minWidth: 150 },
+            { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'dateWithoutTime', minWidth: 150 },
             {
                 headerName: t('ag_columns_headerName.status'),
                 headerComponent: HeaderSelect,
