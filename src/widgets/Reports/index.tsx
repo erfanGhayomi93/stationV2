@@ -105,6 +105,18 @@ const Reports = () => {
         }
     };
 
+    const handleReportsBtn = () => {
+        switch (activeTab) {
+            case 'Requests':
+                navigate('/Requests/Offline');
+                break;
+
+            default:
+                navigate('/Reports/orders');
+                break;
+        }
+    };
+
     const leftNode = (
         <div className="flex gap-x-4 w-full h-full justify-end items-center">
             {activeTab === 'DoneOrders' ? (
@@ -201,7 +213,7 @@ const Reports = () => {
             </Tooltip> */}
                 <Tippy content="گزارشات">
                     <button
-                        onClick={() => navigate('/Reports/orders')}
+                        onClick={handleReportsBtn}
                         className="ml-4 flex items-center p-1.5 justify-center bg-L-basic dark:bg-D-basic rounded text-L-gray-600 dark:text-D-gray-600"
                     >
                         <HistoryIcon width={19} height={19} />
