@@ -786,6 +786,7 @@
         "papers": "اوراق"
     },
     "BuySellRequestState": {
+        "All": "همه",
         "Registration": "ثبت",
         "SendError": "خطا",
         "Accepted": "پذیرش",

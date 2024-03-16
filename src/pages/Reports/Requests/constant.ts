@@ -18,6 +18,7 @@ export const initialState: IOfflineRequestStateType = {
 };
 
 export const stateOptions = [
+    { label: t('BuySellRequestState.All'), value: '' },
     { label: t('BuySellRequestState.Invalid'), value: 'Invalid' },
     { label: t('BuySellRequestState.Registration'), value: 'Registration' },
     { label: t('BuySellRequestState.OnSending'), value: 'OnSending' },
