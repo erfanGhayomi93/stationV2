@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetOfflineRequests, useGetOfflineRequestsExcel } from 'src/app/queries/order';
+import { useGetOfflineRequests, useGetOfflineRequestsExcel, useSendRequest } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
 import { BodyScrollEvent, ICellRendererParams, RowDataUpdatedEvent, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
+// import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import dayjs from 'dayjs';
 import { AgGridReact } from 'ag-grid-react';
@@ -34,8 +34,29 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     });
     const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });
 
+    const payloadApiFactory = (data: IGTOfflineTradesResult[], sendAllRequests: boolean): buySellRequestParams => {
+
+        let ids: number[] = []
+        data.forEach(item => {
+            ids.push(item.id)
+        })
+
+        return {
+            ids: ids,
+            CustomerSearchTerm: params.CustomerSearchTerm,
+            SymbolSearchTerm: params.SymbolSearchTerm,
+            InputState: "Registration",
+            sendAllRequests: sendAllRequests,
+        }
+    }
+
     const { t } = useTranslation();
-    const { sendOrders } = useSendOrders();
+    const { mutate: mutateSendRequest } = useSendRequest({
+        onSuccess: () => {
+            refetch()
+        },
+    })
+    // const { sendOrders } = useSendOrders();
 
     const queryClient = useQueryClient();
 
@@ -44,38 +65,63 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     useImperativeHandle(parentRef, () => ({
         sendRequests: () => sendRequest(),
         getOfflineRequestsExcel: () => fetchExcel(),
-        sendAllRequests: () => {
-            console.log('send all request');
-        },
+        sendAllRequests: sendAllRequests
     }));
 
     const { data, refetch, fetchNextPage, isFetching } = useGetOfflineRequests(params, { enabled: false });
 
-    const handleSend = (data: Record<string, any>) => {
-        const order: IOrderRequestType = {
-            CustomerTagId: [],
-            GTTraderGroupId: [],
-            orderSide: data?.side,
-            orderDraftId: undefined,
-            orderStrategy: 'Normal',
-            orderType: 'LimitOrder',
-            percent: 0,
-            symbolISIN: data?.symbolISIN,
-            validity: 'GoodTillDate',
-            validityDate: data?.requestExpiration,
-            price: data?.price,
-            quantity: data?.volume,
-            customerISIN: [data?.customerISIN],
-            customerTitle: [data?.customerTitle],
-            id: data?.id,
-        };
+    const handleSend = (data: IGTOfflineTradesResult) => {
 
-        sendOrders([order]);
+        const payload = payloadApiFactory([data], false)
+
+        mutateSendRequest(payload)
+
+        // const order: IOrderRequestType = {
+        //     CustomerTagId: [],
+        //     GTTraderGroupId: [],
+        //     orderSide: data?.side,
+        //     orderDraftId: undefined,
+        //     orderStrategy: 'Normal',
+        //     orderType: 'LimitOrder',
+        //     percent: 0,
+        //     symbolISIN: data?.symbolISIN,
+        //     validity: 'GoodTillDate',
+        //     validityDate: data?.requestExpiration,
+        //     price: data?.price,
+        //     quantity: data?.volume,
+        //     customerISIN: [data?.customerISIN],
+        //     customerTitle: [data?.customerTitle],
+        //     id: data?.id,
+        // };
+
+        // sendOrders([order]);
     };
 
     const sendRequest = () => {
-        console.log(gridRef.current?.api.getSelectedNodes());
+        const selectedNodes = gridRef.current?.api.getSelectedNodes();
+
+        if (selectedNodes && selectedNodes.length > 0) {
+            let selectedItem: IGTOfflineTradesResult[] = []
+            selectedNodes.forEach(item => {
+                selectedItem.push(item.data)
+            })
+
+            const payload = payloadApiFactory(selectedItem, false)
+
+            mutateSendRequest(payload)
+
+        }
+
     };
+
+    const sendAllRequests = () => {
+        const dataALL: IGTOfflineTradesResult[] | undefined = data?.pages.map((i) => i.result).flat()
+
+        if (dataALL) {
+            const payload = payloadApiFactory(dataALL, true)
+            mutateSendRequest(payload)
+        }
+    }
 
     useEffect(() => {
         data && setRequestsTabData((prev) => ({ ...prev, allCount: data.pages[0].totalCount }));
