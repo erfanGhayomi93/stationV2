@@ -264,7 +264,8 @@ interface IDeleteRequest {
 interface IGetOfflineRequestsParams {
     CustomerSearchTerm?: string;
     SymbolSearchTerm?: string;
-    InputState?: 'All' | 'SendError' | 'Registration' | 'Send';
+    // InputState?: 'All' | 'SendError' | 'Registration' | 'Send';
+    InputState?: string;
     PageNumber?: number;
     PageSize?: number;
 }
@@ -349,4 +350,13 @@ interface IGetOpenRequestsResponse {
 interface buySellRequestParams extends IGetOfflineRequestsParams {
     ids: number[];
     sendAllRequests: boolean;
+    symbolISIN?: SymbolSearchResult[];
+    customerISIN?: IGoCustomerSearchResult[];
+    marketType?: string;
+    marketUnit?: string;
+    fromDate?: string;
+    toDate?: string;
+    side?: string;
+    customerType?: string;
+    requestNo?: string;
 }
