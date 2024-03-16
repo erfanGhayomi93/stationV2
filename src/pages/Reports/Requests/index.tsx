@@ -164,13 +164,15 @@ const Requests = () => {
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
         action === 'PageSize' && setFormData((pre) => ({ ...pre, [action]: value }));
+        setSelectedRows([])
     }, []);
 
     const handleSendRequestsButtonTitle = () => {
         const selectedRowCount = selectedRows.length;
+        const allCount = apiParams?.PageSize;
 
-        if (data?.totalCount) {
-            return selectedRowCount === data?.totalCount ? '(همه)' : `(${selectedRowCount + '/' + data?.totalCount})`;
+        if (allCount) {
+            return selectedRowCount === allCount ? '(همه)' : `(${selectedRowCount + '/' + allCount})`;
         } else {
             return '';
         }
