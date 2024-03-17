@@ -138,7 +138,6 @@ export const useUpdateOrders = (options?: Omit<UseMutationOptions<number[], Erro
 
 ////////////Offline Requests///////////
 
-
 const sendRequestFn = async (params: buySellRequestParams) => {
     let { data } = await AXIOS.post(Apis().BuySellRequest.SendRequest, params);
     return data.result || [];
@@ -147,8 +146,6 @@ const sendRequestFn = async (params: buySellRequestParams) => {
 export const useSendRequest = (options?: Omit<UseMutationOptions<number[], Error, buySellRequestParams>, 'mutationKey' | 'mutationFn'>) => {
     return useMutation(sendRequestFn, options);
 };
-
-
 
 const getOfflineRequests = async (apiParams: IGetOfflineRequestsParams) => {
     const { data } = await AXIOS.get<IGTOfflineTradesResponse>(Apis().BuySellRequest.GetOfflineRequests, {
@@ -193,6 +190,25 @@ export const useGetOfflineRequestsPaginated = (
     useQuery<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>({
         queryKey: ['GetOpenRequestsPaginated', params],
         queryFn: ({ queryKey }) => GetOfflineRequestsPaginated(queryKey[1] as IGetOfflineRequestsParamsPaginated),
+        ...options,
+    });
+
+const GetOfflineRequestsPaginatedExcel = async (params: IGetOfflineRequestsParamsPaginated) => {
+    const { data } = await AXIOS.get(Apis().BuySellRequest.GetOfflineRequestsPaginatedExcel, { params });
+    if (data) {
+        excelDownloader(data);
+    }
+    return data;
+};
+
+export const useGetOfflineRequestsPaginatedExcel = (
+    params: IGetOfflineRequestsParamsPaginated,
+    options?: UseQueryOptions<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>,
+) =>
+    useQuery<GlobalPaginatedApiResponse<IOfflineRequestsPaginatedResponse[]>>({
+        queryKey: ['GetOpenRequestsPaginatedExcel', params],
+        queryFn: ({ queryKey }) => GetOfflineRequestsPaginatedExcel(queryKey[1] as IGetOfflineRequestsParamsPaginated),
+        enabled: false,
         ...options,
     });
 

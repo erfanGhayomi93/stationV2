@@ -28,7 +28,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     const [params, setParams] = useState<IGetOfflineRequestsParams>({
         CustomerSearchTerm: '',
         SymbolSearchTerm: '',
-        InputState: 'Registration',
+        InputState: 'All',
         PageNumber: 1,
     });
     const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });

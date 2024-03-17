@@ -3,7 +3,12 @@ import { AgGridReact } from 'ag-grid-react';
 import dayjs, { ManipulateType } from 'dayjs';
 import { t } from 'i18next';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useGetOfflineRequestsExcel, useGetOfflineRequestsPaginated, useSendRequest } from 'src/app/queries/order';
+import {
+    useGetOfflineRequestsExcel,
+    useGetOfflineRequestsPaginated,
+    useGetOfflineRequestsPaginatedExcel,
+    useSendRequest,
+} from 'src/app/queries/order';
 import AGActionCell from 'src/common/components/AGActionCell';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import ExcelExportBtn from 'src/common/components/Buttons/ExcelExportBtn';
@@ -42,11 +47,10 @@ const Requests = () => {
     const { data, isFetching, refetch } = useGetOfflineRequestsPaginated(apiParams, { enabled: false });
 
     const payloadApiFactory = (data: IGTOfflineTradesResult[], sendAllRequests: boolean): buySellRequestParams => {
-
-        let ids: number[] = []
-        data.forEach(item => {
-            ids.push(item.id)
-        })
+        let ids: number[] = [];
+        data.forEach((item) => {
+            ids.push(item.id);
+        });
 
         return {
             ids: ids,
@@ -66,9 +70,9 @@ const Requests = () => {
 
     const { mutate: mutateSendRequest } = useSendRequest({
         onSuccess: () => {
-            refetch()
+            refetch();
         },
-    })
+    });
 
     const marketUnitOption = useMemo(() => {
         if (!marketUnitData?.result) return [];
@@ -83,41 +87,41 @@ const Requests = () => {
         return [{ value: '', label: t('common.all') }, ...options];
     }, [marketUnitData]);
 
-    const sendGroupRequest = () => {
-        const selectedNodes = gridRef.current?.api.getSelectedNodes();
+    // const sendGroupRequest = () => {
+    //     const selectedNodes = gridRef.current?.api.getSelectedNodes();
 
-        if (selectedNodes && selectedNodes.length > 0) {
-            let selectedItem: IGTOfflineTradesResult[] = []
-            selectedNodes.forEach(item => {
-                selectedItem.push(item.data)
-            })
+    //     if (selectedNodes && selectedNodes.length > 0) {
+    //         let selectedItem: IGTOfflineTradesResult[] = []
+    //         selectedNodes.forEach(item => {
+    //             selectedItem.push(item.data)
+    //         })
 
-            const payload = payloadApiFactory(selectedItem, false)
+    //         const payload = payloadApiFactory(selectedItem, false)
 
-            mutateSendRequest(payload)
+    //         mutateSendRequest(payload)
 
-        }
+    //     }
 
-    };
+    // };
 
-    const sendAllRequests = () => {
-
-        const payload = payloadApiFactory([], true)
-        mutateSendRequest(payload)
-
-    }
-
-
-    const sendSingleRequest = (data: IGTOfflineTradesResult) => {
-
-        const payload = payloadApiFactory([data], false)
-
-        mutateSendRequest(payload)
-    };
+//     const sendAllRequests = () => {
+// 
+//         const payload = payloadApiFactory([], true)
+//         mutateSendRequest(payload)
+// 
+//     }
 
 
+    // const sendSingleRequest = (data: IGTOfflineTradesResult) => {
 
-    const { refetch: getExcel } = useGetOfflineRequestsExcel({ PageNumber: apiParams.PageNumber, PageSize: apiParams.PageSize });
+    //     const payload = payloadApiFactory([data], false)
+
+    //     mutateSendRequest(payload)
+    // };
+
+    const { refetch: getExcel } = useGetOfflineRequestsPaginatedExcel(
+        cleanObjectOfFalsyValues({ ...apiParams, Time: '' }) as IGetOfflineRequestsParamsPaginated,
+    );
 
     useEffect(() => {
         refetch();
@@ -125,7 +129,7 @@ const Requests = () => {
 
     const colDefs = useMemo(
         (): ColDefType<IOfflineRequestsPaginatedResponse>[] => [
-            { type: 'rowSelect' },
+            // { type: 'rowSelect' },
             {
                 headerName: t('ag_columns_headerName.row'),
                 sortable: false,
@@ -163,9 +167,9 @@ const Requests = () => {
                 maxWidth: 90,
                 cellRenderer: (row: ICellRendererParams<IOfflineRequestsPaginatedResponse>) => (
                     <AGActionCell
-                        requiredButtons={['Send', 'Info']}
+                        requiredButtons={['Info']}
                         data={row.data}
-                        onSendClick={(data) => (data ? sendSingleRequest(data) : null)}
+                        // onSendClick={(data) => (data ? sendSingleRequest(data) : null)}
                         onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
                         hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
@@ -178,19 +182,19 @@ const Requests = () => {
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
         action === 'PageSize' && setFormData((pre) => ({ ...pre, [action]: value }));
-        setSelectedRows([])
+        // setSelectedRows([]);
     }, []);
 
-    const handleSendRequestsButtonTitle = () => {
-        const selectedRowCount = selectedRows.length;
-        const allCount = data?.result.length || 0;
+    // const handleSendRequestsButtonTitle = () => {
+        // const selectedRowCount = selectedRows.length;
+        // const allCount = data?.result.length || 0;
 
-        if (allCount) {
-            return selectedRowCount === allCount ? '(همه)' : `(${selectedRowCount + '/' + allCount})`;
-        } else {
-            return '';
-        }
-    };
+    //     if (allCount) {
+    //         return selectedRowCount === allCount ? '(همه)' : `(${selectedRowCount + '/' + allCount})`;
+    //     } else {
+    //         return '';
+    //     }
+    // };
 
     const handleFormValueChange = (field: keyof typeof formData, value: any) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
@@ -250,19 +254,19 @@ const Requests = () => {
             BreadCumbCurrentPage="آفلاین"
             HeaderLeftNode={
                 <>
-                    <button
+                    {/* <button
                         className="rounded h-9 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
                         onClick={() => sendGroupRequest()}
                         disabled={false}
                     >
                         {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
-                    </button>
-                    <button
-                        onClick={sendAllRequests}
+                    </button> */}
+                     {/* <button
+                        onClick={() => { }}
                         className="px-6 h-9 bg-L-primary-50 dark:bg-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
                     >
                         {`ارسال همه درخواست ها (${data?.totalCount ?? 0})`}
-                    </button>
+                    </button> */}
                     <RefreshBtn onClick={() => refetch()} />
                     <ExcelExportBtn onClick={() => getExcel()} />
                 </>

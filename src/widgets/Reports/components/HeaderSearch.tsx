@@ -22,7 +22,7 @@ const HeaderSearch = ({ displayName, onBlur = () => {}, onChange = () => {}, val
     });
 
     useEffect(() => {
-        const timeOut = setTimeout(() => !isFirstRender && inputValue.length > 1 && onChange && onChange(inputValue), 1000);
+        const timeOut = setTimeout(() => !isFirstRender && onChange && onChange(inputValue), 1000);
         return () => {
             clearTimeout(timeOut);
         };
