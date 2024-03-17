@@ -211,32 +211,22 @@ interface IGTOfflineTradesRequests {
 }
 
 interface IGTOfflineTradesResult {
-    id: number;
-    traderId: number;
     bourseCode: string;
-    traderTitle: string;
-    cancellationRequest: boolean;
-    channel: string;
     customerISIN: string;
     customerTitle: string;
     customerType: string;
-    executingStationId: number;
-    executingStationName: string;
-    formNo: number;
-    marketType: string;
-    fund: number;
-    price: number;
-    remainingVolume: number;
-    remainingFund: number;
-    requestExpiration: string;
+    id: number;
+    orderValue: number;
+    price: string;
+    priceType: string;
+    quantity: string;
+    quantityType: string;
     requestDate: string;
-    requestNo: string;
-    requestType: string;
-    symbolISIN: string;
-    state: string;
+    requestExpiration: string;
     side: string;
+    state: string;
+    symbolISIN: string;
     symbolTitle: string;
-    volume: number;
 }
 
 interface IGTOfflineTradesResponse extends GlobalPaginatedApiResponse<IGTOfflineTradesResult[]> {}
@@ -287,34 +277,37 @@ interface IGetOfflineRequestsParamsPaginated {
     PageSize: number;
 }
 interface IOfflineRequestsPaginatedResponse {
-    id: number;
     bourseCode: string;
-    traderTitle: string;
-    traderCode: string;
-    cancellationRequest: true;
+    cancellationRequest: boolean;
     channel: string;
     customerISIN: string;
     customerTitle: string;
-    executingStationId: number;
-    executingStationName: string;
-    formNo: number;
-    marketType: string;
-    fund: number;
-    price: number;
-    remainingVolume: number;
-    remainingFund: number;
-    requestExpiration: string;
-    requestDate: string;
-    requestNo: string;
-    requestType: string;
-    symbolISIN: string;
-    state: string;
-    side: string;
-    symbolTitle: string;
-    volume: number;
-    orderValue: number;
     customerType: string;
+    executingStationId: number;
+    executingStationName: null;
+    formNo: number;
+    fund: number;
+    id: number;
+    marketType: string;
     marketUnit: string;
+    orderValue: number;
+    price: string;
+    priceType: string;
+    quantity: string;
+    quantityType: string;
+    remainingFund: number;
+    remainingVolume: number;
+    requestDate: string;
+    requestExpiration: string;
+    requestNo: string;
+    requestType: null;
+    side: string;
+    state: string;
+    symbolISIN: string;
+    symbolTitle: string;
+    traderCode: string;
+    traderTitle: string;
+    volume: string;
 }
 
 interface IGetOpenRequestsResponse {

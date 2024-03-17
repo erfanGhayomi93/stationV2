@@ -3,12 +3,7 @@ import { AgGridReact } from 'ag-grid-react';
 import dayjs, { ManipulateType } from 'dayjs';
 import { t } from 'i18next';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-    useGetOfflineRequestsExcel,
-    useGetOfflineRequestsPaginated,
-    useGetOfflineRequestsPaginatedExcel,
-    useSendRequest,
-} from 'src/app/queries/order';
+import { useGetOfflineRequestsPaginated, useGetOfflineRequestsPaginatedExcel } from 'src/app/queries/order';
 import AGActionCell from 'src/common/components/AGActionCell';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import ExcelExportBtn from 'src/common/components/Buttons/ExcelExportBtn';
@@ -21,7 +16,7 @@ import ReportLayout from 'src/common/components/ReportLayout';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { RequestListIcon } from 'src/common/icons';
-import { cleanObjectOfFalsyValues, datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import InfoModal from 'src/widgets/Reports/components/RequestsModals/InfoModal';
 import { customerTypeFieldOptions, timeFieldOptions } from '../Trades/constant';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
@@ -35,7 +30,6 @@ import { useMarketUnit } from 'src/app/queries/symbol';
 
 const Requests = () => {
     const gridRef = useRef<AgGridReact>(null);
-    const [selectedRows, setSelectedRows] = useState<IOfflineRequestsPaginatedResponse[]>([]);
     const [apiParams, setApiParams] = useState<IGetOfflineRequestsParamsPaginated>(defaultFormValue);
     const [formData, setFormData] = useState<IGetOfflineRequestsParamsPaginated>(apiParams);
     const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });
@@ -45,34 +39,6 @@ const Requests = () => {
     const { data: marketUnitData } = useMarketUnit();
 
     const { data, isFetching, refetch } = useGetOfflineRequestsPaginated(apiParams, { enabled: false });
-
-    const payloadApiFactory = (data: IGTOfflineTradesResult[], sendAllRequests: boolean): buySellRequestParams => {
-        let ids: number[] = [];
-        data.forEach((item) => {
-            ids.push(item.id);
-        });
-
-        return {
-            ids: ids,
-            customerISIN: apiParams.CustomerISIN,
-            symbolISIN: apiParams.SymbolISIN,
-            InputState: apiParams.State ?? "All",
-            sendAllRequests: sendAllRequests,
-            marketType: apiParams.MarketType,
-            marketUnit: apiParams.MarketUnit,
-            fromDate: apiParams.FromDate,
-            toDate: apiParams.ToDate ?? "",
-            customerType: apiParams.CustomerType ?? "",
-            requestNo: apiParams.RequestNo ?? "",
-        }
-    }
-
-
-    const { mutate: mutateSendRequest } = useSendRequest({
-        onSuccess: () => {
-            refetch();
-        },
-    });
 
     const marketUnitOption = useMemo(() => {
         if (!marketUnitData?.result) return [];
@@ -87,38 +53,6 @@ const Requests = () => {
         return [{ value: '', label: t('common.all') }, ...options];
     }, [marketUnitData]);
 
-    // const sendGroupRequest = () => {
-    //     const selectedNodes = gridRef.current?.api.getSelectedNodes();
-
-    //     if (selectedNodes && selectedNodes.length > 0) {
-    //         let selectedItem: IGTOfflineTradesResult[] = []
-    //         selectedNodes.forEach(item => {
-    //             selectedItem.push(item.data)
-    //         })
-
-    //         const payload = payloadApiFactory(selectedItem, false)
-
-    //         mutateSendRequest(payload)
-
-    //     }
-
-    // };
-
-//     const sendAllRequests = () => {
-// 
-//         const payload = payloadApiFactory([], true)
-//         mutateSendRequest(payload)
-// 
-//     }
-
-
-    // const sendSingleRequest = (data: IGTOfflineTradesResult) => {
-
-    //     const payload = payloadApiFactory([data], false)
-
-    //     mutateSendRequest(payload)
-    // };
-
     const { refetch: getExcel } = useGetOfflineRequestsPaginatedExcel(
         cleanObjectOfFalsyValues({ ...apiParams, Time: '' }) as IGetOfflineRequestsParamsPaginated,
     );
@@ -129,7 +63,6 @@ const Requests = () => {
 
     const colDefs = useMemo(
         (): ColDefType<IOfflineRequestsPaginatedResponse>[] => [
-            // { type: 'rowSelect' },
             {
                 headerName: t('ag_columns_headerName.row'),
                 sortable: false,
@@ -151,8 +84,18 @@ const Requests = () => {
                 valueFormatter: valueFormatterSide,
                 cellClass: ({ value }) => (value === 'Buy' ? 'text-L-success-200' : value === 'Sell' ? 'text-L-error-200' : ''),
             },
-            { headerName: t('ag_columns_headerName.count'), field: 'volume', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'volume',
+                type: 'sepratedNumber',
+                valueFormatter: ({ data, value }) => (data?.quantityType === 'None' ? seprateNumber(value) : t('QuantityType.' + value)),
+            },
+            {
+                headerName: t('ag_columns_headerName.price'),
+                field: 'price',
+                type: 'sepratedNumber',
+                valueFormatter: ({ data, value }) => (data?.priceType === 'None' ? seprateNumber(value) : t('PriceType.' + value)),
+            },
             { headerName: t('ag_columns_headerName.orderValue'), field: 'orderValue', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'dateWithoutTime', minWidth: 150 },
             {
@@ -169,9 +112,7 @@ const Requests = () => {
                     <AGActionCell
                         requiredButtons={['Info']}
                         data={row.data}
-                        // onSendClick={(data) => (data ? sendSingleRequest(data) : null)}
                         onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
-                        hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
                 ),
             },
@@ -182,19 +123,7 @@ const Requests = () => {
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
         setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
         action === 'PageSize' && setFormData((pre) => ({ ...pre, [action]: value }));
-        // setSelectedRows([]);
     }, []);
-
-    // const handleSendRequestsButtonTitle = () => {
-        // const selectedRowCount = selectedRows.length;
-        // const allCount = data?.result.length || 0;
-
-    //     if (allCount) {
-    //         return selectedRowCount === allCount ? '(همه)' : `(${selectedRowCount + '/' + allCount})`;
-    //     } else {
-    //         return '';
-    //     }
-    // };
 
     const handleFormValueChange = (field: keyof typeof formData, value: any) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
@@ -254,19 +183,6 @@ const Requests = () => {
             BreadCumbCurrentPage="آفلاین"
             HeaderLeftNode={
                 <>
-                    {/* <button
-                        className="rounded h-9 px-6 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
-                        onClick={() => sendGroupRequest()}
-                        disabled={false}
-                    >
-                        {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
-                    </button> */}
-                     {/* <button
-                        onClick={() => { }}
-                        className="px-6 h-9 bg-L-primary-50 dark:bg-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
-                    >
-                        {`ارسال همه درخواست ها (${data?.totalCount ?? 0})`}
-                    </button> */}
                     <RefreshBtn onClick={() => refetch()} />
                     <ExcelExportBtn onClick={() => getExcel()} />
                 </>
@@ -359,7 +275,6 @@ const Requests = () => {
                             rowData={data?.result || []}
                             columnDefs={colDefs}
                             onSortChanged={({ api }) => api.refreshCells()}
-                            onSelectionChanged={(e) => setSelectedRows(e.api.getSelectedRows())}
                             suppressRowVirtualisation
                         />
                     </WidgetLoading>
