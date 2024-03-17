@@ -159,9 +159,9 @@ export const unAuthorized = () => {
     const appDispatch = store.dispatch;
     appDispatch && appDispatch(setAppState('LoggedOut'));
     pushEngine.disConnect();
-    // Cookies.remove(tokenCookieName);
-    // delete AXIOS.defaults.headers.common['Authorization'];
-    // ipcMain.send('unAuthorized');
+    Cookies.remove(tokenCookieName);
+    delete AXIOS.defaults.headers.common['Authorization'];
+    ipcMain.send('unAuthorized');
     // routerNavigate && routerNavigate('/login');
 };
 

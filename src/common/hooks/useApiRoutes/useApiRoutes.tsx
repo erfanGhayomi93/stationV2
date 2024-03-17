@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    // const { data } = useGlobalSettings();
-    const { data } = useGlobalSettingsStage();
+    const { data } = useGlobalSettings();
+    // const { data } = useGlobalSettingsStage();
 
     useEffect(() => {
         const routes = Apis();
