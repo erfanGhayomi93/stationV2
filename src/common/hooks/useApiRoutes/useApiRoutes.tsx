@@ -4,8 +4,8 @@ import { queryClient } from 'src/app/queryClient';
 
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
-    const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsStage();
+    // const { data } = useGlobalSettings();
+    const { data } = useGlobalSettingsStage();
 
     useEffect(() => {
         const routes = Apis();
@@ -66,6 +66,7 @@ export const Apis = () => ({
         GetOfflineRequests: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequests',
         GetOfflineRequestsHistory: getBaseUrl() + '/BuySellRequest/v1/GetHistory',
         GetOfflineRequestsPaginated: getBaseUrl() + '/BuySellRequest/v1/GetRequests',
+        GetOfflineRequestsPaginatedExcel: getBaseUrl() + '/BuySellRequest/v1/TradeRequestsExcel',
         GetOfflineRequestsExcel: getBaseUrl() + '/BuySellRequest/v1/GetOpenRequestsExcel',
         SendRequest: getBaseUrl() + '/BuySellRequest/v1/SendRequest'
     },
