@@ -929,5 +929,9 @@
         "BestBuyPrice": "بهترین قیمت خرید",
         "HighThreshold": "آستانه بالا",
         "LowThreshold": "آستانه پایین"
+    },
+    "AgreementState": {
+        "NotSpecified": "تعیین نشده",
+        "Accepted": "تایید شده"
     }
 }
