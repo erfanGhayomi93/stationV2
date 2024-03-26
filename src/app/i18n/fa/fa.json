@@ -463,6 +463,7 @@
         "custom": "دلخواه"
     },
     "Tooltip": {
+        "Caution": "تحت احتیاط",
         "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد",
         "bs_final_price_point": "متن",
         "bs_count_input": "متن",
@@ -929,5 +930,9 @@
         "BestBuyPrice": "بهترین قیمت خرید",
         "HighThreshold": "آستانه بالا",
         "LowThreshold": "آستانه پایین"
+    },
+    "AgreementState": {
+        "NotSpecified": "تعیین نشده",
+        "Accepted": "تایید شده"
     }
 }
