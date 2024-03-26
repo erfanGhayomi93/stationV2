@@ -15,15 +15,13 @@ const Best5Row = () => {
     const selectedSymbol = useAppSelector(getSelectedSymbol);
     const appDispatch = useAppDispatch()
 
-    const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
-        onSuccess: (data: SymbolGeneralInfoType) => {
-            setOrders(data.ordersData);
-        },
+    const { data, isFetching } = useSymbolGeneralInfo(selectedSymbol, {
+        onSuccess: (data: SymbolGeneralInfoType) => {},
     });
 
-    // useEffect(() => {
-    //     refetch();
-    // }, []);
+    useEffect(() => {
+        data && setOrders(data.ordersData);
+    }, [data]);
 
     const setTotalVolume = () => {
         if (orders) {

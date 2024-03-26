@@ -97,11 +97,11 @@ const KucoinDepth = ({ lastTradedPrice }: { lastTradedPrice: number }) => {
 
                 <div className="flex items-center">
                     <div className="flex justify-between items-center bg-L-gray-300 dark:bg-D-gray-300 p-1 w-full">
-                        <span className="text-xs font-medium text-L-gray-500 dark:text-D-gray-500">{t("Symbol.lastTrade")}</span>
+                        <span className="text-xs font-medium text-L-gray-500 dark:text-D-gray-500">{t('Symbol.lastTrade')}</span>
 
                         <div className="flex gap-1 text-xs font-medium text-D-basic dark:text-L-basic">
                             <span>{seprateNumber(lastTradedPrice)}</span>
-                            <span>{t("common.rial")}</span>
+                            <span>{t('common.rial')}</span>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@ type RowProps = {
     percent: number;
 };
 const Row = ({ isOdd, isInRange, percent, count, volume, price, mode }: RowProps) => {
-    return (
+    return isInRange ? (
         <div
             className={clsx(
                 'text-xs text-L-gray-700 font-medium dark:text-D-gray-700 rounded m-1',
@@ -169,5 +169,7 @@ const Row = ({ isOdd, isInRange, percent, count, volume, price, mode }: RowProps
                 </div>
             </div>
         </div>
+    ) : (
+        <></>
     );
 };

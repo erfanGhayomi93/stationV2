@@ -26,6 +26,10 @@ const getBaseUrl = () => {
 };
 
 export const Apis = () => ({
+    Aggrements: {
+        Get: getBaseUrl() + '/Agreement/v1/Get',
+    },
+
     OAuthApi: {
         authorization: getOauthUrl() + '/GTOAuthApi/v1/GTAuthorization',
         captcha: getOauthUrl() + '/Captcha/v1/create',

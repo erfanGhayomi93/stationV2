@@ -126,6 +126,7 @@ type IndividualLegal = {
 };
 
 type SymbolGeneralInfoType = {
+    alerts: { clientSideAlertEnabled: boolean };
     symbolData: SymbolData;
     individualLegal: IndividualLegal;
     ordersData: OrdersData;
