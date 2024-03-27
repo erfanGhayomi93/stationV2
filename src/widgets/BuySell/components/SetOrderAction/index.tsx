@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FC, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { FC, useState } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
 import { setOrder, useSingleModifyOrders, useUpdateOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
@@ -15,62 +15,56 @@ import Button from 'src/common/components/Buttons/Button';
 import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+import AffidavitModal from './AffidavitModal';
 
-interface ISetOrderActionType { }
+interface ISetOrderActionType {}
 
-const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
-    const {
-        side,
-        amount,
-        divide,
-        isCalculatorEnabled,
-        price,
-        quantity,
-        sequential,
-        strategy,
-        symbolISIN,
-        validity,
-        validityDate,
-        percent,
-        id,
-    } = useBuySellState();
+const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
+    const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, id } =
+        useBuySellState();
     const dispatch = useBuySellDispatch();
     const queryClient = useQueryClient();
     const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', symbolISIN])?.symbolData;
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
     const { t } = useTranslation();
 
-    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", {})
+    const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', {});
 
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+    const [AffidavitModalState, setAffidavitModalState] = useState(false);
 
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
+    const { data: symbolGeneralInfo } = useSymbolGeneralInfo(selectedSymbol, {
+        select: (data) => ({
+            symbolTitle: data.symbolData.symbolTitle,
+            hasRisk: data.alerts?.clientSideAlertEnabled,
+            affModalTitle: data.alerts?.clientSideAlertTitle,
+            affModalDescription: data.alerts?.clientSideAlertMessage,
+        }),
+    });
 
-
-    const { comeFrom } = useAppSelector(getKeepDataBuySell)
+    const { comeFrom } = useAppSelector(getKeepDataBuySell);
     const selectedCustomers = useAppSelector(getSelectedCustomers);
     const appDispatch = useAppDispatch();
 
     const { sendOrders, ordersLoading } = useSendOrders();
-
 
     const { mutate: mutateUpdateOrder } = useSingleModifyOrders({
         onSuccess(result) {
             resetByeSellData(dispatch, appDispatch);
 
             const storeLocal: storeLocalType = {
-                [result.clientKey || ""]: {
+                [result.clientKey || '']: {
                     customerTitle: selectedCustomers[0].title,
-                    symbolTitle: symbolTitle || ""
-                }
-            }
+                    symbolTitle: symbolGeneralInfo?.symbolTitle || '',
+                },
+            };
 
             const timeOut = setTimeout(() => {
-                setPushNotification({ ...pushNotification, ...storeLocal })
-                clearTimeout(timeOut)
+                setPushNotification({ ...pushNotification, ...storeLocal });
+                clearTimeout(timeOut);
             }, 1000);
         },
-    })
+    });
 
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {
@@ -78,12 +72,11 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             queryClient.invalidateQueries(['draftList']);
             // if (sequential)
             resetByeSellData(dispatch, appDispatch);
-        }
+        },
     });
 
-
     const handleUpdateDraft = () => {
-        const customerISINs = selectedCustomers.map(item => item.customerISIN)
+        const customerISINs = selectedCustomers.map((item) => item.customerISIN);
         mutateUpdateDraft({
             customerISINs: String(customerISINs),
             id: String(id),
@@ -96,17 +89,16 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             validityDate: validityDate,
             orderType: 'MarketOrder',
             orderStrategy: 'Normal',
-            customerTagTitles: "",
-            customerTagNames: "",
-            gtTraderGroupId: ""
+            customerTagTitles: '',
+            customerTagNames: '',
+            gtTraderGroupId: '',
         });
     };
 
     const handleUpdateOrder = () => {
-
         if (!id) {
-            alert("it hasnt id")
-            return
+            alert('it hasnt id');
+            return;
         }
 
         mutateUpdateOrder({
@@ -114,8 +106,8 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             price,
             quantity,
             validity,
-            validityDate
-        })
+            validityDate,
+        });
 
         // mutateUpdateOrder({
         //     customers: selectedCustomers.map((item) => ({
@@ -137,24 +129,21 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     };
 
     const handleSubmit = () => {
+        setAffidavitModalState(false);
+
         if (!selectedCustomers.length) {
             onErrorNotif({ title: t('common.notCustomerSelected') });
-        }
-        else if (!price || price <= 0) {
+        } else if (!price || price <= 0) {
             onErrorNotif({ title: t('common.invalidOrderPrice') });
-        }
-        else if (!quantity || quantity <= 0) {
+        } else if (!quantity || quantity <= 0) {
             onErrorNotif({ title: t('common.invalidOrderQuantity') });
-        }
-        else if (comeFrom === ComeFromKeepDataEnum.Draft) {
+        } else if (comeFrom === ComeFromKeepDataEnum.Draft) {
             handleUpdateDraft();
         } else if (comeFrom === ComeFromKeepDataEnum.OpenOrder) {
             handleUpdateOrder();
-        }
-        else if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
+        } else if (symbolMaxQuantity && symbolMaxQuantity < quantity) {
             dispatch({ type: 'SET_DIVIDE', value: true });
-        }
-        else {
+        } else {
             handleOrder();
         }
     };
@@ -193,13 +182,30 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     return (
         <>
             {side === 'Buy' ? (
-                <Button variant="success" loading={ordersLoading} onClick={handleSubmit}>
+                <Button
+                    variant="success"
+                    loading={ordersLoading}
+                    onClick={() => (symbolGeneralInfo?.hasRisk ? setAffidavitModalState(true) : handleSubmit())}
+                >
                     {isPrimaryComeFrom(comeFrom) ? 'ارسال خرید' : 'ثبت تغییرات'}
                 </Button>
             ) : (
-                <Button variant="error" loading={ordersLoading} onClick={handleSubmit}>
+                <Button
+                    variant="error"
+                    loading={ordersLoading}
+                    onClick={() => (symbolGeneralInfo?.hasRisk ? setAffidavitModalState(true) : handleSubmit())}
+                >
                     {isPrimaryComeFrom(comeFrom) ? ' ارسال فروش' : 'ثبت تغییرات'}
                 </Button>
+            )}
+            {AffidavitModalState && symbolGeneralInfo?.hasRisk && (
+                <AffidavitModal
+                    isOpen={AffidavitModalState}
+                    handleClose={() => setAffidavitModalState(false)}
+                    onSubmit={handleSubmit}
+                    title={symbolGeneralInfo.affModalTitle}
+                    description={symbolGeneralInfo.affModalDescription}
+                />
             )}
         </>
     );
