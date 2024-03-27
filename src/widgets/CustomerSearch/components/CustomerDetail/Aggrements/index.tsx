@@ -7,12 +7,24 @@ import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { t } from 'i18next';
 
+export type TAgreements = {
+    agreementId: number;
+    title: string;
+    state: string;
+    changeDate: string;
+    description: string;
+    type: string;
+    canChangeByCustomer: boolean;
+    approveBySMS: boolean;
+    attachmentUrl: string;
+};
+
 const Agreements = () => {
-    const [descriptionModalInfo, setDescriptionModalInfo] = useState({ data: {}, isOpen: false });
+    const [descriptionModalInfo, setDescriptionModalInfo] = useState({ data: {} as Partial<TAgreements>, isOpen: false });
 
     const { state } = useCustomerSearchState();
 
-    const { data: agreements } = useQuery(['GetAgreements', state.detailModalData?.customerISIN], ({ queryKey }) =>
+    const { data: agreements } = useQuery<TAgreements[]>(['GetAgreements', state.detailModalData?.customerISIN], ({ queryKey }) =>
         getAggrements(queryKey[1] as string),
     );
 
@@ -21,7 +33,9 @@ const Agreements = () => {
             {
                 headerName: 'عنوان توافق‌نامه',
                 field: 'title',
-                onCellClicked: ({ data }) => setDescriptionModalInfo({ data, isOpen: true }),
+                onCellClicked: ({ data }) => {
+                    data?.attachmentUrl ? window.open(data.attachmentUrl, '_blank') : setDescriptionModalInfo({ data, isOpen: true });
+                },
                 cellClass: 'cursor-pointer text-L-info-100 flex',
             },
             {
