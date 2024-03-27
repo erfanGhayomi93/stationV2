@@ -11,7 +11,7 @@ const DescriptionModal = ({ data, isOpen, handleClose }: Props) => {
     return (
         <AppModal isOpen={isOpen} handleClose={handleClose} height={450} width={500} title={data?.title}>
             <div className="h-full p-4 overflow-auto">
-                <p className="leading-7 text-xs text-right whitespace-pre-line">{data.description.replace(/\\n/g, '\n')}</p>
+                <p className="leading-7 text-xs text-justify dark:text-D-primary-50 whitespace-pre-line">{data.description.replace(/\\n/g, '\n')}</p>
             </div>
         </AppModal>
     );
