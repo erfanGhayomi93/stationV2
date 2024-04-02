@@ -144,8 +144,9 @@ const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) =
 
     const handleAddButton = () => {
         let isThereFalsyValue = false;
-        for (let i = 0; i < data.length; i++) {
-            if (isObjectContainsFalsy(data[i], ['count', 'price', 'tradeValue', 'title'])) {
+
+        for (const item of data) {
+            if (isObjectContainsFalsy(item, ['title'])) {
                 isThereFalsyValue = true;
                 break;
             }
@@ -161,7 +162,7 @@ const Table = ({ data, dataSetter, symbolData, onChangeCustomerData }: IProps) =
                 });
             }, 50);
         } else {
-            onErrorNotif({ title: 'لطفا تمامی فیلد ها را کامل نمایید' });
+            onErrorNotif({ title: 'لطفا مشتری را انتخاب کنید' });
         }
     };
 
