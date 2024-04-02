@@ -34,10 +34,10 @@ const HeaderActions = ({ handleClose }: Partial<IProps>) => {
             <button onClick={handleClose}>
                 <CloseIcon />
             </button>
-            <Seperator />
-            <button onClick={() => {}}>
+            {/* <Seperator /> */}
+            {/* <button onClick={() => {}}>
                 <UploadExcelIcon />
-            </button>
+            </button> */}
         </div>
     );
 };

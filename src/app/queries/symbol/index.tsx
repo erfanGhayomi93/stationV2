@@ -36,7 +36,7 @@ const getIpoFn = async () => {
 };
 
 export const useGetIpo = () => useQuery(["GetIpo"], () => getIpoFn(), {
-    select: (data) => data.filter(item => !dayjs().isAfter(dayjs("2024-02-26T08:00:00").endOf('day')))
+    select: (data) => data.filter(item => dayjs(item.ipoToDate).isAfter(dayjs(), 'day') || dayjs(item.ipoToDate).isSame(dayjs(), 'day'))
 });
 
 
