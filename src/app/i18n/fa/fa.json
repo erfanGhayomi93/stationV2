@@ -463,6 +463,7 @@
         "custom": "دلخواه"
     },
     "Tooltip": {
+        "Caution": "تحت احتیاط",
         "finalCostWithCommission": "بهای تمام شده با احتساب کارمزد",
         "bs_final_price_point": "متن",
         "bs_count_input": "متن",
@@ -913,5 +914,25 @@
         "Update": "آپدیت",
         "Delete": "حذف",
         "Create": "ایجاد"
+    },
+    "QuantityType": {
+        "None": "هیچکدام",
+        "AllRemain": "تمام مانده",
+        "AllPortfolio": "تمام پرتفوی",
+        "PercentOfRemain": "درصدی از مانده",
+        "PercentOfPortfolio": "درصدی از پرتفوی",
+        "MaxQuantity": "حداکثر تعداد"
+    },
+    "PriceType": {
+        "None": "هیچکدام",
+        "LastTradePrice": "آخرین قیمت",
+        "ClosingPrice": "قیمت پایانی",
+        "BestBuyPrice": "بهترین قیمت خرید",
+        "HighThreshold": "آستانه بالا",
+        "LowThreshold": "آستانه پایین"
+    },
+    "AgreementState": {
+        "NotSpecified": "تعیین نشده",
+        "Accepted": "تایید شده"
     }
 }

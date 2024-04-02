@@ -23,11 +23,13 @@ const Best5RowKucoin = ({ isDepthChartOpen }: Props) => {
     const appDispatch = useAppDispatch();
     const sellContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data, isFetching, refetch } = useSymbolGeneralInfo(selectedSymbol, {
-        onSuccess: (data: SymbolGeneralInfoType) => {
-            setOrders(data.ordersData);
-        },
+    const { data, isFetching } = useSymbolGeneralInfo(selectedSymbol, {
+        onSuccess: (data: SymbolGeneralInfoType) => {},
     });
+
+    useEffect(() => {
+        data && setOrders(data.ordersData);
+    }, [data]);
 
     const { yesterdayClosingPrice, highThreshold, lowThreshold, lastTradedPrice } = useMemo(() => {
         const initialData = { yesterdayClosingPrice: 0, highThreshold: 0, lowThreshold: 0, lastTradedPrice: 0 };
@@ -128,7 +130,7 @@ const Best5RowKucoin = ({ isDepthChartOpen }: Props) => {
     const ArrayOf5Index = Array.from(Array(6).keys()).slice(1);
 
     return (
-        <WidgetLoading spining={false} mounted={false}>
+        <WidgetLoading spining={isFetching} mounted={false}>
             <div className={clsx('h-full', isDepthChartOpen && 'grid grid-cols-2')}>
                 {isDepthChartOpen && (
                     <div className="h-full">

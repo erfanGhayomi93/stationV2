@@ -19,6 +19,7 @@ const SymbolHeader = () => {
     const selectedSymbol = useAppSelector(getSelectedSymbol);
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         select: (data) => ({
+            clientSideAlertEnabled: data?.alerts?.clientSideAlertEnabled,
             symbolTitle: data?.symbolData?.symbolTitle,
             companyName: data?.symbolData?.companyName,
             symbolState: data?.symbolData?.symbolState,
@@ -57,6 +58,11 @@ const SymbolHeader = () => {
                             <h4 className="text-L-gray-500 dark:text-D-gray-500">
                                 {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
                             </h4>
+                            {data?.clientSideAlertEnabled && (
+                                <Tippy content={t('Tooltip.Caution')}>
+                                    <RiskAnnouncementIcon />
+                                </Tippy>
+                            )}
                             {data?.hasRiskAnnouncement && (
                                 <Tippy content={t('Tooltip.hasRiskAnnouncement')}>
                                     <RiskAnnouncementIcon />

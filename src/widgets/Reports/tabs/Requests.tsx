@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, u
 import { useTranslation } from 'react-i18next';
 import { useGetOfflineRequests, useGetOfflineRequestsExcel, useSendRequest } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { datePeriodValidator, valueFormatterSide } from 'src/utils/helpers';
+import { datePeriodValidator, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import { BodyScrollEvent, ICellRendererParams, RowDataUpdatedEvent, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import AGActionCell from 'src/common/components/AGActionCell';
@@ -140,8 +140,18 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                 valueFormatter: valueFormatterSide,
                 cellClass: ({ value }) => (value === 'Buy' ? 'text-L-success-200' : value === 'Sell' ? 'text-L-error-200' : ''),
             },
-            { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'quantity',
+                type: 'sepratedNumber',
+                valueFormatter: ({ data, value }) => (data?.quantityType === 'None' ? seprateNumber(value) : t('QuantityType.' + value)),
+            },
+            {
+                headerName: t('ag_columns_headerName.price'),
+                field: 'price',
+                type: 'sepratedNumber',
+                valueFormatter: ({ data, value }) => (data?.priceType === 'None' ? seprateNumber(value) : t('PriceType.' + value)),
+            },
             { headerName: t('ag_columns_headerName.orderValue'), field: 'orderValue', type: 'sepratedNumber' },
             { headerName: t('ag_columns_headerName.validity'), field: 'requestExpiration', type: 'dateWithoutTime', minWidth: 150 },
             {
@@ -167,7 +177,6 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                         data={row.data}
                         onSendClick={(data) => (data ? sendSingleRequest(data) : null)}
                         onInfoClick={() => setInfoModalParams({ data: row?.data, isOpen: true })}
-                        hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
                     />
                 ),
             },
