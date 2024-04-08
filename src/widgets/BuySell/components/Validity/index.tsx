@@ -9,6 +9,7 @@ import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/Advance
 import { useAppSelector } from 'src/redux/hooks';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import { getSelectedSymbol } from 'src/redux/slices/option';
+import { disableTillYesterday } from 'src/utils/helpers';
 
 
 interface IBuySellValidityType { }
@@ -67,6 +68,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
             >
                 <AdvancedDatepicker
                     value={validityDate}
+                    dateIsDisabled={disableTillYesterday}
                     onChange={(value) =>
                         setValidityDate(
                             dayjs(value as any)

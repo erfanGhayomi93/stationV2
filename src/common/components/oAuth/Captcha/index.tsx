@@ -106,7 +106,7 @@ export const Captcha = ({
         <div className="absolute top-[1px] left-[2px] flex items-center bg-transparent w-[180px] h-full select-none">
           {
             !captcha?.base64String || getSessionCaptcha ? (
-              <p className='bg-gray-100 w-full h-[37px] mb-[1px] flex justify-center items-center rounded text-2xl'>
+              <p className='bg-gray-100 w-full h-[37px] mb-[1px] flex justify-center items-center rounded text-sm'>
                 لطفا مجددا تلاش کنید.
               </p>
             ) : (
