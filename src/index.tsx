@@ -22,7 +22,7 @@ import { useApiPath } from './common/hooks/useApiRoutes/useApiRoutes';
 import { useAppSelector } from './redux/hooks';
 import { getTheme } from './redux/slices/ui';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('__root') as HTMLElement);
 
 const Wrapper = () => {
     const { apiRoutes } = useApiPath();
