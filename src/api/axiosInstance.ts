@@ -144,12 +144,16 @@ export const setAuthorizeData = (client_id: string) => {
     const options: CookieAttributes = {
         expires: expiresTimeInDay,
         path: '/',
+        // httpOnly: true,
+        secure: true,
+        sameSite: 'Lax',
     };
 
-    if (window.REACT_APP_ENV === 'Production') {
-        options.secure = true;
-        options.sameSite = 'Lax';
-    }
+    // if (window.REACT_APP_ENV === 'production') {
+    // options.secure = true;
+    // options.sameSite = 'Lax';
+    // options.httpOnly = true;
+    // }
 
     Cookies.set(tokenCookieName, client_id, options);
     AXIOS.defaults.headers.common['Authorization'] = `Bearer ${client_id}`;
