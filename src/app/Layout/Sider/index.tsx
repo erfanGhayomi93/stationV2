@@ -180,11 +180,15 @@ const Sider = () => {
 
     return (
         <>
-            <SupervisorMassage
-                flagToggle={isShowSupervisorMessage}
-                setFlagToggle={toggleSlider}
-                countNumberSupervisorMessage={countNumberSupervisorMessage}
-            />
+            {
+                isShowSupervisorMessage && (
+                    <SupervisorMassage
+                        flagToggle={isShowSupervisorMessage}
+                        setFlagToggle={toggleSlider}
+                        countNumberSupervisorMessage={countNumberSupervisorMessage}
+                    />
+                )
+            }
             <div className="w-[5rem] min-w-[80px] bg-L-blue-50 dark:bg-D-blue-50 text-white flex flex-col py-5 pt-3">
                 <ToggleSlider type="open" onOpen={() => setIsOpen(true)} />
                 <div className="flex flex-col justify-between h-full mt-2">

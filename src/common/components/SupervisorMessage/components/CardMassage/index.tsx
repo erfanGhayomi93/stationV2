@@ -1,6 +1,6 @@
 import { Disclosure, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useSliderDispatch } from 'src/app/Layout/Sider/context';
 import { REadSupervisorEnum } from 'src/app/Layout/Sider/context/types';
 import { useReadTodaySupervisorMessages } from 'src/app/queries/messages';
@@ -17,6 +17,11 @@ export const CardMessage: FC<CardMessage> = ({ data, isOneSymbol }) => {
     const { mutate } = useReadTodaySupervisorMessages();
     const [isRead, setIsRead] = useState(read);
     const dispatch = useSliderDispatch();
+
+    useEffect(() => {
+        setIsRead(read)
+    }, [read])
+
 
     const handleClickTitle = () => {
         if (!isRead) {

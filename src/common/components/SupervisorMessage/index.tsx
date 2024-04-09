@@ -1,9 +1,6 @@
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC, Fragment, useEffect, useState } from 'react';
-import { useSliderDispatch } from 'src/app/Layout/Sider/context';
-import { COuntNumberSupervisorEnum } from 'src/app/Layout/Sider/context/types';
-import { useMessagesSuppervisor } from 'src/app/queries/messages';
+import { FC, Fragment, useState } from 'react';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon } from 'src/common/icons';
 import SearchInput from './components/SearchInput';
@@ -16,25 +13,14 @@ type SUpervisorMassage = {
     countNumberSupervisorMessage: number;
 };
 
-const tabList = [{ tab: 'پیام های ناظر بازار' }, { tab: 'پیام های ناظر دیدبان' }, { tab: 'پیام های مدیر سیستم' }];
+const tabList = [{ tab: 'پیام های ناظر بازار' },
+    // { tab: 'پیام های ناظر دیدبان' }, { tab: 'پیام های مدیر سیستم' }
+];
 
 export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagToggle, countNumberSupervisorMessage }) => {
     // const [selectedIndex, setSelectedIndex] = useState(0); 17390069635676
     const [searchValue, setsearchValue] = useState('');
-    const MessagesSuppervisor = useMessagesSuppervisor({
-        onSuccess: (data) => {},
-    });
 
-    const dispatch = useSliderDispatch();
-
-    useEffect(() => {
-        let counter = 0;
-        MessagesSuppervisor.data?.forEach((item) => {
-            if (!item.read) ++counter;
-        });
-
-        dispatch({ type: COuntNumberSupervisorEnum.COUNT_NUMBER, payload: counter });
-    }, [MessagesSuppervisor.data]);
 
     return (
         <Modal isOpen={flagToggle} onClose={setFlagToggle} className="min-h-[40rem] w-[800px] h-[500] rounded-md grid">
@@ -75,12 +61,12 @@ export const SupervisorMassage: FC<SUpervisorMassage> = ({ flagToggle, setFlagTo
 
                         <Tab.Panels>
                             <Tab.Panel>
-                                <WatcherMessages data={MessagesSuppervisor.data} searchValue={searchValue} />
+                                <WatcherMessages searchValue={searchValue} />
                             </Tab.Panel>
-                            <Tab.Panel>پیاده سازی نشده</Tab.Panel>
+                            {/* <Tab.Panel>پیاده سازی نشده</Tab.Panel>
                             <Tab.Panel>
                                 <AdminMessages />
-                            </Tab.Panel>
+                            </Tab.Panel> */}
                         </Tab.Panels>
                     </Tab.Group>
                 </div>
