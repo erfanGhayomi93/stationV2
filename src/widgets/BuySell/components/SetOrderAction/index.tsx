@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import Button from 'src/common/components/Buttons/Button';
 import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
-import useLocalStorage from 'src/common/hooks/useLocalStorage';
+// import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AffidavitModal from './AffidavitModal';
 
@@ -28,7 +28,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
     const symbolMaxQuantity = symbolData?.maxTradeQuantity;
     const { t } = useTranslation();
 
-    const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', {});
+    // const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', {});
 
     const [AffidavitModalState, setAffidavitModalState] = useState(false);
 
@@ -52,17 +52,17 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
         onSuccess(result) {
             resetByeSellData(dispatch, appDispatch);
 
-            const storeLocal: storeLocalType = {
-                [result.clientKey || '']: {
-                    customerTitle: selectedCustomers[0].title,
-                    symbolTitle: symbolGeneralInfo?.symbolTitle || '',
-                },
-            };
+            // const storeLocal: storeLocalType = {
+            //     [result.clientKey || '']: {
+            //         customerTitle: selectedCustomers[0].title,
+            //         symbolTitle: symbolGeneralInfo?.symbolTitle || '',
+            //     },
+            // };
 
-            const timeOut = setTimeout(() => {
-                setPushNotification({ ...pushNotification, ...storeLocal });
-                clearTimeout(timeOut);
-            }, 1000);
+            // const timeOut = setTimeout(() => {
+                // setPushNotification({ ...pushNotification, ...storeLocal });
+                // clearTimeout(timeOut);
+            // }, 1000);
         },
     });
 

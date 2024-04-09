@@ -1,8 +1,6 @@
-import React from 'react';
 import Active2StepLogin from './Active2StepLogin';
 import UpdateUser from './UpdateUser';
 import { useGetUserSetting } from 'src/app/queries/settings/userSetting';
-import WidgetLoading from 'src/common/components/WidgetLoading';
 
 const AccountSetting = () => {
     //

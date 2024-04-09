@@ -15,7 +15,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     //
     const ORDER_SENDING_GAP = 400;
 
-    const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
+    // const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
     // const selectedCustomers = useAppSelector(getSelectedCustomers)
     const selectedSymbol = useAppSelector(getSelectedSymbol)
     const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
@@ -35,19 +35,19 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     const queryClient = useQueryClient();
 
     const { mutate: mutateSendOrder } = useMutationSendOrder({
-        onSuccess(data, variables) {
-            let storeLocal: storeLocalType = {}
+        // onSuccess(data, variables) {
+        // let storeLocal: storeLocalType = {}
 
-            data.successClientKeys.forEach((successClientKey, ind) => {
-                storeLocal[successClientKey] = {
-                    customerTitle: variables.customerTitle[ind],
-                    symbolTitle: !!symbolTitle ? symbolTitle : ""
-                }
-            })
+        // data.successClientKeys.forEach((successClientKey, ind) => {
+        //     storeLocal[successClientKey] = {
+        //         customerTitle: variables.customerTitle[ind],
+        //         symbolTitle: !!symbolTitle ? symbolTitle : ""
+        //     }
+        // })
 
 
-            setPushNotification({ ...pushNotification, ...storeLocal })
-        },
+        // setPushNotification({ ...pushNotification, ...storeLocal })
+        // },
     })
 
 

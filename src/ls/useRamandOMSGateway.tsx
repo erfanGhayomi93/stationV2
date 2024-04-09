@@ -30,16 +30,16 @@ const createRamandOMSGateway = () => {
         return msgObj;
     };
 
-    const setLocalStorage = (pushNotification: storeLocalType) => {
-        const pushNotificationStringfy = JSON.stringify(pushNotification)
-        localStorage.setItem("PushNotificationStore", pushNotificationStringfy)
-    }
+    // const setLocalStorage = (pushNotification: storeLocalType) => {
+    //     const pushNotificationStringfy = JSON.stringify(pushNotification)
+    //     localStorage.setItem("PushNotificationStore", pushNotificationStringfy)
+    // }
 
 
 
     const handlePushNotification = (message: Record<number, string>) => {
-        const pushNotificationString = localStorage.getItem("PushNotificationStore")
-        let pushNotification: storeLocalType = !!pushNotificationString ? JSON.parse(pushNotificationString) : {}
+        // const pushNotificationString = localStorage.getItem("PushNotificationStore")
+        // let pushNotification: storeLocalType = !!pushNotificationString ? JSON.parse(pushNotificationString) : {}
 
 
         const omsClientKey = message[12];
@@ -47,7 +47,8 @@ const createRamandOMSGateway = () => {
         const orderMessageType = message[200]
         const errorMessageType = message[208]
 
-        const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
+        // const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
+        const detailsNotif = ""
 
         if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
             onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
@@ -60,11 +61,11 @@ const createRamandOMSGateway = () => {
             onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
         }
 
-        if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
-            delete pushNotification[omsClientKey]
-
-            setLocalStorage(pushNotification)
-        }
+        //         if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
+        //             delete pushNotification[omsClientKey]
+        // 
+        //             setLocalStorage(pushNotification)
+        //         }
 
     }
 
