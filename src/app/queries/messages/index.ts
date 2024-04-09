@@ -11,15 +11,17 @@ const getMessageSupervisorFn = async (): Promise<SUpervisorMessageResult[]> => {
     }
 };
 
-export const useMessagesSuppervisor = (options: { onSuccess: (data: any) => void }) => {
-    return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage'], getMessageSupervisorFn, options);
+export const useMessagesSuppervisor = () => {
+    return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage'], getMessageSupervisorFn, {
+        staleTime: 0,
+    });
 };
 
 const readMessageFn = async (id: number) => {
     try {
         const { data } = await AXIOS.post((Apis().SupervisorMessage.ReadPost as string) + id);
         return data.result || [];
-    } catch { }
+    } catch {}
 };
 
 export const useReadTodaySupervisorMessages = () => {
@@ -39,10 +41,10 @@ export const useMessagesSuppervisorOneSmbol = (isin: string) => {
     return useQuery<SUpervisorMessageResult[], Error>(['suppervisorMessage', isin], () => getMessageSupervisorOneSymbolFn(isin));
 };
 
-
 export const getAdminMessage = async () => {
-    const { data } = await AXIOS.get<IMessageResponseType>(Apis().Messages.AdminMessage)
-    return data || []
-}
+    const { data } = await AXIOS.get<IMessageResponseType>(Apis().Messages.AdminMessage);
+    return data || [];
+};
 
-export const useGetAdminMessages = (options?: UseQueryOptions<IMessageResponseType>) => useQuery<IMessageResponseType>([Apis().Messages.AdminMessage], getAdminMessage, { ...options })
+export const useGetAdminMessages = (options?: UseQueryOptions<IMessageResponseType>) =>
+    useQuery<IMessageResponseType>([Apis().Messages.AdminMessage], getAdminMessage, { ...options });

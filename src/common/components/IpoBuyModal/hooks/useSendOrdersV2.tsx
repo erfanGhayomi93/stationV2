@@ -14,7 +14,7 @@ const useSendOrdersV2 = (onOrderResultReceived?: (x: { [key: string]: string }) 
     //
     const ORDER_SENDING_GAP = 400;
 
-    const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', []);
+    // const [pushNotification, setPushNotification] = useLocalStorage('PushNotificationStore', []);
     const selectedSymbol = useAppSelector(getSelectedSymbol);
     // const { data: symbolTitle, refetch } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle, enabled: false });
     const [clientIdStore, setClientIdStore] = useState({});
@@ -42,7 +42,7 @@ const useSendOrdersV2 = (onOrderResultReceived?: (x: { [key: string]: string }) 
             //     };
             // });
 
-            setPushNotification({ ...pushNotification, ...storeLocal });
+            // setPushNotification({ ...pushNotification, ...storeLocal });
         },
     });
 
