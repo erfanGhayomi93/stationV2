@@ -5,11 +5,13 @@ import { queryClient } from 'src/app/queryClient';
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
     const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsPreprd();
+    // const { data } = useGlobalSettingsStage();
 
     useEffect(() => {
-        const routes = Apis();
-        setApiRoutes(routes);
+        if (!!data) {
+            const routes = Apis();
+            setApiRoutes(routes);
+        }
     }, [data]);
 
     return { apiRoutes };
@@ -145,6 +147,7 @@ export const Apis = () => ({
         EditDetail: getBaseUrl() + '/Cart/v1/EditCartDetail',
         GetDetail: getBaseUrl() + '/Cart/v1/CartDetailList',
         DeleteDetails: getBaseUrl() + '/Cart/v1/CartDetailDelete',
+        CreateBulkCartDetail: getBaseUrl() + '/Cart/v1/CreateBulkCartDetail',
     },
     Commission: { Get: getBaseUrl() + `/Commission/v1/GetBuyAndSellCommision` },
     WatchList: {

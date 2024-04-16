@@ -26,7 +26,7 @@ export const TableBasket = ({
     listAfterFilter,
     setGridApi,
     dataListLoading,
-    handlePageInfoChange,
+    handlePageInfoChange
 }: ITableType) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
     const appDispatch = useAppDispatch();

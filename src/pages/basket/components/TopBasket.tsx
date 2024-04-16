@@ -11,6 +11,8 @@ import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import { GridReadyEvent } from 'ag-grid-community';
 import { filterStateType } from './FilterBasket';
 
+
+
 type ITopBasket = {
     params: filterStateType;
     saveIndexBasketSelected: (ind: number) => void;
@@ -41,33 +43,32 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
             <div className="my-7 w-full overflow-hidden py-2">
                 <ScrollableSlider pixelsToScroll={150}>
                     <>
-                        {listBasket &&
-                            listBasket
-                                // .filter((item) => item.isPinned)
-                                .map((item) => (
-                                    <div
-                                        key={item.id}
+                        {
+                            listBasket?.map((item) => (
+                                <div
+                                    key={item.id}
+                                    data-actived={params.CartId === item.id}
+                                    onClick={() => saveIndexBasketSelected(item.id)}
+                                    className="flex gap-4 items-center px-2 mx-1 py-1 text-center snap-center flex-nowrap whitespace-nowrap cursor-pointer rounded dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-gray-300 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                                >
+                                    <p
                                         data-actived={params.CartId === item.id}
-                                        onClick={() => saveIndexBasketSelected(item.id)}
-                                        className="flex gap-4 items-center px-2 mx-1 py-1 text-center snap-center flex-nowrap whitespace-nowrap cursor-pointer rounded dark:text-D-primary-50 bg-L-basic dark:bg-D-basic actived:text-L-basic actived:dark:text-D-basic actived:bg-L-gray-300 actived:dark:bg-D-primary-50 border border-L-gray-400 dark:border-L-gray-400 actived:border-L-primary-50 actived:dark:border-D-primary-50"
+                                        className="text-xs actived:font-semibold text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
                                     >
-                                        <p
-                                            data-actived={params.CartId === item.id}
-                                            className="text-xs actived:font-semibold text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
-                                        >
-                                            {item.name}
-                                        </p>
-                                        <div
-                                            data-actived={params.CartId === item.id}
-                                            className="flex pt-1 text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
-                                        >
-                                            <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).time}</p>
-                                            <FiClock width={13} height={13} />
-                                            <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).farsiDate}</p>
-                                            <CalendarIcon width={10} height={11} />
-                                        </div>
+                                        {item.name}
+                                    </p>
+                                    <div
+                                        data-actived={params.CartId === item.id}
+                                        className="flex pt-1 text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
+                                    >
+                                        <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).time}</p>
+                                        <FiClock width={13} height={13} />
+                                        <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).farsiDate}</p>
+                                        <CalendarIcon width={10} height={11} />
                                     </div>
-                                ))}
+                                </div>
+                            ))
+                        }
                     </>
                 </ScrollableSlider>
             </div>
@@ -93,6 +94,10 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
                     </Tippy>
                 </div>
                 <div className="flex gap-2 items-center">
+                    {/* <Tippy content={t('Action_Button.EditTable')} className="text-xs"> */}
+
+                    {/* </Tippy> */}
+
                     <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
                         <button
                             onClick={handleExcelExport}
@@ -106,6 +111,7 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
                             <AGColumnEditor {...{ gridApi, lsKey: 'Basket' }} />
                         </span>
                     </Tippy>
+
                 </div>
             </div>
             <AddBasketModal {...{ showAddForm, toggleAddBasket }} />

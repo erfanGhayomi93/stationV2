@@ -21,9 +21,9 @@ function BasketPage() {
         refetch: fetchBasketDetails,
     } = useGetDetailsBasket(cleanObjectOfFalsyValues(detailParams) as filterStateType);
 
-    useEffect(() => {
-        detailParams?.CartId && fetchBasketDetails();
-    }, [detailParams]);
+    // useEffect(() => {
+    //     detailParams?.CartId && fetchBasketDetails();
+    // }, [detailParams]);
 
     const saveIndexBasketSelected = (id: number) => {
         setDetailParams((prev) => ({ ...prev, CartId: id }));
@@ -31,6 +31,7 @@ function BasketPage() {
     };
 
     const handlePageInfoChange = (action: 'PageNumber' | 'PageSize', value: number) => setDetailParams((pre) => ({ ...pre, [action]: value }));
+
 
     return (
         <div className="bg-L-basic dark:bg-D-basic p-6 flex flex-col">
@@ -43,10 +44,14 @@ function BasketPage() {
                     listAfterFilter: basketDetails,
                     setGridApi,
                     dataListLoading: basketDetailsIsLoading,
-                    handlePageInfoChange,
+                    handlePageInfoChange
                 }}
             />
-            <InsertBasketItem activeBasket={detailParams.CartId} />
+            <InsertBasketItem
+                activeBasket={detailParams.CartId}
+                basketDetails={basketDetails}
+                fetchBasketDetails={fetchBasketDetails}
+            />
         </div>
     );
 }
