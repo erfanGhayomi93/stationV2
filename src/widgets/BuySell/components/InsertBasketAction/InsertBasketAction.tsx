@@ -83,7 +83,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate || null,
-            customerISINs: isinsCommaSeparator,
+            customerISIN: isinsCommaSeparator,
             orderStrategy: 'Normal',
         };
         mutateCreateDetailBasket(result);
@@ -108,7 +108,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate || null,
-            customerISINs: isinsCommaSeparator,
+            customerISIN: isinsCommaSeparator,
             orderStrategy: 'Normal',
             orderType: 'LimitOrder',
         });
