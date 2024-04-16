@@ -8,8 +8,10 @@ export const useApiPath = () => {
     // const { data } = useGlobalSettingsStage();
 
     useEffect(() => {
-        const routes = Apis();
-        setApiRoutes(routes);
+        if (!!data) {
+            const routes = Apis();
+            setApiRoutes(routes);
+        }
     }, [data]);
 
     return { apiRoutes };
