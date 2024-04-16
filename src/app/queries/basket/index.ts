@@ -69,7 +69,7 @@ export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
         onSuccess: () => {
             onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
-            return queryClient.invalidateQueries(['BasketList']);
+            queryClient.invalidateQueries(['BasketList']);
         },
         onError: () => {
             onErrorNotif();
@@ -88,9 +88,18 @@ const createDetailsBasketFn = async (params: any) => {
 export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(createDetailsBasketFn, { ...options });
 
+//insert customer to basket
+const insertCustomerToBasketFn = async (params: ICreateCartDetailType[]) => {
+    const { data } = await AXIOS.post(Apis().Basket.CreateBulkCartDetail as string, params);
+    return data.result || 0;
+};
+export const useInsertCustomerToBasket = (
+    options?: Omit<UseMutationOptions<ICreateCartDetailType[], unknown, ICreateCartDetailType[], unknown>, 'mutationFn'> | undefined,
+) => useMutation(insertCustomerToBasketFn, { ...options });
+
 //Edit Basket Information
 const EditCartDetail = async (params: ICreateCartDetailType) => {
-    const { data } = await AXIOS.post(Apis().Basket.EditDetail as string, params);
+    const { data } = await AXIOS.post(Apis().Basket.EditDetail, params);
     return data.result || 0;
 };
 export const useEditDetailsBasket = (
@@ -118,8 +127,8 @@ export const getDetailsBasketFn = async (params: IGetBasketDetailParams) => {
 };
 
 export const useGetDetailsBasket = (params: IGetBasketDetailParams) =>
-    useQuery(['BasketDetailsList'], () => getDetailsBasketFn({ ...params }), {
-        enabled: false,
+    useQuery(['BasketDetailsList', params.CartId], () => getDetailsBasketFn({ ...params }), {
+        enabled: !!params.CartId,
     });
 ///////////////delete details Basket///////////////////
 const deleteDetailsBasketFn = async (cartDetailId?: number) => {
@@ -135,7 +144,7 @@ export const useDeleteDetailsBasket = (cartId: number) =>
     useMutation(deleteDetailsBasketFn, {
         onSuccess: () => {
             onSuccessNotif({ title: 'حذف مشتری از سبد با موفقیت انجام شد' });
-            return queryClient.invalidateQueries(['BasketDetailsList', cartId]);
+            queryClient.invalidateQueries(['BasketDetailsList', cartId]);
         },
     });
 

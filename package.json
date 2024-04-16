@@ -30,6 +30,7 @@
         "js-cookie": "^3.0.1",
         "lightstreamer-client-web": "^8.0.5",
         "localstorage-slim": "^2.3.0",
+        "papaparse": "^5.4.1",
         "qs": "^6.11.0",
         "querystring": "^0.2.1",
         "react": "^18.2.0",
@@ -47,6 +48,7 @@
         "react-virtuoso": "^4.6.0",
         "typescript": "4.9.5",
         "web-vitals": "^2.1.4",
+        "xlsx": "^0.18.5",
         "yup": "^0.32.11"
     },
     "scripts": {

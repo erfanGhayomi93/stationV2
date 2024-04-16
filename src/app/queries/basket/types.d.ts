@@ -44,7 +44,7 @@ type IListDetailsBasket = {
 };
 
 interface ICreateCartDetailType {
-    id: number;
+    id?: number;
     cartID: number;
     traderISIN?: string;
     symbolISIN: string;
@@ -57,9 +57,9 @@ interface ICreateCartDetailType {
     userId?: number;
     validity: string;
     validityDate: string | null;
-    customerISINs: string;
+    customerISIN: string;
     orderStrategy: string;
-    orderType: OrderTypeType;
+    orderType?: OrderTypeType;
 }
 
 type ICustomer = {
@@ -71,6 +71,15 @@ type ICreateBasket = {
     name: string;
     sendDate: string;
 };
+
+type InputCustomerExcelType = {
+    symbolISIN : string , 
+    price : number , 
+    quantity : number  
+    customerISIN : string , 
+    percent : number ,
+    side : BuySellSide ,
+}
 
 interface IGetBasketDetailParams extends filterStateType {
     CartId: number;
