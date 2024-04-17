@@ -29,10 +29,11 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
             onSuccessNotif({ title: "با موفقیت انجام شد" })
             fetchBasketDetails()
             setIsOpenModal(false)
-        },
-        onError() {
-            onInfoNotif({ title: "خطا در انجام عملیات(فایل ورودی را بررسی کنید)" })
         }
+        // ,
+        // onError() {
+        //     onInfoNotif({ title: "خطا در انجام عملیات(فایل ورودی را بررسی کنید)" })
+        // }
     })
 
 
