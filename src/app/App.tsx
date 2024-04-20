@@ -28,6 +28,8 @@ const App = () => {
 
 
     useEffect(() => {
+        console.log("check" , import.meta.env.REACT_APP_CLIENT_ID_TIMEOUT)
+
         // appState === 'Loading' && fetchUser(appDispatch);
         // appState === 'LoggedIn' && localSymbolISIN && appDispatch(setSelectedSymbol(localSymbolISIN));
         if (!client_id) {

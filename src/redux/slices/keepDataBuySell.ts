@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 
-interface InitState {
+export interface InitState {
     data: Partial<BuySellState>;
     comeFrom?: ComeFromKeepDataEnum | '';
     customerIsin?: string[];

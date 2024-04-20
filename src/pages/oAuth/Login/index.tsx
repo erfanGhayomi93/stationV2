@@ -57,6 +57,7 @@ const Login = () => {
     const { isLoading, mutate: loginFormSubmit } = useLoginFormSubmit({
         onSuccess: (result) => {
             if (result.loginResultType === 'Successful') {
+                console.log("success", result.token)
                 setAuthorizeData(result?.token);
                 appDispatch(setAppState("LoggedIn"))
                 navigate('/');
