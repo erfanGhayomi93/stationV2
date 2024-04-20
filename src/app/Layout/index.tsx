@@ -8,14 +8,17 @@ import { ProviderSlider } from './Sider/context';
 import ipcMain from 'src/common/classes/IpcMain';
 import { findTitlePage } from 'src/utils/helpers';
 import { useGetPlatformSetting } from '../queries/settings/PlatformSetting';
-import { useAppDispatch } from 'src/redux/hooks';
-import { setAppState } from 'src/redux/slices/global';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getUserData, setAppState } from 'src/redux/slices/global';
 import { updatePlatformSetting } from 'src/redux/slices/platformSetting';
+import Cookies from 'js-cookie';
+import { tokenCookieName } from 'src/api/axiosInstance';
 
 const AppLayout = () => {
     const navigate = useNavigate();
     const appDispatch = useAppDispatch();
     const { pathname } = useLocation();
+    const userData = useAppSelector(getUserData)
 
     useEffect(() => {
         findTitlePage(pathname);
@@ -40,12 +43,15 @@ const AppLayout = () => {
 
     useEffect(() => {
         // must get from config (api or file)
+        const clientId = Cookies.get(tokenCookieName)
+
         pushEngine.connect({
             DomainName: window.REACT_APP_PUSHENGINE_PATH,
             DomainPort: +window.REACT_APP_PUSHENGINE_PORT,
             AdapterSet: 'Ramand_Remoter_Adapter',
-            User: 'Soheilkh', // get from app context
-            Password: 'This is My Password', // get from app context
+            // User: 'Soheilkh', 
+            User: userData?.userName ?? "",
+            Password: clientId ?? "", // get from app context
         });
 
         return () => {
