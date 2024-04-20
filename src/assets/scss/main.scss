@@ -1,9 +1,9 @@
+@use 'src/common/components/LinearRangeChart/build.css';
 @import './fonts';
 @import './aggrid';
 @import './_toastify';
 @import './tailwind';
 @import './dark-datepicker';
-@import 'src/common/components/LinearRangeChart/build.css';
 
 html {
   font-size: 12px;

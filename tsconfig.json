@@ -19,7 +19,7 @@
         "declaration": true,
         "emitDeclarationOnly": false,
         "declarationMap": true,
-        "outDir": "dist",
+        "outDir": "build",
         "skipDefaultLibCheck": true,
         "sourceMap": true,
         "noImplicitAny": true,
@@ -32,7 +32,7 @@
         "typeRoots": ["node_modules/@types", "./typings"]
     },
     "include": ["src", "src/**/*", "./cypress.d.ts", "src/**/*.d.ts"],
-    "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
+    "exclude": ["node_modules", "build", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
 }
 // {
 //     "compilerOptions": {
