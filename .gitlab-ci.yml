@@ -43,7 +43,7 @@ stage-Job:
     - StageApp
   artifacts:
   rules:
-    - if: $CI_COMMIT_BRANCH == "vite"
+    - if: $CI_COMMIT_BRANCH == "Stage"
 Preprd-Job01:
   stage: deploy
   script:
