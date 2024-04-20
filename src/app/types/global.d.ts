@@ -25,6 +25,9 @@ declare module '*.svg' {
     export default src;
 }
 
+declare type ReactSVGElement = (props?: SVGProps<SVGElement>) => ReactElement;
+
+
 declare module '*.jpg';
 declare module '*.png';
 

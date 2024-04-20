@@ -17,9 +17,9 @@
         "jsx": "react-jsx",
         // "checkJs": true,
         "declaration": true,
-        "emitDeclarationOnly": true,
+        "emitDeclarationOnly": false,
         "declarationMap": true,
-        "outDir": "dist",
+        "outDir": "build",
         "skipDefaultLibCheck": true,
         "sourceMap": true,
         "noImplicitAny": true,
@@ -28,9 +28,21 @@
         "paths": {
             "*": ["*", "components/*"]
         },
-        "types": ["node", "jest"],
+        "types": ["node", "jest","vite/client"],
         "typeRoots": ["node_modules/@types", "./typings"]
     },
-    "include": ["src", "src/**/*", "./cypress.d.ts", "cypress", "src/**/*.d.ts"],
-    "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
+    "include": ["src", "src/**/*", "./cypress.d.ts", "src/**/*.d.ts"],
+    "exclude": ["node_modules", "build", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
 }
+// {
+//     "compilerOptions": {
+//       "composite": true,
+//       "skipLibCheck": true,
+//       "module": "ESNext",
+//       "moduleResolution": "bundler",
+//       "allowSyntheticDefaultImports": true,
+//       "strict": true
+//     },
+//     "include": ["vite.config.ts"]
+//   }
+  

@@ -10,7 +10,7 @@ import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 const loginFormSubmitReq = async (payload: IGTAuthorizationRequestType) => {
     const { data } = await AXIOS.post(Apis().OAuthApi.authorization as string, payload, {
         headers: {
-            'X-TestEnv': process.env.NODE_ENV === 'development' ? '@!F4NYBkG^Y203LobM}6Kj#jYU&5uE1oJ&xR%tBGugO#I0pPfw' : '',
+            'X-TestEnv': import.meta.env.MODE === 'development' ? '@!F4NYBkG^Y203LobM}6Kj#jYU&5uE1oJ&xR%tBGugO#I0pPfw' : '',
         },
     });
     return data?.result || {};

@@ -129,7 +129,7 @@ export const OpenPosition = () => {
             colId: 'column_position_side',
             headerName: t("options.column_position_side"),
             field: 'side',
-            valueFormatter: ({ value }) => t("options." + String(value).toLowerCase()),
+            valueFormatter: ({ value }) => t("orderSide." + String(value)),
             cellClass: ({ data }) => {
                 if (!data) return '';
                 return (data.side === 'Call') ? 'text-L-success-200' : 'text-L-error-200';

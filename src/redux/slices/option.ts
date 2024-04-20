@@ -2,7 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-interface OptionState {
+export interface OptionState {
     selectedSymbol: string;
     selectedCustomers: IGoMultiCustomerType[];
     selectedSymbolMulti: SymbolSearchResult[];

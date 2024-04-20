@@ -79,7 +79,7 @@ AXIOS.interceptors.response.use(
                     onErrorNotif({ title: 'دسترسی غیرمجاز' });
                     break;
                 case 404: // Not Found
-                    if (process.env.NODE_ENV === 'development') onErrorNotif({ title: 'یافت نشد' });
+                    if (import.meta.env.MODE === 'development') onErrorNotif({ title: 'یافت نشد' });
                     // else unAuthorized();
                     break;
                 case 405: // Method Not Allowed
@@ -139,7 +139,7 @@ export const setAuthorizeData = (client_id: string) => {
     //
     if (!client_id) return;
 
-    const expiresTimeInDay = process.env.REACT_APP_CLIENT_ID_TIMEOUT ? +process.env.REACT_APP_CLIENT_ID_TIMEOUT : 1;
+    const expiresTimeInDay = import.meta.env.REACT_APP_CLIENT_ID_TIMEOUT ? +import.meta.env.REACT_APP_CLIENT_ID_TIMEOUT : 1;
 
     const options: CookieAttributes = {
         expires: expiresTimeInDay,
