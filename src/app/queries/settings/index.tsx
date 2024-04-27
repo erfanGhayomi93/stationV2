@@ -5,7 +5,8 @@ import { useAppDispatch } from 'src/redux/hooks';
 import { setAppState } from 'src/redux/slices/global';
 const getGlobalSettings = async () => {
     // const { data } = await AXIOS.get<ISettingsType[]>('https://common.ramandtech.com/Setting/v1/GTGetSettings');
-    const { data } = await AXIOS.get<ISettingsType[]>('https://wtapi-preprd.ramandtech.com' + '/Setting/v1/GetSettings');
+    const baseUrl = window.location.host.includes("wt2") ? "https://wtapi2.ramandtech.com" : "https://wtapi.ramandtech.com"
+    const { data } = await AXIOS.get<ISettingsType[]>(baseUrl + '/Setting/v1/GetSettings');
     return data || [];
 };
 
