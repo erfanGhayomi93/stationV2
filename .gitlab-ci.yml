@@ -47,7 +47,8 @@ stage-Job:
 Preprd-Job01:
   stage: deploy
   script:
-    - npm install
+    - yarn
+    #- npm install
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
     - mkdir -p "D:\UI\Farabi\OnlineStaition\Versions\Station.$date.$Env:AdminApiS\"
@@ -66,6 +67,7 @@ Preprd-Job01:
 Production-Job01:
   stage: deploy
   script:
+    - yarn
     - npm install
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
@@ -107,6 +109,7 @@ Production-Job02:
 Dr-Srv-Job01:
   stage: deploy
   script:
+    - yarn
     - npm install
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
@@ -126,6 +129,7 @@ Dr-Srv-Job01:
 Production-TSS-Job01:
   stage: deploy
   script:
+    - yarn
     - npm install
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
@@ -215,6 +219,7 @@ Production-TSS-Job03:
 DR-TSS-Job:
   stage: deploy
   script:
+    - yarn
     - npm install
     - ($env:CI = "false") -and (npm run build)
     - $date = get-date -format  "dd-MM-yyyy"
