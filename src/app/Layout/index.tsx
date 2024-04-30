@@ -42,22 +42,26 @@ const AppLayout = () => {
     }, []);
 
     useEffect(() => {
-        // must get from config (api or file)
-        const clientId = Cookies.get(tokenCookieName)
+        if (userData?.userName) {
+            const clientId = Cookies.get(tokenCookieName)
 
-        pushEngine.connect({
-            DomainName: window.REACT_APP_PUSHENGINE_PATH,
-            DomainPort: +window.REACT_APP_PUSHENGINE_PORT,
-            AdapterSet: 'Ramand_Remoter_Adapter',
-            // User: 'Soheilkh', 
-            User: userData?.userName ?? "",
-            Password: clientId ?? "", // get from app context
-        });
+            pushEngine.connect({
+                DomainName: window.REACT_APP_PUSHENGINE_PATH,
+                DomainPort: +window.REACT_APP_PUSHENGINE_PORT,
+                AdapterSet: 'Ramand_Remoter_Adapter',
+                User: userData?.userName ?? "default user",
+                Password: clientId ?? "default password", // get from app context
+            });
+        }
+    }, [userData?.userName]);
 
+
+    useEffect(() => {
         return () => {
             pushEngine.disConnect();
         };
-    }, []);
+    }, [])
+
 
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Signal } from 'src/common/icons';
 import { pushEngine } from 'src/ls/pushEngine';
 import { useTranslation } from 'react-i18next';
@@ -32,8 +32,13 @@ const PushEngineInfo = () => {
     }, [pushEngineState]);
 
     useEffect(() => {
-        if (pushEngine.client) pushEngine.client.addListener({ onStatusChange: (s: PushEngineStatusType) => setPushEngineState(s) });
-    }, []);
+        if (pushEngine.client) pushEngine.client.addListener({
+            onStatusChange: (s: PushEngineStatusType) => {
+                setPushEngineState(s)
+            }
+        });
+    }, [pushEngine.client]);
+    // 
 
     return (
         <div className={`flex ${signalData.colorClass}`}>

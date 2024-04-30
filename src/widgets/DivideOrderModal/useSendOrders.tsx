@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useMutationSendOrder } from 'src/app/queries/order';
-import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import useLocalStorage from 'src/common/hooks/useLocalStorage';
+// import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
+// import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
-import { getSelectedSymbol } from 'src/redux/slices/option';
+// import { getSelectedSymbol } from 'src/redux/slices/option';
 import { removeDuplicatesInArray } from 'src/utils/helpers';
 // import { resetByeSellData } from '../BuySell';
 import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
@@ -17,8 +17,8 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
     // const [pushNotification, setPushNotification] = useLocalStorage("PushNotificationStore", [])
     // const selectedCustomers = useAppSelector(getSelectedCustomers)
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
+    // const selectedSymbol = useAppSelector(getSelectedSymbol)
+    // const { data: symbolTitle } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => data.symbolData.symbolTitle });
     const [clientIdStore, setClientIdStore] = useState({})
 
     const appDispatch = useAppDispatch();

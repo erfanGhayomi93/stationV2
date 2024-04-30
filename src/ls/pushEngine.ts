@@ -25,7 +25,10 @@ const subscriptions: { [subId: string]: Subscription | null } = {};
 
 const connect = ({ DomainName, DomainPort, AdapterSet, User, Password }: IConnect) => {
     //
-    if (!DomainName || !DomainPort || !AdapterSet || !User || !Password) return;
+    if (!DomainName || !DomainPort || !AdapterSet || !User || !Password) {
+        console.log("DomainName",DomainName,"DomainPort",DomainPort,"AdapterSet",AdapterSet,"User",User,"Password",Password)
+        return
+    };
 
     const connectionSharing = new ConnectionSharing('RamandConnection', 'ATTACH', 'CREATE');
     client.enableSharing(connectionSharing);
