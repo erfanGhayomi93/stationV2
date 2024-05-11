@@ -1,4 +1,5 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
 
@@ -20,17 +21,23 @@ export const getBasketFn = async () => {
 export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'], getBasketFn);
 
 ///////////////create Basket///////////////////
-const setBasketFn = async ({ name, sendDate }: ICreateBasket): Promise<number> => {
+const setBasketFn = async ({ name, sendDate }: ICreateBasket): Promise<GlobalApiResponseType<number>> => {
     try {
         const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Create as string, null, { params: { name, sendDate } });
-        return data.result || 0;
+        return data;
     } catch {
-        return 0;
+        return {
+            result: 0,
+            succeeded: false,
+            errors: []
+        };
     }
 };
 
-export const useCreateBasket = (options?: UseMutationOptions<number, unknown, ICreateBasket>) =>
-    useMutation<number, unknown, ICreateBasket>(setBasketFn, options);
+export const useCreateBasket = (options?: UseMutationOptions<GlobalApiResponseType<number>, unknown, ICreateBasket>) =>
+    useMutation<GlobalApiResponseType<number>, unknown, ICreateBasket>(setBasketFn, options);
+
+
 ///////////////edit Basket///////////////////
 const updateBasketFn = async (params: Partial<IListBasket>) => {
     const { name, sendDate, id, isPinned } = params;
@@ -78,12 +85,12 @@ export const useDeleteBasket = () =>
 
 ///////////////Create Cart Detail///////////////////
 const createDetailsBasketFn = async (params: any) => {
-    try {
-        const { data } = await AXIOS.post(Apis().Basket.CreateDetail as string, params);
-        return data.result || 0;
-    } catch {
-        return 0;
-    }
+    const { data } = await AXIOS.post(Apis().Basket.CreateDetail, params);
+    return data;
+    // try {
+    // } catch(err) {
+    //     
+    // }
 };
 export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(createDetailsBasketFn, { ...options });

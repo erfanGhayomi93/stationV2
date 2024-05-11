@@ -69,9 +69,9 @@ export const OpenPosition = () => {
             appDispatch(
                 setPartDataBuySellAction({
                     data: {
-                        price: side === "Call" ? data?.bestSellLimitPrice_1 : data?.bestBuyLimitPrice_1,
+                        price: side === "Buy" ? data?.bestSellLimitPrice_1 : data?.bestBuyLimitPrice_1,
                         quantity: availableClosePosition,
-                        side: side === "Call" ? "Sell" : "Buy",
+                        side: side === "Buy" ? "Sell" : "Buy",
                         symbolISIN: symbolISIN,
                     },
                     comeFrom: ComeFromKeepDataEnum.OpenPosition,
@@ -132,7 +132,7 @@ export const OpenPosition = () => {
             valueFormatter: ({ value }) => t("orderSide." + String(value)),
             cellClass: ({ data }) => {
                 if (!data) return '';
-                return (data.side === 'Call') ? 'text-L-success-200' : 'text-L-error-200';
+                return (data.side === 'Buy') ? 'text-L-success-200' : 'text-L-error-200';
             },
             comparator: (valueA, valueB) => valueA.localeCompare(valueB)
         },
@@ -145,7 +145,6 @@ export const OpenPosition = () => {
             flex: 1,
             // cellClass: ({ data }) => {
             //     if (!data) return '';
-            //     return (data?.side === 'Call') ? 'text-success-400' : 'text-error-300';
             // },
             valueFormatter: ({ value }) => seprateNumber(value ?? 0)
         },
