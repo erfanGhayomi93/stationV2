@@ -1,12 +1,11 @@
-import React from 'react';
-import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
+import { useBuySellState } from '../../context/BuySellContext';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { emptySelectedCustomers, getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
 import { handleValidity, seprateNumber } from 'src/utils/helpers';
 import clsx from 'clsx';
 import { useQueryClient } from '@tanstack/react-query';
-import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { onSuccessNotif } from 'src/handlers/notification';
 import { useCreateDetailsBasket } from 'src/app/queries/basket';
 
 type Props = {
@@ -21,8 +20,8 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
     const selectedCustomers = useAppSelector(getSelectedCustomers);
     const selectedSymbol = useAppSelector(getSelectedSymbol);
     const queryClient = useQueryClient();
-    const dispatch = useBuySellDispatch();
-    const appDispatch = useAppDispatch();
+    // const dispatch = useBuySellDispatch();
+    // const appDispatch = useAppDispatch();
     const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', selectedSymbol])?.symbolData;
     const selectedCustomersName = selectedCustomers.map(({ title }) => title);
     const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
@@ -31,15 +30,8 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
         onSuccess: () => {
             onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
             queryClient.invalidateQueries(['draftList']);
-
-            if (!sequential) {
-                dispatch({ type: 'RESET' });
-                appDispatch(emptySelectedCustomers());
-            }
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+            onCancel();
+        }
     });
 
     const handleSetBasket = () => {
@@ -54,7 +46,7 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate,
-            customerISINs: isinsCommaSeparator,
+            customerISIN: isinsCommaSeparator,
             orderStrategy: 'Normal',
         };
         mutateCreateDetailBasket(result);

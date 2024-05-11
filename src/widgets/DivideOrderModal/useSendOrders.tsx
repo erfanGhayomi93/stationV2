@@ -98,7 +98,6 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     // };
 
     const sendOrders = (orders: IOrderRequestType[]) => {
-
         if (!orders.length) return;
 
         const customers = orders.map(item => item.customerISIN[0])
@@ -110,11 +109,11 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 
-        async function send() {
+        function send() {
             for (let ind = 0; ind < bunchOfRequests.length; ind++) {
                 const orderGroups = bunchOfRequests[ind];
 
-                ind !== 0 && await new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
+                ind !== 0 && new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
 
                 let order: IOrderRequestType = {
                     ...orderGroups[0],
@@ -126,6 +125,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                     order.customerISIN = [...order.customerISIN, ...item.customerISIN];
                     order.customerTitle = [...order.customerTitle, ...item.customerTitle];
                 });
+
 
                 let storeClientKey: { [key: string]: string } = {};
 
@@ -139,15 +139,18 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                     },
                 });
 
-                if (orderGroups.length === ind + 1) {
-                    setOrdersLoading(false);
-                    appDispatch(setComeFromBuySellAction(""))
-                }
             }
         }
 
-        send();
-
+        try {
+            send();
+        } catch {
+            setOrdersLoading(false);
+        }
+        finally {
+            setOrdersLoading(false);
+            appDispatch(setComeFromBuySellAction(""))
+        }
     };
 
     return {

@@ -124,8 +124,8 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {
                 headerName: 'سمت',
                 field: 'side',
-                valueFormatter: ({ value }) => (value === 'Call' ? 'خرید' : value === 'Put' ? 'فروش' : ''),
-                cellClass: ({ value }) => (value === 'Call' ? 'text-[#01BC8D]' : value === 'Put' ? 'text-[#E84830]' : ''),
+                valueFormatter: ({ value }) => (value === 'Buy' ? 'خرید' : value === 'Sell' ? 'فروش' : ''),
+                cellClass: ({ value }) => (value === 'Buy' ? 'text-[#01BC8D]' : value === 'Sell' ? 'text-[#E84830]' : ''),
             },
             {
                 field: 'cashSettlementDate',

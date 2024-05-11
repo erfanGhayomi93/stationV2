@@ -108,7 +108,7 @@ interface OptionGeneralInformation {
 
 interface IOpenPositionsRes {
     orderId: number;
-    side: 'Put' | 'Call';
+    side: 'Sell' | 'Buy';
     canClosePosition: boolean;
     availableClosePosition: number;
     customerISIN: string;
