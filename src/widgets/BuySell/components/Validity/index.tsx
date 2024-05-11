@@ -44,8 +44,6 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     }, [symbolData?.isOption])
 
 
-
-
     return (
         <div className="flex gap-2 w-full">
             <div className="flex items-center flex-1">

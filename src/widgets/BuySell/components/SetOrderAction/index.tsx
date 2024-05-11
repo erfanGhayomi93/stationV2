@@ -17,9 +17,9 @@ import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AffidavitModal from './AffidavitModal';
 
-interface ISetOrderActionType {}
+interface ISetOrderActionType { }
 
-const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
+const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
     const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, id } =
         useBuySellState();
     const dispatch = useBuySellDispatch();
@@ -60,8 +60,8 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             // };
 
             // const timeOut = setTimeout(() => {
-                // setPushNotification({ ...pushNotification, ...storeLocal });
-                // clearTimeout(timeOut);
+            // setPushNotification({ ...pushNotification, ...storeLocal });
+            // clearTimeout(timeOut);
             // }, 1000);
         },
     });
@@ -108,24 +108,6 @@ const SetOrderAction: FC<ISetOrderActionType> = ({}) => {
             validity,
             validityDate,
         });
-
-        // mutateUpdateOrder({
-        //     customers: selectedCustomers.map((item) => ({
-        //         customerType: item.customerType,
-        //         title: item.title,
-        //         customerISIN: item.customerISIN,
-        //     })),
-        //     id,
-        //     symbolISIN,
-        //     orderSide: side,
-        //     price,
-        //     quantity,
-        //     percent,
-        //     validity: handleValidity(validity),
-        //     validityDate: validityDate,
-        //     orderType: 'LimitOrder',
-        //     orderStrategy: 'Normal',
-        // });
     };
 
     const handleSubmit = () => {
