@@ -27,7 +27,7 @@ interface IComboSelectProviderType {
     //functions
     onMinimumEntered?: (value: boolean) => void;
     onInputChange: (value: string) => void;
-    onSelectionChange: (value: any) => void;
+    onSelectionChange?: (value: any) => void;
     onPanelVisibiltyChange?: (value: boolean) => void;
 }
 

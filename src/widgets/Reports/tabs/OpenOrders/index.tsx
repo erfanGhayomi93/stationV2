@@ -23,8 +23,9 @@ let timeOut: NodeJS.Timeout | undefined = undefined;
 
 const OpenOrders: FC<IOpenOrders> = () => {
     const appDispatch = useAppDispatch();
-    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
-    const { brokerCode } = useAppSelector(getUserData);
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+    const { brokerCode, userName, traderCode } = useAppSelector(getUserData);
+
     const queryClient = useQueryClient();
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
@@ -34,7 +35,9 @@ const OpenOrders: FC<IOpenOrders> = () => {
     useEffect(() => {
         if (orders?.length && !isSubscribed() && brokerCode) {
             const customerISINS = orders.map(({ customerISIN }) => customerISIN);
-            subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
+            // subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
+            subscribeCustomers(userName, traderCode, brokerCode);
+
         } else if (!orders?.length && isSubscribed()) {
             unSubscribeCustomers();
         }
@@ -55,7 +58,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
 
-            // console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
+            console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
 
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {

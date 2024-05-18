@@ -69,7 +69,7 @@ export const OpenPosition = () => {
             appDispatch(
                 setPartDataBuySellAction({
                     data: {
-                        price: side === "Buy" ? data?.bestSellLimitPrice_1 : data?.bestBuyLimitPrice_1,
+                        price: side === "Buy" ? data?.bestBuyLimitPrice_1 : data?.bestSellLimitPrice_1,
                         quantity: availableClosePosition,
                         side: side === "Buy" ? "Sell" : "Buy",
                         symbolISIN: symbolISIN,

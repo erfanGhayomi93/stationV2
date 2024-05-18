@@ -191,7 +191,7 @@ const DivideOrderModal = () => {
             const omsOrderStatus = message[22] as OrderStatusType
             const orderMessageType = message[200] as OrderStatusType
 
-            console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus, "orderMessageType", orderMessageType)
+            // console.log("omsClientKey", omsClientKey, "omsOrderStatus", omsOrderStatus, "orderMessageType", orderMessageType)
 
             const updatedCustomers = (status: OrderStatusType, omsClientKey: string, isError: boolean) => {
 

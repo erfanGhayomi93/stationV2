@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDeleteDetailsBasket } from 'src/app/queries/basket';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
@@ -126,18 +126,3 @@ export const TableBasket = ({
         </>
     );
 };
-
-
-
-// listAfterFilter?.result.filter((item) => {
-//     if (!customerTitles && !symbolTitle && side === 'All') return true;
-//     else if (symbolTitle && item?.symbolTitle.includes(symbolTitle)) return true;
-//     else if (side && item?.side.includes(side)) return true;
-//     else if (customerTitles) {
-//         const customerTitlesString = String(item.customers?.map((i) => i?.customerTitle));
-//         if (customerTitlesString.includes(customerTitles)) {
-//             return true;
-//         }
-//     }
-//     return false;
-// })

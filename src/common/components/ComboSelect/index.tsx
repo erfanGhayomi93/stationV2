@@ -55,7 +55,7 @@ const ComboSelectProvider: FC<IComboSelectProviderType> = ({
 
     useEffect(() => {
         dispatch({ type: 'TOGGLE_SELECTED', value: selections });
-        onSelectionChange(selections)
+        onSelectionChange && onSelectionChange(selections)
     }, [selections]);
 
     const setPanel = (value: boolean) => {

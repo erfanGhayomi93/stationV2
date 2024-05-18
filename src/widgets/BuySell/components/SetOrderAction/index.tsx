@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
 import { setOrder, useSingleModifyOrders, useUpdateOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
@@ -65,6 +65,11 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             // }, 1000);
         },
     });
+
+    useEffect(() => {
+        console.log('isPrimaryComeFrom(comeFrom)', comeFrom)
+    }, [comeFrom])
+
 
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {

@@ -5,23 +5,18 @@ import Combo from 'src/common/components/ComboSelect';
 import CustomerResult from 'src/common/components/SearchResult/CustomerSearchResult/CustomerResult';
 import CustomerSelected from 'src/common/components/SearchResult/CustomerSelected';
 import { SpinnerIcon } from 'src/common/icons';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { emptySelectedCustomers, getSelectedCustomers, setPartSelectedCustomers } from 'src/redux/slices/option';
+import { useAppSelector } from 'src/redux/hooks';
+import { getSelectedCustomers } from 'src/redux/slices/option';
 import InputSearch from './input';
 
 interface IBuySellCustomerType { }
 
 const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
-    const appDispatch = useAppDispatch();
 
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
-    const onSelectionChanged = (customer: IGoMultiCustomerType[]) => {
-        // console.log("customer", customer)
-        // appDispatch(setPartSelectedCustomers(customer));
-    };
 
     const selectedCustomers = useAppSelector(getSelectedCustomers)
 
@@ -42,23 +37,22 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
         active?: boolean;
         content?: string;
     }
+
     const Options = ({ active, content }: IOptionsType) =>
         useMemo(() => {
             return (
-                <>
-                    <div
-                        className={clsx(
-                            'bg-white max-h-[300px] overflow-y-auto absolute w-full z-[90] top-0  origin-top shadow-md ',
-                            !active && 'scale-y-0',
-                        )}
-                    >
-                        {content === 'SELECT' ? (
-                            <CustomerSelected selected={selectedCustomers} />
-                        ) : (
-                            <CustomerResult min={min} qData={qData || []} isLoading={isLoading} />
-                        )}
-                    </div>
-                </>
+                <div
+                    className={clsx(
+                        'bg-white max-h-[300px] overflow-y-auto absolute w-full z-[90] top-0  origin-top shadow-md ',
+                        !active && 'scale-y-0',
+                    )}
+                >
+                    {content === 'SELECT' ? (
+                        <CustomerSelected selected={selectedCustomers} />
+                    ) : (
+                        <CustomerResult min={min} qData={qData || []} isLoading={isLoading} />
+                    )}
+                </div>
             );
         }, [active, content, min]);
 
@@ -72,7 +66,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
                         withDebounce={1000}
                         placeholder="جستجو مشتری / گروه مشتری"
                         onInputChange={(value) => setTerm(value)}
-                        onSelectionChange={(selected) => onSelectionChanged(selected)}
+                        // onSelectionChange={(selected) => onSelectionChanged(selected)}
                         onPanelVisibiltyChange={(value) => setPanel(value)}
                         onMinimumEntered={setMin}
                         selections={selectedCustomers}
@@ -96,7 +90,7 @@ const BuySellCustomer: FC<IBuySellCustomerType> = ({ }) => {
 
 export default BuySellCustomer;
 
-export function SearchLoading({ isFetching, isLoading }: { isLoading: boolean; isFetching?: boolean }) {
+export function SearchLoading({ isFetching }: { isLoading: boolean; isFetching?: boolean }) {
     return (
         <>
             {(isFetching) && (
