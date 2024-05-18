@@ -45,12 +45,12 @@ type IListDetailsBasket = {
 
 interface ICreateCartDetailType {
     id?: number;
-    cartID: number;
+    cartID?: number;
     traderISIN?: string;
     symbolISIN: string;
     price: number;
     quantity: number;
-    percent: number;
+    percent?: number;
     side: BuySellSide;
     deleted?: boolean;
     date?: Date;

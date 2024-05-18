@@ -19,7 +19,7 @@ const BuySell = () => {
     const { side } = useBuySellState();
 
     const setSide = (value: BuySellSide) => dispatch({ type: 'TOGGLE_BUY_SELL', value });
-    
+
     const { comeFrom } = useAppSelector(getKeepDataBuySell)
 
 
@@ -48,17 +48,15 @@ const BuySell = () => {
     );
 
     return (
-        <>
-            <TabsList
-                onChange={(idx) => setSide(idx as BuySellSide)}
-                selectedIndex={side}
-                items={items}
-                fill
-                buttonClass={clsx("dark:text-D-gray-600 text-L-gray-600 border-t-2 dark:border-t-transparent border-b border-t-transparent bg-L-gray-300 dark:bg-D-gray-300  dark:border-D-gray-400 border-L-gray-400", {
-                    "pointer-events-none dark:!text-D-gray-400 !text-L-gray-400": comeFrom === ComeFromKeepDataEnum.OpenPosition
-                })}
-            />
-        </>
+        <TabsList
+            onChange={(idx) => setSide(idx as BuySellSide)}
+            selectedIndex={side}
+            items={items}
+            fill
+            buttonClass={clsx("dark:text-D-gray-600 text-L-gray-600 border-t-2 dark:border-t-transparent border-b border-t-transparent bg-L-gray-300 dark:bg-D-gray-300  dark:border-D-gray-400 border-L-gray-400", {
+                "pointer-events-none dark:!text-D-gray-400 !text-L-gray-400": comeFrom === ComeFromKeepDataEnum.OpenPosition
+            })}
+        />
     );
 };
 

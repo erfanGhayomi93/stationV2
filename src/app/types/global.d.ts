@@ -73,6 +73,7 @@ interface UserType {
     traderTitle: string;
     twoFactor: boolean;
     userName: string;
+    traderId : number
 }
 
 declare interface SearchSymbolType {

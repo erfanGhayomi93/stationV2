@@ -87,10 +87,6 @@ export const useDeleteBasket = () =>
 const createDetailsBasketFn = async (params: any) => {
     const { data } = await AXIOS.post(Apis().Basket.CreateDetail, params);
     return data;
-    // try {
-    // } catch(err) {
-    //     
-    // }
 };
 export const useCreateDetailsBasket = (options?: Omit<UseMutationOptions<any, unknown, any, unknown>, 'mutationFn'> | undefined) =>
     useMutation(createDetailsBasketFn, { ...options });
@@ -100,7 +96,7 @@ const insertCustomerToBasketFn = async (params: ICreateCartDetailType[]) => {
     const { data } = await AXIOS.post(Apis().Basket.CreateBulkCartDetail as string, params);
     return data.result || 0;
 };
-export const useInsertCustomerToBasket = (
+export const useCreateBulkDetailBasket = (
     options?: Omit<UseMutationOptions<ICreateCartDetailType[], unknown, ICreateCartDetailType[], unknown>, 'mutationFn'> | undefined,
 ) => useMutation(insertCustomerToBasketFn, { ...options });
 

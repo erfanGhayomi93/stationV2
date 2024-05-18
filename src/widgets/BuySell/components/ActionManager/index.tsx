@@ -5,10 +5,12 @@ import SetBasketAction from '../SetBasketAction';
 import SetDraftAction from '../SetDraftAction';
 import SetOrderAction from '../SetOrderAction';
 
-interface IActionManagerType {}
+interface IActionManagerType { }
 
-const ActionManager: FC<IActionManagerType> = ({}) => {
+const ActionManager: FC<IActionManagerType> = ({ }) => {
+
     const basket = useBasketState();
+
     return (
         <div className="flex gap-3">
             {basket?.visible ? (

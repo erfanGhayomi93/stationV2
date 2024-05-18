@@ -19,6 +19,7 @@ const initialState: GlobalStateTest = {
         traderTitle: '',
         twoFactor: false,
         userName: '',
+        traderId : 2
     },
 };
 
