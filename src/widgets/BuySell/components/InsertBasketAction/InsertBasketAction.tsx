@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
-import { useCreateDetailsBasket, useEditDetailsBasket } from 'src/app/queries/basket';
+import { useCreateBulkDetailBasket, useCreateDetailsBasket, useEditDetailsBasket } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useBasketDispatch, useBasketState } from 'src/pages/basket/context/BasketContext';
@@ -36,22 +36,20 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
         extra: IBuySellExtra;
     } & BuySellState;
 
+
     const queryClient = useQueryClient();
     const dispatch = useBuySellDispatch();
     const appDispatch = useAppDispatch();
 
-    const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket({
+    const { mutate: mutateCreateBulk } = useCreateBulkDetailBasket({
         onSuccess: () => {
             onSuccessNotif({ title: 'سفارش با موفقیت به سبد اضافه شد' });
             queryClient.invalidateQueries(['BasketDetailsList', id]);
             setBuySellModalInVisible();
             dispatch({ type: 'RESET' });
-            if (!sequential) {
-                dispatch({ type: 'RESET' });
-                appDispatch(emptySelectedCustomers());
-            }
         }
-    });
+    })
+
     const { mutate: mutateDetailBasket } = useEditDetailsBasket({
         onSuccess: () => {
             onSuccessNotif({ title: 'سفارش با موفقیت ویرایش شد' });
@@ -71,10 +69,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             return
         }
 
-        let isins = selectedCustomers.map((c: IGoMultiCustomerType) => c.customerISIN);
-        let isinsCommaSeparator = String(isins);
-
-        const result = {
+        const payload = selectedCustomers.map(customer => ({
             cartID: id,
             symbolISIN: symbolISIN,
             price: price,
@@ -83,10 +78,11 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate || null,
-            customerISIN: isinsCommaSeparator,
+            customerISIN: customer.customerISIN,
             orderStrategy: 'Normal',
-        };
-        mutateCreateDetailBasket(result);
+        }))
+
+        mutateCreateBulk(payload)
     };
 
     const handleEditBasket = () => {
@@ -94,9 +90,6 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             onErrorNotif({ title: t('common.notCustomerSelected') });
             return
         }
-
-        const isins = selectedCustomers.map((c: IGoMultiCustomerType) => c.customerISIN);
-        const isinsCommaSeparator = String(isins);
 
         mutateDetailBasket({
             id: orderId as number,
@@ -108,7 +101,7 @@ const InsertBasketAction: FC<IInsertBasketActionType> = ({ }) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate || null,
-            customerISIN: isinsCommaSeparator,
+            customerISIN: selectedCustomers[0].customerISIN,
             orderStrategy: 'Normal',
             orderType: 'LimitOrder',
         });

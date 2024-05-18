@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { ChangeEvent, FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useGetBasket, useInsertCustomerToBasket } from 'src/app/queries/basket';
+import { useGetBasket, useCreateBulkDetailBasket } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
 import { BasketPlusIcon, CloseIcon, Excel2Icon } from 'src/common/icons';
 import { useAppDispatch } from 'src/redux/hooks';
@@ -24,7 +24,7 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
     const inputElm = useRef<HTMLInputElement>(null)
     const [excelData, setExcelData] = useState<InputCustomerExcelType[]>([])
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const { mutate: mutateCreateBulk } = useInsertCustomerToBasket({
+    const { mutate: mutateCreateBulk } = useCreateBulkDetailBasket({
         onSuccess(data) {
             onSuccessNotif({ title: "با موفقیت انجام شد" })
             fetchBasketDetails()

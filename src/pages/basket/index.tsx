@@ -8,12 +8,15 @@ import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
 import { GridReadyEvent } from 'ag-grid-community';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
 
 function BasketPage() {
     const [detailParams, setDetailParams] = useState<filterStateType>(cleanObjectOfFalsyValues(initialDataFilterBasket) as filterStateType);
     const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
     const { t } = useTranslation();
     const dispatch = useBasketDispatch();
+    const appDispatch = useAppDispatch();
 
     const {
         data: basketDetails,
@@ -29,6 +32,13 @@ function BasketPage() {
         setDetailParams((prev) => ({ ...prev, CartId: id }));
         dispatch({ type: 'SET_BASKET_ID', value: id });
     };
+
+    useEffect(() => {
+        return () => {
+            appDispatch(setComeFromBuySellAction(""))
+        }
+    }, []);
+
 
     const handlePageInfoChange = (action: 'PageNumber' | 'PageSize', value: number) => setDetailParams((pre) => ({ ...pre, [action]: value }));
 
