@@ -35,13 +35,12 @@ const OpenOrders: FC<IOpenOrders> = () => {
     useEffect(() => {
         if (orders?.length && !isSubscribed() && brokerCode) {
             const customerISINS = orders.map(({ customerISIN }) => customerISIN);
-            // subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
-            subscribeCustomers(userName, traderCode, brokerCode);
-
+            subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
         } else if (!orders?.length && isSubscribed()) {
             unSubscribeCustomers();
         }
     }, [orders]);
+
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
