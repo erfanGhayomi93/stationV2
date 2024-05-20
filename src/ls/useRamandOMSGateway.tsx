@@ -92,7 +92,8 @@ const createRamandOMSGateway = () => {
 
     const subscribeCustomers = (userName: string, traderCode: string, brokerCode: string) => {
         // const customers = customerISINs.map((customerISIN) => `${brokerCode || '189'}_${customerISIN}`);
-        const userNameBroker = String(brokerCode + '_' + userName);
+        const userNameWithoutNoisy = userName.replace(/[|&;$%@"<>()+,._!#^*?']/g, "");
+        const userNameBroker = String(brokerCode + '_' + userNameWithoutNoisy);
         const traderCodeBroker = String(brokerCode + '_' + traderCode);
 
 
