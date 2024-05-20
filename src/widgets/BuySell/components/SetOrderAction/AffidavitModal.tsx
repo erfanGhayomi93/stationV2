@@ -12,7 +12,7 @@ type Props = {
 const AffidavitModal = ({ handleClose, isOpen, onSubmit, title, description }: Props) => {
     return (
         <AppModal isOpen={isOpen} handleClose={handleClose} title={title || '-'} height={500}>
-            <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full overflow-auto">
                 <p className="whitespace-pre-line text-xs leading-7 text-justify dark:text-D-primary-50 py-4 px-5">{description || '-'}</p>
                 <div className="ltr p-4">
                     <Button variant="success" onClick={onSubmit}>
