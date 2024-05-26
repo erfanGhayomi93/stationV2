@@ -156,7 +156,7 @@ const ExpandedSider: FC<IExpandedSiderType> = ({ isOpen, onClose, menuItems }) =
                                                             item.position === 'bottom',
                                                     ),
                                                 )}
-                                                <div className="bg-L-blue-100 dark:bg-[#111523] p-2">{`نسخه ${'1.0.1'}`}</div>
+                                                <div className="bg-L-blue-100 dark:bg-[#111523] p-2">{`نسخه ${'1.01'}`}</div>
                                             </div>
                                         </div>
                                     </div>
