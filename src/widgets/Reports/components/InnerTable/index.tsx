@@ -10,7 +10,7 @@ const InnerTable: FC<IInnerTableType> = ({}) => {
     const { data } = useGetDraft();
 
     const columns = useMemo(
-        (): ColDefType<IDraftCreateType>[] => [
+        (): ColDefType<IDraftResponseType>[] => [
             {
                 headerName: 'مشتری یا گروه مشتری',
                 field: 'customerTitle',
@@ -34,7 +34,7 @@ const InnerTable: FC<IInnerTableType> = ({}) => {
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
-                cellRenderer: (row: ICellRendererParams<IDraftCreateType>) => <>actions</>,
+                cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => <>actions</>,
             },
         ],
         [],

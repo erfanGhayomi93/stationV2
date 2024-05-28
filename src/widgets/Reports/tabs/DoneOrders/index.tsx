@@ -2,21 +2,26 @@ import { FC, useMemo, useReducer, useRef, useState } from 'react';
 import { useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { abbreviateNumber, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { abbreviateNumber, dateTimeFormatter, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import { ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import clsx from 'clsx';
 import { InfoDoneOrders } from './modals/info';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
+import { useTranslation } from 'react-i18next';
+
 
 type IDoneOrders = {
     aggregateType: IAggregate
 };
 const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
     const { data: todayDoneTrades, isFetching } = useGetTodayDoneTrades(aggregateType);
-    const [, render] = useReducer(p => !p, false)
-    const [infoModalState, setInfoModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
+    const {t} = useTranslation()
+
+    const [, render] = useReducer(p => !p, false)
+
+    const [infoModalState, setInfoModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
     const rowIndexHover = useRef<number | null>(null)
 
@@ -33,6 +38,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 headerName: 'مشتری یا گروه مشتری',
                 field: 'customerTitle',
                 headerComponent: AGHeaderSearchInput,
+                minWidth: 200,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <div>
                         <span>{row.value}</span>
@@ -59,11 +65,46 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                     </div>
                 )
             },
-            { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
-            { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
-            { headerName: 'میانگین قیمت', field: 'price', type: 'sepratedNumber' },
             {
-                headerName: 'ارزش معامله',
+                headerName: 'تاریخ',
+                field: 'requestDate',
+                valueFormatter: ({ value }) => dateTimeFormatter(value),
+                minWidth: 120,
+                cellClass: 'ltr',
+            },
+            {
+                headerName: 'مبدا',
+                field: 'orderFrom',
+            },
+            {
+                headerName: 'نوع',
+                field: 'orderSide',
+                valueFormatter: (data) => valueFormatterSide(data),
+                cellClassRules: {
+                    'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
+                    'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
+                },
+                minWidth : 80
+            },
+            {
+                headerName: 'تعداد',
+                field: 'quantity',
+                type: 'sepratedNumber',
+                maxWidth: 80
+            },
+            {
+                headerName: 'قیمت',
+                field: 'price',
+                type: 'sepratedNumber',
+                maxWidth: 80
+            },
+            {
+                headerName: 'کارمزد کل',
+                field: 'commission',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: 'بهای تمام شده',
                 field: 'totalPrice',
                 type: 'abbreviatedNumber',
                 maxWidth: 170,

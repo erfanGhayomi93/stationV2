@@ -12,11 +12,12 @@ import Requests from './tabs/Requests';
 import { OpenPosition } from './tabs/OpenPosition';
 import clsx from 'clsx';
 import { t } from 'i18next';
+import { AllOrders } from './tabs/AllOrders';
 
 
 const Reports = () => {
     //
-    const [activeTab, setActiveTab] = useState('OpenOrders');
+    const [activeTab, setActiveTab] = useState('AllOrders');
     const [aggregateType, setAggregateType] = useState<IAggregate>('');
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
@@ -52,20 +53,25 @@ const Reports = () => {
                 content: <Requests ref={requestsRef} setRequestsTabData={setRequestsTabData} />,
             },
             {
+                key: 'AllOrders',
+                title: 'سفارشات',
+                content: <AllOrders />,
+            },
+            {
                 key: 'OpenOrders',
                 title: 'سفارشات باز',
                 content: <OpenOrders />,
             },
             {
                 key: 'DoneOrders',
-                title: 'سفارشات انجام شده',
+                title: 'معاملات',
                 content: <DoneOrders aggregateType={aggregateType} />,
             },
-            {
-                key: 'FailedOrders',
-                title: 'سفارشات خطا دار',
-                content: <FailedOrders />,
-            },
+            // {
+            //     key: 'FailedOrders',
+            //     title: 'سفارشات خطا دار',
+            //     content: <FailedOrders />,
+            // },
             {
                 key: 'Drafts',
                 title: 'پیش نویس ها',

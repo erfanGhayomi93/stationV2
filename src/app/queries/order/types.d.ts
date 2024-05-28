@@ -29,7 +29,7 @@ interface ITodayOpenOrderType {
     side?: BuySellSide;
     symbolISIN?: string;
     CustomerISIN?: string;
-    GtOrderStateRequestType?: 'OnBoard' | 'Done' | 'Error';
+    GtOrderStateRequestType?: 'All' | 'OnBoard' | 'Done' | 'Error';
 }
 interface IOrderGetType {
     clientKey: string;
@@ -50,6 +50,9 @@ interface IOrderGetType {
     valuePosition: number;
     status?: OrderStatusType | 'OnBoard' | 'Done' | 'Error';
     iterationCount?: number;
+    bourseCode?: string;
+    RemainingQuantity : string;
+    orderFrom?: string;
 }
 
 type TTodayDoneTrades = {

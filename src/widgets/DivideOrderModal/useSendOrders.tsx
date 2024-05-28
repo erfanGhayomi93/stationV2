@@ -30,7 +30,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
     const [ordersLoading, setOrdersLoading] = useState(false);
 
-    const { brokerCode } = useAppSelector(getUserData);
+    const { brokerCode , userName , traderCode } = useAppSelector(getUserData);
 
     const queryClient = useQueryClient();
 
@@ -60,10 +60,13 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         const customerIsinsOnboard = onboradList.map(item => item.customerISIN)
         const activeCustomerIsins = [...customerIsinsOnboard, ...customerIsinsOrder]
 
-        subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins),
-            brokerCode || '',
-        );
+        // subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins),
+        //     brokerCode || '',
+        // );
+        subscribeCustomers(userName, traderCode, brokerCode);
+
     };
+
 
 
     const splitOrdersByCustomers = (orders: IOrderRequestType[]) => {

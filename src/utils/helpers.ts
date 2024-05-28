@@ -345,7 +345,7 @@ export const valueFormatterSide = (data: any): string => {
 export const valueFormatterValidity = (data: any) => {
     if (data.data.validity === 'Week' || data.data.validity === 'Month' || data.data.validity === 'GoodTillDate')
         return getFarsiDate(data.data.validityDate).farsiDate;
-    return i18next.t('BSModal.validity_' + data.value);
+    return i18next.t('BSModal.validity_' + data.data.validity);
 };
 
 export const valueFormatterState = (data: any) => {
@@ -567,3 +567,17 @@ export const excelDownloader = ({
 };
 
 export const isFieldEmpty = (value: string) => /^\s*$/.test(value);
+
+
+export const dateTimeFormatter = (v: string | number, format: 'date' | 'time' | 'datetime' = 'datetime') => {
+	const formats: Record<typeof format, string> = {
+		time: 'HH:mm',
+		date: 'YYYY/MM/DD',
+		datetime: 'YYYY/MM/DD HH:mm',
+	};
+
+	const d = dayjs(v ?? new Date()).calendar('jalali');
+	if (d.isValid()) return d.format(formats[format]);
+
+	return '−';
+};

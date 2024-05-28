@@ -4,7 +4,7 @@ import i18next from 'i18next';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 
 type IRamandOMSInstanceType = {
-    subscribeCustomers: (customerISINs: string[], brokerCode: string) => void;
+    subscribeCustomers: (userName: string, traderCode: string, brokerCode: string) => void;
     unSubscribeCustomers: () => void;
     isSubscribed: () => boolean | undefined;
     currentSubscribed: () => String[] | undefined;
@@ -90,18 +90,15 @@ const createRamandOMSGateway = () => {
 
     const currentSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.getItems();
 
-    const subscribeCustomers = (customerISINs: string[], brokerCode: string) => {
-        const customers = customerISINs.map((customerISIN) => `${brokerCode || '189'}_${customerISIN}`);
+    const subscribeCustomers = (userName: string, traderCode: string, brokerCode: string) => {
+        // const customers = customerISINs.map((customerISIN) => `${brokerCode || '189'}_${customerISIN}`);
+        const userNameWithoutNoisy = userName.replace(/[|&;$%@"<>()+,._!#^*?']/g, "");
+        const userNameBroker = String(brokerCode + '_' + userNameWithoutNoisy);
+        const traderCodeBroker = String(brokerCode + '_' + traderCode);
 
-        // const userNameWithoutNoisy = userName.replace(/[|&;$%@"<>()+,._!#^*?']/g, "");
-        // const userNameBroker = String(brokerCode + '_' + userNameWithoutNoisy);
-        // const traderCodeBroker = String(brokerCode + '_' + traderCode);
 
-
-        // const items = [`${brokerCode || '189'}_All`, userNameBroker, traderCodeBroker];
+        const items = [`${brokerCode || '189'}_All`, userNameBroker];
         // const items = [`${brokerCode || '189'}_All`, '189_18990069635676'];
-
-        const items = [...customers, `${brokerCode || '189'}_All`];
 
 
         console.log('items', items);
@@ -124,6 +121,7 @@ const createRamandOMSGateway = () => {
             },
         });
     };
+
 
     const unSubscribeCustomers = () => pushEngine.unSubscribe('supervisorMessage');
 

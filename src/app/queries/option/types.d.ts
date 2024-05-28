@@ -131,4 +131,5 @@ interface IOpenPositionsRes {
     symbolTitle: string;
     companyISIN: string;
     customerTitle: string;
+    bourseCode :string
 }

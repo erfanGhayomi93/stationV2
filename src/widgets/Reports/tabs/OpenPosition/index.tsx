@@ -116,7 +116,9 @@ export const OpenPosition = () => {
         {
             headerName: t("options.column_customer_title"),
             field: "customerTitle",
-            headerComponent: AGHeaderSearchInput
+            headerComponent: AGHeaderSearchInput,
+            valueFormatter: (data) => data?.data?.customerTitle + " - " + data?.data?.bourseCode,
+
         },
         /* نماد */
         {
@@ -157,6 +159,15 @@ export const OpenPosition = () => {
             flex: 1,
             valueFormatter: ({ value }) => seprateNumber(value ?? 0)
         },
+        /* دارایی مسدودی */
+        // {
+        //     colId: '',
+        //     headerName: t("options.column_blocked_margin"),
+        //     field: "",
+        //     minWidth: 144,
+        //     flex: 1,
+        //     valueFormatter: ({ value }) => seprateNumber(value ?? 0)
+        // },
         /* وجه تضمین جبرانی */
         {
             colId: 'column_variation_margin',
