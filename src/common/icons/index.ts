@@ -175,6 +175,9 @@ import MarketDepthRowIcon from 'src/assets/svg/marketDepth-rowMode.svg?react';
 import MarketDepthColIcon from 'src/assets/svg/marketDepth-colMode.svg?react';
 import MarketDepthArrowDownIcon from 'src/assets/svg/arrowDown-circle.svg?react';
 
+import ArrowSortUpIcon from 'src/assets/svg/arrowSortUp.svg?react';
+import ArrowSortDownIcon from 'src/assets/svg/arrowSortDown.svg?react';
+
 export {
     ArrowLeft,
 ArrowLeftAlt,
@@ -332,5 +335,7 @@ ArrowLeftSVG,
 MarketDepthChartIcon,
 MarketDepthRowIcon,
 MarketDepthColIcon,
-MarketDepthArrowDownIcon
+MarketDepthArrowDownIcon,
+ArrowSortUpIcon , 
+ArrowSortDownIcon
 }

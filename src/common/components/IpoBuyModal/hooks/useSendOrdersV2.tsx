@@ -24,7 +24,7 @@ const useSendOrdersV2 = () => {
         const customerIsinsOnboard = onboradList.map((item) => item.customerISIN);
         const activeCustomerIsins = [...customerIsinsOnboard, ...customerIsinsOrder];
 
-        subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins), brokerCode || '');
+        // subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins), brokerCode || '');
     };
 
     const sendOrders = (orders: IIPOOrder) => {

@@ -20,7 +20,7 @@ export const useCreateDraft = (options?: Omit<UseMutationOptions<number | [], un
 ////////////////get draft////////////////////////
 export const getDraftFn = async () => {
     try {
-        let { data } = await AXIOS.get<GlobalApiResponseType<IDraftCreateType[]>>(Apis().draft.Get as string);
+        let { data } = await AXIOS.get<GlobalApiResponseType<IDraftResponseType[]>>(Apis().draft.Get);
         return data.result || [];
     } catch {
         return [];
@@ -28,7 +28,7 @@ export const getDraftFn = async () => {
 };
 
 export const useGetDraft = () => {
-    return useQuery(['draftList'], getDraftFn);
+    return useQuery<IDraftResponseType[]>(['draftList'], getDraftFn);
 };
 ////////////////delete draft////////////////////////
 const deleteDraftQuery = async (draftId: number): Promise<number | []> => {

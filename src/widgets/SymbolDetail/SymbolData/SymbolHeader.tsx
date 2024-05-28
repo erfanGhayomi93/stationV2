@@ -58,7 +58,7 @@ const SymbolHeader = () => {
                             <h4 className="text-L-gray-500 dark:text-D-gray-500">
                                 {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
                             </h4>
-                            {data?.clientSideAlertEnabled && (
+                            {!data?.clientSideAlertEnabled && (
                                 <Tippy content={t('Tooltip.Caution')}>
                                     <RiskAnnouncementIcon />
                                 </Tippy>

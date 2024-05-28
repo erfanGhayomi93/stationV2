@@ -8,17 +8,22 @@ import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
-import useHandleFilterDraft from '../components/useHandleFilterDraft';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
+import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
+import { useTranslation } from 'react-i18next';
+
+
 
 type IDraft = {
 };
 const Drafts: FC<IDraft> = () => {
-    const { data: dataBeforeFilter, isFetching } = useGetDraft();
-    const { FilterData, handleChangeFilterData, dataAfterfilter } = useHandleFilterDraft({ dataBeforeFilter } as any);
-    const { sendOrders, ordersLoading } = useSendOrders();
+    const { data, isFetching } = useGetDraft();
+
+    const { t } = useTranslation()
+
+    const { sendOrders } = useSendOrders();
 
     const dispatch = useAppDispatch()
 
@@ -98,12 +103,42 @@ const Drafts: FC<IDraft> = () => {
 
     const columns = useMemo(
         (): ColDefType<IDraftResponseType>[] => [
-            { headerName: 'مشتری یا گروه مشتری', field: 'customers', valueFormatter: ({ value }) => valueFormatterCustomers(value) },
-            { headerName: 'نام نماد', field: 'symbolTitle' },
-            { headerName: 'سمت', field: 'orderSide', valueFormatter: valueFormatterSide },
-            { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
-            { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
-            { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
+            {
+                headerName: 'مشتری یا گروه مشتری',
+                field: 'customers',
+                headerComponent: AGHeaderSearchInput,
+                valueFormatter: ({ value }) => valueFormatterCustomers(value),
+            },
+            {
+                headerName: 'نام نماد',
+                field: 'symbolTitle',
+                headerComponent: AGHeaderSearchInput,
+            },
+            {
+                headerName: 'نوع',
+                field: 'orderSide',
+                valueFormatter: (data) => valueFormatterSide(data) + ' - ' + t('BSModal.validity_' + data?.data?.validity),
+                cellClassRules: {
+                    'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
+                    'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
+                },
+                minWidth: 120
+            },
+            {
+                headerName: 'تعداد',
+                field: 'quantity',
+                type: 'sepratedNumber',
+            },
+            {
+                headerName: 'قیمت',
+                field: 'price',
+                type: 'sepratedNumber',
+            },
+            {
+                headerName: 'آخرین قیمت',
+                field: 'price',
+                type: 'sepratedNumber',
+            },
             {
                 headerName: 'عملیات',
                 field: 'customTitle',
@@ -123,12 +158,9 @@ const Drafts: FC<IDraft> = () => {
 
     return (
         <div className={'grid h-full p-3'}>
-            {/* <div data-actived={isFilter} className="h-0 actived:h-auto transition-all opacity-0 actived:opacity-100">
-                <FilterTable {...{ FilterData, handleChangeFilterData }} />
-            </div> */}
             <WidgetLoading spining={isFetching}>
                 <AGTable
-                    rowData={dataAfterfilter}
+                    rowData={data || []}
                     columnDefs={columns}
                     rowSelection="multiple"
                     suppressRowVirtualisation={true}

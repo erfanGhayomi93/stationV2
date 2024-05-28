@@ -1,13 +1,17 @@
 import { IHeaderParams } from 'ag-grid-community';
 import React, { useState, useRef, useEffect } from 'react';
 import Input from 'src/common/components/Input';
-import { SearchIcon } from 'src/common/icons';
+import { ArrowSortDownIcon, ArrowSortUpIcon, SearchIcon } from 'src/common/icons';
 
-const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
+const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParams) => {
     //
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputMode, setInputMode] = useState(false);
     const [value, setValue] = useState('');
+
+
+    const [sortStatus, setSortStatus] = useState<'asc' | 'desc' | null>(null);
+
 
     useEffect(() => {
         inputRef.current?.focus();
@@ -19,6 +23,21 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
         api?.setQuickFilter(value);
     };
 
+
+    const onSortChange = () => {
+        setSort(!sortStatus ? 'asc' : sortStatus === 'asc' ? 'desc' : null);
+    }
+
+    const sortChanged = () => {
+        setSortStatus(column.isSortAscending() ? 'asc' : column.isSortDescending() ? 'desc' : null);
+    }
+
+    useEffect(() => {
+        column.addEventListener("sortChanged", sortChanged);
+    }, []);
+
+
+
     return (
         <>
             {inputMode ? (
@@ -29,12 +48,26 @@ const AGHeaderSearchInput = ({ api, displayName }: IHeaderParams) => {
                     onChange={onInputChange}
                     ref={inputRef}
                     value={value}
-                    onBlur={() => setInputMode(false)}
+                    onBlur={() => !value && setInputMode(false)}
                 />
             ) : (
-                <div className="w-full flex items-center justify-center gap-3" onClick={() => setInputMode(true)}>
-                    <SearchIcon />
-                    <span>{displayName}</span>
+                <div className="w-full flex items-center justify-center gap-3" >
+                    <SearchIcon onClick={() => setInputMode(true)} />
+                    <span
+                        onClick={() => onSortChange()}
+                        className='flex items-center'
+                    >
+                        <span
+                        >
+                            {displayName}
+                        </span>
+                        {
+                            sortStatus === 'asc' && <ArrowSortUpIcon width={15} height={15} />
+                        }
+                        {
+                            sortStatus === 'desc' && <ArrowSortDownIcon width={15} height={15} />
+                        }
+                    </span>
                 </div>
             )}
         </>
