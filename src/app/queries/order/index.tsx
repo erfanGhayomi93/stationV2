@@ -52,7 +52,7 @@ export const useSingleModifyOrders = (
 
 //////////////getOrder////////////////////
 const getOrderFn = async (params: ITodayOpenOrderType) => {
-    let { data } = await AXIOS.get<GlobalApiResponseType<IOrderGetType[]>>(Apis().Orders.Get as string, { params });
+    let { data } = await AXIOS.get<GlobalApiResponseType<IOrderGetType[]>>(Apis().Orders.Get, { params });
 
     return data.result || [];
 };
