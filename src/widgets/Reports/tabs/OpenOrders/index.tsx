@@ -35,48 +35,6 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
-
-
-    onOMSMessageHandlerRef.current = useMemo(
-        () => (message: Record<number, string>) => {
-            const omsClientKey = message[12];
-            const omsOrderStatus = message[22] as OrderStatusType;
-
-            // console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
-
-            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
-                if (!!oldData) {
-                    const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
-                    const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
-                    const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
-                    if (index >= 0) {
-                        orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOrderGetType;
-                    }
-
-                    return [...orders];
-                }
-            });
-
-            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired'].includes(omsOrderStatus)) {
-                clearTimeout(timeOut);
-                refetchOnboard();
-            } else if (omsOrderStatus === 'Error') {
-                clearTimeout(timeOut);
-                refetchOnboard();
-                queryClient.invalidateQueries(['orderList', 'Error']);
-            }
-        },
-        [],
-    );
-
-    const refetchOnboard = () => {
-        timeOut = setTimeout(() => {
-            refetchOpenOrders();
-            ipcMain.send('update_customer');
-            clearTimeout(timeOut);
-        }, 1000);
-    };
-
     const handleDelete = (data: IOrderGetType | undefined) => {
         data && deleteOrder(data?.orderId);
     };
@@ -107,6 +65,45 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const handleInfoClose = () => setDetailModalState({ isOpen: false, data: undefined });
 
+    // const refetchOnboard = () => {
+    //     timeOut = setTimeout(() => {
+    //         refetchOpenOrders();
+    //         ipcMain.send('update_customer');
+    //         clearTimeout(timeOut);
+    //     }, 1000);
+    // };
+
+    onOMSMessageHandlerRef.current = useMemo(
+        () => (message: Record<number, string>) => {
+            const omsClientKey = message[12];
+            const omsOrderStatus = message[22] as OrderStatusType;
+
+            queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
+                if (oldData) {
+                    const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
+                    const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
+                    const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
+                    if (index >= 0) {
+                        orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOrderGetType;
+                    }
+
+                    return [...orders];
+                }
+            });
+
+            // if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error'].includes(omsOrderStatus)) {
+            //     clearTimeout(timeOut);
+            //     refetchOnboard();
+            // }
+            //  else if (omsOrderStatus === 'Error') {
+            //     clearTimeout(timeOut);
+            //     refetchOnboard();
+            //     queryClient.invalidateQueries(['orderList', 'Error']);
+            // }
+        },
+        [],
+    );
+
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
@@ -135,9 +132,10 @@ const OpenOrders: FC<IOpenOrders> = () => {
             },
             {
                 headerName: 'جایگاه (حجمی)',
-                field: 'valuePosition',
+                field: 'hostOrderNumber',
                 type: 'sepratedNumber',
                 minWidth: 140,
+                valueFormatter: ({ value }) => value ? value : '-'
             },
             {
                 headerName: 'نوع',
@@ -165,11 +163,11 @@ const OpenOrders: FC<IOpenOrders> = () => {
                 headerName: 'ارزش معامله',
                 field: 'value',
                 type: 'abbreviatedNumber',
-                maxWidth: 80
+                maxWidth: 100
             },
             {
                 headerName: 'حجم باقی مانده',
-                field: 'RemainingQuantity',
+                field: 'remainingQuantity',
                 type: 'sepratedNumber'
             },
             {

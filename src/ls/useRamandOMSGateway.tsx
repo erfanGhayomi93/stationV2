@@ -2,6 +2,9 @@ import ipcMain from 'src/common/classes/IpcMain';
 import { pushEngine } from './pushEngine';
 import i18next from 'i18next';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { queryClient } from 'src/app/queryClient';
+
+let timeOutRefetch: NodeJS.Timeout | undefined = undefined
 
 type IRamandOMSInstanceType = {
     subscribeCustomers: (userName: string, brokerCode: string) => void;
@@ -71,10 +74,27 @@ const createRamandOMSGateway = () => {
 
     }
 
+    const refetchApiAccordingLs = (omsOrderStatus: OrderStatusType) => {
+        //
+        timeOutRefetch = setTimeout(() => {
+            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error'].includes(omsOrderStatus)) {
+                queryClient.invalidateQueries(['orderList', 'All'])
+                queryClient.invalidateQueries(['orderList', 'OnBoard'])
+                queryClient.invalidateQueries(['GetOpenPositions'])
+                ipcMain.send('update_customer');
+                clearTimeout(timeOutRefetch)
+            }
+        }, 1000);
+    }
+
     const handleOMSMessage = (message: Record<number, string>) => {
         const timeOut = setTimeout(() => {
             ipcMain.send('onOMSMessageReceived', message);
             handlePushNotification(message)
+
+            clearTimeout(timeOutRefetch)
+            const omsOrderStatus = message[22] as OrderStatusType;
+            refetchApiAccordingLs(omsOrderStatus)
 
             clearTimeout(timeOut)
         }, 500);

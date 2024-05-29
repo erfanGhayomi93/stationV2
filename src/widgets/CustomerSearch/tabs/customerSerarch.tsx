@@ -21,10 +21,13 @@ const CustomerSearch = () => {
             params: { term },
         },
     } = useCustomerSearchState();
+
     const debouncedTerm = useDebounce(term, 500);
+
     const [customerType, setCustomerType] = useState('');
 
     const isDefaultUse = useMemo(() => !term?.length, [term]);
+    
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs());
 
     const {
