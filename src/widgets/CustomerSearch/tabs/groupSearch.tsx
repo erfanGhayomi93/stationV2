@@ -13,13 +13,12 @@ import ipcMain from 'src/common/classes/IpcMain';
 
 const GroupSearch = () => {
     const { state: { params } } = useCustomerSearchState();
+
     const debouncedTerm = useDebounce(params.term, 500);
+
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
 
     const isDefaultUse = useMemo(() => !params.term?.length, [params.term])
-
-
-
 
     const { data: defaultGroups, refetch: refetchDefaultGroups, remove: removeDefaultGroups, isFetching: isFetchingDefault } = useGroupDefault({
         enabled: isDefaultUse,

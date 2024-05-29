@@ -9,12 +9,16 @@ interface IProps {
     positiveClassName?: string;
     negativeClassName?: string;
     neutralClassName?: string;
+    symbolISIN: string,
+    clickSymbol: (symbolISIN: string) => void,
 }
 
 const PriceViewFooter = ({
     price,
     percentage,
     label,
+    symbolISIN,
+    clickSymbol,
     positiveClassName = 'text-L-success-200 dark:text-D-success-200',
     negativeClassName = 'text-L-error-200 dark:text-D-error-200',
     neutralClassName = 'text-L-gray-700 dark:text-D-gray-700',
@@ -26,7 +30,10 @@ const PriceViewFooter = ({
     );
 
     return (
-        <div className="flex flex-nowrap whitespace-nowrap snap-center ml-4">
+        <div
+            className="flex flex-nowrap whitespace-nowrap snap-center ml-4 cursor-pointer"
+            onClick={() => clickSymbol(symbolISIN)}
+        >
             <span>{label}:</span>
             <span className='mx-1'>{seprateNumber(price)}</span>
             <span className='ml-1'>ریال</span>

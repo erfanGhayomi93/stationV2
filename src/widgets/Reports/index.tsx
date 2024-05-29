@@ -5,8 +5,6 @@ import TabsList from 'src/common/components/TabsList';
 import { Check, ExcelIcon, HistoryIcon, Refresh2Icon } from 'src/common/icons';
 import DoneOrders from './tabs/DoneOrders';
 import Drafts from './tabs/Drafts';
-import FailedOrders from './tabs/FailedOrders';
-// import GroupOrders   './tabs/GroupOrders';
 import OpenOrders from './tabs/OpenOrders';
 import Requests from './tabs/Requests';
 import { OpenPosition } from './tabs/OpenPosition';

@@ -1,4 +1,4 @@
-import { FC, useMemo, useReducer, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useGetTodayDoneTrades } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
@@ -8,16 +8,20 @@ import AGActionCell from 'src/common/components/AGActionCell';
 import clsx from 'clsx';
 import { InfoDoneOrders } from './modals/info';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
-import { useTranslation } from 'react-i18next';
+import ipcMain from 'src/common/classes/IpcMain';
 
 
 type IDoneOrders = {
     aggregateType: IAggregate
 };
-const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
-    const { data: todayDoneTrades, isFetching } = useGetTodayDoneTrades(aggregateType);
 
-    const { t } = useTranslation()
+let timeOut: NodeJS.Timeout | undefined = undefined;
+
+const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
+
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+
+    const { data: todayDoneTrades, isFetching, refetch } = useGetTodayDoneTrades(aggregateType);
 
     const [, render] = useReducer(p => !p, false)
 
@@ -27,10 +31,34 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
 
     const handleInfoClose = () => setInfoModalState({ isOpen: false, data: undefined });
 
-
     const handleInfoClick = (data: IOrderGetType | undefined) => {
         setInfoModalState({ isOpen: true, data: data });
     }
+
+    const refetchOnboard = () => {
+        timeOut = setTimeout(() => {
+            refetch();
+            clearTimeout(timeOut);
+        }, 1000);
+    };
+
+
+
+    onOMSMessageHandlerRef.current = useMemo(
+        () => (message: Record<number, string>) => {
+            const omsOrderStatus = message[22] as OrderStatusType;
+
+            if (['DeleteByEngine', 'PartOfTheOrderDone', 'OrderDone', 'OnCancelingWithBroker'].includes(omsOrderStatus)) {
+                clearTimeout(timeOut);
+                refetchOnboard();
+            }
+        },
+        [],
+    );
+
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+    }, []);
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
