@@ -172,7 +172,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
                 <Button
                     variant="success"
                     loading={ordersLoading}
-                    onClick={() => (symbolGeneralInfo?.hasRisk ? setAffidavitModalState(true) : handleSubmit())}
+                    onClick={() => (symbolGeneralInfo?.affModalDescription ? setAffidavitModalState(true) : handleSubmit())}
                 >
                     {isPrimaryComeFrom(comeFrom) ? 'ارسال خرید' : 'ثبت تغییرات'}
                 </Button>
@@ -180,12 +180,12 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
                 <Button
                     variant="error"
                     loading={ordersLoading}
-                    onClick={() => (symbolGeneralInfo?.hasRisk ? setAffidavitModalState(true) : handleSubmit())}
+                    onClick={() => (symbolGeneralInfo?.affModalDescription ? setAffidavitModalState(true) : handleSubmit())}
                 >
                     {isPrimaryComeFrom(comeFrom) ? ' ارسال فروش' : 'ثبت تغییرات'}
                 </Button>
             )}
-            {AffidavitModalState && symbolGeneralInfo?.hasRisk && (
+            {AffidavitModalState && symbolGeneralInfo?.affModalDescription && (
                 <AffidavitModal
                     isOpen={AffidavitModalState}
                     handleClose={() => setAffidavitModalState(false)}

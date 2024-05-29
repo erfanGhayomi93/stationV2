@@ -131,5 +131,9 @@ interface IOpenPositionsRes {
     symbolTitle: string;
     companyISIN: string;
     customerTitle: string;
-    bourseCode :string
+    bourseCode :string , 
+    blockCount : number , 
+    blockType : string ,
+    positionBlockTitle : string,
+    marginBlockedValue : number
 }
