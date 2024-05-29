@@ -79,7 +79,8 @@
         "delete": "حذف",
         "confirmation": "تاییدیه",
         "password": "رمز عبور",
-        "email": "ایمیل"
+        "email": "ایمیل",
+        "position": "موقعیت"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -893,8 +894,16 @@
         "column_strike_price": "قیمت اعمال",
         "column_remain_days": "روزهای مانده تا سررسید",
         "call": "خرید",
-        "put": "فروش"
+        "put": "فروش" ,
+        "blockType" : "محل تضمین" ,
+        "blockCount" : "اندازه تضمین"
     },
+    "option_blockType": {
+		"All": "همه",
+		"Account": "وجه نقد",
+		"Portfolio": "سهم پایه",
+		"Position": "موقعیت"
+	},
     "OptionSettlement": {
         "CashTabTitle": "تسویه نقدی",
         "PhysicalTabTitle": "تسویه فیزیکی",

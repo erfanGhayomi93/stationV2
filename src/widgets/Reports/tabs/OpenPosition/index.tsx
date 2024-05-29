@@ -151,23 +151,41 @@ export const OpenPosition = () => {
             valueFormatter: ({ value }) => seprateNumber(value ?? 0)
         },
         /* وجه مسدودی */
-        {
-            colId: 'column_blocked_margin',
-            headerName: t("options.column_blocked_margin"),
-            field: "blockedMargin",
-            minWidth: 144,
-            flex: 1,
-            valueFormatter: ({ value }) => seprateNumber(value ?? 0)
-        },
-        /* دارایی مسدودی */
         // {
-        //     colId: '',
+        //     colId: 'column_blocked_margin',
         //     headerName: t("options.column_blocked_margin"),
-        //     field: "",
+        //     field: "blockedMargin",
         //     minWidth: 144,
         //     flex: 1,
         //     valueFormatter: ({ value }) => seprateNumber(value ?? 0)
         // },
+        //محل تضمین
+        {
+            colId: 'blockType',
+            headerName: t("options.blockType"),
+            field: "blockType",
+            valueGetter: ({ data }) => {
+                if (data?.side === 'Sell') {
+                    return t('option_blockType.' + data?.blockType);
+                }
+
+                return '-';
+            }
+        },
+        //اندازه تضمین
+        {
+            colId: 'blockCount',
+            headerName: t("options.blockCount"),
+            field: "blockCount",
+            minWidth: 150,
+            valueGetter: ({ data }) => {
+                if (data?.side !== 'Sell') return '-';
+                const label = data.blockType === 'Account' ? ` ${t('common.rial')}` : data.blockType === 'Position' ? `${t('common.position')}` + (data.positionBlockTitle ? ` (${data.positionBlockTitle})` : '') : data.blockType === 'Portfolio' ? ` ${t('common.share')}` : "";
+                if (data.blockType === 'Account') return seprateNumber(data.marginBlockedValue || 0) + label;
+                if (data.blockType === 'Portfolio') return seprateNumber(data.blockCount || 0) + label;
+                if (data.blockType === 'Position') return seprateNumber(data.positionCount || 0) + label;
+            }
+        },
         /* وجه تضمین جبرانی */
         {
             colId: 'column_variation_margin',
@@ -197,7 +215,7 @@ export const OpenPosition = () => {
             colId: 'column_strike_price',
             headerName: t("options.column_strike_price"),
             field: "strikePrice",
-            minWidth: 144,
+            minWidth: 80,
             flex: 1,
             valueFormatter: ({ value }) => seprateNumber(value ?? 0)
         },
@@ -207,13 +225,14 @@ export const OpenPosition = () => {
             colId: 'column_remain_days',
             headerName: t("options.column_remain_days"),
             field: "remainDays",
-            minWidth: 160,
+            minWidth: 80,
             flex: 1,
-            valueFormatter: ({ data }) => Math.max(data?.remainDays || 0, 0)
+            valueFormatter: ({ data }) => Math.max(data?.remainDays || 0, 0),
         },
         {
             headerName: t('ag_columns_headerName.actions'),
             field: 'canClosePosition',
+            minWidth: 80,
             cellRenderer: (row: ICellRendererParams<IOpenPositionsRes>) => (
                 <div
                     className={clsx("h-full flex items-center justify-center", {
@@ -229,13 +248,6 @@ export const OpenPosition = () => {
                         onClick={() => clickReverseOption(row)}
                     />
                 </div>
-                // <AGActionCell
-                //     requiredButtons={[]}
-                //     data={row.data}
-                // // onSendClick={(data) => data && handleSend(data)}
-                // // onDeleteClick={handleDelete}
-                // // hideSend={!datePeriodValidator(dayjs().format('YYYY-MM-DDThh:mm:ss'), (row?.data as Record<string, any>)?.requestExpiration)}
-                // />
             ),
         },
 

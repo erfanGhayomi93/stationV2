@@ -17,7 +17,7 @@ type IDoneOrders = {
 const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
     const { data: todayDoneTrades, isFetching } = useGetTodayDoneTrades(aggregateType);
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     const [, render] = useReducer(p => !p, false)
 
@@ -84,7 +84,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                     'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
                     'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
                 },
-                minWidth : 80
+                minWidth: 80
             },
             {
                 headerName: 'تعداد',

@@ -1,13 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useMutationSendOrder } from 'src/app/queries/order';
-// import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 // import useLocalStorage from 'src/common/hooks/useLocalStorage';
-import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
+import { useAppDispatch } from 'src/redux/hooks';
 // import { getSelectedSymbol } from 'src/redux/slices/option';
-import { removeDuplicatesInArray } from 'src/utils/helpers';
 // import { resetByeSellData } from '../BuySell';
 import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
 
@@ -30,9 +25,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
     const [ordersLoading, setOrdersLoading] = useState(false);
 
-    const { brokerCode , userName , traderCode } = useAppSelector(getUserData);
 
-    const queryClient = useQueryClient();
 
     const { mutate: mutateSendOrder } = useMutationSendOrder({
         // onSuccess(data, variables) {
@@ -49,24 +42,6 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         // setPushNotification({ ...pushNotification, ...storeLocal })
         // },
     })
-
-
-    const { subscribeCustomers } = useRamandOMSGateway();
-
-    const subscribeHandler = (customers: ICustomerIsins) => {
-        // const customerIsinGlobal = selectedCustomers.map(({ customerISIN }) => customerISIN)
-        const customerIsinsOrder = customers
-        const onboradList: IOrderGetType[] = queryClient.getQueryData(["orderList", "OnBoard"]) || []
-        const customerIsinsOnboard = onboradList.map(item => item.customerISIN)
-        const activeCustomerIsins = [...customerIsinsOnboard, ...customerIsinsOrder]
-
-        // subscribeCustomers(removeDuplicatesInArray(activeCustomerIsins),
-        //     brokerCode || '',
-        // );
-        subscribeCustomers(userName, traderCode, brokerCode);
-
-    };
-
 
 
     const splitOrdersByCustomers = (orders: IOrderRequestType[]) => {
@@ -103,12 +78,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     const sendOrders = (orders: IOrderRequestType[]) => {
         if (!orders.length) return;
 
-        const customers = orders.map(item => item.customerISIN[0])
-
-        subscribeHandler(customers);
-
         setOrdersLoading(true);
-
 
         const bunchOfRequests: IOrderRequestType[][] = createEachBunchOfRequests(orders);
 

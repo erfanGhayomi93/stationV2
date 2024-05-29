@@ -5,12 +5,10 @@ import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { dateTimeFormatter, removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
 import ipcMain from 'src/common/classes/IpcMain';
-import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
-import { getUserData } from 'src/redux/slices/global';
 import { useQueryClient } from '@tanstack/react-query';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import AGActionCell from 'src/common/components/AGActionCell';
@@ -31,13 +29,9 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
-    const { brokerCode, userName, traderCode } = useAppSelector(getUserData);
-
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
     const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
-
-    const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
@@ -48,7 +42,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType;
 
-            console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
+            // console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus);
 
             queryClient.setQueryData(['orderList', 'OnBoard'], (oldData: IOrderGetType[] | undefined) => {
                 if (!!oldData) {
@@ -113,17 +107,6 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const handleInfoClose = () => setDetailModalState({ isOpen: false, data: undefined });
 
-    useEffect(() => {
-        if (orders?.length && !isSubscribed() && brokerCode) {
-            // const customerISINS = orders.map(({ customerISIN }) => customerISIN);
-            // subscribeCustomers(removeDuplicatesInArray(customerISINS), brokerCode);
-            subscribeCustomers(userName, traderCode, brokerCode);
-
-        } else if (!orders?.length && isSubscribed()) {
-            unSubscribeCustomers();
-        }
-    }, [orders]);
-
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
@@ -163,8 +146,8 @@ const OpenOrders: FC<IOpenOrders> = () => {
                 cellClassRules: {
                     'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
                     'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
-                } ,
-                minWidth : 120
+                },
+                minWidth: 120
             },
             {
                 headerName: 'تعداد',
@@ -217,7 +200,6 @@ const OpenOrders: FC<IOpenOrders> = () => {
         ],
         [],
     );
-
 
 
     return (
