@@ -17,13 +17,17 @@ import ipcMain from 'src/common/classes/IpcMain';
 
 const FavoriteList = () => {
     const { t } = useTranslation();
+
     const {
         state: {
             params: { term },
         },
     } = useCustomerSearchState();
+
     const [customerType, setCustomerType] = useState('');
+
     const debouncedTerm = useDebounce(term, 500);
+    
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs());
 
     const {

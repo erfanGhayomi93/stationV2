@@ -101,7 +101,7 @@ export const useCustomerListInfinit = (
 
 //get Customer
 const getCustomer = async (params: IReqestCustomer, signal?: AbortSignal) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetCustomers as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetCustomers, {
         signal,
         params
     });
@@ -113,7 +113,7 @@ export const useGetCustomers = (
     params: IReqestCustomer,
     options?: Omit<UseQueryOptions<IGoMultiCustomerType[], unknown, IGoMultiCustomerType[], (string | IGoCustomerRequestType)[]>, 'initialData' | 'queryKey'> | undefined,
 ) => {
-    return useQuery(['getDefaultCustomer'], ({ signal }) => getCustomer(params, signal), options);
+    return useQuery(['getDefaultCustomer', params.IsFavorite ? 'favorite' : 'default'], ({ signal }) => getCustomer(params, signal), options);
 };
 //
 
@@ -123,9 +123,10 @@ export const useGetCustomers = (
 
 const searchMultiMultiCustomer = async ({ CustomerISINs }: stateCustomer) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.MultiMultiSearch as string, {
-        params: { CustomerISINs
+        params: {
+            CustomerISINs
             // CustomerTagTitles, GtTraderGroupId
-         },
+        },
         paramsSerializer: (params) => {
             return stringify(params);
         },

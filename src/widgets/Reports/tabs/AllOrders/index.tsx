@@ -1,7 +1,9 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
+import { queryClient } from 'src/app/queryClient';
+import ipcMain from 'src/common/classes/IpcMain';
 import AGActionCell from 'src/common/components/AGActionCell';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
@@ -10,13 +12,15 @@ import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import { dateTimeFormatter, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
 
 export const AllOrders = () => {
 
     const { t } = useTranslation()
 
-    const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'All' });
+    const { data: orders, isFetching: loadingOrders } = useGetOrders({ GtOrderStateRequestType: 'All' });
+
+    const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
@@ -71,9 +75,10 @@ export const AllOrders = () => {
             },
             {
                 headerName: 'جایگاه (حجمی)',
-                field: 'valuePosition',
+                field: 'hostOrderNumber',
                 type: 'sepratedNumber',
                 minWidth: 140,
+                valueFormatter: ({ value }) => value ? value : '-'
             },
             {
                 headerName: 'نوع',
@@ -100,7 +105,7 @@ export const AllOrders = () => {
                 headerName: 'ارزش معامله',
                 field: 'value',
                 type: 'abbreviatedNumber',
-                maxWidth: 80
+                maxWidth: 100
             },
             {
                 headerName: 'حجم باقی مانده',
@@ -136,6 +141,32 @@ export const AllOrders = () => {
         ],
         [],
     );
+
+    onOMSMessageHandlerRef.current = useMemo(
+        () => (message: Record<number, string>) => {
+            const omsClientKey = message[12];
+            const omsOrderStatus = message[22] as OrderStatusType;
+
+            queryClient.setQueryData(['orderList', 'All'], (oldData: IOrderGetType[] | undefined) => {
+                if (oldData) {
+                    const orders = JSON.parse(JSON.stringify(oldData)) as IOrderGetType[];
+                    const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
+                    const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
+                    if (index >= 0) {
+                        orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOrderGetType;
+                    }
+
+                    return [...orders];
+                }
+            });
+        },
+        [],
+    );
+
+
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+    }, []);
 
 
     return (
