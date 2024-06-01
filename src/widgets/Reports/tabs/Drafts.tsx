@@ -1,48 +1,77 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
-import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { handleValidity, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { handleValidity, removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import { useTranslation } from 'react-i18next';
 import { pushEngine } from 'src/ls/pushEngine';
+import { queryClient } from 'src/app/queryClient';
 
 
+type IDraft = {};
 
-type IDraft = {
-};
 const Drafts: FC<IDraft> = () => {
-    const { data, isFetching } = useGetDraft({
-        onSuccess: (data) => {
-            const symbolISINs = data.map(item => item.symbolISIN);
-
-            console.log('symbolISINs', symbolISINs)
-
-            // if (symbolISINs) {
-            //     pushEngine.subscribe({
-            //         id: 'lastTraderPriceUpdateINDraft',
-            //         mode: 'MERGE',
-            //         isSnapShot: 'yes',
-            //         adapterName: symbolISINs,
-            //         fields: ['lastTradedPrice']
-            //     })
-            // }
-        }
-    });
 
     const { t } = useTranslation()
 
     const { sendOrders } = useSendOrders();
 
     const dispatch = useAppDispatch()
+
+    const appDispatch = useAppDispatch();
+
+    const { data, isFetching } = useGetDraft({
+        onSuccess: (data) => {
+            const symbolISINs = data.map(item => item.symbolISIN);
+            const duplicatedSymbolISINs = removeDuplicatesInArray(symbolISINs)
+
+            if (symbolISINs) {
+
+                console.log('duplicatedSymbolISINs', duplicatedSymbolISINs)
+
+                pushEngine.subscribe({
+                    id: 'lastTraderPriceUpdateINDraft',
+                    mode: 'MERGE',
+                    isSnapShot: 'yes',
+                    adapterName: 'RamandRLCDData',
+                    items: duplicatedSymbolISINs,
+                    fields: ['lastTradedPrice'],
+                    onFieldsUpdate: ({ changedFields, itemName }) => {
+                        console.log('changedFields', changedFields, 'itemName', itemName);
+
+                        queryClient.setQueryData(['draftList'], (oldData: IDraftResponseType[] | undefined) => {
+                            if (oldData) {
+                                const draft: IDraftResponseType[] = JSON.parse(JSON.stringify(oldData));
+
+                                const res = draft.map(item => {
+                                    if (item.symbolISIN === itemName) {
+                                        return { ...item, lastTradedPrice: Number(changedFields || 0) }
+                                    }
+                                    return { ...item }
+                                })
+
+                                return [...res]
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    });
+
+    useEffect(() => {
+        return () => pushEngine.unSubscribe('lastTraderPriceUpdateINDraft');
+    }, [])
+
 
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
@@ -87,7 +116,7 @@ const Drafts: FC<IDraft> = () => {
 
     };
 
-    const appDispatch = useAppDispatch();
+
     const handleEdit = async (data?: IDraftResponseType) => {
         if (!data) return;
         // First dispatch
@@ -150,7 +179,7 @@ const Drafts: FC<IDraft> = () => {
             },
             {
                 headerName: 'آخرین قیمت',
-                field: 'price',
+                field: 'lastTradedPrice',
                 type: 'sepratedNumber',
             },
             {

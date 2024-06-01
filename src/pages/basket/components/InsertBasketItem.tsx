@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ChangeEvent, FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useGetBasket, useCreateBulkDetailBasket, useCardSendOrder } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
-import { AddSymbol, BasketPlusIcon, Chart2x2SVG, CloseIcon, Excel2Icon, PlusIcon } from 'src/common/icons';
+import { AddSymbol, BasketPlusIcon, Chart2x2SVG, CloseIcon, Excel2Icon, PlusIcon, SendIcon } from 'src/common/icons';
 import { useAppDispatch } from 'src/redux/hooks';
 import { emptySelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
@@ -12,6 +12,7 @@ import PapaParse, { ParseResult } from "papaparse"
 import { InsertExcel } from './InsertExcel';
 import dayjs from 'dayjs';
 import { onInfoNotif, onSuccessNotif } from 'src/handlers/notification';
+import ipcMain from 'src/common/classes/IpcMain';
 
 interface IInsertBasketItemType {
     activeBasket?: number;
@@ -125,6 +126,8 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
             mutateCardSendOrder({
                 cartId: activeBasket,
             })
+
+            ipcMain.send('refetchBasket')
         }
     }
 
@@ -197,7 +200,7 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
                 className="shadow-sm flex items-center gap-2 mt-2 py-1.5 drop-shadow-sm px-2 text-L-success-200 dark:text-D-success-200 bg-L-basic dark:bg-D-basic border border-L-gray-400 dark:border-D-gray-400 p-1 text-1.3 rounded-md"
                 onClick={submitCardSendOrder}
             >
-                <Chart2x2SVG />
+                <SendIcon />
                 ارسال سبد
             </button>
 

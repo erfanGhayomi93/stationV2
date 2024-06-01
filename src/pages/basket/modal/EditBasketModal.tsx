@@ -2,14 +2,15 @@ import { FC, useState } from 'react';
 import gregorian from 'react-date-object/calendars/gregorian';
 import gregorian_en from 'react-date-object/locales/gregorian_en';
 import { DateObject } from 'react-multi-date-picker';
-import { useDeleteBasket, useUpdateBasket } from 'src/app/queries/basket';
+import { useCardSendOrder, useDeleteBasket, useUpdateBasket } from 'src/app/queries/basket';
 import AdvancedTimePickerAnalog from 'src/common/components/AdvancedTimePickerAnalog';
 import Input from 'src/common/components/Input';
 import Modal from 'src/common/components/Modal';
-import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, UnCheck } from 'src/common/icons';
+import { Check, CloseIcon, DeleteIcon, EditIcon2, Negetive, PlusIcon, SendIcon, UnCheck } from 'src/common/icons';
 import { disableTillYesterday, getFarsiDate } from 'src/utils/helpers';
 import CreateBasket from '../components/CreateBasket';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import ipcMain from 'src/common/classes/IpcMain';
 
 
 type IEditBasketModalType = {
@@ -19,9 +20,12 @@ type IEditBasketModalType = {
 };
 
 const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBasket, listBasket }) => {
+
     const [editMode, setEditMode] = useState<Partial<IListBasket> | undefined>(undefined);
     const [time, setTime] = useState<any>(null);
     const [ShowNewBasket, setNewBasket] = useState(false);
+
+    const { mutate: mutateCardSendOrder } = useCardSendOrder();
 
     const handleChangeEditMode = (type: string, value: any) => {
         setEditMode((prev) => ({
@@ -43,6 +47,14 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
         mutateEdit({ ...editMode, ...dateTimeComposed });
         setEditMode(undefined);
     };
+
+    const submitCardSendOrder = (cartId: number) => {
+        mutateCardSendOrder({
+            cartId,
+        })
+
+        ipcMain.send('refetchBasket');
+    }
 
     // const handleIsPinned = (id: number, value: boolean) => {
     //     mutateEdit({ isPinned: value, id });
@@ -127,6 +139,11 @@ const EditBasketModal: FC<IEditBasketModalType> = ({ showEditForm, toggleEditBas
                                             </>
                                         ) : (
                                             <>
+                                                <SendIcon
+                                                    className="cursor-pointer"
+                                                    onClick={() => submitCardSendOrder(basket.id)}
+                                                />
+
                                                 <EditIcon2
                                                     data-cy={'basket-item-edit-' + basket.name}
                                                     onClick={() => {

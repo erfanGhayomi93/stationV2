@@ -134,7 +134,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
                 headerName: 'جایگاه (حجمی)',
                 field: 'hostOrderNumber',
                 type: 'sepratedNumber',
-                minWidth: 140,
+                minWidth: 80,
                 valueFormatter: ({ value }) => value ? value : '-'
             },
             {
@@ -162,7 +162,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
             {
                 headerName: 'ارزش معامله',
                 field: 'value',
-                type: 'abbreviatedNumber',
+                type: 'sepratedNumber',
                 maxWidth: 100
             },
             {

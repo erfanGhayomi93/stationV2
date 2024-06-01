@@ -10,6 +10,7 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import ipcMain from 'src/common/classes/IpcMain';
 
 function BasketPage() {
     const [detailParams, setDetailParams] = useState<filterStateType>(cleanObjectOfFalsyValues(initialDataFilterBasket) as filterStateType);
@@ -33,11 +34,26 @@ function BasketPage() {
         dispatch({ type: 'SET_BASKET_ID', value: id });
     };
 
+    const handleRefetchDetailsBasket = () => {
+        //
+        const clearTime = setTimeout(() => {
+            fetchBasketDetails()
+            clearTimeout(clearTime)
+        }, 1000);
+    }
+
     useEffect(() => {
         return () => {
             appDispatch(setComeFromBuySellAction(""))
         }
     }, []);
+
+    useEffect(() => {
+        ipcMain.handle('refetchBasket', handleRefetchDetailsBasket)
+
+        return () => ipcMain.removeChannel('refetchBasket')
+    }, [])
+
 
 
     const handlePageInfoChange = (action: 'PageNumber' | 'PageSize', value: number) => setDetailParams((pre) => ({ ...pre, [action]: value }));
