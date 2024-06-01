@@ -76,12 +76,8 @@ export const useUpdateBasket = () =>
     });
 ///////////////delete Basket///////////////////
 const deleteBasketFn = async (id: number) => {
-    try {
-        let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Delete as string, {}, { params: { id } });
-        return data.result || 0;
-    } catch {
-        return 0;
-    }
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.Delete , {}, { params: { id } });
+        return data || 0;
 };
 
 export const useDeleteBasket = () =>

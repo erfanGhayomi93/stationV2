@@ -875,7 +875,8 @@
         "SymbolInWatchListMoreThanMaximum": "نمیتوانید به لیست نماد بیشتری اضافه کنید",
         "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
         "CartExists": "سبد خرید تکراری است",
-        "WrongPrice": "قیمت اشتباه است"
+        "WrongPrice": "قیمت اشتباه است" , 
+        "DeleteCartFailed" : "حذف سبد انجام نشد."
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
