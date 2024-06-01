@@ -18,7 +18,19 @@ export const getBasketFn = async () => {
     }
 };
 
-export const useGetBasket = () => useQuery<IListBasket[], unknown>(['BasketList'], getBasketFn);
+export const useGetBasket = () => useQuery(['BasketList'], getBasketFn , {
+    select(data) {
+        return data?.map(item => {
+            if(item.sendDate === "0001-01-01T00:00:00"){
+                return {
+                    ...item , 
+                    sendDate : null
+                }
+            }
+            return item
+        })
+    },
+});
 
 ///////////////create Basket///////////////////
 const setBasketFn = async ({ name, sendDate }: ICreateBasket): Promise<GlobalApiResponseType<number>> => {
@@ -74,13 +86,11 @@ const deleteBasketFn = async (id: number) => {
 
 export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+            console.log("data",data)
             onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
             queryClient.invalidateQueries(['BasketList']);
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+        }
     });
 
 ///////////////Create Cart Detail///////////////////
@@ -99,6 +109,19 @@ const insertCustomerToBasketFn = async (params: ICreateCartDetailType[]) => {
 export const useCreateBulkDetailBasket = (
     options?: Omit<UseMutationOptions<ICreateCartDetailType[], unknown, ICreateCartDetailType[], unknown>, 'mutationFn'> | undefined,
 ) => useMutation(insertCustomerToBasketFn, { ...options });
+
+
+//insert customer to basket
+const cardSendOrderFn = async (params: ICardSend) => {
+    const { data } = await AXIOS.post(Apis().Basket.CartSendOrder, params);
+    return data.result || 0;
+};
+export const useCardSendOrder = (
+    options?: Omit<UseMutationOptions<ICardSend, unknown, ICardSend, unknown>, 'mutationFn'> | undefined,
+) => useMutation(cardSendOrderFn, { ...options });
+
+
+
 
 //Edit Basket Information
 const EditCartDetail = async (params: ICreateCartDetailType) => {
