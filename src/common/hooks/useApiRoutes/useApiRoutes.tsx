@@ -148,6 +148,7 @@ export const Apis = () => ({
         GetDetail: getBaseUrl() + '/Cart/v1/CartDetailList',
         DeleteDetails: getBaseUrl() + '/Cart/v1/CartDetailDelete',
         CreateBulkCartDetail: getBaseUrl() + '/Cart/v1/CreateBulkCartDetail',
+        CartSendOrder: getBaseUrl() + '/Cart/v1/CartSendOrder'
     },
     Commission: { Get: getBaseUrl() + `/Commission/v1/GetBuyAndSellCommision` },
     WatchList: {
