@@ -10,6 +10,7 @@ import AddBasketModal from '../modal/AddBasketModal';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import { GridReadyEvent } from 'ag-grid-community';
 import { filterStateType } from './FilterBasket';
+import ipcMain from 'src/common/classes/IpcMain';
 
 
 
@@ -25,7 +26,7 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
 
-    const { data: listBasket } = useGetBasket();
+    const { data: listBasket, refetch: refetchBasket } = useGetBasket();
     const { refetch: getExcel } = useGetBasketExcel(cleanObjectOfFalsyValues(params) as filterStateType);
 
     useEffect(() => {
@@ -37,6 +38,21 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
     const toggleEditBasket = () => setShowEditForm((prev) => !prev);
 
     const handleExcelExport = () => getExcel();
+
+    const handleRefetchDetailsBasket = () => {
+        //
+        const clearTime = setTimeout(() => {
+            refetchBasket()
+            clearTimeout(clearTime)
+        }, 1000);
+    }
+
+    useEffect(() => {
+        ipcMain.handle('refetchBasket', handleRefetchDetailsBasket)
+
+        return () => ipcMain.removeChannel('refetchBasket')
+    }, [])
+
 
     return (
         <div className="grid grid-cols-2 items-center">

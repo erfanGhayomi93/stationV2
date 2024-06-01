@@ -134,8 +134,8 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             {
                 headerName: 'بهای تمام شده',
                 field: 'totalPrice',
-                type: 'abbreviatedNumber',
-                maxWidth: 170,
+                type: 'sepratedNumber',
+                maxWidth: 130,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <div className='flex justify-start ml-4 gap-x-5'>
                         <div className='flex-1 text-left'>
