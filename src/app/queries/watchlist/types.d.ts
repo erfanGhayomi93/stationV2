@@ -54,7 +54,7 @@ interface IGetWatchlistSymbol {
 }
 
 interface IRequestWatchListSymbol {
-    watchlistId: number;
+    watchlistId?: number;
     watchlistType: WatchlistType;
     PageNumber: number;
     type?: IDefaultWatchlistType;

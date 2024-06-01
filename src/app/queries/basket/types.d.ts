@@ -4,7 +4,7 @@ type IListBasket = {
     traderISIN: string;
     createDate: string;
     deleted: boolean;
-    sendDate: string;
+    sendDate: string | null;
     sended: boolean;
     isPinned: boolean;
 };
@@ -62,6 +62,10 @@ interface ICreateCartDetailType {
     orderType?: OrderTypeType;
 }
 
+interface ICardSend {
+    cartId : number
+}
+
 type ICustomer = {
     customerISIN: string;
     customerTitle: string;
@@ -69,7 +73,7 @@ type ICustomer = {
 
 type ICreateBasket = {
     name: string;
-    sendDate: string;
+    sendDate?: string;
 };
 
 type InputCustomerExcelType = {

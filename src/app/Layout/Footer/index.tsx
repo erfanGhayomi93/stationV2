@@ -12,7 +12,7 @@ const Footer = () => {
     const dispatch = useAppDispatch()
 
     const { data: watchlistSymbolList } = useWatchListSymbolsQuery(
-        { watchlistId: 3, watchlistType: "Pinned", PageNumber: 1 }
+        { watchlistType: "Pinned", PageNumber: 1 }
     )
 
     const clickSymbol = (symbolISIN: string) => {
