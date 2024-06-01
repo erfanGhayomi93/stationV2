@@ -77,7 +77,7 @@ export const AllOrders = () => {
                 headerName: 'جایگاه (حجمی)',
                 field: 'hostOrderNumber',
                 type: 'sepratedNumber',
-                minWidth: 140,
+                minWidth: 80,
                 valueFormatter: ({ value }) => value ? value : '-'
             },
             {
@@ -87,7 +87,8 @@ export const AllOrders = () => {
                 cellClassRules: {
                     'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
                     'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
-                }
+                } ,
+                minWidth : 120
             },
             {
                 headerName: 'تعداد',
@@ -104,7 +105,7 @@ export const AllOrders = () => {
             {
                 headerName: 'ارزش معامله',
                 field: 'value',
-                type: 'abbreviatedNumber',
+                type: 'sepratedNumber',
                 maxWidth: 100
             },
             {
