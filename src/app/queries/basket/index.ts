@@ -83,7 +83,6 @@ const deleteBasketFn = async (id: number) => {
 export const useDeleteBasket = () =>
     useMutation(deleteBasketFn, {
         onSuccess: (data) => {
-            console.log("data",data)
             onSuccessNotif({ title: 'سبد با موفقیت حذف شد' });
             queryClient.invalidateQueries(['BasketList']);
         }

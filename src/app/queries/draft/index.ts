@@ -1,4 +1,4 @@
-import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
@@ -27,8 +27,8 @@ export const getDraftFn = async () => {
     }
 };
 
-export const useGetDraft = () => {
-    return useQuery<IDraftResponseType[]>(['draftList'], getDraftFn);
+export const useGetDraft = (options ?: UseQueryOptions<IDraftResponseType[]> ) => {
+    return useQuery<IDraftResponseType[]>(['draftList'], getDraftFn , options);
 };
 ////////////////delete draft////////////////////////
 const deleteDraftQuery = async (draftId: number): Promise<number | []> => {

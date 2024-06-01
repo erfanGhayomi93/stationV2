@@ -13,13 +13,30 @@ import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import { useTranslation } from 'react-i18next';
+import { pushEngine } from 'src/ls/pushEngine';
 
 
 
 type IDraft = {
 };
 const Drafts: FC<IDraft> = () => {
-    const { data, isFetching } = useGetDraft();
+    const { data, isFetching } = useGetDraft({
+        onSuccess: (data) => {
+            const symbolISINs = data.map(item => item.symbolISIN);
+
+            console.log('symbolISINs', symbolISINs)
+
+            // if (symbolISINs) {
+            //     pushEngine.subscribe({
+            //         id: 'lastTraderPriceUpdateINDraft',
+            //         mode: 'MERGE',
+            //         isSnapShot: 'yes',
+            //         adapterName: symbolISINs,
+            //         fields: ['lastTradedPrice']
+            //     })
+            // }
+        }
+    });
 
     const { t } = useTranslation()
 
@@ -30,10 +47,7 @@ const Drafts: FC<IDraft> = () => {
     const { mutate } = useDeleteDraft({
         onSuccess: () => {
             onSuccessNotif({ title: 'پیش نویس حذف گردید' });
-        },
-        onError: () => {
-            onErrorNotif();
-        },
+        }
     });
 
     const handleDelete = (data?: IDraftResponseType) => {
