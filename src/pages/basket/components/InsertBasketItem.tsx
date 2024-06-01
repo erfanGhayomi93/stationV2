@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { ChangeEvent, FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useGetBasket, useCreateBulkDetailBasket } from 'src/app/queries/basket';
+import { useGetBasket, useCreateBulkDetailBasket, useCardSendOrder } from 'src/app/queries/basket';
 import { useGlobalSetterState } from 'src/common/context/globalSetterContext';
-import { BasketPlusIcon, CloseIcon, Excel2Icon } from 'src/common/icons';
+import { AddSymbol, BasketPlusIcon, Chart2x2SVG, CloseIcon, Excel2Icon, PlusIcon } from 'src/common/icons';
 import { useAppDispatch } from 'src/redux/hooks';
 import { emptySelectedCustomers, setSelectedSymbol } from 'src/redux/slices/option';
 import BuySellWidget from 'src/widgets/BuySell/context/BuySellContext';
@@ -25,16 +25,14 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
     const [excelData, setExcelData] = useState<InputCustomerExcelType[]>([])
     const [isOpenModal, setIsOpenModal] = useState(false)
     const { mutate: mutateCreateBulk } = useCreateBulkDetailBasket({
-        onSuccess(data) {
+        onSuccess() {
             onSuccessNotif({ title: "با موفقیت انجام شد" })
             fetchBasketDetails()
             setIsOpenModal(false)
         }
-        // ,
-        // onError() {
-        //     onInfoNotif({ title: "خطا در انجام عملیات(فایل ورودی را بررسی کنید)" })
-        // }
     })
+
+    const { mutate: mutateCardSendOrder } = useCardSendOrder();
 
 
     const dispatch = useBasketDispatch();
@@ -122,6 +120,14 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
         mutateCreateBulk(payload)
     }
 
+    const submitCardSendOrder = () => {
+        if (activeBasket) {
+            mutateCardSendOrder({
+                cartId: activeBasket,
+            })
+        }
+    }
+
 
 
     return (
@@ -186,6 +192,15 @@ const InsertBasketItem: FC<IInsertBasketItemType> = ({ activeBasket, basketDetai
                     </>
                 )
             }
+
+            <button
+                className="shadow-sm flex items-center gap-2 mt-2 py-1.5 drop-shadow-sm px-2 text-L-success-200 dark:text-D-success-200 bg-L-basic dark:bg-D-basic border border-L-gray-400 dark:border-D-gray-400 p-1 text-1.3 rounded-md"
+                onClick={submitCardSendOrder}
+            >
+                <Chart2x2SVG />
+                ارسال سبد
+            </button>
+
         </div >
     );
 };

@@ -61,9 +61,9 @@ const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => 
                                         data-actived={params.CartId === item.id}
                                         className="flex pt-1 text-L-gray-500 dark:text-D-gray-500 actived:text-L-primary-50 actived:dark:text-D-primary-100"
                                     >
-                                        <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).time}</p>
+                                        <p className="text-xs pr-2 pl-1">{item.sendDate && getFarsiDate(item.sendDate).time}</p>
                                         <FiClock width={13} height={13} />
-                                        <p className="text-xs pr-2 pl-1">{getFarsiDate(item.sendDate).farsiDate}</p>
+                                        <p className="text-xs pr-2 pl-1">{item.sendDate && getFarsiDate(item.sendDate).farsiDate}</p>
                                         <CalendarIcon width={10} height={11} />
                                     </div>
                                 </div>
