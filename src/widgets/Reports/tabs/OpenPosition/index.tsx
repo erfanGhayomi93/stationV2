@@ -118,7 +118,7 @@ export const OpenPosition = () => {
             field: "customerTitle",
             headerComponent: AGHeaderSearchInput,
             valueFormatter: (data) => data?.data?.customerTitle + " - " + data?.data?.bourseCode,
-
+            minWidth: 200
         },
         /* نماد */
         {
@@ -145,6 +145,7 @@ export const OpenPosition = () => {
             field: "positionCount",
             minWidth: 144,
             flex: 1,
+            maxWidth : 100,
             // cellClass: ({ data }) => {
             //     if (!data) return '';
             // },
