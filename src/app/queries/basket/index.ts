@@ -108,7 +108,9 @@ export const useCreateBulkDetailBasket = (
 
 //insert customer to basket
 const cardSendOrderFn = async (params: ICardSend) => {
-    const { data } = await AXIOS.post(Apis().Basket.CartSendOrder, params);
+    const fd = new FormData();
+    fd.append('cartId' , String(params.cartId));
+    const { data } = await AXIOS.post(Apis().Basket.CartSendOrder, fd);
     return data.result || 0;
 };
 export const useCardSendOrder = (

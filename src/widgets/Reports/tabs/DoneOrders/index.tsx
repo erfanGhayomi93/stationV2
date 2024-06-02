@@ -124,12 +124,13 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 headerName: 'قیمت',
                 field: 'price',
                 type: 'sepratedNumber',
-                maxWidth: 80
+                maxWidth: 120
             },
             {
                 headerName: 'کارمزد کل',
                 field: 'commission',
-                type: 'sepratedNumber'
+                type: 'sepratedNumber',
+                maxWidth: 120
             },
             {
                 headerName: 'بهای تمام شده',

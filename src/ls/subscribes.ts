@@ -3,12 +3,12 @@ import { pushEngine } from './pushEngine';
 import { queryClient } from 'src/app/queryClient';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { factoryQueryKey } from 'src/utils/helpers';
-import { json } from 'stream/consumers';
+import { queryKeyWatchlistSymbol } from 'src/constant/watchlist';
+
 
 export const subscriptionWatchlistMinor = (
     data: IGetWatchlistSymbol[],
     timer: MutableRefObject<NodeJS.Timeout | null | undefined>,
-    watchlistId: number,
 ) => {
     pushEngine.subscribe<Partial<IGetWatchlistSymbol>>({
         id: 'WatchlistSymbol',
@@ -19,7 +19,12 @@ export const subscriptionWatchlistMinor = (
         fields: ['totalNumberOfSharesTraded', 'lastTradedPrice', 'lastTradedPriceVarPercent'],
         onFieldsUpdate: ({ changedFields, itemName }) => {
             timer.current = setTimeout(() => {
-                queryClient.setQueryData(['getWatchListSymbols', watchlistId + '-' + 1], (oldData: IGetWatchlistSymbol[] | undefined) => {
+                queryClient.setQueryData(
+                    queryKeyWatchlistSymbol({
+                        PageNumber : 1 , 
+                        watchlistType : 'Pinned' ,
+                    }), 
+                    (oldData: IGetWatchlistSymbol[] | undefined) => {
                     if (!!oldData) {
                         const updatedWatchList = JSON.parse(JSON.stringify(oldData));
                         const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName);

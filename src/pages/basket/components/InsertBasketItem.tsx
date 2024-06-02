@@ -11,7 +11,7 @@ import { read, utils } from 'xlsx';
 import PapaParse, { ParseResult } from "papaparse"
 import { InsertExcel } from './InsertExcel';
 import dayjs from 'dayjs';
-import { onInfoNotif, onSuccessNotif } from 'src/handlers/notification';
+import { onSuccessNotif } from 'src/handlers/notification';
 import ipcMain from 'src/common/classes/IpcMain';
 
 interface IInsertBasketItemType {

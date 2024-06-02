@@ -1,6 +1,7 @@
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { queryKeyWatchlistSymbol } from 'src/constant/watchlist';
 
 // get watchlists//
 const getWatchLists = async () => {
@@ -40,10 +41,15 @@ const getWatchListSymbols = async (params: IRequestWatchListSymbol) => {
 
 export const useWatchListSymbolsQuery = (
     params: IRequestWatchListSymbol,
-    options?: (Omit<UseQueryOptions<IGetWatchlistSymbol[], unknown, IGetWatchlistSymbol[], string[]>, "initialData" | "queryFn" | "queryKey">) | undefined) => {
+    options?: (Omit<UseQueryOptions<IGetWatchlistSymbol[], unknown, IGetWatchlistSymbol[], string[]>, "initialData" | "queryFn" | "queryKey">) | undefined
+) => {
     const { watchlistId, PageNumber, MarketUnit, SectorCode, watchlistType, type } = params
-    const queryKey = watchlistType === "Market" ? MarketUnit as string + SectorCode : watchlistType === "Ramand" ? type : ""
-    return useQuery(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], () => getWatchListSymbols(params), { ...options });
+    // const queryKey = watchlistType === "Market" ? MarketUnit as string + SectorCode : watchlistType === "Ramand" ? type : watchlistType === "Pinned" ? watchlistType : watchlistType + watchlistId
+
+    return useQuery(
+        queryKeyWatchlistSymbol({ watchlistId, watchlistType, PageNumber, type, SectorCode, MarketUnit }),
+        () => getWatchListSymbols(params), { ...options }
+    );
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

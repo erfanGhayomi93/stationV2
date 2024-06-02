@@ -119,7 +119,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
                 minWidth: 200,
             },
             {
-                headerName: 'نام نماد',
+                headerName: 'نماد',
                 field: 'symbolTitle',
                 headerComponent: AGHeaderSearchInput,
             },
