@@ -12,6 +12,7 @@ import Modal from '../Modal';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { isFieldEmpty } from 'src/utils/helpers';
 import { t } from 'i18next';
+import ipcMain from 'src/common/classes/IpcMain';
 
 type IAddToWatchlist = {
     isOpen: boolean;
@@ -29,7 +30,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
 
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: (_, variables) => {
-            if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
+            if (variables.type === 'Pinned') ipcMain.send('refetchPinnedWatchlist')
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
             onSuccessNotif({ title: 'نماد با موفقیت  از دیده بان حذف شد' });
         },
@@ -37,7 +38,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
 
     const { mutate: addWatchListSymbol } = addWatchListSymbolMutation({
         onSuccess: (_, variables) => {
-            if (variables.watchlistId === 3) queryClient.invalidateQueries(['getWatchListSymbols', 3 + '-' + 1]);
+            if (variables.type === 'Pinned') ipcMain.send('refetchPinnedWatchlist')
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
             onSuccessNotif({ title: 'نماد با موفقیت به دیده‌بان اضافه شد' });
         },
@@ -123,7 +124,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                                 <EyeMinesIcon
                                                     width={23}
                                                     height={23}
-                                                    onClick={() => deleteWatchListSymbol({ symbolISIN, watchlistId: watchlist.id })}
+                                                    onClick={() => deleteWatchListSymbol({ symbolISIN, watchlistId: watchlist.id, type: watchlist.type })}
                                                     className="cursor-pointer text-L-error-200 dark:text-D-error-200 "
                                                 />
                                             ) : (
@@ -131,7 +132,7 @@ export const AddToWatchlistModal: FC<IAddToWatchlist> = ({ isOpen, setIsOpen, sy
                                                     data-cy={'add-symbol-btn-to-wl-' + watchlist.watchListName}
                                                     width={23}
                                                     height={23}
-                                                    onClick={() => addWatchListSymbol({ symbolISIN, watchlistId: watchlist.id })}
+                                                    onClick={() => addWatchListSymbol({ symbolISIN, watchlistId: watchlist.id, type: watchlist.type })}
                                                     className="cursor-pointer text-L-primary-50 dark:text-D-primary-50 "
                                                 />
                                             )}

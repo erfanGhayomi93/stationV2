@@ -30,7 +30,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 	const dispatch = useAppDispatch();
 
 
-	const { data: watchlists, isFetching: isFetchingWatchlist } = useWatchlistsQuery({
+	const { data: watchlists } = useWatchlistsQuery({
 		select(data) {
 			return data.filter(watchList => watchList.type === "Pinned" || watchList.type === "User")
 		},
@@ -54,7 +54,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 					symbolISINs.push(symbol.symbolISIN);
 				});
 
-				subscriptionWatchlistMinor(data, timer, watchlist?.id || 0)
+				subscriptionWatchlistMinor(data, timer)
 			},
 		}
 	);

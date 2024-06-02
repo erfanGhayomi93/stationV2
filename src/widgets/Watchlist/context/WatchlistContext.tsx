@@ -7,6 +7,7 @@ import EditWatchlistModal from '../modal/EditWatchlistModal';
 import { WatchlistReducer } from './WatchListReducer';
 import { useWatchListSymbolsQuery } from 'src/app/queries/watchlist';
 import { AddSymbolModal } from '../modal/AddSymbolModal';
+import { queryKeyWatchlistSymbol } from 'src/constant/watchlist';
 
 const initialState: WathclistState = {
     selectedWatchlistId: 1,
@@ -53,23 +54,24 @@ const WatchlistContext = () => {
                 fields: ['lastTradedPrice', 'closingPrice', 'bestSellLimitPrice_1', 'bestBuyLimitPrice_1', 'bestBuyLimitQuantity_1', 'bestSellLimitQuantity_1', 'totalNumberOfSharesTraded', 'totalTradeValue', 'highestTradePriceOfTradingDay', 'lowestTradePriceOfTradingDay', 'lastTradedPriceVarPercent', 'closingPriceVarPercent'],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
                     timer.current = setTimeout(() => {
+                        queryClient.setQueryData(
+                            queryKeyWatchlistSymbol({ watchlistType, watchlistId, PageNumber, MarketUnit, SectorCode: sector.id, type })
+                            , (oldData: IGetWatchlistSymbol[] | undefined
+                            ) => {
+                                if (!!oldData) {
+                                    const updatedWatchList = JSON.parse(JSON.stringify(oldData));
+                                    const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName);
+                                    const inx = oldData.findIndex((symbol) => symbol.symbolISIN === itemName);
 
-                        const queryKey = watchlistType === "Market" ? MarketUnit + sector.id : watchlistType === "Ramand" ? type : ""
-                        queryClient.setQueryData(['getWatchListSymbols', watchlistId + '-' + PageNumber + queryKey], (oldData: IGetWatchlistSymbol[] | undefined) => {
-                            if (!!oldData) {
-                                const updatedWatchList = JSON.parse(JSON.stringify(oldData));
-                                const effectedSymbol = oldData.find((symbol) => symbol.symbolISIN === itemName);
-                                const inx = oldData.findIndex((symbol) => symbol.symbolISIN === itemName);
+                                    const updatedSymbol = {
+                                        ...effectedSymbol,
+                                        ...changedFields,
+                                    };
 
-                                const updatedSymbol = {
-                                    ...effectedSymbol,
-                                    ...changedFields,
-                                };
-
-                                updatedWatchList[inx] = updatedSymbol;
-                                return [...updatedWatchList];
-                            }
-                        });
+                                    updatedWatchList[inx] = updatedSymbol;
+                                    return [...updatedWatchList];
+                                }
+                            });
 
                         clearTimer();
                     }, 2000);

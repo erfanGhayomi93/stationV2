@@ -85,6 +85,7 @@ interface IWatchlistType {
 interface IWatchlistSymbolRequestType {
     watchlistId: number;
     symbolISIN: string;
+    type ?: string
 }
 
 interface IWatchlistRequestType {

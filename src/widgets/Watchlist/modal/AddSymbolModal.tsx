@@ -8,16 +8,17 @@ import ipcMain from 'src/common/classes/IpcMain'
 import { queryClient } from 'src/app/queryClient'
 import { toast } from 'react-toastify'
 import { addWatchListSymbolMutation, deleteWatchListSymbolMutation } from 'src/app/queries/watchlist'
+import { queryKeyWatchlistSymbol } from 'src/constant/watchlist'
 
 export const AddSymbolModal = () => {
   const { t } = useTranslation()
-  const { state: { addSymbolMode, selectedWatchlistId, PageNumber }, setState } = useWatchListState()
+  const { state: { addSymbolMode, selectedWatchlistId, PageNumber, watchlistType }, setState } = useWatchListState()
 
   const [selected, setSelected] = useState<SymbolSearchResult[]>([])
 
   const { mutate: addWatchListSymbol } = addWatchListSymbolMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+      queryClient.invalidateQueries(queryKeyWatchlistSymbol({ watchlistType, PageNumber, watchlistId: selectedWatchlistId }));
       queryClient.invalidateQueries(['GetSymbolInWatchlist']);
       toast.success('نماد با موفقیت به دیده‌بان اضافه شد');
     }
@@ -25,7 +26,7 @@ export const AddSymbolModal = () => {
 
   const { mutate: removeWatchListSymbol } = deleteWatchListSymbolMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+      queryClient.invalidateQueries(queryKeyWatchlistSymbol({ watchlistType, PageNumber, watchlistId: selectedWatchlistId }));
       queryClient.invalidateQueries(['GetSymbolInWatchlist']);
       toast.success('نماد با موفقیت  از دیده بان حذف شد');
     }

@@ -6,6 +6,7 @@ import CodalBtn from 'src/common/components/Buttons/CodalBtn';
 import TseBtn from 'src/common/components/Buttons/TseBtn';
 import { DeleteIcon } from 'src/common/icons';
 import { useWatchListState } from '../../context/WatchlistContext';
+import { queryKeyWatchlistSymbol } from 'src/constant/watchlist';
 
 
 const ActionCellRenderer: FC<IGetWatchlistSymbol> = (symbol) => {
@@ -16,7 +17,7 @@ const ActionCellRenderer: FC<IGetWatchlistSymbol> = (symbol) => {
 
     const { mutate: deleteWatchListSymbol } = deleteWatchListSymbolMutation({
         onSuccess: () => {
-            queryClient.invalidateQueries(['getWatchListSymbols', selectedWatchlistId + '-' + PageNumber]);
+            queryClient.invalidateQueries(queryKeyWatchlistSymbol({ watchlistType: watchlistType, PageNumber, watchlistId: selectedWatchlistId }));
             queryClient.invalidateQueries(['GetSymbolInWatchlist']);
 
             toast.success('دیده‌بان با موفقیت حذف شد');

@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import { queryClient } from 'src/app/queryClient';
@@ -13,6 +13,7 @@ import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
+import DetailModal from '../OpenOrders/modals/DetailModal';
 
 export const AllOrders = () => {
 
@@ -20,11 +21,17 @@ export const AllOrders = () => {
 
     const { data: orders, isFetching: loadingOrders } = useGetOrders({ GtOrderStateRequestType: 'All' });
 
+    const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
+
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
     const appDispatch = useAppDispatch();
+
+    const handleInfoClose = () => setDetailModalState({ isOpen: false, data: undefined });
+
+    const handleInfoClick = (data: IOrderGetType | undefined) => setDetailModalState({ isOpen: true, data: data });
 
     const handleEdit = (data: IOrderGetType | undefined) => {
         if (!data) return;
@@ -62,7 +69,7 @@ export const AllOrders = () => {
                 minWidth: 200,
             },
             {
-                headerName: 'نام نماد',
+                headerName: 'نماد',
                 field: 'symbolTitle',
                 headerComponent: AGHeaderSearchInput,
             },
@@ -87,8 +94,8 @@ export const AllOrders = () => {
                 cellClassRules: {
                     'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
                     'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
-                } ,
-                minWidth : 120
+                },
+                minWidth: 120
             },
             {
                 headerName: 'تعداد',
@@ -135,6 +142,9 @@ export const AllOrders = () => {
                         requiredButtons={['Edit', 'Delete', 'Info']}
                         onEditClick={handleEdit}
                         onDeleteClick={handleDelete}
+                        onInfoClick={handleInfoClick}
+                        disableEdit={['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'Expired', 'InOMSQueue', 'OnSending', 'OnCanceling'].includes(row?.data ? row?.data?.orderState : '')}
+                        disableDelete={['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'Expired', 'InOMSQueue', 'OnSending', 'OnCanceling'].includes(row?.data ? row?.data?.orderState : '')}
                     />
                 ),
             },
@@ -181,6 +191,12 @@ export const AllOrders = () => {
                     suppressRowVirtualisation={true}
                 />
             </WidgetLoading>
+
+            {
+                detailModalState?.isOpen && (
+                    <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} modalData={detailModalState?.data} />
+                )
+            }
         </div>
     )
 }
