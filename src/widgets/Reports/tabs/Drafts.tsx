@@ -54,7 +54,7 @@ const Drafts: FC<IDraft> = () => {
 
                                 const res = draft.map(item => {
                                     if (item.symbolISIN === itemName) {
-                                        return { ...item, lastTradedPrice: Number(changedFields || 0) }
+                                        return { ...item, lastTradedPrice: Number(changedFields.lastTradedPrice || 0) }
                                     }
                                     return { ...item }
                                 })
