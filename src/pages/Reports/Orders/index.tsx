@@ -5,7 +5,7 @@ import { useOrderListExcel, useOrderLists } from 'src/app/queries/order';
 import { initialState, orderStatusFieldOptions } from './constant';
 import { emptySelectedCustomers, emptySelectedSymbol } from 'src/redux/slices/option';
 import { useAppDispatch } from 'src/redux/hooks';
-import { cleanObjectOfFalsyValues, excelDownloader, valueFormatterSide } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, dateTimeFormatter, excelDownloader, valueFormatterSide } from 'src/utils/helpers';
 import ReportLayout from 'src/common/components/ReportLayout';
 import RefreshBtn from 'src/common/components/Buttons/RefreshBtn';
 import ExcelExportBtn from 'src/common/components/Buttons/ExcelExportBtn';
@@ -17,12 +17,12 @@ import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import SymbolMiniSelect from 'src/common/components/SymbolMiniSelect';
 import RadioField from 'src/common/components/RadioGroup';
 import dayjs, { ManipulateType } from 'dayjs';
-import { aggregateOnFieldOptions, customerTypeFieldOptions, sideFieldOptions, timeFieldOptions } from '../Trades/constant';
+import { customerTypeFieldOptions, sideFieldOptions, timeFieldOptions } from '../Trades/constant';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
 import Select from 'src/common/components/Select';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ICellRendererParams } from 'ag-grid-community';
-import OrderInfoModal from './modals/OrderInfoModal';
+import DetailModal from './modals/detailsModal';
 
 export interface OrdersFilterTypes {
     customers: IGoCustomerSearchResult[];
@@ -36,12 +36,17 @@ export interface OrdersFilterTypes {
 
 const Orders = () => {
     //
-
     const { t } = useTranslation();
+
     const [formValues, setFormValues] = useState(initialState);
+
     const [apiParams, setApiParams] = useState(formValues);
-    const [infoModalData, setInfoModalData] = useState<{ isOpen: boolean; data?: IGTOrderListResultType }>({ isOpen: false });
+
+    const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean, orderId?: string, customerTitle?: string, symbolTitle?: string, orderSide?: string, }>({ isOpen: false, orderId: undefined });
+
     const dispatch = useAppDispatch();
+
+    const handleInfoClose = () => setDetailModalState({ isOpen: false, orderId: undefined });
 
     const {
         data: ordersList,
@@ -54,7 +59,7 @@ const Orders = () => {
         { enabled: false },
     );
 
-    const { refetch: fetchExcel, isFetching: isExcelFetching } = useOrderListExcel(apiParams, {
+    const { refetch: fetchExcel } = useOrderListExcel(apiParams, {
         enabled: false,
         onSuccess: (response) => {
             if (response?.fileContent) {
@@ -89,29 +94,60 @@ const Orders = () => {
                 pinned: 'right',
                 valueFormatter: ({ node }) => String((apiParams?.PageNumber - 1) * apiParams?.PageSize + node?.rowIndex! + 1),
             },
-            { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
-            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', type: 'sepratedNumber' },
             {
-                headerName: t('ag_columns_headerName.side'),
-                field: 'orderSide',
-                type: 'sepratedNumber',
-                valueFormatter: valueFormatterSide,
-                cellClassRules: {
-                    'text-L-success-200': ({ value }) => value === 'Buy',
-                    'text-L-error-200': ({ value }) => value === 'Sell',
-                },
+                headerName: t('ag_columns_headerName.customer'),
+                field: 'customerTitle'
             },
-            { headerName: t('ag_columns_headerName.count'), field: 'quantity', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.price'), field: 'price', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.symbol'),
+                field: 'symbolTitle',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: 'تاریخ',
+                field: 'orderDateTime',
+                valueFormatter: ({ value }) => dateTimeFormatter(value),
+                minWidth: 120,
+                cellClass: 'ltr',
+            },
+            {
+                headerName: 'نوع',
+                field: 'orderSide',
+                valueFormatter: (data) => valueFormatterSide(data) + ' - ' + t('BSModal.validity_' + data?.data?.validity),
+                cellClassRules: {
+                    'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
+                    'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
+                },
+                minWidth: 120
+            },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'quantity',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: t('ag_columns_headerName.price'),
+                field: 'price',
+                type: 'sepratedNumber'
+            },
             {
                 headerName: t('ag_columns_headerName.tradeValue'),
                 field: 'orderValue',
                 type: 'sepratedNumber',
             },
-            { headerName: t('ag_columns_headerName.status'), field: 'omsOrderState', valueFormatter: ({ value }) => t('order_status.' + value) },
-            { headerName: t('ag_columns_headerName.date'), field: 'orderDateTime', type: 'dateWithoutTime' },
             {
-                headerName: t('ag_columns_headerName.actions'),
+                headerName: 'حجم باقی مانده',
+                field: 'RemainingQuantity',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: t('ag_columns_headerName.status'),
+                field: 'omsOrderState',
+                valueFormatter: ({ value }) => t('order_status.' + value),
+                minWidth: 180
+            },
+            {
+                headerName: t('ag_columns_headerName.details'),
                 pinned: 'left',
                 sortable: false,
                 minWidth: 90,
@@ -120,7 +156,13 @@ const Orders = () => {
                     <AGActionCell
                         data={row.data}
                         requiredButtons={['Info']}
-                        onInfoClick={() => setInfoModalData({ data: row?.data, isOpen: true })}
+                        onInfoClick={() => setDetailModalState({
+                            isOpen: true,
+                            orderId: row.data?.orderId,
+                            customerTitle: row.data?.customerTitle,
+                            symbolTitle: row.data?.symbolTitle,
+                            orderSide: row.data?.orderSide
+                        })}
                     />
                 ),
             },
@@ -250,12 +292,12 @@ const Orders = () => {
                         label={t('FilterFieldLabel.CustomerType')}
                     />
 
-                    <RadioField
+                    {/* <RadioField
                         onChange={(value) => handleFormValueChange('AggregateType', value)}
                         options={aggregateOnFieldOptions}
                         value={formValues?.AggregateType}
                         label={t('FilterFieldLabel.AggregateType')}
-                    />
+                    /> */}
                 </div>
             }
             reportNode={
@@ -280,8 +322,11 @@ const Orders = () => {
                             PaginatorHandler={PaginatorHandler}
                         />
                     </div>
-                    {infoModalData.isOpen && (
-                        <OrderInfoModal modalData={infoModalData} setModalData={setInfoModalData} aggregateType={apiParams?.AggregateType} />
+                    {detailModalState.isOpen && (
+                        <DetailModal
+                            onClose={handleInfoClose}
+                            {...{ ...detailModalState }}
+                        />
                     )}
                 </>
             }

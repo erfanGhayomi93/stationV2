@@ -149,9 +149,10 @@ export const getDetailsBasketFn = async (params: IGetBasketDetailParams) => {
     }
 };
 
-export const useGetDetailsBasket = (params: IGetBasketDetailParams) =>
-    useQuery(['BasketDetailsList', params.CartId], () => getDetailsBasketFn({ ...params }), {
+export const useGetDetailsBasket = (params: IGetBasketDetailParams , options?: UseQueryOptions<IListDetailsBasket>) =>
+    useQuery<IListDetailsBasket>(['BasketDetailsList', params.CartId], () => getDetailsBasketFn({ ...params }), {
         enabled: !!params.CartId,
+        ...options
     });
 ///////////////delete details Basket///////////////////
 const deleteDetailsBasketFn = async (cartDetailId?: number) => {

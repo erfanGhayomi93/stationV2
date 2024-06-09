@@ -336,6 +336,7 @@
     "FilterFieldLabel": {
         "Customer": "مشتری",
         "Symbol": "نماد",
+        "CustomerSymbol" : "مشتری/نماد",
         "FromDate": "از تاریخ",
         "ToDate": "تا تاریخ",
         "Side": "سمت",
@@ -388,6 +389,7 @@
         "price": "قیمت",
         "finalCost": "بهای تمام شده",
         "actions": "عملیات",
+        "details": "جزئیات",
         "transactionDesc": "شرح تراکنش",
         "debit": "بدهکار (ریال)",
         "credit": "بستانکار(ریال)",

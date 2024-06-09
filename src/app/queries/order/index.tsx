@@ -285,3 +285,21 @@ export const useTradesListExcel = (
     params: IGTTradesListRequest,
     options?: Omit<UseQueryOptions<any, unknown, any, any[]>, 'initialData' | 'queryFn' | 'queryKey'> | undefined,
 ) => useQuery(['getTradesListExcel'], () => getTradesListExcel(params), { ...options });
+
+
+
+
+
+export const orderListDetailFn = async (orderId?: string) => {
+
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IOrderListDetail[]>>(Apis().Orders.OrderDetails, { params: { orderId: orderId } });
+
+    return data.result
+};
+
+export const useOrdersListDetails = (
+    orderId?: string,
+    options?: UseQueryOptions<IOrderListDetail[]>
+) => {
+    return useQuery<IOrderListDetail[]>(['ordersListDetail', orderId], () => orderListDetailFn(orderId), { ...options });
+};
