@@ -10,6 +10,7 @@ import ActionCell, { TypeActionEnum } from 'src/widgets/Reports/components/actio
 import { useBasketDispatch } from '../context/BasketContext';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
+import { LastTradedPrice } from 'src/widgets/Watchlist/components/CellRenderer';
 
 type ITableType = {
     activeBasket: number;
@@ -74,6 +75,12 @@ export const TableBasket = ({
             { headerName: 'نماد', field: 'symbolTitle' },
             { headerName: 'سمت', field: 'side', valueFormatter: valueFormatterSide },
             { headerName: 'قیمت', field: 'price', type: 'sepratedNumber' },
+            {
+                headerName: 'آخرین قیمت',
+                field: 'lastTradedPrice',
+                cellRenderer: LastTradedPrice,
+                type: 'sepratedNumber'
+            },
             { headerName: 'درصد', field: 'percent' },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             {
@@ -95,6 +102,7 @@ export const TableBasket = ({
         [],
     );
 
+
     return (
         <>
             <div
@@ -106,11 +114,20 @@ export const TableBasket = ({
                 <AGTable
                     rowData={listAfterFilter?.result}
                     columnDefs={columns}
+                    rowSelection="single"
+                    asyncTransactionWaitMillis={4000}
+                    animateRows={true}
+                    suppressScrollOnNewData={true}
+                    suppressRowVirtualisation={true}
+                    suppressColumnVirtualisation={true}
+                    suppressLoadingOverlay={true}
+                    suppressCellFocus={true}
+                    stopEditingWhenCellsLoseFocus={true}
+                    suppressColumnMoveAnimation={true}
+                    // getRowId={({ data }) => data.symbolISIN}
                     onGridReady={(p) => setGridApi(p)}
-                    // rowSelection="multiple"
-                    // enableBrowserTooltips={false}
-                    // suppressRowClickSelection={true}
-                    // onRowSelected={onRowSelected}
+                    onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
+                    onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
                 />
             </div>
             <div className="border-t my-3"></div>

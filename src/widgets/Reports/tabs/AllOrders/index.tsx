@@ -194,7 +194,11 @@ export const AllOrders = () => {
 
             {
                 detailModalState?.isOpen && (
-                    <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} modalData={detailModalState?.data} />
+                    <DetailModal
+                        isOpen={detailModalState.isOpen}
+                        onClose={handleInfoClose}
+                        modalData={detailModalState?.data}
+                    />
                 )
             }
         </div>

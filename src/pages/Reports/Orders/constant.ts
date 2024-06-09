@@ -9,7 +9,7 @@ export const initialState: IGTOrderListRequest = {
     CustomerISIN: [],
     CustomerType: '',
     PageNumber: 1,
-    PageSize: 10,
+    PageSize: 25,
     OrderStatus: '',
     MyStationOnly: false,
     AggregateType: 'None',

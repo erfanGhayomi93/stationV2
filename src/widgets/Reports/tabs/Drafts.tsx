@@ -7,7 +7,7 @@ import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { handleValidity, removeDuplicatesInArray, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
+import { handleValidity, removeDuplicatesInArray, valueFormatterSide } from 'src/utils/helpers';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import AGActionCell from 'src/common/components/AGActionCell';
@@ -15,6 +15,7 @@ import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput
 import { useTranslation } from 'react-i18next';
 import { pushEngine } from 'src/ls/pushEngine';
 import { queryClient } from 'src/app/queryClient';
+import { LastTradedPrice } from 'src/widgets/Watchlist/components/CellRenderer';
 
 
 type IDraft = {};
@@ -35,18 +36,14 @@ const Drafts: FC<IDraft> = () => {
             const duplicatedSymbolISINs = removeDuplicatesInArray(symbolISINs)
 
             if (symbolISINs) {
-
-                console.log('duplicatedSymbolISINs', duplicatedSymbolISINs)
-
                 pushEngine.subscribe({
                     id: 'lastTraderPriceUpdateINDraft',
                     mode: 'MERGE',
                     isSnapShot: 'yes',
                     adapterName: 'RamandRLCDData',
                     items: duplicatedSymbolISINs,
-                    fields: ['lastTradedPrice'],
+                    fields: ['lastTradedPrice', 'lastTradedPriceVarPercent'],
                     onFieldsUpdate: ({ changedFields, itemName }) => {
-                        console.log('changedFields', changedFields, 'itemName', itemName);
 
                         queryClient.setQueryData(['draftList'], (oldData: IDraftResponseType[] | undefined) => {
                             if (oldData) {
@@ -54,7 +51,11 @@ const Drafts: FC<IDraft> = () => {
 
                                 const res = draft.map(item => {
                                     if (item.symbolISIN === itemName) {
-                                        return { ...item, lastTradedPrice: Number(changedFields.lastTradedPrice || 0) }
+                                        return {
+                                            ...item,
+                                            lastTradedPrice: changedFields.lastTradedPrice ? Number(changedFields.lastTradedPrice) : item.lastTradedPrice,
+                                            lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent ? changedFields.lastTradedPriceVarPercent : item.lastTradedPriceVarPercent
+                                        }
                                     }
                                     return { ...item }
                                 })
@@ -181,6 +182,7 @@ const Drafts: FC<IDraft> = () => {
                 headerName: 'آخرین قیمت',
                 field: 'lastTradedPrice',
                 type: 'sepratedNumber',
+                cellRenderer: LastTradedPrice,
             },
             {
                 headerName: 'عملیات',
@@ -205,9 +207,17 @@ const Drafts: FC<IDraft> = () => {
                 <AGTable
                     rowData={data || []}
                     columnDefs={columns}
-                    rowSelection="multiple"
+                    asyncTransactionWaitMillis={4000}
+                    animateRows={true}
+                    suppressScrollOnNewData={true}
                     suppressRowVirtualisation={true}
-                    enableBrowserTooltips={true}
+                    suppressColumnVirtualisation={true}
+                    suppressLoadingOverlay={true}
+                    suppressCellFocus={true}
+                    stopEditingWhenCellsLoseFocus={true}
+                    suppressColumnMoveAnimation={true}
+                    onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
+                    onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
                 />
             </WidgetLoading>
         </div>

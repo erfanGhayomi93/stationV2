@@ -7,10 +7,12 @@ import TopBasket from './components/TopBasket';
 import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
 import { GridReadyEvent } from 'ag-grid-community';
-import { cleanObjectOfFalsyValues } from 'src/utils/helpers';
+import { cleanObjectOfFalsyValues, removeDuplicatesInArray } from 'src/utils/helpers';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import ipcMain from 'src/common/classes/IpcMain';
+import { pushEngine } from 'src/ls/pushEngine';
+import { queryClient } from 'src/app/queryClient';
 
 function BasketPage() {
     const [detailParams, setDetailParams] = useState<filterStateType>(cleanObjectOfFalsyValues(initialDataFilterBasket) as filterStateType);
@@ -23,11 +25,53 @@ function BasketPage() {
         data: basketDetails,
         isLoading: basketDetailsIsLoading,
         refetch: fetchBasketDetails,
-    } = useGetDetailsBasket(cleanObjectOfFalsyValues(detailParams) as filterStateType);
+    } = useGetDetailsBasket(cleanObjectOfFalsyValues(detailParams) as filterStateType, {
+        onSuccess(data) {
 
-    // useEffect(() => {
-    //     detailParams?.CartId && fetchBasketDetails();
-    // }, [detailParams]);
+            const symbolISINs = data.result.map(item => item.symbolISIN);
+            const duplicatedSymbolISINs = removeDuplicatesInArray(symbolISINs)
+
+            if (symbolISINs) {
+                pushEngine.unSubscribe('lastTraderPriceUpdateInBasket')
+
+                pushEngine.subscribe({
+                    id: 'lastTraderPriceUpdateInBasket',
+                    mode: 'MERGE',
+                    isSnapShot: 'yes',
+                    adapterName: 'RamandRLCDData',
+                    items: duplicatedSymbolISINs,
+                    fields: ['lastTradedPrice', 'lastTradedPriceVarPercent'],
+                    onFieldsUpdate: ({ changedFields, itemName }) => {
+
+                        queryClient.setQueryData(['BasketDetailsList', detailParams.CartId], (oldData?: IListDetailsBasket) => {
+                            if (oldData) {
+                                const detailsBasket: IListDetailsBasket = JSON.parse(JSON.stringify(oldData));
+
+                                const result = detailsBasket.result.map(item => {
+                                    if (item.symbolISIN === itemName) {
+                                        return {
+                                            ...item,
+                                            lastTradedPrice: changedFields.lastTradedPrice ? changedFields.lastTradedPrice : item.lastTradedPrice,
+                                            lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent ? changedFields.lastTradedPriceVarPercent : item.lastTradedPriceVarPercent
+                                        }
+                                    }
+                                    return { ...item }
+                                })
+
+                                return {
+                                    ...detailsBasket,
+                                    result
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+
+
+        },
+    });
+
 
     const saveIndexBasketSelected = (id: number) => {
         setDetailParams((prev) => ({ ...prev, CartId: id }));
@@ -53,6 +97,11 @@ function BasketPage() {
 
         return () => ipcMain.removeChannel('refetchBasket')
     }, [])
+
+    useEffect(() => {
+        return () => pushEngine.unSubscribe('lastTraderPriceUpdateInBasket')
+    }, [])
+
 
 
 

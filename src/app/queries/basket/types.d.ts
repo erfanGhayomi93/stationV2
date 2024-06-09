@@ -28,6 +28,8 @@ type IListDetailsBasket = {
         orderStrategy: string;
         orderType: string;
         symbolTitle: string;
+        lastTradedPrice : number;
+        lastTradedPriceVarPercent : number
         customers: {
             customerISIN: string;
             customerTitle: string;
