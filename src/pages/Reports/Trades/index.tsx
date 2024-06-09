@@ -32,7 +32,7 @@ const Trades = () => {
     const dispatch = useAppDispatch();
 
     const { data: tradesData, refetch, isFetching } = useTradesLists(apiParams, { enabled: false });
-    const { refetch: fetchExcel, isFetching: isExcelFetching } = useTradesListExcel(apiParams, {
+    const { refetch: fetchExcel } = useTradesListExcel(apiParams, {
         enabled: false,
         onSuccess: (response) => {
             if (response?.fileContent) {
@@ -54,9 +54,18 @@ const Trades = () => {
                 maxWidth: 80,
                 valueFormatter: ({ node }) => String((apiParams?.PageNumber - 1) * apiParams?.PageSize + node?.rowIndex! + 1),
             },
-            { headerName: t('ag_columns_headerName.customer'), field: 'customerTitle' },
-            { headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode' },
-            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle' },
+            {
+                headerName: t('ag_columns_headerName.customer'),
+                field: 'customerTitle'
+            },
+            {
+                headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode'
+
+            },
+            {
+                headerName: t('ag_columns_headerName.symbol'),
+                field: 'symbolTitle'
+            },
             {
                 headerName: t('ag_columns_headerName.side'),
                 field: 'orderSide',
@@ -66,9 +75,31 @@ const Trades = () => {
                     'text-L-error-200': ({ value }) => value === 'Sell',
                 },
             },
-            { headerName: t('ag_columns_headerName.date'), field: 'tradeDate', type: 'dateWithoutTime' },
-            { headerName: t('ag_columns_headerName.count'), field: 'tradeQuantity', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.price'), field: 'tradePrice', type: 'sepratedNumber' },
+            {
+                headerName: 'مبدا',
+                field: 'orderFrom',
+            },
+            {
+                headerName: t('ag_columns_headerName.date'),
+                field: 'tradeDate',
+                type: 'dateWithoutTime'
+            },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'tradeQuantity',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: t('ag_columns_headerName.price'),
+                field: 'tradePrice',
+                type: 'sepratedNumber'
+            },
+            {
+                headerName: 'کارمزد کل',
+                field: 'totalCommission',
+                type: 'sepratedNumber',
+                maxWidth: 120
+            },
             {
                 headerName: t('ag_columns_headerName.finalCost'),
                 field: 'totalPrice',

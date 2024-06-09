@@ -143,6 +143,15 @@ interface IGTOrderListResultType {
     orderValue: number;
     idOfTrader: string;
     symbolISIN: string;
+    validity?: validity;
+    orderId  : string
+}
+
+interface IOrderListDetail {
+    orderDateTime: string,
+    price: number,
+    quantity: number,
+    msOrderState: OrderStatusType
 }
 
 interface IGTOrderListRequest {
@@ -178,6 +187,7 @@ interface IGTTradesListRequest {
 }
 
 interface IGTTradesListResultType {
+    orderId : string;
     customerISIN: string;
     customerTitle: string;
     bourseCode: string;

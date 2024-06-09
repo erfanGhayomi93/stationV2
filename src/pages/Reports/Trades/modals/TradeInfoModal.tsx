@@ -23,7 +23,9 @@ type TInfoFieldParams = {
 };
 
 const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
+
     const handleClose = () => setModalData({ isOpen: false });
+
     const [footerData, setFooterData] = useState({
         quantity: 0,
         price: 0,
@@ -33,13 +35,15 @@ const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
     });
 
     const { data, isLoading } = useQuery(
-        ['OrderDetails'],
+        ['OrderDetails',],
         () =>
             getTradeDetails({
                 OrderSide: modalData?.data?.orderSide,
-                SymbolISIN: aggregateType !== 'Customer' ? modalData?.data?.symbolISIN : undefined,
-                CustomerISIN: aggregateType !== 'Symbol' ? modalData?.data?.customerISIN : undefined,
+                SymbolISIN: modalData?.data?.symbolISIN,
+                CustomerISIN: modalData?.data?.customerISIN,
                 TradeDate: modalData?.data?.tradeDate,
+                GetTradesAggregateType: aggregateType,
+                OrderId: modalData?.data?.orderId
             }),
         {
             cacheTime: 0,
@@ -81,18 +85,18 @@ const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
         [],
     );
 
-    const createTitle = () => {
-        switch (aggregateType) {
-            case 'Customer':
-                const customerTitle = modalData?.data?.customerTitle;
-                return `(مشتری${customerTitle ? ' - ' + customerTitle : ''})`;
-            case 'Symbol':
-                const symbolTitle = modalData?.data?.symbolTitle;
-                return `(نماد${symbolTitle ? ' - ' + symbolTitle : ''})`;
-            default:
-                return '';
-        }
-    };
+    // const createTitle = () => {
+    //     switch (aggregateType) {
+    //         case 'Customer':
+    //             const customerTitle = modalData?.data?.customerTitle;
+    //             return `(مشتری${customerTitle ? ' - ' + customerTitle : ''})`;
+    //         case 'Symbol':
+    //             const symbolTitle = modalData?.data?.symbolTitle;
+    //             return `(نماد${symbolTitle ? ' - ' + symbolTitle : ''})`;
+    //         default:
+    //             return '';
+    //     }
+    // };
 
     return (
         <AppModal
@@ -102,7 +106,7 @@ const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
             width={900}
             title={
                 <span className="font-normal text-sm text-white">
-                    جزئیات معامله <span className="text-L-info-50">{createTitle()}</span>
+                    جزئیات معامله <span className="text-L-info-50">{modalData?.data?.customerTitle}</span>
                 </span>
             }
         >
