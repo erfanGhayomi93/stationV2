@@ -15,11 +15,13 @@ const TseBtn = ({ insCode, className, ...rest }: Props) => {
     }, [insCode]);
 
     return (
-        <Tippy content={t("common.TSE")} className="text-xs">
-            <button onClick={onBtnClick} className={`flex items-center justify-center p-1 rounded-sm  ${className}`} {...rest}>
-                <TseIcon className='w-5 h-5'/>
-            </button>
-        </Tippy>
+        <div>
+            <Tippy content={t("common.TSE")} className="text-xs">
+                <button onClick={onBtnClick} className={`${className ?? ''}`} {...rest}>
+                    <TseIcon className='text-L-gray-600 dark:text-D-gray-600' />
+                </button>
+            </Tippy>
+        </div>
     );
 };
 

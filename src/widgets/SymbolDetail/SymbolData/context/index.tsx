@@ -7,7 +7,7 @@ const initialState: ISymbolDataState = {
     symbolChartDate: 'Today',
     orderBookViewMode: 'Row',
     isMarketDepthOpen: false,
-    isDepthChartOpen: true,
+    isDepthChartOpen: false,
 };
 
 const useValue = () => useReducer(symbolDataReducer, initialState);

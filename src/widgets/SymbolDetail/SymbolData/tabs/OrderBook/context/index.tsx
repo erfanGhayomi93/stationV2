@@ -1,7 +1,7 @@
 import { createContainer } from 'react-tracked';
 import useMarketDepth from '../components/MarketDepth/useMarketDepth';
 import { useAppSelector } from 'src/redux/hooks';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import OrderBook from '..';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 
@@ -20,12 +20,13 @@ const initialState: IMarketDepthTypes = {
 const useValue = () => useState(initialState);
 
 export const { Provider, useTrackedState, useUpdate } = createContainer(useValue);
+
 export const useMarketDepthState = () => {
     const marketDepthData = useTrackedState();
     return { marketDepthData };
 };
 
-const MarketDepthContext = () => {
+const MarketDepthContext: FC<{ isOption: boolean }> = ({ isOption }) => {
     //
     const setMarketDepthData = useUpdate();
     const selectedSymbol = useAppSelector(getSelectedSymbol);
@@ -48,13 +49,17 @@ const MarketDepthContext = () => {
         setMarketDepthData(data);
     }, [data]);
 
-    return <OrderBook />;
+    return <OrderBook
+        isOption={isOption}
+    />;
 };
 
-const OrderBookWidget = () => {
+const OrderBookWidget: FC<{ isOption: boolean }> = ({ isOption }) => {
     return (
         <Provider>
-            <MarketDepthContext />
+            <MarketDepthContext
+                isOption={isOption}
+            />
         </Provider>
     );
 };
