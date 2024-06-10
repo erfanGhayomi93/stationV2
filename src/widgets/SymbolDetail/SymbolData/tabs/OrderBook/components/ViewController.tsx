@@ -26,7 +26,7 @@ const ViewController = () => {
         dispatch({ type: 'TOGGLE_ORDER_BOOK_VIEW', payload: 'Row' });
     };
     return (
-        <div className="mb-4 py-3 px-2 flex gap-1 justify-start text-xs rounded bg-L-gray-100 dark:bg-D-gray-100">
+        <div className="mb-2 p-2 flex gap-1 justify-start text-xs rounded bg-L-gray-100 dark:bg-D-gray-100">
             <div className="flex flex-1 gap-1 items-center justify-center  border-L-gray-500 dark:border-D-gray-500">
                 <span className="dark:text-D-gray-700">{t('OrderBook.viewMode')}</span>
                 <button onClick={handleRowView}>

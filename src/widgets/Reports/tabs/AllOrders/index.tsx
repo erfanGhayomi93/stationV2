@@ -117,7 +117,7 @@ export const AllOrders = () => {
             },
             {
                 headerName: 'حجم باقی مانده',
-                field: 'RemainingQuantity',
+                field: 'remainingQuantity',
                 type: 'sepratedNumber'
             },
             {

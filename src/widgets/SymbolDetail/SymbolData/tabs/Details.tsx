@@ -8,8 +8,8 @@ import { seprateNumber } from 'src/utils/helpers';
 
 const Details = () => {
     //
-
     const selectedSymbol = useAppSelector(getSelectedSymbol)
+    
     const { t } = useTranslation();
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {

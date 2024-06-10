@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { RiskAnnouncementIcon, SandClockIcon } from 'src/common/icons';
 import { t } from 'i18next';
 import Tippy from '@tippyjs/react';
+import AddSymbolAsPinned from 'src/common/components/AddSymbolAsPinned';
 
 const SymbolHeader = () => {
     //
@@ -42,9 +43,31 @@ const SymbolHeader = () => {
         navigate('/Market/Calender', { state: eventsIds });
     };
 
+    const symbolStateColor = (type: `bg` | `text`) => {
+        if (data?.symbolState === 'OrderEntryAuthorized_Open') return `${type}-L-success-200`; //مجاز
+        else if (data?.symbolState === 'OrderEntryAuthorized_Reserved') return `${type}-L-warning`; //مجاز_محفوظ
+        else if (data?.symbolState === 'OrderEntryAuthorized_Frozen') return `${type}-L-error-200`; //ممنوع
+        else if (data?.symbolState === 'OrderEntryForbidden_Suspended') return `${type}-L-error-200`; //ممنوع_متوقف
+        else if (data?.symbolState === 'OrderEntryForbidden_Open') return `${type}-L-warning`; //مجاز_متوقف
+        else if (data?.symbolState === 'OrderEntryForbidden_Reserved') return `${type}-L-warning`; //ممنوع-محفوظ
+
+        else return type + '-L-gray-600';
+    }
+
+    const symbolStateTooltip = () => {
+        if (data?.symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
+        else if (data?.symbolState === 'OrderEntryAuthorized_Reserved') return 'مجاز_محفوظ';
+        else if (data?.symbolState === 'OrderEntryAuthorized_Frozen') return 'ممنوع';
+        else if (data?.symbolState === 'OrderEntryForbidden_Suspended') return 'ممنوع_متوقف';
+        else if (data?.symbolState === 'OrderEntryForbidden_Open') return 'مجاز_متوقف';
+        else if (data?.symbolState === 'OrderEntryForbidden_Reserved') return 'ممنوع-محفوظ';
+
+        else return '';
+    }
+
     return (
         <>
-            <div className="flex items-center w-full">
+            <div className="flex w-full">
                 <div className="flex items-center gap-1">
                     {!!data?.symbolEvents.length && (
                         <span onClick={() => setIsEventOpen(!isEventOpen)} className={clsx('cursor-pointer ml-2', [!seen && 'animate-spin-slow'])}>
@@ -52,11 +75,16 @@ const SymbolHeader = () => {
                         </span>
                     )}
                     <span className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                            <SymbolState symbolState={data?.symbolState || ''} />
-                            <h4 className="dark:text-L-basic">{data?.symbolTitle || '-'}</h4>
+                        <div className="flex items-center gap-1">
+                            <SymbolState
+                                symbolState={data?.symbolState || ''}
+                                symbolStateColor={symbolStateColor('bg')}
+                                symbolStateTooltip={symbolStateTooltip()}
+                            />
+                            <h4 className="text-L-gray-700 dark:text-D-gray-700 font-medium">{data?.symbolTitle || '-'}</h4>
+                            <h4 className={symbolStateColor('text')}>{symbolStateTooltip()}</h4>
                             <h4 className="text-L-gray-500 dark:text-D-gray-500">
-                                {data?.exchange ? `( ${t('exchange_type.' + data?.exchange)} )` : ''}
+                                {data?.exchange ? `(${t('exchange_type.' + data?.exchange)})` : ''}
                             </h4>
                             {data?.clientSideAlertEnabled && (
                                 <Tippy content={t('Tooltip.Caution')}>
@@ -76,10 +104,11 @@ const SymbolHeader = () => {
                             }
 
                         </div>
-                        <h4 className="text-L-gray-500 dark:text-D-gray-500 mr-4">{data?.companyName || '-'}</h4>
+                        <h4 className="text-L-gray-500 dark:text-D-gray-500">{data?.companyName || '-'}</h4>
                     </span>
                 </div>
-                <div className="mr-auto flex items-center">
+                <div className="mr-auto flex gap-x-3">
+                    <AddSymbolAsPinned symbolISIN={selectedSymbol} />
                     <AddToWatchlistButton symbolISIN={selectedSymbol} />
                     <CodalBtn symbolTitle={data?.symbolTitle || ''} />
                     <TseBtn insCode={data?.insCode || ''} />

@@ -42,17 +42,19 @@ const SymbolData = () => {
             {
                 key: 'OrderBook',
                 title: t('SymbolDetails.orderBook'),
-                content: <OrderBookWidget />,
+                content: <OrderBookWidget
+                    isOption={symbolData?.isOption || false}
+                />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
-            {
-                key: symbolData?.isOption ? 'AuthorityDetails' : 'AdditionalData',
-                title: symbolData?.isOption ? t('SymbolDetails.AuthorityDetails') : t('SymbolDetails.additionalData'),
-                content: symbolData?.isOption ? <AuthorityDetails /> : <AdditionalData />,
-                tabClass: 'pt-4 outline-none',
-                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
-            },
+            // {
+            //     key: symbolData?.isOption ? 'AuthorityDetails' : 'AdditionalData',
+            //     title: symbolData?.isOption ? t('SymbolDetails.AuthorityDetails') : t('SymbolDetails.additionalData'),
+            //     content: symbolData?.isOption ? <AuthorityDetails /> : <AdditionalData />,
+            //     tabClass: 'pt-4 outline-none',
+            //     selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            // },
             // {
             //     key: 'AdditionalData',
             //     title: t('SymbolDetails.additionalData'),
@@ -93,7 +95,7 @@ const SymbolData = () => {
     );
 
     return (
-        <div className="rounded-md overflow-hidden h-full w-full flex flex-col gap-5 border border-L-gray-400 bg-L-basic dark:border-D-gray-400 dark:bg-D-basic p-3">
+        <div className="rounded-md overflow-hidden h-full w-full flex flex-col gap-x-5 gap-y-3 border border-L-gray-400 bg-L-basic dark:border-D-gray-400 dark:bg-D-basic p-3">
             <ErrorBoundary>
                 <div className="text-1.2 flex flex-col gap-2">
                     <SymbolHeader />
