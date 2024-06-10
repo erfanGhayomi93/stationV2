@@ -56,10 +56,12 @@ const Trades = () => {
             },
             {
                 headerName: t('ag_columns_headerName.customer'),
-                field: 'customerTitle'
+                field: apiParams.GetTradesAggregateType === 'None' ? 'customerTitle' : 'iterationCount'
             },
             {
-                headerName: t('ag_columns_headerName.bourseCode'), field: 'bourseCode'
+                headerName: t('ag_columns_headerName.bourseCode'),
+                field: 'bourseCode',
+                hide: apiParams.GetTradesAggregateType !== 'None'
 
             },
             {

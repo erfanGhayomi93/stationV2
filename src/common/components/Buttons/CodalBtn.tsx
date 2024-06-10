@@ -15,15 +15,17 @@ const CodalBtn = ({ className, symbolTitle, ...rest }: Props) => {
     }, [symbolTitle]);
 
     return (
-        <Tippy content={t("common.codal")} className="text-xs">
-            <button
-                onClick={onBtnClick}
-                className={clsx(className || 'flex items-center justify-center rounded-sm  dark:text-white')}
-                {...rest}
-            >
-                <CodalIcon className='w-6 h-6' />
-            </button>
-        </Tippy>
+        <div>
+            <Tippy content={t("common.codal")} className="text-xs">
+                <button
+                    onClick={onBtnClick}
+                    className={clsx(className ?? '')}
+                    {...rest}
+                >
+                    <CodalIcon className='text-L-gray-600 dark:text-D-gray-600' />
+                </button>
+            </Tippy>
+        </div>
     );
 };
 

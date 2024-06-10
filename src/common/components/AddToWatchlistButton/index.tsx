@@ -13,8 +13,11 @@ const AddToWatchlistButton: FC<IAddToWatchlistButtonType> = ({ symbolISIN }) => 
     return (
         <div>
             <Tippy content="افزودن نماد به دیده‌بان" className="text-xs">
-                <button className="flex items-center justify-center p-1 text-L-primary-50 dark:text-D-primary-50">
-                    <EyePlusIcon className='w-6 h-6' onClick={() => setIsOpen(true)} data-cy="add-symbol-to-watchlist" />
+                <button className='flex items-center'>
+                    <EyePlusIcon
+                        className='text-L-gray-600 dark:text-D-gray-600'
+                        onClick={() => setIsOpen(true)} data-cy="add-symbol-to-watchlist"
+                    />
                 </button>
             </Tippy>
             {isOpen && <AddToWatchlistModal {...{ isOpen, setIsOpen, symbolISIN }} />}
