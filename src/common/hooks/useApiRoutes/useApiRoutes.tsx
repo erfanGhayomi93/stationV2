@@ -115,7 +115,7 @@ export const Apis = () => ({
         Modify: getBaseUrl() + '/Order/v1/Modify',
         ModifySingleTrade: getBaseUrl() + '/Order/v1/ModifySingleTrade',
         Trades: getBaseUrl() + '/Order/v1/Trades',
-        TradesDetail: getBaseUrl() + '/Order/v1/GetTradeListDetails',
+        TradesDetail: getBaseUrl() + '/Order/v1/TradesDetails',
         TradesExcel: getBaseUrl() + '/Order/v1/TradesExcel',
         OfflineRequests: getBaseUrl() + '/Order/v1/TradeRequests',
         DeleteRequest: getBaseUrl() + '/Order/v1/DeleteRequest',
