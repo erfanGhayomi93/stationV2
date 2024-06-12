@@ -6,20 +6,20 @@ import SymbolHeader from './SymbolHeader';
 import SymbolPricePreview from './SymbolPricePreview';
 import SymbolPriceSlider from './SymbolPriceSlider';
 import { useTranslation } from 'react-i18next';
-import AdditionalData from './tabs/AdditionalData';
 import SymbolChart from './tabs/SymbolChart';
 import Messages from './tabs/Messages';
 import SameGroup from './tabs/SameGroup';
 import OrderBookWidget from './tabs/OrderBook/context';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolTabsContext from './context';
-import AuthorityDetails from './tabs/AuthorityDetails';
 import { OptionContract } from './tabs/OptionContract';
 import ErrorBoundary from 'src/common/components/ErrorBoundary';
+import { HighLowPriceSymbol } from './tabs/HighLowPriceSymbol';
 
 const SymbolData = () => {
     //
     const [activeTab, setActiveTab] = useState('OrderBook');
+    
     const { t } = useTranslation();
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
@@ -34,6 +34,7 @@ const SymbolData = () => {
             closingPrice: data?.symbolData?.closingPrice,
             lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
             isOption: data?.symbolData?.isOption,
+            openPrice: data?.symbolData?.openPrice,
         }),
     });
 
@@ -45,7 +46,7 @@ const SymbolData = () => {
                 content: <OrderBookWidget
                     isOption={symbolData?.isOption || false}
                 />,
-                tabClass: 'pt-4 outline-none',
+                tabClass: 'pt-2 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             // {
@@ -95,33 +96,45 @@ const SymbolData = () => {
     );
 
     return (
-        <div className="rounded-md overflow-hidden h-full w-full flex flex-col gap-x-5 gap-y-3 border border-L-gray-400 bg-L-basic dark:border-D-gray-400 dark:bg-D-basic p-3">
+        <div className="h-full w-full flex flex-col gap-y-3 overflow-hidden">
             <ErrorBoundary>
-                <div className="text-1.2 flex flex-col gap-2">
-                    <SymbolHeader />
-                    <SymbolPricePreview />
-                    <span className="px-2">
+                <div className="text-1.2 flex flex-col gap-2 h-full">
+                    <div className='bg-L-basic dark:bg-D-basic rounded p-3'>
+                        <SymbolHeader />
+                        <SymbolPricePreview />
+                    </div>
+
+                    <div className="flex flex-col gap-y-4 bg-L-basic dark:bg-D-basic rounded p-3">
                         <SymbolPriceSlider
                             yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
                             thresholdData={[symbolData?.lowThreshold ?? 0, symbolData?.highThreshold ?? 0]}
                             exchangeData={[symbolData?.closingPrice ?? 0, symbolData?.lastTradedPrice ?? 0]}
                             boundaryData={[symbolData?.lowestTradePriceOfTradingDay ?? 0, symbolData?.highestTradePriceOfTradingDay ?? 0]}
                         />
-                    </span>
-                </div>
-                <div className="flex flex-col h-full overflow-hidden">
-                    <SymbolTabsContext>
-                        <TabsList
-                            fill={true}
-                            onChange={(idx) => setActiveTab(idx)}
-                            selectedIndex={activeTab}
-                            items={items}
-                            buttonClass="text-L-gray-600 dark:text-D-gray-600"
-                            className="w-full grid text-1.2 grid-rows-min-one  overflow-y-auto h-full   bg-L-basic dark:bg-D-basic"
-                            pannelClassName="overflow-y-auto h-full  bg-L-basic dark:bg-D-basic"
-                            tabListClassName="bg-L-basic dark:bg-D-basic overflow-x-auto relative z-[0] text-1.1"
+
+                        <HighLowPriceSymbol
+                            highestTradePriceOfTradingDay={symbolData?.highestTradePriceOfTradingDay ?? 0}
+                            lowestTradePriceOfTradingDay={symbolData?.lowestTradePriceOfTradingDay ?? 0}
+                            yesterdayClosingPrice={symbolData?.yesterdayClosingPrice ?? 0}
+                            openPrice={symbolData?.openPrice ?? 0}
                         />
-                    </SymbolTabsContext>
+                    </div>
+
+                    <div className="flex flex-col h-full bg-L-basic dark:bg-D-basic rounded p-1 overflow-auto">
+                        <SymbolTabsContext>
+                            <TabsList
+                                fill={true}
+                                onChange={(idx) => setActiveTab(idx)}
+                                selectedIndex={activeTab}
+                                items={items}
+                                buttonClass="text-L-gray-600 dark:text-D-gray-600"
+                                className="w-full grid text-1.2 grid-rows-min-one overflow-y-auto h-full bg-L-basic dark:bg-D-basic"
+                                pannelClassName="overflow-y-auto h-full"
+                                tabListClassName="overflow-x-auto relative z-[0] text-1.1"
+                            />
+                        </SymbolTabsContext>
+                    </div>
+
                 </div>
             </ErrorBoundary>
         </div >
