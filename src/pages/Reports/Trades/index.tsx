@@ -56,7 +56,7 @@ const Trades = () => {
             },
             {
                 headerName: t('ag_columns_headerName.customer'),
-                field: apiParams.GetTradesAggregateType === 'None' ? 'customerTitle' : 'iterationCount'
+                field: apiParams.GetTradesAggregateType === 'None' || apiParams.GetTradesAggregateType === 'Both' ? 'customerTitle' : 'iterationCount'
             },
             {
                 headerName: t('ag_columns_headerName.bourseCode'),
@@ -80,6 +80,7 @@ const Trades = () => {
             {
                 headerName: 'مبدا',
                 field: 'orderFrom',
+                hide: apiParams.GetTradesAggregateType !== 'None'
             },
             {
                 headerName: t('ag_columns_headerName.date'),
@@ -116,7 +117,7 @@ const Trades = () => {
                 ),
             },
             {
-                headerName: t('ag_columns_headerName.actions'),
+                headerName: 'جزيیات',
                 pinned: 'left',
                 sortable: false,
                 minWidth: 90,

@@ -573,7 +573,7 @@ export const dateTimeFormatter = (v: string | number, format: 'date' | 'time' | 
 	const formats: Record<typeof format, string> = {
 		time: 'HH:mm',
 		date: 'YYYY/MM/DD',
-		datetime: 'YYYY/MM/DD HH:mm',
+		datetime: 'YYYY/MM/DD HH:mm:ss',
 	};
 
 	const d = dayjs(v ?? new Date()).calendar('jalali');

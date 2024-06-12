@@ -77,7 +77,7 @@ export const AllOrders = () => {
                 headerName: 'تاریخ',
                 field: 'requestDate',
                 valueFormatter: ({ value }) => dateTimeFormatter(value),
-                minWidth: 120,
+                minWidth: 140,
                 cellClass: 'ltr',
             },
             {
