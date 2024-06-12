@@ -8,6 +8,7 @@ import { getSelectedSymbol } from 'src/redux/slices/option';
 const SymbolPricePreview = () => {
     //
     const selectedSymbol = useAppSelector(getSelectedSymbol)
+    
     const appDispatch = useAppDispatch()
 
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
@@ -24,19 +25,20 @@ const SymbolPricePreview = () => {
     }
 
     return (
-        <div className="px-3 py-2 text-1.2 rounded-md bg-L-gray-300 dark:bg-D-gray-300 dark:text-L-basic text-D-basic">
+        <div className="px-3 py-2 mt-4 text-1.2 rounded-md bg-L-gray-50 dark:bg-D-gray-50 dark:text-L-basic text-D-basic">
             <div className="grid gap-1 grid-cols-2 justify-items-center ">
-                <PriceView
-                    onClickPrice={() => setPriceOnBuySellModal(data?.closingPrice || 0)}
-                    label="قیمت پایانی"
-                    price={data?.closingPrice || 0}
-                    percentage={data?.closingPriceVarPercent || 0}
-                />
                 <PriceView
                     onClickPrice={() => setPriceOnBuySellModal(data?.lastTradedPrice || 0)}
                     label="آخرین قیمت"
                     price={data?.lastTradedPrice || 0}
                     percentage={data?.lastTradedPriceVarPercent || 0}
+                />
+
+                <PriceView
+                    onClickPrice={() => setPriceOnBuySellModal(data?.closingPrice || 0)}
+                    label="قیمت پایانی"
+                    price={data?.closingPrice || 0}
+                    percentage={data?.closingPriceVarPercent || 0}
                 />
             </div>
         </div>

@@ -49,6 +49,7 @@ const SymbolDetail = () => {
                     'lowestTradePriceOfTradingDay',
                     'highestTradePriceOfTradingDay',
                     'symbolState',
+                    'openPrice'
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
                     //@ts-ignore

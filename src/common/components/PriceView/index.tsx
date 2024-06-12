@@ -28,7 +28,7 @@ const PriceView = ({
     );
 
     return (
-        <div className="flex flex-nowrap whitespace-nowrap snap-center gap-3">
+        <div className="flex flex-nowrap whitespace-nowrap snap-center gap-1">
             {label ? <span className="ml-1">{label}:</span> : null}
             <div
                 className={clsx(textColorClassName, {
@@ -37,7 +37,7 @@ const PriceView = ({
                 style={{ direction: 'ltr' }}
                 onClick={() => onClickPrice ? onClickPrice() : null}
             >
-                {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage}%)`}
+                {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage ? percentage : 0}%)`}
             </div>
         </div>
     );
