@@ -30,7 +30,9 @@ export const TableBasket = ({
     handlePageInfoChange
 }: ITableType) => {
     const { mutate: mutateDelete } = useDeleteDetailsBasket(activeBasket);
+
     const appDispatch = useAppDispatch();
+    
     const dispatch = useBasketDispatch();
 
     const handleDelete = (data?: TRowData) => {

@@ -16,6 +16,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
+    
     const {
         state: {
             params: { term },

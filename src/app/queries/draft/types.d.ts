@@ -60,3 +60,19 @@ type stateCustomer = {
     // CustomerTagTitles?: string[];
     // GtTraderGroupId?: string[];
 };
+
+interface ICreateMyGroup{
+    groupName: string ;
+    customerISINs?: string[]
+  }
+
+interface IUpdateMyGroup {
+    id: number;
+    groupName: string
+    children ?: IGoMultiCustomerType[] 
+}
+
+interface IAddCustomerToMyGroup {
+    groupId : number , 
+    customerISINs : string[]
+}

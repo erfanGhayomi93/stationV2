@@ -1,4 +1,4 @@
-import { useBuySellState } from '../../context/BuySellContext';
+import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
@@ -6,7 +6,7 @@ import { handleValidity, seprateNumber } from 'src/utils/helpers';
 import clsx from 'clsx';
 import { useQueryClient } from '@tanstack/react-query';
 import { onSuccessNotif } from 'src/handlers/notification';
-import { useCreateDetailsBasket } from 'src/app/queries/basket';
+import { useCreateBulkDetailBasket, useCreateDetailsBasket } from 'src/app/queries/basket';
 
 type Props = {
     basketID: number;
@@ -17,27 +17,35 @@ type Props = {
 const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
     //
     const { t } = useTranslation();
-    const selectedCustomers = useAppSelector(getSelectedCustomers);
-    const selectedSymbol = useAppSelector(getSelectedSymbol);
-    const queryClient = useQueryClient();
-    // const dispatch = useBuySellDispatch();
-    // const appDispatch = useAppDispatch();
-    const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', selectedSymbol])?.symbolData;
-    const selectedCustomersName = selectedCustomers.map(({ title }) => title);
-    const { side, price, quantity, sequential, symbolISIN, validity, validityDate, percent } = useBuySellState();
 
-    const { mutate: mutateCreateDetailBasket } = useCreateDetailsBasket({
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
+
+    const selectedSymbol = useAppSelector(getSelectedSymbol);
+
+    const queryClient = useQueryClient();
+
+    const dispatch = useBuySellDispatch();
+
+    // const appDispatch = useAppDispatch();
+
+    const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', selectedSymbol])?.symbolData;
+
+    const selectedCustomersName = selectedCustomers.map(({ title }) => title);
+
+    const { side, price, quantity, symbolISIN, validity, validityDate, percent } = useBuySellState();
+
+    const { mutate: mutateCreateBulk } = useCreateBulkDetailBasket({
         onSuccess: () => {
-            onSuccessNotif({ title: 'مشتری با موفقیت به سبد اضافه شد' });
-            queryClient.invalidateQueries(['draftList']);
+            onSuccessNotif({ title: 'سفارش با موفقیت به سبد اضافه شد' });
             onCancel();
+            dispatch({ type: 'RESET' });
         }
-    });
+    })
+
 
     const handleSetBasket = () => {
-        let isins = selectedCustomers.map((c: any) => c.customerISIN);
-        let isinsCommaSeparator = String(isins);
-        const result = {
+        //
+        const result = selectedCustomers.map(item => ({
             cartID: basketID,
             symbolISIN: symbolISIN,
             price: price,
@@ -46,10 +54,11 @@ const ConfirmOrder = ({ basketID, basketName, onCancel }: Props) => {
             side: side,
             validity: handleValidity(validity),
             validityDate: validityDate,
-            customerISIN: isinsCommaSeparator,
+            customerISIN: item.customerISIN,
             orderStrategy: 'Normal',
-        };
-        mutateCreateDetailBasket(result);
+        }))
+
+        mutateCreateBulk(result)
     };
     return (
         <div className="flex flex-col justify-between p-6">

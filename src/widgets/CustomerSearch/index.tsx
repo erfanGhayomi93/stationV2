@@ -9,9 +9,11 @@ import { SelectedList as SelectedListIcon } from 'src/common/icons';
 import clsx from 'clsx';
 import CustomerPortfolioModal from './modal/CustomerPortfolioModal';
 import CustomerDetailModal from './modal/CustomerDetailModal';
+import MyGroup from './tabs/myGroup';
+import ManagementMyGroupModal from './components/managementMyGroup';
 
 const CustomerWidget = () => {
-    const { state: { activeTab, isPortfolioModalOpen, isDetailModalOpen }, setState } = useCustomerSearchState()
+    const { state: { activeTab, isPortfolioModalOpen, isDetailModalOpen, isManagementMyGroupOpen }, setState } = useCustomerSearchState()
 
 
     const setActiveTab = (tab: string) => {
@@ -34,6 +36,11 @@ const CustomerWidget = () => {
                 key: 'FavoriteList',
                 title: <>لیست دلخواه</>,
                 content: <FavoriteList />,
+            },
+            {
+                key: 'MyGroup',
+                title: <>گروه‌های من</>,
+                content: <MyGroup />,
             },
             {
                 key: 'SelectedList',
@@ -67,6 +74,8 @@ const CustomerWidget = () => {
             {!!isDetailModalOpen && <CustomerDetailModal />}
 
             {!!isPortfolioModalOpen && <CustomerPortfolioModal />}
+
+            {!!isManagementMyGroupOpen && <ManagementMyGroupModal />}
 
         </>
     );

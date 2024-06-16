@@ -1,34 +1,44 @@
-import { FC, memo, MouseEvent } from 'react';
 import { ChevronIcon } from 'src/common/icons';
 import { Disclosure, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import ResultItem from './ResultItem';
 
 
-interface IResultItem {
-    customer: IGoMultiCustomerType,
+interface IResultItem<T> {
+    customer: T,
     ind: number,
-    refetchToggleFavorite : () => void
+    refetchToggleFavorite: () => void,
+    getLable: (v: T) => string
+    getChildren: (v: T) => IGoMultiCustomerType[] | undefined
 }
 
-const GroupItem: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
+// The GroupItem component
+const GroupItem = <T,>({
+    customer,
+    ind,
+    refetchToggleFavorite,
+    getLable,
+    getChildren
+}: IResultItem<T>) => {
     return (
         <div className="flex text-L-gray-600 dark:text-D-gray-600 w-full">
-            <Item
+            <Item<T>
                 customer={customer}
-                key={customer.customerISIN}
+                key={getLable(customer)} // Ensure customerISIN is unique and defined
                 ind={ind}
                 refetchToggleFavorite={refetchToggleFavorite}
+                getLable={(customer) => getLable(customer)}
+                getChildren={(customer) => getChildren(customer)}
             />
         </div>
     );
 };
 
-export default memo(GroupItem);
+// Use memo to optimize rendering
+export default GroupItem;
 
 
-
-const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
+const Item = <T,>({ customer, ind, refetchToggleFavorite, getLable, getChildren }: IResultItem<T>) => {
 
     return (
         <div className='w-full'>
@@ -58,7 +68,7 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
                                 /> */}
 
                                 <h1 className={clsx('w-full truncate text-right text-L-text-700 dark:text-D-gray-700 font-medium select-text')}>
-                                    {customer.title}
+                                    {getLable(customer)}
                                 </h1>
                             </div>
 
@@ -82,7 +92,7 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
                         >
                             <Disclosure.Panel className="text-xs font-normal text-L-gray-500 dark:text-D-gray-500 text-right">
                                 {
-                                    customer.children.map((item, ind) => (
+                                    getChildren(customer) && getChildren(customer)?.map((item, ind) => (
                                         <ResultItem
                                             key={ind}
                                             data={item}
@@ -90,6 +100,14 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
                                         />
                                     ))
                                 }
+
+                                {getChildren(customer)?.length === 0 && (
+                                    <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-9">
+                                        <div className="w-full flex items-center gap-4 justify-start pr-3 truncate select-text">
+                                            مشتری وجود ندارد
+                                        </div>
+                                    </div>
+                                )}
                             </Disclosure.Panel>
                         </Transition>
                     </div>
@@ -98,23 +116,3 @@ const Item: FC<IResultItem> = ({ customer, ind , refetchToggleFavorite }) => {
         </div>
     )
 }
-
-
-{/*  // <div key={ind} className='flex bg-L-gray-100 dark:bg-D-gray-100'>
-                                    //     <div className="w-full flex items-center gap-4 justify-start truncate border-l border-L-basic dark:border-D-basic pr-2">
-                                    //         <input
-                                    //             type="checkbox"
-                                    //             className="cursor-pointer"
-                                    //         // checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
-                                    //         // onChange={(event) => onSelectionChanged(event.target.checked, customer)}
-                                    //         />
-                                    //         {item?.title}
-                                    //     </div>
-                                    //     <div className="w-4/6  flex items-center justify-center text-L-gray-500 dark:text-D-gray-500 border-l border-L-basic dark:border-D-basic">{item?.bourseCode}</div>
-                                    //     <div className="w-4/6  flex items-center justify-center border-l border-L-basic dark:border-D-basic">{item?.nationalCode}</div>
-                                    //     <div className="w-4/6  flex items-center justify-center border-l border-L-basic dark:border-D-basic">{seprateNumber(item?.purchasePower)}</div>
-                                    //     <div className="w-4/6  flex items-center justify-center border-l border-L-basic dark:border-D-basic">-</div>
-                                    //     <div className="w-4/6  flex items-center justify-center border-l">
-                                    //         <ActionCellRenderer {...item} />
-                                    //     </div>
-                                    // </div> */}

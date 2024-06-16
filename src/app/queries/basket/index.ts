@@ -156,12 +156,8 @@ export const useGetDetailsBasket = (params: IGetBasketDetailParams , options?: U
     });
 ///////////////delete details Basket///////////////////
 const deleteDetailsBasketFn = async (cartDetailId?: number) => {
-    try {
         let { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Basket.DeleteDetails as string, {}, { params: { cartDetailId } });
         return data.result || 0;
-    } catch {
-        return 0;
-    }
 };
 
 export const useDeleteDetailsBasket = (cartId: number) =>

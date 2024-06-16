@@ -16,9 +16,9 @@ const PriceView = ({
     price,
     percentage,
     label,
-    positiveClassName = 'text-green-500',
-    negativeClassName = 'text-red-500',
-    neutralClassName = 'text-gray-500',
+    positiveClassName = 'text-L-success-200',
+    negativeClassName = 'text-L-error-200',
+    neutralClassName = 'text-L-gray-600 dark:text-D-gray-600',
     onClickPrice
 }: IProps) => {
     //

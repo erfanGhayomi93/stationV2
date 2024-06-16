@@ -3,6 +3,7 @@ type ICustomerMultiTypeType = 'Legal' | 'Natural';
 type IStatusCustomerType = 'Normal' | 'CallMargin' | 'AtRisk';
 
 interface IGoMultiCustomerType {
+    id?:string
     bourseCode: string;
     children: IGoMultiCustomerType[];
     creditValue: number;
@@ -12,6 +13,7 @@ interface IGoMultiCustomerType {
     purchasePower: number;
     title: string;
     isFavorite: boolean;
+    parentId ?: number;
 }
 
 interface IReqestCustomer {

@@ -70,6 +70,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <div>
                         <span>{row.value}</span>
+                        <span>{row?.data?.bourseCode ? " - " + row?.data?.bourseCode : ""}</span>
                         {
                             aggregateType === 'Customer' && (
                                 <span className="pr-1">({row.data?.iterationCount})</span>
