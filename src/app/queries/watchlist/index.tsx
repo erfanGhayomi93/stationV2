@@ -14,10 +14,8 @@ export const useWatchlistsQuery = <T = IWatchlistType[],>(
 ) => {
     return useQuery(['getWatchLists'], () => getWatchLists(), options);
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-{/* get watchlists List  */ }
 const getWatchListSymbols = async (params: IRequestWatchListSymbol) => {
     const { watchlistId, PageNumber, watchlistType, MarketUnit, SectorCode, type } = params
 
@@ -54,7 +52,7 @@ export const useWatchListSymbolsQuery = (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-{/* // add symbol in watchlist */ }
+{/* //add symbol in watchlist */}
 const addWatchListSymbol = async (params: IWatchlistSymbolRequestType) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().WatchList.AddSymbol as string, {}, { params });
     return data?.result;

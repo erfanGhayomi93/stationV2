@@ -80,7 +80,8 @@
         "confirmation": "تاییدیه",
         "password": "رمز عبور",
         "email": "ایمیل",
-        "position": "موقعیت"
+        "position": "موقعیت",
+        "share": "سهم"
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",

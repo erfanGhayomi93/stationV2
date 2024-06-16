@@ -22,8 +22,8 @@ const Reports = () => {
 
     const requestsRef = useRef({ sendRequests: () => { }, sendAllRequests: () => { }, getOfflineRequestsExcel: () => { }, refetchOffline: () => { } });
 
-    const isCustomerFilter = aggregateType === 'Customer' || aggregateType === 'Both';
-    const isSymbolFilter = aggregateType === 'Symbol' || aggregateType === 'Both';
+    const isBothFilter = aggregateType === 'Both';
+    const isSymbolFilter = aggregateType === 'Symbol';
 
     const navigate = useNavigate();
 
@@ -34,11 +34,15 @@ const Reports = () => {
             type = aggregate;
         } else if (aggregate === aggregateType) {
             type = '';
-        } else if ((aggregate === 'Customer' && aggregateType === 'Symbol') || (aggregate === 'Symbol' && aggregateType === 'Customer')) {
-            type = 'Both';
-        } else {
-            type = aggregateType === 'Both' ? (aggregate === 'Customer' ? 'Symbol' : 'Customer') : '';
         }
+        else {
+            type = aggregate
+        }
+        //  else if ((aggregate === 'Customer' && aggregateType === 'Symbol') || (aggregate === 'Symbol' && aggregateType === 'Customer')) {
+        //     type = 'Both';
+        // } else {
+        //     type = aggregateType === 'Both' ? (aggregate === 'Customer' ? 'Symbol' : 'Customer') : '';
+        // }
 
         setAggregateType(type);
     };
@@ -127,41 +131,53 @@ const Reports = () => {
                 <div className="flex gap-x-2 items-center my-2">
                     <span className="text-L-gray-600 dark:text-D-gray-600 text-sm">تجمیع بر اساس:</span>
 
-                    <button
-                        onClick={() => changeAggregateFilter('Customer')}
-                        data-actived={isCustomerFilter}
-                        className={clsx(
-                            'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
-                        )}
-                    >
-                        <span>مشتری</span>
-                        <span
-                            data-actived={isCustomerFilter}
-                            className={clsx(
-                                'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
-                            )}
-                        >
-                            {isCustomerFilter && <Check className="text-white" width={9} height={9} />}
-                        </span>
-                    </button>
+                    {
+                        aggregateType !== 'Symbol' && (
+                            <button
+                                onClick={() => changeAggregateFilter('Both')}
+                                data-actived={isBothFilter}
+                                className={clsx(
+                                    'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
+                                )}
+                            >
+                                <span>مشتری/نماد</span>
+                                <span
+                                    data-actived={isBothFilter}
+                                    className={clsx(
+                                        'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
+                                    )}
+                                >
+                                    {isBothFilter && <Check className="text-white" width={9} height={9} />}
+                                </span>
+                            </button>
+                        )
+                    }
 
-                    <button
-                        onClick={() => changeAggregateFilter('Symbol')}
-                        data-actived={isSymbolFilter}
-                        className={clsx(
-                            'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
-                        )}
-                    >
-                        <span>نماد</span>
-                        <span
-                            data-actived={isSymbolFilter}
-                            className={clsx(
-                                'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
-                            )}
-                        >
-                            {isSymbolFilter && <Check className="text-white" width={9} height={9} />}
-                        </span>
-                    </button>
+
+
+                    {
+                        aggregateType !== 'Both' && (
+                            <button
+                                onClick={() => changeAggregateFilter('Symbol')}
+                                data-actived={isSymbolFilter}
+                                className={clsx(
+                                    'px-2 py-1.5 rounded-lg border flex justify-center items-center border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50 actived:bg-L-primary-100 actived:dark:bg-D-primary-100 ',
+                                )}
+                            >
+                                <span>نماد</span>
+                                <span
+                                    data-actived={isSymbolFilter}
+                                    className={clsx(
+                                        'w-4 h-4 rounded-full mr-3 flex items-center justify-center bg-L-primary-100 dark:bg-D-primary-100 actived:bg-L-primary-50 actived:dark:bg-D-primary-50',
+                                    )}
+                                >
+                                    {isSymbolFilter && <Check className="text-white" width={9} height={9} />}
+                                </span>
+                            </button>
+                        )
+                    }
+
+
                 </div>
             ) : activeTab === 'Requests' ? (
                 <div className="flex gap-x-2 items-center">

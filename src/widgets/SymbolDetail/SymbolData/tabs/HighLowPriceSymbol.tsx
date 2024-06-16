@@ -27,23 +27,23 @@ export const HighLowPriceSymbol: FC<IHighLowPriceProps> = (
     }
 
     return (
-        <div className='flex justify-between mt-2'>
+        <div className='flex justify-between mt-2 dark:text-L-basic text-D-basic'>
             <PriceView
-                onClickPrice={() => setPriceOnBuySellModal(0)}
+                onClickPrice={() => setPriceOnBuySellModal(highestTradePriceOfTradingDay)}
                 label="بیشترین"
                 price={highestTradePriceOfTradingDay}
                 percentage={Number((((highestTradePriceOfTradingDay - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)) * 1}
             />
 
             <PriceView
-                onClickPrice={() => setPriceOnBuySellModal(0)}
+                onClickPrice={() => setPriceOnBuySellModal(openPrice)}
                 label="اولین"
                 price={openPrice}
                 percentage={Number((((openPrice - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)) * 1}
             />
 
             <PriceView
-                onClickPrice={() => setPriceOnBuySellModal(0)}
+                onClickPrice={() => setPriceOnBuySellModal(lowestTradePriceOfTradingDay)}
                 label="کمترین"
                 price={lowestTradePriceOfTradingDay}
                 percentage={Number((((lowestTradePriceOfTradingDay - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)) * 1}

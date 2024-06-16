@@ -84,7 +84,7 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
     });
 
     return (
-        <div className="w-full  ">
+        <div className="w-full">
             <Combobox value={symbolData || ''} onChange={onSymbolSelect}>
                 {({ open }) => (
                     <div className="relative  ">

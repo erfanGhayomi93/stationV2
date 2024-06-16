@@ -52,11 +52,13 @@ const GroupSearch = () => {
         if (!listGroups) listGroups = []
         return listGroups
             .map((item, ind) => (
-                <GroupItem
+                <GroupItem<IGoMultiCustomerType>
                     key={ind}
                     ind={ind}
                     customer={item}
                     refetchToggleFavorite={refetchToggleFavorite}
+                    getLable={v => v.title}
+                    getChildren={(v) => v.children}
                 />
             ))
     }, [searchGroups, defaultGroups, isDefaultUse])
