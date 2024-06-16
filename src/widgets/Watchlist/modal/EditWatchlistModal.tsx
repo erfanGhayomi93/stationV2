@@ -13,7 +13,7 @@ import clsx from 'clsx';
 
 type IEditWatchlistModalType = {};
 
-const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
+const EditWatchlistModal = ({ }: IEditWatchlistModalType) => {
     const { t } = useTranslation();
     const { setState, state } = useWatchListState();
 
@@ -103,62 +103,60 @@ const EditWatchlistModal = ({}: IEditWatchlistModalType) => {
     );
 
     return (
-        <>
-            <Modal
-                isOpen={state.editMode}
-                onClose={closeModal}
-                className="min-h-[35rem] w-[500px] rounded-md h-full grid bg-L-basic dark:bg-D-basic translate-y-7"
-            >
-                <div className="grid grid-rows-min-one-min" data-cy="wl-edit-modal">
-                    <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
-                        <div>{t('Watchlist.management')}</div>
-                        <CloseIcon onClick={closeModal} data-cy="wl-edit-modal-close" className="cursor-pointer" />
-                    </div>
+        <Modal
+            isOpen={state.editMode}
+            onClose={closeModal}
+            className="min-h-[35rem] w-[500px] rounded-md h-full grid bg-L-basic dark:bg-D-basic translate-y-7"
+        >
+            <div className="grid grid-rows-min-one-min" data-cy="wl-edit-modal">
+                <div className="w-full text-white font-semibold  bg-L-primary-50 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
+                    <div>{t('Watchlist.management')}</div>
+                    <CloseIcon onClick={closeModal} data-cy="wl-edit-modal-close" className="cursor-pointer" />
+                </div>
 
-                    <div className="p-6 text-1.2 border-b border-L-gray-400 dark:border-D-gray-400">
-                        <AGTable
-                            rowData={watchlists?.filter((item) => !item.isDefault)}
-                            columnDefs={columns}
-                            rowClass="data-cy-row"
-                            rowDragManaged={true}
-                            animateRows={true}
-                            onRowDragEnd={(e) => {
-                                let newOrderedList: number[] = [];
-                                e.api.forEachNode((node) => {
-                                    node?.data && newOrderedList.push(node.data.id);
-                                });
+                <div className="p-6 text-1.2 border-b border-L-gray-400 dark:border-D-gray-400">
+                    <AGTable
+                        rowData={watchlists?.filter((item) => !item.isDefault)}
+                        columnDefs={columns}
+                        rowClass="data-cy-row"
+                        rowDragManaged={true}
+                        animateRows={true}
+                        onRowDragEnd={(e) => {
+                            let newOrderedList: number[] = [];
+                            e.api.forEachNode((node) => {
+                                node?.data && newOrderedList.push(node.data.id);
+                            });
 
-                                setSortWatchlist(newOrderedList);
-                            }}
-                        />
-                    </div>
+                            setSortWatchlist(newOrderedList);
+                        }}
+                    />
+                </div>
 
-                    <div
-                        className={clsx('px-6 py-4 mx-2 text-right', {
-                            // "py-6": !isShowAdd,
-                            // "pb-4": isShowAdd,
-                        })}
-                    >
-                        <>
-                            <div
-                                className={clsx('flex items-center cursor-pointer h-full py-2', {
-                                    hidden: isShowAdd,
-                                })}
-                                onClick={() => setIsShowAdd(!isShowAdd)}
-                            >
-                                <div className="bg-L-primary-50 dark:bg-D-gray-400 rounded">
-                                    <PlusIcon className="text-L-basic dark:text-D-basic" />
-                                </div>
-
-                                <p className="text-L-primary-50 dark:text-D-primary-50 mr-2">{t('Watchlist.addNewWatchlist')}</p>
+                <div
+                    className={clsx('px-6 py-4 mx-2 text-right', {
+                        // "py-6": !isShowAdd,
+                        // "pb-4": isShowAdd,
+                    })}
+                >
+                    <div>
+                        <div
+                            className={clsx('flex items-center cursor-pointer h-full py-2', {
+                                hidden: isShowAdd,
+                            })}
+                            onClick={() => setIsShowAdd(!isShowAdd)}
+                        >
+                            <div className="bg-L-primary-50 dark:bg-D-gray-400 rounded">
+                                <PlusIcon className="text-L-basic dark:text-D-basic" />
                             </div>
 
-                            <AddWatchList isAddActive={isShowAdd} setIsAddActive={setIsShowAdd} FromEditMode />
-                        </>
+                            <p className="text-L-primary-50 dark:text-D-primary-50 mr-2">{t('Watchlist.addNewWatchlist')}</p>
+                        </div>
+
+                        <AddWatchList isAddActive={isShowAdd} setIsAddActive={setIsShowAdd} FromEditMode />
                     </div>
                 </div>
-            </Modal>
-        </>
+            </div>
+        </Modal>
     );
 };
 

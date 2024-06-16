@@ -10,19 +10,24 @@ import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
 import { getSelectedCustomers, setAllSelectedCustomers, toggleFavoriteSelectedCustomer } from 'src/redux/slices/option';
 import Tippy from '@tippyjs/react';
-import { Refresh2Icon } from 'src/common/icons';
+import { PlusIcon, Refresh2Icon } from 'src/common/icons';
 import dayjs from 'dayjs';
-import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import ipcMain from 'src/common/classes/IpcMain';
 
 const SelectedList = () => {
     const { t } = useTranslation();
-    const { state } = useCustomerSearchState();
-    const debouncedTerm = useDebounce(state.params.term, 500);
+
+    const { state: { params: { term } }, setState } = useCustomerSearchState();
+
+    const debouncedTerm = useDebounce(term, 500);
+
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
+
     const [customerType, setCustomerType] = useState("")
+
     const selectedCustomers = useAppSelector(getSelectedCustomers);
+
     const dispatch = useAppDispatch()
 
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
@@ -67,6 +72,13 @@ const SelectedList = () => {
     }, [selectedCustomers, customerType, debouncedTerm])
 
     useEffect(() => {
+        if (!!term && term?.length > 0) {
+            setState((prev) => ({ ...prev, params: { ...prev.params, term: '' } }));
+        }
+    }, [])
+
+
+    useEffect(() => {
         ipcMain.handle("update_customer", refetchSelectedList)
 
         return () => ipcMain.removeChannel("update_customer")
@@ -93,20 +105,33 @@ const SelectedList = () => {
                         </div>
                     </div>
 
-                    <div
-                        onClick={refetchSelectedList}
-                        className='cursor-pointer select-none'
-                    >
-                        <Tippy hideOnClick={false} content={
-                            <div className='flex flex-col gap-1'>
-                                <span>آخـرین بـروز رســانی</span>
-                                <span>{timeRefresh.calendar("jalali").format("HH:mm  YYYY/MM/DD")}</span>
-                            </div>
-                        }>
-                            <div className='select-none'>
-                                <Refresh2Icon className='w-5 h-5' />
-                            </div>
-                        </Tippy>
+                    <div className='flex items-center gap-x-4'>
+                        <button
+                            className="shadow-sm flex items-center gap-2 py-1.5 drop-shadow-sm px-2  text-L-primary-50 dark:text-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 p-1 text-1.3 rounded-md"
+                            onClick={() => setState(prev => ({ ...prev, isManagementMyGroupOpen: true, detailsManagementGroup: !!filteredData.length ? filteredData : undefined }))}
+                        >
+                            <PlusIcon />
+                            افزودن به گروه‌های من
+                            {'(' + filteredData.length + ')'}
+                        </button>
+
+
+
+                        <div
+                            onClick={refetchSelectedList}
+                            className='cursor-pointer select-none'
+                        >
+                            <Tippy hideOnClick={false} content={
+                                <div className='flex flex-col gap-1'>
+                                    <span>آخـرین بـروز رســانی</span>
+                                    <span>{timeRefresh.calendar("jalali").format("HH:mm  YYYY/MM/DD")}</span>
+                                </div>
+                            }>
+                                <div className='select-none'>
+                                    <Refresh2Icon className='w-5 h-5' />
+                                </div>
+                            </Tippy>
+                        </div>
                     </div>
 
                 </div>

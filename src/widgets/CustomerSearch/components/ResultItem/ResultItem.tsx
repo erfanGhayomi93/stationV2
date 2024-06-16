@@ -1,9 +1,8 @@
 import { FC, memo, useMemo } from 'react';
-import { useAppDispatch, useAppSelector, useAppValues } from 'src/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getSelectedCustomers, removeSelectedCustomers, setPartSelectedCustomers } from 'src/redux/slices/option';
 import { seprateNumber } from 'src/utils/helpers';
 import ActionCellRenderer from '../ActionCell/ActionCell';
-// import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 
 interface IResultItem {
     data: IGoMultiCustomerType,

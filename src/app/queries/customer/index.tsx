@@ -54,7 +54,7 @@ export const useGroupCustomer = (
 // /get group default for get list group of customer
 
 const getGroupDefault = async (signal?: AbortSignal) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetGroups as string, {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoMultiCustomerType[]>>(Apis().Customer.GetGroups, {
         signal
     });
     return data.result || [];
@@ -72,10 +72,110 @@ export const useGroupDefault = (
 };
 //
 
+
+const getMyGroupSearch = async (params: IGoCustomerRequestType, signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IUpdateMyGroup[]>>(Apis().Customer.SearchCustomerMyGroup, {
+        params: { ...params, type: params.type?.join() },
+        signal
+    });
+    return data.result || [];
+};
+
+
+export const useMyGroupSearchCustomer = (
+    params: IGoCustomerRequestType,
+    options?: UseQueryOptions<IUpdateMyGroup[], Error, IUpdateMyGroup[], string[]>,
+) => {
+    return useQuery(['SearchCustomerGroup', params.term ? params.term : ""], ({ signal }) => getMyGroupSearch(params, signal), {
+        enabled: !!params.term && params.term.length > 2,
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+
+
+
+const getMyGroup = async (signal?: AbortSignal) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IUpdateMyGroup[]>>(Apis().Customer.GetMyGroups, {
+        signal
+    });
+    return data.result || [];
+};
+
+
+export const useMyGroup = (
+    options?: UseQueryOptions<IUpdateMyGroup[], Error, IUpdateMyGroup[], string[]>,
+) => {
+    return useQuery(['getMyGroup'], ({ signal }) => getMyGroup(signal), {
+        staleTime: 0,
+        cacheTime: 0,
+        ...options,
+    });
+};
+
+
+
+
+const updateMyGroupFn = async (params: IUpdateMyGroup) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.UpdateMyGroup, params);
+    return data?.result;
+};
+
+
+export const updateMyGroupMutation = (options?: UseMutationOptions<boolean, Error, IUpdateMyGroup>) => useMutation(updateMyGroupFn, options);
+
+
+
+
+
+const deleteMyGroupFn = async (groupId: number) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.DeleteMyGroup, { groupId });
+    return data?.result;
+};
+
+
+export const deleteMyGroupMutation = (options?: UseMutationOptions<boolean, Error, number>) => useMutation(deleteMyGroupFn, options);
+
+
+const getCreateMyGroup = async (params: ICreateMyGroup) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.CreateMyGroups, params);
+    return data.result || [];
+};
+
+export const useMutationCreateMyGroup = (
+    options?: Omit<UseMutationOptions<boolean | never[], unknown, ICreateMyGroup, unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(getCreateMyGroup, options);
+};
+
+
+
+
+const AddCustomerToMyGroupFn = async (params: IAddCustomerToMyGroup) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.AddCustomerToMyGroup, params);
+    return data?.result;
+};
+
+
+export const AddCustomerToMyGroupMutation = (options?: UseMutationOptions<number, Error, IAddCustomerToMyGroup>) => useMutation(AddCustomerToMyGroupFn, options);
+
+const removeCustomerToMyGroupFn = async (params: IAddCustomerToMyGroup) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.RemoveCustomersFromMyGroup, params);
+    return data?.result;
+};
+
+
+export const removeCustomerToMyGroupMutation = (options?: UseMutationOptions<number, Error, IAddCustomerToMyGroup>) => useMutation(removeCustomerToMyGroupFn, options);
+
+
+
+//
+
 //searchCustomer
 
 const searchCustomer = async (params: IGoCustomerRequest) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(Apis().Customer.Search as string, { params });
+    const { data } = await AXIOS.get<GlobalApiResponseType<IGoCustomerResult>>(Apis().Customer.Search, { params });
 
     return data.result || [];
 };
@@ -155,18 +255,6 @@ export const useMutationToggleFavorite = (
 ) => {
     return useMutation(getToggleFavorite, options);
 };
-
-{/* 
-export const useCustomerList = (params: IGoCustomerRequest) => {
-    return useQuery(['searchCustomer', params], ({ queryKey }) => searchCustomer(queryKey[1] as IGoCustomerRequest), {
-        enabled: !!params,
-        staleTime: 0,
-        cacheTime: 0,
-        keepPreviousData: true,
-        select: (data) => data,
-    });
-}; */}
-
 
 
 

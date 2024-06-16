@@ -15,10 +15,13 @@ interface ISetBasketActionType {}
 const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
     //
     const { t } = useTranslation();
+
     const [isOpen, setIsOpen] = useState(false);
 
     const [selectedBasket, setSelectedBasket] = useState<{ name?: string; id?: number }>({});
+
     const [isNewBasket, setIsNewBasket] = useState(false);
+    
     const { data: listBasket } = useGetBasket();
 
     const selectedCustomers = useAppSelector(getSelectedCustomers);
@@ -49,6 +52,8 @@ const SetBasketAction: FC<ISetBasketActionType> = ({}) => {
                     <ModalBasketIcon className='w-6 h-6' />
                 </button>
             </Tippy>
+
+
             <Modal isOpen={isOpen} onClose={toggleOpen} className="min-h-[25rem] w-[500px] rounded-md h-full grid">
                 <div className="grid grid-rows-min-one-min gap-2 bg-L-basic dark:bg-D-basic">
                     <div className="w-full text-white font-medium  bg-L-blue-200 dark:bg-D-gray-400 h-10 flex items-center justify-between px-5">
