@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import Modal from 'src/common/components/Modal';
 import { Check, CloseIcon, DeleteIcon, EditIcon2, PlusIcon } from 'src/common/icons';
-import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { AddGroup } from './AddGroup';
 import { AddCustomerToMyGroupMutation, deleteMyGroupMutation, updateMyGroupMutation, useMyGroup } from 'src/app/queries/customer';
@@ -15,13 +14,13 @@ import { AgGridReact } from 'ag-grid-react';
 
 const ManagementMyGroupModal = () => {
     //
-    const { t } = useTranslation();
-
     const { state: { isManagementMyGroupOpen, detailsManagementGroup }, setState } = useCustomerSearchState()
 
     const gridRef = useRef<AgGridReact<IUpdateMyGroup>>(null)
 
-    const { data: myGroupData } = useMyGroup()
+    const { data: myGroupData } = useMyGroup({
+        // select: data => data.filter((_, ind) => !detailsManagementGroup ? ind !== 0 : true)
+    })
 
     const [editMode, setEditMode] = useState<IUpdateMyGroup | undefined>();
 
@@ -85,7 +84,7 @@ const ManagementMyGroupModal = () => {
     const columns = useMemo(
         (): ColDefType<IUpdateMyGroup>[] => [
             {
-                headerName: t('Watchlist.titleColumn'),
+                headerName: 'عنوان گروه',
                 field: 'groupName',
                 cellRenderer: (row: ICellRendererParams<IUpdateMyGroup>) => (
                     <ActionName {...{ row, editMode, setEditMode, handleEditWatchlistName }} />
@@ -185,10 +184,6 @@ const ActionName: FC<IActionName> = ({ row, editMode, setEditMode, handleEditWat
     //
     const { data: myGroupList } = row;
 
-    if (!myGroupList?.id) {
-        return null
-    }
-
     return (
         <div className="w-full h-full">
             {Number(editMode?.id) === Number(myGroupList?.id) ? (
@@ -216,7 +211,7 @@ interface IActionEdit {
 const ActionED: FC<IActionEdit> = ({ row, setEditMode, editMode, editWatchListName }) => {
     const queryClient = useQueryClient();
 
-    const { data: myGroupList } = row;
+    const { data: myGroupList, rowIndex } = row;
 
     const id = myGroupList ? myGroupList?.id : 0;
 
@@ -231,21 +226,25 @@ const ActionED: FC<IActionEdit> = ({ row, setEditMode, editMode, editWatchListNa
         <div className="h-full flex justify-center items-center gap-4">
             {editMode?.id !== id ? (
                 <>
-                    <div>
+                    <button
+                        disabled={rowIndex === 0}
+                        className={`text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed`}
+                    >
                         <EditIcon2
-                            className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
                             onClick={() => setEditMode({
                                 id: Number(myGroupList?.id),
                                 groupName: myGroupList?.groupName ?? ""
                             })}
                         />
-                    </div>
-                    <div>
+                    </button>
+                    <button
+                        disabled={rowIndex === 0}
+                        className={`text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed`}
+                    >
                         <DeleteIcon
-                            className="text-L-gray-600 dark:text-gray-text-L-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50 cursor-pointer"
                             onClick={() => deleteMyGroup(Number(id))}
                         />
-                    </div>
+                    </button>
                 </>
             ) : (
                 <Fragment>

@@ -8,12 +8,14 @@ import ResultHeader from '../components/ResultItem/ResultHeader';
 import ResultItem from '../components/ResultItem/ResultItem';
 import { useCustomerSearchState } from '../context/CustomerSearchContext';
 import SearchInput from '../components/SearchInput';
-import { getSelectedCustomers, setAllSelectedCustomers, toggleFavoriteSelectedCustomer } from 'src/redux/slices/option';
+import { emptySelectedCustomers, getSelectedCustomers, setAllSelectedCustomers, toggleFavoriteSelectedCustomer } from 'src/redux/slices/option';
 import Tippy from '@tippyjs/react';
 import { PlusIcon, Refresh2Icon } from 'src/common/icons';
 import dayjs from 'dayjs';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import ipcMain from 'src/common/classes/IpcMain';
+import { onInfoNotif } from 'src/handlers/notification';
+import { sortAlpha } from 'src/widgets/SymbolDetail/SymbolData/tabs/SymbolChart/components/helper';
 
 const SelectedList = () => {
     const { t } = useTranslation();
@@ -51,6 +53,15 @@ const SelectedList = () => {
         getCustomers({ CustomerISINs: customerIsins })
     }
 
+    const AddToMyGroup = () => {
+        if (selectedCustomers.length === 0) {
+            onInfoNotif({ title: "مشتری انتخاب نشده است" })
+            return;
+        }
+
+        setState(prev => ({ ...prev, isManagementMyGroupOpen: true, detailsManagementGroup: !!filteredData.length ? filteredData : undefined }))
+    }
+
 
     const filteredData = useMemo(() => {
         if (!selectedCustomers) return []
@@ -70,6 +81,16 @@ const SelectedList = () => {
 
             })
     }, [selectedCustomers, customerType, debouncedTerm])
+
+    const isALLSelected = useMemo(() => {
+        if (selectedCustomers.length === 0) return false
+        return true
+    }, [selectedCustomers])
+
+    const onALLSelectionChanged = (checked: boolean) => {
+        !checked && dispatch(emptySelectedCustomers())
+    }
+
 
     useEffect(() => {
         if (!!term && term?.length > 0) {
@@ -108,7 +129,7 @@ const SelectedList = () => {
                     <div className='flex items-center gap-x-4'>
                         <button
                             className="shadow-sm flex items-center gap-2 py-1.5 drop-shadow-sm px-2  text-L-primary-50 dark:text-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 p-1 text-1.3 rounded-md"
-                            onClick={() => setState(prev => ({ ...prev, isManagementMyGroupOpen: true, detailsManagementGroup: !!filteredData.length ? filteredData : undefined }))}
+                            onClick={AddToMyGroup}
                         >
                             <PlusIcon />
                             افزودن به گروه‌های من
@@ -136,7 +157,10 @@ const SelectedList = () => {
 
                 </div>
                 <div className="grid grid-rows-min-one h-full">
-                    <ResultHeader />
+                    <ResultHeader
+                        isAllSelected={isALLSelected}
+                        onALLSelectionChanged={onALLSelectionChanged}
+                    />
 
                     <Virtuoso
                         data={filteredData}

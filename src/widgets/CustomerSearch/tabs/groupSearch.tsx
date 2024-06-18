@@ -10,11 +10,18 @@ import Tippy from '@tippyjs/react';
 import { Refresh2Icon } from 'src/common/icons';
 import dayjs from 'dayjs';
 import ipcMain from 'src/common/classes/IpcMain';
+import { getSelectedCustomers, setAllSelectedCustomers, setAllSelectedCustomersWithPrevious } from 'src/redux/slices/option';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { compareArrays, removeDuplicatesCustomerISINs } from 'src/utils/helpers';
 
 const GroupSearch = () => {
     const { state: { params } } = useCustomerSearchState();
 
     const debouncedTerm = useDebounce(params.term, 500);
+
+    const dispatch = useAppDispatch()
+
+    const selectedCustomers = useAppSelector(getSelectedCustomers);
 
     const [timeRefresh, setTimeRefresh] = useState<dayjs.Dayjs>(dayjs())
 
@@ -40,34 +47,95 @@ const GroupSearch = () => {
         }
     );
 
+    const listGroups = useMemo(() => isDefaultUse ? defaultGroups : searchGroups, [isDefaultUse, defaultGroups, searchGroups])
+
+
 
 
     const refetchToggleFavorite = () => {
         isDefaultUse ? refetchDefaultGroups() : refetchCustomers()
     }
 
+    const isGroupChecked = (id: number) => {
+        if (selectedCustomers.length === 0 || !selectedCustomers) return false
 
-    const rowUI = useMemo(() => {
-        let listGroups = isDefaultUse ? defaultGroups : searchGroups
-        if (!listGroups) listGroups = []
-        return listGroups
-            .map((item, ind) => (
-                <GroupItem<IGoMultiCustomerType>
-                    key={ind}
-                    ind={ind}
-                    customer={item}
-                    refetchToggleFavorite={refetchToggleFavorite}
-                    getLable={v => v.title}
-                    getChildren={(v) => v.children}
-                />
-            ))
-    }, [searchGroups, defaultGroups, isDefaultUse])
+        const findCustomer = listGroups?.find(item => item.id === id)
+
+        const customerISINs = findCustomer?.children?.map(item => item.customerISIN)
+        if (!customerISINs) return false
+
+
+        const selectedCustomeISINs = selectedCustomers.map(item => item.customerISIN)
+
+        return customerISINs?.every(item => selectedCustomeISINs.includes(item))
+    }
+
+    const onGroupSelectionChanged = (checked: boolean, id: number) => {
+        const findCustomer = listGroups?.find(item => item.id === id)
+
+        if (!findCustomer?.children?.length) return
+
+        if (checked) {
+            dispatch(setAllSelectedCustomersWithPrevious(findCustomer.children))
+            return
+        }
+
+        const customerISINUnChecked = findCustomer.children.map(item => item.customerISIN)
+
+        const detectCustomer = selectedCustomers.filter(item => {
+            if (customerISINUnChecked.includes(item.customerISIN)) return false
+            return true
+        })
+
+        dispatch(setAllSelectedCustomers(detectCustomer))
+    }
+
+
+    const rowUI = useMemo(() => !listGroups?.length ? null : listGroups
+        ?.map((item, ind) => (
+            <GroupItem<IGoMultiCustomerType>
+                key={ind}
+                ind={ind}
+                customer={item}
+                refetchToggleFavorite={refetchToggleFavorite}
+                getLable={v => v.title}
+                getChildren={(v) => v.children}
+                getId={(v) => v?.id}
+                isGroupChecked={isGroupChecked}
+                onGroupSelectionChanged={onGroupSelectionChanged}
+            />
+        )), [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged])
 
     useEffect(() => {
         ipcMain.handle("update_customer", refetchToggleFavorite)
 
         return () => ipcMain.removeChannel("update_customer")
     }, [])
+
+    const isALLSelected = useMemo(() => {
+        //
+        const customerISINsList = removeDuplicatesCustomerISINs(listGroups || [])?.flatMap(item => item.children).map(item => item?.customerISIN)
+        const customerISINsSelected = selectedCustomers.map(item => item.customerISIN);
+
+        return compareArrays(customerISINsSelected, customerISINsList)
+    }, [listGroups, selectedCustomers])
+
+    const onALLSelectionChanged = (checked: boolean) => {
+        if (!listGroups) return
+
+        const res = listGroups?.flatMap(item => item?.children || [])
+
+        checked && res && dispatch(setAllSelectedCustomersWithPrevious(res))
+
+        const customerISINs = res.map(item => item.customerISIN)
+
+        const final = selectedCustomers.filter(item => {
+            if (customerISINs.includes(item.customerISIN)) return false
+            return true
+        })
+        // 
+        !checked && dispatch(setAllSelectedCustomers(final))
+    }
 
 
     return (
@@ -94,7 +162,10 @@ const GroupSearch = () => {
                     </div>
                 </div>
                 <div className="grid grid-rows-min-one h-full">
-                    <ResultHeader />
+                    <ResultHeader
+                        isAllSelected={isALLSelected}
+                        onALLSelectionChanged={onALLSelectionChanged}
+                    />
 
                     <div className='overflow-y-auto h-full relative'>
                         <div className='h-full w-full absolute top-0'>

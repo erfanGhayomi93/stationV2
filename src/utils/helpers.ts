@@ -529,6 +529,21 @@ export const isObjectContainsFalsy = (object: { [key: string]: any }, keys: stri
 
 export const removeDuplicatesInArray = (arr: any[]) => arr.filter((item, index) => arr.indexOf(item) === index);
 
+export const removeDuplicatesCustomerISINs = (arr: any[]) => {
+    let array : any[] = []
+
+    const res = arr.filter((item) => {
+        if(!array.includes(item.customerISIN)){
+            array.push(item.customerISIN)
+            return true
+        }
+        return false
+    })
+
+    return res
+
+};
+
 export const datePeriodValidator = (fromDate: string, toDate: string) => {
     return fromDate && toDate && dayjs(toDate).diff(fromDate) < 0 ? false : true;
 };
@@ -581,3 +596,21 @@ export const dateTimeFormatter = (v: string | number, format: 'date' | 'time' | 
 
 	return '−';
 };
+
+
+export function compareArrays(arr1: any[], arr2: any[]) {
+    const set1 = new Set(arr1);
+    const set2 = new Set(arr2);
+
+    if (set1.size !== set2.size) {
+        return false;
+    }
+
+    for (const item of set1 as any) {
+        if (!set2.has(item)) {
+            return false;
+        }
+    }
+
+    return true;
+}
