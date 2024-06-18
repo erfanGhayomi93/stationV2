@@ -9,7 +9,10 @@ interface IResultItem<T> {
     ind: number,
     refetchToggleFavorite: () => void,
     getLable: (v: T) => string
+    getId: (v: T) => number
     getChildren: (v: T) => IGoMultiCustomerType[] | undefined
+    isGroupChecked: (id: number) => boolean;
+    onGroupSelectionChanged: (checked: boolean, id: number) => void
 }
 
 // The GroupItem component
@@ -18,7 +21,10 @@ const GroupItem = <T,>({
     ind,
     refetchToggleFavorite,
     getLable,
-    getChildren
+    getChildren,
+    getId,
+    isGroupChecked,
+    onGroupSelectionChanged
 }: IResultItem<T>) => {
     return (
         <div className="flex text-L-gray-600 dark:text-D-gray-600 w-full">
@@ -29,6 +35,9 @@ const GroupItem = <T,>({
                 refetchToggleFavorite={refetchToggleFavorite}
                 getLable={(customer) => getLable(customer)}
                 getChildren={(customer) => getChildren(customer)}
+                getId={(customer) => getId(customer)}
+                isGroupChecked={isGroupChecked}
+                onGroupSelectionChanged={onGroupSelectionChanged}
             />
         </div>
     );
@@ -38,20 +47,19 @@ const GroupItem = <T,>({
 export default GroupItem;
 
 
-const Item = <T,>({ customer, ind, refetchToggleFavorite, getLable, getChildren }: IResultItem<T>) => {
+const Item = <T,>({ customer, ind, refetchToggleFavorite, getLable, getChildren, getId, isGroupChecked, onGroupSelectionChanged }: IResultItem<T>) => {
 
     return (
         <div className='w-full'>
             <Disclosure>
                 {({ open }) => (
                     <div className={clsx('rounded', { "border-r-2 border-L-info-100 dark:border-D-primary-50": open })}>
-                        <Disclosure.Button className={clsx("w-full flex between items-center hover:bg-L-primary-100 dark:hover:bg-D-prbg-L-primary-100", {
-                            "bg-L-gray-100 dark:bg-D-gray-100": ind % 2 !== 0,
-                            "bg-L-gray-300 dark:bg-D-gray-300": open,
+                        <Disclosure.Button className={clsx("w-full flex between items-center", {
+                            "bg-L-gray-100 dark:bg-D-gray-100 hover:bg-L-gray-300 dark:hover:bg-D-gray-300": ind % 2 !== 0,
+                            "text-L-gray-600 dark:text-D-gray-600 h-9 hover:bg-L-gray-300 dark:hover:bg-D-gray-300": open,
                         })}>
 
                             <div className={clsx('flex items-center justify-between gap-3 p-2 w-5/6', {
-
                             })}>
 
                                 <ChevronIcon
@@ -60,12 +68,13 @@ const Item = <T,>({ customer, ind, refetchToggleFavorite, getLable, getChildren 
                                     className={clsx('duration-200 text-L-gray-600 dark:text-D-gray-600', open ? '' : 'rotate-180')}
                                 />
 
-                                {/* <input
+                                <input
                                     type="checkbox"
                                     className="cursor-pointer w-4 h-4"
-                                // checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
-                                // onChange={(event) => onSelectionChanged(event.target.checked, customer)}
-                                /> */}
+                                    onClick={(e) => e.preventDefault()}
+                                    checked={isGroupChecked(getId(customer))}
+                                    onChange={(event) => onGroupSelectionChanged(event.target.checked, getId(customer))}
+                                />
 
                                 <h1 className={clsx('w-full truncate text-right text-L-text-700 dark:text-D-gray-700 font-medium select-text')}>
                                     {getLable(customer)}
@@ -92,7 +101,7 @@ const Item = <T,>({ customer, ind, refetchToggleFavorite, getLable, getChildren 
                         >
                             <Disclosure.Panel className="text-xs font-normal text-L-gray-500 dark:text-D-gray-500 text-right">
                                 {
-                                    getChildren(customer) && getChildren(customer)?.map((item, ind) => (
+                                    getChildren(customer)?.map((item, ind) => (
                                         <ResultItem
                                             key={ind}
                                             data={item}

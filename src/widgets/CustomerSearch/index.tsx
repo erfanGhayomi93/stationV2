@@ -3,7 +3,7 @@ import TabsList from 'src/common/components/TabsList';
 import CustomerSearch from './tabs/customerSerarch';
 import GroupSearch from './tabs/groupSearch';
 import { useCustomerSearchState } from './context/CustomerSearchContext';
-import FavoriteList from './tabs/favoriteList';
+// import FavoriteList from './tabs/favoriteList';
 import SelectedListTab from './tabs/selectedList';
 import { SelectedList as SelectedListIcon } from 'src/common/icons';
 import clsx from 'clsx';
@@ -32,11 +32,11 @@ const CustomerWidget = () => {
                 title: <>گروه مشتری</>,
                 content: <GroupSearch />,
             },
-            {
-                key: 'FavoriteList',
-                title: <>لیست دلخواه</>,
-                content: <FavoriteList />,
-            },
+            // {
+            //     key: 'FavoriteList',
+            //     title: <>لیست دلخواه</>,
+            //     content: <FavoriteList />,
+            // },
             {
                 key: 'MyGroup',
                 title: <>گروه‌های من</>,

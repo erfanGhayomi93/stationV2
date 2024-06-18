@@ -6,11 +6,10 @@ import ActionCellRenderer from '../ActionCell/ActionCell';
 
 interface IResultItem {
     data: IGoMultiCustomerType,
-    onSelectionChanged?: (isChecked: boolean, customer: IGoMultiCustomerType) => void,
-    refetchToggleFavorite : (customerIsin : string) => void
+    refetchToggleFavorite: (customerIsin: string) => void
 }
 
-const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite }) => {
+const ResultItem: FC<IResultItem> = ({ data: customer, refetchToggleFavorite }) => {
     // const {
     //     option: { selectedCustomers },
     // } = useAppValues();
@@ -32,7 +31,7 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
 
 
     return (
-        <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-9">
+        <div className="flex py-1.5 text-L-gray-600 dark:text-D-gray-600 h-9 hover:bg-L-gray-300 dark:hover:bg-D-gray-300">
             <div className="w-full flex items-center gap-4 justify-start pr-3 truncate select-text">
                 <input
                     type="checkbox"
@@ -47,10 +46,10 @@ const ResultItem: FC<IResultItem> = ({ data: customer , refetchToggleFavorite })
             <div className="w-4/6  flex items-center justify-center">{seprateNumber(customer?.purchasePower || 0)}</div>
             <div className="w-4/6  flex items-center justify-center">{seprateNumber(customer?.creditValue || 0)}</div>
             <div className="w-4/6  flex items-center justify-center">
-                <ActionCellRenderer {...{customer , refetchToggleFavorite}} />
+                <ActionCellRenderer {...{ customer, refetchToggleFavorite }} />
             </div>
         </div>
     );
 };
 
-export default memo(ResultItem);
+export default ResultItem;
