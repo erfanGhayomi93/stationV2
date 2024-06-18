@@ -1,19 +1,19 @@
 import Tippy from '@tippyjs/react';
 import { FC } from 'react';
-import { DeleteIcon, MoreDotsIcon, PlusIcon, StarIcon } from 'src/common/icons';
+import { DeleteIcon, MoreDotsIcon, PlusIcon } from 'src/common/icons';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import clsx from 'clsx';
-import { useMutationToggleFavorite } from 'src/app/queries/customer';
+// import { useMutationToggleFavorite } from 'src/app/queries/customer';
 import ipcMain from 'src/common/classes/IpcMain';
 
 const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavorite: (customerIsin: string) => void }> = ({ customer: data, refetchToggleFavorite }) => {
     const { state: { activeTab }, setState } = useCustomerSearchState();
 
-    const { mutate } = useMutationToggleFavorite({
-        onSuccess() {
-            refetchToggleFavorite(data.customerISIN)
-        },
-    })
+    // const { mutate } = useMutationToggleFavorite({
+    //     onSuccess() {
+    //         refetchToggleFavorite(data.customerISIN)
+    //     },
+    // })
 
     const showDetailModal = (data: IGoMultiCustomerType) => {
         setState((prev) => ({ ...prev, isDetailModalOpen: true, detailModalData: data }));
@@ -23,9 +23,9 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
     //     setState((prev) => ({ ...prev, isPortfolioModalOpen: true, detailModalData: data }));
     // };
 
-    const handleFavorite = (data: IGoMultiCustomerType) => {
-        mutate({ customerIsin: data.customerISIN, isFavorite: !data.isFavorite })
-    }
+    // const handleFavorite = (data: IGoMultiCustomerType) => {
+    //     mutate({ customerIsin: data.customerISIN, isFavorite: !data.isFavorite })
+    // }
 
     const openManagementMyGroupModal = (data: IGoMultiCustomerType) => {
         setState((prev) => ({ ...prev, isManagementMyGroupOpen: true, detailsManagementGroup: [data] }));
@@ -61,7 +61,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 </button>
             </Tippy>
 
-            <Tippy hideOnClick={false} content="اضافه به لیست دلخواه" className="text-xs">
+            {/* <Tippy hideOnClick={false} content="اضافه به لیست دلخواه" className="text-xs">
                 <button
                     onClick={() => handleFavorite(data)}
                 >
@@ -70,7 +70,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                         "w-[1.35rem] h-[1.35rem] text-L-gray-600 dark:text-D-gray-600 hover:text-L-primary-50 hover:dark:text-D-primary-50": data.isFavorite,
                     })} />
                 </button>
-            </Tippy>
+            </Tippy> */}
 
             <Tippy
                 onShow={(instance) => {

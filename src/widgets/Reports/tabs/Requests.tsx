@@ -2,11 +2,10 @@ import { Dispatch, SetStateAction, forwardRef, useEffect, useImperativeHandle, u
 import { useTranslation } from 'react-i18next';
 import { useGetOfflineRequests, useGetOfflineRequestsExcel, useSendRequest } from 'src/app/queries/order';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
-import { datePeriodValidator, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
+import { seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import { BodyScrollEvent, ICellRendererParams, RowDataUpdatedEvent, RowSelectedEvent } from 'ag-grid-community';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import AGActionCell from 'src/common/components/AGActionCell';
-import dayjs from 'dayjs';
 import { AgGridReact } from 'ag-grid-react';
 import HeaderSelect from '../components/HeaderSelect';
 import { useQueryClient } from '@tanstack/react-query';
@@ -23,14 +22,20 @@ type TProps = {
 };
 
 const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
+    //
+    const { t } = useTranslation();
+
     const gridRef = useRef<AgGridReact>(null);
+
     const selectedRowsRef = useRef<number[]>([]);
+
     const [params, setParams] = useState<IGetOfflineRequestsParams>({
         CustomerSearchTerm: '',
         SymbolSearchTerm: '',
         InputState: 'All',
         PageNumber: 1,
     });
+
     const [infoModalParams, setInfoModalParams] = useState<{ data?: Record<string, any>; isOpen: boolean }>({ isOpen: false });
 
     const payloadApiFactory = (data: IGTOfflineTradesResult[], sendAllRequests: boolean): buySellRequestParams => {
@@ -49,7 +54,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
         }
     }
 
-    const { t } = useTranslation();
+    
     const { mutate: mutateSendRequest } = useSendRequest({
         onSuccess: () => {
             refetch()

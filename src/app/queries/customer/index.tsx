@@ -130,7 +130,10 @@ export const updateMyGroupMutation = (options?: UseMutationOptions<boolean, Erro
 
 
 const deleteMyGroupFn = async (groupId: number) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.DeleteMyGroup, { groupId });
+    const fd = new FormData();
+    fd.append('groupId',String(groupId))
+
+    const { data } = await AXIOS.post<GlobalApiResponseType<boolean>>(Apis().Customer.DeleteMyGroup, fd);
     return data?.result;
 };
 
@@ -153,6 +156,7 @@ export const useMutationCreateMyGroup = (
 
 
 const AddCustomerToMyGroupFn = async (params: IAddCustomerToMyGroup) => {
+    
     const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.AddCustomerToMyGroup, params);
     return data?.result;
 };

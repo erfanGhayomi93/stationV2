@@ -26,6 +26,7 @@ export interface IData extends IGoMultiCustomerType {
 }
 
 export const initialState: IData = {
+    id: 0,
     bourseCode: "",
     children: [],
     creditValue: 0,

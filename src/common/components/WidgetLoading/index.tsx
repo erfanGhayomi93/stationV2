@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type IWidgetLoading = {
-    children: JSX.Element | JSX.Element[];
+    children: JSX.Element | JSX.Element[] | null;
     spining?: boolean;
     mounted?: boolean;
     withText?: boolean;

@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { removeDuplicatesCustomerISINs } from 'src/utils/helpers';
 
 export interface OptionState {
     selectedSymbol: string;
@@ -26,6 +27,9 @@ const optionSlice = createSlice({
         },
         setAllSelectedCustomers: (state, action: PayloadAction<IGoMultiCustomerType[]>) => {
             state.selectedCustomers = action.payload;
+        },
+        setAllSelectedCustomersWithPrevious: (state, action: PayloadAction<IGoMultiCustomerType[]>) => {
+            state.selectedCustomers = removeDuplicatesCustomerISINs([...state.selectedCustomers, ...action.payload]);
         },
         removeSelectedCustomers: (state, action: PayloadAction<string>) => {
             state.selectedCustomers = state.selectedCustomers.filter((item) => item.customerISIN !== action.payload);
@@ -61,6 +65,7 @@ export const {
     setSelectedSymbolMulti,
     removeSelectedSymbol,
     emptySelectedSymbol,
+    setAllSelectedCustomersWithPrevious
 } = optionSlice.actions;
 
 export default optionSlice.reducer;

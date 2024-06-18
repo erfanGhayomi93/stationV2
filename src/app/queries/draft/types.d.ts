@@ -70,6 +70,7 @@ interface IUpdateMyGroup {
     id: number;
     groupName: string
     children ?: IGoMultiCustomerType[] 
+    customerISINs ?: string
 }
 
 interface IAddCustomerToMyGroup {

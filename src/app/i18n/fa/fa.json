@@ -325,7 +325,8 @@
         "NoTimeToOrder": "امکان ایجاد سفارش در حال حاضر امکان پذیر نیست.",
         "Order_PerSecond_Check_Failed": "محدودیت زمانی فاصله بین ارسال سفارش",
         "default": "خطایی رخ داده است.",
-        "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد."
+        "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد.",
+        "AccessToOneOrMoreCustomersDenied" : "دسترسی به مشتری(ها) تعریف نشده است "
     },
     "Action_Button": {
         "Search": "جستجو",
@@ -879,7 +880,10 @@
         "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
         "CartExists": "سبد خرید تکراری است",
         "WrongPrice": "قیمت اشتباه است" , 
-        "DeleteCartFailed" : "حذف سبد انجام نشد."
+        "DeleteCartFailed" : "حذف سبد انجام نشد.",
+        "DuplicateCustomer" : "مشتری تکراری است",
+        "AddCustomersFailed" : "متاسفنه انجام نشد"
+
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
