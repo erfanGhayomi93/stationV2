@@ -5,7 +5,7 @@ import { queryClient } from 'src/app/queryClient';
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
     const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsStage();
+    // const { data } = useGlobalSettingsPreprd();
 
     useEffect(() => {
         if (!!data) {
@@ -88,7 +88,7 @@ export const Apis = () => ({
         CreateMyGroups: getBaseUrl() + '/CustomerGroup/v1/CreateGroup',
         DeleteMyGroup: getBaseUrl() + '/CustomerGroup/v1/DeleteGroup',
         UpdateMyGroup: getBaseUrl() + '/CustomerGroup/v1/UpdateGroup',
-        AddCustomerToMyGroup: getBaseUrl() + '/CustomerGroup/v1/AddCustomersToGroup',
+        AddMultipleCustomersToMultipleGroups: getBaseUrl() + '/CustomerGroup/v1/AddMultipleCustomersToMultipleGroups',
         RemoveCustomersFromMyGroup: getBaseUrl() + '/CustomerGroup/v1/RemoveCustomersFromGroup',
         SearchCustomerMyGroup: getBaseUrl() + '/CustomerGroup/v1/SearchCustomerGroup',
 
