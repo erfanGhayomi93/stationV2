@@ -15,7 +15,6 @@ import dayjs from 'dayjs';
 import { useMutationMultiMultiCustomer } from 'src/app/queries/customer';
 import ipcMain from 'src/common/classes/IpcMain';
 import { onInfoNotif } from 'src/handlers/notification';
-import { sortAlpha } from 'src/widgets/SymbolDetail/SymbolData/tabs/SymbolChart/components/helper';
 
 const SelectedList = () => {
     const { t } = useTranslation();

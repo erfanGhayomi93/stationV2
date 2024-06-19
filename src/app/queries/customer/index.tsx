@@ -157,20 +157,20 @@ export const useMutationCreateMyGroup = (
 
 const AddCustomerToMyGroupFn = async (params: IAddCustomerToMyGroup) => {
     
-    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.AddCustomerToMyGroup, params);
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.AddMultipleCustomersToMultipleGroups, params);
     return data?.result;
 };
 
 
 export const AddCustomerToMyGroupMutation = (options?: UseMutationOptions<number, Error, IAddCustomerToMyGroup>) => useMutation(AddCustomerToMyGroupFn, options);
 
-const removeCustomerToMyGroupFn = async (params: IAddCustomerToMyGroup) => {
+const removeCustomerToMyGroupFn = async (params: IRemoveCustomerToMyGroup) => {
     const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Customer.RemoveCustomersFromMyGroup, params);
     return data?.result;
 };
 
 
-export const removeCustomerToMyGroupMutation = (options?: UseMutationOptions<number, Error, IAddCustomerToMyGroup>) => useMutation(removeCustomerToMyGroupFn, options);
+export const removeCustomerToMyGroupMutation = (options?: UseMutationOptions<number, Error, IRemoveCustomerToMyGroup>) => useMutation(removeCustomerToMyGroupFn, options);
 
 
 

@@ -326,7 +326,7 @@
         "Order_PerSecond_Check_Failed": "محدودیت زمانی فاصله بین ارسال سفارش",
         "default": "خطایی رخ داده است.",
         "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد.",
-        "AccessToOneOrMoreCustomersDenied" : "دسترسی به مشتری(ها) تعریف نشده است "
+        "AccessToOneOrMoreCustomersDenied": "دسترسی به مشتری(ها) تعریف نشده است "
     },
     "Action_Button": {
         "Search": "جستجو",
@@ -338,7 +338,7 @@
     "FilterFieldLabel": {
         "Customer": "مشتری",
         "Symbol": "نماد",
-        "CustomerSymbol" : "مشتری/نماد",
+        "CustomerSymbol": "مشتری/نماد",
         "FromDate": "از تاریخ",
         "ToDate": "تا تاریخ",
         "Side": "سمت",
@@ -433,6 +433,17 @@
     },
     "Input": {
         "placeholderWatchlist": "نام دیده بان(حداقل دو حرف)"
+    },
+    "orderFrom": {
+        "Web": "ریواس",
+        "Mobile": "موبایل",
+        "BrokerTrader": "انلاین",
+        "ClientApi": "انلاین",
+        "MarketMaker": "بازارگردان",
+        "Admin": "ادمین",
+        "Supervisor": " انلاین گروهی",
+        "Algorithm": "الگوریتم",
+        "Kahkeshan": "کهکشان"
     },
     "Watchlist": {
         "title": "دیده‌بان",
@@ -879,11 +890,10 @@
         "SymbolInWatchListMoreThanMaximum": "نمیتوانید به لیست نماد بیشتری اضافه کنید",
         "SearchWithAtLeastTwoChar": "حداقل دو حرف وارد نمایید",
         "CartExists": "سبد خرید تکراری است",
-        "WrongPrice": "قیمت اشتباه است" , 
-        "DeleteCartFailed" : "حذف سبد انجام نشد.",
-        "DuplicateCustomer" : "مشتری تکراری است",
-        "AddCustomersFailed" : "متاسفنه انجام نشد"
-
+        "WrongPrice": "قیمت اشتباه است",
+        "DeleteCartFailed": "حذف سبد انجام نشد.",
+        "DuplicateCustomer": "مشتری تکراری است",
+        "AddCustomersFailed": "متاسفنه انجام نشد"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
@@ -902,16 +912,16 @@
         "column_strike_price": "قیمت اعمال",
         "column_remain_days": "روزهای مانده تا سررسید",
         "call": "خرید",
-        "put": "فروش" ,
-        "blockType" : "محل تضمین" ,
-        "blockCount" : "اندازه تضمین"
+        "put": "فروش",
+        "blockType": "محل تضمین",
+        "blockCount": "اندازه تضمین"
     },
     "option_blockType": {
-		"All": "همه",
-		"Account": "وجه نقد",
-		"Portfolio": "سهم پایه",
-		"Position": "موقعیت"
-	},
+        "All": "همه",
+        "Account": "وجه نقد",
+        "Portfolio": "سهم پایه",
+        "Position": "موقعیت"
+    },
     "OptionSettlement": {
         "CashTabTitle": "تسویه نقدی",
         "PhysicalTabTitle": "تسویه فیزیکی",

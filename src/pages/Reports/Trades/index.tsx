@@ -80,7 +80,8 @@ const Trades = () => {
             {
                 headerName: 'مبدا',
                 field: 'orderFrom',
-                hide: apiParams.GetTradesAggregateType !== 'None'
+                hide: apiParams.GetTradesAggregateType !== 'None',
+                valueFormatter: ({ value }) => t('orderFrom.' + value)
             },
             {
                 headerName: t('ag_columns_headerName.date'),

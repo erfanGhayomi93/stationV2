@@ -62,7 +62,7 @@ const GroupSearch = () => {
         const findCustomer = listGroups?.find(item => item.id === id)
 
         const customerISINs = findCustomer?.children?.map(item => item.customerISIN)
-        if (!customerISINs) return false
+        if (!customerISINs || customerISINs.length === 0) return false
 
 
         const selectedCustomeISINs = selectedCustomers.map(item => item.customerISIN)
@@ -98,7 +98,7 @@ const GroupSearch = () => {
                 ind={ind}
                 customer={item}
                 refetchToggleFavorite={refetchToggleFavorite}
-                getLable={v => v.title}
+                getLabel={v => v.title}
                 getChildren={(v) => v.children}
                 getId={(v) => v?.id}
                 isGroupChecked={isGroupChecked}
@@ -113,29 +113,35 @@ const GroupSearch = () => {
     }, [])
 
     const isALLSelected = useMemo(() => {
-        //
-        const customerISINsList = removeDuplicatesCustomerISINs(listGroups || [])?.flatMap(item => item.children).map(item => item?.customerISIN)
-        const customerISINsSelected = selectedCustomers.map(item => item.customerISIN);
+        if (!listGroups || listGroups.length === 0) return false
+        // Flatten the list of groups, extract customerISINs, and remove duplicates
+        const allCustomerISINs = listGroups?.flatMap(group => group.children?.map(child => child.customerISIN)).filter(Boolean) || [];
+        const uniqueCustomerISINs = Array.from(new Set(allCustomerISINs)) as string[];
 
-        return compareArrays(customerISINsSelected, customerISINsList)
-    }, [listGroups, selectedCustomers])
+        // Extract the selected customerISINs
+        const selectedCustomerISINs = selectedCustomers.map(customer => customer.customerISIN).filter(Boolean) as string[];
+
+        // Check if every unique ISIN is in the selected ISINs
+        return uniqueCustomerISINs.every(isin => selectedCustomerISINs.includes(isin));
+    }, [listGroups, selectedCustomers]);
+
 
     const onALLSelectionChanged = (checked: boolean) => {
-        if (!listGroups) return
+        if (!listGroups) return;
 
-        const res = listGroups?.flatMap(item => item?.children || [])
+        // Flatten the list of groups and extract children
+        const allChildren = listGroups.flatMap(group => group?.children || []);
 
-        checked && res && dispatch(setAllSelectedCustomersWithPrevious(res))
-
-        const customerISINs = res.map(item => item.customerISIN)
-
-        const final = selectedCustomers.filter(item => {
-            if (customerISINs.includes(item.customerISIN)) return false
-            return true
-        })
-        // 
-        !checked && dispatch(setAllSelectedCustomers(final))
-    }
+        if (checked) {
+            // If checked, select all customers
+            dispatch(setAllSelectedCustomersWithPrevious(allChildren));
+        } else {
+            // If not checked, filter out customers from the selected list that are in the current group
+            const customerISINs = allChildren.map(child => child.customerISIN);
+            const filteredSelectedCustomers = selectedCustomers.filter(customer => !customerISINs.includes(customer.customerISIN));
+            dispatch(setAllSelectedCustomers(filteredSelectedCustomers));
+        }
+    };
 
 
     return (

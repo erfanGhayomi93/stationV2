@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import { InfoDoneOrders } from './modals/info';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import ipcMain from 'src/common/classes/IpcMain';
+import { useTranslation } from 'react-i18next';
 
 
 type IDoneOrders = {
@@ -18,6 +19,8 @@ type IDoneOrders = {
 let timeOut: NodeJS.Timeout | undefined = undefined;
 
 const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
+
+    const { t } = useTranslation();
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
@@ -55,6 +58,8 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
         },
         [],
     );
+
+    console.log("render")
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
@@ -96,7 +101,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             },
             {
                 headerName: 'تاریخ',
-                field: 'requestDate',
+                field: 'tradeDate',
                 valueFormatter: ({ value }) => dateTimeFormatter(value),
                 minWidth: 120,
                 cellClass: 'ltr',
@@ -104,6 +109,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             {
                 headerName: 'مبدا',
                 field: 'orderFrom',
+                valueFormatter: ({ value }) => t('orderFrom.' + value)
             },
             {
                 headerName: 'نوع',
