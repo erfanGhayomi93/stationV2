@@ -195,11 +195,3 @@ export const externalTooltipHandler = <T extends ChartType>(
 		console.log(e);
 	}
 };
-
-export const sortAlpha = (word: string) => {
-	return word
-		.trim()
-		.split(",")
-		.sort()
-		.join(",");
-}

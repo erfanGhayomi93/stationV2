@@ -74,6 +74,11 @@ interface IUpdateMyGroup {
 }
 
 interface IAddCustomerToMyGroup {
+    groupId : number[] , 
+    customerISINs : string[]
+}
+
+interface IRemoveCustomerToMyGroup {
     groupId : number , 
     customerISINs : string[]
 }

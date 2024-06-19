@@ -18,9 +18,7 @@ const ManagementMyGroupModal = () => {
 
     const gridRef = useRef<AgGridReact<IUpdateMyGroup>>(null)
 
-    const { data: myGroupData } = useMyGroup({
-        // select: data => data.filter((_, ind) => !detailsManagementGroup ? ind !== 0 : true)
-    })
+    const { data: myGroupData } = useMyGroup()
 
     const [editMode, setEditMode] = useState<IUpdateMyGroup | undefined>();
 
@@ -71,11 +69,11 @@ const ManagementMyGroupModal = () => {
     };
 
     const submitCustomerToMyGroup = () => {
-        const payload = gridRef.current?.api.getSelectedRows()
+        const rowSelected = gridRef.current?.api.getSelectedRows()
 
-        if (payload && !!detailsManagementGroup?.length) {
+        if (rowSelected && !!detailsManagementGroup?.length) {
             AddToMyGroupMutate({
-                groupId: Number(payload[0].id) ?? 0,
+                groupId: rowSelected.map(item => item.id),
                 customerISINs: detailsManagementGroup.map(item => item.customerISIN)
             })
         }
@@ -120,7 +118,7 @@ const ManagementMyGroupModal = () => {
                             columnDefs={columns}
                             animateRows={true}
                             ref={gridRef}
-                        // rowSelection="multiple"
+                            rowSelection="multiple"
                         />
                     </div>
 

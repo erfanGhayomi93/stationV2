@@ -14,8 +14,7 @@ import Tippy from '@tippyjs/react';
 import dayjs from 'dayjs';
 import ipcMain from 'src/common/classes/IpcMain';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { emptySelectedCustomers, getSelectedCustomers, setAllSelectedCustomers } from 'src/redux/slices/option';
-import { sortAlpha } from 'src/widgets/SymbolDetail/SymbolData/tabs/SymbolChart/components/helper';
+import { getSelectedCustomers, setAllSelectedCustomers, setAllSelectedCustomersWithPrevious } from 'src/redux/slices/option';
 
 const CustomerSearch = () => {
     const { t } = useTranslation();
@@ -79,10 +78,6 @@ const CustomerSearch = () => {
 
     }, [defaultCustomers, searchCustomers, isDefaultUse, customerType])
 
-    const isALLSelected = useMemo(() => {
-        return sortAlpha(String(listGroups?.map(item => item.customerISIN))) === sortAlpha(String(selectedCustomers?.map(item => item.customerISIN)))
-    }, [listGroups, selectedCustomers])
-
     const ItemRenderer = (props: any) => {
         return <div className="even:bg-L-gray-100 even:dark:bg-D-gray-100 hover:bg-L-primary-100 dark:hover:bg-D-primary-100" {...props}></div>;
     };
@@ -91,10 +86,27 @@ const CustomerSearch = () => {
         isDefaultUse ? refetchDefaultCustomer() : refetchCustomers();
     };
 
-    const onALLSelectionChanged = (checked: boolean) => {
-        checked && listGroups && appDispatch(setAllSelectedCustomers(listGroups))
+    const isALLSelected = useMemo(() => {
+        if (!listGroups || listGroups.length === 0) return false;
 
-        !checked && appDispatch(emptySelectedCustomers())
+        const selectedCustomersISINs = selectedCustomers?.map(item => item.customerISIN)
+
+        return listGroups?.every(item => selectedCustomersISINs.includes(item.customerISIN))
+    }, [listGroups, selectedCustomers])
+
+    const onALLSelectionChanged = (checked: boolean) => {
+        if (!listGroups) return;
+
+        if (checked) {
+            appDispatch(setAllSelectedCustomersWithPrevious(listGroups))
+        } else {
+            // If not checked, filter out customers from the selected list that are in the current group
+            const customerISINs = listGroups.map(child => child.customerISIN);
+            const filteredSelectedCustomers = selectedCustomers.filter(customer => !customerISINs.includes(customer.customerISIN));
+            appDispatch(setAllSelectedCustomers(filteredSelectedCustomers));
+        }
+
+
     }
 
     const rowUI = useMemo(() => {
@@ -119,7 +131,7 @@ const CustomerSearch = () => {
         return () => ipcMain.removeChannel('update_customer');
     }, []);
 
-    
+
     return (
         <div className="w-full h-full grid gap-2  overflow-y-auto text-1.2">
             <div className="bg-L-basic dark:bg-D-basic h-full rounded-lg py-2 px-4 grid overflow-y-auto grid-rows-min-one gap-2">
