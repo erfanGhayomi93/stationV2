@@ -14,12 +14,15 @@ import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
 import DetailModal from '../OpenOrders/modals/DetailModal';
+import { AgGridReact } from 'ag-grid-react';
 
 export const AllOrders = () => {
 
     const { t } = useTranslation()
 
     const { data: orders, isFetching: loadingOrders } = useGetOrders({ GtOrderStateRequestType: 'All' });
+
+    const gridRef = useRef<AgGridReact>(null);
 
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
@@ -61,6 +64,9 @@ export const AllOrders = () => {
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
+            {
+                type: 'rowSelect'
+            },
             {
                 headerName: 'مشتری',
                 field: 'customerTitle',
@@ -189,6 +195,8 @@ export const AllOrders = () => {
                     enableBrowserTooltips={true}
                     animateRows={true}
                     suppressRowVirtualisation={true}
+                    rowSelection='multiple'
+                    ref={gridRef}
                 />
             </WidgetLoading>
 

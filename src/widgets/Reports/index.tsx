@@ -21,6 +21,7 @@ const Reports = () => {
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
 
     const requestsRef = useRef({ sendRequests: () => { }, sendAllRequests: () => { }, getOfflineRequestsExcel: () => { }, refetchOffline: () => { } });
+    const AllOrderRef = useRef({ removeGroupRequest: () => { } })
 
     const isBothFilter = aggregateType === 'Both';
     const isSymbolFilter = aggregateType === 'Symbol';
@@ -194,7 +195,6 @@ const Reports = () => {
                     >
                         {'ارسال همه درخواست ها'}
                     </button>
-
                     <Tippy content={t('Action_Button.Update')} >
                         <button
                             onClick={() => requestsRef.current.refetchOffline()}
@@ -206,10 +206,16 @@ const Reports = () => {
                             />
                         </button>
                     </Tippy>
-
-                    <div>
-
-                    </div>
+                </div>
+            ) : activeTab === 'AllOrders' ? (
+                <div>
+                    <button
+                        className="rounded h-8 px-2 flex justify-center items-center text-L-error-200 dark:text-D-error-200 bg-L-basic hover:bg-L-basic disabled:opacity-50 disabled:cursor-not-allowed border border-L-error-200 dark:border-D-error-200"
+                        onClick={() => AllOrderRef.current.removeGroupRequest()}
+                        disabled={!!!requestsTabData.selectedCount}
+                    >
+                        حذف گروهی درخواست
+                    </button>
                 </div>
             ) : null}
 
