@@ -53,6 +53,12 @@ interface IOrderGetType {
     bourseCode?: string;
     RemainingQuantity : string;
     orderFrom?: string;
+    remainingQuantity : number ;
+    requestDate : string ;
+    lastErrorCode : string;
+    tradeDate : string;
+    totalPrice : number;
+    commission : number
 }
 
 type TTodayDoneTrades = {
@@ -145,13 +151,14 @@ interface IGTOrderListResultType {
     symbolISIN: string;
     validity?: validity;
     orderId  : string
+    remainingQuantity : number
 }
 
 interface IOrderListDetail {
     orderDateTime: string,
     price: number,
     quantity: number,
-    msOrderState: OrderStatusType
+    omsOrderState: OrderStatusType
 }
 
 interface IGTOrderListRequest {
@@ -202,6 +209,7 @@ interface IGTTradesListResultType {
     totalPrice: number;
     totalCommission: number;
     iterationCount: number;
+    orderFrom : string
 }
 
 interface IGTTradesResponseType extends GlobalPaginatedApiResponse<IGTTradesListResultType[]> {}

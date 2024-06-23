@@ -54,7 +54,7 @@ const FailedOrders: FC<IFailedOrders> = () => {
             // { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'orderId',
                 cellRenderer: (row: any) => <ActionCell data={row.data} type={[TypeActionEnum.COPY]} handleCopy={handleCopy} />,
             },
         ],

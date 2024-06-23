@@ -41,7 +41,6 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
         (): ColDefType<IGTPortfolioResultType>[] => [
             {
                 headerName: t('ag_columns_headerName.row'),
-                field: 'agTableIndex',
                 minWidth: 60,
                 maxWidth: 80,
                 valueFormatter: ({ node }) => String(((pageNumber || 0) - 1) * (pageSize || 0) + node?.rowIndex! + 1),
@@ -99,7 +98,7 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
             },
             {
                 headerName: t('ag_columns_headerName.actions'),
-                field: 'agTableAction',
+                field: 'symbolISIN',
                 cellRenderer: ({ data }: ICellRendererParams<IGTPortfolioResultType>) => (
                     <ActionsCell data={data} historyModalAction={historyModalAction} setDataModal={setDataModal} />
                 ),

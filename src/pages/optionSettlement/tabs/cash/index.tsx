@@ -26,6 +26,7 @@ type TResponse = {
         customerIsin: string;
         customerTitle: string;
         symbolTitle: string;
+        bourseCode : string;
         openPositionCount: number;
         cashSettlementDate: string;
         settlementRequestType: string;

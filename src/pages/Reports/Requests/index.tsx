@@ -105,7 +105,7 @@ const Requests = () => {
             },
             {
                 headerName: t('ag_columns_headerName.actions'),
-                field: 'customTitle',
+                field: 'id',
                 minWidth: 90,
                 maxWidth: 90,
                 cellRenderer: (row: ICellRendererParams<IOfflineRequestsPaginatedResponse>) => (

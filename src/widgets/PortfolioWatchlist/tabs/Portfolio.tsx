@@ -9,6 +9,8 @@ type RequestData = {
     sumExecuted: number;
     price: number;
     valuePosition: number;
+    orderSide2: number;
+    orderSide3: number;
     // creditRequest: Boolean;
 };
 

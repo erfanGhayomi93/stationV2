@@ -66,7 +66,7 @@ export const TableBasket = ({
         (): ColDefType<TRowData>[] => [
             {
                 headerName: 'ردیف',
-                field: 'customerTitles',
+                field: 'id',
                 valueFormatter: valueFormatterIndex,
                 lockVisible: true,
                 pinned: 'right',
@@ -87,7 +87,7 @@ export const TableBasket = ({
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'cartID',
                 sortable: false,
                 lockVisible: true,
                 pinned: 'left',

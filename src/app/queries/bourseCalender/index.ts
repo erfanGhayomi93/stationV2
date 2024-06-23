@@ -16,5 +16,5 @@ const getGetEvent = async (params: IGetEventParamsType , signal ?: AbortSignal) 
 };
 
 export const useGetEventQuery = (params: IGetEventParamsType) => {
-    return useQuery(['getEventDayOnCalender' + params.watchlistId ?? 0], ({ signal }) => getGetEvent(params, signal));
+    return useQuery(['getEventDayOnCalender' , params.watchlistId ?? 0], ({ signal }) => getGetEvent(params, signal));
 };

@@ -183,10 +183,12 @@ const Drafts: FC<IDraft> = () => {
                 field: 'lastTradedPrice',
                 type: 'sepratedNumber',
                 cellRenderer: LastTradedPrice,
+                minWidth: 100,
+                maxWidth: 100
             },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'orderId',
                 cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => (
                     <AGActionCell
                         data={row.data}
