@@ -101,7 +101,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 		/* آخرین قیمت */
 		{
 			colId: 'lastTradedPrice',
-			field: 'symbol.lastTradedPrice',
+			field: 'lastTradedPrice',
 			headerName: t('table_columns.lastTradedPrice'),
 			minWidth: 108,
 			hide: !expand,

@@ -21,12 +21,11 @@ const TradingView = lazy(() => safeLazyImport(() => import('src/pages/Market/Cha
 const Requests = lazy(() => safeLazyImport(() => import('src/pages/Reports/Requests')));
 const PortfolioMain = lazy(() => safeLazyImport(() => import('src/pages/portfolio/list/index')));
 const Setting = lazy(() => safeLazyImport(() => import('src/pages/Setting')));
-
 const OptionSettlement = lazy(() => safeLazyImport(() => import('src/pages/optionSettlement')));
+const SetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ChangePassword/setPassword')));
+const AppLayout = lazy(() => safeLazyImport(() => import('../Layout')));
+const AuthLayout = lazy(() => safeLazyImport(() => import('../Layout/AuthLayout')));
 
-import AppLayout from '../Layout';
-import AuthLayout from '../Layout/AuthLayout';
-import SetPasswordChangePassword from 'src/pages/oAuth/ChangePassword/setPassword';
 
 const AppRoutes: FC = () => {
     const router = useMemo(

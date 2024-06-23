@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useGetOrders, useSingleDeleteOrders } from 'src/app/queries/order';
 import { queryClient } from 'src/app/queryClient';
@@ -14,12 +14,19 @@ import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
 import DetailModal from '../OpenOrders/modals/DetailModal';
+import { AgGridReact } from 'ag-grid-react';
 
-export const AllOrders = () => {
+interface IAllOrdersProps {
+
+}
+
+const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
 
     const { t } = useTranslation()
 
     const { data: orders, isFetching: loadingOrders } = useGetOrders({ GtOrderStateRequestType: 'All' });
+
+    const gridRef = useRef<AgGridReact>(null);
 
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
@@ -61,6 +68,9 @@ export const AllOrders = () => {
 
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
+            {
+                type: 'rowSelect'
+            },
             {
                 headerName: 'مشتری',
                 field: 'customerTitle',
@@ -133,7 +143,7 @@ export const AllOrders = () => {
             },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'orderId',
                 maxWidth: 100,
                 sortable: false,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
@@ -152,6 +162,10 @@ export const AllOrders = () => {
         ],
         [],
     );
+
+    const removeGroupRequest = () => {
+        console.log('render', gridRef.current?.api.getSelectedRows());
+    }
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
@@ -179,9 +193,13 @@ export const AllOrders = () => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
     }, []);
 
+    useImperativeHandle(parentRef, () => ({
+        removeGroupRequest
+    }))
+
 
     return (
-        <div className={'h-full p-3'}>
+        <div className={'h-full'}>
             <WidgetLoading spining={loadingOrders}>
                 <AGTable
                     rowData={orders || []}
@@ -189,6 +207,8 @@ export const AllOrders = () => {
                     enableBrowserTooltips={true}
                     animateRows={true}
                     suppressRowVirtualisation={true}
+                    rowSelection='multiple'
+                    ref={gridRef}
                 />
             </WidgetLoading>
 
@@ -204,3 +224,7 @@ export const AllOrders = () => {
         </div>
     )
 }
+)
+
+
+export default AllOrders

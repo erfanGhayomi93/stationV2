@@ -254,7 +254,7 @@ const KucoinChart = ({ yesterdayClosingPrice, highThreshold, lowThreshold }: Kuc
                     tooltip: {
                         enabled: false,
                         position: 'nearest',
-                        external: (context) => externalTooltipHandler(context, (value) => `\u200E${seprateNumber(+value ?? 0)}`),
+                        external: (context) => externalTooltipHandler(context, (value) => `\u200E${seprateNumber(+value || 0)}`),
                     },
                 },
 

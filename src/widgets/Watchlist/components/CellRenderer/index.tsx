@@ -61,6 +61,7 @@ export const LastTradedPrice = ({ data, value, valueFormatted }: ICellRendererPa
         return 'text-L-gray-500 dark:text-D-gray-500';
     };
 
+
     return (
         <div
             className={clsx('flex justify-center items-center dir-ltr w-full gap-2', {

@@ -1,4 +1,12 @@
-import { ColDef, ColGroupDef, ColumnVisibleEvent, FirstDataRenderedEvent, GridSizeChangedEvent, RowValueChangedEvent } from 'ag-grid-community';
+import {
+    ColDef,
+    ColGroupDef,
+    ColTypeDef,
+    ColumnVisibleEvent,
+    FirstDataRenderedEvent,
+    GridSizeChangedEvent,
+    RowValueChangedEvent,
+} from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import React, { forwardRef, Ref, useCallback, useMemo } from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -23,99 +31,120 @@ interface Props<TData> extends AgGridReactProps<TData> {
     agGridTheme?: 'balham' | 'alpine';
 }
 
-const AGTable = forwardRef<AgGridReact, Props<unknown>>(({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
-    //
-    const { t } = useTranslation();
-    const theme = useAppSelector(getTheme);
+const AGTable = forwardRef<AgGridReact, Props<unknown>>(
+    ({ defaultColDef = {}, rowData = [], agGridTheme = 'alpine', ...rest }, ref) => {
+        const { t } = useTranslation();
+        const theme = useAppSelector(getTheme);
 
-    const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%', position: 'relative' }), []);
-    const containerClassName = useMemo((): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`, [theme]);
+        const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%', position: 'relative' }), []);
+        const containerClassName = useMemo(
+            (): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`,
+            [theme]
+        );
 
-    const ColumnTypes = useMemo((): { [key: string]: ColDef } => {
-        return {
-            rowSelect: { sortable: false, checkboxSelection: true, headerCheckboxSelection: true, minWidth: 35, maxWidth: 35 },
-            sepratedNumber: { valueFormatter: ({ value }) => seprateNumber(value), cellStyle: { direction: 'ltr' } },
-            abbreviatedNumber: { valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value) },
-            date: {
-                valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('HH:mm:ss   YYYY-MM-DD') : value),
-            },
-            dateWithoutTime: {
-                valueFormatter: ({ value }) => (dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY-MM-DD') : value),
-            },
-        };
-    }, []);
+        const ColumnTypes = useMemo((): { [key: string]: ColTypeDef<unknown> } => {
+            return {
+                rowSelect: {
+                    sortable: false,
+                    checkboxSelection: true,
+                    headerCheckboxSelection: true,
+                    minWidth: 35,
+                    maxWidth: 35,
+                },
+                sepratedNumber: {
+                    valueFormatter: ({ value }) => seprateNumber(value),
+                    cellStyle: { direction: 'ltr' },
+                },
+                abbreviatedNumber: {
+                    valueFormatter: ({ value }) => (value ? abbreviateNumber(value) : value),
+                },
+                date: {
+                    valueFormatter: ({ value }) =>
+                        dayjs(value).isValid()
+                            ? dayjs(value).calendar('jalali').format('HH:mm:ss   YYYY-MM-DD')
+                            : value,
+                },
+                dateWithoutTime: {
+                    valueFormatter: ({ value }) =>
+                        dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY-MM-DD') : value,
+                },
+                agTableIndex: {
+                    valueGetter: 'node.rowIndex + 1',
+                    cellRenderer: 'agGroupCellRenderer',
+                }
+            };
+        }, []);
 
-    const DefaultColDef = useMemo((): ColDef => {
-        return {
-            minWidth: 100,
-            suppressMovable: true,
-            sortable: true,
-            flex: 1,
-            tooltipValueGetter: ({ value, valueFormatted, colDef }) => {
-                if (colDef && colDef.hasOwnProperty('cellRenderer')) return '';
-                return valueFormatted || value;
-            },
-            ...defaultColDef,
-        };
-    }, []);
+        const DefaultColDef = useMemo((): ColDef => {
+            return {
+                minWidth: 100,
+                suppressMovable: true,
+                sortable: true,
+                flex: 1,
+                tooltipValueGetter: ({ value, valueFormatted, colDef }) => {
+                    if (colDef && colDef.hasOwnProperty('cellRenderer')) return '';
+                    return valueFormatted || value;
+                },
+                ...defaultColDef,
+            };
+        }, [defaultColDef]);
 
-    // const onGridSizeChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
-    // const onRowDataUpdated = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
-    // const onRowValueChanged = useCallback(({ api }: RowValueChangedEvent<unknown>) => api?.sizeColumnsToFit(), []);
-    // const onFirstDataRendered = useCallback(({ api }: FirstDataRenderedEvent) => api?.sizeColumnsToFit(), []);
+        // const onGridSizeChanged = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+        const onRowDataUpdated = useCallback(({ api }: GridSizeChangedEvent) => api?.sizeColumnsToFit(), []);
+        // const onRowValueChanged = useCallback(({ api }: RowValueChangedEvent<unknown>) => api?.sizeColumnsToFit(), []);
+        // const onFirstDataRendered = useCallback(({ api }: FirstDataRenderedEvent) => api?.sizeColumnsToFit(), []);
 
-    const onColumnVisible = useCallback(({ api, column }: ColumnVisibleEvent) => {
-        setTimeout(() => {
-            try {
-                if (!column) return;
-                const colId = column.getColId();
-                api.flashCells({
-                    columns: [colId],
-                });
-            } catch (e) {
-                //
-            }
-        });
-    }, []);
+        const onColumnVisible = useCallback(({ api, column }: ColumnVisibleEvent) => {
+            setTimeout(() => {
+                try {
+                    if (!column) return;
+                    const colId = column.getColId();
+                    api.flashCells({
+                        columns: [colId],
+                    });
+                } catch (e) {
+                    //
+                }
+            });
+        }, []);
 
-    return (
-        <div className={containerClassName} style={containerStyle}>
-            <AgGridReact
-                ref={ref}
-                rowModelType="clientSide"
-                enableRtl
-                suppressCellFocus
-                suppressAnimationFrame
-                suppressScrollOnNewData
-                suppressRowClickSelection
-                suppressDragLeaveHidesColumns
-                rowBuffer={5}
-                localeText={AgGridLocalization}
-                animateRows
-                enableBrowserTooltips
-                scrollbarWidth={5}
-                suppressColumnVirtualisation
-                //
-                // onGridSizeChanged={onGridSizeChanged}
-                // onRowDataUpdated={onRowDataUpdated}
-                // onRowDataChanged={onRowDataChanged}
-                //'onRowDataChanged' is deprecated.
-                // onRowValueChanged={onRowValueChanged}
-                // onFirstDataRendered={onFirstDataRendered}
-                onColumnVisible={onColumnVisible}
-                //
-                columnTypes={ColumnTypes}
-                defaultColDef={DefaultColDef}
-                //
-                rowData={rowData}
-                icons={{
-                    rowDrag: ReactDOMServer.renderToString(<DragIcon />),
-                }}
-                {...rest}
-            />
-        </div>
-    );
-});
+        return (
+            <div className={containerClassName} style={containerStyle}>
+                <AgGridReact
+                    ref={ref}
+                    rowModelType="clientSide"
+                    enableRtl
+                    suppressCellFocus
+                    suppressAnimationFrame
+                    suppressScrollOnNewData
+                    suppressRowClickSelection
+                    suppressDragLeaveHidesColumns
+                    rowBuffer={5}
+                    localeText={AgGridLocalization}
+                    animateRows
+                    enableBrowserTooltips
+                    scrollbarWidth={5}
+                    suppressColumnVirtualisation
+                    // onGridSizeChanged={onGridSizeChanged}
+                    onRowDataUpdated={onRowDataUpdated}
+                    // onRowDataChanged={onRowDataChanged} // Deprecated
+                    // onRowValueChanged={onRowValueChanged}
+                    // onFirstDataRendered={onFirstDataRendered}
+                    onColumnVisible={onColumnVisible}
+                    //
+                    columnTypes={ColumnTypes}
+                    defaultColDef={DefaultColDef}
+                    //
+                    rowData={rowData}
+                    icons={{
+                        rowDrag: ReactDOMServer.renderToString(<DragIcon />),
+                    }}
+                    {...rest}
+                />
+            </div>
+        );
+    }
+);
 
 AGTable.displayName = 'AGTable';
 

@@ -95,7 +95,7 @@ const EditWatchlistModal = ({ }: IEditWatchlistModalType) => {
             },
             {
                 headerName: 'عملیات',
-                field: 'actions',
+                field: 'id',
                 cellRenderer: (row: ICellRendererParams<IWatchlistType>) => <ActionED {...{ row, setEditMode, editMode, editWatchListName }} />,
             },
         ],

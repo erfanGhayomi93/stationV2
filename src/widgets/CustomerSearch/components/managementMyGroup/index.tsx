@@ -92,7 +92,7 @@ const ManagementMyGroupModal = () => {
             },
             {
                 headerName: 'عملیات',
-                field: 'actions',
+                field: 'id',
                 cellRenderer: (row: ICellRendererParams<IUpdateMyGroup>) => <ActionED {...{ row, setEditMode, editMode, editWatchListName }} />,
             },
         ],

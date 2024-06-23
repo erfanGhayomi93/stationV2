@@ -93,7 +93,6 @@ const CustomerPortfolioModal = () => {
             },
             {
                 headerName: t('ag_columns_headerName.profitAndLossPercent'),
-                field: '',
                 cellClass: ({ value }) => (value > 0 ? 'text-L-success-200' : 'text-L-error-200'),
                 valueGetter: ({ data }) => calcProfitAndLossPercent(data),
                 valueFormatter: ({ value }) => (value ? Math.abs(value).toFixed(2) + '%' : '-'),

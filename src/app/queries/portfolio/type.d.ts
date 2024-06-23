@@ -29,6 +29,7 @@ interface IGTPortfolioResultType {
     symbolOrderState: string;
     symbolTradeState: string;
     closingPrice: number;
+    customerTitle : string
 }
 
 interface ICardexPortfolioResult {

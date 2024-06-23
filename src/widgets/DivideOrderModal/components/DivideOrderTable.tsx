@@ -121,15 +121,14 @@ const DivideOrderTable = ({ rowData, setQuantityInput, sendOneOrder, symbolMaxQu
             },
             {
                 headerName: t('ag_columns_headerName.actions'),
-                field: 'action',
                 colId: 'quantity',
-                cellRenderer: ({ api, data, rowIndex }: ICellRendererParams) => (
+                cellRenderer: ({ api, data, node: { rowIndex } }: ICellRendererParams) => (
                     <ActionCell
                         data={data}
                         type={!data?.clientKey ? [TypeActionEnum.DELETE, TypeActionEnum.EDIT, TypeActionEnum.SEND] : [TypeActionEnum.EDIT, TypeActionEnum.SEND]}
                         handleEdit={() => {
-                            api.startEditingCell({ rowIndex, colKey: 'price' });
-                            api.startEditingCell({ rowIndex, colKey: 'quantity' });
+                            api.startEditingCell({ rowIndex : rowIndex as number, colKey: 'price' });
+                            api.startEditingCell({ rowIndex : rowIndex as number, colKey: 'quantity' });
                         }}
                         handleDelete={(data) => onRowDelete(data)}
                         handleSend={(data) => onRowSend(data)}

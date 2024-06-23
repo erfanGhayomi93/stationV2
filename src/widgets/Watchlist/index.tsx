@@ -33,43 +33,51 @@ const Watchlists = () => {
                 headerName: 'نماد',
                 field: 'symbolTitle',
                 rowDrag: true,
-                pinned: 'right',
-                minWidth: 175,
-                maxWidth: 175,
+                minWidth: 160,
+                maxWidth: 160,
                 cellRenderer: SymbolTradeState,
                 rowDragText: (p) => {
                     return p?.rowNode?.data?.symbolTitle || 'جابجایی';
                 },
-                lockVisible: true,
             },
             {
                 headerName: 'آخرین قیمت',
                 field: 'lastTradedPrice',
                 cellRenderer: LastTradedPrice,
-                type: 'sepratedNumber'
+                type: 'sepratedNumber',
+                minWidth: 160,
+                maxWidth: 160,
             },
             {
                 headerName: 'قیمت پایانی ',
                 field: 'closingPrice',
                 cellRenderer: ClosingPrice,
+                minWidth: 160,
+                maxWidth: 160,
             },
             {
                 headerName: 'حجم تقاضا',
                 field: 'bestBuyLimitQuantity_1',
                 type: 'abbreviatedNumber',
                 cellClass: 'bg-L-success-101 dark:bg-D-success-101',
+                minWidth: 160,
+                maxWidth: 150,
             },
             {
                 headerName: 'قیمت تقاضا',
                 field: 'bestBuyLimitPrice_1',
                 type: 'sepratedNumber',
                 cellClass: 'bg-L-success-101 dark:bg-D-success-101',
+                minWidth: 150,
+                maxWidth: 150,
             },
             {
                 headerName: 'قیمت عرضه',
                 field: 'bestSellLimitPrice_1',
                 type: 'sepratedNumber',
                 cellClass: 'bg-L-error-101 dark:bg-D-error-101',
+                minWidth: 150,
+                maxWidth: 150,
             },
             {
                 headerName: 'حجم عرضه',
@@ -77,18 +85,24 @@ const Watchlists = () => {
                 type: 'abbreviatedNumber',
                 // cellRenderer: ChangeCellRenderer,
                 cellClass: 'bg-L-error-101 dark:bg-D-error-101',
+                minWidth: 150,
+                maxWidth: 150,
             },
             {
                 headerName: 'حجم',
                 field: 'totalNumberOfSharesTraded',
                 type: 'abbreviatedNumber',
                 cellRenderer: ChangeCellRenderer,
+                minWidth: 150,
+                maxWidth: 150,
             },
             {
                 headerName: 'ارزش',
                 field: 'totalTradeValue',
                 type: 'abbreviatedNumber',
                 cellRenderer: ChangeCellRenderer,
+                minWidth: 150,
+                maxWidth: 150,
             },
             {
                 headerName: 'بیشترین',
@@ -112,7 +126,6 @@ const Watchlists = () => {
             {
                 headerName: 'عملیات',
                 cellRenderer: ({ data }: ICellRendererParams<ISymbolType>) => <ActionCellRenderer {...(data as any)} />,
-                field: 'agTableAction',
                 minWidth: 130,
                 maxWidth: 130,
                 pinned: 'left',
@@ -171,7 +184,7 @@ const Watchlists = () => {
                             getRowId={({ data }) => data.symbolISIN}
                             onGridReady={(p) => setGridApi(p)}
                             onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
-                            onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
+                            // onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
                             onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
                         />
                         {!['Market', 'Ramand'].includes(watchlistType) && !watchlistSymbolList?.length && !isFetchingSymbol && (

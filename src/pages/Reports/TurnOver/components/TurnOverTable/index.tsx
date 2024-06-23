@@ -23,7 +23,6 @@ const TurnOverTable = ({ data, pageNumber, pagesize, PaginatorHandler, loading }
         (): ColDefType<IGetCustomerTurnOverResultType>[] => [
             {
                 headerName: t('ag_columns_headerName.row'),
-                field: 'agTableIndex',
                 minWidth: 60,
                 maxWidth: 80,
                 valueFormatter: ({ node }) => (node?.isRowPinned() ? '-' : String((pageNumber - 1) * pagesize + node?.rowIndex! + 1)),
