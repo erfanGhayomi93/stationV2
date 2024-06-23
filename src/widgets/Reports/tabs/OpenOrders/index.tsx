@@ -183,7 +183,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
             },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'orderId',
                 sortable: false,
                 cellRenderer: (row: ICellRendererParams<IOrderGetType>) => (
                     <AGActionCell
@@ -201,7 +201,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
 
     return (
-        <div className={'h-full p-3'}>
+        <div className={'h-full'}>
             <WidgetLoading spining={loadingOrders}>
                 <AGTable
                     rowData={orders || []}

@@ -72,7 +72,7 @@ const TradeInfoModal = ({ modalData, setModalData, aggregateType }: Props) => {
     );
 
     const colDefs = useMemo(
-        (): ColDefType<unknown>[] => [
+        (): ColDefType<any>[] => [
             { headerName: 'ردیف', valueGetter: ({ node }) => Number(node?.rowIndex) + 1, maxWidth: 60 },
             ...(aggregateType !== 'Customer' ? [{ headerName: 'مشتری', field: 'customerTitle' }] : []),
             ...(aggregateType !== 'Symbol' ? [{ headerName: 'نماد', field: 'symbolTitle' }] : []),

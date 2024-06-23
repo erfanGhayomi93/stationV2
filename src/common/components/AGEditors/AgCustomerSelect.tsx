@@ -10,7 +10,7 @@ const AgCustomerSelect: React.FC<ICellEditorParams> = forwardRef(({ parseValue, 
     useImperativeHandle(ref, () => {
         return {
             getValue() {
-                return parseValue(value[0]);
+                return parseValue(String(value[0].id));
             },
         };
     });

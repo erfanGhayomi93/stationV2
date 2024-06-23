@@ -32,10 +32,10 @@ const initRowState = {
 
 export const OpenPosition = () => {
     const { t } = useTranslation()
+
     const appDispatch = useAppDispatch()
 
     const [rowState, setRowState] = useState<RowStateType>(initRowState)
-    const [InputSearch, setInputSearch] = useState("")
 
     const { data, isFetching } = useOpenPosition()
 
@@ -96,18 +96,10 @@ export const OpenPosition = () => {
 
     }
 
-
     useUpdateEffect(() => {
         if (rowState.symbolISIN) refetch()
     }, [rowState])
 
-
-    const filterData = () => {
-        if (!InputSearch) return data
-        if (!data) return []
-
-        return data.filter((item) => item.customerTitle.trim().includes(InputSearch.trim()))
-    }
 
 
     const columns = useMemo((): ColDefType<IOpenPositionsRes>[] => [
@@ -144,7 +136,7 @@ export const OpenPosition = () => {
             field: "positionCount",
             minWidth: 144,
             flex: 1,
-            maxWidth : 100,
+            maxWidth: 100,
             // cellClass: ({ data }) => {
             //     if (!data) return '';
             // },
@@ -227,18 +219,14 @@ export const OpenPosition = () => {
             field: "remainDays",
             minWidth: 80,
             flex: 1,
-            valueFormatter: ({ data }) => Math.max(data?.remainDays || 0, 0),
+            valueFormatter: ({ data }) => String(Math.max(data?.remainDays || 0, 0)),
         },
         {
             headerName: t('ag_columns_headerName.actions'),
             field: 'canClosePosition',
-            minWidth: 80,
             cellRenderer: (row: ICellRendererParams<IOpenPositionsRes>) => (
                 <div
-                    className={clsx("h-full flex items-center justify-center", {
-
-                    })}
-
+                    className={clsx("h-full flex items-center justify-center")}
                 >
                     <ReverseOptionIcon
                         className={clsx({
@@ -257,12 +245,13 @@ export const OpenPosition = () => {
     return (
         <>
             <WidgetLoading spining={isFetching}>
-                <div className={'h-full p-3'}>
+                <div className='h-full'>
                     <AGTable
-                        agGridTheme="alpine"
-                        rowData={filterData()}
+                        // agGridTheme="alpine"
+                        rowData={data}
                         columnDefs={columns}
                         enableBrowserTooltips={true}
+                        suppressRowVirtualisation={true}
                     />
                 </div>
             </WidgetLoading>

@@ -46,6 +46,12 @@ interface IDraftResponseType {
     validityDate: string | null;
     lastTradedPrice : number;
     lastTradedPriceVarPercent : number
+    customerTitle  : string;
+    value : number;
+    sumExecuted : number;
+    position :string;
+    valuePosition : string;
+    
     // customerISINs: string;
     // customerTitles: string[];
 }

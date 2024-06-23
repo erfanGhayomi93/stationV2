@@ -33,7 +33,7 @@ const InnerTable: FC<IInnerTableType> = ({}) => {
             { headerName: 'اعتبار درخواست', field: 'validity', valueFormatter: valueFormatterValidity },
             {
                 headerName: 'عملیات',
-                field: 'customTitle',
+                field: 'orderId',
                 cellRenderer: (row: ICellRendererParams<IDraftResponseType>) => <>actions</>,
             },
         ],
