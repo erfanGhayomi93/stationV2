@@ -8,8 +8,6 @@ interface Props {
 const SymbolState = ({ symbolState, symbolStateTooltip, symbolStateColor }: Props) => {
     //
 
-
-
     return <div title={symbolStateTooltip} className={`w-[9px] h-[9px] rounded-full ${symbolStateColor}`}></div>;
 };
 

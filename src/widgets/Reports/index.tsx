@@ -11,6 +11,8 @@ import { OpenPosition } from './tabs/OpenPosition';
 import clsx from 'clsx';
 import { t } from 'i18next';
 import AllOrders from './tabs/AllOrders';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setIsOpenBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
 
 
 const Reports = () => {
@@ -22,6 +24,8 @@ const Reports = () => {
 
     const requestsRef = useRef({ sendRequests: () => { }, sendAllRequests: () => { }, getOfflineRequestsExcel: () => { }, refetchOffline: () => { } });
     const AllOrderRef = useRef({ removeGroupRequest: () => { } })
+
+    const appDispatch = useAppDispatch();
 
     const isBothFilter = aggregateType === 'Both';
     const isSymbolFilter = aggregateType === 'Symbol';
@@ -212,15 +216,15 @@ const Reports = () => {
                         </button>
                     </Tippy>
                 </div>
-            ) : activeTab === 'AllOrders' ? (
+            ) : (activeTab === 'AllOrders' || activeTab === 'OpenOrders') ? (
                 <div>
-                    {/* <button
-                        className="rounded h-8 px-2 flex justify-center items-center text-L-error-200 dark:text-D-error-200 bg-L-basic hover:bg-L-basic disabled:opacity-50 disabled:cursor-not-allowed border border-L-error-200 dark:border-D-error-200"
-                        onClick={() => AllOrderRef.current.removeGroupRequest()}
+                    <button
+                        className="rounded h-8 px-2 flex justify-center items-center text-L-info-100 dark:text-D-info-100 bg-L-basic dark:bg-D-basic disabled:opacity-50 disabled:cursor-not-allowed border border-L-info-100  dark:border-D-info-100"
+                        onClick={() => appDispatch(setIsOpenBuySellGroup(true))}
                     // disabled={!!!requestsTabData.selectedCount}
                     >
-                        حذف گروهی درخواست
-                    </button> */}
+                        ویرایش و حذف گروهی درخواست
+                    </button>
                 </div>
             ) : null}
 
