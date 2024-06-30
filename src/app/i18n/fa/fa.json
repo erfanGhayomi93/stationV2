@@ -893,7 +893,7 @@
         "WrongPrice": "قیمت اشتباه است",
         "DeleteCartFailed": "حذف سبد انجام نشد.",
         "DuplicateCustomer": "مشتری تکراری است",
-        "AddCustomersFailed": "متاسفنه انجام نشد"
+        "AddCustomersFailed": "مشتری اضافه نشد"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",

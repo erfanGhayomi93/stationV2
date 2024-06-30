@@ -5,8 +5,8 @@ import { queryClient } from 'src/app/queryClient';
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
     const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsPreprd();
-
+    // const { data } = useGlobalSettingsStage();
+// 
     useEffect(() => {
         if (!!data) {
             const routes = Apis();
@@ -122,6 +122,8 @@ export const Apis = () => ({
         GroupLists: getBaseUrl() + '/Order/v1/GroupOrdersList',
         Modify: getBaseUrl() + '/Order/v1/Modify',
         ModifySingleTrade: getBaseUrl() + '/Order/v1/ModifySingleTrade',
+        GroupOrderDelete: getBaseUrl() + '/Order/v1/GroupOrderDelete',
+        GroupOrdersModify: getBaseUrl() + '/Order/v1/GroupOrdersModify',
         Trades: getBaseUrl() + '/Order/v1/Trades',
         TradesDetail: getBaseUrl() + '/Order/v1/TradesDetails',
         TradesExcel: getBaseUrl() + '/Order/v1/TradesExcel',

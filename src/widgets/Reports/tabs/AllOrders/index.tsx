@@ -69,9 +69,6 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
     const columns = useMemo(
         (): ColDefType<IOrderGetType>[] => [
             {
-                type: 'rowSelect'
-            },
-            {
                 headerName: 'مشتری',
                 field: 'customerTitle',
                 valueFormatter: (data) => data?.data?.customerTitle + " - " + data?.data?.bourseCode,
@@ -163,9 +160,6 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
         [],
     );
 
-    const removeGroupRequest = () => {
-        console.log('render', gridRef.current?.api.getSelectedRows());
-    }
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
@@ -193,9 +187,9 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
     }, []);
 
-    useImperativeHandle(parentRef, () => ({
-        removeGroupRequest
-    }))
+    // useImperativeHandle(parentRef, () => ({
+    //     removeGroupRequest
+    // }))
 
 
     return (
@@ -207,7 +201,6 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
                     enableBrowserTooltips={true}
                     animateRows={true}
                     suppressRowVirtualisation={true}
-                    rowSelection='multiple'
                     ref={gridRef}
                 />
             </WidgetLoading>

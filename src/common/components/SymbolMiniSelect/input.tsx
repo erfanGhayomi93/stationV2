@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, memo, useContext, useRef } from 'react';
+import { FC, memo, useContext, useEffect, useRef } from 'react';
 import { PlusIcon, SearchIcon, SearchPlusIcon } from 'src/common/icons';
 import Combo from '../ComboSelect';
 import { ComboSelectContext } from '../ComboSelect/context';

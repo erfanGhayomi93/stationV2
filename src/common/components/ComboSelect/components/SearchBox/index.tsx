@@ -1,9 +1,9 @@
-import { Dispatch, FC, useContext, HTMLAttributes, useState, useEffect, InputHTMLAttributes, forwardRef, MutableRefObject } from 'react';
+import { useContext, useState, InputHTMLAttributes, forwardRef } from 'react';
 import { ComboSelectContext } from '../../context';
 import useDebounce from '../../hooks/useDebounce';
-import { useRef } from 'react';
+import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
 
-export interface IComboSearchBoxType extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'placeholder'> {}
+export interface IComboSearchBoxType extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'placeholder'> { }
 
 const ComboSearchBox = forwardRef<HTMLInputElement, IComboSearchBoxType>((inputProps, ref) => {
     const [inputValue, setInputValue] = useState<string>('');
@@ -14,7 +14,7 @@ const ComboSearchBox = forwardRef<HTMLInputElement, IComboSearchBoxType>((inputP
 
     const debouncedValue = useDebounce(inputValue, withDebounce);
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         if (min) {
             if (debouncedValue.length < min) {
                 onMinimumEntered && onMinimumEntered(true);
