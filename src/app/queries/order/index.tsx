@@ -50,6 +50,20 @@ export const useSingleModifyOrders = (
     return useMutation(singleModifyOrderFn, options);
 };
 
+
+const groupModifyOrderFn = async (params: ISingleModifyOrderReq[]) => {
+    let { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(Apis().Orders.GroupOrdersModify, { items: params });
+    return data.result || [];
+};
+
+export const useGroupModifyOrders = (
+    options?: Omit<UseMutationOptions<ISingleDeleteOrderResult, unknown, ISingleModifyOrderReq[], unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(groupModifyOrderFn, options);
+};
+
+
+
 //////////////getOrder////////////////////
 const getOrderFn = async (params: ITodayOpenOrderType) => {
     let { data } = await AXIOS.get<GlobalApiResponseType<IOrderGetType[]>>(Apis().Orders.Get, { params });
@@ -96,6 +110,21 @@ export const useSingleDeleteOrders = (
 ) => {
     return useMutation(singleDeleteOrderFn, options);
 };
+
+
+const GroupDeleteOrderFn = async (ordersId: number[]) => {
+    let { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(Apis().Orders.GroupOrderDelete, ordersId);
+    return data.result || [];
+};
+
+export const useGroupDeleteOrders = (
+    options?: Omit<UseMutationOptions<ISingleDeleteOrderResult, unknown, number[], unknown>, 'mutationFn'> | undefined,
+) => {
+    return useMutation(GroupDeleteOrderFn, options);
+};
+
+
+
 
 // Get Order List
 

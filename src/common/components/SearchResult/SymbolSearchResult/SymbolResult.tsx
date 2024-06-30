@@ -45,7 +45,7 @@ const SymbolResult: FC<ISymbolResultType> = ({ isLoading, qData, min, isOnModal,
               ))
             : NotFoundResult;
     };
-
+// 
     if (min && searchHistory) {
         return <>{createOptions(searchHistory)}</>;
     }

@@ -1,0 +1,11 @@
+.icon {
+    display: none;
+}
+
+.editableCol {
+    &:hover {
+        .icon {
+            display: block;
+        }
+    }
+}

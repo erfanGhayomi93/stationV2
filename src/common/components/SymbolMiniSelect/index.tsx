@@ -16,16 +16,16 @@ interface ISymbolMiniSelectType {
     isOnModal?: boolean;
     setSelected: (selected: SymbolSearchResult[]) => void;
     selected: SymbolSearchResult[];
-    watchlistId ?: number
+    watchlistId?: number
 }
 
-const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal , watchlistId }) => {
+const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, multiple, isBigSize, isOnModal, watchlistId }) => {
     const [term, setTerm] = useState('');
     const [min, setMin] = useState(false);
     const [panel, setPanel] = useState(false);
 
     const selectedSymbolMulti = useAppSelector(getSelectedSymbolMulti);
-    const { data: searchHistory } = useRecentSymbolHistory({type: "GeneralSearch"});
+    const { data: searchHistory } = useRecentSymbolHistory({ type: "GeneralSearch" });
 
     const {
         data: qData,
@@ -49,9 +49,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
     interface IOptionsType {
         active?: boolean;
         content?: string;
-        watchlistId ?: number
+        watchlistId?: number
     }
-    const Options = ({ active, content , watchlistId }: IOptionsType) =>
+    const Options = ({ active, content, watchlistId }: IOptionsType) =>
         useMemo(() => {
             return (
                 <>
@@ -65,26 +65,9 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                         )}
                     >
                         {content === 'SELECT' ? (
-                            // <>
-                            //     {selected?.map((item, inx) => (
-                            //         <Fragment key={inx}>
-                            //             <Combo.DataSet
-                            //                 key={inx}
-                            //                 className="even:bg-L-gray-300 even:dark:bg-D-gray-300 border-b last:border-none   py-2 flex items-center gap-2 hover:bg-sky-100 cursor-pointer px-2"
-                            //                 label={item.symbolTitle}
-                            //                 value={item}
-                            //             >
-                            //                 <div className="flex justify-between w-full">
-                            //                     {item.symbolTitle}
-                            //                     <span>{item.companyISIN}</span>
-                            //                 </div>
-                            //             </Combo.DataSet>
-                            //         </Fragment>
-                            //     ))}
-                            // </>
                             <SymbolSelected selected={selectedSymbolMulti} />
                         ) : (
-                            <SymbolResult min={min} searchHistory={searchHistory || []} qData={qData || []} isLoading={isLoading && !!term.length} isOnModal={isOnModal} watchlistId={watchlistId || 0}/>
+                            <SymbolResult min={min} searchHistory={searchHistory || []} qData={qData || []} isLoading={isLoading && !!term.length} isOnModal={isOnModal} watchlistId={watchlistId || 0} />
                         )}
                     </div>
                 </>
@@ -108,11 +91,15 @@ const SymbolMiniSelect: FC<ISymbolMiniSelectType> = ({ selected, setSelected, mu
                 min={2}
             >
                 <div>
-                    <InputSearch setMin={setMin} isBigSize={isBigSize} loading={isLoading || isFetching} />
+                    <InputSearch
+                        setMin={(x) => setMin(x)} 
+                        isBigSize={isBigSize}
+                        loading={isLoading || isFetching}
+                    />
 
                     <div>
                         <Combo.Panel className="relative" onBlur={() => !isOnModal && setPanel(false)} renderDepend={[min, isLoading, qData]}>
-                            <Options watchlistId={watchlistId}/>
+                            <Options watchlistId={watchlistId} />
                         </Combo.Panel>
                     </div>
                 </div>

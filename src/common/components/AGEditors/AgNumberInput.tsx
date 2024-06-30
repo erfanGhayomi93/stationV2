@@ -1,11 +1,11 @@
 import { ICellEditorParams } from 'ag-grid-community';
 import { KeyboardEvent, forwardRef, useEffect, useRef, useState } from 'react';
 import { seprateNumber, validNumber } from 'src/utils/helpers';
-import { IData } from '../IpoBuyModal';
+import { IData } from '../BuySellGroupModal';
 
 
 interface IProps extends ICellEditorParams<IData> {
-    onChangeCustomerData: (value: number, uniqId: string) => void
+    onChangeCustomerData: (value: number, orderId: number) => void
 }
 
 const AgNumberInput = forwardRef(({ parseValue, stopEditing, onChangeCustomerData, data }: IProps, ref) => {
@@ -29,7 +29,7 @@ const AgNumberInput = forwardRef(({ parseValue, stopEditing, onChangeCustomerDat
     }
 
     const handleOnBlur = () => {
-        onChangeCustomerData ? onChangeCustomerData(value, data.uniqId) : null
+        onChangeCustomerData ? onChangeCustomerData(value, data.orderId) : null
     }
 
 
