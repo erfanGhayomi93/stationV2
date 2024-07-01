@@ -7,7 +7,7 @@ import WidgetLoading from 'src/common/components/WidgetLoading';
 import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
-import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
+import { dateTimeFormatter, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import ipcMain from 'src/common/classes/IpcMain';
 import { useQueryClient } from '@tanstack/react-query';
 import { setSelectedSymbol } from 'src/redux/slices/option';
@@ -31,7 +31,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
 
-    const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
+    const { data: orders, isFetching: loadingOrders } = useGetOrders({ GtOrderStateRequestType: 'OnBoard' });
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
@@ -132,10 +132,15 @@ const OpenOrders: FC<IOpenOrders> = () => {
             },
             {
                 headerName: 'جایگاه (حجمی)',
-                field: 'hostOrderNumber',
+                field: 'orderPlaceInPrice',
                 type: 'sepratedNumber',
                 minWidth: 80,
-                valueFormatter: ({ value }) => value ? value : '-'
+                valueFormatter: ({ data }) => {
+                    if (!data) return '-';
+
+                    if ('orderPlaceInPrice' in data && data.orderPlaceInPrice && !isNaN(data.orderPlaceInPrice)) return seprateNumber(data.orderPlaceInPrice ?? 0);
+                    return '-';
+                }
             },
             {
                 headerName: 'نوع',
@@ -180,6 +185,10 @@ const OpenOrders: FC<IOpenOrders> = () => {
                     'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
                 valueFormatter: ({ value }) => t('order_status.' + (value ?? 'OnBoard')),
+                tooltipValueGetter({ value, data }) {
+                    if (value === "Error") return data?.lastErrorCode
+                    return value
+                },
             },
             {
                 headerName: 'عملیات',

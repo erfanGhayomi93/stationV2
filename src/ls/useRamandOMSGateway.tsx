@@ -82,6 +82,7 @@ const createRamandOMSGateway = () => {
                 queryClient.invalidateQueries(['orderList', 'OnBoard'])
                 queryClient.invalidateQueries(['GetOpenPositions'])
                 ipcMain.send('update_customer');
+                ipcMain.send('refetch_onBoard_order');
                 clearTimeout(timeOutRefetch)
             }
         }, 1000);
@@ -90,6 +91,7 @@ const createRamandOMSGateway = () => {
     const handleOMSMessage = (message: Record<number, string>) => {
         const timeOut = setTimeout(() => {
             ipcMain.send('onOMSMessageReceived', message);
+
             handlePushNotification(message)
 
             clearTimeout(timeOutRefetch)

@@ -3,67 +3,44 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import HeaderEditors from './components/HeaderEditors';
 import { seprateNumber, valueFormatterValidity } from 'src/utils/helpers';
-import ActionCol from './components/ActionCol';
 import AgNumberInput from 'src/common/components/AGEditors/AgNumberInput';
 import './style.scss';
 import { IData } from '../..';
 import EditableColumn from './components/EditableColumn';
 import { NewValueParams } from 'ag-grid-community';
-import { useGroupDeleteOrders, useGroupModifyOrders, useSingleModifyOrders } from 'src/app/queries/order';
+import { useGroupDeleteOrders, useGroupModifyOrders } from 'src/app/queries/order';
 import { onInfoNotif } from 'src/handlers/notification';
+import WidgetLoading from 'src/common/components/WidgetLoading';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     data: IData[];
     orders?: IData[];
     onChangeCustomerData: (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => void;
-    refetchOrders: () => void
+    // refetchOrders: () => void,
+    loadingOrders: boolean
 }
 
 const Table = (
-    { data, orders, onChangeCustomerData, refetchOrders }: IProps
+    { data, orders, onChangeCustomerData, loadingOrders }: IProps
 ) => {
     //
+    const {t} = useTranslation()
     const gridRef = useRef<AgGridReact<IData>>(null);
 
     // const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
 
-    const { mutate: mutateGroupUpdateOrder } = useGroupModifyOrders({
-        onSuccess() {
-            refetchOrders()
-        },
-    });
+    const { mutate: mutateGroupUpdateOrder } = useGroupModifyOrders();
 
-    const { mutate: mutateGroupDeleteOrders } = useGroupDeleteOrders({
-        onSuccess() {
-            refetchOrders()
-        }
-    })
+    const { mutate: mutateGroupDeleteOrders } = useGroupDeleteOrders();
 
     const [selectedRow, setSelectedRows] = useState<IData[]>([]);
 
-    const onPriceOrCountChange = ({ data, newValue }: NewValueParams<any>, field: keyof IData) => {
+    const onPriceOrCountChange = ({ data, newValue }: NewValueParams<IData>, field: keyof IData) => {
         onChangeCustomerData(newValue, data.orderId, field, "ONE")
     }
 
-//     const handleEdit = (data: IData) => {
-//         const payload = [{
-//             id: data.orderId,
-//             price: data.price,
-//             quantity: data.quantity,
-//             validity: data.validity,
-//             validityDate: data.validityDate ?? null,
-//         }]
-// 
-//         mutateGroupUpdateOrder(payload);
-//     }
-
-    // 
-//     const handleDelete = (data: IData) => {
-//         const payload = [data.orderId]
-// 
-//         mutateGroupDeleteOrders(payload)
-//     }
-
+    
     const handleEditSelected = () => {
 
         if (!selectedRow || selectedRow?.length === 0) {
@@ -98,6 +75,7 @@ const Table = (
     }
 
     const handleSelectionChange = () => {
+        
         const newSelectedRows = gridRef?.current?.api?.getSelectedRows();
 
         setSelectedRows((prevSelectedRows) => {
@@ -108,8 +86,7 @@ const Table = (
             return prevSelectedRows;
         });
     };
-
-
+    
 
     useEffect(() => {
         // Add event listener for selection change
@@ -122,10 +99,12 @@ const Table = (
     }, [gridRef?.current?.api]);
 
 
+
     const columns = useMemo(
         (): ColDefType<IData>[] => [
             {
                 type: 'rowSelect',
+                enableCellChangeFlash:true
                 // valueGetter: ({ node }) => Number(node?.rowIndex) + 1,
                 // pinned: 'right',
                 // sortable: false,
@@ -154,17 +133,22 @@ const Table = (
                 field: 'quantity',
                 minWidth: 100,
                 maxWidth: 100,
-                headerComponent: HeaderEditors,
                 cellRenderer: EditableColumn,
-                onCellValueChanged: (e) => onPriceOrCountChange(e, 'quantity'),
+                cellRendererParams: { tooltipContent: 'تعداد' },
                 cellEditor: AgNumberInput,
                 cellEditorParams: { onChangeCustomerData: (newValue: number, orderId: number) => onChangeCustomerData(newValue, orderId, "quantity", 'ONE') },
+                onCellValueChanged: (e) => onPriceOrCountChange(e, 'quantity'),
                 cellStyle: { overflow: 'visible', padding: 0 },
-                cellClass: ({ value, rowIndex }) => ((!!orders?.length && orders[rowIndex]['quantity']) !== value ? "bg-L-success-100" : ""),
+                cellClass: ({ value, rowIndex }) => {
+                    if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['quantity'] !== undefined) {
+                        return orders[rowIndex]['quantity'] !== value ? "bg-L-success-100" : "";
+                    }
+                    return "";
+                },
+                headerComponent: HeaderEditors,
                 headerComponentParams: { tooltipContent: 'تعداد', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "quantity", 'All') },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
-                cellRendererParams: { tooltipContent: 'تعداد' },
                 editable: true,
             },
             {
@@ -178,19 +162,29 @@ const Table = (
                 cellRenderer: EditableColumn,
                 onCellValueChanged: (e) => onPriceOrCountChange(e, 'price'),
                 cellStyle: { overflow: 'visible', padding: 0 },
-                cellClass: ({ value, rowIndex }) => ((!!orders?.length && orders[rowIndex]['price']) !== value ? "bg-L-success-100" : ""),
+                cellClass: ({ value, rowIndex }) => {
+                    if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['price'] !== undefined) {
+                        return orders[rowIndex]['price'] !== value ? "bg-L-success-100" : "";
+                    }
+                    return "";
+                },
                 headerComponentParams: { tooltipContent: 'قیمت', onChangeCustomerData: (newValue: number) => onChangeCustomerData(newValue, null, "price", 'All') },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 cellRendererParams: { tooltipContent: 'قیمت' },
-                editable: true,
+                editable: true
             },
             {
                 headerName: 'ارزش معامله',
                 field: 'value',
                 minWidth: 111,
                 maxWidth: 111,
-                cellClass: ({ value, rowIndex }) => ((!!orders?.length && orders[rowIndex]['value']) !== value ? "bg-L-success-100" : ""),
+                cellClass: ({ value, rowIndex }) => {
+                    if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['value'] !== undefined) {
+                        return orders[rowIndex]['value'] !== value ? "bg-L-success-100" : "";
+                    }
+                    return "";
+                },
                 headerClass: 'p-[1px]',
                 valueFormatter: ({ value }) => (value ? seprateNumber(+value) : 0),
                 cellRendererParams: { tooltipContent: 'ارزش معامله' },
@@ -202,6 +196,21 @@ const Table = (
                 maxWidth: 100,
                 cellClass: ({ }) => 'text-L-gray-500',
                 valueFormatter: valueFormatterValidity,
+            },
+            {
+                headerName: 'وضعیت',
+                field: 'orderState',
+                minWidth: 160,
+                cellClassRules: {
+                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),
+                    'text-L-success-200': ({ value }) => value === 'OrderDone',
+                    'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
+                },
+                valueFormatter: ({ value }) => t('order_status.' + (value ?? 'OnBoard')),
+                tooltipValueGetter({ value, data }) {
+                    if (value === "Error") return t('order_errors.' + (data?.lastErrorCode ?? 'OnBoard'))
+                    return t('order_status.' + (value ?? 'OnBoard'))
+                },
             },
             // {
             //     headerName: 'عملیات',
@@ -220,22 +229,16 @@ const Table = (
 
     return (
         <div className="h-full w-full p-3 pt-0 gap-1 grid grid-rows-one-min ">
-
-            <AGTable
-                ref={gridRef}
-                rowData={data}
-                columnDefs={columns}
-                // navigateToNextHeader={() => null}
-                // onCellValueChanged={(e) => {
-                //     dataSetter((prev: IData[]) =>
-                //         prev.map((x) => (x.orderId === e.data.orderId ? { ...e.data, ...e.data.customer, customer: undefined } : x)),
-                //     );
-                // }}
-                suppressScrollOnNewData={true}
-                suppressRowVirtualisation={true}
-                rowSelection='multiple'
-            />
-
+            <WidgetLoading spining={loadingOrders}>
+                <AGTable
+                    ref={gridRef}
+                    rowData={data}
+                    columnDefs={columns}
+                    suppressScrollOnNewData={true}
+                    suppressRowVirtualisation={true}
+                    rowSelection='multiple'
+                />
+            </WidgetLoading>
 
             <div className='flex items-center justify-end gap-x-2 w-full pl-4 my-2'>
                 <button
@@ -259,3 +262,23 @@ const Table = (
 };
 
 export default Table;
+
+
+//     const handleEdit = (data: IData) => {
+    //         const payload = [{
+    //             id: data.orderId,
+    //             price: data.price,
+    //             quantity: data.quantity,
+    //             validity: data.validity,
+    //             validityDate: data.validityDate ?? null,
+    //         }]
+    // 
+    //         mutateGroupUpdateOrder(payload);
+    //     }
+
+    // 
+    //     const handleDelete = (data: IData) => {
+    //         const payload = [data.orderId]
+    // 
+    //         mutateGroupDeleteOrders(payload)
+    //     }

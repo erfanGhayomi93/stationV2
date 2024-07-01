@@ -58,7 +58,8 @@ interface IOrderGetType {
     lastErrorCode : string;
     tradeDate : string;
     totalPrice : number;
-    commission : number
+    commission : number;
+    orderPlaceInPrice: number
 }
 
 type TTodayDoneTrades = {
