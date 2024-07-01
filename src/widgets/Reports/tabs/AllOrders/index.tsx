@@ -12,7 +12,7 @@ import { ComeFromKeepDataEnum } from 'src/constant/enums';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setPartDataBuySellAction } from 'src/redux/slices/keepDataBuySell';
 import { setSelectedSymbol } from 'src/redux/slices/option';
-import { dateTimeFormatter, valueFormatterSide } from 'src/utils/helpers';
+import { dateTimeFormatter, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import DetailModal from '../OpenOrders/modals/DetailModal';
 import { AgGridReact } from 'ag-grid-react';
 
@@ -89,10 +89,15 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
             },
             {
                 headerName: 'جایگاه (حجمی)',
-                field: 'hostOrderNumber',
+                field: 'orderPlaceInPrice',
                 type: 'sepratedNumber',
                 minWidth: 80,
-                valueFormatter: ({ value }) => value ? value : '-'
+                valueFormatter: ({ data }) => {
+                    if (!data) return '-';
+
+                    if ('orderPlaceInPrice' in data && data.orderPlaceInPrice && !isNaN(data.orderPlaceInPrice)) return seprateNumber(data.orderPlaceInPrice ?? 0);
+                    return '-';
+                }
             },
             {
                 headerName: 'نوع',
@@ -137,6 +142,10 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
                     'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
                 valueFormatter: ({ value }) => t('order_status.' + (value ?? 'OnBoard')),
+                tooltipValueGetter({ value, data }) {
+                    if (value === "Error") return t('order_errors.' + (data?.lastErrorCode ?? 'OnBoard'))
+                    return t('order_status.' + (value ?? 'OnBoard'))
+                },
             },
             {
                 headerName: 'عملیات',

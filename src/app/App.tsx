@@ -71,13 +71,13 @@ const App = () => {
         <RouteWrapper>
             <AppRoutes />
 
-            getBuySellGroupData.isOpen && (
-            <BuySellGroupModal
-                isOpen={getBuySellGroupData.isOpen}
-                setIsOpen={setIsOpenBuySellGroupMethod}
-            />
+            {getBuySellGroupData.isOpen && (
+                <BuySellGroupModal
+                    isOpen={getBuySellGroupData.isOpen}
+                    setIsOpen={setIsOpenBuySellGroupMethod}
+                />
             )
-
+            }
         </RouteWrapper>
     );
 };

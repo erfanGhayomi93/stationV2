@@ -8,10 +8,12 @@ interface IProps extends ICellEditorParams<IData> {
     onChangeCustomerData: (value: number, orderId: number) => void
 }
 
-const AgNumberInput = forwardRef(({ parseValue, stopEditing, onChangeCustomerData, data }: IProps, ref) => {
+const AgNumberInput = forwardRef(({ parseValue, stopEditing, onChangeCustomerData, data, value: oldValue }: IProps, ref) => {
     //
-    const [value, setValue] = useState<number>(0);
+    const [value, setValue] = useState<number>(oldValue ?? 0);
+
     const containerRef = useRef<HTMLDivElement>(null);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     // useImperativeHandle(ref, () => {
