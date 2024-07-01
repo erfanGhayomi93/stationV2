@@ -10,6 +10,7 @@ import { queryClient } from 'src/app/queryClient';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
 import { getSelectedSymbol, setSelectedSymbol } from 'src/redux/slices/option';
 import Header from './components/Header';
+import ipcMain from 'src/common/classes/IpcMain';
 
 interface IProps {
     isOpen: boolean;
@@ -41,15 +42,26 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
         {
             onSuccess(data) {
                 if (data.length > 0) setdataTable(data)
+                else setdataTable([])
             },
+            onError() {
+                setdataTable([])
+            },
+            staleTime: 0,
+            cacheTime: 0
         }
     );
+
+    const refetchOrderFromLs = () => {
+        refetchOpenOrders()
+    }
 
 
     useEffect(() => {
         selectedSymbol && refetchOpenOrders()
     }, [selectedSymbol])
 
+   
 
     const onChangeCustomerData = useCallback(
         (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => {
@@ -73,7 +85,16 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
             setdataTable(res);
         },
         [dataTable]
+
     );
+
+    useEffect(() => {
+        ipcMain.handle('refetch_onBoard_order', refetchOrderFromLs)
+
+        return () => ipcMain.removeHandler('refetch_onBoard_order', refetchOrderFromLs)
+    }, [])
+
+
 
     return (
         <Modal
@@ -103,7 +124,8 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
                         data={dataTable}
                         orders={orders}
                         onChangeCustomerData={onChangeCustomerData}
-                        refetchOrders={() => refetchOpenOrders()}
+                        // refetchOrders={() => refetchOpenOrders()}
+                        loadingOrders={loadingOrders}
 
                     />
                     {/* <Footer data={customersData} symbolData={symbolData} /> */}
