@@ -101,7 +101,7 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
             isOpen={isOpen}
             onClose={handleCloseModal}
             style={{ width: isInfoOpen ? 1250 : 900 }}
-            className={clsx('h-[500px] flex flex-col border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300')}
+            className={clsx('h-[500px] flex flex-col border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300 bg-L-basic dark:bg-D-basic')}
         >
             <Header handleClose={handleCloseModal} symbolTitle={symbolData?.symbolTitle || ''} symbolState={symbolData?.symbolState || ''} />
 
