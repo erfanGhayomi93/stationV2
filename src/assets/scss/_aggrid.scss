@@ -243,3 +243,10 @@
 .ag-center-cols-viewport {
     min-height: 35px !important;
 }
+
+.app-ag-table {
+	.ag-header-cell:last-child:after {
+		--ag-header-column-separator-width: 0;
+	}
+}
+
