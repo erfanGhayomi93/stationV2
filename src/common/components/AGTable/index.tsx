@@ -36,9 +36,9 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
         const { t } = useTranslation();
         const theme = useAppSelector(getTheme);
 
-        const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%', position: 'relative' }), []);
+        const containerStyle = useMemo((): React.CSSProperties => ({ height: '100%', width: '100%', position: 'relative'}), []);
         const containerClassName = useMemo(
-            (): string => `ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`,
+            (): string => `app-ag-table ag-theme-${agGridTheme}${theme === 'dark' ? '-dark' : ''}`,
             [theme]
         );
 
@@ -78,7 +78,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
         const DefaultColDef = useMemo((): ColDef => {
             return {
                 minWidth: 100,
-                suppressMovable: true,
+                suppressMovable: false,
                 sortable: true,
                 flex: 1,
                 tooltipValueGetter: ({ value, valueFormatted, colDef }) => {
@@ -108,6 +108,20 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
             });
         }, []);
 
+     const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', number> => {
+            try {
+                const rowHeight = 40;
+                const headerHeight = 32;
+        
+                return { rowHeight, headerHeight };
+            } catch (e) {
+                return { rowHeight: 40, headerHeight: 32 };
+            }
+        };
+
+        const { rowHeight, headerHeight } = useMemo(() => getHeightsForTables(), []);
+
+
         return (
             <div className={containerClassName} style={containerStyle}>
                 <AgGridReact
@@ -125,6 +139,10 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     enableBrowserTooltips
                     scrollbarWidth={5}
                     suppressColumnVirtualisation
+                    rowHeight={rowHeight}
+                    headerHeight={headerHeight}
+
+
                     // onGridSizeChanged={onGridSizeChanged}
                     onRowDataUpdated={onRowDataUpdated}
                     // onRowDataChanged={onRowDataChanged} // Deprecated
@@ -136,9 +154,9 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     defaultColDef={DefaultColDef}
                     //
                     rowData={rowData}
-                    icons={{
-                        rowDrag: ReactDOMServer.renderToString(<DragIcon />),
-                    }}
+                    // icons={{
+                    //     rowDrag: ReactDOMServer.renderToString(<DragIcon />),
+                    // }}
                     {...rest}
                 />
             </div>

@@ -11,7 +11,7 @@ interface IProps {
 
 const Header = ({ handleClose, symbolState, symbolTitle }: IProps) => {
     return (
-        <div className={clsx('ltr grid grid-cols-3 items-center bg-L-gray-100 border-L-gray-200 border-b-[1px] py-3 px-6 rounded-t-2xl')}>
+        <div className={clsx('ltr grid grid-cols-3 items-center border-L-gray-200 border-b-[1px] py-3 px-6 rounded-t-2xl bg-L-basic dark:bg-D-basic')}>
             <HeaderActions handleClose={handleClose} />
             <HeaderTitle symbolTitle={symbolTitle} symbolState={symbolState} />
         </div>
@@ -21,7 +21,7 @@ const Header = ({ handleClose, symbolState, symbolTitle }: IProps) => {
 const HeaderTitle = ({ symbolState, symbolTitle }: Pick<IProps, 'symbolState' | 'symbolTitle'>) => {
 
     return (
-        <div className="w-full flex justify-center items-center gap-1">
+        <div className="w-full flex justify-center items-center gap-1 text-L-gray-700 dark:text-D-gray-700">
             <h4 className="text-L-info-100">{symbolTitle || ''}</h4>
             <h4 className="mr-1">{'ویرایش و حذف گروهی نماد'}</h4>
             <SymbolState symbolState={symbolState || ''} />
@@ -31,7 +31,7 @@ const HeaderTitle = ({ symbolState, symbolTitle }: Pick<IProps, 'symbolState' | 
 
 const HeaderActions = ({ handleClose }: Partial<IProps>) => {
     return (
-        <div className="w-full h-full flex items-center gap-4 text-L-gray-600">
+        <div className="w-full h-full flex items-center gap-4 text-L-gray-600 ">
             <button onClick={handleClose}>
                 <CloseIcon />
             </button>
