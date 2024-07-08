@@ -62,6 +62,11 @@ export const BuySellReducer = (state: BuySellState, action: BuySellAction): BuyS
                 ...state,
                 amount: action.value,
             };
+       case 'SET_SOURCE':
+                return {
+                    ...state,
+                    source: action.value,
+                };
         case 'TOGGLE_BUY_SELL':
             return {
                 ...state,

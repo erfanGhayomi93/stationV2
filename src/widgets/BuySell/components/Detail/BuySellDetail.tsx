@@ -1,51 +1,54 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
-import Switcher from 'src/common/components/SwitchButton';
 import { useBuySellDetail } from 'src/common/hooks/useCommission/useCommissionValue';
 import { useAppSelector } from 'src/redux/hooks';
 import { seprateNumber } from 'src/utils/helpers';
-import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
-import { getSelectedCustomers, getSelectedSymbol } from 'src/redux/slices/option';
+import { useBuySellState } from '../../context/BuySellContext';
+import { getSelectedSymbol } from 'src/redux/slices/option';
 import { MoreInfo } from 'src/common/icons';
 import Tippy from '@tippyjs/react';
-import { useGetSumPrice } from 'src/app/queries/option';
-import { getUserData } from 'src/redux/slices/global';
-import useUpdateEffect from 'src/common/hooks/useUpdateEffect';
+// import { useGetSumPrice } from 'src/app/queries/option';
+// import { getUserData } from 'src/redux/slices/global';
+import { queryClient } from 'src/app/queryClient';
 
-let timeOut: NodeJS.Timeout
+// let timeOut: NodeJS.Timeout
 
 
 const BuySellDetail: FC = () => {
     const selectedSymbol = useAppSelector(getSelectedSymbol)
-    const customers = useAppSelector(getSelectedCustomers)
-    const { brokerCode } = useAppSelector(getUserData);
+    // const customers = useAppSelector(getSelectedCustomers)
+    // const { brokerCode } = useAppSelector(getUserData);
 
-    const dispatch = useBuySellDispatch();
-    const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
+    // const dispatch = useBuySellDispatch();
+    // const setSequential = useMemo(() => (value: boolean) => dispatch({ type: 'SET_SEQUENTIAL', value }), []);
     // const setDivide = (value: boolean) => dispatch({ type: 'SET_DIVIDE', value });
 
     const { data: symbolData } = useSymbolGeneralInfo(selectedSymbol, { select: (data) => ({ marketUnit: data.symbolData.marketUnit, isOption: data.symbolData.isOption, contractSize: data.symbolData.contractSize }) });
-    const { price, quantity, sequential, side } = useBuySellState();
+    const { price, quantity, side } = useBuySellState();
     const { commission, cost, drawValue, totalValue } = useBuySellDetail({ quantity, price, marketUnit: symbolData?.marketUnit, side, contractSize: symbolData?.isOption ? symbolData.contractSize : 1 });
 
-    const { data, refetch } = useGetSumPrice({
-        brokerCode: brokerCode || "",
-        customerISIN: !!customers[0] ? customers[0].customerISIN : "",
-        orderSide: side,
-        price: price,
-        quantity: quantity,
-        symbolISIN: selectedSymbol
-    })
+    const data : IResponseSumPrice | undefined = queryClient.getQueryData(['sumPrice', price, quantity])
 
-    useUpdateEffect(() => {
-        if (side === 'Sell' && symbolData?.isOption) {
-            clearTimeout(timeOut)
-            timeOut = setTimeout(() => {
-                refetch()
-                clearTimeout(timeOut)
-            }, 1000);
-        }
-    }, [price, quantity, side])
+    // const { data } = useGetSumPrice({
+    //     brokerCode: brokerCode || "",
+    //     customerISIN: !!customers[0] ? customers[0].customerISIN : "18990069635676",
+    //     orderSide: side,
+    //     price: price,
+    //     quantity: quantity,
+    //     symbolISIN: selectedSymbol
+    // }, {
+    //     enabled: symbolData?.isOption && !!price && !!quantity && side === 'Sell'
+    // })
+    // // 
+    //     useUpdateEffect(() => {
+    //         if (side === 'Sell' && symbolData?.isOption) {
+    //             clearTimeout(timeOut)
+    //             timeOut = setTimeout(() => {
+    //                 // refetch()
+    //                 clearTimeout(timeOut)
+    //             }, 1000);
+    //         }
+    //     }, [price, quantity, side])
 
     return (
         <div className="border-t flex flex-col pt-2    h-full gap-2 ">

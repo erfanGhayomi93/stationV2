@@ -54,7 +54,7 @@ const Select: FC<ISelectType> = ({
                         {value !== null && value !== undefined ? (
                             <span
                                 className={clsx(
-                                    'block w-full max-w-full text-right  truncate text-L-gray-500 dark:text-D-gray-500 whitespace-nowrap',
+                                    'block w-full max-w-full text-right  truncate text-L-gray-700 dark:text-D-gray-700 whitespace-nowrap',
                                     {
                                         'text-L-gray-200 dark:text-D-gray-200': !!disabled,
                                     },
@@ -64,7 +64,7 @@ const Select: FC<ISelectType> = ({
                                 {options?.find((op) => op.value === value)?.label}
                             </span>
                         ) : (
-                            <span className="block w-full text-right truncate text-L-gray-500 dark:text-D-gray-500">{placeholder || ' '}</span>
+                            <span className="block w-full text-right truncate text-L-gray-700 dark:text-D-gray-700">{placeholder || ' '}</span>
                         )}
                     </Listbox.Button>
                     <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">

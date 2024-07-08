@@ -47,7 +47,7 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
     return (
         <div className="flex gap-2 w-full">
             <div className="flex items-center flex-1">
-                <span className="w-16 pr-2">اعتبار</span>
+                <span className="w-[72px] pr-2">اعتبار</span>
 
                 <div className="flex-1">
                     <Select
@@ -74,6 +74,9 @@ const BuySellValidity: FC<IBuySellValidityType> = ({ }) => {
                                 .format('YYYY-MM-DD'),
                         )
                     }
+                    classes={{
+                        input : "text-L-gray-700 dark:text-D-gray-700"
+                    }}
                 />
             </div>
         </div>

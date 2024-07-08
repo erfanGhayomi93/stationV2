@@ -83,7 +83,7 @@ export const AddGroup: FC<AddGroupProps> = (props) => {
                 <div>
                     <Input
                         data-cy="add-watchlist-input"
-                        className={clsx('flex-1 text-sm px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-L-gray-500', {
+                        className={clsx('flex-1 text-sm px-2 h-8 outline-none bg-L-basic dark:bg-D-basic text-L-gray-700 dark:text-L-gray-700', {
                             'h-8': !FromEditMode,
                             'h-10 w-64': FromEditMode,
                         })}

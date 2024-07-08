@@ -19,7 +19,7 @@ const ControllerInput: FC<IControllerInputType> = ({ onChange, highValue, inputV
     const chevronIconDown = useMemo(() => <ChevronIcon className="w-2 h-2 rotate-180 text-L-gray-500 dark:text-D-gray-500" />, []);
     return (
         <label className="w-full flex items-center justify-center ">
-            <span className="w-16 whitespace-nowrap ">{title}</span>
+            <span className="w-[72px] whitespace-nowrap ">{title}</span>
             <div className="w-full flex border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md duration-250 dark:focus-within:border-D-info-100 focus-within:border-L-info-100">
                 <div className="w-full">
                     <TradeInput onChange={onChange} value={inputValue} placeholder={placeholder} unit={unit} max={max} />

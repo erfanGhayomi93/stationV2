@@ -42,7 +42,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                             ref={ref}
                             disabled={disabled}
                             type="text"
-                            className={clsx("w-full px-2 h-full outline-none bg-L-basic dark:bg-D-basic text-L-gray-500 dark:text-L-gray-500", {
+                            className={clsx("w-full px-2 h-full outline-none bg-L-basic dark:bg-D-basic text-L-gray-700 dark:text-D-gray-700", {
                                 [inputClassName as string]: !!inputClassName
                             })}
                             {...rest}
