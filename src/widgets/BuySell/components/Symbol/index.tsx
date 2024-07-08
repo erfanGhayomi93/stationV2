@@ -22,7 +22,7 @@ const BuySellSymbol: FC<IBuySellSymbolType> = ({}) => {
 
     return (
         <div className="w-full flex items-center justify-center pr-2">
-            <span className="w-16 whitespace-nowrap ">نماد</span>
+            <span className="w-[72px] whitespace-nowrap ">نماد</span>
             <SymbolSearch />
         </div>
     );

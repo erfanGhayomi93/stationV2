@@ -615,7 +615,8 @@
         "due_days": "روزهای مانده به سررسید",
         "maxCOP": "سقف تعداد موقعیت های باز مشتریان حقیقی",
         "maxCAOP": "سقف تعداد موقعیت های باز مشتریان حقوقی",
-        "maxOP": "سقف تعداد موقعیت های باز در بازار"
+        "maxOP": "سقف تعداد موقعیت های باز در بازار",
+        "baseSymbol_required": "تعداد {{n}} سهم دارایی پایه، جهت تضمین برای اخذ موقعیت فروش لازم است."
     },
     "OrderBook": {
         "viewMode": "حالت نمایش",
@@ -893,7 +894,13 @@
         "WrongPrice": "قیمت اشتباه است",
         "DeleteCartFailed": "حذف سبد انجام نشد.",
         "DuplicateCustomer": "مشتری تکراری است",
-        "AddCustomersFailed": "مشتری اضافه نشد"
+        "AddCustomersFailed": "مشتری اضافه نشد",
+        "RequestInputNotValid" : "مقدار ورودی معتبر نیست"
+    },
+    "alerts": {
+        "bs_baseSymbol_is_not_freezed": "نماد پایه فریز نشده است",
+        "just_selected_one_customer": "انتخاب روش تضمین سهم پایه برای چند مشتری به صورت هم‌زمان امکان پذیر نمیباشد",
+        "bs_baseSymbol_is_not_exist": "{{n}}  مقدار سهم پایه به صورت فریز شده جهت تضمین برای اخذ موقعیت فروش لازم است"
     },
     "BuySellRequestType": {
         "WithTodaysValueAndVolume": "حجم و قیمت روز",
@@ -914,7 +921,9 @@
         "call": "خرید",
         "put": "فروش",
         "blockType": "محل تضمین",
-        "blockCount": "اندازه تضمین"
+        "blockCount": "اندازه تضمین",
+        "lable_quaranty": "روش تضمین",
+        "choose_guaranty_method": "انتخاب روش تضمین"
     },
     "option_blockType": {
         "All": "همه",

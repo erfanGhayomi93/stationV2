@@ -29,6 +29,11 @@ interface IReqSumPrice {
     quantity: number;
     price: number;
 }
+
+interface IReqGetSymbolBaseAssetsByOption {
+    symbolISIN: string;
+    customerISIN?: string;
+}
 interface IResponseSumPrice {
     totalBlock: number;
     optionBlock: number;

@@ -10,13 +10,21 @@ const sendSettlementRequest = async (body: TCashbody) => {
     return data?.result;
 };
 
-const getSumPrice = async (params: IReqSumPrice) => {
-    const { data } = await AXIOS.post<GlobalApiResponseType<IResponseSumPrice>>(Apis().Orders.GetSumPrice, params);
+const getSumPrice = async (params: IReqSumPrice , signal : AbortSignal | undefined) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<IResponseSumPrice>>(Apis().Orders.GetSumPrice, params , {signal});
     return data.result;
 };
 
-export const useGetSumPrice = (params: IReqSumPrice) =>
-    useQuery<IResponseSumPrice>(['sumPrice', params.price, params.quantity], () => getSumPrice(params), { enabled: false, keepPreviousData: true });
+export const useGetSumPrice = (params: IReqSumPrice , options?: UseQueryOptions<IResponseSumPrice>) =>
+    useQuery<IResponseSumPrice>(['sumPrice', params.price, params.quantity], ({signal}) => getSumPrice(params,signal), { ...options});
+
+const getSymbolBaseAssetsByOption = async (params: IReqGetSymbolBaseAssetsByOption) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<number>>(Apis().Portfolio.GetSymbolBaseAssetsByOption, { params});
+    return data.result;
+};
+
+export const useGetSymbolBaseAssetsByOption = (params: IReqGetSymbolBaseAssetsByOption , options ?: UseQueryOptions<number>) =>
+    useQuery<number>(['sumPrice', params.symbolISIN, params.customerISIN], () => getSymbolBaseAssetsByOption(params) , options);
 
 const getOpenPosition = async () => {
     const { data } = await AXIOS.get<IOpenPositionsRes[]>(Apis().Option.GetOpenPositions);

@@ -43,8 +43,8 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
                     key={symbol.symbolISIN}
                     className={({ active }) =>
                         `relative cursor-default text-1.2   select-none py-1 px-3 border-b last:border-none border-L-gray-400 dark:border-D-gray-400 ${active
-                            ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-500 dark:text-D-gray-700'
-                            : 'text-L-gray-500 dark:text-D-gray-700 dark:odd:bg-D-gray-100 odd:bg-L-gray-100'
+                            ? 'dark:bg-[#474F66] bg-[#DEEDFF] text-L-gray-700 dark:text-D-gray-700'
+                            : 'text-L-gray-700 dark:text-D-gray-700 dark:odd:bg-D-gray-100 odd:bg-L-gray-100'
                         }`
                     }
                     value={symbol}
@@ -88,12 +88,12 @@ const SymbolSearch: FC<ISymbolSearchType> = ({ placeholder }) => {
             <Combobox value={symbolData || ''} onChange={onSymbolSelect}>
                 {({ open }) => (
                     <div className="relative  ">
-                        <div className="relative w-full cursor-default border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md bg-L-basic dark:bg-D-basic text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 text-1.2  duration-250 dark:focus-visible:border-D-infoo-100 focus-within:border-L-info-100">
+                        <div className="relative w-full cursor-default border-L-gray-400 dark:border-D-gray-400 border overflow-hidden rounded-md bg-L-basic dark:bg-D-basic text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 text-1.2  duration-250 dark:focus-visible:border-D-info-100 focus-within:border-L-info-100">
                             <div className="flex items-center px-2 ">
-                                <Search className="text-L-gray-500 dark:text-L-gray-500" />
+                                <Search className="text-L-gray-500 dark:text-D-gray-500" />
                                 <Combobox.Input
                                     placeholder={placeholder ? placeholder : symbolData?.symbolTitle || 'جستجوی نماد'}
-                                    className="grow  border-none p-2 text-1.2 leading-5 text-L-gray-500 dark:text-L-gray-500 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic"
+                                    className="grow border-none p-2 text-1.2 leading-5 text-L-gray-700 dark:text-D-gray-700 focus:ring-0 outline-none bg-L-basic dark:bg-D-basic placeholder:text-L-gray-700 dark:placeholder:text-D-gray-700"
                                     onChange={(e) => setTerm(e?.target?.value || '')}
                                     onClick={() => {
                                         comboButton.current && comboButton.current.click();

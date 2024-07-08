@@ -14,6 +14,7 @@ const SearchInput = ({ placeholder }: ISearchInputType) => {
         <div className='w-[22.5rem]'>
             <Input
                 placeholder={placeholder}
+                // className='text-L-gray-700 dark:text-D-gray-700'
                 addonBefore={<Search className="text-gray-400" />}
                 onChange={(e) => setParams(e.target.value)}
                 value={state.params.term ?? ''}
