@@ -20,7 +20,7 @@ import AffidavitModal from './AffidavitModal';
 interface ISetOrderActionType { }
 
 const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
-    const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, id } =
+    const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, id, source } =
         useBuySellState();
     const dispatch = useBuySellDispatch();
     const queryClient = useQueryClient();
@@ -158,6 +158,7 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
                         symbolISIN: symbolISIN,
                         validity: handleValidity(validity),
                         validityDate: validityDate,
+                        source: (side === 'Sell' && symbolData?.isOption) ? source : undefined
                     };
                 }
             })

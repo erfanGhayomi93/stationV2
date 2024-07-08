@@ -13,6 +13,7 @@ interface BuySellState {
     side: BuySellSide;
     comeFrom?: string;
     id?: number;
+    source ?: string
 }
 type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 type strategy = 'normal';
@@ -29,6 +30,7 @@ type BuySellAction =
     | { type: 'SET_COME_FROM'; value: string }
     | { type: 'SET_PERCENT'; value: number }
     | { type: 'SET_AMOUNT'; value: number }
+    | { type: 'SET_SOURCE'; value: string }
     | { type: 'TOGGLE_CALCULATOR'; value: boolean }
     | { type: 'TOGGLE_BUY_SELL'; value: BuySellSide }
     | { type: 'SET_ALL'; value: BuySellState }

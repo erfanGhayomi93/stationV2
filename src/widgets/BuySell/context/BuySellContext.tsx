@@ -23,6 +23,7 @@ export const BuySellInitialState: BuySellState = {
     amount: 0,
     side: 'Buy',
     comeFrom: '',
+    source: "Account"
 };
 const useValue = () => useReducer(BuySellReducer, BuySellInitialState);
 
@@ -61,6 +62,11 @@ const BuySellContext = () => {
 
     useUpdateEffect(() => {
         !!symbolRedux && ByeSellDispatch({ type: "SET_SYMBOL", value: symbolRedux })
+
+        if (comeFrom !== "OpenPosition" && comeFrom !== "Draft" && comeFrom !== "FailedOrder" && comeFrom !== "openOrder" && comeFrom !== "Basket") {
+            ByeSellDispatch({ type: 'SET_QUANTITY', value : 0 });
+            ByeSellDispatch({ type: 'SET_PRICE', value : 0 });
+        }
     }, [symbolRedux])
 
     useEffect(() => {

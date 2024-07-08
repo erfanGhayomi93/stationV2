@@ -26,8 +26,6 @@ const Drafts: FC<IDraft> = () => {
 
     const { sendOrders } = useSendOrders();
 
-    const dispatch = useAppDispatch()
-
     const appDispatch = useAppDispatch();
 
     const { data, isFetching } = useGetDraft({
@@ -108,7 +106,7 @@ const Drafts: FC<IDraft> = () => {
         }));
 
         await new Promise((resolve) => {
-            !!symbolISIN && dispatch(setSelectedSymbol(symbolISIN))
+            !!symbolISIN && appDispatch(setSelectedSymbol(symbolISIN))
             resolve(1)
         }).then(() => {
             sendOrders(order);

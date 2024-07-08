@@ -79,6 +79,8 @@ type SymbolData = {
     isOption: boolean;
     contractSize: number;
     isIpo: boolean;
+    isBaseFreezed: boolean;
+    optionContractType ?: 'Put' | 'Call' 
 };
 
 type OrdersData = {
