@@ -19,12 +19,12 @@ export const useGetSumPrice = (params: IReqSumPrice , options?: UseQueryOptions<
     useQuery<IResponseSumPrice>(['sumPrice', params.price, params.quantity], ({signal}) => getSumPrice(params,signal), { ...options});
 
 const getSymbolBaseAssetsByOption = async (params: IReqGetSymbolBaseAssetsByOption) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<number>>(Apis().Portfolio.GetSymbolBaseAssetsByOption, { params});
+    const { data } = await AXIOS.get<GlobalApiResponseType<{asset: number , isFreeze : boolean}>>(Apis().Portfolio.GetSymbolBaseAssetsByOption, { params});
     return data.result;
 };
 
-export const useGetSymbolBaseAssetsByOption = (params: IReqGetSymbolBaseAssetsByOption , options ?: UseQueryOptions<number>) =>
-    useQuery<number>(['sumPrice', params.symbolISIN, params.customerISIN], () => getSymbolBaseAssetsByOption(params) , options);
+export const useGetSymbolBaseAssetsByOption = (params: IReqGetSymbolBaseAssetsByOption , options ?: UseQueryOptions<{asset: number , isFreeze : boolean}>) =>
+    useQuery<{asset : number , isFreeze : boolean}>(['sumPrice', params.symbolISIN, params.customerISIN], () => getSymbolBaseAssetsByOption(params) , options);
 
 const getOpenPosition = async () => {
     const { data } = await AXIOS.get<IOpenPositionsRes[]>(Apis().Option.GetOpenPositions);
