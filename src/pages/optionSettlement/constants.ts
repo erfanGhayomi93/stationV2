@@ -4,6 +4,7 @@ export const initialFilterState = {
     'QueryOption.PageNumber': 1,
     'QueryOption.PageSize': 10,
     SymbolISIN: undefined,
+    CustomerISIN : [],
     Time: 'day',
     StartDate: dayjs().format('YYYY-MM-DDT00:00:00'),
     EndDate: dayjs().format('YYYY-MM-DDT23:59:59'),
