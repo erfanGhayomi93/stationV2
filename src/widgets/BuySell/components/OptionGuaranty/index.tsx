@@ -66,7 +66,7 @@ export const OptionGuaranty: FC<IOptionGuarantyProps> = ({ symbolData }) => {
     }
 
 
-    const canGuarantyWithPortfolio = useMemo(() => Boolean(baseAssets && baseAssets >= (quantity * contractSize)), [baseAssets, quantity]);
+    const canGuarantyWithPortfolio = useMemo(() => Boolean(baseAssets?.asset && baseAssets?.asset >= (quantity * contractSize)), [baseAssets?.asset, quantity]);
 
     const handleCheckPortfolioChange = () => {
         if (!customers.length) {
@@ -78,11 +78,11 @@ export const OptionGuaranty: FC<IOptionGuarantyProps> = ({ symbolData }) => {
             return
         }
         else if (!canGuarantyWithPortfolio) {
-            onInfoNotif({ title: t('alerts.bs_baseSymbol_is_not_exist', { n: seprateNumber((quantity * contractSize) - (baseAssets ?? 0)) }) })
+            onInfoNotif({ title: t('alerts.bs_baseSymbol_is_not_exist', { n: seprateNumber((quantity * contractSize) - (baseAssets?.asset ?? 0)) }) })
             return
         }
 
-        else if (!symbolData.isBaseFreezed) {
+        else if (!baseAssets?.isFreeze) {
             onInfoNotif({ title: t('alerts.bs_baseSymbol_is_not_freezed') })
             return
         }
@@ -174,7 +174,7 @@ export const OptionGuaranty: FC<IOptionGuarantyProps> = ({ symbolData }) => {
                                         </span>
                                     </div>
 
-                                    <p className="text-L-gray-600 dark:text-D-gray-600 text-right text-xs">{t('symbol_option.baseSymbol_required', { n: !canGuarantyWithPortfolio ? seprateNumber((quantity * contractSize) - (baseAssets ?? 0)) : 'فوق' })}</p>
+                                    <p className="text-L-gray-600 dark:text-D-gray-600 text-right text-xs">{t('symbol_option.baseSymbol_required', { n: !canGuarantyWithPortfolio ? seprateNumber((quantity * contractSize) - (baseAssets?.asset ?? 0)) : 'فوق' })}</p>
                                 </>
                             )
                         }

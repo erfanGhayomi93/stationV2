@@ -4,6 +4,7 @@ import AXIOS from 'src/api/axiosInstance';
 
 import { toast } from 'react-toastify';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import { useTranslation } from 'react-i18next';
 
 
 //*mutate login
@@ -107,20 +108,50 @@ export const useChangePasswordSetPasswordMutate = (
 
 
 
-
-
-
 //*query captcha
+
+let countRefreshCaptcha = 0;
+const numberRevalidate = 16;
+const longRevalidate = 1.9 * 60 * 1000;
+
+
+
+const isEnableInterval = () => {
+    if (countRefreshCaptcha < numberRevalidate) {
+        return true;
+    }
+
+    return false;
+};
+
 const fetchCaptcha = async () => {
-    const res = await axios.get<IGetCaptchaType>(Apis().OAuthApi.captcha as string);
+    countRefreshCaptcha++;
+
+    const res = await axios.get<IGetCaptchaType>(Apis().OAuthApi.captcha);
     return res.data;
 };
 
 export const useCaptcha = () => {
+    const { t } = useTranslation();
+    let getSessionCaptcha = sessionStorage.getItem('isInvalidCaptcha');
+
     return useQuery(['Captcha'], fetchCaptcha, {
         onSuccess: (data) => {
-            data.result === 'TooRequest' && toast.error(data.result);
+
+            if (getSessionCaptcha) {
+                countRefreshCaptcha = 0;
+                sessionStorage.removeItem('isInvalidCaptcha');
+            }
+            if (countRefreshCaptcha >= numberRevalidate) {
+                sessionStorage.setItem('isInvalidCaptcha', 'true');
+                toast.warning('کد امنیتی منقضی شده است، لطفا مجدد تلاش کنید');
+            }
+
+            if (data.result === 'TooRequest') {
+                toast.error(data.result);
+            }
+
         },
-        refetchInterval: 1000 * 60 * 2,
+        refetchInterval: isEnableInterval() ? longRevalidate : false,
     });
 };

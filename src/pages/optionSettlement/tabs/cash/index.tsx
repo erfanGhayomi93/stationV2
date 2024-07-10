@@ -80,6 +80,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
         { enabled: false },
     );
+    
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
             if (result) {

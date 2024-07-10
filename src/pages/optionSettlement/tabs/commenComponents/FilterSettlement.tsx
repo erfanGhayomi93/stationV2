@@ -2,6 +2,7 @@ import dayjs, { ManipulateType } from 'dayjs';
 import { t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import AdvancedDatepicker from 'src/common/components/AdvancedDatePicker/AdvanceDatepicker';
+import CustomerMegaSelect from 'src/common/components/CustomerMegaSelect';
 import FilterActions from 'src/common/components/FilterActions';
 import FilterBlock from 'src/common/components/FilterBlock';
 import MultiSelect from 'src/common/components/MultiSelect';
@@ -50,6 +51,17 @@ const FilterSettlement = ({ formValues, onSubmit, onClear, setFormValues }: TPro
                         selected={[formValues?.SymbolISIN]}
                         setSelected={(selected) => filterValueSetter('SymbolISIN', selected[0]?.symbolISIN)}
                     />
+                </FilterBlock>
+                <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3">
+                <CustomerMegaSelect
+                            selected={formValues.CustomerISIN}
+                            setSelected={(value) =>
+                                filterValueSetter(
+                                    'CustomerISIN',
+                                    value?.map((x) => x?.customerISIN),
+                                )
+                            }
+                        />
                 </FilterBlock>
                 <FilterBlock label={t('FilterFieldLabel.Time')} className="col-span-2">
                     <Select

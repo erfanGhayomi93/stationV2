@@ -75,6 +75,29 @@ export const Captcha = ({
     }
   }, [getValues(name)])
 
+  useEffect(() => {
+    const handleFocus = () => {
+      // Refetch data when the window gains focus or becomes visible
+      if (document.visibilityState === 'visible') {
+        onRefresh();
+
+        // isInitialMount.current = false;
+      }
+    };
+
+    // Set up event listeners for visibilitychange and focus
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('visibilitychange', handleFocus, false);
+    }
+
+    return () => {
+      // Clean up event listeners
+      if (typeof window !== 'undefined' && window.removeEventListener) {
+        window.removeEventListener('visibilitychange', handleFocus);
+      }
+    };
+  }, []);
+
 
   return (
     <div className={className}>
