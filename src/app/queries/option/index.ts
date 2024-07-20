@@ -72,3 +72,23 @@ const sendDeletePhysicalRequest = async (body: TCashDeleteBody) => {
     const { data } = await AXIOS.post(Apis().Options.DeletePhysicalSettlement, body);
     return data?.result;
 };
+
+
+///request freeze
+
+const getFreezeRequestFn = async (body: IRequestFreezeBody) => {
+    const { data } = await AXIOS.post<GlobalApiResponseType<number>>(Apis().Options.FreezeRequest, body);
+    return data?.result;
+};
+
+export const useFreezeRequest = (options?: UseMutationOptions<number , Error ,IRequestFreezeBody>) =>
+    useMutation<number , Error ,IRequestFreezeBody>(getFreezeRequestFn, options);
+
+
+const getListFreezeFn = async (params ?: IGetFreezeBody) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseFreeze[]>>(Apis().Options.GetFreezeRequestsReport , {params});
+    return data.result;
+};
+
+export const useListFreeze = (params ?: IGetFreezeBody , options?: UseQueryOptions<IResponseFreeze[]>) =>
+    useQuery<IResponseFreeze[]>(['listFreeze' , !!params?.customerISIN?.length ? String(params.customerISIN) : '' ], () => getListFreezeFn(params), { ...options });

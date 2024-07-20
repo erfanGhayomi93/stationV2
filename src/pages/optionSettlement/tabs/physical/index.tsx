@@ -105,7 +105,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN });
+    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN , symbolISIN: data?.symbolISIN});
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
@@ -198,11 +198,11 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
                 cellRenderer: (row: ICellRendererParams<any>) => (
                     <AGActionCell
                         data={row?.data}
-                        requiredButtons={['Edit', 'Delete']}
+                        requiredButtons={['Delete']}
                         onDeleteClick={() => handleDelete(row?.data)}
                         disableDelete={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         disableEdit={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
-                        onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
+                        // onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         rightNode={
                             <ExtraButtons
                                 disableSettlement={row?.data?.status !== 'Draft' || !Boolean(row?.data?.enabled)}

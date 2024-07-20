@@ -26,7 +26,7 @@ type TResponse = {
         customerIsin: string;
         customerTitle: string;
         symbolTitle: string;
-        bourseCode : string;
+        bourseCode: string;
         openPositionCount: number;
         cashSettlementDate: string;
         settlementRequestType: string;
@@ -34,6 +34,8 @@ type TResponse = {
         status: string;
         doneCount: number;
         pandLStatus: string;
+        baseClosingPrice: number;
+        strikePrice: number
         history: {
             dateTime: string;
             status: string;
@@ -80,7 +82,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
         { enabled: false },
     );
-    
+
     const { mutate: deleteCashSettlement } = useDeleteCashSettlement({
         onSuccess: (result) => {
             if (result) {
@@ -102,7 +104,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN });
+    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN });
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
@@ -148,8 +150,8 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 valueFormatter: ({ value }) => (value ? valueFormatter(SettlementTypeOptions, value) : value),
             },
             {
-                field: 'incomeValue',
-                headerName: 'مبلغ تسویه',
+                field: 'baseClosingPrice',
+                headerName: 'آخرین قیمت دارایی پایه',
                 type: 'sepratedNumber',
             },
             {
@@ -158,11 +160,26 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 type: 'sepratedNumber',
                 minWidth: 150,
             },
+            /*  قیمت دارایی پایه */
             {
-                field: 'doneCount',
-                headerName: 'تعداد پذیرفته شده',
+                headerName: 'قیمت دارایی پایه',
+                field: "baseClosingPrice",
+                cellClass: 'ltr',
+                minWidth: 142,
                 type: 'sepratedNumber',
             },
+            /* قیمت اعمال */
+            {
+                headerName: 'قیمت اعمال',
+                field: "strikePrice",
+                minWidth: 100,
+                type: 'sepratedNumber',
+            },
+            // {
+            //     field: 'doneCount',
+            //     headerName: 'تعداد پذیرفته شده',
+            //     type: 'sepratedNumber',
+            // },
             {
                 field: 'userType',
                 headerName: 'درخواست کننده',
@@ -185,10 +202,10 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
                 cellRenderer: (row: ICellRendererParams<any>) => (
                     <AGActionCell
                         data={row?.data}
-                        requiredButtons={['Edit', 'Delete']}
+                        requiredButtons={['Delete']}
                         onDeleteClick={() => handleDelete(row?.data)}
                         disableDelete={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
-                        onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
+                        // onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
                         disableEdit={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
                         rightNode={
                             <ExtraButtons
