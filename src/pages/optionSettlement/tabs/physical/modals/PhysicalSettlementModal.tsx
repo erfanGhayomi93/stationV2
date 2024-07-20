@@ -14,7 +14,7 @@ type TProps = {
 
 const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
-    const { mutate, isLoading } = useCreatePhysicalSettlement({
+    const { mutate } = useCreatePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
@@ -38,6 +38,7 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
             requestForLostOrProfit: maximumCheckValue,
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
             customerISIN: settlementState?.data?.customerISIN,
+            symbolISIN : settlementState?.data?.symbolISIN
         };
         mutate(requestBody);
     };

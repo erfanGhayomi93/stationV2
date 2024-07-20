@@ -1,14 +1,14 @@
-import { useMutation } from '@tanstack/react-query';
+// import { useMutation } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { unAuthorized } from 'src/api/axiosInstance';
+// import { unAuthorized } from 'src/api/axiosInstance';
 import { SupervisorMassage } from 'src/common/components/SupervisorMessage';
 import {
     BasketIcon,
     CalenderBourseSVG,
     Envelope2Icon,
-    ExiteIcon,
+    // ExiteIcon,
     EyeFrameIcon,
     FileIcon,
     GearIcon,
@@ -16,12 +16,15 @@ import {
     RequestListIcon,
     TradeChartSVG,
 } from 'src/common/icons';
-import { logOutReq } from '../Header/UserActions';
+// import { logOutReq } from '../Header/UserActions';
 import ExpandedSider from './ExpandedSider';
 import ToggleSlider from './ToggleSlider';
 import { useSliderDispatch, useSliderValue } from './context';
 import { SLiderActionEnum } from './context/types';
 import clsx from 'clsx';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { freezeUnfreezeAction, freezeUnfreezeRedux } from 'src/redux/slices/ModalSlice';
+import { FreezeUnfreezeModal } from 'src/Modals/FreezeUnFreeze';
 
 export type MenuItemType = {
     icon?: JSX.Element;
@@ -36,18 +39,26 @@ export type MenuItemType = {
 const Sider = () => {
     //
     const [isOpen, setIsOpen] = useState(false);
+
     const { isShowSupervisorMessage, countNumberSupervisorMessage } = useSliderValue();
+
     const dispatch = useSliderDispatch();
+
     const navigate = useNavigate();
+
     const { pathname } = useLocation();
 
     const toggleSlider = () => dispatch({ type: SLiderActionEnum.TOGGLE_MESSAGE_MODAL });
 
-    const { mutate: logOutUser } = useMutation(logOutReq, {
-        onSuccess: (data) => {
-            if (data) unAuthorized();
-        },
-    });
+    // const { mutate: logOutUser } = useMutation(logOutReq, {
+    //     onSuccess: (data) => {
+    //         if (data) unAuthorized();
+    //     },
+    // });
+
+    const freezeUnfreeze = useAppSelector(freezeUnfreezeRedux);
+
+    const appDispatch = useAppDispatch();
 
     const menuItems = useMemo(
         (): MenuItemType[] => [
@@ -92,6 +103,11 @@ const Sider = () => {
                         label: 'تسویه اختیار',
                         id: '/Requests/OptionSettlement',
                         onClick: () => navigate('/Requests/OptionSettlement'),
+                    },
+                    {
+                        label: 'فریز و رفع فریز',
+                        id: '/FreezeUnFreeze',
+                        onClick: () => appDispatch(freezeUnfreezeAction({ isOpen: true })),
                     },
                 ],
             },
@@ -236,59 +252,10 @@ const Sider = () => {
                 </div>
             </div>
             <ExpandedSider isOpen={isOpen} onClose={() => setIsOpen(false)} menuItems={menuItems} />
+
+            {freezeUnfreeze.isOpen && <FreezeUnfreezeModal isOpen={freezeUnfreeze.isOpen} />}
         </>
     );
 };
 
 export default Sider;
-
-//Commented Menus Portfolio is NOT garbage will be back later on!
-
-// {
-//     icon: <TradeChartSVG height={20} width={20} />,
-//     label: 'بازار',
-//     position: 'top',
-//     placeOfDisplay: 'both',
-//     isActive: false,
-//     id: '/Market/Chart',
-//     onClick: () => navigate('/Market/Chart'),
-//     children: [
-
-//     ],
-// },
-
-// {
-//     icon: <File2Icon height={20} width={20} />,
-//     label: 'یادداشت ها',
-//     position: 'top',
-//     placeOfDisplay: 'both',
-//     isActive: false,
-//     onClick: undefined,
-// },
-// {
-//     icon: <Customers height={20} width={20} />,
-//     label: 'مشتریان',
-//     position: 'top',
-//     placeOfDisplay: 'both',
-//     isActive: false,
-//     onClick: () => navigate('/Reports'),
-// },
-
-// {
-//     icon: <MonitorIcon height={20} width={20} />,
-//     label: 'تحلیل',
-//     position: 'bottom',
-//     placeOfDisplay: 'both',
-//     isActive: false,
-//     onClick: undefined,
-// },
-
-// {
-//     icon: <HelpIcon height={20} width={20} />,
-//     label: 'راهنما',
-//     position: 'bottom',
-//     placeOfDisplay: 'both',
-//     id: '/Help',
-//     isActive: false,
-//     onClick: () => navigate('/Help'),
-// },

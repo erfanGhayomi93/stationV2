@@ -4,6 +4,7 @@ type TCashbody = {
     requestForMaximum: boolean;
     countOfDone: number;
     customerISIN: string;
+    symbolISIN : string;
 };
 
 type TPhysicalbody = {
@@ -14,11 +15,13 @@ type TPhysicalbody = {
     countOfDone: number;
     requestForMaximumApproval: boolean;
     customerISIN: string;
+    symbolISIN : string;
 };
 
 type TCashDeleteBody = {
     id: number;
     customerISIN: string;
+    symbolISIN : string;
 };
 
 interface IReqSumPrice {
@@ -142,3 +145,30 @@ interface IOpenPositionsRes {
     positionBlockTitle : string,
     marginBlockedValue : number
 }
+
+type TFreezeType = 'Freeze' | 'UnFreeze'
+
+interface IRequestFreezeBody{
+    symbolISIN: string[];
+    type: string;
+    userName: string;
+    customerISIN: string;
+    description?: string;
+  }
+
+  interface IGetFreezeBody{
+    customerISIN?: string[];
+  }
+
+  interface IResponseFreeze{
+      symbolISIN: string,
+      symbolTitle: string,
+      requestType: string,
+      requestState: string,
+      description: string,
+      confirmed: boolean,
+      confirmedOn: string,
+      customerISIN: string,
+      customerTitle: string
+  }
+
