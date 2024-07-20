@@ -7,6 +7,7 @@ import optionReducer from './slices/option';
 import uiReducer from './slices/ui';
 import platformSetting from './slices/platformSetting';
 import BuySellGroupSlice from './slices/BuySellGroupSlice';
+import ModalReducer from './slices/ModalSlice';
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
         option: optionReducer,
         keepDataBuySellSlice: keepDataBuySellSlice,
         platformSetting: platformSetting ,  
-        BuySellGroupSlice : BuySellGroupSlice
+        BuySellGroupSlice : BuySellGroupSlice ,
+        ModalReducer : ModalReducer
     },
 });
 
