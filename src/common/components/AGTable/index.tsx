@@ -142,11 +142,8 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     suppressColumnVirtualisation
                     rowHeight={rowHeight}
                     headerHeight={headerHeight}
-
-
                     // onGridSizeChanged={onGridSizeChanged}
                     onRowDataUpdated={onRowDataUpdated}
-                    // onRowDataChanged={onRowDataChanged} // Deprecated
                     // onRowValueChanged={onRowValueChanged}
                     // onFirstDataRendered={onFirstDataRendered}
                     onColumnVisible={onColumnVisible}
