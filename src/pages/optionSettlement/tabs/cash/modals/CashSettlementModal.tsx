@@ -36,6 +36,7 @@ const CashSettlementModal = ({ settlementState, setSettlementState, onClose }: T
             countOfDone: settlementState?.data?.doneCount,
             customerISIN: settlementState?.data?.customerISIN,
             symbolISIN: settlementState?.data?.symbolISIN,
+            userName: settlementState?.data?.userName,
         };
         mutate(requestBody);
     };

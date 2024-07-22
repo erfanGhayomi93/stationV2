@@ -3,13 +3,14 @@ import { useMemo, useState } from 'react';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import Cash from './tabs/cash';
 import Physical from './tabs/physical';
-import { CashIcon, Excel2Icon, PhysicalSettlementIcon, Refresh2Icon } from 'src/common/icons';
+import { CashIcon, Excel2Icon, PhysicalSettlementIcon, Refresh2Icon, TradesHistoryIcon } from 'src/common/icons';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import Tippy from '@tippyjs/react';
 import { GridReadyEvent } from 'ag-grid-community';
 import { ProviderFilterState } from './filterContext';
+import ResultSettlement from './tabs/resultSettlement';
 
-type TActiveTab = 'Cash' | 'Physical';
+type TActiveTab = 'Cash' | 'Physical' | 'History';
 
 const OptionSettlement = () => {
     //
@@ -31,7 +32,7 @@ const OptionSettlement = () => {
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },
             {
-                key: 'system',
+                key: 'Physical',
                 title: (
                     <div className="flex px-2 gap-2 items-center">
                         <PhysicalSettlementIcon className="w-5 h-5" />
@@ -39,6 +40,18 @@ const OptionSettlement = () => {
                     </div>
                 ),
                 content: <Physical setGridApi={setGridApi} />,
+                tabClass: 'pt-4 outline-none',
+                selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
+            },
+            {
+                key: 'History',
+                title: (
+                    <div className="flex px-2 gap-2 items-center">
+                        <TradesHistoryIcon className="w-5 h-5" />
+                        <span>{t('OptionSettlement.ResultSettlementTabTitle')}</span>
+                    </div>
+                ),
+                content: <ResultSettlement setGridApi={setGridApi} />,
                 tabClass: 'pt-4 outline-none',
                 selectedButtonClass: 'border-b-2 font-semibold border-L-primary-50 dark:border-D-primary-50 text-L-primary-50 dark:text-D-primary-50',
             },

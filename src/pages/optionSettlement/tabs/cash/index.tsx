@@ -18,6 +18,8 @@ import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { useAppSelector } from 'src/redux/hooks';
+import { getUserData } from 'src/redux/slices/global';
 
 type TResponse = {
     result: {
@@ -77,6 +79,8 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
+    const { userName } = useAppSelector(getUserData)
+
     const { data, isLoading, refetch } = useQuery(
         ['CashSettlement', params],
         ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
@@ -104,7 +108,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN });
+    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, userName: userName });
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
@@ -147,7 +151,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEve
             {
                 field: 'settlementRequestType',
                 headerName: 'نوع اعمال',
-                valueFormatter: ({ value }) => (value ? valueFormatter(SettlementTypeOptions, value) : value),
+                valueFormatter: ({ value }) => value ? t('options.type_request_settlement_' + value) : "-"
             },
             {
                 field: 'baseClosingPrice',
