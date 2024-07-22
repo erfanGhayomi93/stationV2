@@ -108,7 +108,7 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
     return (
         <Menu>
             {({ open }) => (
-                <div className="z-50 flex items-center ">
+                <div className="z-50 flex items-center relative">
                     <Menu.Button>
                         <div className="p-1.5 bg-L-gray-300 dark:bg-D-gray-300 rounded cursor-pointer">
                             <CheckListIcon className="w-6 h-6 text-L-gray-600 dark:text-D-gray-600" />
@@ -127,7 +127,7 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
                     >
                         <Menu.Items
                             static={true}
-                            className="absolute left-0 top-3 mt-2 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="absolute left-0 top-4 mt-2 w-48 origin-top-right divide-y bg-L-basic dark:bg-D-basic divide-gray-100 rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-auto max-h-96"
                         >
                             <div className="p-1 flex justify-center text-center gap-1 cursor-pointer" onClick={setToDefaultMode}>
                                 <DefalutRefreshIcon className="text-L-primary-50 dark:text-D-primary-50 " />

@@ -86,7 +86,7 @@ export const useFreezeRequest = (options?: UseMutationOptions<number , Error ,IR
 
 
 const getListFreezeFn = async (params ?: IGetFreezeBody) => {
-    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseFreeze[]>>(Apis().Options.GetFreezeRequestsReport , {params});
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseFreeze[]>>(Apis().Options.GetFreeze , {params});
     return data.result;
 };
 
