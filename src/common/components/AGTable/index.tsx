@@ -81,6 +81,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                 suppressMovable: false,
                 sortable: true,
                 flex: 1,
+                resizable: false,
                 tooltipValueGetter: ({ value, valueFormatted, colDef }) => {
                     if (colDef && colDef.hasOwnProperty('cellRenderer')) return '';
                     return valueFormatted || value;
@@ -132,7 +133,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     suppressAnimationFrame
                     suppressScrollOnNewData
                     suppressRowClickSelection
-                    suppressDragLeaveHidesColumns
+                    // suppressDragLeaveHidesColumns
                     rowBuffer={5}
                     localeText={AgGridLocalization}
                     animateRows
