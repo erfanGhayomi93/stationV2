@@ -216,6 +216,7 @@ export const Apis = () => ({
         UpdatePhysicalSettlement: getBaseUrl() + `/Option/v1/edit-physical`,
         DeleteCashSettlement: getBaseUrl() + `/Option/v1/delete-cash`,
         DeletePhysicalSettlement: getBaseUrl() + `/Option/v1/delete-physical`,
+        SettlementResult: getBaseUrl() + `/Option/v1/SettlementResult`,
         FreezeRequest: getBaseUrl() + `/Freeze/v1/FreezeRequest`,
         GetFreezeRequestsReport: getBaseUrl() + `/Freeze/v1/GetFreezeRequestsReport`,
     },

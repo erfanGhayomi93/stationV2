@@ -1,12 +1,10 @@
 import { t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useCreatePhysicalSettlement } from 'src/app/queries/option';
+import { useUpdatePhysicalSettlement } from 'src/app/queries/option';
 import Input from 'src/common/components/Input';
 import Modal from 'src/common/components/Modal';
 import { CloseIcon, InfoFillIcon } from 'src/common/icons';
 import { onSuccessNotif } from 'src/handlers/notification';
-import { useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
 
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
@@ -14,9 +12,9 @@ type TProps = {
     onClose: () => void;
 };
 
-const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose }: TProps) => {
+const UpdatePhysicalSettlement = ({ settlementState, setSettlementState, onClose }: TProps) => {
     //
-    const { mutate } = useCreatePhysicalSettlement({
+    const { mutate, isLoading } = useUpdatePhysicalSettlement({
         onSuccess: (result) => {
             if (result) {
                 onSuccessNotif();
@@ -26,12 +24,17 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
         },
     });
 
-    const [radioValue, setRadioValue] = useState('requestForMaximum');
-    const [maximumCheckValue, setMaximumCheckValue] = useState(false);
-    const [positionCount, setPositionCount] = useState<number | undefined>();
+    const [radioValue, setRadioValue] = useState(
+        settlementState?.data?.settlementRequestType === 'MaximumStrike'
+            ? 'requestForMaximum'
+            : settlementState?.data?.settlementRequestType === 'PartialStrike'
+            ? 'requestForMaximumApproval'
+            : 'requestForMaximum',
+    );
 
+    const [maximumCheckValue, setMaximumCheckValue] = useState(settlementState?.data?.requestForLostOrProfit);
 
-    const { userName } = useAppSelector(getUserData)
+    const [positionCount, setPositionCount] = useState<number>(settlementState?.data?.requestCount);
 
     const handleSubmit = () => {
         const isRequestMax = radioValue === 'requestForMaximum';
@@ -44,7 +47,6 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
             requestForMaximumApproval: radioValue === 'requestForMaximumApproval',
             customerISIN: settlementState?.data?.customerISIN,
             symbolISIN: settlementState?.data?.symbolISIN,
-            userName: userName
         };
         mutate(requestBody);
     };
@@ -55,8 +57,9 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
         <Modal isOpen={settlementState?.isOpen} className="rounded w-[550px]" onClose={handleClose}>
             <div className="bg-L-basic dark:bg-D-basic flex flex-col shadow-md">
                 <div className="moveable flex justify-between items-center bg-L-primary-50 dark:bg-D-primary-200 px-6 h-12">
-                    <span className="font-medium text-base text-white">{`درخواست تسویه فیزیکی ${settlementState?.data?.symbolTitle ? '- نماد ' + settlementState?.data?.symbolTitle : ''
-                        }`}</span>
+                    <span className="font-medium text-base text-white">{`درخواست تسویه فیزیکی ${
+                        settlementState?.data?.symbolTitle ? '- نماد ' + settlementState?.data?.symbolTitle : ''
+                    }`}</span>
                     <button className="p-1" onClick={handleClose}>
                         <CloseIcon className="text-white" />
                     </button>
@@ -98,9 +101,10 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
                                 />
                                 <label htmlFor="Radio1" className="dark:text-white">
                                     {t('OptionSettlement.PhysicalSettlementRadioValue1') +
-                                        `${settlementState?.data?.openPositionCount
-                                            ? ' ( ' + settlementState?.data?.openPositionCount + ' موقعیت باز )'
-                                            : ''
+                                        `${
+                                            settlementState?.data?.openPositionCount
+                                                ? ' ( ' + settlementState?.data?.openPositionCount + ' موقعیت باز )'
+                                                : ''
                                         }`}
                                 </label>
                             </div>
@@ -121,11 +125,12 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
                                         <Input
                                             containerClassName={
                                                 radioValue === 'requestForMaximumApproval' &&
-                                                    (!positionCount || positionCount > settlementState?.data?.openPositionCount)
+                                                (!positionCount || positionCount > settlementState?.data?.openPositionCount)
                                                     ? 'border border-red-600'
                                                     : ''
                                             }
                                             type="number"
+                                            value={positionCount}
                                             onChange={(e) => setPositionCount(+e?.target?.value)}
                                         />
                                     </span>
@@ -164,4 +169,4 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
     );
 };
 
-export default PhysicalSettlementModal;
+export default UpdatePhysicalSettlement;

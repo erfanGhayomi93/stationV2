@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-// import { FilterMinusIcon, FilterPlusIcon } from 'src/common/icons';
+import { FilterMinusIcon, FilterPlusIcon } from 'src/common/icons';
 
 interface IProps {
     onSubmit: () => void;
@@ -11,9 +11,9 @@ const FilterActions = ({ onSubmit, onClear, toggleFilterBox, isFilterBoxOpen }: 
     const { t } = useTranslation();
     return (
         <div className="flex gap-1 col-span-3">
-            {/* <button onClick={toggleFilterBox} className="p-2 border border-gray-400 rounded-md max-w-[40px]">
+            <button onClick={toggleFilterBox} className="p-2 border border-gray-400 rounded-md max-w-[40px]">
                 {isFilterBoxOpen ? <FilterMinusIcon /> : <FilterPlusIcon />}
-            </button> */}
+            </button> 
             <button
                 onClick={onSubmit}
                 className="bg-L-primary-50 w-[96px] dark:bg-D-primary-50 py-1 border border-L-primary-50 dark:border-D-primary-50 text-L-basic dark:text-D-basic rounded"
