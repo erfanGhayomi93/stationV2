@@ -5,6 +5,7 @@ type TCashbody = {
     countOfDone: number;
     customerISIN: string;
     symbolISIN : string;
+    userName ?: string;
 };
 
 type TPhysicalbody = {
@@ -16,12 +17,14 @@ type TPhysicalbody = {
     requestForMaximumApproval: boolean;
     customerISIN: string;
     symbolISIN : string;
+    userName ?: string;
 };
 
 type TCashDeleteBody = {
     id: number;
     customerISIN: string;
     symbolISIN : string;
+    userName ?: string;
 };
 
 interface IReqSumPrice {
@@ -154,6 +157,7 @@ interface IRequestFreezeBody{
     userName: string;
     customerISIN: string;
     description?: string;
+    userName ?: string;
   }
 
   interface IGetFreezeBody{

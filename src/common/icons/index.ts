@@ -174,6 +174,7 @@ import MarketDepthChartIcon from 'src/assets/svg/marketDepth-chart.svg?react';
 import MarketDepthRowIcon from 'src/assets/svg/marketDepth-rowMode.svg?react';
 import MarketDepthColIcon from 'src/assets/svg/marketDepth-colMode.svg?react';
 import MarketDepthArrowDownIcon from 'src/assets/svg/arrowDown-circle.svg?react';
+import TradesHistoryIcon from 'src/assets/svg/tradesHistory.svg?react';
 
 import ArrowSortUpIcon from 'src/assets/svg/arrowSortUp.svg?react';
 import ArrowSortDownIcon from 'src/assets/svg/arrowSortDown.svg?react';
@@ -336,6 +337,7 @@ MarketDepthChartIcon,
 MarketDepthRowIcon,
 MarketDepthColIcon,
 MarketDepthArrowDownIcon,
+TradesHistoryIcon,
 ArrowSortUpIcon , 
 ArrowSortDownIcon
 }
