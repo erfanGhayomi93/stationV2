@@ -219,6 +219,7 @@ export const Apis = () => ({
         SettlementResult: getBaseUrl() + `/Option/v1/SettlementResult`,
         FreezeRequest: getBaseUrl() + `/Freeze/v1/FreezeRequest`,
         GetFreezeRequestsReport: getBaseUrl() + `/Freeze/v1/GetFreezeRequestsReport`,
+        GetFreeze: getBaseUrl() + `/Freeze/v1/GetFreeze`,
     },
     Ipo: {
         GetBySymbolISIN: getBaseUrl() + `/IPO/v1/GetBySymbolISIN`,
