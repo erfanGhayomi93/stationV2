@@ -127,9 +127,12 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
             },
             {
                 headerName: 'سمت',
-                field: 'side',
-                valueFormatter: ({ value }) => (value === 'Buy' ? 'خرید' : value === 'Sell' ? 'فروش' : ''),
-                cellClass: ({ value }) => (value === 'Buy' ? 'text-[#01BC8D]' : value === 'Sell' ? 'text-[#E84830]' : ''),
+                field: 'positionSide',
+                valueFormatter: ({ value }) => value ? t('common.' + (value === 'None' ? 'closed' : String(value).toLowerCase())) : '-',
+                cellClass: ({ data }) => {
+                    if (!data) return '';
+                    return (data.positionSide === 'Buy') ? 'text-L-success-200' : (data.positionSide === 'Sell') ? 'text-L-error-200' : '';
+                }
             },
 
             {
@@ -174,7 +177,7 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
                 headerName: 'تعداد نکول',
                 type: 'sepratedNumber',
             },
-             {
+            {
                 field: 'penVolume',
                 headerName: 'مبلغ نکول',
                 type: 'sepratedNumber',
@@ -218,11 +221,11 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
                 minWidth: 140,
             },
             {
-                field: 'status',
+                field: 'state',
                 headerName: 'وضعیت',
-                valueFormatter: ({ value }) => (value ? valueFormatter(RequestStatusOptions, value) : value),
+                valueFormatter: ({ value }) => value ? t('options.type_status_' + value) : ""
             },
-          
+
             // {
             //     field: 'closingPrice',
             //     headerName: 'آخرین قیمت',
@@ -233,7 +236,7 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
             //     headerName: 'آخرین قیمت دارایی پایه',
             //     type: 'sepratedNumber',
             // },
-          
+
 
             // {
             //     field: 'openPositionCount',
@@ -250,7 +253,7 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
             //     headerName: 'تعداد نکول',
             //     type: 'sepratedNumber',
             // },
-           
+
             {
                 field: 'userType',
                 headerName: 'درخواست کننده',

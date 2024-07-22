@@ -81,7 +81,13 @@
         "password": "رمز عبور",
         "email": "ایمیل",
         "position": "موقعیت",
-        "share": "سهم"
+        "share": "سهم",
+        "closed": "بسته شده",
+        "buy": "خرید",
+		"call": "خرید",
+		"sell": "فروش",
+		"put": "فروش"
+
     },
     "CustomerType": {
         "CustomerTag": "گروه مشتریان",
@@ -944,7 +950,8 @@
 		"FailToGetBaseSymbolData": "خطایی در سیستم رخ داده است.",
 		"ContractIsOnLoss": "ثبت درخواست تسویه برای قراردادهای در زیان امکان پذیر نمی باشد.",
 		"RequestCount_Exceed": "مجموع درخواست‌های تسویه نقدی و فیزیکی نباید از تعداد کل موقعیت‌ها بیشتر باشد.",
-		"cant_freeze": "امکان فریز نماد های اختیار وجود ندارد"
+		"cant_freeze": "امکان فریز نماد های اختیار وجود ندارد" ,
+        "DuplicateRequest" : "سهم انتخاب شده از قبل فریز شده است"
     },
     "alerts": {
         "bs_baseSymbol_is_not_freezed": "نماد پایه فریز نشده است",
@@ -979,7 +986,23 @@
         "type_request_settlement_IndifferentAtLoss": "موافقت با تسویه در حالت زیان یا بی تفاوت",
         "settlementType_All": "همه",
 		"settlementType_CashSettlement": "تسویه نقدی",
-		"settlementType_PhysicalSettlement": "تسویه فیزیکی"
+		"settlementType_PhysicalSettlement": "تسویه فیزیکی",
+        "type_status_InSendQueue": "در حال ارسال به بورس",
+		"type_status_Error": "درخواست با خطا مواجه شد",
+		"type_status_SendToBourse": "ارسال شده به بورس",
+		"type_status_SaveResult": "دریافت نتیجه از بورس",
+		"type_status_Draft": "پیش نویس",
+		"type_status_Registered": "ثبت شده",
+		"type_status_Deleted": "حذف شده",
+		"type_status_Sent": "ارسال شده",
+		"type_status_Send": "ارسال شده",
+		"type_status_Sending": "در حال ارسال",
+		"type_status_Settling": "در حال تسویه",
+		"type_status_Settled": "تسویه شده",
+		"type_status_Expired": "منقضی شده",
+		"type_status_DeleteByUser": "حذف شده توسط کاربر",
+		"type_status_Part_of_the_Cash_Settlement_Request_Has_Been_Finalized": "انجام تسویه نقدی برای بخشی از قراردادها",
+		"type_status_Cash_Settlement_Not_Accepted": "عدم پذیرش تسویه نقدی"
     },
     "option_blockType": {
         "All": "همه",
