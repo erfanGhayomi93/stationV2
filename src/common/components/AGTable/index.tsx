@@ -78,7 +78,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
         const DefaultColDef = useMemo((): ColDef => {
             return {
                 minWidth: 100,
-                suppressMovable: false,
+                suppressMovable: true,
                 sortable: true,
                 flex: 1,
                 resizable: false,
