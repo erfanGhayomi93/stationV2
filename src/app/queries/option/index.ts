@@ -92,3 +92,13 @@ const getListFreezeFn = async (params ?: IGetFreezeBody) => {
 
 export const useListFreeze = (params ?: IGetFreezeBody , options?: UseQueryOptions<IResponseFreeze[]>) =>
     useQuery<IResponseFreeze[]>(['listFreeze' , !!params?.customerISIN?.length ? String(params.customerISIN) : '' ], () => getListFreezeFn(params), { ...options });
+
+
+
+const getListFreezeHistoryFn = async (params ?: IFilterFreezeUnFreeze) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IResponseFreeze[]>>(Apis().Options.GetFreezeRequestsReport , {params});
+    return data;
+};
+
+export const useListFreezeHistory = (params ?: IFilterFreezeUnFreeze , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponseFreeze[]>>) =>
+    useQuery<GlobalPaginatedApiResponse<IResponseFreeze[]>>(['listFreezeHistory'], () => getListFreezeHistoryFn(params), { ...options });
