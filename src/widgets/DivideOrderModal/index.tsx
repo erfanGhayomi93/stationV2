@@ -185,7 +185,7 @@ const DivideOrderModal = () => {
 
     onOMSMessageHandlerRef.current = useMemo(
         () => (message: Record<number, string>) => {
-            let timer: NodeJS.Timer;
+            let timer: ReturnType<typeof setInterval> | undefined = undefined;
 
             const omsClientKey = message[12];
             const omsOrderStatus = message[22] as OrderStatusType
