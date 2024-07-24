@@ -140,6 +140,11 @@ const Sider = () => {
                         id: '/Reports/Turnover',
                         onClick: () => navigate('/Reports/Turnover'),
                     },
+                    {
+                        label: 'فریز و رفع فریز',
+                        id: '/FreezeUnFreezeReports',
+                        onClick: () => navigate('/Reports/FreezeUnFreeze'),
+                    },
                 ],
             },
             {

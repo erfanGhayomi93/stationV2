@@ -1026,6 +1026,16 @@
         "PhysicalSettlementRadioValue1": "اعمال حداکثری",
         "PhysicalSettlementRadioValue2": "انتخاب تعداد موقعیت های مورد نظر جهت تسویه"
     },
+    "freeze_request_state": {
+		"Done": "تایید",
+		"InProgress": "در حال انجام",
+		"FreezeFailed": "ناموفق",
+		"NotApprove": "عدم تایید"
+	},
+    "freeze_request_type" : {
+        "Freeze": "فریز",
+        "UnFreeze": "رفع فریز"
+    },   
     "History_Actions": {
         "ChangeState": "تغییر وضعیت",
         "Update": "آپدیت",

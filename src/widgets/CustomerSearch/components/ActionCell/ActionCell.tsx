@@ -1,6 +1,6 @@
 import Tippy from '@tippyjs/react';
 import { FC } from 'react';
-import { DeleteIcon, MoreDotsIcon, PlusIcon } from 'src/common/icons';
+import { DeleteIcon, MoreDotsIcon, PlusIcon, PortfolioDetailIcon } from 'src/common/icons';
 import { useCustomerSearchState } from '../../context/CustomerSearchContext';
 import clsx from 'clsx';
 // import { useMutationToggleFavorite } from 'src/app/queries/customer';
@@ -19,9 +19,9 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
         setState((prev) => ({ ...prev, isDetailModalOpen: true, detailModalData: data }));
     };
 
-    // const showPortfolioModal = (data: IGoMultiCustomerType) => {
-    //     setState((prev) => ({ ...prev, isPortfolioModalOpen: true, detailModalData: data }));
-    // };
+    const showPortfolioModal = (data: IGoMultiCustomerType) => {
+        setState((prev) => ({ ...prev, isPortfolioModalOpen: true, detailModalData: data }));
+    };
 
     // const handleFavorite = (data: IGoMultiCustomerType) => {
     //     mutate({ customerIsin: data.customerISIN, isFavorite: !data.isFavorite })
@@ -89,7 +89,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 </button>
             </Tippy>
 
-            {/* <Tippy
+            <Tippy
                 onShow={(instance) => {
                     let clear = setTimeout(() => {
                         instance.hide();
@@ -104,7 +104,7 @@ const ActionCellRenderer: FC<{ customer: IGoMultiCustomerType, refetchToggleFavo
                 >
                     <PortfolioDetailIcon className="w-[1.13rem] h-[1.13rem] hover:text-L-primary-50 hover:dark:text-D-primary-50 text-L-gray-600 dark:text-D-gray-600" />
                 </button>
-            </Tippy> */}
+            </Tippy>
         </div >
     );
 };

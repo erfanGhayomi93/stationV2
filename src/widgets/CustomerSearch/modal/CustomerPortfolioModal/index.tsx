@@ -78,24 +78,56 @@ const CustomerPortfolioModal = () => {
 
     const Columns = useMemo(
         (): ColDefType<IGTPortfolioResultType>[] => [
-            { headerName: t('ag_columns_headerName.symbol'), field: 'symbolTitle', cellClass: 'font-bold' },
-            { headerName: t('ag_columns_headerName.count'), field: 'asset', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.lastPriceAverage'), field: 'averagePrice', type: 'sepratedNumber', minWidth: 150 },
-            { headerName: t('ag_columns_headerName.finalCost'), field: 'bep', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.pureDayValue'), field: 'dayValue', type: 'sepratedNumber' },
-            { headerName: t('ag_columns_headerName.headToheadPrice'), field: 'bepPrice', type: 'sepratedNumber' },
+            {
+                headerName: t('ag_columns_headerName.symbol'),
+                field: 'symbolTitle',
+                cellClass: 'font-bold',
+                width: 100
+            },
+            {
+                headerName: t('ag_columns_headerName.count'),
+                field: 'asset',
+                type: 'sepratedNumber',
+                width: 100
+            },
+            {
+                headerName: t('ag_columns_headerName.lastPriceAverage'),
+                field: 'averagePrice',
+                type: 'sepratedNumber',
+                minWidth: 120
+            },
+            {
+                headerName: t('ag_columns_headerName.finalCost'),
+                field: 'bep',
+                 type: 'sepratedNumber',
+                 width: 100
+            },
+            {
+                headerName: t('ag_columns_headerName.pureDayValue'),
+                field: 'dayValue',
+                type: 'sepratedNumber',
+                width: 100
+            },
+            {
+                headerName: t('ag_columns_headerName.headToheadPrice'),
+                field: 'bepPrice',
+                type: 'sepratedNumber',
+                width: 100
+            },
             {
                 headerName: t('ag_columns_headerName.profitAndLoss'),
                 field: 'lostProfitValue',
                 cellClass: ({ value }) => (value > 0 ? 'text-L-success-200' : 'text-L-error-200'),
                 valueGetter: ({ data }) => calcProfitAndLoss(data),
                 valueFormatter: ({ value }) => (value ? seprateNumber(Math.abs(value)) : '-'),
+                width: 150
             },
             {
                 headerName: t('ag_columns_headerName.profitAndLossPercent'),
                 cellClass: ({ value }) => (value > 0 ? 'text-L-success-200' : 'text-L-error-200'),
                 valueGetter: ({ data }) => calcProfitAndLossPercent(data),
-                valueFormatter: ({ value }) => (value ? Math.abs(value).toFixed(2) + '%' : '-'),
+                valueFormatter: ({ value }) => (value ? Math.abs(value).toFixed(2) + '%' : '-'),       
+                width: 150
             },
         ],
         [commission],
@@ -114,7 +146,12 @@ const CustomerPortfolioModal = () => {
                 </div>
                 <WidgetLoading spining={isFetching}>
                     <div className="p-6 h-full">
-                        <AGTable columnDefs={Columns} rowData={rowData || []} />
+                        <AGTable
+                         columnDefs={Columns}
+                          rowData={rowData || []} 
+                          suppressScrollOnNewData
+                          suppressRowVirtualisation
+                         />
                     </div>
                 </WidgetLoading>
             </div>
