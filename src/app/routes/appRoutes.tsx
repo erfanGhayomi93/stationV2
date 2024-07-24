@@ -23,6 +23,7 @@ const PortfolioMain = lazy(() => safeLazyImport(() => import('src/pages/portfoli
 const Setting = lazy(() => safeLazyImport(() => import('src/pages/Setting')));
 const OptionSettlement = lazy(() => safeLazyImport(() => import('src/pages/optionSettlement')));
 const SetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ChangePassword/setPassword')));
+const FreezeUnFreezeReports = lazy(() => safeLazyImport(() => import('src/pages/Reports/FreezeUnFreeze')))
 const AppLayout = lazy(() => safeLazyImport(() => import('../Layout')));
 const AuthLayout = lazy(() => safeLazyImport(() => import('../Layout/AuthLayout')));
 
@@ -131,6 +132,10 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Reports/Turnover',
                                         element: <TurnOver />,
+                                    },
+                                    {
+                                        path: '/Reports/FreezeUnFreeze',
+                                        element: <FreezeUnFreezeReports />,
                                     },
                                 ],
                             },
