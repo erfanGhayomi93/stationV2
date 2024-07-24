@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 
-let timerId: NodeJS.Timer | undefined = undefined;
+let timerId: ReturnType<typeof setInterval> | undefined = undefined;
 
 const Clock = () => {
     //
