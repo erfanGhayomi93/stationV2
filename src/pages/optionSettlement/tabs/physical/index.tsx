@@ -134,8 +134,9 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
             {
                 field: 'physicalSettlementDate',
                 headerName: 'تاریخ تسویه فیزیکی',
-                valueFormatter: ({ value }) => dayjs(value).calendar('jalali').format('YYYY/MM/DD'),
+                // valueFormatter: ({ value }) => dayjs(value)?.calendar('jalali').format('YYYY/MM/DD'),
                 minWidth: 140,
+                type: "date"
             },
             {
                 field: 'pandLStatus',
@@ -230,6 +231,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
                         }
                     />
                 ),
+                pinned: 'left',
                 lockVisible: true,
                 minWidth: 220,
             },
