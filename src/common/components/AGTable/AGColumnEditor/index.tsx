@@ -1,12 +1,12 @@
 import { Menu, Transition } from '@headlessui/react';
 import { FC, useEffect, useState, useRef, ChangeEvent } from 'react';
 import { CheckListIcon, DefalutRefreshIcon, PinIcon } from 'src/common/icons';
-import { Column, GridReadyEvent } from 'ag-grid-community';
+import { Column, GridApi } from 'ag-grid-community';
 import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import clsx from 'clsx';
 
 interface IAGColumnEditorType {
-    gridApi: GridReadyEvent | undefined;
+    gridApi: GridApi | undefined;
     lsKey: string;
 }
 
@@ -34,27 +34,30 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
     };
 
     const getVisibleColumns = (columns: Column[]) => {
-        return columns?.map((col) => (col.isVisible() ? col.getColId() : '')).filter(Boolean) as string[];
+        return columns?.map((col) => (col.isVisible() ? col.getColId() : '')).filter(Boolean);
     };
 
     const getPinnedColumns = (columns: Column[]) => {
-        return columns?.map((col) => (col.isPinned() ? col.getColId() : '')).filter(Boolean) as string[];
+        return columns?.map((col) => (col.isPinned() ? col.getColId() : '')).filter(Boolean);
     };
 
     const createInitialColumnState = () => {
-        const columns = gridApi?.columnApi.getColumns();
+        try {
+            const columns = gridApi?.getColumns();
 
-        if (columns) {
-            defaultVisibleColumns.current = getVisibleColumns(columns);
-            defaultPinnedColumns.current = getPinnedColumns(columns);
-            minColLimit.current = (columns?.filter((col) => col.getColDef().lockVisible).length || 0) + 1;
+            if (columns) {
+                defaultVisibleColumns.current = getVisibleColumns(columns);
+                defaultPinnedColumns.current = getPinnedColumns(columns);
+                minColLimit.current = (columns?.filter((col) => col.getColDef().lockVisible).length || 0) + 1;
 
-            setColumnOptions(getAllColumns(columns));
-            !visibleColumns?.length && setVisibleColumns(getVisibleColumns(columns));
-            !pinnedColumns?.length && setPinnedColumns(getPinnedColumns(columns));
+                setColumnOptions(getAllColumns(columns));
+                !visibleColumns?.length && setVisibleColumns(getVisibleColumns(columns));
+                !pinnedColumns?.length && setPinnedColumns(getPinnedColumns(columns));
 
-            (visibleColumns?.length || pinnedColumns?.length) && onColumnStateChange();
+                (visibleColumns?.length || pinnedColumns?.length) && onColumnStateChange();
+            }
         }
+        catch {}
     };
 
     const setToDefaultMode = () => {
@@ -63,29 +66,44 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
     };
 
     const onColumnStateChange = () => {
-        if (gridApi) {
-            const columnDefs = gridApi.columnApi.getColumnState();
+        try {
+            if (gridApi) {
+                const columnDefs = gridApi.getColumnState();
 
-            const changedColumns = () =>
-                columnDefs?.map((col, index) => {
-                    const isPinnedColumn = pinnedColumns?.includes(col.colId);
-                    const leftOrRightPinned = columnDefs.length / 2 < index ? 'left' : 'right';
-                    const pinned: 'left' | 'right' | boolean = isPinnedColumn ? leftOrRightPinned : false;
-                    const hide: boolean = !visibleColumns?.includes(col.colId);
+                const changedColumns = () =>
+                    columnDefs?.map((col, index) => {
+                        const isPinnedColumn = pinnedColumns?.includes(col.colId);
+                        const leftOrRightPinned = columnDefs.length / 2 < index ? 'left' : 'right';
+                        const pinned: 'left' | 'right' | boolean = isPinnedColumn ? leftOrRightPinned : false;
+                        const hide: boolean = !visibleColumns?.includes(col.colId);
 
-                    return { ...col, hide, pinned };
+                        return { ...col, hide, pinned };
+                    });
+
+                gridApi?.applyColumnState({
+                    state: changedColumns(),
                 });
-
-            gridApi?.columnApi?.applyColumnState({
-                state: changedColumns(),
-            });
-            gridApi.api.sizeColumnsToFit();
+                gridApi.sizeColumnsToFit()
+            }
         }
+        catch { }
     };
 
     useEffect(() => {
-        createInitialColumnState();
+        if (gridApi) {
+            createInitialColumnState();
+        }
     }, [gridApi]);
+
+    useEffect(() => {
+        return () => {
+            if (gridApi && gridApi?.isDestroyed()) {
+                console.log('isDestroyed', gridApi.isDestroyed())
+                gridApi.destroy();
+            }
+        }
+    }, [gridApi, lsKey])
+
 
     useEffect(() => {
         onColumnStateChange();

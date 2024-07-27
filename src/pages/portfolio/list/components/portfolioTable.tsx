@@ -1,4 +1,4 @@
-import { GridReadyEvent, ICellRendererParams, ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-community';
+import { GridApi, ICellRendererParams, ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-community';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
@@ -13,14 +13,14 @@ type TPortfolioTableType = {
     loading: boolean;
     data?: GlobalPaginatedApiResponse<IGTPortfolioResultType[]>;
     PaginatorHandler: (action: 'PageNumber' | 'PageSize', value: number) => void;
-    setGridApi: (x: GridReadyEvent) => void;
+    setGridApi: (x: GridApi) => void;
 };
 
 export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, PaginatorHandler, setGridApi }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [dataModal, setDataModal] = useState<IGTPortfolioResultType | undefined>();
 
-    // const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
+    // const [gridApi, setGridApi] = useState<GridApi<IGetWatchlistSymbol>>();
 
     const { t } = useTranslation();
     const { pageNumber, pageSize, result, hasNextPage, hasPreviousPage, totalPages } = data || {};
@@ -131,7 +131,7 @@ export const PortfolioTable: FC<TPortfolioTableType> = ({ loading, data, Paginat
                     suppressColumnMoveAnimation={true}
                     suppressDragLeaveHidesColumns={true}
                     getRowId={({ data }) => data.symbolISIN + data.customerIsin}
-                    onGridReady={(p) => setGridApi(p)}
+                    onGridReady={(params) => setGridApi(params.api)}
                     onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
                     onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
                     onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}

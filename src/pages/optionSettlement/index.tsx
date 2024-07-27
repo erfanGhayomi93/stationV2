@@ -1,12 +1,12 @@
 import { t } from 'i18next';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TabsList, { ITabItemType } from 'src/common/components/TabsList';
 import Cash from './tabs/cash';
 import Physical from './tabs/physical';
 import { CashIcon, Excel2Icon, PhysicalSettlementIcon, Refresh2Icon, TradesHistoryIcon } from 'src/common/icons';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 import Tippy from '@tippyjs/react';
-import { GridReadyEvent } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { ProviderFilterState } from './filterContext';
 import ResultSettlement from './tabs/resultSettlement';
 
@@ -15,7 +15,7 @@ type TActiveTab = 'Cash' | 'Physical' | 'History';
 const OptionSettlement = () => {
     //
     const [activeTab, setActiveTab] = useState<TActiveTab>('Cash');
-    const [gridApi, setGridApi] = useState<GridReadyEvent>();
+    const [gridApi, setGridApi] = useState<GridApi>();
 
     const items = useMemo<ITabItemType[]>(
         () => [
@@ -59,6 +59,13 @@ const OptionSettlement = () => {
         [],
     );
 
+    useEffect(() => {
+        return () => {
+            setGridApi(undefined)
+        }
+    }, [activeTab])
+
+
     return (
         <div className="bg-L-basic dark:bg-D-basic rounded-md p-6 flex flex-col">
             <div className="flex justify-between">
@@ -66,10 +73,10 @@ const OptionSettlement = () => {
                 <div className="flex items-center gap-3 p-1 rounded-md bg-L-gray-300 dark:bg-D-gray-300 text-L-gray-600 dark:text-D-gray-600">
                     <AGColumnEditor
                         gridApi={gridApi}
-                        lsKey={activeTab === 'Cash' ? 'CashSettlementRequestsColumnsState' : 'PhysicalSettlementRequestsColumnsState'}
+                        lsKey={activeTab === 'Cash' ? 'CashSettlementRequestsColumnsState' : activeTab === 'Physical' ? 'PhysicalSettlementRequestsColumnsState' : "ResultSettlementRequestsColumnsState"}
                     />
                     <Tippy content={t('Action_Button.Update')} className="text-xs">
-                        <Refresh2Icon className="cursor-pointer outline-none" onClick={() => {}} />
+                        <Refresh2Icon className="cursor-pointer outline-none" onClick={() => { }} />
                     </Tippy>
                     <Tippy content={t('Action_Button.ExportExcel')} className="text-xs">
                         <Excel2Icon className="cursor-pointer outline-none" />

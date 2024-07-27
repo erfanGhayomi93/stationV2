@@ -127,7 +127,7 @@ export const TableBasket = ({
                     stopEditingWhenCellsLoseFocus={true}
                     suppressColumnMoveAnimation={true}
                     // getRowId={({ data }) => data.symbolISIN}
-                    onGridReady={(p) => setGridApi(p)}
+                    onGridReady={(params) => setGridApi(params.api)}
                     onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
                     onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
                 />

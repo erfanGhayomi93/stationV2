@@ -1,4 +1,4 @@
-import { GridReadyEvent, RowClassParams, RowDataUpdatedEvent } from 'ag-grid-community';
+import { GridApi, RowClassParams, RowDataUpdatedEvent } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

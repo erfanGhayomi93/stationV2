@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initialFilterState } from '../../constants';
-import { GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { GridApi, ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues, datePeriodValidator } from 'src/utils/helpers';
@@ -71,7 +71,7 @@ type TModalState = {
     data?: Record<string, any>;
 };
 
-const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridReadyEvent<any> | undefined>> }) => {
+const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any> | undefined>> }) => {
     //
     const filterState = useFilterState();
     const setFilterState = useFilterStateDispatch();
@@ -263,7 +263,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridRead
                 onSubmit={handleSubmit}
             />
             <div className="flex-1">
-                <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(p) => setGridApi(p)} />
+                <AGTable columnDefs={colDefs} rowData={data?.result} onGridReady={(params) => setGridApi(params.api)} />
             </div>
             <div className="border-t my-2"></div>
             <Paginator

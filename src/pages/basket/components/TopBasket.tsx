@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import AddBasketModal from '../modal/AddBasketModal';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
-import { GridReadyEvent } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { filterStateType } from './FilterBasket';
 import ipcMain from 'src/common/classes/IpcMain';
 
@@ -17,7 +17,7 @@ import ipcMain from 'src/common/classes/IpcMain';
 type ITopBasket = {
     params: filterStateType;
     saveIndexBasketSelected: (ind: number) => void;
-    gridApi: GridReadyEvent<IGetWatchlistSymbol> | undefined;
+    gridApi: GridApi<IGetWatchlistSymbol> | undefined;
 };
 
 const TopBasket = ({ params, saveIndexBasketSelected, gridApi }: ITopBasket) => {

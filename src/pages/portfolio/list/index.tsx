@@ -10,7 +10,7 @@ import { subscriptionPortfolio } from "src/ls/subscribes"
 import { pushEngine } from "src/ls/pushEngine"
 import { useAppDispatch } from "src/redux/hooks"
 import { emptySelectedCustomers, emptySelectedSymbol } from "src/redux/slices/option"
-import { GridReadyEvent } from "ag-grid-community"
+import { GridApi } from "ag-grid-community"
 import AGColumnEditor from "src/common/components/AGTable/AGColumnEditor"
 
 
@@ -20,7 +20,7 @@ const PortfolioMain = () => {
     const [filterData, setFilterData] = useState<TPortfolioListFilter>(initStatePortfolioFilter)
     const [params, setParams] = useState<TPortfolioListFilter>(filterData)
     const dispatch = useAppDispatch();
-    const [gridApi, setGridApi] = useState<GridReadyEvent>();
+    const [gridApi, setGridApi] = useState<GridApi>();
 
 
 

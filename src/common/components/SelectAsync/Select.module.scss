@@ -7,6 +7,14 @@
 	--st-icon-color: theme("colors.gray.700");
 	--st-label-border-color: theme("colors.gray.500");
 
+	outline: none;
+	overflow: hidden;
+	background-color: var(--st-background-color);
+	width: 100%;
+	max-width: 100%;
+	z-index: 99;
+	border-radius: 4px;
+
 	&.dark {
 		--st-background-color: theme("colors.D.basic.DEFAULT");
 		--st-border-color: theme("colors.D.gray.200");
@@ -16,14 +24,6 @@
 		--st-icon-color: theme("colors.D.gray.700");
 		--st-label-border-color: theme("colors.D.gray.400");
 	}
-
-	outline: none;
-	overflow: hidden;
-	background-color: var(--st-background-color);
-	width: 100%;
-	max-width: 100%;
-	z-index: 99;
-	border-radius: 4px;
 
 	&.opened .container {
 		border-color: var(--st-active-border-color);
@@ -113,17 +113,6 @@
 	--ot-item-focus-background-color: theme("colors.L.gray.400");
 	--ot-item-color: theme("colors.L.gray.700");
 
-	&.dark {
-		--ot-background-color: theme("colors.D.basic.DEFAULT");
-		--ot-border-color: theme("colors.D.gray.100");
-		--ot-empty-color: theme("colors.D.gray.700");
-		--ot-item-background-color: theme("colors.D.basic.DEFAULT");
-		--ot-item-odd-background-color: theme("colors.D.gray.100");
-		--ot-item-hover-background-color: theme("colors.D.gray.50");
-		--ot-item-active-background-color: theme("colors.D.gray.400");
-		--ot-item-focus-background-color: theme("colors.D.gray.400");
-		--ot-item-color: theme("colors.D.gray.700");
-	}
 
 	z-index: 99999;
 	width: 100%;
@@ -179,6 +168,18 @@
 		&.active {
 			background-color: var(--ot-item-active-background-color);
 		}
+	}
+
+	&.dark {
+		--ot-background-color: theme("colors.D.basic.DEFAULT");
+		--ot-border-color: theme("colors.D.gray.100");
+		--ot-empty-color: theme("colors.D.gray.700");
+		--ot-item-background-color: theme("colors.D.basic.DEFAULT");
+		--ot-item-odd-background-color: theme("colors.D.gray.100");
+		--ot-item-hover-background-color: theme("colors.D.gray.50");
+		--ot-item-active-background-color: theme("colors.D.gray.400");
+		--ot-item-focus-background-color: theme("colors.D.gray.400");
+		--ot-item-color: theme("colors.D.gray.700");
 	}
 }
 

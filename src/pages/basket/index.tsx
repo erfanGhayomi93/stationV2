@@ -6,7 +6,7 @@ import { TableBasket } from './components/TableBasket';
 import TopBasket from './components/TopBasket';
 import { useBasketDispatch } from './context/BasketContext';
 import { useTranslation } from 'react-i18next';
-import { GridReadyEvent } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { cleanObjectOfFalsyValues, removeDuplicatesInArray } from 'src/utils/helpers';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
@@ -16,7 +16,7 @@ import { queryClient } from 'src/app/queryClient';
 
 function BasketPage() {
     const [detailParams, setDetailParams] = useState<filterStateType>(cleanObjectOfFalsyValues(initialDataFilterBasket) as filterStateType);
-    const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
+    const [gridApi, setGridApi] = useState<GridApi<IGetWatchlistSymbol>>();
     const { t } = useTranslation();
     const dispatch = useBasketDispatch();
     const appDispatch = useAppDispatch();

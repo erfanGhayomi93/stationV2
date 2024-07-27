@@ -5,14 +5,6 @@
   --clock-time-color: theme("colors.D.basic.DEFAULT");
   --input-border-color: theme("colors.L.info.100");
 
-  &.dark {
-    --clock-background-color: theme("colors.D.basic.DEFAULT");
-    --clock-border-color: theme("colors.D.gray.400");
-    --clock-brand-color: theme("colors.L.gray.500");
-    --clock-time-color: theme("colors.L.basic.DEFAULT");
-    --input-border-color: theme("colors.L.info.100");
-  }
-
   height: auto;
   z-index: 1000;
   position: absolute;
@@ -21,6 +13,15 @@
   background-color: var( --clock-background-color);
   border-radius: 4px;
   padding: 16px;
+
+  &.dark {
+    --clock-background-color: theme("colors.D.basic.DEFAULT");
+    --clock-border-color: theme("colors.D.gray.400");
+    --clock-brand-color: theme("colors.L.gray.500");
+    --clock-time-color: theme("colors.L.basic.DEFAULT");
+    --input-border-color: theme("colors.L.info.100");
+  }
+
 }
 
 .clock {

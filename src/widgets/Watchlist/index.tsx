@@ -12,7 +12,7 @@ import { useWatchListSymbolsQuery, useWatchlistsQuery } from 'src/app/queries/wa
 import { AddSymbol, InfoIcon } from 'src/common/icons';
 import { Paginator } from 'src/common/components/Paginator/Paginator';
 import WidgetLoading from 'src/common/components/WidgetLoading';
-import { ColDef, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { ColDef, GridApi, ICellRendererParams } from 'ag-grid-community';
 import { ClosingPrice, LastTradedPrice, SymbolTradeState } from './components/CellRenderer';
 import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/ChangeCellRenderer';
 import ActionCellRenderer from './components/ActionCellRenderer/ActionCellRenderer';
@@ -24,7 +24,7 @@ const Watchlists = () => {
         state: { selectedWatchlistId, watchlistType, ramandFilterWatchlist, PageNumber, marketUnit, sector },
         setState,
     } = useWatchListState();
-    const [gridApi, setGridApi] = useState<GridReadyEvent<IGetWatchlistSymbol>>();
+    const [gridApi, setGridApi] = useState<GridApi<IGetWatchlistSymbol>>();
     const { data: watchlists } = useWatchlistsQuery();
 
     const Columns = useMemo(
@@ -182,7 +182,7 @@ const Watchlists = () => {
                             suppressColumnMoveAnimation={true}
                             suppressDragLeaveHidesColumns={true}
                             getRowId={({ data }) => data.symbolISIN}
-                            onGridReady={(p) => setGridApi(p)}
+                            onGridReady={(params) => setGridApi(params.api)}
                             onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
                             // onFirstDataRendered={({ api }) => api.sizeColumnsToFit()}
                             onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}

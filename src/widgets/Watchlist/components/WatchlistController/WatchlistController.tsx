@@ -8,13 +8,13 @@ import { useWatchListState } from '../../context/WatchlistContext';
 import { FilterAllMarket } from '../FilterAllMarket';
 import ScrollableSlider from 'src/common/components/ScrollableSlider/ScrollableSlider';
 import { AddWatchList } from '../AddWatchlist';
-import { GridReadyEvent } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import AGColumnEditor from 'src/common/components/AGTable/AGColumnEditor';
 
 interface IWatchlistControllerType {
     Columns: ColDefType<IGetWatchlistSymbol>[];
     watchlists: IWatchlistType[] | undefined;
-    gridApi:GridReadyEvent<IGetWatchlistSymbol> | undefined;
+    gridApi:GridApi<IGetWatchlistSymbol> | undefined;
 }
 
 const WatchlistController: FC<IWatchlistControllerType> = ({ Columns, watchlists,gridApi }) => {
