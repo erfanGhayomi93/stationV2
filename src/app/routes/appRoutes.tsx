@@ -111,10 +111,10 @@ const AppRoutes: FC = () => {
                                         path: '/Requests/Offline',
                                         element: <Requests />,
                                     },
-                                    {
-                                        path: '/Requests/OptionSettlement',
-                                        element: <OptionSettlement />,
-                                    },
+                                    // {
+                                    //     path: '/Requests/OptionSettlement',
+                                    //     element: <OptionSettlement />,
+                                    // },
                                 ],
                             },
                             {
@@ -138,6 +138,15 @@ const AppRoutes: FC = () => {
                                         element: <FreezeUnFreezeReports />,
                                     },
                                 ],
+                            },
+                            {
+                                path : '/Position' ,
+                                children : [
+                                    {
+                                        path : '/Position/OptionSettlement' ,
+                                        element: <OptionSettlement />,
+                                    }
+                                ]
                             },
                             {
                                 path: '/portfolio',

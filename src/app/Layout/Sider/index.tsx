@@ -98,17 +98,7 @@ const Sider = () => {
                         label: 'آفلاین',
                         id: '/Requests/Offline',
                         onClick: () => navigate('/Requests/Offline'),
-                    },
-                    {
-                        label: 'تسویه اختیار',
-                        id: '/Requests/OptionSettlement',
-                        onClick: () => navigate('/Requests/OptionSettlement'),
-                    },
-                    {
-                        label: 'فریز و رفع فریز',
-                        id: '/FreezeUnFreeze',
-                        onClick: () => appDispatch(freezeUnfreezeAction({ isOpen: true })),
-                    },
+                    }
                 ],
             },
             {
@@ -162,6 +152,31 @@ const Sider = () => {
                 onClick: () => navigate('/Market/Calender'),
                 position: 'top',
                 placeOfDisplay: 'both',
+            },
+            {
+                id: '/Position',
+                icon: <GearIcon className="w-5 h-5" />,
+                label: 'اختیار معامله',
+                position: 'top',
+                placeOfDisplay: 'both',
+                onClick: () => navigate('/Position/OptionSettlement'),
+                children: [
+                    {
+                        label: 'درخواست تسویه اختیار',
+                        id: 'Position',
+                        onClick: () => navigate('/Position/OptionSettlement'),
+                    },
+                    {
+                        label: 'درخواست فریز و رفع فریز',
+                        id: 'Option/FreezeUnFreeze',
+                        onClick: () => appDispatch(freezeUnfreezeAction({ isOpen: true })),
+                    }
+                    // {
+                    //     label: 'تاریخچه موقعیت ها',
+                    //     id: '/Option/PositionHistory',
+                    //     onClick: () => navigate('/Option/PositionHistory'),
+                    // }
+                ]
             },
             {
                 icon: <Envelope2Icon className="w-5 h-5" />,

@@ -37,7 +37,8 @@ type TResponse = {
         doneCount: number;
         pandLStatus: string;
         baseClosingPrice: number;
-        strikePrice: number
+        strikePrice: number,
+        applicant: string,
         history: {
             dateTime: string;
             status: string;
@@ -128,6 +129,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
                 field: 'openPositionCount',
                 headerName: 'تعداد موقعیت باز',
                 type: 'sepratedNumber',
+                minWidth : 150
             },
             {
                 headerName: 'سمت',
@@ -185,15 +187,15 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
             //     type: 'sepratedNumber',
             // },
             {
-                field: 'userType',
+                field: 'applicant',
                 headerName: 'درخواست کننده',
-                valueFormatter: ({ data }) => {
-                    if (data?.userType) {
-                        return t('OptionSettlement.UserType_' + data?.userType);
-                    } else {
-                        return data?.userName ?? '';
-                    }
-                },
+                // valueFormatter: ({ data }) => {
+                //     if (data?.userType) {
+                //         return t('OptionSettlement.UserType_' + data?.userType);
+                //     } else {
+                //         return data?.userName ?? '';
+                //     }
+                // },
             },
             {
                 field: 'status',

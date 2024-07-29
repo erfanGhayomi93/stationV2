@@ -3,8 +3,7 @@ import Cookies, { CookieAttributes } from 'js-cookie';
 import { NavigateFunction } from 'react-router-dom';
 import { apiErrorHandler, onErrorNotif } from 'src/handlers/notification';
 import { setAppState } from 'src/redux/slices/global';
-import { AppDispatch, store } from 'src/redux/store';
-import { Navigate } from 'react-router-dom';
+import { store } from 'src/redux/store';
 import i18next from 'i18next';
 
 import qs from 'qs';

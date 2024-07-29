@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useCreatePhysicalSettlement } from 'src/app/queries/option';
@@ -7,6 +8,8 @@ import { CloseIcon, InfoFillIcon } from 'src/common/icons';
 import { onSuccessNotif } from 'src/handlers/notification';
 import { useAppSelector } from 'src/redux/hooks';
 import { getUserData } from 'src/redux/slices/global';
+import { seprateNumber } from 'src/utils/helpers';
+
 
 type TProps = {
     settlementState: { isOpen: boolean; data?: Record<string, any> };
@@ -28,7 +31,8 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
 
     const [radioValue, setRadioValue] = useState('requestForMaximum');
     const [maximumCheckValue, setMaximumCheckValue] = useState(false);
-    const [positionCount, setPositionCount] = useState<number | undefined>();
+    const [positionCount, setPositionCount] = useState<number>(0);
+
 
 
     const { userName } = useAppSelector(getUserData)
@@ -84,7 +88,12 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
                             <span className="pt-1">
                                 <InfoFillIcon color="#4895EF" />
                             </span>
-                            <span className="flex text-justify dark:text-white leading-6">{t('OptionSettlement.PhysicalSettlementDesc')}</span>
+
+                            <p className='leading-5 text-right dark:text-white'>
+                                {t("OptionSettlement.PhysicalSettlementDesc", {
+                                    n: dayjs(settlementState?.data?.physicalSettlementDate).calendar('jalali').format("YYYY\u2044MM\u2044DD")
+                                })}
+                            </p>
                         </div>
                         <div className="flex flex-col items-start gap-4 mt-8 mb-8">
                             <div className="flex gap-3">
@@ -139,6 +148,19 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
                                     className="cursor-pointer w-3.5 h-3.5"
                                 />
                                 <span className="dark:text-white">{t('OptionSettlement.MaximumPhysicalSettlementAgreement')}</span>
+                            </div>
+                            <div className="flex justify-start items-center gap-1 w-full my-2 text-L-gray-700 dark:text-D-gray-700">
+                                <span>{t('OptionSettlement.neededPrice')}:</span>
+                                <span className='font-medium'>
+                                    {
+                                        radioValue === 'requestForMaximum' ?
+                                            seprateNumber((settlementState?.data?.neededPrice * settlementState?.data?.openPositionCount) || 0) :
+                                            radioValue === 'requestForMaximumApproval' && positionCount <= settlementState?.data?.openPositionCount ?
+                                            seprateNumber((settlementState?.data?.neededPrice * positionCount) || 0) :
+                                                0
+                                    }
+                                </span>
+                                <span>{t('common.rial')}</span>
                             </div>
                         </div>
                         <div className="flex gap-3">

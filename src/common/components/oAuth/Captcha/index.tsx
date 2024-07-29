@@ -115,7 +115,7 @@ export const Captcha = ({
           inputMode="numeric"
           placeholder={placeHolder}
           className={clsx(
-            'ltrInsert tracking-[10px] placeholder:tracking-normal text-center border border-L-gray-400 dark:border-D-gray-400 outline-none w-full h-[40px] rounded px-4  placeholder:text-L-gray-500 dark:placeholder:text-D-gray-500 bg-L-basic dark:bg-D-basic pl-[215px]',
+            'ltrInsert tracking-[10px] placeholder:tracking-normal text-center border border-L-gray-400 dark:border-D-gray-400 outline-none w-full h-[40px] rounded px-4  placeholder:text-L-gray-500 dark:placeholder:text-D-gray-500 bg-L-basic dark:bg-D-basic pl-[215px] text-L-gray-700 dark:text-D-gray-700',
             {
               '!border-L-error-150 outline-none': !!errors.captchaValue,
             }

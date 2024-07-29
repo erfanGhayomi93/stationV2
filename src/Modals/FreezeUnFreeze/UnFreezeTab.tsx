@@ -99,7 +99,7 @@ export const UnFreezeTab: FC<{ closeModal: () => void }> = ({ closeModal }) => {
               return item.symbolTitle.includes(data.symbol);
             })
             ?.map((item, ind) => (
-              <div className="flex even:bg-L-gray-200 hover:bg-L-gray-300 py-2 text-xs" key={ind}>
+              <div className="flex even:bg-L-gray-200 even:dark:bg-D-gray-200 hover:bg-L-gray-300 hover:dark:bg-D-gray-300 py-2 text-xs" key={ind}>
                 <div className="w-1/2 mr-2">
                   <Checkbox
                     checked={!!item?.symbolISIN && selectedSymbol.some(s => s.symbolISIN === item.symbolISIN && s.customerISIN === item.customerISIN)}

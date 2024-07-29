@@ -98,7 +98,6 @@ const AGColumnEditor: FC<IAGColumnEditorType> = ({ gridApi, lsKey }) => {
     useEffect(() => {
         return () => {
             if (gridApi && gridApi?.isDestroyed()) {
-                console.log('isDestroyed', gridApi.isDestroyed())
                 gridApi.destroy();
             }
         }

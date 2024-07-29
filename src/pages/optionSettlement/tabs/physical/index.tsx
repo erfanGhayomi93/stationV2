@@ -15,7 +15,6 @@ import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
 import { useDeletePhysicalSettlement } from 'src/app/queries/option';
 import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
-import dayjs from 'dayjs';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppSelector } from 'src/redux/hooks';
@@ -38,6 +37,7 @@ type TResponse = {
         doneCount: number;
         pandLStatus: string;
         requestForLostOrProfit: boolean;
+        applicant: string,
         history: {
             dateTime: string;
             status: string;
@@ -132,6 +132,11 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
                 cellClass: ({ value }) => (value === 'Buy' ? 'text-[#01BC8D]' : value === 'Sell' ? 'text-[#E84830]' : ''),
             },
             {
+                field: 'openPositionCount',
+                headerName: 'تعداد موقعیت باز',
+                type: 'sepratedNumber',
+            },
+            {
                 field: 'physicalSettlementDate',
                 headerName: 'تاریخ تسویه فیزیکی',
                 // valueFormatter: ({ value }) => dayjs(value)?.calendar('jalali').format('YYYY/MM/DD'),
@@ -180,11 +185,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
             //     headerName: 'مبلغ تسویه',
             //     type: 'sepratedNumber',
             // },
-            // {
-            //     field: 'openPositionCount',
-            //     headerName: 'تعداد موقعیت باز',
-            //     type: 'sepratedNumber',
-            // },
+
             // {
             //     field: 'doneCount',
             //     headerName: 'تعداد اعمال شده',
@@ -201,15 +202,8 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
             //     type: 'sepratedNumber',
             // },
             {
-                field: 'userType',
+                field: 'applicant',
                 headerName: 'درخواست کننده',
-                valueFormatter: ({ data }) => {
-                    if (data?.userType) {
-                        return t('OptionSettlement.UserType_' + data?.userType);
-                    } else {
-                        return data.userName
-                    }
-                },
             },
             {
                 sortable: false,

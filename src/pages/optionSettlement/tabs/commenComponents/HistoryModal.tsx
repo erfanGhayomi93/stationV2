@@ -23,22 +23,25 @@ const HistoryModal = ({ state: { data, isOpen }, setState, title }: TProps) => {
                 headerName: 'زمان',
                 field: 'dateTime',
                 type: 'date',
+                minWidth: 150
             },
             {
                 headerName: 'وضعیت',
                 field: 'status',
                 valueFormatter: ({ value }) => (value ? RequestStatusOptions?.find((item) => item.value === value)?.label : value),
+                minWidth: 200
             },
             {
-                headerName: 'درخواست',
-                field: 'description',
+                headerName: 'درخواست کننده',
+                field: 'applicant',
+                minWidth: 150
             },
         ],
         [],
     );
 
     return (
-        <Modal isOpen={isOpen} className="rounded w-[500px]" onClose={handleClose}>
+        <Modal isOpen={isOpen} className="rounded w-[600px]" onClose={handleClose}>
             <div className="bg-L-basic dark:bg-D-basic flex flex-col shadow-md h-[350px]">
                 <div className="moveable flex justify-between items-center bg-L-primary-50 dark:bg-D-primary-200 px-6 h-12">
                     <span className="font-medium text-base text-white">{`تاریخچه درخواست های تسویه ${title} ${

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useCreateCashSettlement } from 'src/app/queries/option';
@@ -59,7 +60,13 @@ const CashSettlementModal = ({ settlementState, setSettlementState, onClose }: T
                         <span className="pt-1">
                             <InfoFillIcon color="#4895EF" />
                         </span>
-                        <span className="flex text-justify dark:text-white leading-6">{t('OptionSettlement.ConfirmSettlementDesc')}</span>
+
+                        {/* <span className="flex text-justify dark:text-white leading-6">{t('OptionSettlement.ConfirmSettlementDesc')}</span> */}
+                        <p className='leading-5 text-right dark:text-white'>
+                                {t("OptionSettlement.ConfirmSettlementDesc", {
+                                    n: dayjs(settlementState?.data?.cachSettlementDate).calendar('jalali').format("YYYY\u2044MM\u2044DD")
+                                })}
+                            </p>
                     </div>
                     <div className="flex flex-col items-start gap-4 mt-8 mb-8">
                         <div className="flex gap-3">

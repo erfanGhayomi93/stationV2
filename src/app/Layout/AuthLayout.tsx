@@ -16,8 +16,6 @@ const AuthLayout = () => {
     const pathName =
         location.pathname.replaceAll('/', '-').slice(1).split("-")[0] + '-background.jpg';
 
-    console.log("pathName", pathName)
-
     return (
         <div
             className={`h-[100vh] w-full bg-cover bg-center bg-no-repeat relative bg-L-gray-50 dark:bg-D-gray-50 overflow-x-hidden`}

@@ -39,4 +39,5 @@ export const RequestStatusOptions = [
     { label: 'در حال تسویه', value: 'Settling' },
     { label: 'منقضی شده', value: 'Expired' },
     { label: 'حذف شده', value: 'Deleted' },
+    { label: "عدم پذیرش تسویه نقدی", value: 'Cash_Settlement_Not_Accepted' },
 ];
