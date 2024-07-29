@@ -2,7 +2,6 @@ import { FC, lazy, useMemo } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Help from 'src/pages/Help';
 import PageCrash from 'src/pages/PageCrash';
-import PositionHistory from 'src/pages/Reports/PositionHistory';
 import { safeLazyImport } from 'src/utils/helpers';
 
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
@@ -25,6 +24,7 @@ const Setting = lazy(() => safeLazyImport(() => import('src/pages/Setting')));
 const OptionSettlement = lazy(() => safeLazyImport(() => import('src/pages/optionSettlement')));
 const SetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ChangePassword/setPassword')));
 const FreezeUnFreezeReports = lazy(() => safeLazyImport(() => import('src/pages/Reports/FreezeUnFreeze')))
+const PositionHistory = lazy(() => safeLazyImport(() => import('src/pages/Reports/PositionHistory')))
 const AppLayout = lazy(() => safeLazyImport(() => import('../Layout')));
 const AuthLayout = lazy(() => safeLazyImport(() => import('../Layout/AuthLayout')));
 
@@ -133,10 +133,6 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Reports/FreezeUnFreeze',
                                         element: <FreezeUnFreezeReports />,
-                                    },
-                                    {
-                                        path: '/Reports/PositionHistory',
-                                        element: <PositionHistory />,
                                     }
                                 ],
                             },
@@ -146,6 +142,10 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Position/OptionSettlement',
                                         element: <OptionSettlement />,
+                                    },
+                                    {
+                                        path: '/Position/PositionHistory',
+                                        element: <PositionHistory />,
                                     }
                                 ]
                             },

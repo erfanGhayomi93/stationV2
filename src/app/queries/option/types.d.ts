@@ -176,3 +176,37 @@ interface IRequestFreezeBody{
       customerTitle: string
   }
 
+ type OrderSourceType = "Account" | "Portfolio" | "Position";
+
+
+  interface IResponsePositionHistory{
+        saveDate: string;
+		customerISIN: string;
+		customerTitle: string;
+		symbolISIN: string
+		side: "Buy" | "Sell",
+		positionCount: number;
+		remainPositionCount: number;
+		symbolTitle: string;
+		actionSource: string;
+		contractSize: number;
+		strikePrice: number
+		bepPrice: number;
+		avgPrice: number;
+		avgBuyPrice: number;
+		avgSellPrice: number;
+		dayPureValue: number;
+		pandL: number;
+		pandLPercent: number;
+		achievedPandl: number;
+		blockType: Orders.OrderSourceType;
+		marginBlockedValue: number;
+		blockCount: number;
+		positionBlockTitle: string;
+		bestSellLimitPrice_1: number;
+		bestBuyLimitPrice_1: number;
+		closingPrice: number;
+		totalPositionCount: number;
+}
+
+

@@ -135,12 +135,7 @@ const Sider = () => {
                         label: 'فریز و رفع فریز',
                         id: '/Reports/FreezeUnFreeze',
                         onClick: () => navigate('/Reports/FreezeUnFreeze'),
-                    },
-                    // {
-                    //     label: 'تاریخچه موقعیت ها',
-                    //     id: '/Reports/PositionHistory',
-                    //     onClick: () => navigate('/Reports/PositionHistory'),
-                    // }
+                    }
                 ],
             },
             {
@@ -176,6 +171,11 @@ const Sider = () => {
                         label: 'درخواست فریز و رفع فریز',
                         id: 'Option/FreezeUnFreeze',
                         onClick: () => appDispatch(freezeUnfreezeAction({ isOpen: true })),
+                    },
+                    {
+                        label: 'تاریخچه موقعیت ها',
+                        id: '/Position/PositionHistory',
+                        onClick: () => navigate('/Position/PositionHistory'),
                     }
                 ]
             },

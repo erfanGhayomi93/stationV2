@@ -11,6 +11,7 @@ import WidgetLoading from "src/common/components/WidgetLoading"
 import useUpdateEffect from "src/common/hooks/useUpdateEffect"
 import { ReverseOptionIcon } from "src/common/icons"
 import { ComeFromKeepDataEnum } from "src/constant/enums"
+import BlockedValueTableComponent from "src/pages/Reports/PositionHistory/BlockedValueTableComponent"
 import { useAppDispatch } from "src/redux/hooks"
 import { setPartDataBuySellAction } from "src/redux/slices/keepDataBuySell"
 import { setSelectedSymbol } from "src/redux/slices/option"
@@ -170,13 +171,7 @@ export const OpenPosition = () => {
             headerName: t("options.blockCount"),
             field: "blockCount",
             minWidth: 150,
-            valueGetter: ({ data }) => {
-                if (data?.side !== 'Sell') return '-';
-                const label = data.blockType === 'Account' ? ` ${t('common.rial')}` : data.blockType === 'Position' ? `${t('common.position')}` + (data.positionBlockTitle ? ` (${data.positionBlockTitle})` : '') : data.blockType === 'Portfolio' ? ` ${t('common.share')}` : "";
-                if (data.blockType === 'Account') return seprateNumber(data.marginBlockedValue || 0) + label;
-                if (data.blockType === 'Portfolio') return seprateNumber(data.blockCount || 0) + label;
-                if (data.blockType === 'Position') return seprateNumber(data.positionCount || 0) + label;
-            }
+            cellRenderer: BlockedValueTableComponent,
         },
         /* وجه تضمین جبرانی */
         {

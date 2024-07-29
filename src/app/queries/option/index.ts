@@ -102,3 +102,13 @@ const getListFreezeHistoryFn = async (params ?: IFilterFreezeUnFreeze) => {
 
 export const useListFreezeHistory = (params ?: IFilterFreezeUnFreeze , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponseFreeze[]>>) =>
     useQuery<GlobalPaginatedApiResponse<IResponseFreeze[]>>(['listFreezeHistory'], () => getListFreezeHistoryFn(params), { ...options });
+
+
+const getListPositionHistoryFn = async (params ?: IFilterPositionHistory) => {
+    const { data } = await AXIOS.get<{data : GlobalPaginatedApiResponse<IResponsePositionHistory[]>}>(Apis().Options.GetOpenPositionsHistoryArchive , {params});
+    return data.data;
+};
+
+export const useListPositionHistory = (params ?: IFilterPositionHistory , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponsePositionHistory[]>>) =>
+    useQuery<GlobalPaginatedApiResponse<IResponsePositionHistory[]>>(['listPositionHistory'], () => getListPositionHistoryFn(params), { ...options });
+
