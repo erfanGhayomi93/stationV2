@@ -152,6 +152,7 @@ import SandClockIcon from 'src/assets/svg/sand-clock.svg?react';
 import CashIcon from 'src/assets/svg/CashIcon.svg?react';
 import PhysicalSettlementIcon from 'src/assets/svg/PhysicalSettlementIcon.svg?react';
 import ClearInputIcon from 'src/assets/svg/clearInput.svg?react';
+import OptionPositionIcon from 'src/assets/svg/optionPosition.svg?react';
 
 // Footer
 import Signal from 'src/assets/svg/Signal.svg?react';
@@ -339,5 +340,6 @@ MarketDepthColIcon,
 MarketDepthArrowDownIcon,
 TradesHistoryIcon,
 ArrowSortUpIcon , 
-ArrowSortDownIcon
+ArrowSortDownIcon,
+OptionPositionIcon
 }

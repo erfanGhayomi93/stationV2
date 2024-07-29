@@ -13,6 +13,7 @@ import {
     FileIcon,
     GearIcon,
     HomeIcon,
+    OptionPositionIcon,
     RequestListIcon,
     TradeChartSVG,
 } from 'src/common/icons';
@@ -132,9 +133,14 @@ const Sider = () => {
                     },
                     {
                         label: 'فریز و رفع فریز',
-                        id: '/FreezeUnFreezeReports',
+                        id: '/Reports/FreezeUnFreeze',
                         onClick: () => navigate('/Reports/FreezeUnFreeze'),
                     },
+                    // {
+                    //     label: 'تاریخچه موقعیت ها',
+                    //     id: '/Reports/PositionHistory',
+                    //     onClick: () => navigate('/Reports/PositionHistory'),
+                    // }
                 ],
             },
             {
@@ -155,7 +161,7 @@ const Sider = () => {
             },
             {
                 id: '/Position',
-                icon: <GearIcon className="w-5 h-5" />,
+                icon: <OptionPositionIcon className="w-5 h-5" />,
                 label: 'اختیار معامله',
                 position: 'top',
                 placeOfDisplay: 'both',
@@ -163,7 +169,7 @@ const Sider = () => {
                 children: [
                     {
                         label: 'درخواست تسویه اختیار',
-                        id: 'Position',
+                        id: '/Position/OptionSettlement',
                         onClick: () => navigate('/Position/OptionSettlement'),
                     },
                     {
@@ -171,11 +177,6 @@ const Sider = () => {
                         id: 'Option/FreezeUnFreeze',
                         onClick: () => appDispatch(freezeUnfreezeAction({ isOpen: true })),
                     }
-                    // {
-                    //     label: 'تاریخچه موقعیت ها',
-                    //     id: '/Option/PositionHistory',
-                    //     onClick: () => navigate('/Option/PositionHistory'),
-                    // }
                 ]
             },
             {

@@ -2,6 +2,7 @@ import { FC, lazy, useMemo } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Help from 'src/pages/Help';
 import PageCrash from 'src/pages/PageCrash';
+import PositionHistory from 'src/pages/Reports/PositionHistory';
 import { safeLazyImport } from 'src/utils/helpers';
 
 const Home = lazy(() => safeLazyImport(() => import('src/pages/Home')));
@@ -110,11 +111,7 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Requests/Offline',
                                         element: <Requests />,
-                                    },
-                                    // {
-                                    //     path: '/Requests/OptionSettlement',
-                                    //     element: <OptionSettlement />,
-                                    // },
+                                    }
                                 ],
                             },
                             {
@@ -137,13 +134,17 @@ const AppRoutes: FC = () => {
                                         path: '/Reports/FreezeUnFreeze',
                                         element: <FreezeUnFreezeReports />,
                                     },
+                                    {
+                                        path: '/Reports/PositionHistory',
+                                        element: <PositionHistory />,
+                                    }
                                 ],
                             },
                             {
-                                path : '/Position' ,
-                                children : [
+                                path: '/Position',
+                                children: [
                                     {
-                                        path : '/Position/OptionSettlement' ,
+                                        path: '/Position/OptionSettlement',
                                         element: <OptionSettlement />,
                                     }
                                 ]
