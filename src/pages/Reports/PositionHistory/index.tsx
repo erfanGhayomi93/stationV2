@@ -92,8 +92,8 @@ const PositionHistory = () => {
             valueGetter: ({ node }) => ((apiParams['QueryOption.PageNumber'] - 1) * apiParams['QueryOption.PageSize']) + (node?.rowIndex || 0) + 1,
             cellClass: "justify-start border-solid rounded-r border-r-4 pr-2 text-center",
             cellClassRules: {
-                "border-r-L-error-200": ({ data }) => Boolean(data?.side === "Sell"),
-                "border-r-L-success-200": ({ data }) => Boolean(data?.side === "Buy")
+                "border-r-L-error-200": ({ data }) => Boolean(data?.positionSide === "Sell"),
+                "border-r-L-success-200": ({ data }) => Boolean(data?.positionSide === "Buy")
             },
         },
         /* نماد */
@@ -118,11 +118,11 @@ const PositionHistory = () => {
         /* موقعیت */
         {
             headerName: t("option_position_history.column_position"),
-            field: 'side',
+            field: 'positionSide',
             valueFormatter: ({ value }) => value ? t('common.' + (value === 'None' ? 'closed' : String(value).toLowerCase())) : '-',
             cellClass: ({ data }) => {
                 if (!data) return '';
-                return (data.side === 'Buy') ? 'text-L-success-200' : (data.side === 'Sell') ? 'text-L-error-200' : '';
+                return (data.positionSide === 'Buy') ? 'text-L-success-200' : (data.positionSide === 'Sell') ? 'text-L-error-200' : '';
             },
             minWidth: 128,
         },
@@ -132,7 +132,7 @@ const PositionHistory = () => {
             field: "positionCount",
             cellClass: ({ data }) => {
                 if (!data) return '';
-                return (data.side === 'Buy') ? 'text-L-success-200 ltr' : (data.side === 'Sell') ? 'text-L-error-200 ltr' : '';
+                return (data.positionSide === 'Buy') ? 'text-L-success-200 ltr' : (data.positionSide === 'Sell') ? 'text-L-error-200 ltr' : '';
             },
             type: 'sepratedNumber',
             minWidth: 128,
@@ -159,7 +159,7 @@ const PositionHistory = () => {
             field: "blockType",
             minWidth: 144,
             valueGetter: ({ data }) => {
-                if (data?.side === 'Sell') {
+                if (data?.positionSide === 'Sell') {
                     return t('option_blockType.' + data?.blockType);
                 }
 
@@ -281,9 +281,9 @@ const PositionHistory = () => {
 
                     <FilterBlock label='موقعیت:' viewCol className="w-full">
                         <Select
-                            value={formValues?.side}
+                            value={formValues?.positionSide}
                             options={sideOption}
-                            onChange={(selected) => handleFormValueChange('side', selected)}
+                            onChange={(selected) => handleFormValueChange('positionSide', selected)}
                         />
                     </FilterBlock>
 

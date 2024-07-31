@@ -119,7 +119,7 @@ interface OptionGeneralInformation {
 
 interface IOpenPositionsRes {
     orderId: number;
-    side: 'Sell' | 'Buy';
+    positionSide: 'Sell' | 'Buy';
     canClosePosition: boolean;
     availableClosePosition: number;
     customerISIN: string;
@@ -184,7 +184,7 @@ interface IRequestFreezeBody{
 		customerISIN: string;
 		customerTitle: string;
 		symbolISIN: string
-		side: "Buy" | "Sell",
+		positionSide: "Buy" | "Sell",
 		positionCount: number;
 		remainPositionCount: number;
 		symbolTitle: string;

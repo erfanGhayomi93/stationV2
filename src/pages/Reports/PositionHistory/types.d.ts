@@ -6,7 +6,7 @@ interface IFilterPositionHistory {
     'QueryOption.PageSize': number;
     'QueryOption.PageNumber': number;
     Time?: string;
-    side : string;
+    positionSide : string;
     blockType : string;
     actionSource : string;
 }

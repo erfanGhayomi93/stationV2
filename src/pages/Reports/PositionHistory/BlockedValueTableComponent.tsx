@@ -5,7 +5,7 @@ import { seprateNumber } from "src/utils/helpers";
 const BlockedValueTableComponent = ({ data }: ICellRendererParams<IResponsePositionHistory>) => {
 	const { t } = useTranslation();
 
-	const { positionCount, blockCount, marginBlockedValue, blockType, side, positionBlockTitle } = data || {};
+	const { positionCount, blockCount, marginBlockedValue, blockType, positionSide, positionBlockTitle } = data || {};
 
 	const label = blockType === 'Account' ? ` ${t('common.rial')}` : blockType === 'Position' ? `${t('common.position')} ` + (positionBlockTitle ? `(${positionBlockTitle})` : '') : blockType === 'Portfolio' ? ` ${t('common.share')}` : "";
 
@@ -15,7 +15,7 @@ const BlockedValueTableComponent = ({ data }: ICellRendererParams<IResponsePosit
 		if (blockType === 'Position') return seprateNumber(positionCount || 0);
 	};
 
-	if (!data || side !== 'Sell') return <div>{'-'}</div>;
+	if (!data || positionSide !== 'Sell') return <div>{'-'}</div>;
 
 	return (
 		<div className="w-full flex items-center justify-center gap-1">

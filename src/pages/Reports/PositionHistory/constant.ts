@@ -8,7 +8,7 @@ export const initialState: IFilterPositionHistory = {
     'QueryOption.PageSize': 25,
     'QueryOption.PageNumber': 1,
     Time: 'day',
-    side : '',
+    positionSide : '',
     blockType : '',
     actionSource : '',
 };

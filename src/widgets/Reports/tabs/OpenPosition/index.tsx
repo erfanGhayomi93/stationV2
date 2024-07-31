@@ -20,14 +20,14 @@ import { seprateNumber } from "src/utils/helpers"
 type RowStateType = {
     symbolISIN: string;
     availableClosePosition: number;
-    side: string;
+    positionSide: string;
     customerISIN: string;
 }
 
 const initRowState = {
     symbolISIN: "",
     availableClosePosition: 0,
-    side: "",
+    positionSide: "",
     customerISIN: ""
 }
 
@@ -57,7 +57,7 @@ export const OpenPosition = () => {
 
 
     const updateByeSellModal = (data?: bestPriceBuySell) => {
-        const { symbolISIN, availableClosePosition, side, customerISIN } = rowState
+        const { symbolISIN, availableClosePosition, positionSide, customerISIN } = rowState
         if (!data) {
             alert("it hasnt data")
             return
@@ -69,9 +69,9 @@ export const OpenPosition = () => {
             appDispatch(
                 setPartDataBuySellAction({
                     data: {
-                        price: side === "Buy" ? data?.bestBuyLimitPrice_1 : data?.bestSellLimitPrice_1,
+                        price: positionSide === "Buy" ? data?.bestBuyLimitPrice_1 : data?.bestSellLimitPrice_1,
                         quantity: availableClosePosition,
-                        side: side === "Buy" ? "Sell" : "Buy",
+                        side: positionSide === "Buy" ? "Sell" : "Buy",
                         symbolISIN: symbolISIN,
                     },
                     comeFrom: ComeFromKeepDataEnum.OpenPosition,
@@ -86,12 +86,12 @@ export const OpenPosition = () => {
     const clickReverseOption = (row: ICellRendererParams<IOpenPositionsRes>) => {
         if (!row.value) return
 
-        const { symbolISIN, availableClosePosition, side, customerISIN } = row.data as IOpenPositionsRes
+        const { symbolISIN, availableClosePosition, positionSide, customerISIN } = row.data as IOpenPositionsRes
 
         setRowState({
             symbolISIN,
             availableClosePosition,
-            side,
+            positionSide,
             customerISIN
         })
 
@@ -122,11 +122,11 @@ export const OpenPosition = () => {
         {
             colId: 'column_position_side',
             headerName: t("options.column_position_side"),
-            field: 'side',
+            field: 'positionSide',
             valueFormatter: ({ value }) => t("orderSide." + String(value)),
             cellClass: ({ data }) => {
                 if (!data) return '';
-                return (data.side === 'Buy') ? 'text-L-success-200' : 'text-L-error-200';
+                return (data.positionSide === 'Buy') ? 'text-L-success-200' : 'text-L-error-200';
             },
             comparator: (valueA, valueB) => valueA.localeCompare(valueB)
         },
@@ -158,7 +158,7 @@ export const OpenPosition = () => {
             headerName: t("options.blockType"),
             field: "blockType",
             valueGetter: ({ data }) => {
-                if (data?.side === 'Sell') {
+                if (data?.positionSide === 'Sell') {
                     return t('option_blockType.' + data?.blockType);
                 }
 
