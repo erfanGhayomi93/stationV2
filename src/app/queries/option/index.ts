@@ -112,3 +112,13 @@ const getListPositionHistoryFn = async (params ?: IFilterPositionHistory) => {
 export const useListPositionHistory = (params ?: IFilterPositionHistory , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponsePositionHistory[]>>) =>
     useQuery<GlobalPaginatedApiResponse<IResponsePositionHistory[]>>(['listPositionHistory'], () => getListPositionHistoryFn(params), { ...options });
 
+
+const getListOptionPerformanceFn = async (params ?: IFilterOptionPerformance) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IResponseOptionPerformance[]>>(Apis().Options.GetFilteredOpenPositions , {params});
+    return data;
+};
+
+export const useListOptionPerformance = (params ?: IFilterOptionPerformance , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponseOptionPerformance[]>>) =>
+    useQuery<GlobalPaginatedApiResponse<IResponseOptionPerformance[]>>(['listOptionPerformance'], () => getListOptionPerformanceFn(params), { ...options });
+
+

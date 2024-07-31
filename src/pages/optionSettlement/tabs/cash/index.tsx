@@ -18,8 +18,7 @@ import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
+
 
 type TResponse = {
     result: {
@@ -80,8 +79,6 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { userName } = useAppSelector(getUserData)
-
     const { data, isLoading, refetch } = useQuery(
         ['CashSettlement', params],
         ({ queryKey }) => getCashSettlement(queryKey[1] as typeof initialFilterState),
@@ -109,7 +106,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, userName: userName });
+    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant : data?.applicant });
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [

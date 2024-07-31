@@ -24,7 +24,7 @@ type TCashDeleteBody = {
     id: number;
     customerISIN: string;
     symbolISIN : string;
-    userName ?: string;
+    applicant ?: string;
 };
 
 interface IReqSumPrice {
@@ -207,6 +207,49 @@ interface IRequestFreezeBody{
 		bestBuyLimitPrice_1: number;
 		closingPrice: number;
 		totalPositionCount: number;
+        bourseCode :string , 
+}
+
+interface IResponseOptionPerformance {
+        saveDate: string;
+		contractEndDate: string;
+		customerISIN: string;
+        customerTitle: string;
+		symbolISIN: string;
+		positionSide: "Sell" | "Buy",
+		positionCount: number;
+		blockType: Orders.OrderSourceType,
+		marginBlockedValue: number;
+		blockCount: number;
+		remainPositionCount: number;
+		symbolTitle: string;
+		contractSize: number;
+		strikePrice: number;
+		bepPrice: number;
+		avgPrice: number;
+		dayPureValue: number;
+		pandL: number;
+		pandLPercent: number;
+		achievedPandl: number;
+		actionRescource: number;
+		positionBlockISIN: string;
+		positionBlockTitle: string;
+		sumPayment: number;
+		sumReceived: number;
+		sumAmount: number;
+		avgBuyPrice: number;
+		avgSellPrice: number;
+		buyCost: number;
+		sellCost: number;
+		actual_Profit_Loss: number;
+		total_Actual_Profit_Loss: number;
+		bestBuyLimitPrice_1: number;
+		bestSellLimitPrice_1: number;
+		closingPrice: number;
+		baseClosingPrice: number;
+		baseSymbolISIN: string;
+		contractType: "Put" | "Call"
+        bourseCode :string , 
 }
 
 

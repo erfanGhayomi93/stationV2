@@ -5,7 +5,7 @@ import FilterSettlement from '../commenComponents/FilterSettlement';
 import { useQuery } from '@tanstack/react-query';
 import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
-import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initialFilterState } from '../../constants';
+import { PandLStatusOptions, RequestStatusOptions, initialFilterState } from '../../constants';
 import { GridApi, ICellRendererParams } from 'ag-grid-community';
 import AGActionCell from 'src/common/components/AGActionCell';
 import { ExtraButtons } from '../commenComponents/ExtraButtons';
@@ -17,8 +17,6 @@ import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-import { useAppSelector } from 'src/redux/hooks';
-import { getUserData } from 'src/redux/slices/global';
 
 type TResponse = {
     result: {
@@ -80,7 +78,6 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    const { userName } = useAppSelector(getUserData)
 
     const { data, isLoading, refetch } = useQuery(
         ['PhysicalSettlement', params],
@@ -109,7 +106,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, userName: userName });
+    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant: data?.applicant });
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [

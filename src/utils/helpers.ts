@@ -11,6 +11,13 @@ export const seprateNumber = (num: number | undefined): any => {
     } else return num;
 };
 
+export const sepNumbersNavigateNumber = (num: number | string): string => {
+	const numAsNumber = Number(num);
+	if (numAsNumber < 0) return `(${seprateNumber(Math.abs(numAsNumber))})`;
+
+	return seprateNumber(numAsNumber);
+};
+
 export const isBetween = (min: number, value: number, max: number): boolean => value >= min && value <= max;
 
 export const validNumber = (value: string | number) => {

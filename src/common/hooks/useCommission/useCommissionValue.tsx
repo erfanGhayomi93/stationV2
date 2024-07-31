@@ -13,7 +13,7 @@ interface IuseCommissionType extends IuseCommissionValueType {
 }
 
 export const useCommissionValue = ({ marketUnit }: IuseCommissionValueType) => {
-    const { data: commissionData } = useCommissionQuery<Commission[]>();
+    const { data: commissionData } = useCommissionQuery();
     return (
         commissionData?.find((market) => market.marketUnitTitle === marketUnit) || {
             buyCommission: 0,

@@ -7,8 +7,9 @@ const getCommission = async () => {
     return data?.result;
 };
 // prettier-ignore
-export const useCommissionQuery = <T=Commission>(
-    options?: Omit<UseQueryOptions<Commission[], unknown, T, unknown[]>, 'queryKey' | 'queryFn' | 'initialData'>,
-) => {
-    return useQuery(['getCommission'], ({ queryKey }) => getCommission(), {cacheTime: Infinity, staleTime: Infinity});
+export const useCommissionQuery = () => {
+    return useQuery(['getCommission'], () => getCommission(), {
+        cacheTime: Infinity,
+        staleTime: Infinity
+    });
 };

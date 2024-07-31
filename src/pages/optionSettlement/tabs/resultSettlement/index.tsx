@@ -255,15 +255,8 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
             // },
 
             {
-                field: 'userType',
+                field: 'applicant',
                 headerName: 'درخواست کننده',
-                valueFormatter: ({ data }) => {
-                    if (data?.userType) {
-                        return t('OptionSettlement.UserType_' + data?.userType);
-                    } else {
-                        return data?.userName ?? '';
-                    }
-                },
             },
             // {
             //     sortable: false,

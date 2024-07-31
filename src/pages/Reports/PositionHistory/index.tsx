@@ -67,7 +67,7 @@ const PositionHistory = () => {
         setFormValues((prev) => ({ ...prev, [field]: value }));
     };
 
-    
+
     const onTimeFieldChange = (time: ManipulateType | undefined) => {
         const ToDate = dayjs().format('YYYY-MM-DDT23:59:59');
         const FromDate = dayjs().subtract(1, time).format('YYYY-MM-DDT00:00:00');
@@ -78,18 +78,30 @@ const PositionHistory = () => {
         }));
     };
 
-    const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
-        action === 'PageSize' && setFormValues((pre) => ({ ...pre, [action]: value }));
-    }, []);
+    const PaginatorHandler = (action: 'PageNumber' | 'PageSize', value: number) => {
+        setApiParams((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
+    };
+
 
     const COLUMNS = useMemo<ColDef<IResponsePositionHistory>[]>(() => [
-         // ردیف
-         {
+        // ردیف
+        {
             headerName: "ردیف",
-            maxWidth: 112,
+            maxWidth: 80,
             pinned: 'right',
-            valueGetter: ({ node }) => String((node?.childIndex ?? 0) + 1),
+            valueGetter: ({ node }) => ((apiParams['QueryOption.PageNumber'] - 1) * apiParams['QueryOption.PageSize']) + (node?.rowIndex || 0) + 1,
+            cellClass: "justify-start border-solid rounded-r border-r-4 pr-2 text-center",
+            cellClassRules: {
+                "border-r-L-error-200": ({ data }) => Boolean(data?.side === "Sell"),
+                "border-r-L-success-200": ({ data }) => Boolean(data?.side === "Buy")
+            },
+        },
+        /* نماد */
+        {
+            headerName: t("option_position_history.column_symbol"),
+            field: "symbolTitle",
+            minWidth: 128,
+            pinned: 'right'
         },
         {
             headerName: 'مشتری',
@@ -98,115 +110,108 @@ const PositionHistory = () => {
             minWidth: 112,
             valueFormatter: ({ value }) => value ?? "",
         },
-		/* نماد */
-		{
-			headerName: t("option_position_history.column_symbol"),
-			field: "symbolTitle",
-			cellClass: "justify-start border-solid rounded-r border-r-4 pr-8",
-			cellClassRules: {
-				"border-r-error-200": ({ data }) => Boolean(data?.side === "Sell"),
-				"border-r-success-200": ({ data }) => Boolean(data?.side === "Buy")
-			},
-			minWidth: 128,
-			pinned: 'right'
-		},
-		/* موقعیت */
-		{
-			headerName: t("option_position_history.column_position"),
-			field: 'side',
-			valueFormatter: ({ value }) => value ? t('common.' + (value === 'None' ? 'closed' : String(value).toLowerCase())) : '-',
-			cellClass: ({ data }) => {
-				if (!data) return '';
-				return (data.side === 'Buy') ? 'text-L-success-200' : (data.side === 'Sell') ? 'text-L-error-200' : '';
-			},
-			minWidth: 128,
-		},
-		/* تعداد  */
-		{
-			headerName: t("option_position_history.column_count"),
-			field: "positionCount",
-			cellClass: ({ data }) => {
-				if (!data) return '';
-				return (data.side === 'Buy') ? 'text-L-success-200 ltr' : (data.side === 'Sell') ? 'text-L-error-200 ltr' : '';
-			},
-			type : 'sepratedNumber',
-			minWidth: 128,
+         {
+            headerName: 'کد بورسی',
+            field: "bourseCode",
+            valueFormatter: ({ value }) => value ?? "-",
+        },
+        /* موقعیت */
+        {
+            headerName: t("option_position_history.column_position"),
+            field: 'side',
+            valueFormatter: ({ value }) => value ? t('common.' + (value === 'None' ? 'closed' : String(value).toLowerCase())) : '-',
+            cellClass: ({ data }) => {
+                if (!data) return '';
+                return (data.side === 'Buy') ? 'text-L-success-200' : (data.side === 'Sell') ? 'text-L-error-200' : '';
+            },
+            minWidth: 128,
+        },
+        /* تعداد  */
+        {
+            headerName: t("option_position_history.column_count"),
+            field: "positionCount",
+            cellClass: ({ data }) => {
+                if (!data) return '';
+                return (data.side === 'Buy') ? 'text-L-success-200 ltr' : (data.side === 'Sell') ? 'text-L-error-200 ltr' : '';
+            },
+            type: 'sepratedNumber',
+            minWidth: 128,
 
-		},
-		/* باقیمانده  */
-		{
-			headerName: t("option_position_history.column_remain"),
-			field: "totalPositionCount",
-			type : 'sepratedNumber',
-			minWidth: 128,
+        },
+        /* باقیمانده  */
+        {
+            headerName: t("option_position_history.column_remain"),
+            field: "totalPositionCount",
+            type: 'sepratedNumber',
+            minWidth: 128,
 
-		},
-		/* عملیات  */
-		{
-			headerName: t("option_position_history.column_action"),
-			field: "actionSource",
-			valueFormatter: ({ value }) => value ? t('option_position_history.actionSource_' + value) : '-',
-			minWidth: 144,
-		},
-		/* محل تضمین  */
-		{
-			headerName: t("option_position_history.column_blockType"),
-			field: "blockType",
-			minWidth: 144,
-			valueGetter: ({ data }) => {
-				if (data?.side === 'Sell') {
-					return t('option_blockType.' + data?.blockType);
-				}
+        },
+        /* عملیات  */
+        {
+            headerName: t("option_position_history.column_action"),
+            field: "actionSource",
+            valueFormatter: ({ value }) => value ? t('option_position_history.actionSource_' + value) : '-',
+            minWidth: 144,
+        },
+        /* محل تضمین  */
+        {
+            headerName: t("option_position_history.column_blockType"),
+            field: "blockType",
+            minWidth: 144,
+            valueGetter: ({ data }) => {
+                if (data?.side === 'Sell') {
+                    return t('option_blockType.' + data?.blockType);
+                }
 
-				return '-';
-			}
-		},
-		/* اندازه تضمین  */
-		{
-			headerName: t("option_position_history.column_blockedValue"),
-			field: "blockCount",
-			cellRenderer: BlockedValueTableComponent,
-			minWidth: 144,
-		},
-		/* اندازه قرارداد */
-		{
-			headerName: t("option_position_history.column_contractSize"),
-			field: "contractSize",
-			type : 'sepratedNumber',
-			minWidth: 144,
-		},
-		/* قیمت اعمال */
-		{
-			headerName: t("option_position_history.column_appliedPrice"),
-			field: "strikePrice",
-			type : 'sepratedNumber',
-			minWidth: 144,
+                return '-';
+            }
+        },
+        /* اندازه تضمین  */
+        {
+            headerName: t("option_position_history.column_blockedValue"),
+            field: "blockCount",
+            cellRenderer: BlockedValueTableComponent,
+            minWidth: 144,
+        },
+        /* اندازه قرارداد */
+        {
+            headerName: t("option_position_history.column_contractSize"),
+            field: "contractSize",
+            type: 'sepratedNumber',
+            minWidth: 144,
+        },
+        /* قیمت اعمال */
+        {
+            headerName: t("option_position_history.column_appliedPrice"),
+            field: "strikePrice",
+            type: 'sepratedNumber',
+            minWidth: 144,
 
-		},
-		/* تاریخ */
-		{
-			headerName: t("option_position_history.column_date"),
-			field: "saveDate",
-			valueFormatter: ({ value }) => value ? dayjs(value).calendar('jalali').format("YYYY/MM/DD") : '-',
-			minWidth: 144,
+        },
+        /* تاریخ */
+        {
+            headerName: t("option_position_history.column_date"),
+            field: "saveDate",
+            valueFormatter: ({ value }) => value ? dayjs(value).calendar('jalali').format("YYYY/MM/DD") : '-',
+            minWidth: 144,
 
-		},
-		/*  ساعت */
-		{
-			headerName: t("option_position_history.column_time"),
-			field: "saveDate",
-			valueFormatter: ({ value }) => value ? dayjs(value).calendar('jalali').format("HH:mm:ss") : '-',
-			minWidth: 144,
+        },
+        /*  ساعت */
+        {
+            headerName: t("option_position_history.column_time"),
+            field: "saveDate",
+            valueFormatter: ({ value }) => value ? dayjs(value).calendar('jalali').format("HH:mm:ss") : '-',
+            minWidth: 144,
 
-		},
-		/* سود و زیان تحقق یافته */
-		{
-			headerName: t("option_position_history.column_achievedPandL"),
-			field: "achievedPandl",
-			type : 'sepratedNumber',
-			minWidth: 144,
-		},
-	], []);
+        },
+        /* سود و زیان تحقق یافته */
+        {
+            headerName: t("option_position_history.column_achievedPandL"),
+            field: "achievedPandl",
+            type: 'sepratedNumber',
+            minWidth: 144,
+        },
+    ], [apiParams["QueryOption.PageNumber"] , apiParams["QueryOption.PageSize"]]);
 
 
 
@@ -274,13 +279,13 @@ const PositionHistory = () => {
                         </FilterBlock>
                     </div>
 
-                     <FilterBlock label='موقعیت:' viewCol className="w-full">
+                    <FilterBlock label='موقعیت:' viewCol className="w-full">
                         <Select
                             value={formValues?.side}
                             options={sideOption}
                             onChange={(selected) => handleFormValueChange('side', selected)}
                         />
-                    </FilterBlock> 
+                    </FilterBlock>
 
 
                     <FilterBlock label='محل تضمین:' viewCol className="w-full">
@@ -321,8 +326,8 @@ const PositionHistory = () => {
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
                             loading={isFetching}
-                            pageNumber={apiParams?.PageNumber}
-                            pageSize={apiParams?.PageSize}
+                            pageNumber={data?.pageNumber || 1}
+                            pageSize={data?.pageSize || 25}
                             totalPages={data?.totalPages}
                             hasNextPage={data?.hasNextPage}
                             hasPreviousPage={data?.hasPreviousPage}

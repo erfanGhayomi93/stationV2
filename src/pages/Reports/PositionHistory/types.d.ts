@@ -3,8 +3,8 @@ interface IFilterPositionHistory {
     ToDate?: string;
     SymbolISIN: SymbolSearchResult[];
     CustomerISIN: IGoCustomerSearchResult[];
-    PageNumber: number;
-    PageSize: number;
+    'QueryOption.PageSize': number;
+    'QueryOption.PageNumber': number;
     Time?: string;
     side : string;
     blockType : string;

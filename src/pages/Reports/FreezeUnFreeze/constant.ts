@@ -5,8 +5,8 @@ export const initialState: IFilterFreezeUnFreeze = {
     ToDate: dayjs().format('YYYY-MM-DDT23:59:59'),
     SymbolISIN: [],
     CustomerISIN: [],
-    PageNumber: 1,
-    PageSize: 10,
+    'QueryOption.PageNumber': 1,
+    'QueryOption.PageSize': 25,
     Time: 'day',
     RequestType : '' ,
     RequestState  : ''

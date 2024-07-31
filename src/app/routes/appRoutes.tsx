@@ -25,6 +25,7 @@ const OptionSettlement = lazy(() => safeLazyImport(() => import('src/pages/optio
 const SetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pages/oAuth/ChangePassword/setPassword')));
 const FreezeUnFreezeReports = lazy(() => safeLazyImport(() => import('src/pages/Reports/FreezeUnFreeze')))
 const PositionHistory = lazy(() => safeLazyImport(() => import('src/pages/Reports/PositionHistory')))
+const OptionPerformance = lazy(() => safeLazyImport(() => import('src/pages/Reports/OptionPerformance')))
 const AppLayout = lazy(() => safeLazyImport(() => import('../Layout')));
 const AuthLayout = lazy(() => safeLazyImport(() => import('../Layout/AuthLayout')));
 
@@ -146,6 +147,10 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Position/PositionHistory',
                                         element: <PositionHistory />,
+                                    },
+                                    {
+                                        path: '/Position/optionPerformance',
+                                        element: <OptionPerformance /> ,
                                     }
                                 ]
                             },

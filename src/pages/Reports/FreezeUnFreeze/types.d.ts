@@ -3,8 +3,8 @@ interface IFilterFreezeUnFreeze {
     ToDate?: string;
     SymbolISIN: SymbolSearchResult[];
     CustomerISIN: IGoCustomerSearchResult[];
-    PageNumber: number;
-    PageSize: number;
+    'QueryOption.PageNumber': number;
+    'QueryOption.PageSize': number;
     Time?: string;
     RequestState ?: string;
     RequestType ?: Freeze | UnFreeze | ''

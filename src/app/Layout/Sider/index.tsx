@@ -176,6 +176,11 @@ const Sider = () => {
                         label: 'تاریخچه موقعیت ها',
                         id: '/Position/PositionHistory',
                         onClick: () => navigate('/Position/PositionHistory'),
+                    },
+                    {
+                        label: 'عملکرد اختیار',
+                        id: '/Position/optionPerformance',
+                        onClick: () => navigate("/Position/optionPerformance")
                     }
                 ]
             },

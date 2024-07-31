@@ -1,6 +1,6 @@
 import ReportLayout from "src/common/components/ReportLayout";
 import { initialState, RequestStateOptions, RequestTypeOptions } from "./constant";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cleanObjectOfFalsyValues } from "src/utils/helpers";
 import { ReportsIcon } from "src/common/icons";
 import { useAppDispatch } from "src/redux/hooks";
@@ -13,7 +13,6 @@ import dayjs, { ManipulateType } from "dayjs";
 import { timeFieldOptions } from "../Trades/constant";
 import AdvancedDatepicker from "src/common/components/AdvancedDatePicker/AdvanceDatepicker";
 import RefreshBtn from "src/common/components/Buttons/RefreshBtn";
-// import ExcelExportBtn from "src/common/components/Buttons/ExcelExportBtn";
 import WidgetLoading from "src/common/components/WidgetLoading";
 import AGTable from "src/common/components/AGTable";
 import { useListFreezeHistory } from "src/app/queries/option";
@@ -77,17 +76,16 @@ const FreezeUnFreezeReports = () => {
         }));
     };
 
-    const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
-        action === 'PageSize' && setFormValues((pre) => ({ ...pre, [action]: value }));
-    }, []);
+    const PaginatorHandler = (action: 'PageNumber' | 'PageSize', value: number) => {
+        setApiParams((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
+    };
 
     const COLUMNS = useMemo<ColDef<IResponseFreeze>[]>(() => ([
         // ردیف
         {
             headerName: "ردیف",
             maxWidth: 112,
-            valueGetter: ({ node }) => String((node?.childIndex ?? 0) + 1),
+            valueGetter: ({ node }) => (((data?.pageNumber || 1) - 1) * (data?.pageSize || 25) + (node?.rowIndex ?? 0) + 1),
         },
         {
             headerName: 'مشتری',
@@ -136,7 +134,7 @@ const FreezeUnFreezeReports = () => {
         // 	minWidth: 220,
         // 	maxWidth: 220,
         // },
-    ]), []);
+    ]), [data?.pageNumber , data?.pageSize]);
 
 
     return (
@@ -242,8 +240,8 @@ const FreezeUnFreezeReports = () => {
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
                             loading={isFetching}
-                            pageNumber={apiParams?.PageNumber}
-                            pageSize={apiParams?.PageSize}
+                            pageNumber={data?.pageNumber || 1}
+                            pageSize={data?.pageSize || 25}
                             totalPages={data?.totalPages}
                             hasNextPage={data?.hasNextPage}
                             hasPreviousPage={data?.hasPreviousPage}
