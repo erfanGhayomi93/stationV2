@@ -153,6 +153,7 @@ import CashIcon from 'src/assets/svg/CashIcon.svg?react';
 import PhysicalSettlementIcon from 'src/assets/svg/PhysicalSettlementIcon.svg?react';
 import ClearInputIcon from 'src/assets/svg/clearInput.svg?react';
 import OptionPositionIcon from 'src/assets/svg/optionPosition.svg?react';
+import FreezeIcon from 'src/assets/svg/freezeIcon.svg?react';
 
 // Footer
 import Signal from 'src/assets/svg/Signal.svg?react';
@@ -341,5 +342,6 @@ MarketDepthArrowDownIcon,
 TradesHistoryIcon,
 ArrowSortUpIcon , 
 ArrowSortDownIcon,
-OptionPositionIcon
+OptionPositionIcon,
+FreezeIcon
 }

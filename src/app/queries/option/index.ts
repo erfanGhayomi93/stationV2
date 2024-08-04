@@ -122,3 +122,22 @@ export const useListOptionPerformance = (params ?: IFilterOptionPerformance , op
     useQuery<GlobalPaginatedApiResponse<IResponseOptionPerformance[]>>(['listOptionPerformance'], () => getListOptionPerformanceFn(params), { ...options });
 
 
+const getListOptionOrdersFn = async (params ?: IOptionOrdersParams) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IResponseOptionOrders[]>>(Apis().Options.OptionOrders , {params});
+    return data;
+};
+
+export const useListOptionOrders = (params ?: IOptionOrdersParams , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponseOptionOrders[]>>) =>
+    useQuery<GlobalPaginatedApiResponse<IResponseOptionOrders[]>>(['listOptionOrders' , params?.customerISIN], () => getListOptionOrdersFn(params), { ...options });
+
+
+const getListAvailableCustomerPositionsFn = async (params ?: IOptionOrdersParams) => {
+    const { data } = await AXIOS.get<GlobalPaginatedApiResponse<IResponseAvailableCustomerPositions[]>>(Apis().Options.AvailableCustomerPositions , {params});
+    return data;
+};
+
+export const useListAvailableCustomerPositions = (params ?: IOptionOrdersParams , options?: UseQueryOptions<GlobalPaginatedApiResponse<IResponseAvailableCustomerPositions[]>>) =>
+    useQuery<GlobalPaginatedApiResponse<IResponseAvailableCustomerPositions[]>>(['listAvailableCustomerPositions' , params?.customerISIN], () => getListAvailableCustomerPositionsFn(params), { ...options });
+
+
+

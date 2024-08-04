@@ -219,6 +219,8 @@ export const Apis = () => ({
         SettlementResult: getBaseUrl() + `/Option/v1/SettlementResult`,
         GetOpenPositionsHistoryArchive: getBaseUrl() + `/Option/v1/GetOpenPositionsHistoryArchive`,
         GetFilteredOpenPositions: getBaseUrl() + `/Option/v1/GetFilteredOpenPositions`,
+        OptionOrders: getBaseUrl() + `/Option/v1/OptionOrders`,
+        AvailableCustomerPositions: getBaseUrl() + `/Option/v1/AvailableCustomerPositions`,
         FreezeRequest: getBaseUrl() + `/Freeze/v1/FreezeRequest`,
         GetFreezeRequestsReport: getBaseUrl() + `/Freeze/v1/GetFreezeRequestsReport`,
         GetFreeze: getBaseUrl() + `/Freeze/v1/GetFreeze`,

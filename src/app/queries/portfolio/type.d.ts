@@ -30,6 +30,7 @@ interface IGTPortfolioResultType {
     symbolTradeState: string;
     closingPrice: number;
     customerTitle : string
+    isFreezed : boolean
 }
 
 interface ICardexPortfolioResult {

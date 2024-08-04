@@ -117,3 +117,7 @@ select:-webkit-autofill:focus {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.transition-height {
+  transition-property: height;
+}

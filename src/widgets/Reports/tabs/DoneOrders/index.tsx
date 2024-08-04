@@ -59,7 +59,6 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
         [],
     );
 
-    console.log("render")
 
     useEffect(() => {
         ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);

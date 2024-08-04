@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useUpdateDraft } from 'src/app/queries/draft';
-import { setOrder, useSingleModifyOrders, useUpdateOrders } from 'src/app/queries/order';
+import { useSingleModifyOrders } from 'src/app/queries/order';
 import { ComeFromKeepDataEnum, ICustomerTypeEnum } from 'src/constant/enums';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
@@ -13,14 +13,13 @@ import { useTranslation } from 'react-i18next';
 import useSendOrders from 'src/widgets/DivideOrderModal/useSendOrders';
 import Button from 'src/common/components/Buttons/Button';
 import { getKeepDataBuySell } from 'src/redux/slices/keepDataBuySell';
-// import useLocalStorage from 'src/common/hooks/useLocalStorage';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import AffidavitModal from './AffidavitModal';
 
 interface ISetOrderActionType { }
 
 const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
-    const { side, amount, divide, isCalculatorEnabled, price, quantity, sequential, strategy, symbolISIN, validity, validityDate, percent, id, source } =
+    const { side, price, quantity, strategy, symbolISIN, validity, validityDate, percent, id, source } =
         useBuySellState();
     const dispatch = useBuySellDispatch();
     const queryClient = useQueryClient();
@@ -65,11 +64,6 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
             // }, 1000);
         },
     });
-
-    useEffect(() => {
-        console.log('isPrimaryComeFrom(comeFrom)', comeFrom)
-    }, [comeFrom])
-
 
     const { mutate: mutateUpdateDraft } = useUpdateDraft({
         onSuccess: () => {
@@ -135,6 +129,20 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
         }
     };
 
+    const generateSourceOrder = () => {
+        try {
+            const sourcePosition = source?.split("-")[0]
+            if (side === 'Sell' && symbolData?.isOption) {
+                if (sourcePosition === "Position") return sourcePosition
+                return source
+            }
+            return undefined
+        }
+        catch {
+            return undefined
+        }
+    }
+
     const handleOrder = () => {
         let CustomerTagId: ICustomerIsins = [];
         let GTTraderGroupId: ICustomerIsins = [];
@@ -158,11 +166,13 @@ const SetOrderAction: FC<ISetOrderActionType> = ({ }) => {
                         symbolISIN: symbolISIN,
                         validity: handleValidity(validity),
                         validityDate: validityDate,
-                        source: (side === 'Sell' && symbolData?.isOption) ? source : undefined
+                        source: generateSourceOrder(),
+                        PositionSymbolISIN: (side === 'Sell' && symbolData?.isOption && generateSourceOrder() === "Position") ? source?.split("-")[1] : undefined
                     };
                 }
             })
             .filter(Boolean) as IOrderRequestType[];
+
 
         sendOrders(orders);
     };
