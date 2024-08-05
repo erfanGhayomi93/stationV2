@@ -26,6 +26,7 @@ const SetPasswordChangePassword = lazy(() => safeLazyImport(() => import('src/pa
 const FreezeUnFreezeReports = lazy(() => safeLazyImport(() => import('src/pages/Reports/FreezeUnFreeze')))
 const PositionHistory = lazy(() => safeLazyImport(() => import('src/pages/Reports/PositionHistory')))
 const OptionPerformance = lazy(() => safeLazyImport(() => import('src/pages/Reports/OptionPerformance')))
+const StrategiesReportPage = lazy(() => safeLazyImport(() => import('src/pages/Reports/StrategiesReport')))
 const AppLayout = lazy(() => safeLazyImport(() => import('../Layout')));
 const AuthLayout = lazy(() => safeLazyImport(() => import('../Layout/AuthLayout')));
 
@@ -151,6 +152,9 @@ const AppRoutes: FC = () => {
                                     {
                                         path: '/Position/optionPerformance',
                                         element: <OptionPerformance /> ,
+                                    } ,{
+                                        path  : "/Position/strategies" ,
+                                        element : <StrategiesReportPage />
                                     }
                                 ]
                             },

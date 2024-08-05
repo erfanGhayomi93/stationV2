@@ -224,6 +224,7 @@ export const Apis = () => ({
         FreezeRequest: getBaseUrl() + `/Freeze/v1/FreezeRequest`,
         GetFreezeRequestsReport: getBaseUrl() + `/Freeze/v1/GetFreezeRequestsReport`,
         GetFreeze: getBaseUrl() + `/Freeze/v1/GetFreeze`,
+        GetStrategiesReport: getBaseUrl() + `/Strategy/v1/GetStrategiesReport`,
     },
     Ipo: {
         GetBySymbolISIN: getBaseUrl() + `/IPO/v1/GetBySymbolISIN`,

@@ -13,6 +13,7 @@ import clsx from "clsx"
 import { onErrorNotif, onInfoNotif } from "src/handlers/notification"
 import useDebounce from "src/common/hooks/useDebounce"
 import { Disclosure, Transition } from '@headlessui/react';
+import useUpdateEffect from "src/common/hooks/useUpdateEffect"
 
 
 
@@ -129,6 +130,10 @@ export const OptionGuaranty: FC<IOptionGuarantyProps> = ({ symbolData }) => {
 
         setOpenModal(true)
     }
+
+    useUpdateEffect(() => {
+        setSource("Account")
+    }, [selectedSymbol])
 
 
     return (
@@ -311,8 +316,9 @@ const CustomerPositions: React.FC<CustomerPositionsProps> = ({ dataAvailableCust
         }
 
         return (
-            <p key={ind} className="px-1 py-2 odd:bg-L-gray-100 odd:dark:bg-D-gray-100 text-right text-L-gray-600 dark:text-D-gray-600 rounded-md text-xs">
-                {item.symbolTitle}
+            <p key={ind} className="px-1 py-2 odd:bg-L-gray-100 odd:dark:bg-D-gray-100 text-right text-L-gray-600 dark:text-D-gray-600 rounded-md text-xs flex justify-between">
+                <span>{item.symbolTitle}</span>
+                <span>{item.customersOpenPositions}</span>
             </p>
         );
     };

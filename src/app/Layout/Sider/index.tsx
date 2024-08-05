@@ -163,6 +163,11 @@ const Sider = () => {
                 onClick: () => navigate('/Position/OptionSettlement'),
                 children: [
                     {
+                        label: 'استراتژی‌ها',
+                        id: '/Position/strategies',
+                        onClick: () => navigate('/Position/strategies')
+                    },
+                    {
                         label: 'درخواست تسویه اختیار',
                         id: '/Position/OptionSettlement',
                         onClick: () => navigate('/Position/OptionSettlement'),

@@ -111,7 +111,15 @@ const AGActionCell = (props: IProps) => {
                                 disabled={disabled}
                                 className={`text-L-gray-600 disabled:text-L-gray-400 dark:text-D-gray-600 disabled:dark:text-D-gray-400 disabled:cursor-not-allowed ${classes}`}
                                 style={styles}
-                                onClick={onClick}
+                                ref={(ref) => {
+                                    if (!ref) return;
+                                    ref.onclick = (e) => {
+                                        e.stopPropagation(); // this works
+                                        onClick()
+                                        // put your logic here instead because e.stopPropagation() will
+                                        // stop React's synthetic event
+                                    }
+                                }}
                             >
                                 <Icon />
                             </button>

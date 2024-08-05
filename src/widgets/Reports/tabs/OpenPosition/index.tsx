@@ -247,6 +247,7 @@ export const OpenPosition = () => {
                         columnDefs={columns}
                         enableBrowserTooltips={true}
                         suppressRowVirtualisation={true}
+                        onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                     />
                 </div>
             </WidgetLoading>

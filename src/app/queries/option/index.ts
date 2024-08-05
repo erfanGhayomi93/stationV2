@@ -140,4 +140,13 @@ export const useListAvailableCustomerPositions = (params ?: IOptionOrdersParams 
     useQuery<GlobalPaginatedApiResponse<IResponseAvailableCustomerPositions[]>>(['listAvailableCustomerPositions' , params?.customerISIN], () => getListAvailableCustomerPositionsFn(params), { ...options });
 
 
+const getListStrategiesReportFn = async (params ?: IStrategiesReportParams) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseStrategiesReport[]>>(Apis().Options.GetStrategiesReport , {params});
+    return data.result;
+};
+
+export const useListStrategiesReport = (params ?: IStrategiesReportParams , options?: UseQueryOptions<IResponseStrategiesReport[]>) =>
+    useQuery<IResponseStrategiesReport[]>(['listStrategiesReport' , params?.customerISIN], () => getListStrategiesReportFn(params), { ...options });
+
+
 

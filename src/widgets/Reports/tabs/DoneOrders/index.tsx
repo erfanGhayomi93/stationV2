@@ -10,6 +10,8 @@ import { InfoDoneOrders } from './modals/info';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
 import ipcMain from 'src/common/classes/IpcMain';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 
 
 type IDoneOrders = {
@@ -23,6 +25,8 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
     const { t } = useTranslation();
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+
+    const appDispatch = useAppDispatch();
 
     const { data: todayDoneTrades, isFetching, refetch } = useGetTodayDoneTrades(aggregateType);
 
@@ -178,6 +182,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
                         }
                     }}
                     suppressRowVirtualisation={true}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
             {

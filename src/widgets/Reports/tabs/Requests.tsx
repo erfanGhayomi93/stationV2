@@ -11,6 +11,8 @@ import HeaderSelect from '../components/HeaderSelect';
 import { useQueryClient } from '@tanstack/react-query';
 import HeaderSearch from '../components/HeaderSearch';
 import InfoModal from '../components/RequestsModals/InfoModal';
+import { useAppDispatch } from 'src/redux/hooks';
+import { setSelectedSymbol } from 'src/redux/slices/option';
 
 type TProps = {
     setRequestsTabData: Dispatch<
@@ -28,6 +30,8 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
     const gridRef = useRef<AgGridReact>(null);
 
     const selectedRowsRef = useRef<number[]>([]);
+
+    const appDispatch = useAppDispatch();
 
     const [params, setParams] = useState<IGetOfflineRequestsParams>({
         CustomerSearchTerm: '',
@@ -225,6 +229,7 @@ const Requests = forwardRef(({ setRequestsTabData }: TProps, parentRef) => {
                     onSelectionChanged={handleRowSelect}
                     onRowDataUpdated={onRowDataUpdated}
                     suppressRowVirtualisation
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </div>
             {infoModalParams.isOpen ? (

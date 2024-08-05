@@ -315,3 +315,33 @@ interface IResponseAvailableCustomerPositions{
 	openPosition: number;
 	customersOpenPositions: number
 }
+
+type StrategyType = 'BullCall' | 'BearPut' | 'CoveredCall'
+
+interface IStrategiesReportParams {
+    customerISIN : string[];
+    symbolISIN ?: string
+}
+
+interface IResponseStrategiesReport {
+    customerISIN: string;
+    symbolISIN: string;
+    symbolTitle: string;
+    positionSide: "Sell" | "Buy";
+    positionCount: number;
+    blockType: string,
+    contractType: "Call" | "Put";
+    strategyType: StrategyType;
+    positionBlockISIN: string;
+    positionBlockTitle: string;
+    countOfCombination: number;
+    baseBlockISIN: string;
+    baseSymbolTitle: string;
+    sellOpenPositionCount: number;
+    baseSymbolRemainAsset: number;
+    totalCoveredCallCount: number;
+    totalBullCallCount: number;
+    totalBearPutCount: number;
+    totalRemainPositionContract: number
+    customerTitle : string
+}

@@ -218,6 +218,7 @@ const Drafts: FC<IDraft> = () => {
                     suppressColumnMoveAnimation={true}
                     onGridSizeChanged={({ api }) => api.sizeColumnsToFit()}
                     onRowDataUpdated={({ api }) => api.sizeColumnsToFit()}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
         </div>

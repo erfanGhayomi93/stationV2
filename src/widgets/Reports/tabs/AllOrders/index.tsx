@@ -211,6 +211,7 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
                     animateRows={true}
                     suppressRowVirtualisation={true}
                     ref={gridRef}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
 

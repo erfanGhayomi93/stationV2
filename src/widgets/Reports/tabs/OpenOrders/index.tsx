@@ -218,6 +218,7 @@ const OpenOrders: FC<IOpenOrders> = () => {
                     enableBrowserTooltips={true}
                     animateRows={true}
                     suppressRowVirtualisation={true}
+                    onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
             {detailModalState?.isOpen && (
