@@ -4,7 +4,7 @@
 	--rg-dp-active-color: theme("colors.gray.600");
 	--rg-dp-active-border-color: theme("colors.L.info.100");
 	--rg-dp-icon-color: theme("colors.L.gray.600");
-	--rg-dp-to-color: theme("colors.L.gray.500");
+	--rg-dp-to-color: theme("colors.L.gray.700");
 	--rg-db-disabled-color: theme("colors.L.gray.500");
 	--rg-dp-height: 2rem;
 	--rg-dp-border-radius: 4px;
@@ -67,7 +67,7 @@
 	direction: ltr;
 	height: var(--rg-dp-height);
 	background-color: transparent;
-	color: theme('colors.L.gray.700');
+	color: var(--rg-dp-to-color);
 	padding: 0;
 	text-align: left;
 	width: 2.4rem;

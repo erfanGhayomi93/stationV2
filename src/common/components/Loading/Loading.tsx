@@ -34,7 +34,7 @@ const Loading = ({ label, spinnerSize, spinnerExists = true, textExists = true, 
 					/>}
 
 					{textExists && (
-						<span className={clsx(classes?.label ?? 'text-sm text-L-gray-600 dark:text-D-gray-600')}>
+						<span className={clsx(classes?.label ?? 'text-sm text-L-gray-600 dark:text-D-gray-300')}>
 							{label ?? (t('common.loading') + ' ...')}
 						</span>
 					)}
