@@ -14,6 +14,7 @@ import { setSelectedSymbol } from 'src/redux/slices/option';
 import AGActionCell from 'src/common/components/AGActionCell';
 import DetailModal from './modals/DetailModal';
 import AGHeaderSearchInput from 'src/common/components/AGTable/HeaderSearchInput';
+import ConfirmationModal from 'src/common/components/ConfirmModal/ConfirmationModal';
 
 type IOpenOrders = {
 };
@@ -35,8 +36,19 @@ const OpenOrders: FC<IOpenOrders> = () => {
 
     const { mutate: deleteOrder } = useSingleDeleteOrders();
 
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<Record<string, number>>({});
+
+
     const handleDelete = (data: IOrderGetType | undefined) => {
-        data && deleteOrder(data?.orderId);
+        data?.orderId && setIsConfirmModalOpen({ id: data?.orderId })
+    };
+
+
+    const handleConfirm = () => {
+        if (!!isConfirmModalOpen.id) {
+            deleteOrder(isConfirmModalOpen.id)
+            setIsConfirmModalOpen({})
+        }
     };
 
     const handleEdit = (data: IOrderGetType | undefined) => {
@@ -221,8 +233,21 @@ const OpenOrders: FC<IOpenOrders> = () => {
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
+
+
             {detailModalState?.isOpen && (
                 <DetailModal isOpen={detailModalState.isOpen} onClose={handleInfoClose} modalData={detailModalState?.data} />
+            )}
+
+            {!!isConfirmModalOpen.id && (
+                <ConfirmationModal
+                    isOpen={!!isConfirmModalOpen.id}
+                    title={'حذف'}
+                    description={'آیا از حذف رکورد اطمینان دارید؟'}
+                    onConfirm={handleConfirm}
+                    onCancel={() => setIsConfirmModalOpen({})}
+                    confirmBtnLabel="تایید"
+                />
             )}
         </div>
     );

@@ -1,46 +1,54 @@
 import Tippy from '@tippyjs/react';
-import React, { useState } from 'react';
+import React, { FC, memo, useEffect, useMemo, useState } from 'react';
 import { CopyIcon, DeleteIcon, EditIcon, InfoFillIcon, SendIcon } from 'src/common/icons';
 import ConfirmationModal from '../ConfirmModal/ConfirmationModal';
 import { IProps, TButtons } from './agActionCell.t';
 
-const AGActionCell = (props: IProps) => {
+const AGActionCell: FC<IProps> = ({
+    data,
+    requiredButtons,
+    disableInfo,
+    disableCopy,
+    disableDelete,
+    disableEdit,
+    disableSend,
+    onInfoClick,
+    onCopyClick,
+    onDeleteClick,
+    onEditClick,
+    onSendClick,
+    infoStyle = {},
+    sendStyle = {},
+    editStyle = {},
+    copyStyle = {},
+    deleteStyle = {},
+    infoClass = '',
+    sendClass = '',
+    editClass = '',
+    copyClass = '',
+    deleteClass = '',
+    hideCopy = false,
+    hideDelete = false,
+    hideEdit = false,
+    hideSend = false,
+    hideInfo = false,
+    leftNode,
+    rightNode
+}) => {
     //
-    const {
-        data,
-        requiredButtons,
-        disableInfo,
-        disableCopy,
-        disableDelete,
-        disableEdit,
-        disableSend,
-        onInfoClick,
-        onCopyClick,
-        onDeleteClick,
-        onEditClick,
-        onSendClick,
-        infoStyle = {},
-        sendStyle = {},
-        editStyle = {},
-        copyStyle = {},
-        deleteStyle = {},
-        infoClass = '',
-        sendClass = '',
-        editClass = '',
-        copyClass = '',
-        deleteClass = '',
-        hideCopy = false,
-        hideDelete = false,
-        hideEdit = false,
-        hideSend = false,
-        hideInfo = false,
-        deleteModalTitle = 'حذف',
-        deleteModalDescription = 'آیا از حذف رکورد اطمینان دارید؟',
-        leftNode,
-        rightNode,
-    } = props;
+    // const {
+    //    
+    // } = props;
 
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    // const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(isConfirmModalOpenParent ?? false);
+
+    // const handleSetIsConfirm = (flag: boolean) => {
+    //     if(setIsConfirmModalOpen){
+    //         setIsConfirmModalOpen(flag)
+    //         return;
+    //     }
+    //     setIsConfirmModalOpen
+    // }
 
     const allButtons: TButtons = [
         {
@@ -82,7 +90,7 @@ const AGActionCell = (props: IProps) => {
         {
             buttonType: 'Delete',
             disabled: disableDelete,
-            onClick: () => setIsConfirmModalOpen(true),
+            onClick: () => onDeleteClick && onDeleteClick(data),
             Icon: DeleteIcon,
             title: 'حذف',
             styles: deleteStyle,
@@ -92,12 +100,6 @@ const AGActionCell = (props: IProps) => {
 
     const requestedButtons = allButtons.filter(({ buttonType }) => requiredButtons.includes(buttonType));
 
-    const handleConfirm = () => {
-        if (onDeleteClick) {
-            onDeleteClick(data);
-            setIsConfirmModalOpen(false);
-        }
-    };
 
     return (
         <div className="flex items-center justify-center gap-3 py-2 h-full">
@@ -128,18 +130,9 @@ const AGActionCell = (props: IProps) => {
                 );
             })}
             {leftNode && leftNode}
-            {isConfirmModalOpen && (
-                <ConfirmationModal
-                    isOpen={isConfirmModalOpen}
-                    title={deleteModalTitle}
-                    description={deleteModalDescription}
-                    onConfirm={handleConfirm}
-                    onCancel={() => setIsConfirmModalOpen(false)}
-                    confirmBtnLabel="تایید"
-                />
-            )}
+
         </div>
     );
 };
 
-export default AGActionCell;
+export default memo(AGActionCell);

@@ -7,19 +7,12 @@ import AXIOS from 'src/api/axiosInstance';
 import { Apis } from 'src/common/hooks/useApiRoutes/useApiRoutes';
 import { PandLStatusOptions, RequestStatusOptions, SettlementTypeOptions, initialFilterState } from '../../constants';
 import { GridApi, ICellRendererParams } from 'ag-grid-community';
-// import AGActionCell from 'src/common/components/AGActionCell';
-// import { ExtraButtons } from '../commenComponents/ExtraButtons';
 import { cleanObjectOfFalsyValues, datePeriodValidator } from 'src/utils/helpers';
 import { t } from 'i18next';
-// import PhysicalSettlementModal from './modals/PhysicalSettlementModal';
-// import { useDeletePhysicalSettlement } from 'src/app/queries/option';
-// import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
-// import { useAppSelector } from 'src/redux/hooks';
-// import { getUserData } from 'src/redux/slices/global';
 
 type TResponse = {
     result: {
@@ -76,11 +69,8 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
     const filterState = useFilterState();
     const setFilterState = useFilterStateDispatch();
     const [params, setParams] = useState(cleanObjectOfFalsyValues(filterState));
-    // const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
-    // const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
 
-    // const { userName } = useAppSelector(getUserData)
 
     const { data, isLoading, refetch } = useQuery(
         ['ResultSettlement', params],
@@ -88,14 +78,6 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
         { enabled: false },
     );
 
-    // const { mutate: deletePhysicalSettlement } = useDeletePhysicalSettlement({
-    //     onSuccess: (result) => {
-    //         if (result) {
-    //             onSuccessNotif({ title: 'عملیات با موفقیت انجام شد' });
-    //             refetch();
-    //         }
-    //     },
-    // });
 
     useEffect(() => {
         refetch();
@@ -105,11 +87,6 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
         return options.find((item) => item.value === value)?.label;
     };
 
-    // const handleOnSettlementClick = (data?: Record<string, any>) => {
-    //     setSettlementModal({ isOpen: true, data });
-    // };
-
-    // const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, userName: userName });
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
@@ -225,62 +202,10 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
                 headerName: 'وضعیت',
                 valueFormatter: ({ value }) => value ? t('options.type_status_' + value) : ""
             },
-
-            // {
-            //     field: 'closingPrice',
-            //     headerName: 'آخرین قیمت',
-            //     type: 'sepratedNumber',
-            // },
-            // {
-            //     field: 'baseClosingPrice',
-            //     headerName: 'آخرین قیمت دارایی پایه',
-            //     type: 'sepratedNumber',
-            // },
-
-
-            // {
-            //     field: 'openPositionCount',
-            //     headerName: 'تعداد موقعیت باز',
-            //     type: 'sepratedNumber',
-            // },
-            // {
-            //     field: 'doneCount',
-            //     headerName: 'تعداد اعمال شده',
-            //     type: 'sepratedNumber',
-            // },
-            // {
-            //     field: 'doneCount',
-            //     headerName: 'تعداد نکول',
-            //     type: 'sepratedNumber',
-            // },
-
             {
                 field: 'applicant',
                 headerName: 'درخواست کننده',
             },
-            // {
-            //     sortable: false,
-            //     headerName: 'عملیات',
-            //     cellRenderer: (row: ICellRendererParams<any>) => (
-            //         <AGActionCell
-            //             data={row?.data}
-            //             requiredButtons={['Delete']}
-            //             onDeleteClick={() => handleDelete(row?.data)}
-            //             disableDelete={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
-            //             disableEdit={!row?.data?.enabled || !(row?.data?.status === 'InSendQueue' || row?.data?.status === 'Registered')}
-            //             // onEditClick={() => setUpdateSettlementModal({ isOpen: true, data: row?.data })}
-            //             rightNode={
-            //                 <ExtraButtons
-            //                     disableSettlement={row?.data?.status !== 'Draft' || !Boolean(row?.data?.enabled)}
-            //                     onHistoryClick={() => setHistoryModalState({ isOpen: true, data: row?.data })}
-            //                     onSettlementClick={() => handleOnSettlementClick(row?.data)}
-            //                 />
-            //             }
-            //         />
-            //     ),
-            //     lockVisible: true,
-            //     minWidth: 220,
-            // },
         ],
         [],
     );
@@ -322,16 +247,6 @@ const ResultSettlement = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<
                 hasPreviousPage={data?.hasPreviousPage}
                 PaginatorHandler={PaginatorHandler}
             />
-            {/* {settlementModal?.isOpen && (
-                <PhysicalSettlementModal settlementState={settlementModal} setSettlementState={setSettlementModal} onClose={() => refetch()} />
-            )} */}
-            {/* {updateSettlementModal?.isOpen && (
-                <UpdatePhysicalSettlement
-                    settlementState={updateSettlementModal}
-                    setSettlementState={setUpdateSettlementModal}
-                    onClose={() => refetch()}
-                />
-            )} */}
             {historyModalState?.isOpen && <HistoryModal title="فیزیکی" state={historyModalState} setState={setHistoryModalState} />}
         </div>
     );

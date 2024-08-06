@@ -36,7 +36,7 @@ export const customerTypeFieldOptions = [
 
 export const aggregateOnFieldOptions = [
     { value: 'None', label: i18next.t('common.none') },
-    // { value: 'Both', label: i18next.t('common.all') },
+    { value: 'Customer', label: i18next.t('FilterFieldLabel.Customer') },
     { value: 'Both', label: i18next.t('FilterFieldLabel.CustomerSymbol') },
     { value: 'Symbol', label: i18next.t('FilterFieldLabel.Symbol') },
 ];

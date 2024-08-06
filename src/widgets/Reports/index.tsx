@@ -17,7 +17,7 @@ import { setIsOpenBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
 
 const Reports = () => {
     //
-    const [activeTab, setActiveTab] = useState('AllOrders');
+    const [activeTab, setActiveTab] = useState('Drafts');
     const [aggregateType, setAggregateType] = useState<IAggregate>('');
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });

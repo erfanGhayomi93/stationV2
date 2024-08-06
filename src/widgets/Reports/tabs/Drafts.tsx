@@ -1,5 +1,5 @@
 import { ICellRendererParams } from 'ag-grid-community';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useDeleteDraft, useGetDraft } from 'src/app/queries/draft';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import WidgetLoading from 'src/common/components/WidgetLoading';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { pushEngine } from 'src/ls/pushEngine';
 import { queryClient } from 'src/app/queryClient';
 import { LastTradedPrice } from 'src/widgets/Watchlist/components/CellRenderer';
+import ConfirmationModal from 'src/common/components/ConfirmModal/ConfirmationModal';
 
 
 type IDraft = {};
@@ -23,6 +24,8 @@ type IDraft = {};
 const Drafts: FC<IDraft> = () => {
 
     const { t } = useTranslation()
+
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<Record<string, number>>({});
 
     const { sendOrders } = useSendOrders();
 
@@ -42,7 +45,6 @@ const Drafts: FC<IDraft> = () => {
                     items: duplicatedSymbolISINs,
                     fields: ['lastTradedPrice', 'lastTradedPriceVarPercent'],
                     onFieldsUpdate: ({ changedFields, itemName }) => {
-
                         queryClient.setQueryData(['draftList'], (oldData: IDraftResponseType[] | undefined) => {
                             if (oldData) {
                                 const draft: IDraftResponseType[] = JSON.parse(JSON.stringify(oldData));
@@ -67,6 +69,7 @@ const Drafts: FC<IDraft> = () => {
         }
     });
 
+
     useEffect(() => {
         return () => pushEngine.unSubscribe('lastTraderPriceUpdateINDraft');
     }, [])
@@ -79,7 +82,7 @@ const Drafts: FC<IDraft> = () => {
     });
 
     const handleDelete = (data?: IDraftResponseType) => {
-        data?.orderId && mutate(data?.orderId);
+        data?.orderId && setIsConfirmModalOpen({ id: data?.orderId })
     };
 
     const handleSend = async (data?: IDraftResponseType) => {
@@ -141,6 +144,13 @@ const Drafts: FC<IDraft> = () => {
 
     const valueFormatterCustomers = (value: ICustomers[]) => {
         return String(value?.map((item) => item.customerTitle));
+    };
+
+    const handleConfirm = () => {
+        if (!!isConfirmModalOpen.id) {
+            mutate(isConfirmModalOpen.id);
+            setIsConfirmModalOpen({})
+        }
     };
 
     const columns = useMemo(
@@ -221,6 +231,17 @@ const Drafts: FC<IDraft> = () => {
                     onRowClicked={({ data }) => data?.symbolISIN && appDispatch(setSelectedSymbol(data?.symbolISIN))}
                 />
             </WidgetLoading>
+
+            {!!isConfirmModalOpen.id && (
+                <ConfirmationModal
+                    isOpen={!!isConfirmModalOpen.id}
+                    title={'حذف'}
+                    description={'آیا از حذف رکورد اطمینان دارید؟'}
+                    onConfirm={handleConfirm}
+                    onCancel={() => setIsConfirmModalOpen({})}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };

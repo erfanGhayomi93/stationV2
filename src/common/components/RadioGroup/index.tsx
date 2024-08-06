@@ -14,12 +14,12 @@ const RadioField = ({ label = '', value, onChange, options }: Props) => {
             <RadioGroup.Label className=" text-L-gray-600 dark:text-D-gray-700 mb-2 text-xs">{label + ':'}</RadioGroup.Label>
             <div className="flex items-center gap-2 my-2 flex-nowrap">
                 {options.map((item, index) => (
-                    <div key={index} className=" w-full flex justify-center items-center h-full ">
+                    <div key={index} className=" w-full flex justify-center items-center h-full flex-col">
                         <RadioGroup.Option key={index} value={item.value} className={'block w-full'}>
                             {({ checked }) => (
                                 <div
                                     className={clsx(
-                                        'flex-1 rounded-md flex justify-center items-center py-2 cursor-pointer transition-all duration-200',
+                                        'flex-1 rounded-md flex justify-center items-center py-2 cursor-pointer transition-all duration-200 text-nowrap',
                                         checked
                                             ? 'text-L-primary-50 border border-L-primary-50 bg-L-gray-50'
                                             : 'text-L-gray-600 border border-transparent bg-L-gray-200 ',

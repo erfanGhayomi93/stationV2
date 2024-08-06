@@ -18,6 +18,7 @@ import HistoryModal from '../commenComponents/HistoryModal';
 import dayjs from 'dayjs';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import ConfirmationModal from 'src/common/components/ConfirmModal/ConfirmationModal';
 
 
 type TResponse = {
@@ -78,6 +79,8 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
     const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<TCashDeleteBody>();
+
 
     const { data, isLoading, refetch } = useQuery(
         ['CashSettlement', params],
@@ -106,7 +109,9 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deleteCashSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant : data?.applicant });
+    const handleDelete = (data?: Record<string, any>) => {
+        setIsConfirmModalOpen({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant: data?.applicant })
+    }
 
     const colDefs = useMemo(
         (): ColDefType<TResponse['result'][number]>[] => [
@@ -126,7 +131,7 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
                 field: 'openPositionCount',
                 headerName: 'تعداد موقعیت باز',
                 type: 'sepratedNumber',
-                minWidth : 150
+                minWidth: 150
             },
             {
                 headerName: 'سمت',
@@ -231,6 +236,14 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
         setParams((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
     };
 
+    const handleConfirm = () => {
+        if (!!isConfirmModalOpen?.id) {
+            // mutate(isConfirmModalOpen.id);
+            deleteCashSettlement({ id: isConfirmModalOpen?.id, customerISIN: isConfirmModalOpen?.customerISIN , symbolISIN: isConfirmModalOpen?.symbolISIN, applicant: isConfirmModalOpen?.applicant });
+            setIsConfirmModalOpen(undefined)
+        }
+    };
+
     const handleSubmit = () => {
         if (datePeriodValidator(filterState?.StartDate, filterState?.EndDate)) {
             setParams(cleanObjectOfFalsyValues(filterState));
@@ -279,6 +292,17 @@ const Cash = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<any>
                 />
             )}
             {historyModalState?.isOpen && <HistoryModal title="نقدی" state={historyModalState} setState={setHistoryModalState} />}
+
+            {!!isConfirmModalOpen?.id && (
+                <ConfirmationModal
+                    isOpen={!!isConfirmModalOpen?.id}
+                    title={'حذف'}
+                    description={'آیا از حذف رکورد اطمینان دارید؟'}
+                    onConfirm={handleConfirm}
+                    onCancel={() => setIsConfirmModalOpen(undefined)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };

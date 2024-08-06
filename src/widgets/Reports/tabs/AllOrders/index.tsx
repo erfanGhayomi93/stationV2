@@ -15,6 +15,7 @@ import { setSelectedSymbol } from 'src/redux/slices/option';
 import { dateTimeFormatter, seprateNumber, valueFormatterSide } from 'src/utils/helpers';
 import DetailModal from '../OpenOrders/modals/DetailModal';
 import { AgGridReact } from 'ag-grid-react';
+import ConfirmationModal from 'src/common/components/ConfirmModal/ConfirmationModal';
 
 interface IAllOrdersProps {
 
@@ -29,6 +30,8 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
     const gridRef = useRef<AgGridReact>(null);
 
     const [detailModalState, setDetailModalState] = useState<{ isOpen: boolean; data?: IOrderGetType }>({ isOpen: false, data: undefined });
+
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<Record<string, number>>({});
 
     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
@@ -63,7 +66,14 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
     };
 
     const handleDelete = (data: IOrderGetType | undefined) => {
-        data && deleteOrder(data?.orderId);
+        data?.orderId && setIsConfirmModalOpen({ id: data?.orderId })
+    };
+
+    const handleConfirm = () => {
+        if (!!isConfirmModalOpen.id) {
+            deleteOrder(isConfirmModalOpen.id);
+            setIsConfirmModalOpen({})
+        }
     };
 
     const columns = useMemo(
@@ -224,6 +234,16 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
                     />
                 )
             }
+            {!!isConfirmModalOpen.id && (
+                <ConfirmationModal
+                    isOpen={!!isConfirmModalOpen.id}
+                    title={'حذف'}
+                    description={'آیا از حذف رکورد اطمینان دارید؟'}
+                    onConfirm={handleConfirm}
+                    onCancel={() => setIsConfirmModalOpen({})}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     )
 }

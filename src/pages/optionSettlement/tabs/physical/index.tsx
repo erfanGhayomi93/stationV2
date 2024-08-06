@@ -17,6 +17,7 @@ import UpdatePhysicalSettlement from './modals/UpdatePhysicalSettlement';
 import HistoryModal from '../commenComponents/HistoryModal';
 import { useFilterState, useFilterStateDispatch } from '../../filterContext';
 import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import ConfirmationModal from 'src/common/components/ConfirmModal/ConfirmationModal';
 
 type TResponse = {
     result: {
@@ -77,6 +78,8 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
     const [settlementModal, setSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [updateSettlementModal, setUpdateSettlementModal] = useState<TModalState>({ isOpen: false, data: {} });
     const [historyModalState, setHistoryModalState] = useState<TModalState>({ isOpen: false, data: {} });
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<TCashDeleteBody>();
+
 
 
     const { data, isLoading, refetch } = useQuery(
@@ -106,7 +109,17 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
         setSettlementModal({ isOpen: true, data });
     };
 
-    const handleDelete = (data?: Record<string, any>) => deletePhysicalSettlement({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant: data?.applicant });
+    const handleDelete = (data?: Record<string, any>) => {
+        setIsConfirmModalOpen({ id: data?.id, customerISIN: data?.customerISIN, symbolISIN: data?.symbolISIN, applicant: data?.applicant })
+    }
+
+    const handleConfirm = () => {
+        if (!!isConfirmModalOpen?.id) {
+            // mutate(isConfirmModalOpen.id);
+            deletePhysicalSettlement({ id: isConfirmModalOpen?.id, customerISIN: isConfirmModalOpen?.customerISIN, symbolISIN: isConfirmModalOpen?.symbolISIN, applicant: isConfirmModalOpen?.applicant });
+            setIsConfirmModalOpen(undefined)
+        }
+    };
 
     const colDefs = useMemo(
         (): ColDefType<any>[] => [
@@ -277,6 +290,17 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
                 />
             )}
             {historyModalState?.isOpen && <HistoryModal title="فیزیکی" state={historyModalState} setState={setHistoryModalState} />}
+
+            {!!isConfirmModalOpen?.id && (
+                <ConfirmationModal
+                    isOpen={!!isConfirmModalOpen?.id}
+                    title={'حذف'}
+                    description={'آیا از حذف رکورد اطمینان دارید؟'}
+                    onConfirm={handleConfirm}
+                    onCancel={() => setIsConfirmModalOpen(undefined)}
+                    confirmBtnLabel="تایید"
+                />
+            )}
         </div>
     );
 };
