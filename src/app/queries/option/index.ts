@@ -18,6 +18,18 @@ const getSumPrice = async (params: IReqSumPrice , signal : AbortSignal | undefin
 export const useGetSumPrice = (params: IReqSumPrice , options?: UseQueryOptions<IResponseSumPrice>) =>
     useQuery<IResponseSumPrice>(['sumPrice', params.price, params.quantity], ({signal}) => getSumPrice(params,signal), { ...options});
 
+
+const getMiniPortfolios = async (params?: IStrategiesReportParams) => {
+    const { data } = await AXIOS.get<GlobalApiResponseType<IResponseMiniPortfolios[]>>(Apis().Portfolio.MiniPortfolios, { params});
+    return data.result;
+};
+
+export const useGetMiniPortfolios = (params?: IStrategiesReportParams , options ?: UseQueryOptions<IResponseMiniPortfolios[]>) =>
+    useQuery<IResponseMiniPortfolios[]>(['MiniPortfolios', params?.customerISIN], () => getMiniPortfolios(params) , options);
+
+
+
+
 const getSymbolBaseAssetsByOption = async (params: IReqGetSymbolBaseAssetsByOption) => {
     const { data } = await AXIOS.get<GlobalApiResponseType<{asset: number , isFreeze : boolean}>>(Apis().Portfolio.GetSymbolBaseAssetsByOption, { params});
     return data.result;

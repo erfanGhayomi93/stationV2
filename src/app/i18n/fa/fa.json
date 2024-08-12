@@ -247,7 +247,7 @@
         "Call_Sell_Now_Allowed": "شما مجوز معامله اختیار ندارید. لطفا با کارگزاری تماس بگیرید.",
         "Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده از جانب مشتریان به هسته معاملات مسدود می باشد.",
         "Contract_InCreasement_DisAllowed": "در حال حاضر ارسال سفارش فزاینده از جانب مشتریان به هسته معاملات مسدود می باشد.",
-        "Group_not_authorized_for_this_Trader": "",
+        "Group_not_authorized_for_this_Trader": "وضعیت گروه اجازه فعالیت را نمی دهد",
         "Put_Sell_Now_Allowed": "شما مجوز معامله اختیار ندارید. لطفا با کارگزاری تماس بگیرید.",
         "Option_Permission_NotSet": "مجوز معامله اختیار شما غیر فعال است. لطفا با کارگزاری تماس بگیرید.",
         "Order_ValidityDate_Not_Valid": "اعتبار سفارش نامعتبر می‌باشد.",
@@ -1004,7 +1004,8 @@
         "cant_freeze": "امکان فریز نماد های اختیار وجود ندارد",
         "DuplicateRequest": "سهم انتخاب شده از قبل فریز شده است",
         "Not_Enough_Remain": "مانده کافی نمی‌باشد.",
-        "Too Many Request": "لطفا چند دقیقه دیگر مجدد امتحان کنید"
+        "Too Many Request": "لطفا چند دقیقه دیگر مجدد امتحان کنید",
+        "DoNotHavePermissionToRemoveThisRecord" : "شما مجوز ایجاد تغییر و حذف درخواست فوق را ندارید"
     },
     "alerts": {
         "bs_baseSymbol_is_not_freezed": "نماد پایه فریز نشده است",

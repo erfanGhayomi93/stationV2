@@ -162,7 +162,7 @@ const Drafts: FC<IDraft> = () => {
                 valueFormatter: ({ value }) => valueFormatterCustomers(value),
             },
             {
-                headerName: 'نام نماد',
+                headerName: 'نماد',
                 field: 'symbolTitle',
                 headerComponent: AGHeaderSearchInput,
             },
@@ -191,8 +191,7 @@ const Drafts: FC<IDraft> = () => {
                 field: 'lastTradedPrice',
                 type: 'sepratedNumber',
                 cellRenderer: LastTradedPrice,
-                minWidth: 100,
-                maxWidth: 100
+                maxWidth: 140
             },
             {
                 headerName: 'عملیات',

@@ -6,40 +6,38 @@ import FilterBlock from '../FilterBlock';
 import { useTranslation } from 'react-i18next';
 import SymbolMiniSelect from '../SymbolMiniSelect';
 import { useGetOrders } from 'src/app/queries/order';
-import { queryClient } from 'src/app/queryClient';
-import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
-import { getSelectedSymbol, setSelectedSymbol } from 'src/redux/slices/option';
 import Header from './components/Header';
 import ipcMain from 'src/common/classes/IpcMain';
+import CustomerMegaSelect from '../CustomerMegaSelect';
+import { IBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
 
 interface IProps {
-    isOpen: boolean;
+    isOpen: IBuySellGroup["isOpen"];
     setIsOpen: (flag: boolean) => void;
+    mode: IBuySellGroup["mode"]
 }
 
 export interface IData extends IOrderGetType {
 }
 
-const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
+const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
+    //
     const { t } = useTranslation()
 
     const [isInfoOpen, setIsInfoOpen] = useState(false);
-
-    const selectedSymbol = useAppSelector(getSelectedSymbol)
-
-    const dispatch = useAppDispatch()
-
-    const symbolData = queryClient.getQueryData<SymbolGeneralInfoType>(['SymbolGeneralInfo', selectedSymbol])?.symbolData;
 
     const handleCloseModal = () => setIsOpen(false);
 
     const [symbolIsinSearch, setSymbolIsinSearch] = useState<SymbolSearchResult[]>([])
 
+    const [customerISINsSearch, setcustomerISINsSearch] = useState<IGoCustomerSearchResult[]>([])
+
     const [dataTable, setdataTable] = useState<IData[]>([])
 
     const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders(
-        { GtOrderStateRequestType: 'OnBoard', symbolISIN: selectedSymbol },
+        { GtOrderStateRequestType: 'OnBoard', symbolISIN: symbolIsinSearch[0]?.symbolISIN, CustomerISIN: !!customerISINsSearch.length ? customerISINsSearch.map(x => x.customerISIN) : undefined },
         {
+            enabled: !!symbolIsinSearch[0]?.symbolISIN,
             onSuccess(data) {
                 if (data.length > 0) setdataTable(data)
                 else setdataTable([])
@@ -56,12 +54,10 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
         refetchOpenOrders()
     }
 
+    // useEffect(() => {
+    //     selectedSymbol && refetchOpenOrders()
+    // }, [selectedSymbol])
 
-    useEffect(() => {
-        selectedSymbol && refetchOpenOrders()
-    }, [selectedSymbol])
-
-   
 
     const onChangeCustomerData = useCallback(
         (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => {
@@ -95,7 +91,6 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
     }, [])
 
 
-
     return (
         <Modal
             isOpen={isOpen}
@@ -103,17 +98,24 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
             style={{ width: isInfoOpen ? 1250 : 900 }}
             className={clsx('h-[500px] flex flex-col border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300 bg-L-basic dark:bg-D-basic')}
         >
-            <Header handleClose={handleCloseModal} symbolTitle={symbolData?.symbolTitle || ''} symbolState={symbolData?.symbolState || ''} />
+            <Header handleClose={handleCloseModal} symbolTitle={`${mode === 'EDIT' ? 'ویرایش' : 'حذف'} گروهی نماد`} mode={mode} />
 
 
-            <div className='m-3 mb-0'>
+            <div className='m-3 mb-0 flex gap-x-4'>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="w-1/4">
                     <SymbolMiniSelect
                         selected={symbolIsinSearch}
                         setSelected={(selected) => {
                             setSymbolIsinSearch([selected[0]])
-                            selected[0]?.symbolISIN && dispatch(setSelectedSymbol(selected[0]?.symbolISIN))
+                            // selected[0]?.symbolISIN && dispatch(setSelectedSymbol(selected[0]?.symbolISIN))
                         }}
+                    />
+                </FilterBlock>
+
+                <FilterBlock label={t('FilterFieldLabel.Customer')} className="w-1/4">
+                    <CustomerMegaSelect
+                        selected={customerISINsSearch}
+                        setSelected={(value) => setcustomerISINsSearch(value)}
                     />
                 </FilterBlock>
             </div>
@@ -126,6 +128,8 @@ const BuySellGroupModal = ({ isOpen, setIsOpen }: IProps) => {
                         onChangeCustomerData={onChangeCustomerData}
                         // refetchOrders={() => refetchOpenOrders()}
                         loadingOrders={loadingOrders}
+                        handleCloseModal={handleCloseModal}
+                        mode={mode}
 
                     />
                     {/* <Footer data={customersData} symbolData={symbolData} /> */}

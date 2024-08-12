@@ -50,7 +50,7 @@ export const LastTradedPrice = ({ data, value, valueFormatted }: ICellRendererPa
             );
 
         return null;
-    };
+    }
 
 
     const colorClass = (change: number) => {
@@ -64,41 +64,36 @@ export const LastTradedPrice = ({ data, value, valueFormatted }: ICellRendererPa
 
     return (
         <div
-            className={clsx('flex justify-center items-center dir-ltr w-full gap-2', {
+            className={clsx('flex justify-center items-center w-full px-3', {
                 'text-L-success-200 dark:text-D-success-200': cellValue > changedValue,
                 'text-L-error-200 dark:text-D-error-200': cellValue < changedValue,
             })}
         >
-            <span
-                className={clsx('text-center whitespace-nowrap  max-w-full', {
+            <div
+                className={clsx('text-center whitespace-nowrap w-full flex gap-x-2 flex-1', {
                     'font-extrabold': cellValue !== changedValue,
                 })}
-                style={{ width: 'calc(100% - 28px)' }}
+            // style={{ width: 'calc(100% - 28px)' }}
             >
-                <span>{valueFormatted}</span>
+                <p className='flex-1 text-right'>{valueFormatted}</p>
 
-                <span
-                    className={`ml-1 ${colorClass(data?.lastTradedPriceVarPercent as number)}`}
+                <p
+                    className={`flex-1 text-left ${colorClass(data?.lastTradedPriceVarPercent as number)}`}
                 >
-                    {`\u200E${data?.lastTradedPriceVarPercent}`}%</span>
+                    {`\u200E${data?.lastTradedPriceVarPercent}`}%
+                </p>
 
-            </span>
+            </div>
 
-            <span style={{ width: '12px' }} className="absolute right-2">
+            <span className='w-3 absolute right-1' >
                 {iconRenderer()}
             </span>
         </div>
-        //         <div className="flex items-center justify-center w-full flex-row ltr">
-        //             <span>{seprateNumber(data?.lastTradedPrice)}</span>
-        // 
-        //             <span className={` ${colorClass(data?.lastTradedPriceVarPercent as number)}`}>
-        //                 {`\u200E${data?.lastTradedPriceVarPercent}`}%
-        //             </span>
-        //         </div>
     );
 };
 
 export const ClosingPrice = ({ data }: ICellRendererParams<ISymbolType>) => {
+
     const colorClass = (change: number) => {
         if (+change > 0) return 'text-L-success-200 dark:text-D-success-200';
 
@@ -107,10 +102,11 @@ export const ClosingPrice = ({ data }: ICellRendererParams<ISymbolType>) => {
         return 'text-L-gray-500 dark:text-D-gray-500';
     };
 
+
     return (
-        <div className="flex items-center justify-center w-full flex-row-reverse">
-            <div>{seprateNumber(data?.closingPrice)}</div>
-            <div>
+        <div className="flex items-center justify-center w-full flex-row-reverse gap-x-2">
+            <div className='flex-1 text-right'>{seprateNumber(data?.closingPrice)}</div>
+            <div className='flex-1 text-left'>
                 <span className={`ml-1 ${colorClass(data?.closingPriceVarPercent as number)}`}>{`\u200E${data?.closingPriceVarPercent}`}%</span>
             </div>
         </div>

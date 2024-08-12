@@ -2,7 +2,7 @@ import Tippy from '@tippyjs/react';
 import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TabsList from 'src/common/components/TabsList';
-import { Check, ExcelIcon, HistoryIcon, Refresh2Icon } from 'src/common/icons';
+import { Check, DeleteIcon, EditIcon, ExcelIcon, HistoryIcon, Refresh2Icon } from 'src/common/icons';
 import DoneOrders from './tabs/DoneOrders';
 import Drafts from './tabs/Drafts';
 import OpenOrders from './tabs/OpenOrders';
@@ -11,16 +11,24 @@ import { OpenPosition } from './tabs/OpenPosition';
 import clsx from 'clsx';
 import { t } from 'i18next';
 import AllOrders from './tabs/AllOrders';
-import { useAppDispatch } from 'src/redux/hooks';
-import { setIsOpenBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
+import { useAppDispatch, useAppSelector } from 'src/redux/hooks';
+import { getBuySellGroup, setIsOpenBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
+import BuySellGroupModal from 'src/common/components/BuySellGroupModal';
 
 
 const Reports = () => {
     //
-    const [activeTab, setActiveTab] = useState('Drafts');
+    const [activeTab, setActiveTab] = useState('AllOrders');
     const [aggregateType, setAggregateType] = useState<IAggregate>('');
 
     const [requestsTabData, setRequestsTabData] = useState({ allCount: 0, selectedCount: 0 });
+
+    const getBuySellGroupData = useAppSelector(getBuySellGroup)
+
+    const setIsOpenBuySellGroupMethod = (isOpen: boolean) => {
+        appDispatch(setIsOpenBuySellGroup({ isOpen: isOpen, mode: "EDIT" }))
+    }
+
 
     const requestsRef = useRef({ sendRequests: () => { }, sendAllRequests: () => { }, getOfflineRequestsExcel: () => { }, refetchOffline: () => { } });
     const AllOrderRef = useRef({ removeGroupRequest: () => { } })
@@ -194,7 +202,7 @@ const Reports = () => {
                     <button
                         className="rounded h-8 px-2 flex justify-center items-center text-L-basic dark:text-D-basic bg-L-success-200 hover:bg-L-success-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-L-success-200"
                         onClick={() => requestsRef.current.sendRequests()}
-                        disabled={!!!requestsTabData.selectedCount}
+                        disabled={!requestsTabData.selectedCount}
                     >
                         {`ارسال درخواست ${handleSendRequestsButtonTitle()}`}
                     </button>
@@ -217,13 +225,23 @@ const Reports = () => {
                     </Tippy>
                 </div>
             ) : (activeTab === 'AllOrders' || activeTab === 'OpenOrders') ? (
-                <div>
+                <div className='flex gap-x-3'>
                     <button
-                        className="rounded h-8 px-2 flex justify-center items-center text-L-info-100 dark:text-D-info-100 bg-L-basic dark:bg-D-basic disabled:opacity-50 disabled:cursor-not-allowed border border-L-info-100  dark:border-D-info-100"
-                        onClick={() => appDispatch(setIsOpenBuySellGroup(true))}
+                        className="rounded px-2 flex justify-center items-center gap-x-1 text-L-info-100 dark:text-D-info-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => appDispatch(setIsOpenBuySellGroup({ isOpen: true, mode: "EDIT" }))}
                     // disabled={!!!requestsTabData.selectedCount}
                     >
-                        ویرایش و حذف گروهی درخواست
+                        <EditIcon />
+                        ویرایش گروهی
+                    </button>
+
+                    <button
+                        className="rounded px-2 flex justify-center items-center gap-x-1 text-L-error-200 dark:text-D-error-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => appDispatch(setIsOpenBuySellGroup({ isOpen: true, mode: "DELETE" }))}
+                    // disabled={!!!requestsTabData.selectedCount}
+                    >
+                        <DeleteIcon width={15} height={15} />
+                        حذف گروهی
                     </button>
                 </div>
             ) : null}
@@ -259,16 +277,33 @@ const Reports = () => {
     );
 
     return (
-        <TabsList
-            onChange={(idx) => setActiveTab(idx)}
-            selectedIndex={activeTab}
-            items={items}
-            leftNode={leftNode}
-            buttonClass="px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200"
-            selectedButtonClass="px-4 after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold "
-            className='w-full h-full flex flex-col relative text-1.2'
-        />
+        <>
+            <TabsList
+                onChange={(idx) => setActiveTab(idx)}
+                selectedIndex={activeTab}
+                items={items}
+                leftNode={leftNode}
+                buttonClass="px-4 dark:text-D-gray-500 text-L-gray-500 bg-L-gray-200 dark:bg-D-gray-200"
+                selectedButtonClass="px-4 after:dark:bg-D-basic after:bg-L-basic text-L-primary-50 border-t-2 border-L-primary-50 dark:border-D-primary-50 dark:text-D-primary-50 bg-L-basic dark:bg-D-basic font-semibold "
+                className='w-full h-full flex flex-col relative text-1.2'
+            />
+
+            {
+                getBuySellGroupData.isOpen && (
+                    <BuySellGroupModal
+                        isOpen={getBuySellGroupData.isOpen}
+                        setIsOpen={setIsOpenBuySellGroupMethod}
+                        mode={getBuySellGroupData.mode}
+                    />
+                )
+            }
+        </>
+
     );
 };
 
 export default Reports;
+
+
+
+

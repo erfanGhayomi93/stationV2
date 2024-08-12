@@ -345,3 +345,19 @@ interface IResponseStrategiesReport {
     totalRemainPositionContract: number
     customerTitle : string
 }
+
+
+interface IResponseMiniPortfolios {
+      asset: number;
+      commisionPrice: number;
+      isFreezed: boolean;
+      isOption: boolean;
+      freezedCount: number;
+      customerTitle: string;
+      bourseCode: string;
+      customerISIN : string
+      symbol : {
+        symbolTitle : string
+        symbolISIN : string
+      }
+}

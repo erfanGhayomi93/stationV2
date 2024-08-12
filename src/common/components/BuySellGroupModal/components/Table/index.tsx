@@ -12,23 +12,24 @@ import { useGroupDeleteOrders, useGroupModifyOrders } from 'src/app/queries/orde
 import { onInfoNotif } from 'src/handlers/notification';
 import WidgetLoading from 'src/common/components/WidgetLoading';
 import { useTranslation } from 'react-i18next';
+import { IBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
 
 interface IProps {
     data: IData[];
     orders?: IData[];
     onChangeCustomerData: (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => void;
-    // refetchOrders: () => void,
-    loadingOrders: boolean
+    loadingOrders: boolean,
+    handleCloseModal: () => void,
+    mode: IBuySellGroup["mode"]
 }
 
 const Table = (
-    { data, orders, onChangeCustomerData, loadingOrders }: IProps
+    { data, orders, onChangeCustomerData, loadingOrders, handleCloseModal, mode }: IProps
 ) => {
     //
-    const {t} = useTranslation()
-    const gridRef = useRef<AgGridReact<IData>>(null);
+    const { t } = useTranslation()
 
-    // const height = data.length > 2 ? (data.length - 2) * 37 + 148 : 148;
+    const gridRef = useRef<AgGridReact<IData>>(null);
 
     const { mutate: mutateGroupUpdateOrder } = useGroupModifyOrders();
 
@@ -40,7 +41,6 @@ const Table = (
         onChangeCustomerData(newValue, data.orderId, field, "ONE")
     }
 
-    
     const handleEditSelected = () => {
 
         if (!selectedRow || selectedRow?.length === 0) {
@@ -56,9 +56,8 @@ const Table = (
             validityDate: item.validityDate ?? null,
         }))
 
-        mutateGroupUpdateOrder(payload);
+        mode === "EDIT" && mutateGroupUpdateOrder(payload);
     }
-
 
     const handleDeleteSelected = () => {
 
@@ -71,11 +70,11 @@ const Table = (
             return item.orderId
         })
 
-        mutateGroupDeleteOrders(payload);
+        mode === "DELETE" && mutateGroupDeleteOrders(payload);
     }
 
     const handleSelectionChange = () => {
-        
+
         const newSelectedRows = gridRef?.current?.api?.getSelectedRows();
 
         setSelectedRows((prevSelectedRows) => {
@@ -86,7 +85,7 @@ const Table = (
             return prevSelectedRows;
         });
     };
-    
+
 
     useEffect(() => {
         // Add event listener for selection change
@@ -104,15 +103,15 @@ const Table = (
         (): ColDefType<IData>[] => [
             {
                 type: 'rowSelect',
-                enableCellChangeFlash:true
+                enableCellChangeFlash: true,
                 // valueGetter: ({ node }) => Number(node?.rowIndex) + 1,
                 // pinned: 'right',
                 // sortable: false,
             },
             {
                 type: 'agTableIndex',
-                minWidth: 50,
-                maxWidth: 50,
+                minWidth: 60,
+                maxWidth: 60,
                 headerName: 'ردیف'
             },
             {
@@ -241,20 +240,36 @@ const Table = (
             </WidgetLoading>
 
             <div className='flex items-center justify-end gap-x-2 w-full pl-4 my-2'>
-                <button
-                    className="bg-L-primary-50 dark:bg-D-primary-50 text-L-basic dark:text-D-basic disabled:opacity-50 disabled:cursor-not-allowed py-2 px-3 rounded-md"
-                    // disabled={selectedRow?.length === 0}
-                    onClick={handleEditSelected}
-                >
-                    ویرایش گروهی
-                </button>
+                {
+                    mode === "EDIT" && (
+                        <button
+                            className="bg-L-primary-50 dark:bg-D-primary-50 text-L-basic dark:text-D-basic disabled:opacity-50 disabled:cursor-not-allowed py-2 px-3 rounded-md"
+                            // disabled={selectedRow?.length === 0}
+                            onClick={handleEditSelected}
+                            disabled={selectedRow?.length === 0}
+                        >
+                            ویرایش گروهی
+                        </button>
+                    )
+                }
+
+                {
+                    mode === "DELETE" && (
+                        <button
+                            className="bg-L-basic dark:bg-D-basic border border-L-error-200 dark:border-D-error-200 text-L-error-200 dark:text-D-error-200 disabled:opacity-50 disabled:cursor-not-allowed py-2 px-3 rounded-md"
+                            disabled={selectedRow?.length === 0}
+                            onClick={handleDeleteSelected}
+                        >
+                            حذف گروهی
+                        </button>
+                    )
+                }
 
                 <button
-                    className="bg-L-basic dark:bg-D-basic border border-L-error-200 dark:border-D-error-200 text-L-error-200 dark:text-D-error-200 disabled:opacity-50 disabled:cursor-not-allowed py-2 px-3 rounded-md"
-                    // disabled={selectedRow?.length === 0}
-                    onClick={handleDeleteSelected}
+                    className='text-L-primary-50 dark:text-D-primary-50 border border-L-primary-50 dark:border-D-primary-50 bg-L-basic dark:bg-D-basic py-2 px-3 rounded-md'
+                    onClick={handleCloseModal}
                 >
-                    حذف گروهی
+                    انصراف
                 </button>
             </div>
         </div>
@@ -262,23 +277,3 @@ const Table = (
 };
 
 export default Table;
-
-
-//     const handleEdit = (data: IData) => {
-    //         const payload = [{
-    //             id: data.orderId,
-    //             price: data.price,
-    //             quantity: data.quantity,
-    //             validity: data.validity,
-    //             validityDate: data.validityDate ?? null,
-    //         }]
-    // 
-    //         mutateGroupUpdateOrder(payload);
-    //     }
-
-    // 
-    //     const handleDelete = (data: IData) => {
-    //         const payload = [data.orderId]
-    // 
-    //         mutateGroupDeleteOrders(payload)
-    //     }

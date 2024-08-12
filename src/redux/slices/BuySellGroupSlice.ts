@@ -5,22 +5,25 @@ import { RootState } from "../store";
 
 
 export interface IBuySellGroup {
-    isOpen : boolean
+    isOpen : boolean , 
+    mode : 'EDIT' | 'DELETE'
 }
 
 
-const initialState = {
-    isOpen : false
+const initialState : IBuySellGroup = {
+    isOpen : false , 
+    mode : "EDIT"
 }
 
 
 
 const BuySellGroupSlice = createSlice({
-    name : 'BuySellGroupS' , 
+    name : 'BuySellGroup' , 
     initialState , 
     reducers : {
-        setIsOpenBuySellGroup : (state , action : PayloadAction<boolean>) => {
-            state.isOpen = action.payload
+        setIsOpenBuySellGroup : (state , action : PayloadAction<IBuySellGroup> ) => {
+            state.isOpen = action.payload.isOpen;
+            state.mode = action.payload.mode;
         }
     }
 })

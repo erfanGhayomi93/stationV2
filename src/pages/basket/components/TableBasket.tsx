@@ -81,7 +81,8 @@ export const TableBasket = ({
                 headerName: 'آخرین قیمت',
                 field: 'lastTradedPrice',
                 cellRenderer: LastTradedPrice,
-                type: 'sepratedNumber'
+                type: 'sepratedNumber',
+                maxWidth : 140
             },
             { headerName: 'درصد', field: 'percent' },
             { headerName: 'تعداد', field: 'quantity', type: 'sepratedNumber' },

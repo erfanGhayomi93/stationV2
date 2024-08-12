@@ -11,8 +11,6 @@ import Loading from 'src/common/components/Loading/Loading';
 import Cookies from 'js-cookie';
 import { tokenCookieName, unAuthorized } from 'src/api/axiosInstance';
 import useRamandOMSGateway from 'src/ls/useRamandOMSGateway';
-import BuySellGroupModal from 'src/common/components/BuySellGroupModal';
-import { getBuySellGroup, setIsOpenBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
 
 const App = () => {
     const appState = useAppSelector(getAppState);
@@ -27,15 +25,10 @@ const App = () => {
 
     const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
 
-    const getBuySellGroupData = useAppSelector(getBuySellGroup)
 
     const {
         i18n: { resolvedLanguage },
     } = useTranslation();
-
-    const setIsOpenBuySellGroupMethod = (isOpen: boolean) => {
-        appDispatch(setIsOpenBuySellGroup(isOpen))
-    }
 
 
     useEffect(() => {
@@ -70,14 +63,6 @@ const App = () => {
     return (
         <RouteWrapper>
             <AppRoutes />
-
-            {getBuySellGroupData.isOpen && (
-                <BuySellGroupModal
-                    isOpen={getBuySellGroupData.isOpen}
-                    setIsOpen={setIsOpenBuySellGroupMethod}
-                />
-            )
-            }
         </RouteWrapper>
     );
 };

@@ -65,7 +65,7 @@ const PhysicalSettlementModal = ({ settlementState, setSettlementState, onClose 
                         <CloseIcon className="text-white" />
                     </button>
                 </div>
-                {settlementState?.data?.side === 'Put' ? (
+                {settlementState?.data?.side === 'Sell' ? (
                     <div className="p-6">
                         <div className="bg-L-gray-100 dark:bg-D-gray-100 rounded-lg p-3 flex items-start gap-2">
                             <span className="pt-1">

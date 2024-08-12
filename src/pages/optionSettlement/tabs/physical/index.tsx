@@ -151,7 +151,7 @@ const Physical = ({ setGridApi }: { setGridApi: Dispatch<SetStateAction<GridApi<
                 headerName: 'تاریخ تسویه فیزیکی',
                 // valueFormatter: ({ value }) => dayjs(value)?.calendar('jalali').format('YYYY/MM/DD'),
                 minWidth: 140,
-                type: "date"
+                type: "dateWithoutTime"
             },
             {
                 field: 'pandLStatus',

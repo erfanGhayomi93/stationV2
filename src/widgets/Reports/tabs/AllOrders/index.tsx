@@ -147,11 +147,11 @@ const AllOrders = forwardRef(({ }: IAllOrdersProps, parentRef) => {
                 field: 'orderState',
                 minWidth: 160,
                 cellClassRules: {
-                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),
+                    'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error'].includes(value),
                     'text-L-success-200': ({ value }) => value === 'OrderDone',
                     'text-L-error-200': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
-                valueFormatter: ({ value }) => t('order_status.' + (value ?? 'OnBoard')),
+                valueFormatter: ({ value, data }) => value !== "Error" ? t('order_status.' + (value ?? 'OnBoard')) : `خطا(${t('order_errors.' + (data?.lastErrorCode ?? 'OnBoard'))})`,
                 tooltipValueGetter({ value, data }) {
                     if (value === "Error") return t('order_errors.' + (data?.lastErrorCode ?? 'OnBoard'))
                     return t('order_status.' + (value ?? 'OnBoard'))

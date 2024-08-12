@@ -19,15 +19,15 @@ const BuySellPrice: FC = () => {
 
     const { price, symbolISIN, side } = useBuySellState();
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
-   
+
 
     const [isLockPrice, setIsLockPrice] = useState(false)
 
     const { data } = useSymbolGeneralInfo<bestPriceBuySell>(selectedSymbol, {
         select: (data) => {
             return {
-                bestBuyLimitPrice_1: data.ordersData.bestBuyLimitPrice_1 || 0,
-                bestSellLimitPrice_1: data.ordersData.bestSellLimitPrice_1 || 0,
+                bestBuyLimitPrice_1: data?.ordersData?.bestBuyLimitPrice_1 || 0,
+                bestSellLimitPrice_1: data?.ordersData?.bestSellLimitPrice_1 || 0,
             }
         }
     })

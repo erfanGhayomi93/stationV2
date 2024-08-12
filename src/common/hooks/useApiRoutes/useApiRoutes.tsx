@@ -5,7 +5,7 @@ import { queryClient } from 'src/app/queryClient';
 export const useApiPath = () => {
     const [apiRoutes, setApiRoutes] = useState<any | undefined>();
     const { data } = useGlobalSettings();
-    // const { data } = useGlobalSettingsPreprd();
+    // const { data } = useGlobalSettingsStage();
 // 
     useEffect(() => {
         if (!!data) {
@@ -179,6 +179,7 @@ export const Apis = () => ({
     },
     Portfolio: {
         CustomerPortfolio: getBaseUrl() + '/Portfolio/v1/Portfolios',
+        MiniPortfolios: getBaseUrl() + '/Portfolio/v1/MiniPortfolios',
         CardexHistory: getBaseUrl() + '/Portfolio/v1/CardexHistory',
         GetSymbolBaseAssetsByOption: getBaseUrl() + '/Portfolio/v1/GetSymbolBaseAssetsByOption'
     },

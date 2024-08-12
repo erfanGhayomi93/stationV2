@@ -61,12 +61,12 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                 date: {
                     valueFormatter: ({ value }) =>
                         dayjs(value).isValid()
-                            ? dayjs(value).calendar('jalali').format('HH:mm:ss   YYYY-MM-DD')
+                            ? dayjs(value).calendar('jalali').format('HH:mm:ss   YYYY/MM/DD')
                             : value,
                 },
                 dateWithoutTime: {
                     valueFormatter: ({ value }) =>
-                        dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY-MM-DD') : value,
+                        dayjs(value).isValid() ? dayjs(value).calendar('jalali').format('YYYY/MM/DD') : value,
                 },
                 agTableIndex: {
                     valueGetter: 'node.rowIndex + 1',

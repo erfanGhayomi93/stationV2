@@ -28,7 +28,7 @@ interface IDoneTradesDetailsReq {
 interface ITodayOpenOrderType {
     side?: BuySellSide;
     symbolISIN?: string;
-    CustomerISIN?: string;
+    CustomerISIN?: string | string[];
     GtOrderStateRequestType?: 'All' | 'OnBoard' | 'Done' | 'Error';
 }
 interface IOrderGetType {

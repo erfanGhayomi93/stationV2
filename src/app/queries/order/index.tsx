@@ -72,7 +72,7 @@ const getOrderFn = async (params: ITodayOpenOrderType) => {
 };
 
 export const useGetOrders = (params: ITodayOpenOrderType, options?: UseQueryOptions<IOrderGetType[]>) => {
-    return useQuery<IOrderGetType[]>(['orderList', params.GtOrderStateRequestType, params.symbolISIN ?? "AllSymbolISIN"], () => getOrderFn(params), options);
+    return useQuery<IOrderGetType[]>(['orderList', params.GtOrderStateRequestType, params.symbolISIN ?? "AllSymbolISIN", String(params.CustomerISIN || '')], () => getOrderFn(params), options);
 };
 
 const getTodayDoneTradesDetails = async (params: IDoneTradesDetailsReq) => {
