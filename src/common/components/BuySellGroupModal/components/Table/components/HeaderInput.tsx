@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef } from 'react';
-import { ClearInputIcon } from 'src/common/icons';
+import { ClearInputIcon, PlusIcon } from 'src/common/icons';
 import { seprateNumber } from 'src/utils/helpers';
 
 type Props = {
@@ -37,15 +37,15 @@ const HeaderInput = ({ onBlur, onClear, onChange, onFinish, value }: Props) => {
                 onFinish();
                 onBlur();
             }}
-            className="w-full h-full border border-L-info-100 rounded-[6px] flex bg-white items-center pr-1"
+            className="w-full h-full border border-L-info-100 rounded-[6px] flex bg-L-basic dark:bg-D-basic items-center pr-1"
         >
             <button type="button" onClick={onClear} className={value ? 'visible' : 'invisible'}>
-                <ClearInputIcon height={15} width={15} />
+                <PlusIcon className="rotate-45 text-D-basic dark:text-L-basic" width={18} height={18} />
             </button>
 
             <input
                 ref={inputRef}
-                className="w-full h-full rounded-[6px] outline-none px-1 ltr"
+                className="w-full h-full rounded-[6px] outline-none px-1 ltr bg-L-basic dark:bg-D-basic"
                 value={value ? seprateNumber(value) : ''}
                 onChange={onChange}
             />

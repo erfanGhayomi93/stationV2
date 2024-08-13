@@ -64,20 +64,21 @@ export const UnFreezeTab: FC<{ closeModal: () => void }> = ({ closeModal }) => {
   return (
     <div className='p-2 h-full grid grid-rows-min-one-min'>
       <div className='flex flex-col gap-4'>
-        <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3 text-right" viewCol>
-          <Input
-            value={data.symbol}
-            onChange={(e) => setData(prev => ({ ...prev, symbol: e?.target?.value }))}
-            placeholder="جستجوی نماد"
-            inputClassName="placeholder:text-xs"
-          />
-        </FilterBlock>
 
         <FilterBlock label={t('FilterFieldLabel.Customer')} className="col-span-3 text-right" viewCol>
           <CustomerMiniSelect
             selected={data.Customer}
             setSelected={(value) => setData(prev => ({ ...prev, Customer: value }))}
             filterCustomerType={false}
+          />
+        </FilterBlock>
+        
+        <FilterBlock label={t('FilterFieldLabel.Symbol')} className="col-span-3 text-right" viewCol>
+          <Input
+            value={data.symbol}
+            onChange={(e) => setData(prev => ({ ...prev, symbol: e?.target?.value }))}
+            placeholder="جستجوی نماد"
+            inputClassName="placeholder:text-xs"
           />
         </FilterBlock>
       </div>

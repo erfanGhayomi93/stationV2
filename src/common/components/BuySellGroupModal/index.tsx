@@ -10,6 +10,7 @@ import Header from './components/Header';
 import ipcMain from 'src/common/classes/IpcMain';
 import CustomerMegaSelect from '../CustomerMegaSelect';
 import { IBuySellGroup } from 'src/redux/slices/BuySellGroupSlice';
+import Select from '../Select';
 
 interface IProps {
     isOpen: IBuySellGroup["isOpen"];
@@ -32,12 +33,19 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
 
     const [customerISINsSearch, setcustomerISINsSearch] = useState<IGoCustomerSearchResult[]>([])
 
+    const [sideSearch, setSideSearch] = useState<BuySellSide>('')
+
     const [dataTable, setdataTable] = useState<IData[]>([])
 
     const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders(
-        { GtOrderStateRequestType: 'OnBoard', symbolISIN: symbolIsinSearch[0]?.symbolISIN, CustomerISIN: !!customerISINsSearch.length ? customerISINsSearch.map(x => x.customerISIN) : undefined },
         {
-            enabled: !!symbolIsinSearch[0]?.symbolISIN,
+            GtOrderStateRequestType: 'OnBoard',
+            symbolISIN: symbolIsinSearch[0]?.symbolISIN,
+            CustomerISIN: !!customerISINsSearch.length ? customerISINsSearch.map(x => x.customerISIN) : undefined,
+            side: sideSearch || undefined,
+        },
+        {
+            // enabled: false,
             onSuccess(data) {
                 if (data.length > 0) setdataTable(data)
                 else setdataTable([])
@@ -53,12 +61,7 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
     const refetchOrderFromLs = () => {
         refetchOpenOrders()
     }
-
-    // useEffect(() => {
-    //     selectedSymbol && refetchOpenOrders()
-    // }, [selectedSymbol])
-
-
+ 
     const onChangeCustomerData = useCallback(
         (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => {
             const res = dataTable.map((item) => {
@@ -74,14 +77,12 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
                     ...item,
                     [field]: typeChange === 'All' ? newValue : item[field],
                     value: typeChange === 'All' ? value : item.value
-
                 };
             });
 
             setdataTable(res);
         },
         [dataTable]
-
     );
 
     useEffect(() => {
@@ -95,8 +96,11 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
         <Modal
             isOpen={isOpen}
             onClose={handleCloseModal}
-            style={{ width: isInfoOpen ? 1250 : 900 }}
-            className={clsx('h-[500px] flex flex-col border-L-success-300 rounded-xl border-r-[6px] ease-in-out duration-300 bg-L-basic dark:bg-D-basic')}
+            style={{ width: isInfoOpen ? 1250 : 1000 }}
+            className={clsx('h-[500px] flex flex-col rounded-xl border-r-[6px] ease-in-out duration-300 bg-L-basic dark:bg-D-basic', {
+                "border-L-error-200": mode === "DELETE",
+                "border-L-info-100": mode === "EDIT"
+            })}
         >
             <Header handleClose={handleCloseModal} symbolTitle={`${mode === 'EDIT' ? 'ویرایش' : 'حذف'} گروهی نماد`} mode={mode} />
 
@@ -118,10 +122,23 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
                         setSelected={(value) => setcustomerISINsSearch(value)}
                     />
                 </FilterBlock>
+
+                <FilterBlock label={'سمت'} className="w-1/4">
+                    <Select
+                        onChange={(selected) => setSideSearch(selected)}
+                        value={sideSearch}
+                        // title="سمت:"
+                        options={[
+                            { value: '', label: 'همه' },
+                            { value: 'buy', label: 'خرید' },
+                            { value: 'sell', label: 'فروش' }
+                        ]}
+                    />
+                </FilterBlock>
             </div>
 
             <div className="relative flex h-full items-center">
-                <div className={clsx('h-full flex flex-col justify-between', isInfoOpen ? 'w-[900px]' : 'w-full')}>
+                <div className={clsx('h-full flex flex-col justify-between', isInfoOpen ? 'w-[1000px]' : 'w-full')}>
                     <Table
                         data={dataTable}
                         orders={orders}

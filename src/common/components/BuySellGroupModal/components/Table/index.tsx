@@ -2,7 +2,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AGTable, { ColDefType } from 'src/common/components/AGTable';
 import HeaderEditors from './components/HeaderEditors';
-import { seprateNumber, valueFormatterValidity } from 'src/utils/helpers';
+import { seprateNumber, valueFormatterSide, valueFormatterValidity } from 'src/utils/helpers';
 import AgNumberInput from 'src/common/components/AGEditors/AgNumberInput';
 import './style.scss';
 import { IData } from '../..';
@@ -140,7 +140,7 @@ const Table = (
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value, rowIndex }) => {
                     if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['quantity'] !== undefined) {
-                        return orders[rowIndex]['quantity'] !== value ? "bg-L-success-100" : "";
+                        return orders[rowIndex]['quantity'] !== value ? "bg-L-info-100" : "";
                     }
                     return "";
                 },
@@ -163,7 +163,7 @@ const Table = (
                 cellStyle: { overflow: 'visible', padding: 0 },
                 cellClass: ({ value, rowIndex }) => {
                     if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['price'] !== undefined) {
-                        return orders[rowIndex]['price'] !== value ? "bg-L-success-100" : "";
+                        return orders[rowIndex]['price'] !== value ? "bg-L-info-100" : "";
                     }
                     return "";
                 },
@@ -174,13 +174,23 @@ const Table = (
                 editable: true
             },
             {
+                headerName: 'نوع',
+                field: 'orderSide',
+                valueFormatter: (data) => valueFormatterSide(data) + ' - ' + t('BSModal.validity_' + data?.data?.validity),
+                cellClassRules: {
+                    'bg-L-success-101 dark:bg-D-success-101': ({ value }) => value === 'Buy',
+                    'bg-L-error-101 dark:bg-D-error-101': ({ value }) => value === 'Sell',
+                },
+                minWidth: 120
+            },
+            {
                 headerName: 'ارزش معامله',
                 field: 'value',
                 minWidth: 111,
                 maxWidth: 111,
                 cellClass: ({ value, rowIndex }) => {
                     if (orders && orders.length > rowIndex && orders[rowIndex] && orders[rowIndex]['value'] !== undefined) {
-                        return orders[rowIndex]['value'] !== value ? "bg-L-success-100" : "";
+                        return orders[rowIndex]['value'] !== value ? "bg-L-info-100" : "";
                     }
                     return "";
                 },
