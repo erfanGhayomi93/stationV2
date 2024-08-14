@@ -50,6 +50,8 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     headerCheckboxSelection: true,
                     minWidth: 35,
                     maxWidth: 35,
+                    cellStyle: { display: 'flex', justifyContent: 'center', alignItems: 'center' },
+                    cellClass:'text-center'
                 },
                 sepratedNumber: {
                     valueFormatter: ({ value }) => seprateNumber(value),
@@ -152,6 +154,7 @@ const AGTable = forwardRef<AgGridReact, Props<unknown>>(
                     defaultColDef={DefaultColDef}
                     //
                     rowData={rowData}
+                    
                     // icons={{
                     //     rowDrag: ReactDOMServer.renderToString(<DragIcon />),
                     // }}

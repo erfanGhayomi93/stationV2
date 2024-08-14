@@ -133,6 +133,7 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
                             { value: 'buy', label: 'خرید' },
                             { value: 'sell', label: 'فروش' }
                         ]}
+                        optionsClassName='text-right'
                     />
                 </FilterBlock>
             </div>

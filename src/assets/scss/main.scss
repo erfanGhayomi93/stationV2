@@ -121,3 +121,8 @@ input[type=number] {
 .transition-height {
   transition-property: height;
 }
+
+.editableModal .ag-header-cell .ag-checkbox-input-wrapper{
+    left: -12px;
+    position: relative;
+}

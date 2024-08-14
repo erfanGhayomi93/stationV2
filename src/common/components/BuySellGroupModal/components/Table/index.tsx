@@ -103,29 +103,36 @@ const Table = (
         (): ColDefType<IData>[] => [
             {
                 type: 'rowSelect',
-                enableCellChangeFlash: true,
+                // enableCellChangeFlash: true,
+                pinned: 'right',
+                minWidth : 60,
+                maxWidth : 60,
+                cellStyle: { display: 'flex', justifyContent: 'center', alignItems: 'center' , textAlign: 'center'},
+                // headerClass : "flex items-center",
+                // toolPanelClass:"flex items-center"
                 // valueGetter: ({ node }) => Number(node?.rowIndex) + 1,
-                // pinned: 'right',
                 // sortable: false,
             },
             {
                 type: 'agTableIndex',
-                minWidth: 60,
-                maxWidth: 60,
-                headerName: 'ردیف'
+                minWidth: 70,
+                maxWidth: 70,
+                headerName: 'ردیف',
+                pinned: 'right'
             },
             {
                 headerName: 'مشتری / کدبورسی',
                 field: 'customerTitle',
-                // cellEditor: AgCustomerSelect,
-                // cellRenderer: EditableColumn,
-                // cellRendererParams: { tooltipContent: 'مشتری' },
-                // cellEditorPopup: true,
+                minWidth: 130,
+                maxWidth: 150,
                 valueFormatter: ({ data }) => (data?.customerTitle ? data?.customerTitle + ' - ' + data?.bourseCode : '-'),
-                // cellClass: ({ data }) => (!data?.title ? 'bg-L-error-100 ' : ''),
-                cellStyle: { overflow: 'visible' },
-                flex: 1,
-                // editable: true,
+                pinned: 'right'
+            },
+            {
+                headerName: 'نماد',
+                field: 'symbolTitle',
+                minWidth: 100,
+                pinned: 'right'
             },
             {
                 headerName: 'تعداد',
@@ -210,6 +217,7 @@ const Table = (
                 headerName: 'وضعیت',
                 field: 'orderState',
                 minWidth: 160,
+                pinned: 'left',
                 cellClassRules: {
                     'text-L-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine'].includes(value),
                     'text-L-success-200': ({ value }) => value === 'OrderDone',
@@ -237,7 +245,7 @@ const Table = (
 
 
     return (
-        <div className="h-full w-full p-3 pt-0 gap-1 grid grid-rows-one-min ">
+        <div className="h-full w-full p-3 pt-0 gap-1 grid grid-rows-one-min editableModal">
             <WidgetLoading spining={loadingOrders}>
                 <AGTable
                     ref={gridRef}
