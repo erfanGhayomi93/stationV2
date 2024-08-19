@@ -46,6 +46,7 @@ const Watchlists = () => {
                 cellRenderer: LastTradedPrice,
                 type: 'sepratedNumber',
                 maxWidth: 140,
+                minWidth: 140,
             },
             {
                 headerName: 'قیمت پایانی ',

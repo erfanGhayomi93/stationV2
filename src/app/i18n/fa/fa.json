@@ -271,6 +271,10 @@
         "MaxBuyCountPerDay_Is_Not_Valid": "سقف خرید روزانه پر شده است.",
         "BuyTime_Is_Not_Allowed_ForThisSymbol": "خرید این سهم در این ساعت غیر مجاز شده است.",
         "MaxBuyVolumePerDay_Is_Not_Allowed_ForThisSymbol": "سقف حجم خرید روزانه برای این سهم پر شده است ",
+        "Block_SettlementDate_Is_Not_Valid": "تاریخ سررسید قرارداد برای تضمین موقعیت معتبر نیست",
+        "SellOrder_Is_Allowed_Only_For_Negative_Remain": "ثبت سفارش فروش فقط با مانده بدهکار امکان پذیر است.",
+        "Contract_NotValid": "قرارداد معتبر نیست",
+        "You_Have_Open_CashSettlement_In_Your_Contract": "برای این قرارداد درخواست تسویه ثبت شده است، تغییر تعداد موقعیت ها امکان پذیر نیست",
         "BuyOrder_Is_Not_Allowed_ForThisSymbol": "خرید این سهم غیر مجاز شده است.",
         "SellOrder_Is_Not_Valid_ForIPO": "فروش سهام عرضه اولیه امکان پذیر نمی‌باشد.",
         "OrderValidity_Is_Not_Valid_ForIPO": "سفارش عرضه اولیه فقط از نوع روز می تواند باشد.",
@@ -1005,7 +1009,8 @@
         "DuplicateRequest": "سهم انتخاب شده از قبل فریز شده است",
         "Not_Enough_Remain": "مانده کافی نمی‌باشد.",
         "Too Many Request": "لطفا چند دقیقه دیگر مجدد امتحان کنید",
-        "DoNotHavePermissionToRemoveThisRecord" : "شما مجوز ایجاد تغییر و حذف درخواست فوق را ندارید"
+        "DoNotHavePermissionToRemoveThisRecord" : "شما مجوز ایجاد تغییر و حذف درخواست فوق را ندارید",
+        "ThisRequestHasBeenSubmittedBySomeoneElse" : "این درخواست قبلا ثبت شده است"
     },
     "alerts": {
         "bs_baseSymbol_is_not_freezed": "نماد پایه فریز نشده است",

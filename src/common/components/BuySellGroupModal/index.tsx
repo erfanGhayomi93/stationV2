@@ -37,15 +37,17 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
 
     const [dataTable, setdataTable] = useState<IData[]>([])
 
+    const symbolISIN = symbolIsinSearch[0]?.symbolISIN
+
     const { data: orders, isFetching: loadingOrders, refetch: refetchOpenOrders } = useGetOrders(
         {
             GtOrderStateRequestType: 'OnBoard',
-            symbolISIN: symbolIsinSearch[0]?.symbolISIN,
+            symbolISIN: symbolISIN,
             CustomerISIN: !!customerISINsSearch.length ? customerISINsSearch.map(x => x.customerISIN) : undefined,
             side: sideSearch || undefined,
         },
         {
-            // enabled: false,
+            enabled: !!symbolISIN,
             onSuccess(data) {
                 if (data.length > 0) setdataTable(data)
                 else setdataTable([])
@@ -55,13 +57,14 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
             },
             staleTime: 0,
             cacheTime: 0
-        }
+        },
+        'EditGroup'
     );
 
     const refetchOrderFromLs = () => {
-        refetchOpenOrders()
+        !!symbolISIN && refetchOpenOrders()
     }
- 
+
     const onChangeCustomerData = useCallback(
         (newValue: number, orderId: number | null, field: keyof IData, typeChange: 'All' | 'ONE') => {
             const res = dataTable.map((item) => {
@@ -105,7 +108,7 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
             <Header handleClose={handleCloseModal} symbolTitle={`${mode === 'EDIT' ? 'ویرایش' : 'حذف'} گروهی نماد`} mode={mode} />
 
 
-            <div className='m-3 mb-0 flex gap-x-4'>
+            <div className='m-3 mb-2 flex gap-x-4 relative'>
                 <FilterBlock label={t('FilterFieldLabel.Symbol')} className="w-1/4">
                     <SymbolMiniSelect
                         selected={symbolIsinSearch}
@@ -114,6 +117,7 @@ const BuySellGroupModal = ({ isOpen, setIsOpen, mode }: IProps) => {
                             // selected[0]?.symbolISIN && dispatch(setSelectedSymbol(selected[0]?.symbolISIN))
                         }}
                     />
+                    {!symbolISIN && <span className='absolute text-L-error-200 top-10 right-8 z-[1] text-xs'>انتخاب نماد الزامی است</span>}
                 </FilterBlock>
 
                 <FilterBlock label={t('FilterFieldLabel.Customer')} className="w-1/4">

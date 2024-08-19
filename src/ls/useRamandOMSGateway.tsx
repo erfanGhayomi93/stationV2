@@ -76,8 +76,9 @@ const createRamandOMSGateway = () => {
 
     const refetchApiAccordingLs = (omsOrderStatus: OrderStatusType) => {
         //
+
         timeOutRefetch = setTimeout(() => {
-            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error'].includes(omsOrderStatus)) {
+            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error' , 'Modified'].includes(omsOrderStatus)) {
                 queryClient.invalidateQueries(['orderList', 'All'])
                 queryClient.invalidateQueries(['orderList', 'OnBoard'])
                 queryClient.invalidateQueries(['GetOpenPositions'])
