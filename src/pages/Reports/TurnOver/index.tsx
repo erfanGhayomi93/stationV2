@@ -15,7 +15,7 @@ const TurnOver = () => {
     //
     const { t } = useTranslation();
     const [params, setParams] = useState<ITurnOverStateType>(turnOverState);
-    const { Time, PageNumber, PageSize } = params;
+    const { Time } = params;
     const isFirstRender = useIsFirstRender();
 
     const {
@@ -30,7 +30,7 @@ const TurnOver = () => {
 
     useEffect(() => {
         !isFirstRender && getTurnOver();
-    }, [PageNumber, PageSize]);
+    }, [params['QueryOption.PageNumber'], params['QueryOption.PageSize']]);
 
     const onTimeChangeHandler = (time: string | undefined) => {
         if (!time || time === 'custom') return;
@@ -52,9 +52,8 @@ const TurnOver = () => {
     }, [Time]);
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setParams((pre) => ({ ...pre, [action]: value }));
+        setParams((pre) => ({ ...pre, ['QueryOption.' + action]: value, ['QueryOption.PageNumber']: action === 'PageSize' ? 1 : value }));
     }, []);
-
     const onClearFilters = () => {
         setParams(turnOverState);
     };
@@ -78,8 +77,8 @@ const TurnOver = () => {
                     <TurnOverTable
                         data={turnOverData}
                         loading={isFetching}
-                        pageNumber={PageNumber}
-                        pagesize={PageSize}
+                        pageNumber={params['QueryOption.PageNumber']}
+                        pagesize={params['QueryOption.PageSize']}
                         PaginatorHandler={PaginatorHandler}
                     />
                 </div>

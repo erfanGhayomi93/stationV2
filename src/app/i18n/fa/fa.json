@@ -335,7 +335,8 @@
         "Order_PerSecond_Check_Failed": "محدودیت زمانی فاصله بین ارسال سفارش",
         "default": "خطایی رخ داده است.",
         "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد.",
-        "AccessToOneOrMoreCustomersDenied": "دسترسی به مشتری(ها) تعریف نشده است "
+        "AccessToOneOrMoreCustomersDenied": "دسترسی به مشتری(ها) تعریف نشده است ",
+        "PositionBlockISIN_Not_Valid": "موقعیت تضمین شده نامعتبر است"
     },
     "Action_Button": {
         "Search": "جستجو",

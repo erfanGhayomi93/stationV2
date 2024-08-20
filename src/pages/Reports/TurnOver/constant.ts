@@ -8,8 +8,8 @@ export const turnOverState: ITurnOverStateType = {
     SymbolISIN: [],
     CustomerISIN: [],
     Time: 'day',
-    PageNumber: 1,
-    PageSize: 25,
+    'QueryOption.PageSize': 25,
+    'QueryOption.PageNumber': 1,
     IsAggregated: false,
 }
 

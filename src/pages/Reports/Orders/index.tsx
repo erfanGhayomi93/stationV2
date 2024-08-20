@@ -80,8 +80,8 @@ const Orders = () => {
     };
 
     const PaginatorHandler = useCallback((action: 'PageNumber' | 'PageSize', value: number) => {
-        setApiParams((pre) => ({ ...pre, [action]: value, ['PageNumber']: action === 'PageSize' ? 1 : value }));
-        action === 'PageSize' && setFormValues((pre) => ({ ...pre, [action]: value }));
+        setApiParams((pre) => ({ ...pre, ['QueryOption.' + action]: value, ['QueryOption.PageNumber']: action === 'PageSize' ? 1 : value }));
+        action === 'PageSize' && setFormValues((pre) => ({ ...pre, ['QueryOption.' + action]: value }));
     }, []);
 
     const Columns = useMemo(
@@ -92,7 +92,7 @@ const Orders = () => {
                 minWidth: 60,
                 maxWidth: 80,
                 pinned: 'right',
-                valueFormatter: ({ node }) => String((apiParams?.PageNumber - 1) * apiParams?.PageSize + node?.rowIndex! + 1),
+                valueFormatter: ({ node }) => String((apiParams?.['QueryOption.PageNumber'] - 1) * apiParams?.['QueryOption.PageSize'] + node?.rowIndex! + 1),
             },
             {
                 headerName: t('ag_columns_headerName.customer'),
@@ -314,8 +314,8 @@ const Orders = () => {
                     <div className="border-t flex justify-end items-center pt-4 ">
                         <Paginator
                             loading={isFetching}
-                            pageNumber={apiParams?.PageNumber}
-                            pageSize={apiParams?.PageSize}
+                            pageNumber={apiParams?.['QueryOption.PageNumber']}
+                            pageSize={apiParams?.['QueryOption.PageSize']}
                             totalPages={ordersList?.totalPages}
                             hasNextPage={ordersList?.hasNextPage}
                             hasPreviousPage={ordersList?.hasPreviousPage}

@@ -171,8 +171,8 @@ interface IGTOrderListRequest {
     CustomerType?: CustomerType;
     OrderStatus?: OrderStatusType;
     Validity?: validity;
-    PageNumber: number;
-    PageSize: number;
+    'QueryOption.PageSize': number,
+    'QueryOption.PageNumber': number,
     AggregateType: 'None' | 'Customer' | 'Symbol' | 'Both';
     MyStationOnly?: boolean;
     Time: string;
@@ -186,8 +186,8 @@ interface IGTTradesListRequest {
     Side?: BuySellSide;
     SymbolISIN: SymbolSearchResult[];
     CustomerISIN: IGoCustomerSearchResult[];
-    PageNumber: number;
-    PageSize: number;
+    'QueryOption.PageSize': number,
+    'QueryOption.PageNumber': number,
     Time?: string;
     CustomerType?: CustomerType;
     MyStationOnly: boolean;

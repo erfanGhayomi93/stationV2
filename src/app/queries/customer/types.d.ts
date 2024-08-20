@@ -115,8 +115,8 @@ interface IGetCustomerTurnOverRequestType {
     DateFrom?: string;
     DateTo?: string;
     Time?: string;
-    PageSize: number;
-    PageNumber: number;
+    'QueryOption.PageSize': number,
+    'QueryOption.PageNumber': number,
 }
 
 interface IGetCustomerTurnOverResultType {
