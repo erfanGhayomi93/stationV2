@@ -6,7 +6,11 @@ import SymbolSearch from './SymbolSearch';
 import { getSelectedSymbol } from 'src/redux/slices/option';
 import SymbolData from './SymbolData';
 import { IpoData } from './SymbolData/IpoData';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import UseDebounceOutput from 'src/common/hooks/UseDebounceOutput';
+
+type SymbolDataKey = keyof SymbolData;
+type IndividualLegalKey = keyof IndividualLegal;
 
 const SymbolDetail = () => {
     //
@@ -14,12 +18,20 @@ const SymbolDetail = () => {
 
     const queryClient = useQueryClient();
     // isLoading or isFetching ? depends ...
+
+    const refData = useRef<SymbolGeneralInfoType>()
+
+    const { setDebounce } = UseDebounceOutput()
+
+
     const { data } = useSymbolGeneralInfo(selectedSymbol, {
         onSuccess: (data) => {
-            // pushEngine.unSubscribe("SymbolGeneralInfo")
+            pushEngine.unSubscribe("SymbolGeneralInfoo")
+
+            refData.current = JSON.parse(JSON.stringify(data));
 
             pushEngine.subscribe({
-                id: 'SymbolGeneralInfo',
+                id: 'SymbolGeneralInfoo',
                 mode: 'MERGE',
                 isSnapShot: 'yes',
                 adapterName: 'RamandRLCDData',
@@ -52,25 +64,35 @@ const SymbolDetail = () => {
                     'openPrice'
                 ],
                 onFieldsUpdate: ({ changedFields, itemName }) => {
-                    //@ts-ignore
-                    queryClient.setQueryData(['SymbolGeneralInfo', itemName], (oldData: SymbolGeneralInfoType | undefined) => {
+                    const tempObj: { symbolData: Partial<SymbolData>; individualLegal: Partial<IndividualLegal> } = { symbolData: {}, individualLegal: {} };
 
-                        const tempObj: { symbolData: any; individualLegal: any } = { symbolData: {}, individualLegal: {} };
-                        const { symbolData, individualLegal } = oldData || tempObj;
+                    const { symbolData, individualLegal } = refData.current || tempObj;
 
-                        const symbolDataChanged: typeof symbolData = {};
-                        const individualLegalChanged: typeof individualLegal = {};
+                    const symbolDataChanged: Partial<SymbolData> = {};
 
-                        for (const [key, value] of Object.entries(changedFields)) {
-                            if (symbolData?.hasOwnProperty(key) && value !== null) symbolDataChanged[key] = value;
-                            if (individualLegal?.hasOwnProperty(key) && value !== null) individualLegalChanged[key] = value;
+                    const individualLegalChanged: Partial<IndividualLegal> = {};
+
+                    for (const [key, value] of Object.entries(changedFields)) {
+                        if (value !== null) {
+                            if (symbolData && key in symbolData) {
+                                symbolDataChanged[key as SymbolDataKey] = value as SymbolData[SymbolDataKey];
+                            }
+                            if (individualLegal && key in individualLegal) {
+                                individualLegalChanged[key as IndividualLegalKey] = value as IndividualLegal[IndividualLegalKey];
+                            }
                         }
+                    }
 
-                        tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
-                        tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
-                        return { ...oldData, ...tempObj };
-                    });
-                },
+                    tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
+                    tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
+
+                    setDebounce(() => {
+                        queryClient.setQueryData(['SymbolGeneralInfo', itemName], () => {
+
+                            return { ...refData.current, ...tempObj };
+                        });
+                    }, 1000)
+                }
             });
         },
     });

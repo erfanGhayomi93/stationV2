@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { FC, Fragment, memo, useEffect, useMemo, useState } from 'react';
 import { useSymbolGeneralInfo } from 'src/app/queries/symbol';
 import ControllerInput from 'src/common/components/ControllerInput';
-import useCommission, { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
+import { useCommissionValue } from 'src/common/hooks/useCommission/useCommissionValue';
 import { CalculatorIcon, CoinIcon, InfoFillIcon, PercentIcon } from 'src/common/icons';
 import { useBuySellDispatch, useBuySellState } from '../../context/BuySellContext';
 import TradeInput from '../Input';
@@ -13,9 +13,13 @@ import Tippy from '@tippyjs/react';
 
 const BuySellQuantity: FC = () => {
     const dispatch = useBuySellDispatch();
+
     const { quantity, symbolISIN, isCalculatorEnabled, amount, price, side } = useBuySellState();
+
     const { data: symbolData } = useSymbolGeneralInfo(symbolISIN, { select: (data) => data.symbolData });
+
     const calculatorIcon = useMemo(() => <CalculatorIcon className="h-5 w-4 text-L-gray-500 dark:text-D-gray-500" />, []);
+
     const toggleButton = useMemo(() => <ToggleButton />, []);
 
     // const { unitCommission } = useCommission({ quantity, price, marketUnit: symbolData?.marketUnit, side });

@@ -41,6 +41,7 @@ const BuySellContext = () => {
 
     const { mutate: getCustomers } = useMutationMultiMultiCustomer({
         onSuccess: (selectedCustomer) => {
+            console.log('selectedCustomer',selectedCustomer)
             appDispatch(setAllSelectedCustomers(selectedCustomer))
         },
     });

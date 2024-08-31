@@ -19,7 +19,7 @@ import { HighLowPriceSymbol } from './tabs/HighLowPriceSymbol';
 const SymbolData = () => {
     //
     const [activeTab, setActiveTab] = useState('OrderBook');
-    
+
     const { t } = useTranslation();
 
     const selectedSymbol = useAppSelector(getSelectedSymbol);
@@ -35,6 +35,8 @@ const SymbolData = () => {
             lowestTradePriceOfTradingDay: data?.symbolData?.lowestTradePriceOfTradingDay,
             isOption: data?.symbolData?.isOption,
             openPrice: data?.symbolData?.openPrice,
+            lastTradedPriceVarPercent: data?.symbolData?.lastTradedPriceVarPercent,
+            closingPriceVarPercent: data?.symbolData?.closingPriceVarPercent
         }),
     });
 
@@ -101,7 +103,12 @@ const SymbolData = () => {
                 <div className="text-1.2 flex flex-col gap-2 h-full">
                     <div className='bg-L-basic dark:bg-D-basic rounded p-3'>
                         <SymbolHeader />
-                        <SymbolPricePreview />
+                        <SymbolPricePreview
+                            lastTradedPrice={symbolData?.lastTradedPrice}
+                            lastTradedPriceVarPercent={symbolData?.lastTradedPriceVarPercent}
+                            closingPrice={symbolData?.closingPrice}
+                            closingPriceVarPercent={symbolData?.closingPriceVarPercent}
+                        />
                     </div>
 
                     <div className="flex flex-col gap-y-4 bg-L-basic dark:bg-D-basic rounded p-3">

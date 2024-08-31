@@ -112,7 +112,7 @@ const DoneOrders: FC<IDoneOrders> = ({ aggregateType }) => {
             {
                 headerName: 'مبدا',
                 field: 'orderFrom',
-                valueFormatter: ({ value }) => t('orderFrom.' + value)
+                // valueFormatter: ({ value }) => t('orderFrom.' + value)
             },
             {
                 headerName: 'نوع',

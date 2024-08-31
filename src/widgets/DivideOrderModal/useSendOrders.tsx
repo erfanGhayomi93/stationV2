@@ -4,7 +4,9 @@ import { useMutationSendOrder } from 'src/app/queries/order';
 import { useAppDispatch } from 'src/redux/hooks';
 // import { getSelectedSymbol } from 'src/redux/slices/option';
 // import { resetByeSellData } from '../BuySell';
-import { setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { clearDataAction, setComeFromBuySellAction } from 'src/redux/slices/keepDataBuySell';
+import { resetByeSellData } from '../BuySell';
+import { useBuySellDispatch } from '../BuySell/context/BuySellContext';
 
 const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
     //
@@ -17,6 +19,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     const [clientIdStore, setClientIdStore] = useState({})
 
     const appDispatch = useAppDispatch();
+    const ByeSellDispatch = useBuySellDispatch();
 
     useEffect(() => {
         (!!Object.keys(clientIdStore).length && !!onOrderResultReceived) && onOrderResultReceived(clientIdStore)
@@ -122,7 +125,7 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         }
         finally {
             setOrdersLoading(false);
-            appDispatch(setComeFromBuySellAction(""))
+            resetByeSellData(ByeSellDispatch, appDispatch)
         }
     };
 

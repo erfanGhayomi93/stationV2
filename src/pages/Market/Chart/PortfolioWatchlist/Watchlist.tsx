@@ -9,7 +9,7 @@ import ChangeCellRenderer from 'src/common/components/AGTable/CellRenderer/Chang
 import Select from 'src/common/components/SelectAsync';
 // import WidgetLoading from 'src/common/components/WidgetLoading';
 import { pushEngine } from 'src/ls/pushEngine';
-import { subscriptionWatchlistMinor } from 'src/ls/subscribes';
+// import { subscriptionWatchlistMinor } from 'src/ls/subscribes';
 import { useAppDispatch } from 'src/redux/hooks';
 import { setSelectedSymbol } from 'src/redux/slices/option';
 import { abbreviateNumber, seprateNumber } from 'src/utils/helpers';
@@ -54,7 +54,7 @@ const Watchlist = ({ expand }: WatchlistProps) => {
 					symbolISINs.push(symbol.symbolISIN);
 				});
 
-				subscriptionWatchlistMinor(data, timer)
+				// subscriptionWatchlistMinor(data, timer)
 			},
 		}
 	);
