@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { pushEngine } from 'src/ls/pushEngine';
 import { Apis, useApiPath } from 'src/common/hooks/useApiRoutes/useApiRoutes';
+import Cookies from 'js-cookie';
+import { tokenCookieName } from 'src/api/axiosInstance';
 
 let MESSAGE_IDS: any = [];
 
@@ -332,10 +334,19 @@ const useMarketDepth = () => {
 
     const fetchMarketDepth = (symbolISIN: any) =>
         new Promise((done, reject) => {
-            const { apiRoutes } = useApiPath();
+            // const { apiRoutes } = useApiPath();
             const url = (Apis().MarketDepth.Get as string) + '?SymbolISIN=' + symbolISIN;
             const xhr = new XMLHttpRequest();
+
+            const client_id = Cookies.get(tokenCookieName);
+
             xhr.open('get', url);
+
+            if (client_id) {
+                // Set Authorization header
+                xhr.setRequestHeader('Authorization', `Bearer ${client_id}`);
+              }
+
 
             xhr.onload = () => {
                 const response = JSON.parse(xhr.response);
