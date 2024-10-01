@@ -5,7 +5,6 @@ import { pushEngine } from '@LS/pushEngine';
 import { tokenCookieName } from './config/axios';
 
 import 'tippy.js/dist/tippy.css';
-import './App.css'
 
 
 

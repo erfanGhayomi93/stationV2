@@ -6,7 +6,6 @@ import i18next from './assets/i18n/config';
 import QueryClientProviderCom from './config/reactQuery/index.tsx';
 import useApiPath from './common/hooks/useApiPath.ts';
 
-import './index.css';
 import './assets/scss/app.scss';
 
 

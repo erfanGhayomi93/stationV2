@@ -1,16 +1,13 @@
-@import url(./atoms.scss);
-@import url(./light.scss);
-@import url(./dark.scss);
-@import url(./animations.scss);
+@import "animations";
+@import "tailwind";
 
-@tailwind base;
 
-@layer base {
-    html {
-        @apply text-base;
+// @layer base {
+//     html {
+//         @apply text-base;
 
-        @screen laptop {
-            font-size: 0.875rem;
-        }
-    }
-}
+//         @screen laptop {
+//             font-size: 0.875rem;
+//         }
+//     }
+// }
