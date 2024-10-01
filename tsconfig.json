@@ -1,48 +1,7 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "target": "es5",
-        "lib": ["ES6", "dom", "dom.iterable", "esnext", "WebWorker"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "react-jsx",
-        // "checkJs": true,
-        "declaration": true,
-        "emitDeclarationOnly": false,
-        "declarationMap": true,
-        "outDir": "build",
-        "skipDefaultLibCheck": true,
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-
-        "paths": {
-            "*": ["*", "components/*"]
-        },
-        "types": ["node", "jest","vite/client"],
-        "typeRoots": ["node_modules/@types", "./typings"]
-    },
-    "include": ["src", "src/**/*", "./cypress.d.ts", "src/**/*.d.ts"],
-    "exclude": ["node_modules", "build", "src/**/*.test.*", "src/**/*.cy.*", "src/**/*.stories.*","src/libs/candlestick","charting_library"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
-// {
-//     "compilerOptions": {
-//       "composite": true,
-//       "skipLibCheck": true,
-//       "module": "ESNext",
-//       "moduleResolution": "bundler",
-//       "allowSyntheticDefaultImports": true,
-//       "strict": true
-//     },
-//     "include": ["vite.config.ts"]
-//   }
-  

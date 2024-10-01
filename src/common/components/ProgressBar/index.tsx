@@ -6,7 +6,7 @@ interface Props {
     height?: `${number}px`;
     topCenter?: string | number;
     bottomCenter?: string | number;
-    bgColorClass?: 'bg-L-success-200 dark:bg-D-success-200' | 'bg-L-error-200 dark:bg-D-error-200' | 'bg-sky-500';
+    bgColorClass?: 'bg-progressbar-success' | 'bg-progressbar-error';
     origin?: 'start' | 'end';
 }
 
@@ -19,29 +19,31 @@ const ProgressBar: React.FC<Props> = ({
     origin = 'start',
 }) => {
     return (
-        <div className="flex flex-col items-center w-full">
-            {/* Top */}
-            <div className="w-full flex items-center justify-between text-xs dark:text-L-basic text-D-basic">
-                <span className="w-1/3 text-right text-L-gray-500 dark:text-L-gray-500">{`${Number(percent).toFixed(2)}%`}</span>
-                <span className="w-1/3 text-center">{topCenter}</span>
-                <span className="w-1/3 text-left text-L-gray-500 dark:text-L-gray-500"></span> {/* Add To Props IF Needed*/}
+        <div className="flex flex-col items-center w-full gap-y-0.5">
+
+            <div className="w-full flex items-center text-xs">
+                <span className='w-1/3 text-right text-content-paragraph'>{origin === 'end' && (`${Number(percent).toFixed(2)}%`)}</span>
+                <span className="w-1/3 text-center text-content-title">{topCenter}</span>
+                <span className='w-1/3 text-left text-content-paragraph'>{origin === 'start' && (`${Number(percent).toFixed(2)}%`)}</span>
             </div>
 
             <div
                 className={clsx(
-                    'w-full flex items-center border rounded-md border-L-gray-400 dark:border-D-gray-400 ',
+                    'w-full flex items-center rounded-md',
                     origin === 'end' ? 'flex-row-reverse' : '',
+                    {
+                        'bg-progressbar-success-line': bgColorClass === "bg-progressbar-success",
+                        'bg-progressbar-error-line': bgColorClass === "bg-progressbar-error",
+                    }
                 )}
                 style={{ height }}
             >
                 <div className={clsx('h-full rounded-md', bgColorClass)} style={{ width: `${Number(percent).toFixed(2)}%` }}></div>
             </div>
 
-            {/* Bottom */}
-            <div className="w-full flex items-center justify-center text-xs dark:text-L-basic text-D-basic">
-                <span className="w-1/3 text-right text-L-gray-500 dark:text-L-gray-500"></span> {/* Add To Props IF Needed*/}
+
+            <div className="w-full flex items-center justify-center text-xs text-content-title">
                 <span className="w-1/3 text-center">{bottomCenter}</span>
-                <span className="w-1/3 text-left text-L-gray-500 dark:text-L-gray-500"></span> {/* Add To Props IF Needed*/}
             </div>
         </div>
     );

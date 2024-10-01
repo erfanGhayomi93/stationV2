@@ -1,6 +1,6 @@
+import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
-import { seprateNumber } from 'src/utils/helpers';
 
 interface IProps {
     price: number;
@@ -16,20 +16,22 @@ const PriceView = ({
     price,
     percentage,
     label,
-    positiveClassName = 'text-L-success-200',
-    negativeClassName = 'text-L-error-200',
-    neutralClassName = 'text-L-gray-600 dark:text-D-gray-600',
+    positiveClassName = 'text-content-success-buy',
+    negativeClassName = 'text-content-error-sell',
+    neutralClassName = 'text-content-title',
     onClickPrice
 }: IProps) => {
     //
-    const textColorClassName = useMemo(
-        () => (percentage === 0 ? neutralClassName : percentage > 0 ? positiveClassName : negativeClassName),
+    const textColorClassName = useMemo(() => (percentage === 0 ? neutralClassName : percentage > 0 ? positiveClassName : negativeClassName),
         [percentage],
     );
 
     return (
-        <div className="flex flex-nowrap whitespace-nowrap snap-center gap-1">
-            {label ? <span className="ml-1">{label}:</span> : null}
+        <div className="flex flex-nowrap whitespace-nowrap snap-center gap-1 text-xs p-2">
+            {label ?
+                <span className="ml-1">
+                    {label}:</span>
+                : null}
             <div
                 className={clsx(textColorClassName, {
                     "cursor-pointer": !!onClickPrice
@@ -37,7 +39,7 @@ const PriceView = ({
                 style={{ direction: 'ltr' }}
                 onClick={() => onClickPrice ? onClickPrice() : null}
             >
-                {`${seprateNumber(price?.toFixed ? +price.toFixed() : price)} (${percentage ? percentage : 0}%)`}
+                {`${sepNumbers(price?.toFixed ? +price.toFixed() : price)} (${percentage ? percentage : 0}%)`}
             </div>
         </div>
     );

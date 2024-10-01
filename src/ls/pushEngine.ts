@@ -1,4 +1,4 @@
-import { ConnectionSharing, LightstreamerClient, Subscription } from 'lightstreamer-client-web';
+import { LightstreamerClient, Subscription } from 'lightstreamer-client-web';
 
 interface IConnect {
     DomainName: string;
@@ -7,7 +7,9 @@ interface IConnect {
     User: string;
     Password: string;
 }
+
 type IChangedField = { [key: string]: any };
+
 interface ISubscribe<T = IChangedField> {
     id: string;
     mode: 'MERGE' | 'RAW';
@@ -21,7 +23,9 @@ interface ISubscribe<T = IChangedField> {
 export type UpdatedFieldsType<T = IChangedField> = { itemName: string; changedFields: T };
 
 const client = new LightstreamerClient();
+
 const subscriptions: { [subId: string]: Subscription | null } = {};
+
 
 const connect = ({ DomainName, DomainPort, AdapterSet, User, Password }: IConnect) => {
     //
@@ -30,15 +34,15 @@ const connect = ({ DomainName, DomainPort, AdapterSet, User, Password }: IConnec
         return
     };
 
-    const connectionSharing = new ConnectionSharing('RamandConnection', 'ATTACH', 'CREATE');
-    client.enableSharing(connectionSharing);
+    // const connectionSharing = new ConnectionSharing('RamandConnection', 'ATTACH', 'CREATE');
+    // client.enableSharing(connectionSharing);
 
     client.connectionDetails.setServerAddress(DomainName + ':' + DomainPort);
     client.connectionDetails.setAdapterSet(AdapterSet);
     client.connectionDetails.setUser(User);
     client.connectionDetails.setPassword(Password);
 
-    client.addListener({ onServerError: (errorCode, errorMssg) => console.log({ errorCode, errorMssg }) });
+    client.addListener({ onServerError: (errorCode, errorMssg) => console.log("LS CONNECT ERROR:",{ errorCode, errorMssg }) });
     client.connect();
 };
 
@@ -72,6 +76,7 @@ const subscribe = <T = IChangedField>({ id, mode, items, fields, adapterName, is
     console.log(`%c SUBSCRIBED ${id}`, 'background: linear-gradient(90deg, rgba(12,10,133,1) 17%, rgba(0,134,255,1) 100%); color: #ffffff; border-radius: 10px; padding: 5px');
 };
 
+
 const unSubscribe = (subId: string) => {
     //
     if (!subId || !client) return;
@@ -85,3 +90,4 @@ const unSubscribe = (subId: string) => {
 const getSubscribeById = (id: string) => subscriptions?.[id] || null;
 
 export const pushEngine = { client, connect, disConnect, subscribe, unSubscribe, getSubscribeById };
+

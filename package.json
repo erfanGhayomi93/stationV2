@@ -1,128 +1,49 @@
 {
-    "name": "online-station",
-    "version": "0.1.0",
-    "private": true,
-    "type": "module",
-    "dependencies": {
-        "@headlessui/react": "^1.6.6",
-        "@hookform/resolvers": "^2.9.10",
-        "@reduxjs/toolkit": "^1.8.5",
-        "@tanstack/react-query": "^4.13.0",
-        "@tanstack/react-query-devtools": "^4.13.0",
-        "@testing-library/jest-dom": "^5.16.5",
-        "@testing-library/react": "^13.3.0",
-        "@testing-library/user-event": "^13.5.0",
-        "@tippyjs/react": "^4.2.6",
-        "@vitejs/plugin-react": "^4.2.1",
-        "ag-grid-community": "^31.3.2",
-        "ag-grid-react": "^31.3.2",
-        "axios": "^0.27.2",
-        "axios-mock-adapter": "^1.21.2",
-        "chart.js": "^4.3.3",
-        "chartjs-adapter-date-fns": "^3.0.0",
-        "chartjs-plugin-zoom": "^2.0.1",
-        "clsx": "^1.2.1",
-        "date-fns": "^2.30.0",
-        "dayjs": "^1.11.5",
-        "i18next": "^23.2.11",
-        "i18next-chained-backend": "^4.4.0",
-        "i18next-http-backend": "^2.2.1",
-        "i18next-resources-to-backend": "^1.1.4",
-        "jalaliday": "^2.3.0",
-        "js-cookie": "^3.0.1",
-        "lightstreamer-client-web": "^8.0.5",
-        "localstorage-slim": "^2.3.0",
-        "papaparse": "^5.4.1",
-        "qs": "^6.11.0",
-        "querystring": "^0.2.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-hook-form": "^7.47.0",
-        "react-i18next": "^13.0.2",
-        "react-multi-date-picker": "^3.3.0",
-        "react-number-format": "^5.3.1",
-        "react-redux": "^8.0.2",
-        "react-router-dom": "^6.15.0",
-        "react-simple-keyboard": "^3.5.4",
-        "react-toastify": "^9.0.8",
-        "react-tracked": "^1.7.10",
-        "react-virtuoso": "^4.6.0",
-        "typescript": "4.9.5",
-        "vite": "^5.2.8",
-        "vite-plugin-checker": "^0.6.4",
-        "vite-plugin-svgr": "^4.2.0",
-        "vite-tsconfig-paths": "^4.3.2",
-        "web-vitals": "^2.1.4",
-        "xlsx": "^0.18.5",
-        "yup": "^0.32.11"
-    },
-    "scripts": {
-        "start": "vite --port 3008",
-        "build": "tsc && vite build",
-        "serve": "vite preview --port 3008",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "cypress": "cypress open"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ],
-        "overrides": [
-            {
-                "files": [
-                    "**/*.stories.*"
-                ],
-                "rules": {
-                    "import/no-anonymous-default-export": "off"
-                },
-                "react-scripts": {
-                    "typescript": "^5"
-                }
-            }
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "@cypress/code-coverage": "^3.10.0",
-        "@types/jest": "^27.5.2",
-        "@types/js-cookie": "^3.0.2",
-        "@types/node": "^18.19.42",
-        "@types/qs": "^6.9.15",
-        "@types/papaparse": "^5.3.14",
-        "@types/react": "^18.0.17",
-        "@types/react-dom": "^18.0.6",
-        "@typescript-eslint/eslint-plugin": "^5.33.1",
-        "@typescript-eslint/parser": "^5.33.1",
-        "autoprefixer": "^10.4.8",
-        "babel-plugin-named-exports-order": "^0.0.2",
-        "cypress": "10.10.0",
-        "eslint": "^8.22.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.30.1",
-        "postcss": "^8.4.16",
-        "prettier": "^2.7.1",
-        "prop-types": "^15.8.1",
-        "sass": "^1.54.5",
-        "tailwindcss": "^3.3.3",
-        "webpack": "^5.74.0"
-    },
-    "engines": {
-        "node": ">=18.17.0",
-        "npm": ">=9.8.0",
-        "typescript": ">=4.9.5"
-    }
+  "name": "onlinestation2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite --port 3008",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.8",
+    "@tanstack/react-query": "^5.55.1",
+    "@tippyjs/react": "^4.2.6",
+    "axios": "^1.7.7",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "i18n": "^0.15.1",
+    "jalaliday": "^2.3.0",
+    "js-cookie": "^3.0.5",
+    "lightstreamer-client-web": "^8.0.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.0.1",
+    "react-router-dom": "^6.26.1",
+    "tailwind-merge": "^2.5.2",
+    "zustand": "^5.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.41",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5.4.1",
+    "vite-plugin-svgr": "^4.2.0",
+    "vite-tsconfig-paths": "^5.0.1"
+  }
 }

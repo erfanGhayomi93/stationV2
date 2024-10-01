@@ -1,189 +1,108 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require('tailwindcss/plugin');
 module.exports = {
-    content: ['./src/**/*.{js,jsx,ts,tsx}'],
-    darkMode: 'class',
-    theme: {
-        extend: {
-            colors: {
-                menu: {
-                    DEFAULT: '#ECF4FE',
-                },
-                L: {
-                    primary: {
-                        50: '#135CA4',
-                        100: '#D6E9FF',
-                    },
-                    secondary: {
-                        50: '#81D4FA',
-                    },
-                    gray: {
-                        50: '#F0F6FF',
-                        100: '#F3F7FB',
-                        200: '#EBF0F5',
-                        300: '#E2EBF3',
-                        400: '#C6D8E7',
-                        500: '#939CAD',
-                        600: '#5E6781',
-                        700: '#333333',
-                    },
-                    error: {
-                        50: '#FFF4F4',
-                        100: '#FFE1E1',
-                        200: '#E84830',
-                        101: 'rgb(224, 64, 64 , 0.3)', //must be deleted
-                        300: '#CE3636',
-                    },
-                    success: {
-                        50: '#F3FFF9',
-                        100: '#C3E9D5',
-                        200: '#15B761',
-                        101: 'rgba(167, 223, 193, 0.3)', // must be deleted
-                        300: '#0A9E50',
-                    },
-                    warning: {
-                        DEFAULT: '#F5A300',
-                    },
-                    basic: {
-                        DEFAULT: '#FFFFFF',
-                    },
-                    info: {
-                        50: '#A1DDFF',
-                        100: '#4895EF',
-                    },
-                    blue: {
-                        50: '#07294A',
-                        100: '#041D37',
-                        200: '#0C4073',
-                        300: '#133F8E',
-                    },
-                },
-                D: {
-                    primary: {
-                        50: '#A9BDEC',
-                        100: '#202A41',
-                    },
-                    secondary: {
-                        50: '#81D4FA',
-                    },
-                    gray: {
-                        50: '#111418',
-                        100: '#262F39',
-                        200: '#2F333D',
-                        300: '#3B4654',
-                        400: '#546478',
-                        500: '#ABB6C4',
-                        600: '#BBCEDD',
-                        700: '#F0F3FA',
-                    },
-                    error: {
-                        50: '#110303',
-                        100: '#6E3437',
-                        200: '#ED5454',
-                        300: '#CE3636',
-                    },
-                    success: {
-                        50: '#03110A',
-                        100: '#143D2A',
-                        200: '#15B761',
-                        300: '#0A9E50',
-                    },
-                    warning: {
-                        DEFAULT: '#F5A300',
-                    },
-                    basic: {
-                        DEFAULT: '#191E24',
-                    },
-                    info: {
-                        50: '#A1DDFF',
-                        100: '#4895EF',
-                    },
-                    blue: {
-                        50: '#1E2334',
-                        100: '#041D37',
-                        200: '#3F455B',
-                        300: '#8AA3DE',
-                    },
-                },
-            },
-            fontSize: {
-                0.5: '0.3125rem',
-                0.6: '0.375rem',
-                0.7: '0.4375rem',
-                0.8: '0.5rem',
-                0.9: '0.5625rem',
-                1: '0.625rem',
-                1.1: '0.6875rem',
-                1.2: '0.75rem',
-                1.3: '0.8125rem',
-                1.4: '0.875rem',
-                1.5: '0.938rem',
-                1.6: '1rem',
-                1.7: '1.063rem',
-                1.8: '1.125rem',
-                1.9: '1.188rem',
-                2: '1.25rem',
-                2.1: '1.313rem',
-                2.2: '1.375rem',
-                2.3: '1.438rem',
-                2.4: '1.5rem',
-            },
-            fontFamily: {
-                sans: ['IRANSansEnNum'],
-                IRANSansFaNum: ['IRANSansFaNum', 'sans-serif'],
-            },
-            gridTemplateColumns: {
-                14: 'repeat(14, minmax(0, 1fr))',
-                16: 'repeat(16, minmax(0, 1fr))',
-                18: 'repeat(18, minmax(0, 1fr))',
-                20: 'repeat(20, minmax(0, 1fr))',
-                'min-one': '1fr min-content;',
-                'one-min': 'min-content 1fr;',
-            },
-            gridTemplateRows: {
-                'min-one': 'min-content 1fr;',
-                'min-one-min': 'min-content 1fr min-content;',
-                'one-min-min': '1fr min-content min-content;',
-                'min-min-one': 'min-content min-content 1fr;',
-                'one-min': '1fr min-content;',
-                '60-40': '60fr 40fr',
-            },
+  content: ["./src/**/*.{html,js,tsx}"],
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "content-title": "rgb(var(--color-content-title))",
+        "icon-default": "rgb(var(--color-icon-default))",
+        "table-header": "rgb(var(--color-table-header))",
+        "table-row1": "rgb(var(--color-table-row1))",
+        "table-row2": "rgb(var(--color-table-row2))",
+        "line-div-1": "rgb(var(--color-line-div-1))",
+        "line-div-2": "rgb(var(--color-line-div-2))",
+        "line-div-3": "rgb(var(--color-line-div-3))",
+        "icon-disable": "rgb(var(--color-icon-disable))",
+        "content-paragraph": "rgb(var(--color-content-paragraph))",
+        "line-success": "rgb(var(--color-line-success))",
+        "content-deselecttab": "rgb(var(--color-content-deselecttab))",
+        "line-error": "rgb(var(--color-line-error))",
+        "content-placeholder": "rgb(var(--color-content-placeholder))",
+        "content-disable": "rgb(var(--color-content-disable))",
+        "content-success-buy": "rgb(var(--color-content-success-buy))",
+        "line-warning": "rgb(var(--color-line-warning))",
+        "content-error-sell": "rgb(var(--color-content-error-sell))",
+        "input-default": "rgb(var(--color-input-defualt))",
+        "input-active": "rgb(var(--color-input-active))",
+        "input-disable": "rgb(var(--color-input-disable))",
+        "input-focus": "rgb(var(--color-input-focus))",
+        "input-success": "rgb(var(--color-input-success))",
+        "input-error": "rgb(var(--color-input-error))",
+        "input-primary": "rgb(var(--color-input-primary))",
+        "back-surface": "rgb(var(--color-back-surface))",
+        "back-1": "rgb(var(--color-back-1))",
+        "back-2": "rgb(var(--color-back-2))",
+        "back-primary-container": "rgb(var(--color-back-primary-container))",
+        "back-success-container": "rgb(var(--color-back-success-container))",
+        "back-error-container": "rgb(var(--color-back-error-container))",
+        "button-primary-default": "rgb(var(--color-button-primary-default))",
+        "button-primary-hover": "rgb(var(--color-button-primary-hover))",
+        "button-primary-pressing": "rgb(var(--color-button-primary-pressing))",
+        "button-primary-selected": "rgb(var(--color-button-primary-selected))",
+        "button-success-default": "rgb(var(--color-button-success-default))",
+        "button-success-hover": "rgb(var(--color-button-success-hover))",
+        "button-success-pressing": "rgb(var(--color-button-success-pressing))",
+        "button-success-selected": "rgb(var(--color-button-success-selected))",
+        "button-error-default": "rgb(var(--color-button-error-default))",
+        "button-error-hover": "rgb(var(--color-button-error-hover))",
+        "button-error-pressing": "rgb(var(--color-button-error-pressing))",
+        "button-error-selected": "rgb(var(--color-button-error-selected))",
+        "button-warning-default": "rgb(var(--color-button-warning-default))",
+        "button-disable-disable": "rgb(var(--color-button-disable-disable))",
+        "button-tab-active": "rgb(var(--color-button-tab-active))",
+        "button-info-default": "rgb(var(--color-button-info-default))",
+        "button-tab-deactive": "rgb(var(--color-button-tab-deactive))",
+        "button-disable-hover": "rgb(var(--color-button-disable-hover))",
+        "button-warning-hover": "rgb(var(--color-button-warning-hover))",
+        "button-warning-pressing": "rgb(var(--color-button-warning-pressing))",
+        "button-warning-selected": "rgb(var(--color-button-warning-selected))",
+        "notif-primary": "rgb(var(--color-notif-primary))",
+        "notif-red": "rgb(var(--color-notif-red))",
+        "content-white": "rgb(var(--color-content-white))",
+        "content-black": "rgb(var(--color-content-black))",
+        "content-selected": "rgb(var(--color-content-selected))",
+        "nav-back-default": "rgb(var(--color-nav-back-default))",
+        "nav-back-pwa": "rgb(var(--color-nav-back-pwa))",
+        "progressbar-primary": "rgb(var(--color-progressbar-primary))",
+        "progressbar-primary-line": "rgb(var(--color-progressbar-primary-line))",
+        "progressbar-warning": "rgb(var(--color-progressbar-warning))",
+        "progressbar-warning-line": "rgb(var(--color-progressbar-warning-line))",
+        "progressbar-error": "rgb(var(--color-progressbar-error))",
+        "progressbar-error-line": "rgb(var(--color-progressbar-error-line))",
+        "progressbar-success": "rgb(var(--color-progressbar-success))",
+        "progressbar-success-line": "rgb(var(--color-progressbar-success-line))",
+        "nav-opened": "rgb(var(--color-nav-opened))",
+        "nav-selected": "rgb(var(--color-nav-selected))",
+        "nav-default": "rgb(var(--color-nav-default))",
+        "icon-white": "rgb(var(--color-icon-white))",
+        "icon-success": "rgb(var(--color-icon-success))",
+        "icon-error": "rgb(var(--color-icon-error))",
+        "icon-warning": "rgb(var(--color-icon-warning))",
+        "icon-primary": "rgb(var(--color-icon-primary))",
+        "tooltip-back": "rgb(var(--color-neu-10))",
+        "tooltip-content": "rgb(var(--color-neu-99))",
+        "content-info": "rgb(var(--color-blue-50))",
+        "content-warnning": "rgb(var(--color-yellow-50))"
+      },
+      gridTemplateColumns: {
+        'one-min': '1fr min-content;',
+        'min-one': 'min-content 1fr;',
+      },
+      gridTemplateRows: {
+        'min-one': 'min-content 1fr;',
+        'min-one-min': 'min-content 1fr min-content;',
+        'one-min-min': '1fr min-content min-content;',
+        'min-min-one': 'min-content min-content 1fr;',
+        'one-min': '1fr min-content;',
+      },
+      screens: {
+        laptop: { min: '1024px', max: '1440px' } // Laptop screen size range
+      },
+      fontSize: {
+        base: '1rem'
+      }
+    }
+  }
+}
 
-            keyframes: {
-                spinSlow: {
-                    '0%': { transform: 'rotate(0deg)' },
-                    '25%': { transform: 'rotate(90deg)' },
-                    '50%': { transform: 'rotate(180deg)' },
-                    '75%': { transform: 'rotate(270deg)' },
-                    '100%': { transform: 'rotate(360deg)' },
-                },
-            },
-            animation: {
-                'spin-slow': 'spinSlow 2s ease-in-out infinite',
-            },
-        },
-    },
-    plugins: [
-        plugin(function ({ addBase, theme, addVariant }) {
-            addBase({
-                '.bar': {
-                    overflowY: 'auto',
-                    scrollbarColor: `${theme('colors.slate.600')} ${theme('colors.slate.200')}`,
-                    scrollbarWidth: 'thin',
-                },
-                '.bar::-webkit-scrollbar': {
-                    height: '5px',
-                    width: '5px',
-                },
-                '.bar::-webkit-scrollbar-thumb': {
-                    backgroundColor: theme('colors.slate.400'),
-                    borderRadius: '100vh',
-                },
-                '.bar::-webkit-scrollbar-track-piece': {
-                    backgroundColor: theme('colors.slate.200'),
-                },
-            });
-            addVariant('actived', '&[data-actived="true"]');
-        }),
-    ],
-};
