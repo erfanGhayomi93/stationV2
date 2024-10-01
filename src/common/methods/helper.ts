@@ -7,7 +7,6 @@ export const sepNumbers = (num: number | string): string => {
      if (!num) return '−';
 
      try {
-          console.log('num', num);
           if (num.length <= 3) return num;
 
           const objRegex = /(-?\d+)(\d{3})/;

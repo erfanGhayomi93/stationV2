@@ -20,7 +20,7 @@ const MarketIndexes = () => {
     useEffect(() => {
         if (isSuccess) {
             subscribeMarketIndices([], ({ itemName, changedFields }) => {
-                console.log(itemName, changedFields);
+                console.log("subscribeMarketIndices", itemName, changedFields);
             })
         }
 

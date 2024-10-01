@@ -2,20 +2,20 @@ import { useQuerySearchHistory, useQuerySymbolSearch } from '@api/Symbol'
 import { SearchInputIcon, SpinnerIcon } from '@assets/icons'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import useDebounce from '@hooks/useDebounce'
-import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 interface ISymbolSearchProps {
-	selectedSymbol: SearchSymbol[] | null
-	setSelectedSymbol: Dispatch<SetStateAction<SearchSymbol[] | null>>
+	searchSymbol: SearchSymbol | null
+	setSearchSymbol: (symbol: SearchSymbol | null) => void;
 }
 
 
-const SymbolSearch: FC<ISymbolSearchProps> = ({ selectedSymbol, setSelectedSymbol }) => {
+const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol }) => {
 
 	const [query, setQuery] = useState('')
 
-	const debouncedTerm = useDebounce(query, 700);
+	const debouncedTerm = useDebounce(query, 400);
 
 	const { data, refetch, isFetching: isFetchingSearch } = useQuerySymbolSearch(debouncedTerm);
 
@@ -76,17 +76,22 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ selectedSymbol, setSelectedSymbo
 	return (
 		<Combobox
 			immediate
-			value={selectedSymbol}
-			onChange={setSelectedSymbol}
+			value={searchSymbol}
+			onChange={(symbol) => {
+				if (symbol) {
+					setSearchSymbol(symbol)
+					setQuery('')
+				}
+			}}
 		>
 			<div className='relative'>
 				<ComboboxInput
-					aria-label="Assignee"
-					// value={selectedSymbol?.symbolTitle}
+					aria-label={searchSymbol?.symbolTitle || ""}
 					displayValue={(symbol: SearchSymbol) => symbol?.symbolTitle}
+					value={query}
 					onChange={(event) => setQuery(event.target.value)}
 					className={clsx(
-						'w-full rounded-lg brder-none bg-back-2 py-1.5 pr-8 pl-3 text-content-title rtl placeholder:text-content-placeholder',
+						'w-full rounded-lg border-none bg-back-2 py-1.5 pr-8 pl-3 text-content-title rtl placeholder:text-content-placeholder placeholder:text-sm',
 						'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2'
 					)}
 					autoComplete='off'

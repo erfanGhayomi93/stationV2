@@ -7,6 +7,7 @@ import clsx from "clsx"
 import { sepNumbers } from "@methods/helper"
 import { useCallback, useRef, useState } from "react"
 import Dropdown from "@uiKit/Dropdown"
+import { useSymbolManager } from "@zustand/symbol"
 
 
 export const MainSymbol = () => {
@@ -17,8 +18,10 @@ export const MainSymbol = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
+    const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+
     const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>
-        ("IRO3RPEZ0001", (data) => ({
+        (selectedSymbol, (data) => ({
             clientSideAlertEnabled: data?.alerts?.clientSideAlertEnabled,
             symbolTitle: data?.symbolData?.symbolTitle,
             companyName: data?.symbolData?.companyName,

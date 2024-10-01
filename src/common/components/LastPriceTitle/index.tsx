@@ -7,19 +7,19 @@ import { useTranslation } from "react-i18next";
 
 export interface ILastPriceTitleProps {
     symbolTitle: string,
-    lastPrice: number,
-    lastPriceVar: number,
+    price: number,
+    PriceVar: number,
     onClick?: (symbolISIN: string) => void,
     isSelected: boolean,
     symbolISIN: string
 }
 
-const LastPriceTitle: FC<ILastPriceTitleProps> = ({ lastPrice, symbolTitle, lastPriceVar, onClick, isSelected, symbolISIN }) => {
+const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar, onClick, isSelected, symbolISIN }) => {
 
     const { t } = useTranslation();
 
     return (
-        <div
+        <button
             className={clsx('flex items-center h-full gap-x-1 select-none rtl', styles.container)}
             onClick={() => onClick?.(symbolISIN)}
         >
@@ -38,7 +38,7 @@ const LastPriceTitle: FC<ILastPriceTitleProps> = ({ lastPrice, symbolTitle, last
                         "text-content-title font-medium": isSelected,
                     })}
                 >
-                    {sepNumbers(lastPrice)}
+                    {sepNumbers(price)}
                 </span>
 
                 <span
@@ -55,24 +55,24 @@ const LastPriceTitle: FC<ILastPriceTitleProps> = ({ lastPrice, symbolTitle, last
             <div className="flex gap-x-0.5 items-center text-xs">
                 <span
                     className={clsx("ltr", {
-                        "text-content-success-buy": lastPriceVar > 0,
-                        "text-content-error-sell": lastPriceVar < 0,
+                        "text-content-success-buy": PriceVar > 0,
+                        "text-content-error-sell": PriceVar < 0,
                     })}
                 >
-                    {lastPriceVar}
+                    {PriceVar}
                     %
                 </span>
 
 
                 <UpFillArrowIcon
                     className={clsx({
-                        "text-content-success-buy": lastPriceVar > 0,
-                        "text-content-error-sell rotate-180": lastPriceVar < 0,
+                        "text-content-success-buy": PriceVar > 0,
+                        "text-content-error-sell rotate-180": PriceVar < 0,
                     })}
                 />
             </div>
 
-        </div >
+        </button >
     )
 }
 

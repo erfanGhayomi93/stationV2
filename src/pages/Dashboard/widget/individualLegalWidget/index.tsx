@@ -1,6 +1,7 @@
 import { useQuerySymbolGeneralInformation } from "@api/Symbol";
 import ProgressBar from "@components/progressBar"
 import { dateFormatter, numFormatter, sepNumbers } from "@methods/helper";
+import { useSymbolManager } from "@zustand/symbol";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next"
 
@@ -24,8 +25,10 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
 
     const { t } = useTranslation()
 
+    const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+
     const { data: detailsSymbol } = useQuerySymbolGeneralInformation<any>
-        ("IRO3RPEZ0001", (data) => ({
+        (selectedSymbol, (data) => ({
             individualBuyVolume: data.individualLegal.individualBuyVolume,
             individualSellVolume: data.individualLegal.individualSellVolume,
             legalBuyVolume: data.individualLegal.legalBuyVolume,
