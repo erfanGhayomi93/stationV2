@@ -8,4 +8,6 @@ interface SearchSymbol {
     companyName: string;
     insCode: null | string;
     symbolTradeState: Symbol.TradeState;
+    lastTradedPrice : number;
+    lastTradedPriceVar : number
 }

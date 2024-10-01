@@ -23,7 +23,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
     })
 
     const handleEditOnce = (row: IOpenOrder) => {
-        console.log('row', row)
+        // console.log('row', row)
     }
 
     const columnDefs = useMemo<Array<IColDef<IOpenOrder>>>(

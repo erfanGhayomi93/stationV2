@@ -1,97 +1,11 @@
 import clsx from 'clsx'
-import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle'
+import LastPriceTitle from '@components/LastPriceTitle'
 import { CloseIcon, UpArrowIcon } from '@assets/icons'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import ProfileDropdown from './ProfileDropdown';
 import Dropdown from '@uiKit/Dropdown';
 import SearchSymbol from '@components/searchSymbol';
-
-const initData: ILastPriceTitleProps[] = [
-    {
-        lastPrice: 56454,
-        lastPriceVar: 3,
-        symbolTitle: "خساپا",
-        isSelected: false,
-        symbolISIN: "11111111111111"
-    },
-    {
-        lastPrice: 56454,
-        lastPriceVar: 0,
-        symbolTitle: "شستا",
-        isSelected: false,
-        symbolISIN: "222"
-    },
-    {
-        lastPrice: 4234,
-        lastPriceVar: -2,
-        symbolTitle: "ریشمک",
-        isSelected: false,
-        symbolISIN: "3333"
-    },
-    {
-        lastPrice: 5342,
-        lastPriceVar: -1.6,
-        symbolTitle: "1خساپا",
-        isSelected: false,
-        symbolISIN: "4441"
-    },
-    {
-        lastPrice: 56454,
-        lastPriceVar: 3,
-        symbolTitle: "خساپا1",
-        isSelected: false,
-        symbolISIN: "111111111111111"
-    },
-    {
-        lastPrice: 56454,
-        lastPriceVar: 0,
-        symbolTitle: "شستا1",
-        isSelected: false,
-        symbolISIN: "2221"
-    },
-    {
-        lastPrice: 4234,
-        lastPriceVar: -2,
-        symbolTitle: "ریشمک1",
-        isSelected: false,
-        symbolISIN: "33331"
-    },
-    {
-        lastPrice: 5342,
-        lastPriceVar: -1.6,
-        symbolTitle: "خساپا1",
-        isSelected: false,
-        symbolISIN: "4441"
-    },
-    {
-        lastPrice: 56454,
-        lastPriceVar: 3,
-        symbolTitle: "خساپا2",
-        isSelected: false,
-        symbolISIN: "1111111111111112"
-    },
-    {
-        lastPrice: 56454,
-        lastPriceVar: 0,
-        symbolTitle: "شستا2",
-        isSelected: false,
-        symbolISIN: "22212"
-    },
-    {
-        lastPrice: 4234,
-        lastPriceVar: -2,
-        symbolTitle: "ریشمک2",
-        isSelected: false,
-        symbolISIN: "333312"
-    },
-    {
-        lastPrice: 5342,
-        lastPriceVar: -1.6,
-        symbolTitle: "خساپا2",
-        isSelected: false,
-        symbolISIN: "44412"
-    }
-]
+import { useSymbolManager } from '@zustand/symbol';
 
 
 const HeaderLayout = () => {
@@ -99,23 +13,37 @@ const HeaderLayout = () => {
 
     const [isLaptop, setIsLaptop] = useState(false);
 
-    const [selectedItem, setselectedItem] = useState("222")
+    const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null)
 
-    const [data, setData] = useState(initData)
-
-    const [selectedSymbol, setSelectedSymbol] = useState<SearchSymbol[] | null>(null)
+    const { tabsSymbol, setTabSymbol, selectedSymbol, setSelectedSymbol } = useSymbolManager()
 
     const refDropdown = useRef<HTMLDivElement>(null)
 
     const handleClickSymbol = (symbolISIN: string) => {
+        let instanceTabSymbol: SearchSymbol[] = [...tabsSymbol]
 
-        const symbol = data.find((item) => item.symbolISIN === symbolISIN) as ILastPriceTitleProps
+        const symbol: SearchSymbol | undefined = instanceTabSymbol.find((item) => item.symbolISIN === symbolISIN)
+        const otherData = instanceTabSymbol.filter(item => item.symbolISIN !== symbolISIN)
 
-        const dataa = data.filter(item => item.symbolISIN !== symbolISIN)
+        symbol && setTabSymbol([{ ...symbol }, ...otherData])
 
-        setData([symbol, ...dataa]);
+        setSelectedSymbol(symbolISIN)
 
-        setselectedItem(symbolISIN)
+        setIsDropdownOpen(false)
+    }
+
+    const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
+        if (!symbol) return;
+
+        setSearchSymbol(symbol)
+
+        setSelectedSymbol(symbol.symbolISIN)
+
+        const isExist = tabsSymbol.some(item => item.symbolISIN === symbol?.symbolISIN)
+        if (isExist) {
+            return
+        }
+        setTabSymbol([...tabsSymbol, { ...symbol }])
     }
 
     useEffect(() => {
@@ -136,29 +64,35 @@ const HeaderLayout = () => {
                     <button
                         className='bg-back-2 p-3 flex items-center rounded-lg'
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        disabled={!tabsSymbol.length}
                     >
                         <UpArrowIcon
                             className={clsx('text-icon-default h-min transition-transform', {
                                 "rotate-180": !isDropdownOpen,
+                                "text-icon-disable" : !tabsSymbol.length
                             })}
                         />
                     </button>
 
                     {
                         !!isDropdownOpen && (
-                            <Dropdown<ILastPriceTitleProps>
+                            <Dropdown<SearchSymbol>
                                 ref={refDropdown}
                                 isDropdownOpen={isDropdownOpen}
                                 closeDropDowns={() => setIsDropdownOpen(false)}
-                                data={data}
+                                data={tabsSymbol}
                                 classes={{ position: 'top-10 -left-9' }}
                                 animate="fadeInDown"
                                 getLabel={
                                     (option) => (
                                         <LastPriceTitle
-                                            {...option}
+                                            PriceVar={option.lastTradedPriceVar}
+                                            price={option.lastTradedPrice}
+                                            symbolISIN={option.symbolISIN}
+                                            symbolTitle={option.symbolTitle}
+                                            key={option.symbolISIN}
                                             onClick={handleClickSymbol}
-                                            isSelected={selectedItem === option.symbolISIN}
+                                            isSelected={selectedSymbol === option.symbolISIN}
                                         />
                                     )
                                 }
@@ -169,16 +103,16 @@ const HeaderLayout = () => {
 
                 <div className='flex flex-1 items-center h-full'>
                     {
-                        data
+                        tabsSymbol
                             .slice(0, isLaptop ? 4 : 7)
                             .map((item, ind) => (
-                                <Fragment key={item.symbolISIN}>
+                                <Fragment key={item?.symbolISIN || ind}>
 
                                     <div className={clsx('px-5 h-full flex items-center transition-colors cursor-pointer', {
-                                        'rounded-t-xl bg-back-2': selectedItem === item.symbolISIN
+                                        'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN
                                     })}>
                                         {
-                                            item.symbolISIN === selectedItem && (
+                                            item?.symbolISIN === selectedSymbol && (
                                                 <CloseIcon
                                                     width={10}
                                                     height={10}
@@ -186,16 +120,20 @@ const HeaderLayout = () => {
                                             )
                                         }
                                         <LastPriceTitle
-                                            {...item}
-                                            onClick={() => setselectedItem(item.symbolISIN)}
-                                            isSelected={selectedItem === item.symbolISIN}
+                                            PriceVar={item?.lastTradedPriceVar}
+                                            price={item?.lastTradedPrice}
+                                            symbolISIN={item?.symbolISIN}
+                                            symbolTitle={item?.symbolTitle}
+                                            key={item?.symbolISIN}
+                                            onClick={() => setSelectedSymbol(item?.symbolISIN)}
+                                            isSelected={selectedSymbol === item?.symbolISIN}
                                         />
                                     </div>
 
 
                                     <span
-                                        className={clsx(`w-[1px] h-4 bg-line-div-1 last:opacity-0 ${(!!data && data[ind + 1]?.symbolISIN === selectedItem) ? "opacity-0" : ""} `, {
-                                            "opacity-0": item.symbolISIN === selectedItem
+                                        className={clsx(`w-[1px] h-4 bg-line-div-1 last:opacity-0 ${(!!tabsSymbol && tabsSymbol[ind + 1]?.symbolISIN === selectedSymbol) ? "opacity-0" : ""} `, {
+                                            "opacity-0": item?.symbolISIN === selectedSymbol
                                         })}>
                                     </span>
 
@@ -210,8 +148,8 @@ const HeaderLayout = () => {
 
                 <div className='w-80'>
                     <SearchSymbol
-                        selectedSymbol={selectedSymbol}
-                        setSelectedSymbol={setSelectedSymbol}
+                        searchSymbol={searchSymbol}
+                        setSearchSymbol={handleSetSelectedSymbol}
                     />
                 </div>
 

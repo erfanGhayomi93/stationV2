@@ -2,13 +2,17 @@ import { useQuerySymbolGeneralInformation } from "@api/Symbol";
 import SymbolPriceSlider from "@pages/Dashboard/components/SymbolPriceSlider";
 import { DetailsSymbolSlider } from "@pages/Dashboard/components/SymbolPriceSlider/DetailsSymbolSlider";
 import { HighLowPriceSymbol } from "@pages/Dashboard/components/SymbolPriceSlider/HighLowPriceSymbol/HighLowPriceSymbol";
+import { useSymbolManager } from "@zustand/symbol";
 
 
 
 
 const SliderbarDetailsWidget = () => {
+
+    const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+
     const { data } = useQuerySymbolGeneralInformation<any>
-        ("IRO3RPEZ0001", (data) => ({
+        (selectedSymbol, (data) => ({
             yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
             highThreshold: data?.symbolData?.highThreshold,
             lastTradedPrice: data?.symbolData?.lastTradedPrice,
@@ -64,7 +68,7 @@ const SliderbarDetailsWidget = () => {
                     totalTradeValue={data?.totalTradeValue}
                     TickPrice={data?.TickPrice}
                 />
-            </div> 
+            </div>
         </div>
     )
 }

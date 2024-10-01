@@ -1,7 +1,7 @@
 import { ReactElement, useRef, forwardRef } from 'react';
 import clsx from 'clsx';
-import useClickOutside from '../../common/hooks/useClickOutside';
-import AnimatePresence from '../../common/components/animation/AnimatePresence';
+import useClickOutside from '@hooks/useClickOutside';
+import AnimatePresence from '@components/animation/AnimatePresence';
 
 interface DropdownProps<T> {
     data: T[];
@@ -33,7 +33,7 @@ const Dropdown = <T,>(
     }, []);
 
     return (
-        <div ref={dropdownRef} className={clsx('relative z-50', classes?.root)}>
+        <div ref={dropdownRef} className={clsx('relative z-50', classes?.root, { "opacity-0": !data.length })}>
             <AnimatePresence
                 initial={{ animation: animate }}
                 exit={{ animation: animate }}
@@ -49,7 +49,7 @@ const Dropdown = <T,>(
                 >
                     <ul className="text-sm overflow-auto max-h-96 min-h-6 flex flex-col">
                         {data.map((item, index) => (
-                            <button
+                            <li
                                 key={index}
                                 className={clsx({
                                     'py-3 px-2 border-b border-line-div-3 last:border-b-0 w-full hover:bg-back-primary-container rounded-lg': !classes?.options,
@@ -57,7 +57,7 @@ const Dropdown = <T,>(
                                 })}
                             >
                                 {getLabel(item)}
-                            </button>
+                            </li>
                         ))}
                     </ul>
                 </div>
