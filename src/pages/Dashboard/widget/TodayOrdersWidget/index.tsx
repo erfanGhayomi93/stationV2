@@ -3,9 +3,12 @@ import { DeleteIcon, EditIcon, ExcelIcon, MoreStatusIcon } from "@assets/icons"
 import LightweightTable, { IColDef } from "@components/LightweightTable/LightweightTable"
 import { dateFormatter, sepNumbers } from "@methods/helper";
 import Button from "@uiKit/Button";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Actions } from "./actions";
+import AgGridTable from "@uiKit/Table/AgGrid";
+import { ColDef } from '@ag-grid-community/core';
+
 
 interface ITodayOrdersWidgetProps {
     side: TSide
@@ -22,69 +25,72 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
         side: side
     })
 
+
     const handleEditOnce = (row: IOpenOrder) => {
         // console.log('row', row)
     }
 
-    const columnDefs = useMemo<Array<IColDef<IOpenOrder>>>(
+    const columnDefs = useMemo<ColDef[]>(
         () => [
             {
-                colId: 'orderPlaceInPrice',
+                field: 'orderPlaceInPrice',
                 headerName: t('orders.orderPlaceInPriceColumn'),
-                valueGetter: (row) => row?.orderPlaceInPrice ? sepNumbers(row?.orderPlaceInPrice) : "-",
+                valueGetter: ({data}) => data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : "-",
             },
             {
-                colId: 'customerTitle ',
+                field: 'customerTitle ',
                 headerName: t('orders.customerTitleColumn'),
-                valueGetter: (row) => (row.customerTitle ? row.customerTitle : '-'),
+                valueGetter: ({data}) => (data?.customerTitle ? data?.customerTitle : '-'),
             },
             {
-                colId: 'bourseCode ',
+                field: 'bourseCode ',
                 headerName: t('orders.bourceCodeColumn'),
-                valueGetter: (row) => (row.bourseCode ? row.bourseCode : '-'),
+                valueGetter: ({data}) => (data?.bourseCode ? data?.bourseCode : '-'),
             },
             {
-                colId: 'quantity',
+                field: 'quantity',
                 headerName: t('orders.quantityColumn'),
-                valueGetter: (row) => row.quantity,
+                valueGetter: ({data}) => data?.quantity,
             },
             {
-                colId: 'price',
+                field: 'price',
                 headerName: t('orders.priceColumn'),
-                valueGetter: (row) => sepNumbers(row.price),
+                valueGetter: ({data}) => sepNumbers(data?.price),
             },
             {
-                colId: 'remainingQuantity',
+                field: 'remainingQuantity',
                 headerName: t('orders.remainingQuantityColumn'),
-                valueGetter: (row) => row.remainingQuantity,
+                valueGetter: ({data}) => data?.remainingQuantity,
             },
             {
-                colId: 'requestDate',
+                field: 'requestDate',
                 headerName: t('orders.requestDateColumn'),
-                valueGetter: (row) => dateFormatter(row.requestDate),
+                valueGetter: ({data}) => dateFormatter(data?.requestDate),
                 width: 100,
                 cellClass: "ltr"
             },
             {
-                colId: "action",
+                field: "action",
                 headerName: t("common.actionColumn"),
                 cellClass: "!overflow-visible",
-                valueGetter: (row) => row.orderId,
-                valueFormatter: ({ row }) =>
-                    <div className="z-50">
-                        <Actions<IOpenOrder>
-                            row={row}
-                            key={row.orderId}
-                            handleEditOnce={handleEditOnce}
-                        />
+                valueGetter: ({data}) => data?.orderId,
+                // valueFormatter: ({ data }) =>
+                //     <div className="z-50">
+                //         <Actions<IOpenOrder>
+                //             row={row}
+                //             key={row.orderId}
+                //             handleEditOnce={handleEditOnce}
+                //         />
 
-                    </div>
+                //     </div>
 
 
             }
         ],
         [],
     );
+
+	console.log(data,"data");
 
 
     return (
@@ -118,13 +124,15 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
             </div>
 
             <div>
-                <LightweightTable
+                {/* <LightweightTable
                     reverseColors
                     rowData={data?.slice(0, 4) || []}
                     columnDefs={columnDefs}
                 // className='h-48'
                 // rowHeight={48}
-                />
+                /> */}
+
+				<AgGridTable  rowData={data ?? []} columnDefs={columnDefs} />
             </div>
         </div>
     )
