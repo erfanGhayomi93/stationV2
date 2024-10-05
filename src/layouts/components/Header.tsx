@@ -32,6 +32,11 @@ const HeaderLayout = () => {
         setIsDropdownOpen(false)
     }
 
+    useEffect(() => {
+        console.log('tabsSymbol', tabsSymbol)
+    }, [tabsSymbol])
+
+
     const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
         if (!symbol) return;
 
@@ -44,6 +49,18 @@ const HeaderLayout = () => {
             return
         }
         setTabSymbol([...tabsSymbol, { ...symbol }])
+    }
+
+    const handleRemoveTabSymbol = (symbolISIN: string) => {
+        let instanceTabSymbol: SearchSymbol[] = tabsSymbol.map(item => ({ ...item }))
+
+        const findIndex = instanceTabSymbol.findIndex(item => item.symbolISIN === symbolISIN)
+
+        if (findIndex !== -1) {
+            instanceTabSymbol.splice(findIndex, 1)
+            setTabSymbol([...instanceTabSymbol])
+            setSelectedSymbol(instanceTabSymbol[findIndex === 0 ? 0 : findIndex - 1].symbolISIN)
+        }
     }
 
     useEffect(() => {
@@ -69,7 +86,7 @@ const HeaderLayout = () => {
                         <UpArrowIcon
                             className={clsx('text-icon-default h-min transition-transform', {
                                 "rotate-180": !isDropdownOpen,
-                                "text-icon-disable" : !tabsSymbol.length
+                                "text-icon-disable": !tabsSymbol.length
                             })}
                         />
                     </button>
@@ -112,11 +129,13 @@ const HeaderLayout = () => {
                                         'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN
                                     })}>
                                         {
-                                            item?.symbolISIN === selectedSymbol && (
+                                            (item?.symbolISIN === selectedSymbol && tabsSymbol.length !== 1) && (
                                                 <CloseIcon
                                                     width={10}
                                                     height={10}
-                                                    className='text-icon-default' />
+                                                    className='text-icon-default'
+                                                    onClick={() => handleRemoveTabSymbol(item?.symbolISIN)}
+                                                />
                                             )
                                         }
                                         <LastPriceTitle

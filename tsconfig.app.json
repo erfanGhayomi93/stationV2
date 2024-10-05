@@ -24,6 +24,7 @@
        "@components/*": ["./common/components/*"],
        "@hooks/*": ["./common/hooks/*"],
        "@methods/*": ["./common/methods/*"],
+       "@widget/*": ["./common/widget/*"],
        "@uiKit/*": ["./uiKit/*"],
        "@LS/*": ["./LS/*"],
        "@assets/*": ["./assets/*"],
