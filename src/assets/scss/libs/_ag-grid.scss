@@ -1,669 +1,172 @@
-@use "ag-grid-community/styles" as ag;
+@use '@ag-grid-community/styles' as ag;
 
 @include ag.grid-styles(
-	(
-		themes: (
-			alpine: (
-				// font
-				--ag-font-family: "IRANSansEnNum",
-				--ag-font-size: 12px,
-				// header
-				--ag-header-height: 32px,
-				--ag-header-background-color: rgb(244, 245, 247),
-				--ag-header-column-separator-display: true,
-				--ag-header-column-separator-color: rgb(255, 255, 255),
-				// Main Colors
-				--ag-background-color: rgb(255, 255, 255),
-				--ag-foreground-color: rgb(30, 35, 41),
-				--ag-alpine-active-color: #002952,
-				--ag-header-foreground-color: rgb(94, 103, 129),
-				--ag-data-color: rgb(30, 35, 41),
-				--ag-row-hover-color: rgba(234, 244, 254),
-				--ag-odd-row-background-color: rgba(249, 250, 251, 1),
-				// Borders
-				--ag-borders: 0px solid,
-				--ag-border-color: rgb(94, 103, 129),
-				--ag-borders-secondary: 0px solid,
-				--ag-cell-horizontal-border: solid rgb(255, 255, 255),
-				--ag-borders-critical: 1px solid,
-				--ag-row-border-style: solid,
-				--ag-row-border-color: transparent,
-				--ag-row-border-width: 1px,
+     (
+          themes: (
+               alpine: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+                    // header
+                    --ag-header-height: 32px,
+                    --ag-header-background-color: rgb(244, 245, 247),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-color: rgb(255, 255, 255),
+                    // Main Colors
+                    --ag-background-color: rgb(255, 255, 255),
+                    --ag-foreground-color: rgb(30, 35, 41),
+                    --ag-alpine-active-color: #002952,
+                    --ag-header-foreground-color: rgb(94, 103, 129),
+                    --ag-data-color: rgb(30, 35, 41),
+                    --ag-row-hover-color: rgba(234, 244, 254),
+                    --ag-odd-row-background-color: rgba(249, 250, 251, 1),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(94, 103, 129),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid rgb(255, 255, 255),
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
 
-				// Rows
-				--ag-row-height: 40px,
-				--ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
-				// Spacing
-				--ag-grid-size: 3px,
-				--ag-icon-size: 14px,
-				--ag-cell-horizontal-padding: 13px,
+                    // Rows
+                    --ag-row-height: 40px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+                    --ag-cell-horizontal-padding: 13px,
 
-				// Input
-				--ag-input-focus-box-shadow: none,
-				--ag-input-focus-border-color: rgb(83, 168, 255)
-			),
-			alpine-dark: (
-				// font
-				--ag-font-family: "IRANSansEnNum",
-				--ag-font-size: 12px,
-				// header
-				--ag-header-height: 32px,
-				--ag-header-background-color: rgb(47, 51, 61),
-				--ag-header-column-separator-display: true,
-				--ag-header-column-separator-color: rgb(23, 24, 30),
-				// Main Colors
-				--ag-background-color: rgba(23, 24, 30, 1),
-				--ag-foreground-color: rgb(30, 35, 41),
-				--ag-alpine-active-color: rgba(94, 103, 129),
-				--ag-header-foreground-color: rgb(163, 163, 163),
-				--ag-data-color: rgb(210, 210, 210),
-				--ag-row-hover-color: rgba(30, 44, 70, 1),
-				--ag-odd-row-background-color: rgba(34, 36, 43, 1),
-				// Borders
-				--ag-borders: 0 solid,
-				--ag-border-color: rgb(200, 201, 204),
-				--ag-borders-secondary: 0px solid,
-				--ag-cell-horizontal-border: solid rgb(23, 24, 30, 0.4),
-				--ag-borders-critical: 1px solid,
-				--ag-row-border-style: solid,
-				--ag-row-border-color: transparent,
-				--ag-row-border-width: 1px,
+                    // Input
+                    --ag-input-focus-box-shadow: none,
+                    --ag-input-focus-border-color: rgb(83, 168, 255),
+               ),
+               alpine-dark: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+                    // header
+                    --ag-header-height: 32px,
+                    --ag-header-background-color: rgb(47, 51, 61),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-color: rgb(23, 24, 30),
+                    // Main Colors
+                    --ag-background-color: rgba(23, 24, 30, 1),
+                    --ag-foreground-color: rgb(30, 35, 41),
+                    --ag-alpine-active-color: rgba(94, 103, 129),
+                    --ag-header-foreground-color: rgb(163, 163, 163),
+                    --ag-data-color: rgb(210, 210, 210),
+                    --ag-row-hover-color: rgba(30, 44, 70, 1),
+                    --ag-odd-row-background-color: rgba(34, 36, 43, 1),
+                    // Borders
+                    --ag-borders: 0 solid,
+                    --ag-border-color: rgb(200, 201, 204),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid rgb(23, 24, 30, 0.4),
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
 
-				// Rows
-				--ag-row-height: 4rem,
-				--ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
-				// Spacing
-				--ag-grid-size: 3px,
-				--ag-icon-size: 14px,
-				--ag-cell-horizontal-padding: 13px,
+                    // Rows
+                    --ag-row-height: 4rem,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+                    --ag-cell-horizontal-padding: 13px,
 
-				// Input
-				--ag-input-focus-box-shadow: none,
-				--ag-input-focus-border-color: rgb(83, 168, 255)
-			),
-			balham: (
-				// font
-				--ag-font-family: "IRANSansEnNum",
-				--ag-font-size: 12px,
+                    // Input
+                    --ag-input-focus-box-shadow: none,
+                    --ag-input-focus-border-color: rgb(83, 168, 255),
+               ),
+               balham: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
 
-				// header
-				--ag-header-height: 40px,
-				--ag-header-background-color: rgb(255, 255, 255),
-				--ag-header-column-separator-display: true,
-				--ag-header-column-separator-height: 50%,
-				--ag-header-column-separator-color: rgb(188, 194, 206),
-				// Main Colors
-				--ag-background-color: rgb(255, 255, 255),
-				--ag-foreground-color: rgb(205, 205, 205),
-				--ag-balham-active-color: #002952,
-				--ag-header-foreground-color: #002952,
-				--ag-data-color: #2e3644,
-				--ag-row-hover-color: rgba(234, 244, 254),
-				--ag-odd-row-background-color: rgb(249, 250, 251),
-				// Borders
-				--ag-borders: 0px solid,
-				--ag-border-color: rgb(94, 103, 129),
-				--ag-borders-secondary: 0px solid,
-				--ag-cell-horizontal-border: solid #ffffff,
-				--ag-borders-critical: 1px solid,
-				--ag-row-border-style: solid,
-				--ag-row-border-color: transparent,
-				--ag-row-border-width: 1px,
+                    // header
+                    --ag-header-height: 40px,
+                    --ag-header-background-color: rgb(255, 255, 255),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-height: 50%,
+                    --ag-header-column-separator-color: rgb(188, 194, 206),
+                    // Main Colors
+                    --ag-background-color: rgb(255, 255, 255),
+                    --ag-foreground-color: rgb(205, 205, 205),
+                    --ag-balham-active-color: #002952,
+                    --ag-header-foreground-color: #002952,
+                    --ag-data-color: #2e3644,
+                    --ag-row-hover-color: rgba(234, 244, 254),
+                    --ag-odd-row-background-color: rgb(249, 250, 251),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(94, 103, 129),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid #ffffff,
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
 
-				// Rows
-				--ag-row-height: 40px,
-				--ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
-				// Spacing
-				--ag-grid-size: 3px,
-				--ag-icon-size: 14px
-			),
-			balham-dark: (
-				// font
-				--ag-font-family: "IRANSansEnNum",
-				--ag-font-size: 12px,
+                    // Rows
+                    --ag-row-height: 40px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+               ),
+               balham-dark: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
 
-				// header
-				--ag-header-height: 48px,
-				--ag-header-background-color: rgb(23, 24, 30),
-				--ag-header-column-separator-display: true,
-				--ag-header-column-separator-height: 50%,
-				--ag-header-column-separator-color: rgb(73, 76, 91),
-				// Main Colors
-				--ag-background-color: rgb(23, 24, 30),
-				--ag-foreground-color: rgb(205, 205, 205),
-				--ag-balham-active-color: rgb(160, 180, 227),
-				--ag-header-foreground-color: rgb(210, 210, 210),
-				--ag-data-color: rgb(210, 210, 210),
-				--ag-row-hover-color: rgba(30, 44, 70, 1),
-				--ag-odd-row-background-color: rgb(44, 46, 55),
-				// Borders
-				--ag-borders: 0px solid,
-				--ag-border-color: rgb(200, 201, 204),
-				--ag-borders-secondary: 0px solid,
-				--ag-cell-horizontal-border: solid #161a1e,
-				--ag-borders-critical: 1px solid,
-				--ag-row-border-style: solid,
-				--ag-row-border-color: transparent,
-				--ag-row-border-width: 1px,
+                    // header
+                    --ag-header-height: 48px,
+                    --ag-header-background-color: rgb(23, 24, 30),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-height: 50%,
+                    --ag-header-column-separator-color: rgb(73, 76, 91),
+                    // Main Colors
+                    --ag-background-color: rgb(23, 24, 30),
+                    --ag-foreground-color: rgb(205, 205, 205),
+                    --ag-balham-active-color: rgb(160, 180, 227),
+                    --ag-header-foreground-color: rgb(210, 210, 210),
+                    --ag-data-color: rgb(210, 210, 210),
+                    --ag-row-hover-color: rgba(30, 44, 70, 1),
+                    --ag-odd-row-background-color: rgb(44, 46, 55),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(200, 201, 204),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid #161a1e,
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
 
-				// Rows
-				--ag-row-height: 42px,
-				--ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
-				// Spacing
-				--ag-grid-size: 3px,
-				--ag-icon-size: 14px
-			)
-		)
-	)
+                    // Rows
+                    --ag-row-height: 42px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+               ),
+          ),
+     )
 );
 
-.ag-theme-balham {
-	--ag-row-disable-text-color: rgb(147, 156, 173);
+.ag-header-cell-resize {
+     display: none;
 }
 
-.ag-theme-balham-dark {
-	--ag-row-disable-text-color: rgb(105, 107, 112);
-}
-
-.ag-theme-balham,
-.ag-theme-alpine {
-	--scrollbar-thumb: rgb(217, 217, 217);
-	--scrollbar-track: rgb(237, 242, 248);
-}
-
-.ag-theme-balham-dark,
-.ag-theme-alpine-dark {
-	--scrollbar-thumb: rgb(47, 51, 61);
-	--scrollbar-track: rgba(34, 36, 43, 0.5);
-}
-
-.ag-theme-balham,
-.ag-theme-alpine {
-	.ag-row {
-		--ag-row-success-bg-color: rgba(209, 241, 225, 0.39);
-		--ag-row-error-bg-color: rgba(241, 185, 185, 0.18);
-	}
-}
-
-.ag-theme-balham-dark,
-.ag-theme-alpine-dark {
-	.ag-row {
-		--ag-row-success-bg-color: rgba(29, 53, 43, 0.51);
-		--ag-row-error-bg-color: rgba(255, 66, 66, 0.18);
-	}
-}
-
-.with-disabled {
-	.ag-row {
-		&.row-disable {
-			.ag-cell:not(.not-disable) {
-				color: var(--ag-row-disable-text-color);
-
-				&.text-success-400,
-				&.text-error-300 {
-					opacity: 0.5;
-				}
-			}
-		}
-	}
-}
-
-.ag-row-hover {
-	font-size: var(--ag-font-size) !important;
-
-	.success,
-	.error,
-	.info,
-	.warning {
-		z-index: 999;
-	}
-
-	.success {
-		background-color: rgb(1, 188, 141) !important;
-	}
-
-	.error {
-		background-color: rgb(224, 64, 64) !important;
-	}
-
-	.info {
-		background-color: rgb(83, 168, 255) !important;
-	}
-
-	.warning {
-		background-color: rgb(255, 177, 26) !important;
-	}
-
-	// .ag-cell-value,
-	// .ag-cell {
-	// 	font-weight: 700 !important;
-
-	// 	span {
-	// 		font-weight: 700 !important;
-	// 	}
-	// }
-}
-
-.ag-row-animation .ag-row {
-	transition:
-		transform 0.4s,
-		top 0.4s,
-		opacity 0.2s !important;
-	-webkit-transition:
-		transform 0.4s,
-		top 0.4s,
-		opacity 0.2s !important;
-	-moz-transition:
-		transform 0.4s,
-		top 0.4s,
-		opacity 0.2s !important;
-}
-
-.ag-root-wrapper {
-	border-radius: 4px;
-}
-
-.ag-body-viewport.ag-layout-normal .ag-center-cols-viewport {
-	overflow-x: hidden !important;
-}
-
-.ag-row .ag-cell .ag-cell-wrapper {
-	text-align: center !important;
-	width: 100%;
-	height: 100%;
-
-	span {
-		height: 100%;
-	}
-}
-
-.ag-row {
-	font-size: var(--ag-font-size) !important;
-
-	&::before {
-		content: "";
-		opacity: 0;
-		transition: opacity 200ms;
-		-webkit-transition: opacity 200ms;
-		-moz-transition: opacity 200ms;
-	}
-
-	&.ag-row-hover::before {
-		opacity: 1;
-		z-index: 99;
-		pointer-events: none;
-	}
-
-	&.ag-row-selected {
-		background-color: var(--ag-row-active-color);
-	}
-}
-
-.ag-cell-value,
-.ag-cell {
-	font-weight: 500;
-	text-align: center;
-
-	&.bg-success {
-		background-color: rgba(21, 183, 97, 0.2);
-	}
-
-	&.bg-error {
-		background-color: rgba(224, 64, 64, 0.2);
-	}
-}
-
-.ag-header .ag-header-cell .ag-header-cell-label {
-	justify-content: center !important;
-}
-
-.ag-header .ag-header-group-cell .ag-header-group-cell-label {
-	justify-content: center !important;
-}
-
-input[class^="ag-"]:focus {
-	@apply border-2;
-	@apply border-info-100;
-}
-
-.ag-cell-inline-editing {
-	border: none !important;
-	border-radius: unset !important;
-	padding: 0 0.7rem !important;
-	box-shadow: none !important;
-	background-color: unset !important;
-
-	.ant-input.ant-input-rtl {
-		text-align: center !important;
-	}
-}
-
-.ag-cell-inline-editing {
-	padding: 0 !important;
-}
-
-.ag-header-cell-text {
-	font-weight: 400;
-}
-
-.ag-theme-alpine-dark .ag-rtl input[class^="ag-"][type="text"] {
-	padding: 0 8px;
-}
-
-.ag-theme-balham-dark,
-.ag-theme-balham {
-	.ag-center-cols-container {
-		.ag-row {
-			border-left: 0;
-			border-right: 0;
-		}
-	}
-
-	.ag-pinned-left-cols-container {
-		.ag-row {
-			border-radius: 4px 0 0 4px;
-			overflow: hidden;
-			border-right: 0;
-		}
-	}
-
-	.ag-pinned-right-cols-container {
-		.ag-row {
-			border-radius: 0 4px 4px 0;
-			overflow: hidden;
-			border-left: 0;
-		}
-	}
-
-	.ag-row {
-		.ag-cell {
-			border: 0;
-		}
-	}
-}
-
-.ag-cell {
-	z-index: 9;
-
-	&.cell-success {
-		background-color: var(--ag-row-success-bg-color);
-	}
-
-	&.cell-error {
-		background-color: var(--ag-row-error-bg-color);
-	}
-}
-
-// .ag-cell{
-
-// 	&.spanned-row {
-// 		background-color: var(--ag-row-hover-color);
-// 	}
-
-
-// 	&.merged-col{
-
-// 		z-index: 10 !important;
-		
-// 		span {
-// 			display: flex;
-// 			align-items: center;
-// 			justify-content: center;
-
-// 		}
-// 	}
-// }
-
-.ag-row-hover:not(.ag-full-width-row)::before,
-.ag-row-hover.ag-full-width-row.ag-row-group::before {
-	z-index: 1;
-}
-
-.ag-root-wrapper:not(.ag-rtl) {
-	.ag-cell-wrapper {
-		flex-direction: row-reverse;
-	}
-}
-
-.ag-ltr .ag-row-drag,
-.ag-ltr .ag-selection-checkbox,
-.ag-ltr .ag-group-expanded,
-.ag-ltr .ag-group-contracted {
-	margin-right: 0;
-	margin-left: var(--ag-cell-widget-spacing);
+.ag-header,
+.ag-advanced-filter-header {
+     border-bottom: none;
 }
 
 .ag-horizontal-left-spacer,
 .ag-horizontal-right-spacer {
-	overflow-x: auto;
-}
-
-.ag-number-field-input {
-	text-align: center !important;
-}
-
-.ag-row-selected {
-	&.ag-row-hover:before {
-		display: none !important;
-	}
-}
-
-.ag-theme-balham-dark,
-.ag-theme-balham {
-	.ag-pinned-right-header .ag-header-row {
-		.ag-header-cell[col-id="column_symbol_title"]:before {
-			display: none;
-		}
-	}
-}
-
-.ag-header-cell-text,
-.ag-cell-value {
-	&:not(.ltr) {
-		// direction: rtl;
-	}
-}
-
-.ag-pinned-right-header,
-.ag-pinned-left-header {
-	border-left-width: 0;
-	border-right-width: 0;
-}
-
-.ag-header {
-	border-bottom-width: 0;
-}
-
-.ag-body {
-	.ag-row:is(.ag-loading-row, .ag-sent-row, .ag-not-sent-row) .ag-cell-value {
-		opacity: 0.3 !important;
-	}
-
-	.ag-center-cols-container {
-		.ag-row {
-			&::after {
-				position: absolute;
-				padding: 2px 12px;
-				border-radius: 99px;
-				direction: rtl;
-				top: 50%;
-				left: 50%;
-				font-size: 12px;
-				transform: translate(-50%, -50%);
-				-webkit-transform: translate(-50%, -50%);
-				-moz-transform: translate(-50%, -50%);
-				z-index: 99;
-			}
-
-			&.ag-loading-row::after {
-				content: "در انتظار پاسخ ...";
-				color: var(--ag-data-color);
-				background-color: var(--ag-row-hover-color);
-			}
-
-			&.ag-sent-row:after {
-				content: "انجام شد";
-				color: rgb(255, 255, 255);
-				background-color: rgb(1, 188, 141);
-			}
-
-			&.ag-not-sent-row:after {
-				content: "خطا در ارسال";
-				color: rgb(255, 255, 255);
-				background-color: rgb(224, 64, 64);
-			}
-		}
-	}
-}
-
-.ag-theme-balham,
-.ag-theme-balham-dark {
-	.ag-header {
-		.ag-pinned-left-header,
-		.ag-pinned-left-header.ag-hidden + .ag-header-viewport {
-			.ag-header-row .ag-header-cell:last-child:after {
-				display: none;
-			}
-		}
-	}
-
-	.ag-cell.ag-cell-first-right-pinned:not(.ag-cell-range-left):not(.ag-cell-range-single-cell),
-	.ag-cell.ag-cell-last-left-pinned:not(.ag-cell-range-right):not(.ag-cell-range-single-cell) {
-		border-left-width: 0;
-		border-right-width: 0;
-	}
-}
-
-.ag-theme-balham {
-	.without-separator {
-		.ag-header {
-			border-bottom: 1px solid theme("colors.gray.300");
-			.ag-header-cell {
-				&::after {
-					display: none;
-				}
-			}
-		}
-
-		.ag-row-odd {
-			background-color: var(--ag-background-color);
-		}
-
-		.ag-header-cell-text {
-			color: theme("colors.gray.800");
-		}
-	}
-}
-
-.ag-theme-balham-dark {
-	.without-separator {
-		.ag-header {
-		
-			.ag-header-cell {
-				&::after {
-					display: none;
-				}
-			}
-		}
-
-		.ag-row-odd {
-			background-color: var(--ag-background-color);
-		}
-
-		.ag-header-cell-text {
-
-		}
-	}
-}
-
-.pin-table {
-	.ag-pinned-right-header,
-	.ag-pinned-left-header {
-		.ag-header-row .ag-header-cell {
-			.ag-header-cell-label {
-				&::before {
-					content: "";
-					position: absolute;
-					width: 17px;
-					opacity: 0;
-					height: 14px;
-					right: 0;
-					top: 50%;
-					background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%09%3Cpath%0A%09%09d%3D%22M10.6667%202C10.8366%202.00019%2011%202.06525%2011.1236%202.1819C11.2471%202.29855%2011.3215%202.45797%2011.3314%202.6276C11.3414%202.79722%2011.2862%202.96425%2011.1772%203.09455C11.0681%203.22486%2010.9134%203.3086%2010.7447%203.32867L10.6667%203.33333V6.50933L11.9293%209.03533C11.9642%209.10446%2011.9868%209.17913%2011.996%209.256L12%209.33333V10.6667C12%2010.83%2011.94%2010.9876%2011.8315%2011.1096C11.723%2011.2316%2011.5735%2011.3096%2011.4113%2011.3287L11.3333%2011.3333H8.66667V14C8.66648%2014.1699%208.60141%2014.3334%208.48477%2014.4569C8.36812%2014.5805%208.2087%2014.6548%208.03907%2014.6648C7.86944%2014.6747%207.70241%2014.6196%207.57211%2014.5105C7.44181%2014.4014%207.35807%2014.2467%207.338%2014.078L7.33333%2014V11.3333H4.66667C4.50338%2011.3333%204.34578%2011.2734%204.22375%2011.1649C4.10173%2011.0563%204.02377%2010.9068%204.00467%2010.7447L4%2010.6667V9.33333C4.00009%209.25603%204.01363%209.17933%204.04%209.10667L4.07067%209.03533L5.33333%206.508V3.33333C5.16341%203.33314%204.99998%203.26808%204.87642%203.15143C4.75286%203.03479%204.67851%202.87536%204.66855%202.70574C4.65859%202.53611%204.71378%202.36908%204.82284%202.23878C4.9319%202.10848%205.0866%202.02474%205.25533%202.00467L5.33333%202H10.6667Z%22%0A%09%09fill%3D%22rgb%28255%2C%20177%2C%2026%29%22%20%2F%3E%0A%3C%2Fsvg%3E");
-					background-size: 14px;
-					background-position: right;
-					background-repeat: no-repeat;
-					transform: translateY(-50%);
-					-webkit-transform: translateY(-50%);
-					-moz-transform: translateY(-50%);
-					transition: 200ms;
-					-webkit-transition: 200ms;
-					-moz-transition: 200ms;
-				}
-			}
-		}
-	}
-
-	.ag-header {
-		&:hover {
-			.ag-pinned-right-header,
-			.ag-pinned-left-header {
-				.ag-header-row .ag-header-cell {
-					.ag-header-cell-label::before {
-						opacity: 1;
-					}
-				}
-			}
-		}
-	}
-}
-
-.ag-header-row .ag-header-cell {
-	.ag-header-cell-label {
-		position: relative;
-
-		.ag-sort-indicator-icon {
-			padding-right: 0;
-
-			.ag-icon::before {
-				position: absolute;
-				left: 0;
-				left: 0;
-				top: 50%;
-				transform: translateY(-50%);
-				-webkit-transform: translateY(-50%);
-				-moz-transform: translateY(-50%);
-			}
-		}
-	}
-}
-
-.ag-theme-alpine,
-.ag-theme-alpine-dark {
-	.ag-cell.ag-cell-first-right-pinned:not(.ag-cell-range-left):not(.ag-cell-range-single-cell) {
-		border-left: 1px var(--ag-cell-horizontal-border);
-	}
-
-	.ag-cell.ag-cell-last-left-pinned:not(.ag-cell-range-right):not(.ag-cell-range-single-cell) {
-		border-right: 1px var(--ag-cell-horizontal-border);
-	}
-}
-
-.app-ag-table {
-	.ag-header-cell:last-child:after {
-		--ag-header-column-separator-width: 0;
-	}
-	.reverse-odd {
-		--ag-background-color: var(--ag-odd-row-background-color);
-
-		.ag-row {
-			&.ag-row-even {
-				background-color: var(--ag-header-column-separator-color);
-			}
-
-			.ag-cell {
-				border-left-width: 0;
-			}
-		}
-	}
+     overflow-x: auto;
 }
