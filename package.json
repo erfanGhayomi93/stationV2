@@ -2,13 +2,25 @@
   "name": "onlinestation2",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "dev": "npm run sass && vite --open --host 0.0.0.0 --port 3000",
+    "dev": "npm run sass && vite --open --host 0.0.0.0 --port 3008",
     "sass": "sass --no-source-map public/assets/scss:public/assets/css --style compressed",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
     "@headlessui/react": "^2.1.8",
@@ -21,16 +33,20 @@
     "jalaliday": "^2.3.0",
     "js-cookie": "^3.0.5",
     "lightstreamer-client-web": "^8.0.9",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.1",
     "react-router-dom": "^6.26.1",
     "tailwind-merge": "^2.5.2",
+    "vite-plugin-checker": "^0.8.0",
+    "vite-plugin-eslint": "^1.8.1",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/js-cookie": "^3.0.6",
+    "@types/node": "^22.7.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",

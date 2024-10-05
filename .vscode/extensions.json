@@ -1,0 +1,10 @@
+{
+     "recommendations": [
+          "dbaeumer.vscode-eslint",
+          "streetsidesoftware.code-spell-checker",
+          "streetsidesoftware.code-spell-checker-persian",
+          "bradlc.vscode-tailwindcss",
+          "esbenp.prettier-vscode",
+          "sonarsource.sonarlint-vscode"
+     ]
+}
