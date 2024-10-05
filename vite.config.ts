@@ -28,6 +28,7 @@ export default defineConfig({
                '@components': path.resolve(__dirname, './src/common/components'),
                '@hooks': path.resolve(__dirname, './src/common/hooks'),
                '@methods': path.resolve(__dirname, './src/common/methods'),
+               '@widget': path.resolve(__dirname, './src/common/widget'),
                '@uiKit': path.resolve(__dirname, './src/uiKit'),
                '@LS': path.resolve(__dirname, './src/LS'),
                '@assets': path.resolve(__dirname, './src/assets'),

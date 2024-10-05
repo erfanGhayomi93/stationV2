@@ -5,7 +5,10 @@
         "symbol_not_found": "نماد مورد نظر یافت نشد",
         "input_placeholder": "جستجو نماد",
         "base_symbol": "نماد پایه",
-        "actionColumn": "وضعیت"
+        "actionColumn": "وضعیت",
+        "noSymbol": "نمادی انتخاب نشده است",
+        "buy": "خرید",
+        "sell": "فروش"
     },
     "serverConnection": {
         "CONNECTING": "درحال اتصال به سرور",

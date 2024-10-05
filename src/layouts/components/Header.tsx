@@ -31,8 +31,13 @@ const HeaderLayout = () => {
           setIsDropdownOpen(false);
      };
 
-     const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
-          if (!symbol) return;
+    useEffect(() => {
+        console.log('tabsSymbol', tabsSymbol)
+    }, [tabsSymbol])
+
+
+    const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
+        if (!symbol) return;
 
           setSearchSymbol(symbol);
 
@@ -45,10 +50,22 @@ const HeaderLayout = () => {
           setTabSymbol([...tabsSymbol, { ...symbol }]);
      };
 
-     useEffect(() => {
-          const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');
-          setIsLaptop(mediaQuery.matches);
-     }, []);
+    const handleRemoveTabSymbol = (symbolISIN: string) => {s
+        const instanceTabSymbol: SearchSymbol[] = tabsSymbol.map(item => ({ ...item }))
+
+        const findIndex = instanceTabSymbol.findIndex(item => item.symbolISIN === symbolISIN)
+
+        if (findIndex !== -1) {
+            instanceTabSymbol.splice(findIndex, 1)
+            setTabSymbol([...instanceTabSymbol])
+            setSelectedSymbol(instanceTabSymbol[findIndex === 0 ? 0 : findIndex - 1].symbolISIN)
+        }
+    }
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');
+        setIsLaptop(mediaQuery.matches);
+    }, []);
 
      return (
           <div className="flex h-full justify-between px-4">
@@ -90,17 +107,26 @@ const HeaderLayout = () => {
                          )}
                     </div>
 
-                    <div className="flex h-full flex-1 items-center">
-                         {tabsSymbol.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
-                              <Fragment key={item?.symbolISIN || ind}>
-                                   <div
-                                        className={clsx('flex h-full cursor-pointer items-center px-5 transition-colors', {
-                                             'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN,
-                                        })}
-                                   >
-                                        {item?.symbolISIN === selectedSymbol && (
-                                             <CloseIcon width={10} height={10} className="text-icon-default" />
-                                        )}
+                <div className='flex flex-1 items-center h-full'>
+                    {
+                        tabsSymbol
+                            .slice(0, isLaptop ? 4 : 7)
+                            .map((item, ind) => (
+                                <Fragment key={item?.symbolISIN || ind}>
+
+                                    <div className={clsx('px-5 h-full flex items-center transition-colors cursor-pointer', {
+                                        'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN
+                                    })}>
+                                        {
+                                            (item?.symbolISIN === selectedSymbol && tabsSymbol.length !== 1) && (
+                                                <CloseIcon
+                                                    width={10}
+                                                    height={10}
+                                                    className='text-icon-default'
+                                                    onClick={() => handleRemoveTabSymbol(item?.symbolISIN)}
+                                                />
+                                            )
+                                        }
                                         <LastPriceTitle
                                              PriceVar={item?.lastTradedPriceVar}
                                              price={item?.lastTradedPrice}
