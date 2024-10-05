@@ -1,137 +1,138 @@
-import { useQueryTodayOrders } from "@api/order";
-import { DeleteIcon, EditIcon, ExcelIcon, MoreStatusIcon } from "@assets/icons"
-import LightweightTable, { IColDef } from "@components/LightweightTable/LightweightTable"
-import { dateFormatter, sepNumbers } from "@methods/helper";
-import Button from "@uiKit/Button";
-import { FC, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Actions } from "./actions";
+import { ColDef } from '@ag-grid-community/core';
+import { useQueryTodayOrders } from '@api/order';
+import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
+import { dateFormatter, sepNumbers } from '@methods/helper';
+import Button from '@uiKit/Button';
+import AgGridTable from '@uiKit/Table/AgGrid';
+import { FC, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ITodayOrdersWidgetProps {
-    side: TSide
+     side: TSide;
 }
 
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
+     const { t } = useTranslation();
 
-    const { t } = useTranslation()
+     const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
 
-    const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard')
+     const { data } = useQueryTodayOrders({
+          GtOrderStateRequestType: tabSelected,
+          side: side,
+     });
 
-    const { data } = useQueryTodayOrders({
-        GtOrderStateRequestType: tabSelected,
-        side: side
-    })
+     const handleEditOnce = (row: IOpenOrder) => {
+          // console.log('row', row)
+     };
 
-    const handleEditOnce = (row: IOpenOrder) => {
-        // console.log('row', row)
-    }
+     const columnDefs = useMemo<ColDef[]>(
+          () => [
+               {
+                    field: 'orderPlaceInPrice',
+                    headerName: t('orders.orderPlaceInPriceColumn'),
+                    valueGetter: ({ data }) => (data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : '-'),
+               },
+               {
+                    field: 'customerTitle ',
+                    headerName: t('orders.customerTitleColumn'),
+                    valueGetter: ({ data }) => (data?.customerTitle ? data?.customerTitle : '-'),
+               },
+               {
+                    field: 'bourseCode ',
+                    headerName: t('orders.bourceCodeColumn'),
+                    valueGetter: ({ data }) => (data?.bourseCode ? data?.bourseCode : '-'),
+               },
+               {
+                    field: 'quantity',
+                    headerName: t('orders.quantityColumn'),
+                    valueGetter: ({ data }) => data?.quantity,
+               },
+               {
+                    field: 'price',
+                    headerName: t('orders.priceColumn'),
+                    valueGetter: ({ data }) => sepNumbers(data?.price),
+               },
+               {
+                    field: 'remainingQuantity',
+                    headerName: t('orders.remainingQuantityColumn'),
+                    valueGetter: ({ data }) => data?.remainingQuantity,
+               },
+               {
+                    field: 'requestDate',
+                    headerName: t('orders.requestDateColumn'),
+                    valueGetter: ({ data }) => dateFormatter(data?.requestDate),
+                    width: 100,
+                    cellClass: 'ltr',
+               },
+               {
+                    field: 'action',
+                    headerName: t('common.actionColumn'),
+                    cellClass: '!overflow-visible',
+                    valueGetter: ({ data }) => data?.orderId,
+                    // valueFormatter: ({ data }) =>
+                    //     <div className="z-50">
+                    //         <Actions<IOpenOrder>
+                    //             row={row}
+                    //             key={row.orderId}
+                    //             handleEditOnce={handleEditOnce}
+                    //         />
 
-    const columnDefs = useMemo<Array<IColDef<IOpenOrder>>>(
-        () => [
-            {
-                colId: 'orderPlaceInPrice',
-                headerName: t('orders.orderPlaceInPriceColumn'),
-                valueGetter: (row) => row?.orderPlaceInPrice ? sepNumbers(row?.orderPlaceInPrice) : "-",
-            },
-            {
-                colId: 'customerTitle ',
-                headerName: t('orders.customerTitleColumn'),
-                valueGetter: (row) => (row.customerTitle ? row.customerTitle : '-'),
-            },
-            {
-                colId: 'bourseCode ',
-                headerName: t('orders.bourceCodeColumn'),
-                valueGetter: (row) => (row.bourseCode ? row.bourseCode : '-'),
-            },
-            {
-                colId: 'quantity',
-                headerName: t('orders.quantityColumn'),
-                valueGetter: (row) => row.quantity,
-            },
-            {
-                colId: 'price',
-                headerName: t('orders.priceColumn'),
-                valueGetter: (row) => sepNumbers(row.price),
-            },
-            {
-                colId: 'remainingQuantity',
-                headerName: t('orders.remainingQuantityColumn'),
-                valueGetter: (row) => row.remainingQuantity,
-            },
-            {
-                colId: 'requestDate',
-                headerName: t('orders.requestDateColumn'),
-                valueGetter: (row) => dateFormatter(row.requestDate),
-                width: 100,
-                cellClass: "ltr"
-            },
-            {
-                colId: "action",
-                headerName: t("common.actionColumn"),
-                cellClass: "!overflow-visible",
-                valueGetter: (row) => row.orderId,
-                valueFormatter: ({ row }) =>
-                    <div className="z-50">
-                        <Actions<IOpenOrder>
-                            row={row}
-                            key={row.orderId}
-                            handleEditOnce={handleEditOnce}
-                        />
+                    //     </div>
+               },
+          ],
+          []
+     );
 
+     return (
+          <div className="flex h-full flex-1 flex-col gap-4">
+               <div className="flex justify-between">
+                    <div className="flex gap-x-2">
+                         <Button
+                              variant={
+                                   tabSelected === 'OnBoard' && side === 'Buy'
+                                        ? 'primary'
+                                        : tabSelected === 'OnBoard' && side === 'Sell'
+                                          ? 'danger'
+                                          : 'secondary'
+                              }
+                              onClick={() => setTabSelected('OnBoard')}
+                         >
+                              {side === 'Buy' && t('orders.openTodayOrdersBuy')}
+                              {side === 'Sell' && t('orders.openTodayOrdersSell')}
+                         </Button>
+
+                         <Button
+                              variant={
+                                   tabSelected === 'All' && side === 'Buy'
+                                        ? 'primary'
+                                        : tabSelected === 'All' && side === 'Sell'
+                                          ? 'danger'
+                                          : 'secondary'
+                              }
+                              onClick={() => setTabSelected('All')}
+                         >
+                              {side === 'Buy' && t('orders.AllTodayOrdersBuy')}
+                              {side === 'Sell' && t('orders.AllTodayOrdersSell')}
+                         </Button>
                     </div>
 
+                    <div className="flex items-center gap-x-6">
+                         <EditIcon className="size-6 text-icon-success" />
 
-            }
-        ],
-        [],
-    );
+                         <DeleteIcon className="size-6 text-icon-success" />
 
+                         <ExcelIcon className="size-6 text-icon-success" />
+                    </div>
+               </div>
 
-    return (
-        <div className="flex flex-col gap-y-2">
-            <div className="flex justify-between">
-                <div className="flex gap-x-2">
-                    <Button
-                        variant={tabSelected === "OnBoard" && side === "Buy" ? "primary" : tabSelected === "OnBoard" && side === "Sell" ? "danger" : "secondary"}
-                        onClick={() => setTabSelected("OnBoard")}
-                    >
-                        {side === "Buy" && t("orders.openTodayOrdersBuy")}
-                        {side === "Sell" && t("orders.openTodayOrdersSell")}
-                    </Button>
-
-                    <Button
-                        variant={tabSelected === "All" && side === "Buy" ? "primary" : tabSelected === "All" && side === "Sell" ? "danger" : "secondary"}
-                        onClick={() => setTabSelected("All")}
-                    >
-                        {side === "Buy" && t("orders.AllTodayOrdersBuy")}
-                        {side === "Sell" && t("orders.AllTodayOrdersSell")}
-                    </Button>
-                </div>
-
-                <div className="flex gap-x-6 items-center">
-                    <EditIcon className="text-icon-success size-6" />
-
-                    <DeleteIcon className="text-icon-success size-6" />
-
-                    <ExcelIcon className="text-icon-success size-6" />
-                </div>
-            </div>
-
-            <div>
-                <LightweightTable
-                    reverseColors
-                    rowData={data?.slice(0, 4) || []}
-                    columnDefs={columnDefs}
-                // className='h-48'
-                // rowHeight={48}
-                />
-            </div>
-        </div>
-    )
-}
+               <div className="flex-1">
+                    <AgGridTable rowData={data ?? []} columnDefs={columnDefs} />
+               </div>
+          </div>
+     );
+};
 
 export default TodayOrdersWidget;
-
 
 // const data = [
 //     {

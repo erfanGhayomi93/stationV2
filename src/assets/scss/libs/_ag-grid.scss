@@ -1,0 +1,172 @@
+@use '@ag-grid-community/styles' as ag;
+
+@include ag.grid-styles(
+     (
+          themes: (
+               alpine: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+                    // header
+                    --ag-header-height: 32px,
+                    --ag-header-background-color: rgb(244, 245, 247),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-color: rgb(255, 255, 255),
+                    // Main Colors
+                    --ag-background-color: rgb(255, 255, 255),
+                    --ag-foreground-color: rgb(30, 35, 41),
+                    --ag-alpine-active-color: #002952,
+                    --ag-header-foreground-color: rgb(94, 103, 129),
+                    --ag-data-color: rgb(30, 35, 41),
+                    --ag-row-hover-color: rgba(234, 244, 254),
+                    --ag-odd-row-background-color: rgba(249, 250, 251, 1),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(94, 103, 129),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid rgb(255, 255, 255),
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
+
+                    // Rows
+                    --ag-row-height: 40px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+                    --ag-cell-horizontal-padding: 13px,
+
+                    // Input
+                    --ag-input-focus-box-shadow: none,
+                    --ag-input-focus-border-color: rgb(83, 168, 255),
+               ),
+               alpine-dark: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+                    // header
+                    --ag-header-height: 32px,
+                    --ag-header-background-color: rgb(47, 51, 61),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-color: rgb(23, 24, 30),
+                    // Main Colors
+                    --ag-background-color: rgba(23, 24, 30, 1),
+                    --ag-foreground-color: rgb(30, 35, 41),
+                    --ag-alpine-active-color: rgba(94, 103, 129),
+                    --ag-header-foreground-color: rgb(163, 163, 163),
+                    --ag-data-color: rgb(210, 210, 210),
+                    --ag-row-hover-color: rgba(30, 44, 70, 1),
+                    --ag-odd-row-background-color: rgba(34, 36, 43, 1),
+                    // Borders
+                    --ag-borders: 0 solid,
+                    --ag-border-color: rgb(200, 201, 204),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid rgb(23, 24, 30, 0.4),
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
+
+                    // Rows
+                    --ag-row-height: 4rem,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+                    --ag-cell-horizontal-padding: 13px,
+
+                    // Input
+                    --ag-input-focus-box-shadow: none,
+                    --ag-input-focus-border-color: rgb(83, 168, 255),
+               ),
+               balham: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+
+                    // header
+                    --ag-header-height: 40px,
+                    --ag-header-background-color: rgb(255, 255, 255),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-height: 50%,
+                    --ag-header-column-separator-color: rgb(188, 194, 206),
+                    // Main Colors
+                    --ag-background-color: rgb(255, 255, 255),
+                    --ag-foreground-color: rgb(205, 205, 205),
+                    --ag-balham-active-color: #002952,
+                    --ag-header-foreground-color: #002952,
+                    --ag-data-color: #2e3644,
+                    --ag-row-hover-color: rgba(234, 244, 254),
+                    --ag-odd-row-background-color: rgb(249, 250, 251),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(94, 103, 129),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid #ffffff,
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
+
+                    // Rows
+                    --ag-row-height: 40px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+               ),
+               balham-dark: (
+                    // font
+                    --ag-font-family: 'IRANSansX',
+                    --ag-font-size: 12px,
+
+                    // header
+                    --ag-header-height: 48px,
+                    --ag-header-background-color: rgb(23, 24, 30),
+                    --ag-header-column-separator-display: true,
+                    --ag-header-column-separator-height: 50%,
+                    --ag-header-column-separator-color: rgb(73, 76, 91),
+                    // Main Colors
+                    --ag-background-color: rgb(23, 24, 30),
+                    --ag-foreground-color: rgb(205, 205, 205),
+                    --ag-balham-active-color: rgb(160, 180, 227),
+                    --ag-header-foreground-color: rgb(210, 210, 210),
+                    --ag-data-color: rgb(210, 210, 210),
+                    --ag-row-hover-color: rgba(30, 44, 70, 1),
+                    --ag-odd-row-background-color: rgb(44, 46, 55),
+                    // Borders
+                    --ag-borders: 0px solid,
+                    --ag-border-color: rgb(200, 201, 204),
+                    --ag-borders-secondary: 0px solid,
+                    --ag-cell-horizontal-border: solid #161a1e,
+                    --ag-borders-critical: 1px solid,
+                    --ag-row-border-style: solid,
+                    --ag-row-border-color: transparent,
+                    --ag-row-border-width: 1px,
+
+                    // Rows
+                    --ag-row-height: 42px,
+                    --ag-value-change-value-highlight-background-color: rgb(83, 168, 255, 0.1),
+                    // Spacing
+                    --ag-grid-size: 3px,
+                    --ag-icon-size: 14px,
+               ),
+          ),
+     )
+);
+
+.ag-header-cell-resize {
+     display: none;
+}
+
+.ag-header,
+.ag-advanced-filter-header {
+     border-bottom: none;
+}
+
+.ag-horizontal-left-spacer,
+.ag-horizontal-right-spacer {
+     overflow-x: auto;
+}

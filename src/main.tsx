@@ -7,6 +7,7 @@ import QueryClientProviderCom from './config/reactQuery/index.tsx';
 import useApiPath from './common/hooks/useApiPath.ts';
 
 import './assets/scss/app.scss';
+import './assets/scss/libs.scss';
 
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
