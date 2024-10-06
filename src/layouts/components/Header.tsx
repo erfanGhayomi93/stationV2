@@ -50,7 +50,7 @@ const HeaderLayout = () => {
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
-          const instanceTabSymbol: SearchSymbol[] = tabsSymbol.map(item => ({ ...item }))
+          const instanceTabSymbol: SearchSymbol[] = tabsSymbol.map(item => ({ ...item }));
 
           const findIndex = instanceTabSymbol.findIndex(item => item.symbolISIN === symbolISIN);
 

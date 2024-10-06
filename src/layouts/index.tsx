@@ -19,9 +19,9 @@ const AppLayout = () => {
      }, [theme]);
 
      return (
-          <div className="grid grid-cols-one-min bg-back-2 h-screen">
+          <div className="grid h-screen grid-cols-one-min bg-back-2">
                <main className="grid grid-rows-min-one-min overflow-hidden">
-                    <header className="h-14 bg-back-surface rounded-b-lg">
+                    <header className="h-14 rounded-b-lg bg-back-surface">
                          <HeaderLayout />
                     </header>
 
@@ -35,7 +35,7 @@ const AppLayout = () => {
                </main>
 
                <aside className="bg-indigo-300">aside</aside>
-          </div >
+          </div>
      );
 };
 
