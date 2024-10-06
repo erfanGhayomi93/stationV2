@@ -22,5 +22,12 @@ export const routeApi = () => {
           Orders: {
                TodayOrdersList: baseUrl + '/Order/v1/TodayOrdersList',
           },
+<<<<<<< HEAD
+=======
+          Customer: {
+               AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
+               GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
+          },
+>>>>>>> 8543eb9cf5042bd3b27528f281bee6bbec52e70e
      };
 };
