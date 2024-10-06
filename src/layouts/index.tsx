@@ -5,17 +5,15 @@ import Footer from "./components/Footer";
 
 const AppLayout = () => {
     return (
-        <div className="grid grid-cols-one-min bg-back-2">
+        <div className="grid grid-cols-one-min bg-back-2 h-screen">
 
-            <main className="grid grid-rows-min-one-min h-screen">
+            <main className="grid grid-rows-min-one-min overflow-hidden">
                 <header className="h-14 bg-back-surface rounded-b-lg">
                     <HeaderLayout />
                 </header>
 
-                <section>
-                    <article>
-                        <Outlet />
-                    </article>
+                <section className="overflow-auto">
+                    <Outlet />
                 </section>
 
                 <footer className="">

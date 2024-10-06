@@ -3,6 +3,7 @@ import { MainSymbol } from "../widget/HeaderSymbol"
 import SliderbarDetailsWidget from "../widget/sliderbarDetailsWidget";
 import clsx from "clsx";
 import IndividualLegalWidget from "../widget/individualLegalWidget";
+import BuySellWidget from "@widget/buySellWidget";
 
 const BoxClass = 'p-2 bg-back-surface shadow-sm rounded-lg';
 
@@ -20,6 +21,10 @@ const MainLayoutDashboard = () => {
 
         <div className={clsx(BoxClass, 'h-[15.75em]')}>
           <TodayOrdersWidget side={"Sell"} />
+        </div>
+
+        <div className={clsx(BoxClass)}>
+          <BuySellWidget />
         </div>
       </div>
 
