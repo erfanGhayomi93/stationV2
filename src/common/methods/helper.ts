@@ -86,3 +86,14 @@ export const dateFormatter = (v: string | number, format: 'date' | 'time' | 'dat
 };
 
 export const isBetween = (min: number, value: number, max: number): boolean => value >= min && value <= max;
+
+export const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', number> => {
+     try {
+          const rowHeight = 40;
+          const headerHeight = 32;
+
+          return { rowHeight, headerHeight };
+     } catch (e) {
+          return { rowHeight: 40, headerHeight: 32 };
+     }
+};

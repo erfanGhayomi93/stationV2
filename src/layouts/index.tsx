@@ -1,31 +1,42 @@
-import { Outlet } from "react-router-dom";
-import HeaderLayout from "./components/Header";
-import Footer from "./components/Footer";
-
+import { useTheme } from '@zustand/theme';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import Footer from './components/Footer';
+import HeaderLayout from './components/Header';
 
 const AppLayout = () => {
-    return (
-        <div className="grid grid-cols-one-min bg-back-2 h-screen">
+     const { theme } = useTheme();
 
-            <main className="grid grid-rows-min-one-min overflow-hidden">
-                <header className="h-14 bg-back-surface rounded-b-lg">
-                    <HeaderLayout />
-                </header>
+     useEffect(() => {
+          const element = document.documentElement;
 
-                <section className="overflow-auto">
-                    <Outlet />
-                </section>
+          if (theme !== 'system') {
+               element.classList.toggle('dark', theme === 'dark');
+          } else {
+               const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+               element.classList.toggle('dark', darkQuery.matches);
+          }
+     }, [theme]);
 
-                <footer className="">
-                    <Footer />
-                </footer>
-            </main>
+     return (
+          <div className="grid grid-cols-one-min bg-back-2 h-screen">
+               <main className="grid grid-rows-min-one-min overflow-hidden">
+                    <header className="h-14 bg-back-surface rounded-b-lg">
+                         <HeaderLayout />
+                    </header>
 
-            <aside className="bg-indigo-300">aside</aside>
+                    <section className="overflow-auto">
+                         <Outlet />
+                    </section>
 
-        </div>
-    )
-}
+                    <footer className="">
+                         <Footer />
+                    </footer>
+               </main>
 
+               <aside className="bg-indigo-300">aside</aside>
+          </div >
+     );
+};
 
 export default AppLayout;
