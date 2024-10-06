@@ -1,122 +1,116 @@
-import { useTranslation } from "react-i18next"
-import clsx from "clsx"
-import { sepNumbers } from "@methods/helper"
-import { useCallback, useEffect, useRef, useState } from "react";
-import { UpArrowIcon } from "@assets/icons";
-import Dropdown from "@uiKit/Dropdown";
-import { useQueryIndexMarket } from "@api/IndexMarket";
-import { subscribeMarketIndices } from "@LS/subscribes";
-import { pushEngine } from "@LS/pushEngine";
+import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import { sepNumbers } from '@methods/helper';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { UpArrowIcon } from '@assets/icons';
+import Dropdown from '@uiKit/Dropdown';
+import { useQueryIndexMarket } from '@api/IndexMarket';
+import { subscribeMarketIndices } from '@LS/subscribes';
+import { pushEngine } from '@LS/pushEngine';
 
 const MarketIndexes = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const { data, isSuccess } = useQueryIndexMarket()
+     const { data, isSuccess } = useQueryIndexMarket();
 
-    const { t } = useTranslation()
+     const { t } = useTranslation();
 
-    const refDropdown = useRef<HTMLDivElement>(null)
+     const refDropdown = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (isSuccess) {
-            subscribeMarketIndices([], ({ itemName, changedFields }) => {
-                console.log("subscribeMarketIndices", itemName, changedFields);
-            })
-        }
+     useEffect(() => {
+          if (isSuccess) {
+               subscribeMarketIndices([], ({ itemName, changedFields }) => {
+                    console.log('subscribeMarketIndices', itemName, changedFields);
+               });
+          }
 
-        return () => {
-            pushEngine.unSubscribe('MarketIndices');
-        }
+          return () => {
+               pushEngine.unSubscribe('MarketIndices');
+          };
+     }, [data, isSuccess]);
 
-    }, [data, isSuccess])
+     const uiIndexes = useCallback(
+          (item: IIndexRes) => {
+               const changePercent = item ? +item?.changePercent : 0;
 
-
-    const uiIndexes = useCallback((item: IIndexRes) => {
-
-        const changePercent = item ? +item?.changePercent : 0
-
-        return (
-            <div
-                className={clsx('flex items-center h-full gap-x-1 select-none font-medium w-full justify-between text-xs',)}
-                key={item.symbolISIN}
-            >
-                <span className="ml-2">
-                    {t(item.symbolISIN === "IRX6XTPI0006" ? "MarketIndexes.MainIndex" : item.symbolISIN === "IRXZXOCI0006" ? "MarketIndexes.FaraBourseIndex" : "MarketIndexes.HamvaznIndex")}
-                    :
-                </span>
-
-                <div className="flex gap-x-1 justify-start">
-                    <span
-                        className={clsx("ltr", {
-                            "text-content-success-buy": changePercent > 0,
-                            "text-content-error-sell": changePercent < 0,
-                        })}>
-                        ({!!item && item?.changePercent.toFixed(1) + '%'})
-                    </span>
-
-                    <span
-                        className={clsx("ltr", {
-                            "text-content-success-buy": changePercent > 0,
-                            "text-content-error-sell": changePercent < 0,
-                        })}
+               return (
+                    <div
+                         className={clsx(
+                              'flex h-full w-full select-none items-center justify-between gap-x-1 text-xs font-medium'
+                         )}
+                         key={item.symbolISIN}
                     >
-                        {item && (sepNumbers(item?.indexChange.toFixed()))}
-                    </span>
+                         <span className="ml-2">
+                              {t(
+                                   item.symbolISIN === 'IRX6XTPI0006'
+                                        ? 'MarketIndexes.MainIndex'
+                                        : item.symbolISIN === 'IRXZXOCI0006'
+                                          ? 'MarketIndexes.FaraBourseIndex'
+                                          : 'MarketIndexes.HamvaznIndex'
+                              )}
+                              :
+                         </span>
 
-                    <span
-                        className={clsx("ltr", {
-                            "text-content-success-buy": changePercent > 0,
-                            "text-content-error-sell": changePercent < 0,
-                        })}
-                    >
-                        {item && (sepNumbers(item?.lastIndexValueInDay.toFixed()))}
-                    </span>
-                </div>
-            </div>
-        )
-    }, [data])
+                         <div className="flex justify-start gap-x-1">
+                              <span
+                                   className={clsx('ltr', {
+                                        'text-content-success-buy': changePercent > 0,
+                                        'text-content-error-sell': changePercent < 0,
+                                   })}
+                              >
+                                   ({!!item && item?.changePercent.toFixed(1) + '%'})
+                              </span>
 
-    return (
-        <div className="flex gap-x-4 text-xs items-center font-medium">
-            <div>
-                {data
-                    ?.filter(item => item.symbolISIN === "IRX6XTPI0006")
-                    ?.map(item => uiIndexes(item))}
-            </div>
-            <div
-                ref={refDropdown}
-            >
-                <button
-                    className='p-3 flex items-center rounded-lg'
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                    <UpArrowIcon
-                        className={clsx('text-icon-default h-min transition-transform', {
-                            "rotate-180": !isDropdownOpen,
-                        })}
-                    />
-                </button>
+                              <span
+                                   className={clsx('ltr', {
+                                        'text-content-success-buy': changePercent > 0,
+                                        'text-content-error-sell': changePercent < 0,
+                                   })}
+                              >
+                                   {item && sepNumbers(item?.indexChange.toFixed())}
+                              </span>
 
-                {
-                    !!isDropdownOpen && (
-                        <Dropdown<IIndexRes>
-                            ref={refDropdown}
-                            closeDropDowns={() => setIsDropdownOpen(false)}
-                            data={data?.filter(item => item.symbolISIN !== "IRX6XTPI0006") || []}
-                            isDropdownOpen={isDropdownOpen}
-                            classes={{ position: "bottom-10 left-0" }}
-                            animate="fadeInUp"
-                            getLabel={
-                                (options) => uiIndexes(options)
-                            }
-                        />
-                    )
-                }
+                              <span
+                                   className={clsx('ltr', {
+                                        'text-content-success-buy': changePercent > 0,
+                                        'text-content-error-sell': changePercent < 0,
+                                   })}
+                              >
+                                   {item && sepNumbers(item?.lastIndexValueInDay.toFixed())}
+                              </span>
+                         </div>
+                    </div>
+               );
+          },
+          [data]
+     );
 
-            </div>
-        </div>
-    )
-}
+     return (
+          <div className="flex items-center gap-x-4 text-xs font-medium">
+               <div>{data?.filter(item => item.symbolISIN === 'IRX6XTPI0006')?.map(item => uiIndexes(item))}</div>
+               <div ref={refDropdown}>
+                    <button className="flex items-center rounded-lg p-3" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                         <UpArrowIcon
+                              className={clsx('h-min text-icon-default transition-transform', {
+                                   'rotate-180': !isDropdownOpen,
+                              })}
+                         />
+                    </button>
 
-export default MarketIndexes
+                    {!!isDropdownOpen && (
+                         <Dropdown<IIndexRes>
+                              ref={refDropdown}
+                              closeDropDowns={() => setIsDropdownOpen(false)}
+                              data={data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006') || []}
+                              isDropdownOpen={isDropdownOpen}
+                              classes={{ position: 'bottom-10 left-0' }}
+                              animate="fadeInUp"
+                              getLabel={options => uiIndexes(options)}
+                         />
+                    )}
+               </div>
+          </div>
+     );
+};
 
+export default MarketIndexes;

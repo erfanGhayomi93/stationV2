@@ -1,7 +1,7 @@
 interface IIndexRes {
-    symbolISIN: string;
-    symbolTitle: string;
-    lastIndexValueInDay: number;
-    changePercent: number;
-    indexChange
-};
+     symbolISIN: string;
+     symbolTitle: string;
+     lastIndexValueInDay: number;
+     changePercent: number;
+     indexChange;
+}

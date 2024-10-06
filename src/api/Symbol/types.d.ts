@@ -156,8 +156,8 @@ interface ISymbolData {
      optionContractType?: 'Put' | 'Call';
      tommorowHighThreshold: number;
      tommorowLowThreshold: number;
-     totalNumberOfSharesCount : number;
-     monthlyTradeVolume : number
+     totalNumberOfSharesCount: number;
+     monthlyTradeVolume: number;
 }
 
 interface ISymbolGeneralInformationRes {

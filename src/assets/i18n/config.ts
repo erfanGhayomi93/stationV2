@@ -3,13 +3,13 @@ import { initReactI18next } from 'react-i18next';
 import translation from './fa/translation.json';
 
 i18next.use(initReactI18next).init({
-  lng: 'fa', // if you're using a language detector, do not define the lng option
-  debug: true,
-  resources: {
-    fa: {
-      translation,
-    },
-  }
+     lng: 'fa', // if you're using a language detector, do not define the lng option
+     debug: true,
+     resources: {
+          fa: {
+               translation,
+          },
+     },
 });
 
-export default i18next
+export default i18next;
