@@ -18,7 +18,7 @@ AXIOS.interceptors.request.use(
      },
      function (error) {
           return Promise.reject(error instanceof Error ? error : new Error(String(error)));
-     },
+     }
 );
 
 AXIOS.interceptors.response.use(function (response: AxiosResponse) {
@@ -31,7 +31,7 @@ AXIOS.interceptors.response.use(function (response: AxiosResponse) {
                     '400',
                     response.config,
                     response.request,
-                    response,
+                    response
                );
                // Attach the response instance, in case we would like to access it.
                error.response = response;

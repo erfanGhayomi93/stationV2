@@ -1,28 +1,18 @@
-import { DependencyList, EffectCallback, RefObject, useEffect } from "react"
+import { DependencyList, EffectCallback, RefObject, useEffect } from 'react';
 
+const useClickOutside = (ref: RefObject<HTMLElement>, effect: EffectCallback, deps: DependencyList) => {
+     useEffect(() => {
+          const handleClickOutside = (event: MouseEvent) => {
+               if (ref.current && !ref.current.contains(event.target as Node)) {
+                    effect();
+               }
+          };
 
-const useClickOutside = (
-    ref: RefObject<HTMLElement>,
-    effect: EffectCallback,
-    deps: DependencyList
-) => {
+          document.addEventListener('mousedown', handleClickOutside);
+          return () => {
+               document.removeEventListener('mousedown', handleClickOutside);
+          };
+     }, deps);
+};
 
-    useEffect(() => {
-
-        const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                effect()
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-
-    }, deps)
-
-
-}
-
-export default useClickOutside
+export default useClickOutside;

@@ -3,10 +3,11 @@ import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
 import { getHeightsForTables } from '@methods/helper';
+import { useTheme } from '@zustand/theme';
 import clsx from 'clsx';
 import { forwardRef, useMemo } from 'react';
 
-LicenseManager.setLicenseKey('DownloadDevTools_COM_NDEwMjM0NTgwMDAwMA==59158b5225400879a12a96634544f5b6');
+LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
@@ -24,9 +25,14 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                api.sizeColumnsToFit();
           };
 
+          const { theme } = useTheme();
+
           return (
                <div
-                    className={clsx(`relative w-full ag-theme-${tableTheme}`)}
+                    className={clsx(
+                         'app-ag-table w-full',
+                         theme === 'dark' ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`
+                    )}
                     style={{
                          height: tableHeight ?? '100%',
                     }}
@@ -39,6 +45,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          ref={ref}
                          rowData={rowData ?? []}
                          rowBuffer={5}
+                         enableRtl
                          defaultColDef={{
                               flex: 1,
                          }}
