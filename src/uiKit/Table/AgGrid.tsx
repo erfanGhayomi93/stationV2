@@ -2,8 +2,8 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
+import useDarkMode from '@hooks/useDarkMode';
 import { getHeightsForTables } from '@methods/helper';
-import { useTheme } from '@zustand/theme';
 import clsx from 'clsx';
 import { forwardRef, useMemo } from 'react';
 
@@ -25,14 +25,13 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                api.sizeColumnsToFit();
           };
 
-          const { theme } = useTheme();
+          const isDarkMode = useDarkMode();
+
+          console.log(isDarkMode, 'isDarkMode');
 
           return (
                <div
-                    className={clsx(
-                         'app-ag-table w-full',
-                         theme === 'dark' ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`
-                    )}
+                    className={clsx('app-ag-table w-full', isDarkMode ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`)}
                     style={{
                          height: tableHeight ?? '100%',
                     }}
