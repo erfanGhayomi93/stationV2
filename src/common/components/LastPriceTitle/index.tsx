@@ -1,9 +1,9 @@
-import { FC } from 'react';
 import { UpFillArrowIcon } from '@assets/icons';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
-import styles from './index.module.scss';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import styles from './index.module.scss';
 
 export interface ILastPriceTitleProps {
      symbolTitle: string;
@@ -12,6 +12,8 @@ export interface ILastPriceTitleProps {
      onClick?: (symbolISIN: string) => void;
      isSelected: boolean;
      symbolISIN: string;
+     lastPrice: number;
+     lastPriceVar: number;
 }
 
 const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar, onClick, isSelected, symbolISIN }) => {

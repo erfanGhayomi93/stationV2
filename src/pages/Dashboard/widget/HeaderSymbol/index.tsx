@@ -8,14 +8,14 @@ import {
      UpArrowIcon,
      WatchlistNegativeIcon,
 } from '@assets/icons';
-import SymbolState from './SymbolState';
-import { useTranslation } from 'react-i18next';
-import Tippy from '@tippyjs/react';
-import clsx from 'clsx';
 import { sepNumbers } from '@methods/helper';
-import { useCallback, useRef, useState } from 'react';
+import Tippy from '@tippyjs/react';
 import Dropdown from '@uiKit/Dropdown';
 import { useSymbolManager } from '@zustand/symbol';
+import clsx from 'clsx';
+import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import SymbolState from './SymbolState';
 
 export const MainSymbol = () => {
      const { t } = useTranslation();
@@ -71,7 +71,7 @@ export const MainSymbol = () => {
           [data?.symbolState]
      );
 
-     const drop = [
+     const items = [
           { label: 'سایت TSE ', icon: TseIcon, onclick: () => null },
           { label: 'سایت کدال', icon: CodalIcon, onclick: () => null },
      ];
@@ -145,31 +145,27 @@ export const MainSymbol = () => {
                     >
                          <LinkIcon className="text-icon-default" />
 
-                         {!!isDropdownOpen && (
-                              <Dropdown<any>
-                                   ref={refDropdown}
-                                   isDropdownOpen={isDropdownOpen}
-                                   closeDropDowns={() => setIsDropdownOpen(false)}
-                                   data={drop}
-                                   classes={{ position: 'top-6 left-0' }}
-                                   animate="fadeIn"
-                                   getLabel={option => (
-                                        <button
-                                             className="flex w-full items-center justify-between"
-                                             onClick={() => {
-                                                  option.onclick();
-                                                  setIsDropdownOpen(false);
-                                             }}
-                                        >
-                                             <div className="flex gap-x-2">
-                                                  <option.icon className="text-icon-default" />
-                                                  <span className="text-content-paragraph">{option.label}</span>
-                                             </div>
+                         {isDropdownOpen && (
+                              <Dropdown dropDownRef={refDropdown} open={isDropdownOpen} onClose={() => setIsDropdownOpen(false)}>
+                                   <>
+                                        {items.map(item => (
+                                             <button
+                                                  className="flex w-full items-center justify-between"
+                                                  onClick={() => {
+                                                       item.onclick();
+                                                       setIsDropdownOpen(false);
+                                                  }}
+                                             >
+                                                  <div className="flex gap-x-2 pl-10">
+                                                       <item.icon className="text-icon-default" />
+                                                       <span className="text-content-paragraph">{item.label}</span>
+                                                  </div>
 
-                                             <UpArrowIcon className="-rotate-90 text-icon-default" />
-                                        </button>
-                                   )}
-                              />
+                                                  <UpArrowIcon className="-rotate-90 text-icon-default" />
+                                             </button>
+                                        ))}
+                                   </>
+                              </Dropdown>
                          )}
                     </span>
                </div>

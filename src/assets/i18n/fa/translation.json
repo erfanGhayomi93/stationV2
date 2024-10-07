@@ -128,5 +128,42 @@
           "light": "روشن",
           "dark": "تیره",
           "system": "سیستم"
+     },
+
+     "todayOrders": {
+          "openTodayOrdersBuyTab": "سفارشات خرید باز",
+          "AllTodayOrdersBuyTab": "سفارشات خرید",
+          "openTodayOrdersSellTab": "سفارشات فروش باز",
+          "AllTodayOrdersSellTab": "سفارشات فروش",
+          "orderPlaceInPriceColumn": "جایگاه",
+          "customerTitleColumn": "مشتری",
+          "bourseCodeColumn": "کد بورسی",
+          "quantityColumn": "حجم کل",
+          "priceColumn": "قیمت",
+          "remainingQuantityColumn": "حجم مانده",
+          "requestDateColumn": "زمان",
+          "actionColumn": "عملیات"
+     },
+
+     "orderStatus": {
+          "InOMSQueue": "در حال ارسال",
+          "OnSending": " در حال ارسال ",
+          "Error": "خطا",
+          "DeleteByEngine": "حذف شده توسط هسته",
+          "OnBoard": "در صف",
+          "Canceled": "حذف شده",
+          "OnModifyFrom": "در حال ویرایش",
+          "OnModifyTo": "در حال ویرایش",
+          "Modified": "ویرایش شده",
+          "OnBoardModify": "ویرایش شده",
+          "PartOfTheOrderDone": "انجام بخشی از سفارش",
+          "OrderDone": "انجام شده",
+          "OnCanceling": "در حال حذف",
+          "OnModifyError": "خطا در ویرایش",
+          "OnCancelError": "خطا در حذف",
+          "Expired": "منقضی شده",
+          "draft": "پیش ‌نویس",
+          "Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده به هسته معاملات مسدود است.",
+          "OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
      }
 }

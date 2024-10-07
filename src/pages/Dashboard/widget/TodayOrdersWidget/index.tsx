@@ -6,6 +6,7 @@ import Button from '@uiKit/Button';
 import AgGridTable from '@uiKit/Table/AgGrid';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Actions } from './actions';
 
 interface ITodayOrdersWidgetProps {
      side: TSide;
@@ -21,6 +22,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           side: side,
      });
 
+     console.log(data, 'data');
+
      const handleEditOnce = (row: IOpenOrder) => {
           // console.log('row', row)
      };
@@ -29,46 +32,49 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           () => [
                {
                     field: 'orderPlaceInPrice',
-                    headerName: t('orders.orderPlaceInPriceColumn'),
+                    headerName: t('todayOrders.orderPlaceInPriceColumn'),
                     valueGetter: ({ data }) => (data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : '-'),
                },
                {
                     field: 'customerTitle ',
-                    headerName: t('orders.customerTitleColumn'),
+                    headerName: t('todayOrders.customerTitleColumn'),
                     valueGetter: ({ data }) => (data?.customerTitle ? data?.customerTitle : '-'),
                },
                {
                     field: 'bourseCode ',
-                    headerName: t('orders.bourceCodeColumn'),
+                    headerName: t('todayOrders.bourseCodeColumn'),
                     valueGetter: ({ data }) => (data?.bourseCode ? data?.bourseCode : '-'),
                },
                {
                     field: 'quantity',
-                    headerName: t('orders.quantityColumn'),
+                    headerName: t('todayOrders.quantityColumn'),
                     valueGetter: ({ data }) => data?.quantity,
                },
                {
                     field: 'price',
-                    headerName: t('orders.priceColumn'),
+                    headerName: t('todayOrders.priceColumn'),
                     valueGetter: ({ data }) => sepNumbers(data?.price),
                },
                {
                     field: 'remainingQuantity',
-                    headerName: t('orders.remainingQuantityColumn'),
+                    headerName: t('todayOrders.remainingQuantityColumn'),
                     valueGetter: ({ data }) => data?.remainingQuantity,
                },
                {
                     field: 'requestDate',
-                    headerName: t('orders.requestDateColumn'),
+                    headerName: t('todayOrders.requestDateColumn'),
                     valueGetter: ({ data }) => dateFormatter(data?.requestDate),
                     width: 100,
                     cellClass: 'ltr',
                },
                {
-                    field: 'action',
+                    field: 'orderState',
                     headerName: t('common.actionColumn'),
                     cellClass: '!overflow-visible',
-                    valueGetter: ({ data }) => data?.orderId,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-expect-error
+                    valueGetter: ({ data }) => t(`orderStatus.${data?.orderState}`),
+                    // valueGetter: ({ data }) => data?.orderId,
                     // valueFormatter: ({ data }) =>
                     //     <div className="z-50">
                     //         <Actions<IOpenOrder>
@@ -78,6 +84,23 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     //         />
 
                     //     </div>
+               },
+               {
+                    field: 'action',
+                    headerName: t('todayOrders.actionColumn'),
+                    // cellClass: '!overflow-visible',
+
+                    // valueGetter: ({ data }) => data?.orderId,
+                    // valueFormatter: ({ data }) =>
+                    //     <div className="z-50">
+                    //         <Actions<IOpenOrder>
+                    //             row={row}
+                    //             key={row.orderId}
+                    //             handleEditOnce={handleEditOnce}
+                    //         />
+
+                    //     </div>
+                    cellRenderer: Actions,
                },
           ],
           []

@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
-import { sepNumbers } from '@methods/helper';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { UpArrowIcon } from '@assets/icons';
-import Dropdown from '@uiKit/Dropdown';
 import { useQueryIndexMarket } from '@api/IndexMarket';
-import { subscribeMarketIndices } from '@LS/subscribes';
+import { UpArrowIcon } from '@assets/icons';
 import { pushEngine } from '@LS/pushEngine';
+import { subscribeMarketIndices } from '@LS/subscribes';
+import { sepNumbers } from '@methods/helper';
+import Dropdown from '@uiKit/Dropdown';
+import clsx from 'clsx';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MarketIndexes = () => {
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -97,16 +97,10 @@ const MarketIndexes = () => {
                          />
                     </button>
 
-                    {!!isDropdownOpen && (
-                         <Dropdown<IIndexRes>
-                              ref={refDropdown}
-                              closeDropDowns={() => setIsDropdownOpen(false)}
-                              data={data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006') || []}
-                              isDropdownOpen={isDropdownOpen}
-                              classes={{ position: 'bottom-10 left-0' }}
-                              animate="fadeInUp"
-                              getLabel={options => uiIndexes(options)}
-                         />
+                    {isDropdownOpen && (
+                         <Dropdown dropDownRef={refDropdown} open={isDropdownOpen} onClose={() => setIsDropdownOpen(false)}>
+                              <>{data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}</>
+                         </Dropdown>
                     )}
                </div>
           </div>

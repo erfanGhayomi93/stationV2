@@ -170,3 +170,7 @@
 .ag-horizontal-right-spacer {
      overflow-x: auto;
 }
+
+.ag-rtl .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+     border-color: transparent;
+}

@@ -1,7 +1,6 @@
 import { CloseIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle from '@components/LastPriceTitle';
 import SearchSymbol from '@components/searchSymbol';
-import Dropdown from '@uiKit/Dropdown';
 import { useSymbolManager } from '@zustand/symbol';
 import clsx from 'clsx';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -82,28 +81,6 @@ const HeaderLayout = () => {
                                    })}
                               />
                          </button>
-
-                         {!!isDropdownOpen && (
-                              <Dropdown<SearchSymbol>
-                                   ref={refDropdown}
-                                   isDropdownOpen={isDropdownOpen}
-                                   closeDropDowns={() => setIsDropdownOpen(false)}
-                                   data={tabsSymbol}
-                                   classes={{ position: 'top-10 -left-9' }}
-                                   animate="fadeInDown"
-                                   getLabel={option => (
-                                        <LastPriceTitle
-                                             PriceVar={option.lastTradedPriceVar}
-                                             price={option.lastTradedPrice}
-                                             symbolISIN={option.symbolISIN}
-                                             symbolTitle={option.symbolTitle}
-                                             key={option.symbolISIN}
-                                             onClick={handleClickSymbol}
-                                             isSelected={selectedSymbol === option.symbolISIN}
-                                        />
-                                   )}
-                              />
-                         )}
                     </div>
 
                     <div className="flex h-full flex-1 items-center">
