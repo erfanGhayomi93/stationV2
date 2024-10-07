@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 // import { Signal } from 'src/common/icons';
 // import { pushEngine } from 'src/ls/pushEngine';
-import { useTranslation } from 'react-i18next';
 import { SignalIcon } from '@assets/icons';
 import { pushEngine } from '@LS/pushEngine';
+import { useTranslation } from 'react-i18next';
 
 // https://sdk.lightstreamer.com/ls-web-client/8.0.5/api/StatusWidget.html#onStatusChange
 type PushEngineStatusType =

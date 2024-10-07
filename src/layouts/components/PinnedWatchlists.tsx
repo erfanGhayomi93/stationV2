@@ -1,9 +1,9 @@
-import { Fragment } from 'react/jsx-runtime';
-import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
-import { useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
+import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
 import Dropdown from '@uiKit/Dropdown';
+import clsx from 'clsx';
+import { useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react/jsx-runtime';
 
 const initData: ILastPriceTitleProps[] = [
      {
@@ -12,6 +12,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'خساپا',
           isSelected: false,
           symbolISIN: '11111111111111',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 56454,
@@ -19,6 +21,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'شستا',
           isSelected: false,
           symbolISIN: '222',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 4234,
@@ -26,6 +30,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'ریشمک',
           isSelected: false,
           symbolISIN: '3333',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 5342,
@@ -33,6 +39,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: '1خساپا',
           isSelected: false,
           symbolISIN: '4441',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 56454,
@@ -40,6 +48,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'خساپا1',
           isSelected: false,
           symbolISIN: '111111111111111',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 56454,
@@ -47,6 +57,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'شستا1',
           isSelected: false,
           symbolISIN: '2221',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 4234,
@@ -54,6 +66,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'ریشمک1',
           isSelected: false,
           symbolISIN: '33331',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 5342,
@@ -61,6 +75,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'خساپا1',
           isSelected: false,
           symbolISIN: '4441',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 56454,
@@ -68,6 +84,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'خساپا2',
           isSelected: false,
           symbolISIN: '1111111111111112',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 56454,
@@ -75,6 +93,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'شستا2',
           isSelected: false,
           symbolISIN: '22212',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 4234,
@@ -82,6 +102,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'ریشمک2',
           isSelected: false,
           symbolISIN: '333312',
+          price: 20,
+          PriceVar: 88,
      },
      {
           lastPrice: 5342,
@@ -89,6 +111,8 @@ const initData: ILastPriceTitleProps[] = [
           symbolTitle: 'خساپا2',
           isSelected: false,
           symbolISIN: '44412',
+          price: 20,
+          PriceVar: 88,
      },
 ];
 
@@ -128,8 +152,8 @@ const PinnedWatchlists = () => {
                     ))}
                </div>
 
-               <div ref={refDropdown}>
-                    <button className="flex items-center rounded-lg p-3" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+               <div className="relative" ref={refDropdown}>
+                    <button className="flex items-center rounded-lg p-3" onClick={() => setIsDropdownOpen(prev => !prev)}>
                          <UpArrowIcon
                               className={clsx('h-min text-icon-default transition-transform', {
                                    'rotate-180': !isDropdownOpen,
@@ -137,22 +161,23 @@ const PinnedWatchlists = () => {
                          />
                     </button>
 
-                    {!!isDropdownOpen && (
-                         <Dropdown<ILastPriceTitleProps>
-                              ref={refDropdown}
-                              closeDropDowns={() => setIsDropdownOpen(false)}
-                              data={initData}
-                              isDropdownOpen={isDropdownOpen}
-                              classes={{ position: 'bottom-10 left-0' }}
-                              animate="fadeInUp"
-                              getLabel={options => (
-                                   <LastPriceTitle
-                                        {...options}
-                                        // onClick={handleClickSymbol}
-                                        isSelected={selectedItem === options.symbolISIN}
-                                   />
-                              )}
-                         />
+                    {isDropdownOpen && (
+                         <Dropdown
+                              dropDownRef={refDropdown}
+                              open={isDropdownOpen}
+                              onClose={() => setIsDropdownOpen(prev => !prev)}
+                         >
+                              <>
+                                   {initData.map((item, index) => (
+                                        <LastPriceTitle
+                                             {...item}
+                                             key={index}
+                                             // onClick={handleClickSymbol}
+                                             isSelected={selectedItem === item.symbolISIN}
+                                        />
+                                   ))}
+                              </>
+                         </Dropdown>
                     )}
                </div>
           </div>
