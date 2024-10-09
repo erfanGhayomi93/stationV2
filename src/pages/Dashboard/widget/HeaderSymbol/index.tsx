@@ -8,9 +8,9 @@ import {
      UpArrowIcon,
      WatchlistNegativeIcon,
 } from '@assets/icons';
+import Popup from '@components/popup';
 import { sepNumbers } from '@methods/helper';
 import Tippy from '@tippyjs/react';
-import Dropdown from '@uiKit/Dropdown';
 import { useSymbolManager } from '@zustand/symbol';
 import clsx from 'clsx';
 import { useCallback, useRef, useState } from 'react';
@@ -138,36 +138,42 @@ export const MainSymbol = () => {
                     <span className="flex items-center rounded bg-back-2 p-1">
                          <WatchlistNegativeIcon className="text-icon-primary" />
                     </span>
-                    <span
-                         className="flex items-center rounded bg-back-2 p-1"
-                         ref={refDropdown}
-                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    >
-                         <LinkIcon className="text-icon-default" />
 
-                         {isDropdownOpen && (
-                              <Dropdown dropDownRef={refDropdown} open={isDropdownOpen} onClose={() => setIsDropdownOpen(false)}>
-                                   <>
-                                        {items.map(item => (
-                                             <button
-                                                  className="flex w-full items-center justify-between"
-                                                  onClick={() => {
-                                                       item.onclick();
-                                                       setIsDropdownOpen(false);
-                                                  }}
-                                             >
-                                                  <div className="flex gap-x-2 pl-10">
-                                                       <item.icon className="text-icon-default" />
-                                                       <span className="text-content-paragraph">{item.label}</span>
-                                                  </div>
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         onOpen={() => setIsDropdownOpen(true)}
+                         onClose={() => setIsDropdownOpen(false)}
+                         renderer={({ setOpen }) => (
+                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                                   {items.map((item, index) => (
+                                        <li
+                                             key={index}
+                                             className="flex w-full items-center justify-between"
+                                             onClick={() => {
+                                                  item.onclick();
+                                                  setOpen(false);
+                                             }}
+                                        >
+                                             <div className="flex gap-x-2 pl-10">
+                                                  <item.icon className="text-icon-default" />
+                                                  <span className="text-content-paragraph">{item.label}</span>
+                                             </div>
 
-                                                  <UpArrowIcon className="-rotate-90 text-icon-default" />
-                                             </button>
-                                        ))}
-                                   </>
-                              </Dropdown>
+                                             <UpArrowIcon className="-rotate-90 text-icon-default" />
+                                        </li>
+                                   ))}
+                              </ul>
                          )}
-                    </span>
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded bg-back-2 p-1" onClick={() => setOpen(!open)}>
+                                   <LinkIcon className="text-icon-default" />
+                              </button>
+                         )}
+                    </Popup>
                </div>
           </div>
      );
