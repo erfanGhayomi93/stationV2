@@ -1,6 +1,6 @@
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
-import Dropdown from '@uiKit/Dropdown';
+import Popup from '@components/popup';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { Fragment } from 'react/jsx-runtime';
@@ -152,22 +152,16 @@ const PinnedWatchlists = () => {
                     ))}
                </div>
 
-               <div className="relative" ref={refDropdown}>
-                    <button className="flex items-center rounded-lg p-3" onClick={() => setIsDropdownOpen(prev => !prev)}>
-                         <UpArrowIcon
-                              className={clsx('h-min text-icon-default transition-transform', {
-                                   'rotate-180': !isDropdownOpen,
-                              })}
-                         />
-                    </button>
-
-                    {isDropdownOpen && (
-                         <Dropdown
-                              dropDownRef={refDropdown}
-                              open={isDropdownOpen}
-                              onClose={() => setIsDropdownOpen(prev => !prev)}
-                         >
-                              <>
+               <div className="relative">
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         onOpen={() => setIsDropdownOpen(true)}
+                         onClose={() => setIsDropdownOpen(false)}
+                         renderer={({ setOpen }) => (
+                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
                                    {initData.map((item, index) => (
                                         <LastPriceTitle
                                              {...item}
@@ -176,9 +170,19 @@ const PinnedWatchlists = () => {
                                              isSelected={selectedItem === item.symbolISIN}
                                         />
                                    ))}
-                              </>
-                         </Dropdown>
-                    )}
+                              </ul>
+                         )}
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                                   <UpArrowIcon
+                                        className={clsx('h-min text-icon-default transition-transform', {
+                                             'rotate-180': !isDropdownOpen,
+                                        })}
+                                   />
+                              </button>
+                         )}
+                    </Popup>
                </div>
           </div>
      );

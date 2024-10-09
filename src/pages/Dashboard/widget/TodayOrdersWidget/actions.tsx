@@ -1,6 +1,6 @@
 import { ICellRendererParams } from '@ag-grid-community/core';
 import { DeleteIcon, EditIcon, MoreStatusIcon, UpArrowIcon } from '@assets/icons';
-import Dropdown from '@uiKit/Dropdown';
+import Popup from '@components/popup';
 import { useRef, useState } from 'react';
 
 type ActionsProps = ICellRendererParams<IOpenOrder, string> & {};
@@ -18,14 +18,16 @@ export const Actions = ({}: ActionsProps) => {
      ];
 
      return (
-          <div className="relative" ref={refDropdown}>
-               <button onClick={() => setIsDropdownOpen(prev => !prev)} className="flex w-full cursor-pointer justify-center">
-                    <MoreStatusIcon className="text-icon-default" />
-               </button>
-
-               {isDropdownOpen && (
-                    <Dropdown dropDownRef={refDropdown} open={isDropdownOpen} onClose={() => setIsDropdownOpen(false)}>
-                         <>
+          <div className="relative">
+               <Popup
+                    margin={{
+                         y: 8,
+                    }}
+                    defaultPopupWidth={200}
+                    onOpen={() => setIsDropdownOpen(true)}
+                    onClose={() => setIsDropdownOpen(false)}
+                    renderer={({ setOpen }) => (
+                         <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
                               {items.map((item, index) => (
                                    <button
                                         key={index}
@@ -43,9 +45,15 @@ export const Actions = ({}: ActionsProps) => {
                                         <UpArrowIcon className="-rotate-90 text-icon-default" />
                                    </button>
                               ))}
-                         </>
-                    </Dropdown>
-               )}
+                         </ul>
+                    )}
+               >
+                    {({ setOpen, open }) => (
+                         <button onClick={() => setOpen(!open)} className="flex w-full cursor-pointer justify-center">
+                              <MoreStatusIcon className="text-icon-default" />
+                         </button>
+                    )}
+               </Popup>
           </div>
      );
 };
