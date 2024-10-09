@@ -145,6 +145,18 @@
           "actionColumn": "عملیات"
      },
 
+     "todayTrades": {
+          "tradesTab": "معاملات",
+          "displayBasedOnAggregate": "نمایش بصورت تجمیعی",
+          "customerColumn": "مشتری",
+          "bourseCodeColumn": "کد بورسی",
+          "sideColumn": "سمت",
+          "volumeColumn": "حجم",
+          "averagePriceColumn": "میانگین قیمت",
+          "valueTradeColumn": "ارزش معامله",
+          "sourceColumn": "مبدا"
+     },
+
      "orderStatus": {
           "InOMSQueue": "در حال ارسال",
           "OnSending": " در حال ارسال ",

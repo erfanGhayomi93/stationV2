@@ -1,9 +1,9 @@
 import { ColDef } from '@ag-grid-community/core';
 import { useQueryTodayOrders } from '@api/order';
 import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
+import AgGridTable from '@components/Table/AgGrid';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
-import AgGridTable from '@uiKit/Table/AgGrid';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Actions } from './actions';

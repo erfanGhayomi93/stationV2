@@ -5,11 +5,11 @@ import { LicenseManager } from '@ag-grid-enterprise/core';
 import useDarkMode from '@hooks/useDarkMode';
 import { getHeightsForTables } from '@methods/helper';
 import clsx from 'clsx';
-import { forwardRef, useMemo } from 'react';
-
-LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
+import { forwardRef, memo, Ref, useMemo } from 'react';
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
+
+LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
 
 type AgGridTableProps<T = unknown> = AgGridReactProps<T> & {
      tableTheme?: 'alpine' | 'balham';
@@ -37,7 +37,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                     }}
                >
                     <AgGridReact
-                         rowModelType="clientSide"
+                         modules={[ClientSideRowModelModule]}
                          onFirstDataRendered={fitColumnsSize}
                          rowHeight={rowHeight}
                          headerHeight={headerHeight}
@@ -55,4 +55,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
      }
 );
 
-export default AgGridTable;
+export default memo(AgGridTable) as <TData extends unknown>(
+     props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }
+) => JSX.Element;

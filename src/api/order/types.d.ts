@@ -95,3 +95,28 @@ interface ITodayOrderReq {
      CustomerISIN?: string | string[];
      GtOrderStateRequestType?: TOrderStateRequestType;
 }
+
+interface IDoneOrdersReq {
+     customerISIN?: string;
+     symbolISIN?: string;
+     orderSide?: TSide;
+     aggregateType?: 'both' | 'symbol';
+}
+
+interface IDoneOrdersRes {
+     bourseCode: string;
+     commission: number;
+     customerISIN: string;
+     customerTitle: string;
+     iterationCount: number;
+     orderFrom: string;
+     orderSide: TSide;
+     price: number;
+     quantity: number;
+     symbolISIN: string;
+     symbolTitle: string;
+     totalPrice: number;
+     tradeDate: string;
+     validityDate: number;
+     validityType: number;
+}

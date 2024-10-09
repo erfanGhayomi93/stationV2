@@ -4,6 +4,7 @@ import { MainSymbol } from '../widget/HeaderSymbol';
 import IndividualLegalWidget from '../widget/individualLegalWidget';
 import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';
+import TodayTradesWidget from '../widget/TodayTradesWidget';
 
 const BoxClass = 'p-2 bg-back-surface shadow-sm rounded-lg';
 
@@ -28,7 +29,7 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className={'w-1/2'}>
+               <div className={'flex w-1/2 flex-col gap-2'}>
                     <div className="flex gap-2 text-sm">
                          <div className={clsx(BoxClass, 'w-1/2')}>
                               <SliderbarDetailsWidget />
@@ -36,6 +37,10 @@ const MainLayoutDashboard = () => {
                          <div className={clsx(BoxClass, 'w-1/2')}>
                               <IndividualLegalWidget />
                          </div>
+                    </div>
+
+                    <div className={clsx(BoxClass, 'h-[15.75em] overflow-auto')}>
+                         <TodayTradesWidget />
                     </div>
                </div>
           </div>
