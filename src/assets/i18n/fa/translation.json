@@ -8,7 +8,8 @@
           "actionColumn": "وضعیت",
           "noSymbol": "نمادی انتخاب نشده است",
           "buy": "خرید",
-          "sell": "فروش"
+          "sell": "فروش",
+          "no_data": "اطلاعاتی برای نمایش وجود ندارد."
      },
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",
@@ -143,6 +144,18 @@
           "remainingQuantityColumn": "حجم مانده",
           "requestDateColumn": "زمان",
           "actionColumn": "عملیات"
+     },
+
+     "todayTrades": {
+          "tradesTab": "معاملات",
+          "displayBasedOnAggregate": "نمایش بصورت تجمیعی",
+          "customerColumn": "مشتری",
+          "bourseCodeColumn": "کد بورسی",
+          "sideColumn": "سمت",
+          "volumeColumn": "حجم",
+          "averagePriceColumn": "میانگین قیمت",
+          "valueTradeColumn": "ارزش معامله",
+          "sourceColumn": "مبدا"
      },
 
      "orderStatus": {

@@ -16,3 +16,16 @@ export const useQueryTodayOrders = (params: ITodayOrderReq) => {
           gcTime: 0,
      });
 };
+
+export const useQueryDoneOrders = (params: IDoneOrdersReq) => {
+     const url = routeApi().Orders.todayDoneOrders;
+
+     return useQuery({
+          queryKey: ['doneOrders', params.customerISIN, params.symbolISIN, params.orderSide, params.aggregateType],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<IDoneOrdersRes[]>>(url, { params });
+               return response.data.result;
+          },
+          gcTime: 0,
+     });
+};

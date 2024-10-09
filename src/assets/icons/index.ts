@@ -29,6 +29,7 @@ import UpArrowIcon from '@assets/svg/upArrow.svg';
 import UpFillArrowIcon from '@assets/svg/upFillArrow.svg';
 import WatchlistNegativeIcon from '@assets/svg/watchlistNegative.svg';
 import XCircleIcon from '@assets/svg/XCircle.svg';
+import XOutlineICon from '@assets/svg/xOutline.svg';
 
 export {
      AngleDownIcon,
@@ -62,4 +63,5 @@ export {
      UpFillArrowIcon,
      WatchlistNegativeIcon,
      XCircleIcon,
+     XOutlineICon,
 };

@@ -1,5 +1,5 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
-import ProgressBar from '@components/progressBar';
+import ProgressBar from '@components/ProgressBar';
 import { dateFormatter, numFormatter, sepNumbers } from '@methods/helper';
 import { useSymbolManager } from '@zustand/symbol';
 import { FC, useMemo } from 'react';

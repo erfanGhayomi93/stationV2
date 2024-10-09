@@ -164,6 +164,7 @@
 .ag-header,
 .ag-advanced-filter-header {
      border-bottom: none;
+     text-align: center;
 }
 
 .ag-horizontal-left-spacer,
@@ -173,4 +174,16 @@
 
 .ag-rtl .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
      border-color: transparent;
+}
+
+.ag-header .ag-header-cell .ag-header-cell-label {
+     justify-content: center !important;
+}
+
+.ag-header .ag-header-group-cell .ag-header-group-cell-label {
+     justify-content: center !important;
+}
+
+.ag-row .ag-cell {
+     text-align: center !important;
 }
