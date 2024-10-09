@@ -27,6 +27,8 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
           ...(isAggregate && { aggregateType: 'both' }),
      });
 
+     console.log(data, 'data');
+
      const columnDefs = useMemo<ColDef<IDoneOrdersRes>[]>(
           () => [
                {
@@ -76,7 +78,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
           <div className="flex h-full flex-1 flex-col gap-4">
                <div className="flex justify-between">
                     <div className="flex items-center gap-6">
-                         <Button variant="label">{t('todayTrades.tradesTab')}</Button>
+                         <Button variant="label" className="text-sm font-bold">
+                              {t('todayTrades.tradesTab')}
+                         </Button>
                          <ToggleSwitch
                               label={t('todayTrades.displayBasedOnAggregate')}
                               checked={isAggregate}
@@ -89,7 +93,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                     </div>
                </div>
 
-               <div className="flex-1">{<AgGridTable rowData={data ?? []} columnDefs={columnDefs} />}</div>
+               <div className="flex-1">
+                    <AgGridTable rowData={data ?? []} columnDefs={columnDefs} />
+               </div>
           </div>
      );
 };

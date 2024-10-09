@@ -39,12 +39,21 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                     <AgGridReact
                          modules={[ClientSideRowModelModule]}
                          onFirstDataRendered={fitColumnsSize}
+                         containerStyle={
+                              loading
+                                   ? {
+                                          filter: 'blur(2px)',
+                                          WebkitFilter: 'blur(2px)',
+                                     }
+                                   : undefined
+                         }
                          rowHeight={rowHeight}
                          headerHeight={headerHeight}
                          ref={ref}
                          rowData={rowData ?? []}
                          rowBuffer={5}
                          enableRtl
+                         suppressNoRowsOverlay
                          defaultColDef={{
                               flex: 1,
                          }}

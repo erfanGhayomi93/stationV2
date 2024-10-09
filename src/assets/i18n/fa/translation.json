@@ -8,7 +8,8 @@
           "actionColumn": "وضعیت",
           "noSymbol": "نمادی انتخاب نشده است",
           "buy": "خرید",
-          "sell": "فروش"
+          "sell": "فروش",
+          "no_data": "اطلاعاتی برای نمایش وجود ندارد."
      },
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",

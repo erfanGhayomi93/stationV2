@@ -1,5 +1,5 @@
 import { IHeaderParams } from '@ag-grid-community/core';
-import { SearchInputIcon } from '@assets/icons';
+import { SearchInputIcon, XOutlineICon } from '@assets/icons';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 // import { ArrowSortDownIcon, ArrowSortUpIcon, SearchIcon } from 'src/common/icons';
@@ -43,15 +43,24 @@ const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParam
      return (
           <>
                {inputMode ? (
-                    <div>
+                    <div className="flex items-center bg-white">
                          <input
-                              className="w-full rounded-sm border-none p-1 outline-none"
+                              className="w-full rounded-sm border-none bg-transparent p-1 outline-none"
                               placeholder={`نام ${displayName}`}
                               onChange={onInputChange}
                               ref={inputRef}
                               value={value}
                               onBlur={() => !value && setInputMode(false)}
                          />
+
+                         <button
+                              onClick={() => {
+                                   setValue('');
+                                   setInputMode(false);
+                              }}
+                         >
+                              <XOutlineICon />
+                         </button>
                     </div>
                ) : (
                     <div className="flex w-full items-center justify-center gap-3">
