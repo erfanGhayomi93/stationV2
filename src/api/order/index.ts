@@ -1,6 +1,6 @@
 import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useQueryTodayOrders = (params: ITodayOrderReq) => {
      const url = routeApi().Orders.TodayOrdersList;
@@ -27,5 +27,16 @@ export const useQueryDoneOrders = (params: IDoneOrdersReq) => {
                return response.data.result;
           },
           gcTime: 0,
+     });
+};
+
+export const useGroupDeleteOrders = (params: { ordersId: number[] }) => {
+     const url = routeApi().Orders.GroupOrderDelete;
+
+     return useMutation({
+          mutationFn: async () => {
+               const { data } = await AXIOS.post<GlobalApiResponseType<ISingleDeleteOrderResult>>(url, params.ordersId);
+               return data.result || [];
+          },
      });
 };

@@ -1,11 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
 import { I18nextProvider } from 'react-i18next';
+import App from './App.tsx';
 import i18next from './assets/i18n/config';
-import QueryClientProviderCom from './config/reactQuery/index.tsx';
 import useApiPath from './common/hooks/useApiPath.ts';
+import QueryClientProviderCom from './config/reactQuery/index.tsx';
 
+import ToastContainerCom from '@config/toastify/index.tsx';
 import './assets/scss/app.scss';
 import './assets/scss/libs.scss';
 
@@ -28,6 +29,7 @@ root.render(
           <QueryClientProviderCom>
                <Wrapper />
           </QueryClientProviderCom>
+          <ToastContainerCom />
      </I18nextProvider>
 );
 

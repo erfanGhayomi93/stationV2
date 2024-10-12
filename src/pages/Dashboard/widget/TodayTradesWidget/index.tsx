@@ -41,6 +41,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                     field: 'bourseCode',
                     headerName: t('todayTrades.bourseCodeColumn'),
                     headerComponent: AGHeaderSearchInput,
+                    filter: 'text',
                },
                {
                     field: 'orderSide',

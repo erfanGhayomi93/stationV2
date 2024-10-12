@@ -143,7 +143,7 @@
           "priceColumn": "قیمت",
           "remainingQuantityColumn": "حجم مانده",
           "requestDateColumn": "زمان",
-          "actionColumn": "عملیات"
+          "statusColumn": "وضعیت"
      },
 
      "todayTrades": {

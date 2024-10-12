@@ -27,8 +27,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
 
           const isDarkMode = useDarkMode();
 
-          console.log(isDarkMode, 'isDarkMode');
-
           return (
                <div
                     className={clsx('app-ag-table w-full', isDarkMode ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`)}

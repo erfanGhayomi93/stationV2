@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { twMerge } from 'tailwind-merge';
 
-export const sepNumbers = (num: number | string): string => {
+export const sepNumbers = (num: number | string | undefined): string => {
      if (typeof num === 'number') num = String(num);
      if (!num) return '−';
 
