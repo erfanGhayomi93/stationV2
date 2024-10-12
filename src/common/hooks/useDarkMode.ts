@@ -1,8 +1,8 @@
-import { useTheme } from '@zustand/theme';
+import { useThemeManager } from '@zustand/theme';
 import { useEffect, useState } from 'react';
 
 const useDarkMode = () => {
-     const { theme } = useTheme();
+     const { theme } = useThemeManager();
      const [isDarkMode, setIsDarkMode] = useState(false);
 
      useEffect(() => {

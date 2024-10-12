@@ -22,6 +22,8 @@ export const routeApi = () => {
           Orders: {
                TodayOrdersList: baseUrl + '/Order/v1/TodayOrdersList',
                todayDoneOrders: baseUrl + '/Order/v1/TodayDoneTrades',
+               delete: baseUrl + '/Order/v1/SingleDelete',
+               GroupOrderDelete: baseUrl + '/Order/v1/GroupOrderDelete',
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',

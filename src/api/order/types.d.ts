@@ -44,6 +44,13 @@ type Tblock = 'Account' | 'Portfolio' | 'Position';
 
 type TOrderStateRequestType = 'All' | 'OnBoard' | 'Done' | 'Error';
 
+interface ISingleDeleteOrderResult {
+     clientKey: string | null;
+     orderId: number;
+     response: string;
+     succeeded: boolean;
+}
+
 interface IOpenOrder {
      orderId: number;
      userName: null | string;
@@ -73,7 +80,7 @@ interface IOpenOrder {
      position: number;
      valuePosition: number;
      lastTradePrice: number;
-     orderStatus: TStatus;
+     orderState: TStatus;
      lastErrorCode: string | null;
      customErrorMsg: string | null;
      orderPlaceInPrice?: null | number;

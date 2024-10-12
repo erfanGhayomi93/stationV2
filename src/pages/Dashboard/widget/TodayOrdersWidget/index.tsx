@@ -1,7 +1,8 @@
-import { ColDef } from '@ag-grid-community/core';
-import { useQueryTodayOrders } from '@api/order';
+import { ColDef, RowSelectedEvent } from '@ag-grid-community/core';
+import { useGroupDeleteOrders, useQueryTodayOrders } from '@api/order';
 import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
+import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
 import { FC, useMemo, useState } from 'react';
@@ -21,41 +22,49 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           side: side,
      });
 
+     const [ordersId, setOrdersId] = useState<number[]>([]);
+
      const handleEditOnce = (row: IOpenOrder) => {
           // console.log('row', row)
      };
 
+     const ordersGroupDeleteResult = useGroupDeleteOrders({ ordersId });
+
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [
                {
-                    field: 'orderPlaceInPrice',
+                    field: 'position',
                     headerName: t('todayOrders.orderPlaceInPriceColumn'),
-                    valueGetter: ({ data }) => (data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : '-'),
+                    valueGetter: ({ data }) => sepNumbers(data?.position),
                },
                {
                     field: 'customerTitle',
                     headerName: t('todayOrders.customerTitleColumn'),
-                    valueGetter: ({ data }) => (data?.customerTitle ? data?.customerTitle : '-'),
+                    valueGetter: ({ data }) => data?.customerTitle ?? '-',
+                    headerComponent: AGHeaderSearchInput,
+                    filter: 'text',
                },
                {
                     field: 'bourseCode',
                     headerName: t('todayOrders.bourseCodeColumn'),
-                    valueGetter: ({ data }) => (data?.bourseCode ? data?.bourseCode : '-'),
+                    valueGetter: ({ data }) => data?.bourseCode ?? '-',
+                    headerComponent: AGHeaderSearchInput,
+                    filter: 'text',
                },
                {
                     field: 'quantity',
                     headerName: t('todayOrders.quantityColumn'),
-                    valueGetter: ({ data }) => (data?.quantity ? sepNumbers(data?.quantity) : '-'),
+                    valueGetter: ({ data }) => sepNumbers(data?.quantity),
                },
                {
                     field: 'price',
                     headerName: t('todayOrders.priceColumn'),
-                    valueGetter: ({ data }) => (data?.price ? sepNumbers(data?.price) : '-'),
+                    valueGetter: ({ data }) => sepNumbers(data?.price),
                },
                {
                     field: 'remainingQuantity',
                     headerName: t('todayOrders.remainingQuantityColumn'),
-                    valueGetter: ({ data }) => (data?.remainingQuantity ? sepNumbers(data?.remainingQuantity) : '-'),
+                    valueGetter: ({ data }) => sepNumbers(data?.remainingQuantity),
                },
                {
                     field: 'requestDate',
@@ -64,16 +73,40 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     cellClass: 'ltr',
                },
                {
-                    field: 'orderStatus',
-                    headerName: t('common.actionColumn'),
-                    cellClass: '!overflow-visible',
+                    field: 'orderState',
+                    headerName: t('todayOrders.statusColumn'),
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     //@ts-expect-error
-                    valueGetter: ({ data }) => (data?.orderStatus ? t(`orderStatus.${data?.orderStatus}`) : '-'),
+                    valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState}`) : '-'),
+                    hide: tabSelected !== 'All' && true,
                },
           ],
-          []
+          [tabSelected]
      );
+
+     const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
+          if (!event.node.data) return;
+
+          const orderId = event.node.data?.orderId;
+
+          if (event.node.isSelected()) {
+               setOrdersId(prev => [...prev, orderId]);
+          } else {
+               const filterOrdersId = ordersId.filter(order => order !== orderId);
+               setOrdersId(filterOrdersId);
+          }
+     };
+
+     const orderStatusIsntModify = [
+          'OrderDone',
+          'Canceled',
+          'DeleteByEngine',
+          'Error',
+          'Expired',
+          'InOMSQueue',
+          'OnSending',
+          'OnCanceling',
+     ];
 
      return (
           <div className="flex h-full flex-1 flex-col gap-4">
@@ -113,14 +146,29 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <div className="flex items-center gap-x-6">
                          <EditIcon className="size-6 text-icon-success" />
 
-                         <DeleteIcon className="size-6 text-icon-success" />
+                         <button
+                              onClick={() => {
+                                   ordersGroupDeleteResult.mutate();
+                              }}
+                         >
+                              <DeleteIcon className="size-6 text-icon-success" />
+                         </button>
 
                          <ExcelIcon className="size-6 text-icon-success" />
                     </div>
                </div>
 
                <div className="flex-1">
-                    <AgGridTable rowData={data ?? []} columnDefs={columnDefs} />
+                    <AgGridTable
+                         rowSelection={{
+                              mode: 'multiRow',
+                              isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
+                         }}
+                         selectionColumnDef={{}}
+                         rowData={data ?? []}
+                         columnDefs={columnDefs}
+                         onRowSelected={onRowSelected}
+                    />
                </div>
           </div>
      );
