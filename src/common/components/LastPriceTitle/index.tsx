@@ -12,8 +12,6 @@ export interface ILastPriceTitleProps {
      onClick?: (symbolISIN: string) => void;
      isSelected: boolean;
      symbolISIN: string;
-     lastPrice: number;
-     lastPriceVar: number;
 }
 
 const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar, onClick, isSelected, symbolISIN }) => {

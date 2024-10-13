@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import Cookies from 'js-cookie';
 
 export const tokenCookieName = 'ROS_2_client_id';
 
@@ -10,7 +11,7 @@ const AXIOS = axios
 AXIOS.interceptors.request.use(
      function (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {
           // const client_id = Cookies.get(tokenCookieName);
-          const client_id = 'R03S+qZ2mSo4V4UqKlB84Eaerxgz0Rm9c7SGludCLtxx1sgkwChTQLabQf3BdBy+';
+          const client_id = 'GgqvjNhGpyh6qmhwEaUYzvZ8J/FFybxd0Fm1SpiodTMx7xsbK5l9uRZp9QS1gmFr';
           if (client_id) config.headers.Authorization = `Bearer ${client_id}`;
 
           return config;
