@@ -1,9 +1,9 @@
-import { forwardRef, ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 // Define the type for props, extending the default button props
 type ButtonProps = {
-     variant?: 'primary' | 'secondary' | 'danger'; // Add custom props
+     variant?: 'primary' | 'secondary' | 'danger' | 'label'; // Add custom props
      className?: string; // Optional extra className
 } & ButtonHTMLAttributes<HTMLButtonElement>; // Include default button attributes
 
@@ -15,6 +15,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, variant =
           'text-content-success-buy bg-back-primary-container': variant === 'primary',
           'text-content-error-sell bg-back-error-container': variant === 'danger',
           'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',
+          'text-content-selected bg-button-tab-active': variant === 'label',
      });
 
      return (

@@ -1,11 +1,11 @@
-import { useTheme } from '@zustand/theme';
+import { useThemeManager } from '@zustand/theme';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer';
 import HeaderLayout from './components/Header';
 
 const AppLayout = () => {
-     const { theme } = useTheme();
+     const { theme } = useThemeManager();
 
      useEffect(() => {
           const element = document.documentElement;

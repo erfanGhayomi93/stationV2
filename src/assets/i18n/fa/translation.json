@@ -8,7 +8,8 @@
           "actionColumn": "وضعیت",
           "noSymbol": "نمادی انتخاب نشده است",
           "buy": "خرید",
-          "sell": "فروش"
+          "sell": "فروش",
+          "no_data": "اطلاعاتی برای نمایش وجود ندارد."
      },
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",
@@ -133,5 +134,54 @@
           "light": "روشن",
           "dark": "تیره",
           "system": "سیستم"
+     },
+
+     "todayOrders": {
+          "openTodayOrdersBuyTab": "سفارشات خرید باز",
+          "AllTodayOrdersBuyTab": "سفارشات خرید",
+          "openTodayOrdersSellTab": "سفارشات فروش باز",
+          "AllTodayOrdersSellTab": "سفارشات فروش",
+          "orderPlaceInPriceColumn": "جایگاه",
+          "customerTitleColumn": "مشتری",
+          "bourseCodeColumn": "کد بورسی",
+          "quantityColumn": "حجم کل",
+          "priceColumn": "قیمت",
+          "remainingQuantityColumn": "حجم مانده",
+          "requestDateColumn": "زمان",
+          "statusColumn": "وضعیت"
+     },
+
+     "todayTrades": {
+          "tradesTab": "معاملات",
+          "displayBasedOnAggregate": "نمایش بصورت تجمیعی",
+          "customerColumn": "مشتری",
+          "bourseCodeColumn": "کد بورسی",
+          "sideColumn": "سمت",
+          "volumeColumn": "حجم",
+          "averagePriceColumn": "میانگین قیمت",
+          "valueTradeColumn": "ارزش معامله",
+          "sourceColumn": "مبدا"
+     },
+
+     "orderStatus": {
+          "InOMSQueue": "در حال ارسال",
+          "OnSending": " در حال ارسال ",
+          "Error": "خطا",
+          "DeleteByEngine": "حذف شده توسط هسته",
+          "OnBoard": "در صف",
+          "Canceled": "حذف شده",
+          "OnModifyFrom": "در حال ویرایش",
+          "OnModifyTo": "در حال ویرایش",
+          "Modified": "ویرایش شده",
+          "OnBoardModify": "ویرایش شده",
+          "PartOfTheOrderDone": "انجام بخشی از سفارش",
+          "OrderDone": "انجام شده",
+          "OnCanceling": "در حال حذف",
+          "OnModifyError": "خطا در ویرایش",
+          "OnCancelError": "خطا در حذف",
+          "Expired": "منقضی شده",
+          "draft": "پیش ‌نویس",
+          "Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده به هسته معاملات مسدود است.",
+          "OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
      }
 }

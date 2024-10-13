@@ -8,14 +8,14 @@ import {
      UpArrowIcon,
      WatchlistNegativeIcon,
 } from '@assets/icons';
-import SymbolState from './SymbolState';
-import { useTranslation } from 'react-i18next';
-import Tippy from '@tippyjs/react';
-import clsx from 'clsx';
+import Popup from '@components/popup';
 import { sepNumbers } from '@methods/helper';
-import { useCallback, useRef, useState } from 'react';
-import Dropdown from '@uiKit/Dropdown';
+import Tippy from '@tippyjs/react';
 import { useSymbolManager } from '@zustand/symbol';
+import clsx from 'clsx';
+import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import SymbolState from './SymbolState';
 
 export const MainSymbol = () => {
      const { t } = useTranslation();
@@ -71,7 +71,7 @@ export const MainSymbol = () => {
           [data?.symbolState]
      );
 
-     const drop = [
+     const items = [
           { label: 'سایت TSE ', icon: TseIcon, onclick: () => null },
           { label: 'سایت کدال', icon: CodalIcon, onclick: () => null },
      ];
@@ -139,40 +139,42 @@ export const MainSymbol = () => {
                     <span className="flex items-center rounded bg-back-2 p-1">
                          <WatchlistNegativeIcon className="text-icon-primary" />
                     </span>
-                    <span
-                         className="flex items-center rounded bg-back-2 p-1"
-                         ref={refDropdown}
-                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    >
-                         <LinkIcon className="text-icon-default" />
 
-                         {!!isDropdownOpen && (
-                              <Dropdown<any>
-                                   ref={refDropdown}
-                                   isDropdownOpen={isDropdownOpen}
-                                   closeDropDowns={() => setIsDropdownOpen(false)}
-                                   data={drop}
-                                   classes={{ position: 'top-6 left-0' }}
-                                   animate="fadeIn"
-                                   getLabel={option => (
-                                        <button
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         onOpen={() => setIsDropdownOpen(true)}
+                         onClose={() => setIsDropdownOpen(false)}
+                         renderer={({ setOpen }) => (
+                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                                   {items.map((item, index) => (
+                                        <li
+                                             key={index}
                                              className="flex w-full items-center justify-between"
                                              onClick={() => {
-                                                  option.onclick();
-                                                  setIsDropdownOpen(false);
+                                                  item.onclick();
+                                                  setOpen(false);
                                              }}
                                         >
-                                             <div className="flex gap-x-2">
-                                                  <option.icon className="text-icon-default" />
-                                                  <span className="text-content-paragraph">{option.label}</span>
+                                             <div className="flex gap-x-2 pl-10">
+                                                  <item.icon className="text-icon-default" />
+                                                  <span className="text-content-paragraph">{item.label}</span>
                                              </div>
 
                                              <UpArrowIcon className="-rotate-90 text-icon-default" />
-                                        </button>
-                                   )}
-                              />
+                                        </li>
+                                   ))}
+                              </ul>
                          )}
-                    </span>
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded bg-back-2 p-1" onClick={() => setOpen(!open)}>
+                                   <LinkIcon className="text-icon-default" />
+                              </button>
+                         )}
+                    </Popup>
                </div>
           </div>
      );

@@ -2,14 +2,14 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
+import useDarkMode from '@hooks/useDarkMode';
 import { getHeightsForTables } from '@methods/helper';
-import { useTheme } from '@zustand/theme';
 import clsx from 'clsx';
-import { forwardRef, useMemo } from 'react';
-
-LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
+import { forwardRef, memo, Ref, useMemo } from 'react';
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
+
+LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
 
 type AgGridTableProps<T = unknown> = AgGridReactProps<T> & {
      tableTheme?: 'alpine' | 'balham';
@@ -25,27 +25,33 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                api.sizeColumnsToFit();
           };
 
-          const { theme } = useTheme();
+          const isDarkMode = useDarkMode();
 
           return (
                <div
-                    className={clsx(
-                         'app-ag-table w-full',
-                         theme === 'dark' ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`
-                    )}
+                    className={clsx('app-ag-table w-full', isDarkMode ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`)}
                     style={{
                          height: tableHeight ?? '100%',
                     }}
                >
                     <AgGridReact
-                         rowModelType="clientSide"
+                         modules={[ClientSideRowModelModule]}
                          onFirstDataRendered={fitColumnsSize}
+                         containerStyle={
+                              loading
+                                   ? {
+                                          filter: 'blur(2px)',
+                                          WebkitFilter: 'blur(2px)',
+                                     }
+                                   : undefined
+                         }
                          rowHeight={rowHeight}
                          headerHeight={headerHeight}
                          ref={ref}
                          rowData={rowData ?? []}
                          rowBuffer={5}
                          enableRtl
+                         suppressNoRowsOverlay
                          defaultColDef={{
                               flex: 1,
                          }}
@@ -56,4 +62,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
      }
 );
 
-export default AgGridTable;
+export default memo(AgGridTable) as <TData extends unknown>(
+     props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }
+) => JSX.Element;

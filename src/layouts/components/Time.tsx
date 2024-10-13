@@ -1,8 +1,8 @@
+import { useQueryTimeService } from '@api/Time';
+import { pushEngine } from '@LS/pushEngine';
+import { subscribeTime } from '@LS/subscribes';
 import dayjs, { Dayjs } from 'dayjs';
 import { FC, useEffect, useState } from 'react';
-import { useQueryTimeService } from '@api/Time';
-import { subscribeTime } from '@LS/subscribes';
-import { pushEngine } from '@LS/pushEngine';
 
 let timerId: ReturnType<typeof setInterval> | undefined = undefined;
 

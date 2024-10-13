@@ -1,0 +1,84 @@
+.root {
+     --ts-bg-color: theme('colors.button-disable-disable');
+     --ts-bg-color-active: theme('colors.button-primary-default');
+     --ts-tick-bg-color: theme('colors.button-primary-default');
+     --ts-track-bg-color: theme('colors.icon-white');
+
+     &.hover {
+          --ts-bg-color: theme('colors.button-disable-hover');
+          --ts-bg-color-active: theme('colors.button-primary-hover');
+          --ts-tick-bg-color: theme('colors.button-primary-hover');
+          --ts-track-bg-color: theme('colors.icon-white');
+     }
+
+     &.dark {
+          --ts-bg-color: theme('colors.button-disable-disable');
+          --ts-bg-color-active: theme('colors.button-primary-default');
+          --ts-tick-bg-color: theme('colors.button-primary-default');
+          --ts-track-bg-color: theme('colors.icon-white');
+     }
+
+     .toggle {
+          cursor: pointer;
+          display: inline-block;
+     }
+     .toggleSwitch {
+          display: inline-block;
+          background: var(--ts-bg-color);
+          border-radius: 16px;
+          width: 48px;
+          height: 24px;
+          position: relative;
+          vertical-align: middle;
+          &:before,
+          &:after {
+               content: '';
+          }
+          &:before {
+               display: block;
+               background: var(--ts-track-bg-color);
+               border-radius: 50%;
+               width: 16px;
+               height: 16px;
+               position: absolute;
+               top: 4px;
+               left: 4px;
+               transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+               -webkit-transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          }
+     }
+     .toggleCheckbox {
+          position: absolute;
+          visibility: hidden;
+
+          &:checked + .toggleSwitch {
+               background-color: var(--ts-bg-color-active);
+
+               transition: background-color 0.3s ease;
+               -webkit-transition: background-color 0.3s ease;
+
+               &:before {
+                    display: block;
+                    background-color: var(--ts-track-bg-color);
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    position: absolute;
+                    top: 2px;
+                    left: 25px;
+               }
+          }
+     }
+     .toggleLabel {
+          padding-right: 8px;
+          font-size: 14px;
+          font-weight: 500;
+     }
+
+     &.disabled {
+          .toggleSwitch {
+               background-color: var(--ts-bg-color);
+               opacity: 50%;
+          }
+     }
+}

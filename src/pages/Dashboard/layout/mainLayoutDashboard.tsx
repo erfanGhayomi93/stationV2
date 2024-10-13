@@ -5,6 +5,7 @@ import IndividualLegalWidget from '../widget/individualLegalWidget';
 import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';
 import OrderBookTabsWidget from '../widget/orderBookTabsWidget';
+import TodayTradesWidget from '../widget/TodayTradesWidget';
 
 const BoxClass = 'p-2 bg-back-surface shadow-sm rounded-lg';
 
@@ -24,8 +25,9 @@ const MainLayoutDashboard = () => {
                          <TodayOrdersWidget side={'Sell'} />
                     </div>
 
-                    <div className={clsx(BoxClass)}>
-                         <BuySellWidget />
+                    <div className={clsx(BoxClass, 'h-[15.75em] overflow-auto')}>
+                         <TodayTradesWidget />
+                         {/* <BuySellWidget /> */}
                     </div>
                </div>
 
@@ -38,7 +40,7 @@ const MainLayoutDashboard = () => {
                               <IndividualLegalWidget />
                          </div>
                     </div>
-                    <div className={clsx(BoxClass , 'w-1/2')}>
+                    <div className={clsx(BoxClass, 'w-1/2')}>
                          <OrderBookTabsWidget />
                     </div>
                </div>

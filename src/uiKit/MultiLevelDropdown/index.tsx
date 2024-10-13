@@ -1,4 +1,4 @@
-import { useTheme } from '@zustand/theme';
+import { useThemeManager } from '@zustand/theme';
 import clsx from 'clsx';
 import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,7 +34,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { t } = useTranslation();
 
-     const { theme, setTheme } = useTheme();
+     const { theme, setTheme } = useThemeManager();
 
      console.log(theme, 'theme');
 

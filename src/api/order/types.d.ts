@@ -44,6 +44,13 @@ type Tblock = 'Account' | 'Portfolio' | 'Position';
 
 type TOrderStateRequestType = 'All' | 'OnBoard' | 'Done' | 'Error';
 
+interface ISingleDeleteOrderResult {
+     clientKey: string | null;
+     orderId: number;
+     response: string;
+     succeeded: boolean;
+}
+
 interface IOpenOrder {
      orderId: number;
      userName: null | string;
@@ -73,7 +80,7 @@ interface IOpenOrder {
      position: number;
      valuePosition: number;
      lastTradePrice: number;
-     orderStatus: TStatus;
+     orderState: TStatus;
      lastErrorCode: string | null;
      customErrorMsg: string | null;
      orderPlaceInPrice?: null | number;
@@ -94,4 +101,29 @@ interface ITodayOrderReq {
      symbolISIN?: string;
      CustomerISIN?: string | string[];
      GtOrderStateRequestType?: TOrderStateRequestType;
+}
+
+interface IDoneOrdersReq {
+     customerISIN?: string;
+     symbolISIN?: string;
+     orderSide?: TSide;
+     aggregateType?: 'both' | 'symbol';
+}
+
+interface IDoneOrdersRes {
+     bourseCode: string;
+     commission: number;
+     customerISIN: string;
+     customerTitle: string;
+     iterationCount: number;
+     orderFrom: string;
+     orderSide: TSide;
+     price: number;
+     quantity: number;
+     symbolISIN: string;
+     symbolTitle: string;
+     totalPrice: number;
+     tradeDate: string;
+     validityDate: number;
+     validityType: number;
 }

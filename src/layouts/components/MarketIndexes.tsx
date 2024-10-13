@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
-import { sepNumbers } from '@methods/helper';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { UpArrowIcon } from '@assets/icons';
-import Dropdown from '@uiKit/Dropdown';
 import { useQueryIndexMarket } from '@api/IndexMarket';
-import { subscribeMarketIndices } from '@LS/subscribes';
+import { UpArrowIcon } from '@assets/icons';
+import Popup from '@components/popup';
 import { pushEngine } from '@LS/pushEngine';
+import { subscribeMarketIndices } from '@LS/subscribes';
+import { sepNumbers } from '@methods/helper';
+import clsx from 'clsx';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MarketIndexes = () => {
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,7 +34,7 @@ const MarketIndexes = () => {
                const changePercent = item ? +item?.changePercent : 0;
 
                return (
-                    <div
+                    <li
                          className={clsx(
                               'flex h-full w-full select-none items-center justify-between gap-x-1 text-xs font-medium'
                          )}
@@ -79,7 +79,7 @@ const MarketIndexes = () => {
                                    {item && sepNumbers(item?.lastIndexValueInDay.toFixed())}
                               </span>
                          </div>
-                    </div>
+                    </li>
                );
           },
           [data]
@@ -88,26 +88,30 @@ const MarketIndexes = () => {
      return (
           <div className="flex items-center gap-x-4 text-xs font-medium">
                <div>{data?.filter(item => item.symbolISIN === 'IRX6XTPI0006')?.map(item => uiIndexes(item))}</div>
-               <div ref={refDropdown}>
-                    <button className="flex items-center rounded-lg p-3" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                         <UpArrowIcon
-                              className={clsx('h-min text-icon-default transition-transform', {
-                                   'rotate-180': !isDropdownOpen,
-                              })}
-                         />
-                    </button>
-
-                    {!!isDropdownOpen && (
-                         <Dropdown<IIndexRes>
-                              ref={refDropdown}
-                              closeDropDowns={() => setIsDropdownOpen(false)}
-                              data={data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006') || []}
-                              isDropdownOpen={isDropdownOpen}
-                              classes={{ position: 'bottom-10 left-0' }}
-                              animate="fadeInUp"
-                              getLabel={options => uiIndexes(options)}
-                         />
-                    )}
+               <div>
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         onOpen={() => setIsDropdownOpen(true)}
+                         onClose={() => setIsDropdownOpen(false)}
+                         renderer={({ setOpen }) => (
+                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                                   {data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}
+                              </ul>
+                         )}
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                                   <UpArrowIcon
+                                        className={clsx('h-min text-icon-default transition-transform', {
+                                             'rotate-180': !open,
+                                        })}
+                                   />
+                              </button>
+                         )}
+                    </Popup>
                </div>
           </div>
      );
