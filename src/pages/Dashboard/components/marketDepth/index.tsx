@@ -1,0 +1,131 @@
+import { useMarketDepth } from "@hooks/useMarketDepth"
+import { useSymbolManager } from "@zustand/symbol"
+import { useCallback, useMemo } from "react"
+import HalfRowDepth from "./HalfRowDepth";
+import { useQuerySymbolGeneralInformation } from "@api/Symbol";
+import OrderBookHeader from "./OrderBookHeader";
+
+export interface IHalfRowDepth {
+    price: number;
+    volume: number;
+    count: number;
+    percent: number;
+};
+
+interface ISelectGeneralInformation {
+    lowThreshold: number;
+    highThreshold: number;
+}
+
+const MarketDepthTab = () => {
+    //
+    const { selectedSymbol } = useSymbolManager()
+
+    const { data: { bids, asks } } = useMarketDepth(selectedSymbol)
+
+    const { data: symbolGeneral } = useQuerySymbolGeneralInformation<ISelectGeneralInformation>(selectedSymbol, (data) => ({
+        lowThreshold: data.symbolData.lowThreshold,
+        highThreshold: data.symbolData.highThreshold,
+    }))
+
+
+    const isPriceInRange = useCallback(
+        (price: number) => {
+            if (!symbolGeneral?.lowThreshold || !symbolGeneral?.highThreshold) return true; // or maybe false
+            else return +symbolGeneral.lowThreshold <= +price && +price <= +symbolGeneral.highThreshold;
+        },
+        [symbolGeneral],
+    );
+
+    const buyData = useMemo(() => {
+
+        const data: IHalfRowDepth[] = []
+
+        if (bids?.data) {
+            for (const key in bids.data) {
+                if (Array.isArray(bids.data?.[key])) {
+                    const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0 };
+
+                    tempObj.price = bids.data[key][0]
+                    tempObj.volume = bids.data[key][1]
+                    tempObj.count = bids.data[key][2]
+                    tempObj.percent = Number(bids.data[key][1]) / Number(bids.totalQuantity) || 0;
+
+                    data.push(tempObj)
+                }
+            }
+        }
+
+        return data.sort((a, b) => +b.price - +a.price)
+    }, [bids])
+
+    const sellData = useMemo(() => {
+
+        const data: IHalfRowDepth[] = []
+
+        if (asks?.data) {
+            for (const key in asks.data) {
+                if (Array.isArray(asks.data?.[key])) {
+                    const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0 };
+
+                    tempObj.price = asks.data[key][0]
+                    tempObj.volume = asks.data[key][1]
+                    tempObj.count = asks.data[key][2]
+                    tempObj.percent = Number(asks.data[key][1]) / Number(asks.totalQuantity) || 0;
+
+                    data.push(tempObj)
+                }
+            }
+        }
+
+        return data.sort((a, b) => +a.price - +b.price)
+    }, [asks])
+
+
+
+    return (
+        <div className="h-[460px] overflow-y-auto px-2">
+            <div className="grid grid-cols-2 grid-rows-1 gap-x-2 h-fit">
+                <div className="flex flex-col gap-y-4">
+                    <div>
+                        <OrderBookHeader side="Buy" />
+                    </div>
+                    <div className="flex flex-col gap-y-3">
+                        {
+                            buyData.map((item, ind) => (
+                                <HalfRowDepth
+                                    key={ind}
+                                    side="Buy"
+                                    data={item}
+                                    isInRange={isPriceInRange(item.price)}
+                                />
+                            ))
+                        }
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-y-4">
+                    <div>
+                        <OrderBookHeader side="Sell" />
+                    </div>
+                    <div className="flex flex-col gap-y-3">
+                        {
+                            sellData.map((item, ind) => (
+                                <HalfRowDepth
+                                    key={ind}
+                                    side="Sell"
+                                    data={item}
+                                    isInRange={isPriceInRange(item.price)}
+                                />
+                            ))
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    )
+}
+
+export default MarketDepthTab

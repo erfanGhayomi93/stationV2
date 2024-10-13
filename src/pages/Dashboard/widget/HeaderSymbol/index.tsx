@@ -78,7 +78,8 @@ export const MainSymbol = () => {
 
      return (
           <div className="flex items-center justify-between text-sm">
-               <div className="flex flex-col gap-y-1">
+
+               <div className="flex flex-col gap-y-1 min-w-44">
                     <div className="flex items-center gap-x-1">
                          <SymbolState
                               symbolState={data?.symbolState || ''}
@@ -99,7 +100,7 @@ export const MainSymbol = () => {
                          )}
                     </div>
                     <div>
-                         <span className="text-content-deselecttab">{data?.companyName}</span>
+                         <span className="text-content-deselecttab">{data?.companyName || t('common.noSymbol')}</span>
                     </div>
                </div>
 
@@ -118,7 +119,7 @@ export const MainSymbol = () => {
                     </div>
 
                     <div className="flex gap-x-6 pr-4">
-                         <span>اخرین قیمت:</span>
+                         <span>قیمت پایانی</span>
                          <span className="flex gap-x-1">
                               <span
                                    className={clsx('ltr', {

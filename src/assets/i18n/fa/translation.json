@@ -15,6 +15,11 @@
           "DISCONNECTED": "عدم اتصال به سرور",
           "CONNECTED": "متصل به سرور"
      },
+     "orderBook": {
+          "countHeader": "تعداد",
+          "volumeHeader": "حجم",
+          "priceHeader": "قیمت"
+     },
      "MarketIndexes": {
           "MainIndex": "شاخص کل",
           "HamvaznIndex": "شاخص هم‌وزن",

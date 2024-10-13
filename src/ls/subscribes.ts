@@ -29,3 +29,24 @@ export const subscribeMarketIndices = (symbolISINs: string[], onItemUpdate: (upd
           },
      });
 };
+
+export const subscribeMarketDepth = (
+     symbolISIN: string,
+     serverLastTime: number,
+     onItemUpdate: (updatedFields: UpdatedFieldsType<{ mddata: string }>) => void
+) => {
+     const d = new Date();
+     const t = d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds();
+
+     pushEngine.subscribe<{ mddata: string }>({
+          id: 'MarketDepthSub',
+          mode: 'RAW',
+          items: ['mdt_' + serverLastTime + '_' + symbolISIN + '_' + t, symbolISIN],
+          fields: ['mddata'],
+          isSnapShot: 'no',
+          adapterName: 'RamandRLCDData',
+          onFieldsUpdate(updatedFields) {
+               onItemUpdate(updatedFields);
+          },
+     });
+};
