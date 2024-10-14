@@ -1,12 +1,15 @@
 import { ColDef, RowSelectedEvent } from '@ag-grid-community/core';
-import { useGroupDeleteOrders, useQueryTodayOrders } from '@api/order';
+import { useQueryTodayOrders } from '@api/order';
 import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
 import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { dateFormatter, sepNumbers } from '@methods/helper';
+import { useQueryClient } from '@tanstack/react-query';
 import Button from '@uiKit/Button';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useModalStore } from 'store/modal';
+import { useSymbolStore } from 'store/symbol';
 
 interface ITodayOrdersWidgetProps {
      side: TSide;
@@ -15,20 +18,35 @@ interface ITodayOrdersWidgetProps {
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
 
+     const queryClient = useQueryClient();
+
      const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
+
+     const { setEditOrdersGroupModalSheet } = useModalStore();
+
+     const { selectedSymbol } = useSymbolStore();
 
      const { data } = useQueryTodayOrders({
           GtOrderStateRequestType: tabSelected,
           side: side,
+          symbolISIN: selectedSymbol,
      });
 
-     const [ordersId, setOrdersId] = useState<number[]>([]);
+     const [selectedOrders, setSelectedOrder] = useState<IOpenOrder[]>([]);
 
      const handleEditOnce = (row: IOpenOrder) => {
           // console.log('row', row)
      };
 
-     const ordersGroupDeleteResult = useGroupDeleteOrders({ ordersId });
+     //  const getSymbolGeneralInformation = queryClient.getQueriesData(['SymbolGeneralInformation']);
+
+     const getSymbolGeneralInformationCache = () => {
+          return JSON.parse(
+               JSON.stringify(queryClient.getQueryData(['SymbolGeneralInformation', selectedSymbol]) ?? [])
+          ) as ISymbolGeneralInformationRes;
+     };
+
+     //  const ordersGroupDeleteResult = useGroupDeleteOrders({ ordersId });
 
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [
@@ -87,13 +105,13 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
           if (!event.node.data) return;
 
-          const orderId = event.node.data?.orderId;
+          const data = event.node.data;
 
           if (event.node.isSelected()) {
-               setOrdersId(prev => [...prev, orderId]);
+               setSelectedOrder(prev => [...prev, data]);
           } else {
-               const filterOrdersId = ordersId.filter(order => order !== orderId);
-               setOrdersId(filterOrdersId);
+               const filterSelectedOrders = selectedOrders.filter(order => order.orderId !== data.orderId);
+               setSelectedOrder(filterSelectedOrders);
           }
      };
 
@@ -144,12 +162,22 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     </div>
 
                     <div className="flex items-center gap-x-6">
-                         <EditIcon className="size-6 text-icon-success" />
-
                          <button
                               onClick={() => {
-                                   ordersGroupDeleteResult.mutate();
+                                   setEditOrdersGroupModalSheet({
+                                        side: side,
+                                        symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
+                                        data: selectedOrders,
+                                   });
                               }}
+                         >
+                              <EditIcon className="size-6 text-icon-success" />
+                         </button>
+
+                         <button
+                         //   onClick={() => {
+                         //        ordersGroupDeleteResult.mutate();
+                         //   }}
                          >
                               <DeleteIcon className="size-6 text-icon-success" />
                          </button>
@@ -162,7 +190,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <AgGridTable
                          rowSelection={{
                               mode: 'multiRow',
-                              isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
+                              //   isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
                          }}
                          selectionColumnDef={{}}
                          rowData={data ?? []}

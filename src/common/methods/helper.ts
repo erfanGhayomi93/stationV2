@@ -97,3 +97,7 @@ export const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', numb
           return { rowHeight: 40, headerHeight: 32 };
      }
 };
+
+export const isObjectNotNull = <T>(obj: T | null): obj is T => {
+     return typeof obj === 'object' && obj !== null;
+};

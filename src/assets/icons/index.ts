@@ -28,7 +28,8 @@ import TseIcon from '@assets/svg/tse.svg';
 import UpArrowIcon from '@assets/svg/upArrow.svg';
 import UpFillArrowIcon from '@assets/svg/upFillArrow.svg';
 import WatchlistNegativeIcon from '@assets/svg/watchlistNegative.svg';
-import XCircleIcon from '@assets/svg/XCircle.svg';
+import XCircleFillIcon from '@assets/svg/XCircleFill.svg';
+import XCircleOutlineIcon from '@assets/svg/xCircleOutline.svg';
 import XOutlineICon from '@assets/svg/xOutline.svg';
 
 export {
@@ -62,6 +63,7 @@ export {
      UpArrowIcon,
      UpFillArrowIcon,
      WatchlistNegativeIcon,
-     XCircleIcon,
+     XCircleFillIcon,
+     XCircleOutlineIcon,
      XOutlineICon,
 };

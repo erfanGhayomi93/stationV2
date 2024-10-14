@@ -1,21 +1,20 @@
 import { CloseIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle from '@components/LastPriceTitle';
+import Popup from '@components/popup';
 import SearchSymbol from '@components/searchSymbol';
-import { useSymbolManager } from '@zustand/symbol';
 import clsx from 'clsx';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useSymbolStore } from 'store/symbol';
 import ProfileDropdown from './ProfileDropdown';
 
 const HeaderLayout = () => {
-     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
      const [isLaptop, setIsLaptop] = useState(false);
 
      const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null);
 
-     const { tabsSymbol, setTabSymbol, selectedSymbol, setSelectedSymbol } = useSymbolManager();
+     const { tabsSymbol, setTabSymbol, selectedSymbol, setSelectedSymbol } = useSymbolStore();
 
-     const refDropdown = useRef<HTMLDivElement>(null);
+     console.log(tabsSymbol, 'tabsSymbol');
 
      const handleClickSymbol = (symbolISIN: string) => {
           const instanceTabSymbol: SearchSymbol[] = [...tabsSymbol];
@@ -26,13 +25,11 @@ const HeaderLayout = () => {
           symbol && setTabSymbol([{ ...symbol }, ...otherData]);
 
           setSelectedSymbol(symbolISIN);
-
-          setIsDropdownOpen(false);
      };
 
-     useEffect(() => {
-          console.log('tabsSymbol', tabsSymbol);
-     }, [tabsSymbol]);
+     //  useEffect(() => {
+     //       console.log('tabsSymbol', tabsSymbol);
+     //  }, [tabsSymbol]);
 
      const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
           if (!symbol) return;
@@ -68,20 +65,39 @@ const HeaderLayout = () => {
      return (
           <div className="flex h-full justify-between px-4">
                <div className="flex flex-1 items-center gap-x-2">
-                    <div className="flex items-center" ref={refDropdown}>
-                         <button
-                              className="flex items-center rounded-lg bg-back-2 p-3"
-                              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                              disabled={!tabsSymbol.length}
-                         >
-                              <UpArrowIcon
-                                   className={clsx('h-min text-icon-default transition-transform', {
-                                        'rotate-180': !isDropdownOpen,
-                                        'text-icon-disable': !tabsSymbol.length,
-                                   })}
-                              />
-                         </button>
-                    </div>
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         renderer={() => (
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                                   {tabsSymbol.map(option => (
+                                        <LastPriceTitle
+                                             PriceVar={option.lastTradedPriceVar}
+                                             price={option.lastTradedPrice}
+                                             symbolISIN={option.symbolISIN}
+                                             symbolTitle={option.symbolTitle}
+                                             key={option.symbolISIN}
+                                             onClick={handleClickSymbol}
+                                             isSelected={selectedSymbol === option.symbolISIN}
+                                             lastPrice={1}
+                                             lastPriceVar={1}
+                                        />
+                                   ))}
+                              </ul>
+                         )}
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                                   <UpArrowIcon
+                                        className={clsx('h-min text-icon-default transition-transform', {
+                                             'rotate-180': !open,
+                                        })}
+                                   />
+                              </button>
+                         )}
+                    </Popup>
 
                     <div className="flex h-full flex-1 items-center">
                          {tabsSymbol.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
@@ -107,6 +123,8 @@ const HeaderLayout = () => {
                                              key={item?.symbolISIN}
                                              onClick={() => setSelectedSymbol(item?.symbolISIN)}
                                              isSelected={selectedSymbol === item?.symbolISIN}
+                                             lastPrice={1}
+                                             lastPriceVar={1}
                                         />
                                    </div>
 
