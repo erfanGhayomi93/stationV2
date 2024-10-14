@@ -5,17 +5,13 @@ import { pushEngine } from '@LS/pushEngine';
 import { subscribeMarketIndices } from '@LS/subscribes';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const MarketIndexes = () => {
-     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
      const { data, isSuccess } = useQueryIndexMarket();
 
      const { t } = useTranslation();
-
-     const refDropdown = useRef<HTMLDivElement>(null);
 
      useEffect(() => {
           if (isSuccess) {
@@ -94,10 +90,8 @@ const MarketIndexes = () => {
                               y: 8,
                          }}
                          defaultPopupWidth={200}
-                         onOpen={() => setIsDropdownOpen(true)}
-                         onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-white px-4 py-3 shadow-E2">
                                    {data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}
                               </ul>
                          )}

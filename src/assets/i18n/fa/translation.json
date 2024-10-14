@@ -26,6 +26,7 @@
           "HamvaznIndex": "شاخص هم‌وزن",
           "FaraBourseIndex": "شاخص فرابورس"
      },
+
      "orders": {
           "openTodayOrdersBuy": "سفارشات خرید باز",
           "AllTodayOrdersBuy": "سفارشات خرید",
@@ -143,10 +144,19 @@
           "customerTitleColumn": "مشتری",
           "bourseCodeColumn": "کد بورسی",
           "quantityColumn": "حجم کل",
+          "volumeColumn": "حجم",
           "priceColumn": "قیمت",
           "remainingQuantityColumn": "حجم مانده",
           "requestDateColumn": "زمان",
-          "statusColumn": "وضعیت"
+          "statusColumn": "وضعیت",
+          "edit_order_group": "ویرایش گروهی سفارشات | <span1>{{side}}</span1> | <span2>{{symbol}}</span2>",
+          "amount": "مقدار",
+          "constant": "مقدار ثابت",
+          "increase": "افزایش به مقدار",
+          "decrease": "کاهش به مقدار",
+          "volume": "حجم",
+          "price": "قیمت",
+          "tickPlaceholder": "انتخاب کنید"
      },
      "todayTrades": {
           "tradesTab": "معاملات",

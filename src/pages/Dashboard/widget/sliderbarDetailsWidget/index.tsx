@@ -2,10 +2,10 @@ import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import SymbolPriceSlider from '@pages/Dashboard/components/SymbolPriceSlider';
 import { DetailsSymbolSlider } from '@pages/Dashboard/components/SymbolPriceSlider/DetailsSymbolSlider';
 import { HighLowPriceSymbol } from '@pages/Dashboard/components/SymbolPriceSlider/HighLowPriceSymbol/HighLowPriceSymbol';
-import { useSymbolManager } from '@zustand/symbol';
+import { useSymbolStore } from 'store/symbol';
 
 const SliderbarDetailsWidget = () => {
-     const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+     const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
      const { data } = useQuerySymbolGeneralInformation<any>(selectedSymbol, data => ({
           yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,

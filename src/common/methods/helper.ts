@@ -98,6 +98,9 @@ export const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', numb
      }
 };
 
+export const isObjectNotNull = <T>(obj: T | null): obj is T => {
+     return typeof obj === 'object' && obj !== null;
+};
 export const uid = () => {
      return Date.now().toString(36) + Math.random().toString(36).slice(2);
 };
