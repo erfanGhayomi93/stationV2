@@ -4,7 +4,7 @@ import {
      useMutationUpdateCreateDateTimeTab,
      useQuerySymbolTab,
 } from '@api/Symbol';
-import { CloseIcon } from '@assets/icons';
+import { CloseIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle from '@components/LastPriceTitle';
 import Popup from '@components/popup';
 import SearchSymbol from '@components/searchSymbol';
@@ -71,7 +71,7 @@ const HeaderLayout = () => {
                               <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
                                    {tabsSymbol.map(item => (
                                         <LastPriceTitle
-                                             PriceVar={item?.lastTradedPriceVarPercent}
+                                             PriceVar={item?.lastTradedPriceVar}
                                              price={item?.lastTradedPrice}
                                              symbolISIN={item?.symbolISIN}
                                              symbolTitle={item?.symbolTitle}
@@ -82,7 +82,17 @@ const HeaderLayout = () => {
                                    ))}
                               </ul>
                          )}
-                    ></Popup>
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                                   <UpArrowIcon
+                                        className={clsx('h-min text-icon-default transition-transform', {
+                                             'rotate-180': !open,
+                                        })}
+                                   />
+                              </button>
+                         )}
+                    </Popup>
 
                     <div className="flex h-full flex-1 items-center">
                          {symbolTab?.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
