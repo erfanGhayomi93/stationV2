@@ -15,18 +15,20 @@ const OrderBookTabsWidget = () => {
 
 
     return (
-        <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+        <TabGroup className="overflow-y-auto" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <TabList className={"flex gap-x-2 border-b border-line-div-2"}>
                 {
                     tabs.map((item, ind) => (
                         <Tab key={ind}
                             className="flex-1 text-content-deselecttab data-[selected]:text-content-selected data-[selected]:border-b-2 data-[selected]:border-content-selected py-2 transition-colors text-sm"
-                        >{item}</Tab>
+                        >
+                            {item}
+                        </Tab>
                     ))
                 }
             </TabList>
-            <TabPanels>
-                <TabPanel className={"mt-4"}>
+            <TabPanels className="overflow-y-auto">
+                <TabPanel className={"mt-4 overflow-y-auto h-[627px]"}>
                     <MarketDepthTab />
                 </TabPanel>
                 <TabPanel>Content 2</TabPanel>

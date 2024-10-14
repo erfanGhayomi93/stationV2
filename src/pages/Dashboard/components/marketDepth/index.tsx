@@ -105,8 +105,8 @@ const MarketDepthTab = () => {
 
 
     return (
-        <div className="h-[460px] overflow-y-auto px-2">
-            <div className="grid grid-cols-2 grid-rows-1 gap-x-2 h-fit">
+        <div className="h-full max-h-full overflow-y-auto px-2">
+            <div className="grid grid-cols-2 grid-rows-1 gap-x-2">
                 <div className="flex flex-col gap-y-4">
                     <div>
                         <OrderBookHeader side="Buy" />

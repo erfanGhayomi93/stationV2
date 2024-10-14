@@ -23,7 +23,7 @@ export const HighLowPriceSymbol: FC<IHighLowPriceProps> = ({
      };
 
      return (
-          <div className="mt-2 flex justify-between rounded bg-line-div-3">
+          <div className="mt-2 px-2 grid grid-cols-3 gap-x-1 rounded bg-line-div-3">
                <PriceView
                     onClickPrice={() => setPriceOnBuySellModal(highestTradePriceOfTradingDay)}
                     label="بیشترین"
