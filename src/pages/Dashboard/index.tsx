@@ -2,7 +2,7 @@ import MainLayoutDashboard from './layout/mainLayoutDashboard';
 
 const Dashboard = () => {
      return (
-          <div className="">
+          <div className="h-full">
                <MainLayoutDashboard />
           </div>
      );

@@ -29,7 +29,7 @@ root.render(
           <QueryClientProviderCom>
                <Wrapper />
           </QueryClientProviderCom>
-          <ToastContainerCom />
+          {/* <ToastContainerCom /> */}
      </I18nextProvider>
 );
 

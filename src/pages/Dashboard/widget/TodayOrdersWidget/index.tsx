@@ -93,14 +93,15 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                {
                     field: 'orderState',
                     headerName: t('todayOrders.statusColumn'),
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-expect-error
-                    valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState}`) : '-'),
+                    // valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState}`) : '-'),
+                    valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'),
+
                     hide: tabSelected !== 'All' && true,
                },
           ],
           [tabSelected]
      );
+     // {data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'}
 
      const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
           if (!event.node.data) return;
@@ -135,8 +136,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                                    tabSelected === 'OnBoard' && side === 'Buy'
                                         ? 'primary'
                                         : tabSelected === 'OnBoard' && side === 'Sell'
-                                          ? 'danger'
-                                          : 'secondary'
+                                             ? 'danger'
+                                             : 'secondary'
                               }
                               onClick={() => setTabSelected('OnBoard')}
                               className="text-sm font-bold"
@@ -150,8 +151,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                                    tabSelected === 'All' && side === 'Buy'
                                         ? 'primary'
                                         : tabSelected === 'All' && side === 'Sell'
-                                          ? 'danger'
-                                          : 'secondary'
+                                             ? 'danger'
+                                             : 'secondary'
                               }
                               onClick={() => setTabSelected('All')}
                               className="text-sm font-medium"
