@@ -1,7 +1,7 @@
-import { useThemeManager } from '@zustand/theme';
 import clsx from 'clsx';
 import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useThemeStore } from 'store/theme';
 import {
      BackgroundModeIcon,
      CreditIcon,
@@ -34,7 +34,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { t } = useTranslation();
 
-     const { theme, setTheme } = useThemeManager();
+     const { theme, setTheme } = useThemeStore();
 
      console.log(theme, 'theme');
 
@@ -88,10 +88,9 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
           },
      ];
 
-     // Close dropdown when clicking outside
-     useClickOutside(dropdownRef, () => {
+     useClickOutside([], () => {
           isDropdownOpen && closeDropDowns();
-     }, []);
+     });
 
      return (
           <div ref={dropdownRef} className="rtl relative">

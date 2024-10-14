@@ -6,9 +6,9 @@ import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
 import ToggleSwitch from '@uiKit/ToggleSwitch';
-import { useSymbolManager } from '@zustand/symbol';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSymbolStore } from 'store/symbol';
 // import { Actions } from './actions';
 
 interface ITodayTradesWidgetProps {}
@@ -18,7 +18,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
 
      const [isAggregate, setIsAggregate] = useState(true);
 
-     const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+     const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
      console.log(selectedSymbol, 'selectedSymbol');
 

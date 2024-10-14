@@ -1,45 +1,45 @@
+import {
+     useMutationCreateSymbolTab,
+     useMutationDeleteSymbolTab,
+     useMutationUpdateCreateDateTimeTab,
+     useQuerySymbolTab,
+} from '@api/Symbol';
 import { CloseIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle from '@components/LastPriceTitle';
+import Popup from '@components/popup';
 import SearchSymbol from '@components/searchSymbol';
-import { useSymbolManager } from '@zustand/symbol';
 import clsx from 'clsx';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useSymbolStore } from 'store/symbol';
 import ProfileDropdown from './ProfileDropdown';
-import { useMutationCreateSymbolTab, useMutationDeleteSymbolTab, useMutationUpdateCreateDateTimeTab, useQuerySymbolTab } from '@api/Symbol';
 
 const HeaderLayout = () => {
-     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
      const [isLaptop, setIsLaptop] = useState(false);
 
      const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null);
 
-     const { selectedSymbol, setSelectedSymbol } = useSymbolManager();
+     const { tabsSymbol, setTabSymbol, selectedSymbol, setSelectedSymbol } = useSymbolStore();
 
-     const { data: symbolTab } = useQuerySymbolTab()
+     const { data: symbolTab } = useQuerySymbolTab();
 
-     const { mutate: mutateCreate } = useMutationCreateSymbolTab()
+     const { mutate: mutateCreate } = useMutationCreateSymbolTab();
 
-     const { mutate: mutateDelete } = useMutationDeleteSymbolTab()
+     const { mutate: mutateDelete } = useMutationDeleteSymbolTab();
 
-     const { mutate: mutateUpdateCreateTime } = useMutationUpdateCreateDateTimeTab()
+     const { mutate: mutateUpdateCreateTime } = useMutationUpdateCreateDateTimeTab();
 
-     const refDropdown = useRef<HTMLDivElement>(null);
+     console.log(tabsSymbol, 'tabsSymbol');
 
      const handleClickSymbolFromDropdown = (symbolISIN: string) => {
-
-          mutateUpdateCreateTime(symbolISIN)
+          mutateUpdateCreateTime(symbolISIN);
 
           setSelectedSymbol(symbolISIN);
-
-          setIsDropdownOpen(false);
      };
-
 
      const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
           if (!symbol) return;
 
-          mutateCreate(symbol.symbolISIN)
+          mutateCreate(symbol.symbolISIN);
 
           setSearchSymbol(symbol);
 
@@ -47,12 +47,11 @@ const HeaderLayout = () => {
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
-          mutateDelete(symbolISIN)
+          mutateDelete(symbolISIN);
 
           const findIndex = symbolTab?.findIndex(item => item.symbolISIN === symbolISIN);
 
           symbolTab && setSelectedSymbol(symbolTab[findIndex === 0 ? 1 : Number(findIndex) - 1].symbolISIN);
-
      };
 
      useEffect(() => {
@@ -63,42 +62,37 @@ const HeaderLayout = () => {
      return (
           <div className="flex h-full justify-between px-4">
                <div className="flex flex-1 items-center gap-x-2">
-                    <div className="flex items-center" ref={refDropdown}>
-                         <button
-                              className="flex items-center rounded-lg bg-back-2 p-3"
-                              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                              disabled={!symbolTab?.length}
-                         >
-                              <UpArrowIcon
-                                   className={clsx('h-min text-icon-default transition-transform', {
-                                        'rotate-180': !isDropdownOpen,
-                                        'text-icon-disable': !symbolTab?.length,
-                                   })}
-                              />
-                         </button>
-
-                         {/* {!!isDropdownOpen && (
-                              <Dropdown<ISymbolTabRes>
-                                   ref={refDropdown}
-                                   isDropdownOpen={isDropdownOpen}
-                                   closeDropDowns={() => setIsDropdownOpen(false)}
-                                   data={symbolTab || []}
-                                   classes={{ position: 'top-10 -left-9' }}
-                                   animate="fadeInDown"
-                                   getLabel={option => (
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         renderer={() => (
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                                   {tabsSymbol.map(item => (
                                         <LastPriceTitle
-                                             PriceVar={option.lastTradedPriceVarPercent}
-                                             price={option.lastTradedPrice}
-                                             symbolISIN={option.symbolISIN}
-                                             symbolTitle={option.symbolTitle}
-                                             key={option.symbolISIN}
-                                             onClick={handleClickSymbolFromDropdown}
-                                             isSelected={selectedSymbol === option.symbolISIN}
+                                             PriceVar={item?.lastTradedPriceVar}
+                                             price={item?.lastTradedPrice}
+                                             symbolISIN={item?.symbolISIN}
+                                             symbolTitle={item?.symbolTitle}
+                                             key={item?.symbolISIN}
+                                             onClick={() => setSelectedSymbol(item?.symbolISIN)}
+                                             isSelected={selectedSymbol === item?.symbolISIN}
                                         />
-                                   )}
-                              />
-                         )} */}
-                    </div>
+                                   ))}
+                              </ul>
+                         )}
+                    >
+                         {({ setOpen, open }) => (
+                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                                   <UpArrowIcon
+                                        className={clsx('h-min text-icon-default transition-transform', {
+                                             'rotate-180': !open,
+                                        })}
+                                   />
+                              </button>
+                         )}
+                    </Popup>
 
                     <div className="flex h-full flex-1 items-center">
                          {symbolTab?.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
@@ -148,7 +142,7 @@ const HeaderLayout = () => {
                     <ProfileDropdown />
                </div>
           </div>
-     )
-}
+     );
+};
 
-export default HeaderLayout
+export default HeaderLayout;

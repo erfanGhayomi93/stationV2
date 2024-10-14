@@ -1,8 +1,8 @@
 import Dayjs from './../../libs/dayjs';
-import PushEngineInfo from './PushEngineInfo';
-import Time from './Time';
 import MarketIndexes from './MarketIndexes';
 import PinnedWatchlists from './PinnedWatchlists';
+import PushEngineInfo from './PushEngineInfo';
+import Time from './Time';
 
 const Footer = () => {
      // Get current date and time

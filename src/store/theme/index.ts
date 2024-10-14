@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface IThemeManager {
+interface IThemeStore {
      theme: 'dark' | 'light' | 'system';
      setTheme: (value: 'dark' | 'light' | 'system') => undefined;
 }
 
-export const useThemeManager = create<IThemeManager>()(
+export const useThemeStore = create<IThemeStore>()(
      persist(
           (set, get) => ({
                theme: get()?.theme || 'system',

@@ -11,10 +11,10 @@ import {
 import Popup from '@components/popup';
 import { sepNumbers } from '@methods/helper';
 import Tippy from '@tippyjs/react';
-import { useSymbolManager } from '@zustand/symbol';
 import clsx from 'clsx';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSymbolStore } from 'store/symbol';
 import SymbolState from './SymbolState';
 
 export const MainSymbol = () => {
@@ -22,9 +22,9 @@ export const MainSymbol = () => {
 
      const refDropdown = useRef<HTMLDivElement>(null);
 
-     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+     //  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-     const selectedSymbol = useSymbolManager(state => state.selectedSymbol);
+     const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
      const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>(selectedSymbol, data => ({
           clientSideAlertEnabled: data?.alerts?.clientSideAlertEnabled,
@@ -145,10 +145,10 @@ export const MainSymbol = () => {
                               y: 8,
                          }}
                          defaultPopupWidth={200}
-                         onOpen={() => setIsDropdownOpen(true)}
-                         onClose={() => setIsDropdownOpen(false)}
+                         //  onOpen={() => setIsDropdownOpen(true)}
+                         //  onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-white px-4 py-3 shadow-E2">
                                    {items.map((item, index) => (
                                         <li
                                              key={index}

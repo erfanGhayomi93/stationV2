@@ -1,11 +1,12 @@
-import { useThemeManager } from '@zustand/theme';
+import Modals from '@components/modal/Modals';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useThemeStore } from 'store/theme';
 import Footer from './components/Footer';
 import HeaderLayout from './components/Header';
 
 const AppLayout = () => {
-     const { theme } = useThemeManager();
+     const { theme } = useThemeStore();
 
      useEffect(() => {
           const element = document.documentElement;
@@ -35,6 +36,8 @@ const AppLayout = () => {
                </main>
 
                <aside className="bg-indigo-300">aside</aside>
+
+               <Modals />
           </div>
      );
 };

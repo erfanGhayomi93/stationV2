@@ -3,12 +3,14 @@
      --ts-bg-color-active: theme('colors.button-primary-default');
      --ts-tick-bg-color: theme('colors.button-primary-default');
      --ts-track-bg-color: theme('colors.icon-white');
+     --ts-label-color: theme('colors.content-paragraph');
 
      &.hover {
           --ts-bg-color: theme('colors.button-disable-hover');
           --ts-bg-color-active: theme('colors.button-primary-hover');
           --ts-tick-bg-color: theme('colors.button-primary-hover');
           --ts-track-bg-color: theme('colors.icon-white');
+          --ts-label-color: theme('colors.content-paragraph');
      }
 
      &.dark {
@@ -16,6 +18,7 @@
           --ts-bg-color-active: theme('colors.button-primary-default');
           --ts-tick-bg-color: theme('colors.button-primary-default');
           --ts-track-bg-color: theme('colors.icon-white');
+          --ts-label-color: theme('colors.content-paragraph');
      }
 
      .toggle {
@@ -73,6 +76,7 @@
           padding-right: 8px;
           font-size: 14px;
           font-weight: 500;
+          color: var(--ts-label-color);
      }
 
      &.disabled {
