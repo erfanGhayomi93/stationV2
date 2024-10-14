@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import BuySellWidget from 'common/widget/buySellWidget';
+// import BuySellWidget from 'common/widget/buySellWidget';
 import { MainSymbol } from '../widget/HeaderSymbol';
 import IndividualLegalWidget from '../widget/individualLegalWidget';
 import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';

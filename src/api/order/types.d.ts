@@ -9,7 +9,7 @@ type IFormType = 'Web' | 'Mobile' | 'BrokerTrader' | 'ClientApi' | 'MarketMaker'
 type TAction = 'CreateOrder' | 'ModifyOrder' | 'CancelOrder' | 'ExpireOrder';
 
 type TStatus =
-     | 'InOMSQueu'
+     | 'InOMSQueue'
      | 'OnSending'
      | 'Error'
      | 'DeleteByEngine'
