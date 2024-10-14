@@ -129,13 +129,11 @@
           "floatFree": "درصد شناور",
           "pe": "P/E"
      },
-
      "theme": {
           "light": "روشن",
           "dark": "تیره",
           "system": "سیستم"
      },
-
      "todayOrders": {
           "openTodayOrdersBuyTab": "سفارشات خرید باز",
           "AllTodayOrdersBuyTab": "سفارشات خرید",
@@ -150,7 +148,6 @@
           "requestDateColumn": "زمان",
           "statusColumn": "وضعیت"
      },
-
      "todayTrades": {
           "tradesTab": "معاملات",
           "displayBasedOnAggregate": "نمایش بصورت تجمیعی",
@@ -162,7 +159,6 @@
           "valueTradeColumn": "ارزش معامله",
           "sourceColumn": "مبدا"
      },
-
      "orderStatus": {
           "InOMSQueue": "در حال ارسال",
           "OnSending": " در حال ارسال ",
@@ -180,8 +176,14 @@
           "OnModifyError": "خطا در ویرایش",
           "OnCancelError": "خطا در حذف",
           "Expired": "منقضی شده",
-          "draft": "پیش ‌نویس",
-          "Contract_InCremental_DisAllowed_FromTSE": "در حال حاضر ارسال سفارش فزاینده به هسته معاملات مسدود است.",
-          "OnCancelingWithBroker": "درخواست حذف توسط کارگزاری"
+          "OnCancelingWithBroker": "درخواست حذف توسط کارگزاری",
+          "RejectByGAP": "RejectByGAP",
+          "TradeCancel": "خطا در معامله"
+     },
+     "orderBookTabs": {
+          "marketDepthTab": "مظنه‌ها",
+          "sameGroupTab": "هم‌گروهی‌ها",
+          "optionContractTab": "قراردادهای آپشن",
+          "messagesTab": "پیام‌های ناظر"
      }
 }

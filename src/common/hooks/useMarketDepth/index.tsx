@@ -5,30 +5,28 @@ import { useEffect, useRef, useState } from "react";
 
 type TDataState = Record<number, TBuySellRowMarketDepthItems> | null
 
-// type TMarketDbRow = [number, string, string, number, number, string, number, string, string, string]
-
 interface IState {
     data: TDataState
     totalQuantity: number;
 }
 
-
+let MESSAGE_IDS: string[] = []
 
 export const useMarketDepth = (selectedSymbol: string) => {
 
     const serverLastTime = useRef<number>(0);
 
-    const MESSAGE_IDS = useRef<number[]>([])
+    // const MESSAGE_IDS = useRef<number[]>([])
 
-    const hasMsgID = (id: number) => MESSAGE_IDS.current.indexOf(+id) !== -1;
+    const hasMsgID = (id: string) => MESSAGE_IDS.includes(id);
 
-    const storeMsgID = (id: number) => MESSAGE_IDS.current = [...MESSAGE_IDS.current, id]
+    const storeMsgID = (id: string) => MESSAGE_IDS.push(id)
 
     const [isSubscribe, setIsSubscribe] = useState(false)
 
 
 
-    const { data, isFetching, isSuccess } = useQueryMarketDepthV2(selectedSymbol)
+    const { data } = useQueryMarketDepthV2(selectedSymbol)
 
 
     const [bids, setBids] = useState<IState>({
@@ -45,6 +43,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
     const deletionOfAllPreviousOrders = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
         const dataCopy = JSON.parse(JSON.stringify({ ...data }))
         const newData: TDataState = dataCopy;
+        console.log('deletionOfAllPreviousOrders', deletionOfAllPreviousOrders)
 
         if (!newData) return {
             data: newData,
@@ -133,9 +132,6 @@ export const useMarketDepth = (selectedSymbol: string) => {
         const priceRow = newData[priceDB]
 
         if (!priceRow) {
-            console.log('newData', newData)
-            console.log('priceDB', priceDB)
-            console.log('there is no price row')
             return { data, totalQuantity }
         }
 
@@ -166,14 +162,13 @@ export const useMarketDepth = (selectedSymbol: string) => {
             totalQuantity: totalQuantityCalc,
         }
 
-    } 
+    }
 
     const addItemsToOrderbook = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
         /**
        * 3: Price
        * 4: Quantity
        */
-        console.log("inside addItemsToOrderbook")
         const dataCopy = JSON.parse(JSON.stringify({ ...data }))
 
         const newData = dataCopy;
@@ -207,17 +202,18 @@ export const useMarketDepth = (selectedSymbol: string) => {
         const marketDbRow: string[] = []
 
         const row = stringifyRow.split('_');
+        const arrayCopy = [...row]
 
-        marketDbRow[0] = row[1]; // msgId
-        marketDbRow[1] = row[12].toLowerCase(); // Command
-        marketDbRow[2] = row[3].toLowerCase(); // orderSide
-        marketDbRow[3] = row[4]; // orderPrice
-        marketDbRow[4] = row[5]; // orderQuantity | orderVolume
-        marketDbRow[5] = row[6]; // typeOfMemberOrderOwner
-        marketDbRow[6] = row[7]; // orderSequenceNumber
-        marketDbRow[7] = row[8]; // orderEntryDate
-        marketDbRow[8] = row[9]; // timeOfEvent
-        marketDbRow[9] = row[11].toLowerCase(); // commandType
+        marketDbRow[0] = arrayCopy[1]; // msgId
+        marketDbRow[1] = arrayCopy[12].toLowerCase(); // Command
+        marketDbRow[2] = arrayCopy[3].toLowerCase(); // orderSide
+        marketDbRow[3] = arrayCopy[4]; // orderPrice
+        marketDbRow[4] = arrayCopy[5]; // orderQuantity | orderVolume
+        marketDbRow[5] = arrayCopy[6]; // typeOfMemberOrderOwner
+        marketDbRow[6] = arrayCopy[7]; // orderSequenceNumber
+        marketDbRow[7] = arrayCopy[8]; // orderEntryDate
+        marketDbRow[8] = arrayCopy[9]; // timeOfEvent
+        marketDbRow[9] = arrayCopy[11].toLowerCase(); // commandType
 
         return marketDbRow;
     };
@@ -262,7 +258,6 @@ export const useMarketDepth = (selectedSymbol: string) => {
                 },
                 update: {
                     default: () => {
-                        console.log('update')
                         if (isBuyOrder) updateOrderbook(updateItemsOfOrderbook, setBids);
                         if (isSellOrder) updateOrderbook(updateItemsOfOrderbook, setAsks);
                     },
@@ -289,64 +284,21 @@ export const useMarketDepth = (selectedSymbol: string) => {
         const command = marketDbRow[1]
         const commandType = marketDbRow[9]
 
-        // if (hasMsgID(Number(marketDbRow[0]))) return
+        // const id: bigint = BigInt(mddata‌.split('_')[1])
 
-        storeMsgID(Number(marketDbRow[0]))
+        if (hasMsgID(marketDbRow[0])) return
+
+        storeMsgID(marketDbRow[0])
 
         handleCommand(command, commandType, marketDbRow)
-
-        //         try {
-        //             if (command === "delete") {
-        //                 if (commandType === 'deletionofapreciseorder') {
-        // 
-        //                     if (marketDbRow[2] === 'buy') {
-        //                         setBids((bids) => deletionAPreciseOrder(bids.data, bids.totalQuantity, marketDbRow))
-        //                     } else if (marketDbRow[2] === 'sell') {
-        //                         setAsks((asks) => deletionAPreciseOrder(asks.data, asks.totalQuantity, marketDbRow))
-        //                     }
-        // 
-        //                 }
-        //                 else if (commandType === 'deletionofallpreviousorders') {
-        // 
-        //                     if (marketDbRow[2] === 'buy') {
-        //                         setBids((bids) => deletionOfAllPreviousOrders(bids.data, bids.totalQuantity, marketDbRow))
-        //                     } else if (marketDbRow[2] === 'sell') {
-        //                         setAsks((asks) => deletionOfAllPreviousOrders(asks.data, asks.totalQuantity, marketDbRow))
-        //                     }
-        // 
-        //                 } else if (commandType === 'deletionofallorders') {
-        //                     console.log('1')
-        //                     if (marketDbRow[2] === 'buy') {
-        //                         setBids({ data: null, totalQuantity: 0 })
-        //                     } else if (marketDbRow[2] === 'sell') {
-        //                         setAsks({ data: null, totalQuantity: 0 })
-        //                     }
-        //                 }
-        //             }
-        //             if (command === "add") {
-        //                 if (marketDbRow[2] === 'buy') {
-        //                     setBids((bids) => addItemsToOrderbook(bids.data, bids.totalQuantity, marketDbRow))
-        //                 } else if (marketDbRow[2] === 'sell') {
-        //                     setAsks((asks) => addItemsToOrderbook(asks.data, asks.totalQuantity, marketDbRow))
-        //                 }
-        //             }
-        //             else if (command === "update") {
-        //                 if (marketDbRow[2] === 'buy') {
-        //                     setBids((bids) => updateItemsOfOrderbook(bids.data, bids.totalQuantity, marketDbRow))
-        //                 } else if (marketDbRow[2] === 'sell') {
-        //                     setAsks((asks) => updateItemsOfOrderbook(asks.data, asks.totalQuantity, marketDbRow))
-        //                 }
-        //             }
-        //         } catch (e) {
-        //             console.log('error in handleChangedFields of marketDepth', e)
-        //         }
     }
 
     const subscribeMarketDepthProcess = () => {
         subscribeMarketDepth(selectedSymbol, serverLastTime.current, ({ changedFields }) => {
-            console.log("updatedFields", changedFields)
-            handleChangedFields(changedFields.mddata)
-            // handleChangedFields("fhn")
+            const clearTime = setTimeout(() => {
+                handleChangedFields(changedFields.mddata)
+                clearTimeout(clearTime);
+            }, 1000);
         })
     }
 
@@ -355,7 +307,10 @@ export const useMarketDepth = (selectedSymbol: string) => {
         if (data && isSubscribe) {
             subscribeMarketDepthProcess()
         }
-        return () => pushEngine.unSubscribe(('MarketDepthSub'))
+        return () => {
+            pushEngine.unSubscribe(('MarketDepthSub'))
+            MESSAGE_IDS = []
+        }
 
     }, [isSubscribe, data])
 
@@ -398,13 +353,13 @@ export const useMarketDepth = (selectedSymbol: string) => {
 
     }, [data])
 
-    useEffect(() => {
-        console.log('bids', bids)
-    }, [bids])
-
-    useEffect(() => {
-        console.log('asks', asks)
-    }, [asks])
+//     useEffect(() => {
+//         console.log('bids', bids)
+//     }, [bids])
+// 
+//     useEffect(() => {
+//         console.log('asks', asks)
+//     }, [asks])
 
 
 
