@@ -5,6 +5,8 @@
           "lib": ["ES2020", "DOM", "DOM.Iterable"],
           "module": "ESNext",
           "skipLibCheck": true,
+          "sourceMap": false,
+          "forceConsistentCasingInFileNames": true,
 
           /* Bundler mode */
           "moduleResolution": "bundler",
@@ -16,8 +18,8 @@
 
           /* Linting */
           "strict": true,
-          "noUnusedLocals": true,
-          "noUnusedParameters": true,
+          "noUnusedLocals": false,
+          "noUnusedParameters": false,
           "noFallthroughCasesInSwitch": true,
           "baseUrl": "src",
           "paths": {
@@ -25,15 +27,14 @@
                "@hooks/*": ["./common/hooks/*"],
                "@methods/*": ["./common/methods/*"],
                "@uiKit/*": ["./uiKit/*"],
-               "@LS/*": ["./LS/*"],
+               "@LS/*": ["./ls/*"],
                "@assets/*": ["./assets/*"],
                "@pages/*": ["./pages/*"],
                "@config/*": ["./config/*"],
                "@router/*": ["./router/*"],
                "@api/*": ["./api/*"],
-               "@zustand/*": ["./zustand/*"]
+               "@store/*": ["./store/*"]
           }
      },
-     "types": ["src/@types/*.d.ts"],
-     "include": ["src", "src/**/*", "src/vite-plugin-eslint.d.ts", "src/vite-plugin-eslint.d.ts"]
+     "include": ["src/**/*"]
 }

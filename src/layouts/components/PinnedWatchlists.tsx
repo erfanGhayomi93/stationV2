@@ -7,8 +7,8 @@ import { Fragment } from 'react/jsx-runtime';
 
 const initData: ILastPriceTitleProps[] = [
      {
-          lastPrice: 56454,
-          lastPriceVar: 3,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 3,
           symbolTitle: 'خساپا',
           isSelected: false,
           symbolISIN: '11111111111111',
@@ -16,8 +16,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 56454,
-          lastPriceVar: 0,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 0,
           symbolTitle: 'شستا',
           isSelected: false,
           symbolISIN: '222',
@@ -25,8 +25,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 4234,
-          lastPriceVar: -2,
+          //   lastPrice: 4234,
+          //   lastPriceVar: -2,
           symbolTitle: 'ریشمک',
           isSelected: false,
           symbolISIN: '3333',
@@ -34,8 +34,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 5342,
-          lastPriceVar: -1.6,
+          //   lastPrice: 5342,
+          //   lastPriceVar: -1.6,
           symbolTitle: '1خساپا',
           isSelected: false,
           symbolISIN: '4441',
@@ -43,8 +43,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 56454,
-          lastPriceVar: 3,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 3,
           symbolTitle: 'خساپا1',
           isSelected: false,
           symbolISIN: '111111111111111',
@@ -52,8 +52,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 56454,
-          lastPriceVar: 0,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 0,
           symbolTitle: 'شستا1',
           isSelected: false,
           symbolISIN: '2221',
@@ -61,8 +61,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 4234,
-          lastPriceVar: -2,
+          //   lastPrice: 4234,
+          //   lastPriceVar: -2,
           symbolTitle: 'ریشمک1',
           isSelected: false,
           symbolISIN: '33331',
@@ -70,8 +70,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 5342,
-          lastPriceVar: -1.6,
+          //   lastPrice: 5342,
+          //   lastPriceVar: -1.6,
           symbolTitle: 'خساپا1',
           isSelected: false,
           symbolISIN: '4441',
@@ -79,8 +79,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 56454,
-          lastPriceVar: 3,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 3,
           symbolTitle: 'خساپا2',
           isSelected: false,
           symbolISIN: '1111111111111112',
@@ -88,8 +88,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 56454,
-          lastPriceVar: 0,
+          //   lastPrice: 56454,
+          //   lastPriceVar: 0,
           symbolTitle: 'شستا2',
           isSelected: false,
           symbolISIN: '22212',
@@ -97,8 +97,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 4234,
-          lastPriceVar: -2,
+          //   lastPrice: 4234,
+          //   lastPriceVar: -2,
           symbolTitle: 'ریشمک2',
           isSelected: false,
           symbolISIN: '333312',
@@ -106,8 +106,8 @@ const initData: ILastPriceTitleProps[] = [
           PriceVar: 88,
      },
      {
-          lastPrice: 5342,
-          lastPriceVar: -1.6,
+          //   lastPrice: 5342,
+          //   lastPriceVar: -1.6,
           symbolTitle: 'خساپا2',
           isSelected: false,
           symbolISIN: '44412',
@@ -161,7 +161,7 @@ const PinnedWatchlists = () => {
                          onOpen={() => setIsDropdownOpen(true)}
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl shadow-E2 flex flex-col gap-4 rounded-md bg-white px-4 py-3">
+                              <ul className="rtl bg-white flex flex-col gap-4 rounded-md px-4 py-3 shadow-E2">
                                    {initData.map((item, index) => (
                                         <LastPriceTitle
                                              {...item}

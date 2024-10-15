@@ -1,12 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
-import App from './App.tsx';
+import App from './App';
 import i18next from './assets/i18n/config';
 import useApiPath from './common/hooks/useApiPath.ts';
-import QueryClientProviderCom from './config/reactQuery/index.tsx';
+import QueryClientProviderCom from './config/reactQuery';
 
-import ToastContainerCom from '@config/toastify/index.tsx';
 import './assets/scss/app.scss';
 import './assets/scss/libs.scss';
 

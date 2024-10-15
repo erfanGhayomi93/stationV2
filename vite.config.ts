@@ -22,6 +22,7 @@ export default defineConfig({
      ],
      build: {
           outDir: path.join(__dirname, 'build'),
+          sourcemap: false,
      },
      resolve: {
           alias: {
@@ -30,7 +31,7 @@ export default defineConfig({
                '@methods': path.resolve(__dirname, './src/common/methods'),
                '@widget': path.resolve(__dirname, './src/common/widget'),
                '@uiKit': path.resolve(__dirname, './src/uiKit'),
-               '@LS': path.resolve(__dirname, './src/LS'),
+               '@LS': path.resolve(__dirname, './src/ls'),
                '@assets': path.resolve(__dirname, './src/assets'),
                '@pages': path.resolve(__dirname, './src/pages'),
                '@config': path.resolve(__dirname, './src/config'),
