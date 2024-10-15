@@ -25,7 +25,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
     const [isSubscribe, setIsSubscribe] = useState(false)
 
 
-    
+
     const { data } = useQueryMarketDepthV2(selectedSymbol)
 
 

@@ -22,6 +22,7 @@ export default defineConfig({
      ],
      build: {
           outDir: path.join(__dirname, 'build'),
+          sourcemap: false,
      },
      resolve: {
           alias: {
