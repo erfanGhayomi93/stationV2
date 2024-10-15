@@ -1,4 +1,4 @@
-import PriceView from '@components/priceView';
+// import PriceView from '@components/priceView';
 import { FC } from 'react';
 // import { useAppDispatch } from 'src/redux/hooks'
 // import { setPriceBuySellAction } from 'src/redux/slices/keepDataBuySell'
@@ -23,8 +23,8 @@ export const HighLowPriceSymbol: FC<IHighLowPriceProps> = ({
      };
 
      return (
-          <div className="mt-2 px-2 grid grid-cols-3 gap-x-1 rounded bg-line-div-3">
-               <PriceView
+          <div className="mt-2 grid grid-cols-3 gap-x-1 rounded bg-line-div-3 px-2">
+               {/* <PriceView
                     onClickPrice={() => setPriceOnBuySellModal(highestTradePriceOfTradingDay)}
                     label="بیشترین"
                     price={highestTradePriceOfTradingDay}
@@ -51,7 +51,7 @@ export const HighLowPriceSymbol: FC<IHighLowPriceProps> = ({
                               (((lowestTradePriceOfTradingDay - yesterdayClosingPrice) / yesterdayClosingPrice) * 100).toFixed(2)
                          ) * 1
                     }
-               />
+               /> */}
           </div>
      );
 };

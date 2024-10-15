@@ -1,0 +1,168 @@
+:root {
+    --color-teal-99: 236 249 249;
+    /* #ECF9F9 */
+    --color-cobalt-99: 229 238 255;
+    /* #E5EEFF */
+    --color-main-white: 255 255 255;
+    /* #FFFFFF */
+    --color-main-baseblack: 0 0 0;
+    /* #000000 */
+    --color-neu-99: 252 252 252;
+    /* #FCFCFC */
+    --color-red-99: 253 241 241;
+    /* #FDF1F1 */
+    --color-red-95: 251 223 223;
+    /* #FBDFDF */
+    --color-red-90: 247 186 186;
+    /* #F7BABA */
+    --color-red-80: 242 140 140;
+    /* #F28C8C */
+    --color-red-70: 235 71 71;
+    /* #EB4747 */
+    --color-red-60: 232 48 48;
+    /* #E83030 */
+    --color-red-50: 207 23 23;
+    /* #CF1717 */
+    --color-red-40: 183 21 21;
+    /* #B71515 */
+    --color-red-30: 138 15 15;
+    /* #8A0F0F */
+    --color-red-20: 92 10 10;
+    /* #5C0A0A */
+    --color-red-10: 46 5 5;
+    /* #2E0505 */
+    --color-neu-96: 247 247 247;
+    /* #F7F7F7 */
+    --color-neu-95: 242 242 242;
+    /* #F2F2F2 */
+    --color-neu-94: 240 240 240;
+    /* #F0F0F0 */
+    --color-neu-90: 230 230 230;
+    /* #E6E6E6 */
+    --color-neu-85: 217 217 217;
+    /* #D9D9D9 */
+    --color-neu-80: 204 204 204;
+    /* #CCCCCC */
+    --color-neu-70: 179 179 179;
+    /* #B3B3B3 */
+    --color-neu-60: 153 153 153;
+    /* #999999 */
+    --color-neu-50: 128 128 128;
+    /* #808080 */
+    --color-neu-45: 115 115 115;
+    /* #737373 */
+    --color-neu-40: 89 89 89;
+    /* #595959 */
+    --color-neu-30: 64 64 64;
+    /* #404040 */
+    --color-neu-20: 38 38 38;
+    /* #262626 */
+    --color-neu-10: 26 26 26;
+    /* #1A1A1A */
+    --color-cobalt-95: 204 221 255;
+    /* #CCDDFF */
+    --color-cobalt-90: 178 204 255;
+    /* #B2CCFF */
+    --color-cobalt-80: 128 170 255;
+    /* #80AAFF */
+    --color-cobalt-70: 76 136 255;
+    /* #4C88FF */
+    --color-cobalt-60: 1 86 255;
+    /* #0156FF */
+    --color-cobalt-50: 0 68 204;
+    /* #0044CC */
+    --color-cobalt-40: 0 34 102;
+    /* #002266 */
+    --color-cobalt-30: 0 25 76;
+    /* #00194C */
+    --color-cobalt-20: 0 20 61;
+    /* #00143D */
+    --color-cobalt-10: 0 17 51;
+    /* #001133 */
+    --color-teal-95: 217 242 242;
+    /* #D9F2F2 */
+    --color-teal-90: 178 229 229;
+    /* #B2E5E5 */
+    --color-teal-80: 140 217 217;
+    /* #8CD9D9 */
+    --color-teal-70: 102 204 204;
+    /* #66CCCC */
+    --color-teal-60: 57 172 172;
+    /* #39ACAC */
+    --color-teal-50: 45 134 134;
+    /* #2D8686 */
+    --color-teal-40: 32 96 96;
+    /* #206060 */
+    --color-teal-30: 23 69 69;
+    /* #174545 */
+    --color-teal-20: 15 46 46;
+    /* #0F2E2E */
+    --color-teal-10: 10 31 31;
+    /* #0A1F1F */
+    --color-green-99: 244 251 247;
+    /* #F4FBF7 */
+    --color-green-95: 228 246 237;
+    /* #E4F6ED */
+    --color-green-90: 198 236 217;
+    /* #C6ECD9 */
+    --color-green-80: 159 223 191;
+    /* #9FDFBF */
+    --color-green-70: 102 204 153;
+    /* #66CC99 */
+    --color-green-60: 83 198 140;
+    /* #53C68C */
+    --color-green-50: 57 172 114;
+    /* #39AC72 */
+    --color-green-40: 45 134 89;
+    /* #2D8659 */
+    --color-green-30: 32 96 64;
+    /* #206040 */
+    --color-green-20: 25 76 51;
+    /* #194C33 */
+    --color-green-10: 13 38 26;
+    /* #0D261A */
+    --color-blue-99: 240 250 254;
+    /* #F0FAFE */
+    --color-blue-95: 231 246 254;
+    /* #E7F6FE */
+    --color-blue-90: 207 237 252;
+    /* #CFEDFC */
+    --color-blue-80: 158 220 250;
+    /* #9EDCFA */
+    --color-blue-70: 110 202 247;
+    /* #6ECAF7 */
+    --color-blue-60: 61 185 245;
+    /* #3DB9F5 */
+    --color-blue-50: 11 150 218;
+    /* #0B96DA */
+    --color-blue-40: 9 117 169;
+    /* #0975A9 */
+    --color-blue-30: 5 67 97;
+    /* #054361 */
+    --color-blue-20: 4 50 73;
+    /* #043249 */
+    --color-blue-10: 3 33 48;
+    /* #032130 */
+    --color-yellow-99: 254 250 240;
+    /* #FEFAF0 */
+    --color-yellow-95: 254 246 231;
+    /* #FEF6E7 */
+    --color-yellow-90: 252 237 207;
+    /* #FCEDCF */
+    --color-yellow-80: 250 219 158;
+    /* #FADB9E */
+    --color-yellow-70: 247 200 110;
+    /* #F7C86E */
+    --color-yellow-60: 245 182 61;
+    /* #F5B63D */
+    --color-yellow-50: 242 164 13;
+    /* #F2A40D */
+    --color-yellow-40: 218 148 11;
+    /* #DA940B */
+    --color-yellow-30: 145 98 8;
+    /* #916208 */
+    --color-yellow-20: 87 59 5;
+    /* #573B05 */
+    --color-yellow-10: 48 33 3;
+    /* #302103 */
+}

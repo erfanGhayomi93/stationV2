@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { cloneElement, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 
 interface IAnimation {
      animation: string;
