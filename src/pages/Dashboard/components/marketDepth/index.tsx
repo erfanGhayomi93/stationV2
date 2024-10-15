@@ -1,9 +1,9 @@
 import { useMarketDepth } from "@hooks/useMarketDepth"
-import { useSymbolManager } from "@zustand/symbol"
 import { useCallback, useMemo } from "react"
 import HalfRowDepth from "./HalfRowDepth";
 import { useQuerySymbolGeneralInformation } from "@api/Symbol";
 import OrderBookHeader from "./OrderBookHeader";
+import { useSymbolStore } from "store/symbol";
 
 export interface IHalfRowDepth {
     price: number;
@@ -20,7 +20,7 @@ interface ISelectGeneralInformation {
 
 const MarketDepthTab = () => {
     //
-    const { selectedSymbol } = useSymbolManager()
+    const { selectedSymbol } = useSymbolStore()
 
     const { data: { bids, asks } } = useMarketDepth(selectedSymbol)
 

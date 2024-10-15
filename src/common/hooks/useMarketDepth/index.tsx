@@ -25,7 +25,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
     const [isSubscribe, setIsSubscribe] = useState(false)
 
 
-
+    
     const { data } = useQueryMarketDepthV2(selectedSymbol)
 
 
@@ -353,13 +353,13 @@ export const useMarketDepth = (selectedSymbol: string) => {
 
     }, [data])
 
-//     useEffect(() => {
-//         console.log('bids', bids)
-//     }, [bids])
-// 
-//     useEffect(() => {
-//         console.log('asks', asks)
-//     }, [asks])
+    //     useEffect(() => {
+    //         console.log('bids', bids)
+    //     }, [bids])
+    // 
+    //     useEffect(() => {
+    //         console.log('asks', asks)
+    //     }, [asks])
 
 
 
