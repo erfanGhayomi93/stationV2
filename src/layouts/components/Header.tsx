@@ -18,7 +18,7 @@ const HeaderLayout = () => {
 
      const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null);
 
-     const { tabsSymbol, setTabSymbol, selectedSymbol, setSelectedSymbol } = useSymbolStore();
+     const { selectedSymbol, setSelectedSymbol } = useSymbolStore();
 
      const { data: symbolTab } = useQuerySymbolTab();
 
@@ -27,8 +27,6 @@ const HeaderLayout = () => {
      const { mutate: mutateDelete } = useMutationDeleteSymbolTab();
 
      const { mutate: mutateUpdateCreateTime } = useMutationUpdateCreateDateTimeTab();
-
-     console.log(tabsSymbol, 'tabsSymbol');
 
      const handleClickSymbolFromDropdown = (symbolISIN: string) => {
           mutateUpdateCreateTime(symbolISIN);
@@ -69,14 +67,14 @@ const HeaderLayout = () => {
                          defaultPopupWidth={200}
                          renderer={() => (
                               <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
-                                   {tabsSymbol.map(item => (
+                                   {symbolTab?.map(item => (
                                         <LastPriceTitle
-                                             PriceVar={item?.lastTradedPriceVar}
+                                             PriceVar={item?.lastTradedPriceVarPercent}
                                              price={item?.lastTradedPrice}
                                              symbolISIN={item?.symbolISIN}
                                              symbolTitle={item?.symbolTitle}
                                              key={item?.symbolISIN}
-                                             onClick={() => setSelectedSymbol(item?.symbolISIN)}
+                                             onClick={() => handleClickSymbolFromDropdown(item?.symbolISIN)}
                                              isSelected={selectedSymbol === item?.symbolISIN}
                                         />
                                    ))}
@@ -116,7 +114,7 @@ const HeaderLayout = () => {
                                              symbolISIN={item?.symbolISIN}
                                              symbolTitle={item?.symbolTitle}
                                              key={item?.symbolISIN}
-                                             onClick={() => setSelectedSymbol(item?.symbolISIN)}
+                                             onClick={(symbolISIN) => setSelectedSymbol(symbolISIN)}
                                              isSelected={selectedSymbol === item?.symbolISIN}
                                         />
                                    </div>

@@ -27,7 +27,7 @@
                "@hooks/*": ["./common/hooks/*"],
                "@methods/*": ["./common/methods/*"],
                "@uiKit/*": ["./uiKit/*"],
-               "@LS/*": ["./ls/*"],
+               "@LS/*": ["./LS/*"],
                "@assets/*": ["./assets/*"],
                "@pages/*": ["./pages/*"],
                "@config/*": ["./config/*"],

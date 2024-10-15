@@ -31,7 +31,7 @@ export default defineConfig({
                '@methods': path.resolve(__dirname, './src/common/methods'),
                '@widget': path.resolve(__dirname, './src/common/widget'),
                '@uiKit': path.resolve(__dirname, './src/uiKit'),
-               '@LS': path.resolve(__dirname, './src/ls'),
+               '@LS': path.resolve(__dirname, './src/LS'),
                '@assets': path.resolve(__dirname, './src/assets'),
                '@pages': path.resolve(__dirname, './src/pages'),
                '@config': path.resolve(__dirname, './src/config'),
