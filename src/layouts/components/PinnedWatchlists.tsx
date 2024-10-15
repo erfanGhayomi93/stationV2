@@ -161,7 +161,7 @@ const PinnedWatchlists = () => {
                          onOpen={() => setIsDropdownOpen(true)}
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl bg-white flex flex-col gap-4 rounded-md px-4 py-3 shadow-E2">
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
                                    {initData.map((item, index) => (
                                         <LastPriceTitle
                                              {...item}

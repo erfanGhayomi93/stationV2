@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import MultiLevelDropdown from '@uiKit/MultiLevelDropdown';
 import { ProfileIcon, UpArrowIcon } from '@assets/icons';
+import MultiLevelDropdown from '@uiKit/MultiLevelDropdown';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 const ProfileDropdown = () => {
      const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);

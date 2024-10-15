@@ -9,18 +9,16 @@ import {
      WatchlistNegativeIcon,
 } from '@assets/icons';
 import Popup from '@components/popup';
-import { sepNumbers } from '@methods/helper';
+import { getCodalLink, getTSELink, sepNumbers } from '@methods/helper';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
 import SymbolState from './SymbolState';
 
 export const MainSymbol = () => {
      const { t } = useTranslation();
-
-     const refDropdown = useRef<HTMLDivElement>(null);
 
      //  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -72,14 +70,13 @@ export const MainSymbol = () => {
      );
 
      const items = [
-          { label: 'سایت TSE ', icon: TseIcon, onclick: () => null },
-          { label: 'سایت کدال', icon: CodalIcon, onclick: () => null },
+          { label: 'سایت TSE ', icon: TseIcon, link: getTSELink(data?.insCode) },
+          { label: 'سایت کدال', icon: CodalIcon, link: getCodalLink(data?.symbolTitle) },
      ];
 
      return (
           <div className="flex items-center justify-between text-sm">
-
-               <div className="flex flex-col gap-y-1 min-w-44">
+               <div className="flex min-w-44 flex-col gap-y-1">
                     <div className="flex items-center gap-x-1">
                          <SymbolState
                               symbolState={data?.symbolState || ''}
@@ -105,7 +102,7 @@ export const MainSymbol = () => {
                </div>
 
                <div className="flex rounded bg-back-2 px-4 py-2">
-                    <div className="flex gap-x-6 border-l border-back-1 pl-4">
+                    <div className="border-back-1 flex gap-x-6 border-l pl-4">
                          <span>آخرین قیمت:</span>
                          <span className="flex gap-x-1">
                               <span
@@ -148,15 +145,16 @@ export const MainSymbol = () => {
                          //  onOpen={() => setIsDropdownOpen(true)}
                          //  onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-white px-4 py-3 shadow-E2">
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
                                    {items.map((item, index) => (
-                                        <li
+                                        <a
                                              key={index}
-                                             className="flex w-full items-center justify-between"
-                                             onClick={() => {
-                                                  item.onclick();
-                                                  setOpen(false);
-                                             }}
+                                             aria-label="Read more about symbol in the TSE"
+                                             role="link"
+                                             target="_blank"
+                                             rel="noreferrer"
+                                             href={item.link}
+                                             className="flex items-center justify-between"
                                         >
                                              <div className="flex gap-x-2 pl-10">
                                                   <item.icon className="text-icon-default" />
@@ -164,7 +162,7 @@ export const MainSymbol = () => {
                                              </div>
 
                                              <UpArrowIcon className="-rotate-90 text-icon-default" />
-                                        </li>
+                                        </a>
                                    ))}
                               </ul>
                          )}

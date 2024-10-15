@@ -222,3 +222,29 @@ interface IMarketDepthRes {
      }[];
      lastTime: string;
 }
+
+interface ISameGroupsRes {
+     bestBuyPrice: number;
+     bestBuyPricebestBuyLimitPrice_1: number;
+     bestSellLimitPrice_1: number;
+     bestSellPrice: number;
+     lastTradedPriceVarPercent: number;
+     sectorCode: string;
+     symbolISIN: string;
+     symbolTitle: string;
+     lastTradedPrice: number;
+     totalNumberOfSharesTraded: number;
+}
+
+interface IOptionContractsRes {
+     symbolISIN: string;
+     sectorCode: string;
+     symbolTitle: string;
+     totalNumberOfSharesTraded: number;
+     lastTradedPriceVarPercent: number;
+     bestBuyPrice: number;
+     bestBuyPricebestBuyLimitPrice_1: number;
+     bestSellPrice: number;
+     bestSellLimitPrice_1: number;
+     lastTradedPrice: number;
+}

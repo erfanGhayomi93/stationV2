@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
 import AXIOS from '@config/axios';
-import { routeApi } from '@router/routeApi';
 import { queryClient } from '@config/reactQuery';
+import { routeApi } from '@router/routeApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useQuerySymbolSearch = (term: string) => {
      const url = routeApi().Symbol.search;
@@ -107,6 +107,31 @@ export const useMutationUpdateCreateDateTimeTab = () => {
                queryClient.invalidateQueries({
                     queryKey: ['GetSymbolsTab'],
                });
+          },
+     });
+};
+
+export const useQuerySameGroupSymbol = ({ SymbolISIN }: { SymbolISIN: string }) => {
+     const url = routeApi().Symbol.sameGroupsSymbol;
+
+     return useQuery({
+          queryKey: ['GetSameGroupsSymbol'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ISameGroupsRes[]>>(url, { params: { SymbolISIN } });
+
+               return response.data.result ?? [];
+          },
+     });
+};
+
+export const useQueryOptionContracts = ({ symbolISIN }: { symbolISIN: string }) => {
+     const url = routeApi().Symbol.optionContracts;
+
+     return useQuery({
+          queryKey: ['GetOptionContract'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<IOptionContractsRes[]>>(url, { params: { symbolISIN } });
+               return response.data.result;
           },
      });
 };
