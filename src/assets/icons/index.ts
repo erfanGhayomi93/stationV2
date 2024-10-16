@@ -1,41 +1,46 @@
-import AngleDownIcon from '@assets/svg/angle-down.svg';
-import AngleUpIcon from '@assets/svg/angle-up.svg';
-import BackgroundModeIcon from '@assets/svg/backgroundMode.svg';
-import CloseIcon from '@assets/svg/close.svg';
-import CodalIcon from '@assets/svg/codal.svg';
-import CreditIcon from '@assets/svg/credit.svg';
-import DarkModeIcon from '@assets/svg/darkMode.svg';
-import DeleteIcon from '@assets/svg/delete.svg';
-import DetailsIcon from '@assets/svg/details.svg';
-import EditIcon from '@assets/svg/edit.svg';
-import ExcelIcon from '@assets/svg/excel.svg';
-import LayoutIcon from '@assets/svg/layout.svg';
-import LightModeIcon from '@assets/svg/lightMode.svg';
-import LinkIcon from '@assets/svg/link.svg';
-import LogoutIcon from '@assets/svg/logout.svg';
-import MoreStatusIcon from '@assets/svg/more-status.svg';
-import NotificationIcon from '@assets/svg/notification.svg';
-import PinnedIcon from '@assets/svg/pinned.svg';
-import ProfileIcon from '@assets/svg/profile.svg';
-import RiskAnnouncementIcon from '@assets/svg/RiskAnnouncement.svg';
-import SearchCustomerGroupsIcon from '@assets/svg/searchCustomerGroups.svg';
-import SearchCustomersIcon from '@assets/svg/searchCustomers.svg';
-import SearchInputIcon from '@assets/svg/searchInput.svg';
-import SignalIcon from '@assets/svg/Signal.svg';
-import SpinnerIcon from '@assets/svg/Spinner.svg';
-import SystemModeIcon from '@assets/svg/systemMode.svg';
-import TseIcon from '@assets/svg/tse.svg';
-import UpArrowIcon from '@assets/svg/upArrow.svg';
-import UpFillArrowIcon from '@assets/svg/upFillArrow.svg';
-import WatchlistNegativeIcon from '@assets/svg/watchlistNegative.svg';
-import XCircleFillIcon from '@assets/svg/XCircleFill.svg';
-import XCircleOutlineIcon from '@assets/svg/xCircleOutline.svg';
-import XOutlineICon from '@assets/svg/xOutline.svg';
-import SendToBasketIcon from '@assets/svg/sendToBasket.svg';
+import AngleDownIcon from '../svg/angle-down.svg?react';
+import AngleUpIcon from '../svg/angle-up.svg?react';
+import ArrowDownTriangleIcon from '../svg/arrowDownTriangle.svg?react';
+import BackgroundModeIcon from '../svg/backgroundMode.svg?react';
+import CloseIcon from '../svg/close.svg?react';
+import CodalIcon from '../svg/codal.svg?react';
+import CreditIcon from '../svg/credit.svg?react';
+import DarkModeIcon from '../svg/darkMode.svg?react';
+import DeleteIcon from '../svg/delete.svg?react';
+import DetailsIcon from '../svg/details.svg?react';
+import DoubleTickIcon from '../svg/DoubleTick.svg?react';
+import EditIcon from '../svg/edit.svg?react';
+import ExcelIcon from '../svg/excel.svg?react';
+import LayoutIcon from '../svg/layout.svg?react';
+import LightModeIcon from '../svg/lightMode.svg?react';
+import LinkIcon from '../svg/link.svg?react';
+import LogoutIcon from '../svg/logout.svg?react';
+import MoreStatusIcon from '../svg/more-status.svg?react';
+import NotificationIcon from '../svg/notification.svg?react';
+import PinnedIcon from '../svg/pinned.svg?react';
+import ProfileIcon from '../svg/profile.svg?react';
+import RiskAnnouncementIcon from '../svg/RiskAnnouncement.svg?react';
+import SearchCustomerGroupsIcon from '../svg/searchCustomerGroups.svg?react';
+import SearchCustomersIcon from '../svg/searchCustomers.svg?react';
+import SearchInputIcon from '../svg/searchInput.svg?react';
+import SignalIcon from '../svg/Signal.svg?react';
+import SingleTickIcon from '../svg/singleTick.svg?react';
+import SpinnerIcon from '../svg/Spinner.svg?react';
+import SystemModeIcon from '../svg/systemMode.svg?react';
+import TseIcon from '../svg/tse.svg?react';
+import UpArrowIcon from '../svg/upArrow.svg?react';
+import UpFillArrowIcon from '../svg/upFillArrow.svg?react';
+import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
+import XCircleFillIcon from '../svg/XCircleFill.svg?react';
+import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
+import XOutlineICon from '../svg/xOutline.svg?react';
+import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
+
 
 export {
      AngleDownIcon,
      AngleUpIcon,
+     ArrowDownTriangleIcon,
      BackgroundModeIcon,
      CloseIcon,
      CodalIcon,
@@ -43,6 +48,7 @@ export {
      DarkModeIcon,
      DeleteIcon,
      DetailsIcon,
+     DoubleTickIcon,
      EditIcon,
      ExcelIcon,
      LayoutIcon,
@@ -58,6 +64,7 @@ export {
      SearchCustomersIcon,
      SearchInputIcon,
      SignalIcon,
+     SingleTickIcon,
      SpinnerIcon,
      SystemModeIcon,
      TseIcon,

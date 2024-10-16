@@ -20,8 +20,6 @@ const Dropdown = forwardRef(({ items, onChange, defaultSelected }: TDropdownProp
 
      const [selectedItem, setSelectedItem] = useState<TItem>(defaultSelected);
 
-     console.log(selectedItem, 'selectedItem');
-
      const onChangeSelectedItem = (item: TItem) => {
           setSelectedItem(item);
           onChange(item);
@@ -35,7 +33,7 @@ const Dropdown = forwardRef(({ items, onChange, defaultSelected }: TDropdownProp
                          y: 8,
                     }}
                     renderer={({ setOpen }) => (
-                         <ul ref={ref} className="rtl flex w-full flex-col gap-2 rounded-md bg-white px-4 py-3 shadow-E2">
+                         <ul ref={ref} className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E2">
                               {items.map((item, index) => (
                                    <RadioButton
                                         key={index}

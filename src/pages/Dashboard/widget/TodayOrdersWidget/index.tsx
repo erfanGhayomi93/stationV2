@@ -3,9 +3,10 @@ import { useQueryTodayOrders } from '@api/order';
 import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
 import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
+import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import { useQueryClient } from '@tanstack/react-query';
-import Button from '@uiKit/Button';
+import clsx from 'clsx';
 import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useModalStore } from 'store/modal';
@@ -130,37 +131,40 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      return (
           <div className="flex h-full flex-1 flex-col gap-4">
                <div className="flex justify-between">
-                    <div className="flex gap-x-2">
-                         <Button
-                              variant={
-                                   tabSelected === 'OnBoard' && side === 'Buy'
-                                        ? 'primary'
-                                        : tabSelected === 'OnBoard' && side === 'Sell'
-                                             ? 'danger'
-                                             : 'secondary'
-                              }
-                              onClick={() => setTabSelected('OnBoard')}
-                              className="text-sm font-bold"
-                         >
-                              {side === 'Buy' && t('orders.openTodayOrdersBuy')}
-                              {side === 'Sell' && t('orders.openTodayOrdersSell')}
-                         </Button>
-
-                         <Button
-                              variant={
-                                   tabSelected === 'All' && side === 'Buy'
-                                        ? 'primary'
-                                        : tabSelected === 'All' && side === 'Sell'
-                                             ? 'danger'
-                                             : 'secondary'
-                              }
-                              onClick={() => setTabSelected('All')}
-                              className="text-sm font-medium"
-                         >
-                              {side === 'Buy' && t('orders.AllTodayOrdersBuy')}
-                              {side === 'Sell' && t('orders.AllTodayOrdersSell')}
-                         </Button>
-                    </div>
+                    <TabGroup>
+                         <TabList className="flex gap-x-4">
+                              <Tab
+                                   onClick={() => setTabSelected('OnBoard')}
+                                   className={clsx(
+                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        {
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
+                                                  side === 'Buy',
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-red data-[selected]:font-bold data-[selected]:text-content-error-sell':
+                                                  side === 'Sell',
+                                        }
+                                   )}
+                              >
+                                   {side === 'Buy' && t('orders.openTodayOrdersBuy')}
+                                   {side === 'Sell' && t('orders.openTodayOrdersSell')}
+                              </Tab>
+                              <Tab
+                                   onClick={() => setTabSelected('All')}
+                                   className={clsx(
+                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        {
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
+                                                  side === 'Buy',
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-red data-[selected]:font-bold data-[selected]:text-content-error-sell':
+                                                  side === 'Sell',
+                                        }
+                                   )}
+                              >
+                                   {side === 'Buy' && t('orders.AllTodayOrdersBuy')}
+                                   {side === 'Sell' && t('orders.AllTodayOrdersSell')}
+                              </Tab>
+                         </TabList>
+                    </TabGroup>
 
                     <div className="flex items-center gap-x-6">
                          <button

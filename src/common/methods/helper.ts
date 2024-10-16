@@ -117,3 +117,29 @@ export const toEnglishNumber = (str: string): string => {
 };
 
 export const convertStringToInteger = (inputString: string): string => toEnglishNumber(inputString).replace(/[^\d]/g, '');
+export const getColorClassBasedAmount = (
+     value: number,
+     positiveColor: boolean | undefined = true,
+     variant: 'text' | 'bg' = 'text'
+) => {
+     const colorMappings = {
+          positive: `${variant}-content-success-buy`,
+          negative: `${variant}-content-error-sell`,
+          neutral: `${variant}-content-title`,
+     };
+     if (value > 0 && positiveColor) {
+          return colorMappings.positive;
+     } else if (value < 0) {
+          return colorMappings.negative;
+     } else {
+          return colorMappings.neutral;
+     }
+};
+
+export const getCodalLink = (title?: string): string => {
+     return title ? `http://www.codal.ir/ReportList.aspx?search&Symbol=${title}` : 'http://www.codal.ir';
+};
+
+export const getTSELink = (insCode?: string | number): string => {
+     return insCode ? `http://tsetmc.com/Loader.aspx?ParTree=151311&i=${insCode}` : 'http://tsetmc.com';
+};
