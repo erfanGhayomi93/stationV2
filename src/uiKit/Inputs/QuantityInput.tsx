@@ -1,7 +1,8 @@
 import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
 import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 
-interface TQuantityInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'className' | 'onChange'> {
+interface TQuantityInputProps
+     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'className' | 'onChange' | 'placeholder'> {
      unit?: 'rial' | 'share';
      upTickValue?: number;
      downTickValue?: number;
@@ -10,6 +11,7 @@ interface TQuantityInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>
      onChangeValue: (v: string) => void;
      selectIcon?: 'calculator' | 'lock';
      onClickIcon?: () => void;
+     placeholder?: string;
 }
 
 const QuantityInput = ({
@@ -20,6 +22,7 @@ const QuantityInput = ({
      onClickDownTick = () => null,
      selectIcon = 'calculator',
      onClickIcon = () => null,
+     placeholder = '',
      onChangeValue,
      ...props
 }: TQuantityInputProps) => {
@@ -64,7 +67,7 @@ const QuantityInput = ({
                     </div>
 
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-xs text-input-default transition-all duration-100 group-focus-within:-top-1 group-focus-within:bg-back-surface group-focus-within:px-1 group-focus-within:text-input-active">
-                         <span className="">تعداد</span>
+                         <span className="">{placeholder}</span>
                     </div>
                </div>
 
