@@ -36,8 +36,6 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { theme, setTheme } = useThemeStore();
 
-     console.log(theme, 'theme');
-
      const menuItems = [
           {
                label: 'اعتبار',
@@ -88,7 +86,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
           },
      ];
 
-     useClickOutside([], () => {
+     useClickOutside([dropdownRef], () => {
           isDropdownOpen && closeDropDowns();
      });
 
@@ -140,7 +138,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                             <li
                                                                  key={subIndex}
                                                                  className={clsx(
-                                                                      'mx-3 my-2 cursor-pointer rounded-md p-2 transition-colors hover:bg-back-primary-container',
+                                                                      'hover:bg-back-primary-container mx-3 my-2 cursor-pointer rounded-md p-2 transition-colors',
                                                                       subItem.label === theme && 'bg-back-primary-container'
                                                                  )}
                                                             >

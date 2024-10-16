@@ -91,7 +91,7 @@ const MarketIndexes = () => {
                          }}
                          defaultPopupWidth={200}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-white px-4 py-3 shadow-E2">
+                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
                                    {data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}
                               </ul>
                          )}

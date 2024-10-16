@@ -37,6 +37,8 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                     <AgGridReact
                          modules={[ClientSideRowModelModule]}
                          onFirstDataRendered={fitColumnsSize}
+                         onRowDataUpdated={fitColumnsSize}
+                         onGridSizeChanged={fitColumnsSize}
                          containerStyle={
                               loading
                                    ? {
@@ -52,9 +54,11 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          rowBuffer={5}
                          enableRtl
                          suppressNoRowsOverlay
+                         domLayout="normal"
                          defaultColDef={{
                               flex: 1,
                          }}
+                         enableCellTextSelection
                          {...props}
                     />
                </div>

@@ -195,5 +195,27 @@
           "sameGroupTab": "هم‌گروهی‌ها",
           "optionContractTab": "قراردادهای آپشن",
           "messagesTab": "پیام‌های ناظر"
+     },
+
+     "sameGroups": {
+          "symbolTitleColumn": "نماد",
+          "totalNumberOfSharesTradedColumn": "حجم",
+          "lastPriceColumn": "آخرین قیمت",
+          "demandAndSupplyColumn": "عرضه/تقاضا"
+     },
+
+     "optionContracts": {
+          "symbolTitle": "نماد",
+          "totalNumberOfSharesTradedColumn": "حجم",
+          "lastPriceColumn": "آخرین قیمت",
+          "demandAndSupplyColumn": "عرضه/تقاضا"
+     },
+
+     "supervisorMessage": {
+          "type_message_Information": "",
+          "type_message_Oppening": "بازگشایی",
+          "type_message_Stop": "توقف",
+          "type_message_Instant": "عرضه اولیه",
+          "type_message_Limitation": "محدودیت معاملاتی"
      }
 }

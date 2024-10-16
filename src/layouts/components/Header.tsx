@@ -114,7 +114,7 @@ const HeaderLayout = () => {
                                              symbolISIN={item?.symbolISIN}
                                              symbolTitle={item?.symbolTitle}
                                              key={item?.symbolISIN}
-                                             onClick={(symbolISIN) => setSelectedSymbol(symbolISIN)}
+                                             onClick={symbolISIN => setSelectedSymbol(symbolISIN)}
                                              isSelected={selectedSymbol === item?.symbolISIN}
                                         />
                                    </div>

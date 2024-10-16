@@ -18,13 +18,13 @@ export const routeApi = () => {
                search: baseUrl + '/Symbol/v1/Searchv2',
                historyRecent: baseUrl + '/Symbol/v1/GetSearchHistory',
                SymbolGeneralInformation: baseUrl + '/Symbol/v1/SymbolGeneralInformation',
-               
-               GetSymbolsTab : baseUrl + '/Symbol/v1/GetSymbolsTab',
-               CreateNewSymbolTab :  baseUrl + '/Symbol/v1/CreateNewSymbolTab',
-               RemoveTabByTraderUserIdAndSymbolISIN :  baseUrl + '/Symbol/v1/RemoveTabByTraderUserIdAndSymbolISIN',
-               UpdateSymbolTabCreateDateTime :  baseUrl + '/Symbol/v1/UpdateSymbolTabCreateDateTime',
-
-               GetMarketDepthV2 :  baseUrl + '/Symbol/v1/GetMarketDepthV2'
+               sameGroupsSymbol: baseUrl + '/Symbol/v1/GetSameSectorSymbolsBySymbolISIN',
+               optionContracts: baseUrl + '/Symbol/v1/GetSameCompanyContractsOptionSymbolsBySymbolISIN',
+               GetSymbolsTab: baseUrl + '/Symbol/v1/GetSymbolsTab',
+               CreateNewSymbolTab: baseUrl + '/Symbol/v1/CreateNewSymbolTab',
+               RemoveTabByTraderUserIdAndSymbolISIN: baseUrl + '/Symbol/v1/RemoveTabByTraderUserIdAndSymbolISIN',
+               UpdateSymbolTabCreateDateTime: baseUrl + '/Symbol/v1/UpdateSymbolTabCreateDateTime',
+               GetMarketDepthV2: baseUrl + '/Symbol/v1/GetMarketDepthV2',
           },
           Orders: {
                TodayOrdersList: baseUrl + '/Order/v1/TodayOrdersList',
@@ -35,6 +35,11 @@ export const routeApi = () => {
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
                GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
+          },
+
+          SupervisorMessage: {
+               Get: baseUrl + '/Message/v1/TodaySupervisorMessage',
+               Read: baseUrl + '/Message/v1/ReadTodaySupervisorMessages',
           },
      };
 };
