@@ -1,5 +1,6 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '@pages/Dashboard';
+import Test from '@pages/Test';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AppLayout from '../layouts';
 
 const routerPage = createBrowserRouter([
@@ -10,6 +11,10 @@ const routerPage = createBrowserRouter([
                {
                     element: <Dashboard />,
                     index: true,
+               },
+               {
+                    element: <Test />,
+                    path: '/test',
                },
           ],
      },

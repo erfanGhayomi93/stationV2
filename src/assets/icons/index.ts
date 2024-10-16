@@ -1,7 +1,11 @@
+import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
 import AngleDownIcon from '../svg/angle-down.svg?react';
 import AngleUpIcon from '../svg/angle-up.svg?react';
 import ArrowDownTriangleIcon from '../svg/arrowDownTriangle.svg?react';
 import BackgroundModeIcon from '../svg/backgroundMode.svg?react';
+import CalculatorIcon from '../svg/calculator.svg?react';
+import ChevronDownIcon from '../svg/ChevronDown.svg?react';
+import ChevronUpIcon from '../svg/chevronUp.svg?react';
 import CloseIcon from '../svg/close.svg?react';
 import CodalIcon from '../svg/codal.svg?react';
 import CreditIcon from '../svg/credit.svg?react';
@@ -14,6 +18,7 @@ import ExcelIcon from '../svg/excel.svg?react';
 import LayoutIcon from '../svg/layout.svg?react';
 import LightModeIcon from '../svg/lightMode.svg?react';
 import LinkIcon from '../svg/link.svg?react';
+import LockIcon from '../svg/lock.svg?react';
 import LogoutIcon from '../svg/logout.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
@@ -34,14 +39,15 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineICon from '../svg/xOutline.svg?react';
-import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
-
 
 export {
      AngleDownIcon,
      AngleUpIcon,
      ArrowDownTriangleIcon,
      BackgroundModeIcon,
+     CalculatorIcon,
+     ChevronDownIcon,
+     ChevronUpIcon,
      CloseIcon,
      CodalIcon,
      CreditIcon,
@@ -54,6 +60,7 @@ export {
      LayoutIcon,
      LightModeIcon,
      LinkIcon,
+     LockIcon,
      LogoutIcon,
      MoreStatusIcon,
      NotificationIcon,
@@ -63,6 +70,7 @@ export {
      SearchCustomerGroupsIcon,
      SearchCustomersIcon,
      SearchInputIcon,
+     SendToBasketIcon,
      SignalIcon,
      SingleTickIcon,
      SpinnerIcon,
@@ -74,5 +82,4 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineICon,
-     SendToBasketIcon,
 };
