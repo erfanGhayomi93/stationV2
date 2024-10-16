@@ -104,3 +104,16 @@ export const isObjectNotNull = <T>(obj: T | null): obj is T => {
 export const uid = () => {
      return Date.now().toString(36) + Math.random().toString(36).slice(2);
 };
+
+export const toEnglishNumber = (str: string): string => {
+     const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+     const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+
+     for (let i = 0; i < 10; i++) {
+          str = str.replace(persianNumbers[i], String(i)).replace(arabicNumbers[i], String(i));
+     }
+
+     return str;
+};
+
+export const convertStringToInteger = (inputString: string): string => toEnglishNumber(inputString).replace(/[^\d]/g, '');

@@ -31,6 +31,7 @@ import WatchlistNegativeIcon from '@assets/svg/watchlistNegative.svg';
 import XCircleFillIcon from '@assets/svg/XCircleFill.svg';
 import XCircleOutlineIcon from '@assets/svg/xCircleOutline.svg';
 import XOutlineICon from '@assets/svg/xOutline.svg';
+import SendToBasketIcon from '@assets/svg/sendToBasket.svg';
 
 export {
      AngleDownIcon,
@@ -66,4 +67,5 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineICon,
+     SendToBasketIcon,
 };

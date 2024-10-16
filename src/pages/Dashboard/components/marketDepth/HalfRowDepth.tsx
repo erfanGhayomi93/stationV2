@@ -33,8 +33,8 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
             <div className="relative w-full border-b border-line-div-3 group-last:border-none  py-2">
                 <div
                     className={clsx("h-5 rounded absolute transition-colors", {
-                        "bg-back-success-container left-0": side === "Buy",
-                        "bg-back-error-container right-0": side === "Sell",
+                        "bg-back-green left-0": side === "Buy",
+                        "bg-back-red right-0": side === "Sell",
                     })}
                     style={{ width: `${(percent || 0) * 100}%` }}
                 ></div>

@@ -12,8 +12,8 @@ const OrderBookHeader: FC<IOrderBookHeaderProps> = ({ side }) => {
 
     return (
         <div className={clsx('flex w-full justify-between p-2 rounded-md text-xs', {
-            "bg-back-success-container text-content-success-buy": side === "Buy",
-            "bg-back-error-container text-content-error-sell flex-row-reverse": side === "Sell"
+            "bg-back-green text-content-success-buy": side === "Buy",
+            "bg-back-red text-content-error-sell flex-row-reverse": side === "Sell"
         })}>
             <span className={clsx("w-1/3" , {
                 "text-right" : side === "Buy",

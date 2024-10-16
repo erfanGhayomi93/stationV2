@@ -1,46 +1,52 @@
-import Button from '@uiKit/Button';
-import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BodyBuySell from './components/bodyBuySell';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import clsx from 'clsx';
 
 const BuySellWidget = () => {
      const { t } = useTranslation();
 
-     const [tabSelected, setTabSelected] = useState<TSide>('Buy');
+     const [tabSelected, setTabSelected] = useState(0);
+
+     const tabs = [t('common.buy'), t('common.sell')]
+
+     useEffect(() => {
+          console.log("tabSelected", tabSelected)
+     }, [tabSelected])
+
+
 
      return (
-          <div className="flex flex-col gap-y-4 px-4 py-2">
-               <div className="flex gap-x-2">
-                    <Button
-                         variant={tabSelected === 'Buy' ? 'primary' : 'secondary'}
-                         onClick={() => setTabSelected('Buy')}
-                         className="flex-1"
-                    >
-                         {t('common.buy')}
-                    </Button>
-
-                    <Button
-                         variant={tabSelected === 'Sell' ? 'danger' : 'secondary'}
-                         onClick={() => setTabSelected('Sell')}
-                         className="flex-1"
-                    >
-                         {t('common.sell')}
-                    </Button>
-               </div>
-
-               <span
-                    className={clsx('w-100 h-0.5', {
-                         'bg-line-error': tabSelected === 'Sell',
-                         'bg-line-success': tabSelected === 'Buy',
-                    })}
-               ></span>
-
-               <div>
-                    <BodyBuySell />
-               </div>
-
-               <span className={clsx('w-100 h-0.5 bg-line-div-2')}></span>
+          <div className="overflow-y-auto">
+               <TabGroup className="overflow-y-auto relative" selectedIndex={tabSelected} onChange={setTabSelected}>
+                    <TabList className={"flex gap-x-2 border-b border-line-div-2"}>
+                         {
+                              tabs.map((item, ind) => (
+                                   <Tab key={ind}
+                                        className={clsx("flex-1 text-content-deselecttab py-2 transition-colors", {
+                                             "data-[selected]:text-content-success-buy data-[selected]:border-b-2 data-[selected]:border:content-success-buy": tabSelected === 0,
+                                             "data-[selected]:text-content-error-sell data-[selected]:border-b-2 data-[selected]:border:content-error-sell": tabSelected === 1
+                                        })}
+                                   >
+                                        {item}
+                                   </Tab>
+                              ))
+                         }
+                    </TabList>
+                    <TabPanels className="overflow-y-auto px-2">
+                         <TabPanel className="">
+                              <BodyBuySell
+                                   side={"Buy"}
+                              />
+                         </TabPanel>
+                         <TabPanel>
+                              <BodyBuySell
+                                   side={"Sell"}
+                              />
+                         </TabPanel>
+                    </TabPanels>
+               </TabGroup>
           </div>
      );
 };
