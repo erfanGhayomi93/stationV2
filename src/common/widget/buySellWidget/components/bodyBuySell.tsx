@@ -1,18 +1,26 @@
 import CustomersSearch from '@components/customersSearch';
+import Price from './price';
+import Quantity from './quantity';
+import Credit from './credit';
+import InformationTrade from './informationTrade';
+import ActionsOrder from './actions';
+import { FC } from 'react';
 
-const BodyBuySell = () => {
+interface IBodyBuySellProps {
+     side: TSide
+}
+
+const BodyBuySell: FC<IBodyBuySellProps> = ({ side }) => {
      return (
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-               <div className="flex items-center gap-x-1">
-                    <span>مشتری:</span>
-                    <div className="flex-1">
-                         <CustomersSearch />
-                    </div>
-               </div>
-               <div>price</div>
-               <div>credit</div>
-               <div>number</div>
-               <div>graunty</div>
+          <div className="gap-y-4 pt-3 flex flex-col w-full">
+               <CustomersSearch />
+               <Price />
+               <Quantity />
+               <Credit />
+               <InformationTrade />
+               <ActionsOrder
+                    side={side}
+               />
           </div>
      );
 };
