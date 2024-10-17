@@ -22,7 +22,10 @@ const Test = () => {
                     type="text"
                />
                <SearchInput
-                    values={['dfds', 'dfd', 'df']}
+                    values={[
+                         { id: '3', label: 'مشتری' },
+                         { id: '3', label: 'خانواده' },
+                    ]}
                     onChangeValue={value => {
                          console.log('hi');
                     }}
