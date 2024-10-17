@@ -14,6 +14,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
      const onChange = () => {
           onChangeValue(value);
      };
+
      return (
           <div
                style={{ width: 300 }}
@@ -24,16 +25,18 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
                          <SearchInputIcon className="size-4 text-icon-default" />
                     </div>
                     <input
-                         value={values.join(',')}
+                         value={value.join(',')}
                          onChange={() => onChange()}
                          dir="ltr"
                          className="h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
                          inputMode="numeric"
                          {...props}
                     />
-                    <div onClick={() => setValue([])} className="text-input-default group-focus-within:text-input-active">
-                         <XCircleOutlineIcon />
-                    </div>
+                    {value.length !== 0 && (
+                         <div onClick={() => setValue([])} className="text-input-default group-focus-within:text-input-active">
+                              <XCircleOutlineIcon />
+                         </div>
+                    )}
 
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-xs text-input-default transition-all duration-100 group-focus-within:-top-1 group-focus-within:bg-back-surface group-focus-within:px-1 group-focus-within:text-input-active">
                          <span className="">{placeholder}</span>
