@@ -75,29 +75,77 @@ export const MainSymbol = () => {
      ];
 
      return (
-          <div className="flex items-center justify-between text-sm">
-               <div className="flex flex-col gap-y-1">
-                    <div className="flex items-center gap-x-1">
-                         <SymbolState
-                              symbolState={data?.symbolState || ''}
-                              symbolStateColor={symbolStateColor}
-                              symbolStateTooltip={symbolStateTooltip()}
-                         />
-                         <span className="font-bold text-content-title">{data?.symbolTitle}</span>
-                         <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
-                         <span className="text-content-deselecttab">
-                              {data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'}
-                         </span>
-                         {data?.hasRiskAnnouncement && (
-                              <Tippy content={t('tooltip.hasRiskAnnouncement')}>
-                                   <span>
-                                        <RiskAnnouncementIcon className="text-content-warnning" />
-                                   </span>
-                              </Tippy>
-                         )}
+          <div className="flex flex-col gap-y-4 text-sm">
+               <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-y-1">
+                         <div className="flex items-center gap-x-1">
+                              <SymbolState
+                                   symbolState={data?.symbolState || ''}
+                                   symbolStateColor={symbolStateColor}
+                                   symbolStateTooltip={symbolStateTooltip()}
+                              />
+                              <span className="font-bold text-content-title">{data?.symbolTitle}</span>
+                              <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
+                              <span className="text-content-deselecttab">
+                                   {data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'}
+                              </span>
+                              {data?.hasRiskAnnouncement && (
+                                   <Tippy content={t('tooltip.hasRiskAnnouncement')}>
+                                        <span>
+                                             <RiskAnnouncementIcon className="text-content-warnning" />
+                                        </span>
+                                   </Tippy>
+                              )}
+                         </div>
+                         <div>
+                              <span className="text-content-deselecttab">{data?.companyName || t('common.noSymbol')}</span>
+                         </div>
                     </div>
-                    <div>
-                         <span className="text-content-deselecttab">{data?.companyName || t('common.noSymbol')}</span>
+
+                    <div className="flex gap-x-1">
+                         <span className="flex items-center rounded bg-back-2 p-1">
+                              <PinnedIcon className="text-icon-warning" />
+                         </span>
+                         <span className="flex items-center rounded bg-back-2 p-1">
+                              <WatchlistNegativeIcon className="text-icon-primary" />
+                         </span>
+
+                         <Popup
+                              margin={{
+                                   y: 8,
+                              }}
+                              defaultPopupWidth={200}
+                              //  onOpen={() => setIsDropdownOpen(true)}
+                              //  onClose={() => setIsDropdownOpen(false)}
+                              renderer={({ setOpen }) => (
+                                   <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                                        {items.map((item, index) => (
+                                             <a
+                                                  key={index}
+                                                  aria-label="Read more about symbol in the TSE"
+                                                  role="link"
+                                                  target="_blank"
+                                                  rel="noreferrer"
+                                                  href={item.link}
+                                                  className="flex items-center justify-between"
+                                             >
+                                                  <div className="flex gap-x-2 pl-10">
+                                                       <item.icon className="text-icon-default" />
+                                                       <span className="text-content-paragraph">{item.label}</span>
+                                                  </div>
+
+                                                  <UpArrowIcon className="-rotate-90 text-icon-default" />
+                                             </a>
+                                        ))}
+                                   </ul>
+                              )}
+                         >
+                              {({ setOpen, open }) => (
+                                   <button className="flex items-center rounded bg-back-2 p-1" onClick={() => setOpen(!open)}>
+                                        <LinkIcon className="text-icon-default" />
+                                   </button>
+                              )}
+                         </Popup>
                     </div>
                </div>
 
@@ -127,52 +175,6 @@ export const MainSymbol = () => {
                               <span className="text-content-title">{sepNumbers(Number(data?.closingPrice || 0))}</span>
                          </span>
                     </div>
-               </div>
-
-               <div className="flex gap-x-1">
-                    <span className="flex items-center rounded bg-back-2 p-1">
-                         <PinnedIcon className="text-icon-warning" />
-                    </span>
-                    <span className="flex items-center rounded bg-back-2 p-1">
-                         <WatchlistNegativeIcon className="text-icon-primary" />
-                    </span>
-
-                    <Popup
-                         margin={{
-                              y: 8,
-                         }}
-                         defaultPopupWidth={200}
-                         //  onOpen={() => setIsDropdownOpen(true)}
-                         //  onClose={() => setIsDropdownOpen(false)}
-                         renderer={({ setOpen }) => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
-                                   {items.map((item, index) => (
-                                        <a
-                                             key={index}
-                                             aria-label="Read more about symbol in the TSE"
-                                             role="link"
-                                             target="_blank"
-                                             rel="noreferrer"
-                                             href={item.link}
-                                             className="flex items-center justify-between"
-                                        >
-                                             <div className="flex gap-x-2 pl-10">
-                                                  <item.icon className="text-icon-default" />
-                                                  <span className="text-content-paragraph">{item.label}</span>
-                                             </div>
-
-                                             <UpArrowIcon className="-rotate-90 text-icon-default" />
-                                        </a>
-                                   ))}
-                              </ul>
-                         )}
-                    >
-                         {({ setOpen, open }) => (
-                              <button className="flex items-center rounded bg-back-2 p-1" onClick={() => setOpen(!open)}>
-                                   <LinkIcon className="text-icon-default" />
-                              </button>
-                         )}
-                    </Popup>
                </div>
           </div>
      );
