@@ -76,7 +76,7 @@ export const MainSymbol = () => {
 
      return (
           <div className="flex items-center justify-between text-sm">
-               <div className="flex min-w-44 flex-col gap-y-1">
+               <div className="flex flex-col gap-y-1">
                     <div className="flex items-center gap-x-1">
                          <SymbolState
                               symbolState={data?.symbolState || ''}

@@ -34,6 +34,8 @@ export const routeApi = () => {
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
+               GetCustomers: baseUrl + '/Customer/v1/GetCustomers',
+
                GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
           },
 

@@ -13,28 +13,30 @@ const MainLayoutDashboard = () => {
      const { t } = useTranslation();
 
      return (
-          <div className="rtl mx-2 grid h-full grid-cols-2 gap-2">
-               <div className="grid h-full grid-rows-min-one gap-2">
+          <div className="rtl mx-2 grid h-full grid-cols-[2fr,2fr,4fr] gap-2">
+               <div className="grid h-full grid-rows-min-one gap-2 overflow-hidden">
                     <div className={BoxClass}>
                          <MainSymbol />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2">
-                         <div className={clsx(BoxClass, 'w-full')}>
-                              <OrderBookTabsWidget />
-                         </div>
-                         <div className={clsx('grid h-full grid-rows-2 gap-2')}>
-                              <div className={clsx(BoxClass, 'w-full')}>
-                                   <SliderbarDetailsWidget />
-                              </div>
-                              {/* <div className={clsx(BoxClass)}>
+                    <div className={clsx(BoxClass)}>
+                         <OrderBookTabsWidget />
+                    </div>
+               </div>
+
+               <div className="grid grid-rows-min-one gap-2">
+
+                    {/* <div className={clsx('grid h-full grid-rows-2 gap-2')}> */}
+                    <div className={clsx(BoxClass)}>
+                         <SliderbarDetailsWidget />
+                    </div>
+                    {/* <div className={clsx(BoxClass)}>
                                         <IndividualLegalWidget />
                                    </div> */}
-                              <div className={clsx(BoxClass, 'overflow-auto')}>
-                                   <BuySellWidget />
-                              </div>
-                         </div>
+                    <div className={clsx(BoxClass, 'overflow-auto')}>
+                         <BuySellWidget />
                     </div>
+                    {/* </div> */}
                </div>
 
                <div className={'grid h-full grid-rows-3 gap-2'}>

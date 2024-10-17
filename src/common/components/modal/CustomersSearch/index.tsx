@@ -4,7 +4,8 @@ import { useModalStore } from "@store/modal";
 import { useRef, useState } from "react";
 import Modal from "..";
 import RadioButton from "@uiKit/RadioButton";
-import SearchInput from "@uiKit/Inputs/SearchInput";
+import CustomersSearchBody from "./components/customerSearchBody";
+// import SearchInput from "@uiKit/Inputs/SearchInput";
 
 
 
@@ -58,13 +59,7 @@ const CustomersSearchModal = () => {
                 </div>
 
                 <div className="mt-6">
-                    {/* <SearchInput
-                        values={valueSearch}
-                        onChangeValue={value => {
-                            // setvalueSearch()
-                        }}
-                        placeholder="placeholder"
-                    /> */}
+                    <CustomersSearchBody />
                 </div>
             </div>
         </Modal>
