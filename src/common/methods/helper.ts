@@ -136,6 +136,20 @@ export const getColorClassBasedAmount = (
      }
 };
 
+export const removeDuplicatesCustomerISINs = <T extends { customerISIN: string }>(arr: T[]): T[] => {
+     const array: string[] = [];
+ 
+     const res = arr.filter((item) => {
+         if (!array.includes(item.customerISIN)) {
+             array.push(item.customerISIN);
+             return true;
+         }
+         return false;
+     });
+ 
+     return res;
+ };
+
 export const getCodalLink = (title?: string): string => {
      return title ? `http://www.codal.ir/ReportList.aspx?search&Symbol=${title}` : 'http://www.codal.ir';
 };
