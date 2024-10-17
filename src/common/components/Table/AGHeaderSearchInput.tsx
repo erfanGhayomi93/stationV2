@@ -54,6 +54,7 @@ const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParam
                          />
 
                          <button
+                              className="block"
                               onClick={() => {
                                    setValue('');
                                    setInputMode(false);
