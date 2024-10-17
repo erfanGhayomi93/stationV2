@@ -7,13 +7,13 @@ import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';
 import TodayTradesWidget from '../widget/TodayTradesWidget';
 
-const BoxClass = 'p-2 bg-back-surface shadow-sm rounded-lg';
+const BoxClass = 'p-2 bg-back-surface shadow-sm rounded-lg rtl';
 
 const MainLayoutDashboard = () => {
      const { t } = useTranslation();
 
      return (
-          <div className="rtl mx-2 grid h-full grid-cols-[2fr,2fr,4fr] gap-2">
+          <div className="rtl grid h-full grid-cols-[2fr,2fr,4fr] gap-2">
                <div className="grid h-full grid-rows-min-one gap-2 overflow-hidden">
                     <div className={BoxClass}>
                          <MainSymbol />
@@ -25,7 +25,6 @@ const MainLayoutDashboard = () => {
                </div>
 
                <div className="grid grid-rows-min-one gap-2">
-
                     {/* <div className={clsx('grid h-full grid-rows-2 gap-2')}> */}
                     <div className={clsx(BoxClass)}>
                          <SliderbarDetailsWidget />
