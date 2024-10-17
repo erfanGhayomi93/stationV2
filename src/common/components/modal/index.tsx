@@ -18,7 +18,7 @@ const Modal = ({ children, onCloseModal, title, dependencies }: IModalProps) => 
      });
 
      return createPortal(
-          <div style={{ zIndex: 99 }} className="fixed left-0 top-0 min-h-screen w-full bg-black/40">
+          <div style={{ zIndex: 99, backgroundColor: 'rgba(0,0,0,0.5)' }} className="fixed left-0 top-0 min-h-screen w-full">
                <div
                     ref={modalRef}
                     style={{ maxWidth: '52.2rem' }}
