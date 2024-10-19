@@ -26,7 +26,6 @@
           "HamvaznIndex": "شاخص هم‌وزن",
           "FaraBourseIndex": "شاخص فرابورس"
      },
-
      "orders": {
           "openTodayOrdersBuy": "سفارشات خرید باز",
           "AllTodayOrdersBuy": "سفارشات خرید",
@@ -50,6 +49,15 @@
           "Bourse": "بازار بورس",
           "FaraBourse": "فرابورس",
           "EnergyExchange": "بورس انرژی"
+     },
+     "BSValidity": {
+          "Week": "هفته",
+          "Month": "ماه",
+          "GoodTillDate": "معتبر تا تاریخ",
+          "FillAndKill": "انجام و حذف",
+          "option_GoodTillCancelled": "معتبر تا لغو",
+          "Day": "روز",
+          "GoodTillCancelled": "معتبر تا لغو"
      },
      "tooltip": {
           "Caution": "تحت احتیاط",
@@ -196,21 +204,18 @@
           "optionContractTab": "قراردادهای آپشن",
           "messagesTab": "پیام‌های ناظر"
      },
-
      "sameGroups": {
           "symbolTitleColumn": "نماد",
           "totalNumberOfSharesTradedColumn": "حجم",
           "lastPriceColumn": "آخرین قیمت",
           "demandAndSupplyColumn": "عرضه/تقاضا"
      },
-
      "optionContracts": {
           "symbolTitle": "نماد",
           "totalNumberOfSharesTradedColumn": "حجم",
           "lastPriceColumn": "آخرین قیمت",
           "demandAndSupplyColumn": "عرضه/تقاضا"
      },
-
      "supervisorMessage": {
           "type_message_Information": "",
           "type_message_Oppening": "بازگشایی",

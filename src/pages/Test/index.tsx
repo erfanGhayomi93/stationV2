@@ -18,8 +18,10 @@ const Test = () => {
                     }}
                     placeholder="تعداد"
                     upTickValue={100}
-                    variant="simple"
+                    downTickValue={50}
+                    variant="advanced"
                     type="text"
+
                />
                <SearchInput
                     values={[
@@ -32,6 +34,7 @@ const Test = () => {
                />
 
                <SelectInput
+                    onChange={() => null}
                     items={[
                          {
                               id: 'day',

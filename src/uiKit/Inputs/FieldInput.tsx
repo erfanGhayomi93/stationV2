@@ -1,4 +1,5 @@
 import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
+import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import { ChangeEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
@@ -80,7 +81,6 @@ const FieldInput = ({
 
      return (
           <div
-               style={{ width: 300 }}
                className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
           >
                <div
@@ -140,7 +140,7 @@ const FieldInput = ({
                                         <ChevronUpIcon onClick={onClickUpTick} />
                                    </div>
                                    <button className="flex-1" onClick={() => setValue(String(upTickValue))}>
-                                        {upTickValue}
+                                        {sepNumbers(upTickValue)}
                                    </button>
                               </div>
                               <div
@@ -157,7 +157,7 @@ const FieldInput = ({
                                         <ChevronDownIcon />
                                    </div>
                                    <button className="flex-1" onClick={() => setValue(String(downTickValue))}>
-                                        {downTickValue}
+                                        {sepNumbers(downTickValue)}
                                    </button>
                               </div>
                          </div>

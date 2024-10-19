@@ -11,15 +11,10 @@ const BuySellWidget = () => {
 
      const tabs = [t('common.buy'), t('common.sell')]
 
-     useEffect(() => {
-          console.log("tabSelected", tabSelected)
-     }, [tabSelected])
-
-
-
+ 
      return (
-          <div className="overflow-y-auto">
-               <TabGroup className="overflow-y-auto relative" selectedIndex={tabSelected} onChange={setTabSelected}>
+          <div className="h-full">
+               <TabGroup className="relative" selectedIndex={tabSelected} onChange={setTabSelected}>
                     <TabList className={"flex gap-x-2 border-b border-line-div-2"}>
                          {
                               tabs.map((item, ind) => (
@@ -34,7 +29,7 @@ const BuySellWidget = () => {
                               ))
                          }
                     </TabList>
-                    <TabPanels className="overflow-y-auto px-2">
+                    <TabPanels className="px-2">
                          <TabPanel className="">
                               <BodyBuySell
                                    side={"Buy"}

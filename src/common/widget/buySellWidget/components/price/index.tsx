@@ -1,9 +1,16 @@
 
 
-import Input from "@components/inputs";
-import { useState } from "react";
+import FieldInput from "@uiKit/Inputs/FieldInput";
+import { FC, useState } from "react";
 
-const Price = () => {
+
+interface IPriceProps {
+    downTickValue?: number;
+    upTickValue?: number;
+}
+
+const Price: FC<IPriceProps> = ({ downTickValue, upTickValue }) => {
+
     const [value, setValue] = useState("");
 
 
@@ -11,11 +18,15 @@ const Price = () => {
 
     return (
         <div className="flex-1">
-            <Input
-                value={value}
-                onChange={(v) => setValue(v)}
-                placeholder={"قیمت"}
-                maxLength={10}
+            <FieldInput
+                onChangeValue={value => {
+                    setValue(value)
+                }}
+                placeholder="قیمت"
+                upTickValue={upTickValue}
+                downTickValue={downTickValue}
+                variant="advanced"
+                type="text"
             />
         </div>
     );

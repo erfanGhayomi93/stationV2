@@ -7,7 +7,7 @@ import { InputHTMLAttributes, useRef, useState } from 'react';
 
 interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder'> {
      placeholder?: string;
-     onChange?: (item: { id: string; label: string }) => void;
+     onChange: (item: { id: string; label: string }) => void;
      items?: { id: string; label: string }[];
 }
 
@@ -25,7 +25,6 @@ const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInp
      return (
           <div
                ref={selectInputRef}
-               style={{ width: 300 }}
                className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active"
           >
                <div>
@@ -59,14 +58,18 @@ const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInp
                {open && (
                     <AnimatePresence initial={{ animation: 'fadeInDown' }} exit={{ animation: 'fadeOutDown' }}>
                          <ul className="rtl absolute right-0 top-14 flex w-full flex-col gap-1 rounded-lg bg-back-surface py-2">
-                              {items?.map(item => (
-                                   <li className="w-full cursor-pointer items-center justify-end px-2">
+                              {items?.map((item, ind) => (
+                                   <li
+                                        className="w-full cursor-pointer items-center justify-end px-2"
+                                        key={ind}
+                                   >
                                         <RadioButton
                                              checked={item.id === value.id}
                                              label={item.label}
                                              onChange={() => {
                                                   setValue(item);
                                                   setOpen(false);
+                                                  onChange(item);
                                              }}
                                         />
                                    </li>
