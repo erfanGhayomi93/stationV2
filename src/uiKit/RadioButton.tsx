@@ -12,8 +12,7 @@ const RadioButton = ({ onChange, checked, label, classes }: TRadioButtonType) =>
                onClick={onChange}
                className={clsx(
                     'flex cursor-pointer items-center gap-2 rounded-lg p-2',
-                    classes?.root,
-                    checked && 'bg-back-primary'
+                    classes?.root
                )}
                tabIndex={-1}
                role="radio"

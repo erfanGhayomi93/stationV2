@@ -1,6 +1,6 @@
 import { useQueryCustomerSearch, useQueryDefaultCustomer } from '@api/customer';
 import useDebounce from '@hooks/useDebounce';
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso';
 import ResultItem from './resultItem';
 import ResultHeader from './resultHeader';
@@ -14,7 +14,6 @@ const CustomersSearchBody = () => {
     const debouncedTerm = useDebounce(term, 400);
 
     const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore()
-
 
     const { data: searchCustomers } = useQueryCustomerSearch(debouncedTerm);
 
@@ -32,6 +31,11 @@ const CustomersSearchBody = () => {
         return <div className="odd:bg-table-row1 even:bg-table-row2 text-sm" {...props}></div>;
     };
 
+//     useEffect(() => {
+//         console.log('selectedCustomers', selectedCustomers)
+//     }, [selectedCustomers])
+// 
+
 
 
 
@@ -41,7 +45,7 @@ const CustomersSearchBody = () => {
         const selectedCustomersISINs = selectedCustomers?.map(item => item.customerISIN)
 
         return listGroups?.every(item => selectedCustomersISINs.includes(item.customerISIN))
-    }, [])
+    }, [listGroups, selectedCustomers])
 
     const onALLSelectionChanged = (checked: boolean) => {
         if (!listGroups) return;
@@ -54,8 +58,6 @@ const CustomersSearchBody = () => {
             const filteredSelectedCustomers = selectedCustomers.filter(customer => !customerISINs.includes(customer.customerISIN));
             setSelectedCustomers(filteredSelectedCustomers);
         }
-
-
     }
 
 
@@ -87,12 +89,11 @@ const CustomersSearchBody = () => {
             </div>
 
 
-            <div className="grid grid-rows-min-one h-full min-h-64 rounded-lg">
+            <div className="grid grid-rows-min-one h-80 rounded-lg">
                 <ResultHeader
                     isAllSelected={isALLSelected}
                     onALLSelectionChanged={onALLSelectionChanged}
                 />
-
                 {rowUI}
             </div>
 

@@ -37,11 +37,25 @@ export const useQueryCustomerSearchGroup = (term: string) => {
      return useQuery({
           queryKey: ['groupCustomer' + term],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, { params: term });
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, { params: { term } });
                return response.data.result;
           },
           gcTime: 0,
           staleTime: 0,
           enabled: term.length > 2,
+     });
+};
+
+export const useQueryDefaultGroup = () => {
+     const url = routeApi().Customer.GetGroups;
+
+     return useQuery({
+          queryKey: ['getGroupDefault'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url);
+               return response.data.result;
+          },
+          gcTime: 0,
+          staleTime: 0,
      });
 };
