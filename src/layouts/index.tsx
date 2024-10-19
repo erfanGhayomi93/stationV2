@@ -22,7 +22,7 @@ const AppLayout = () => {
      return (
           <div className="grid h-screen max-h-screen grid-cols-one-min overflow-hidden overflow-x-auto bg-back-2">
                <main className="grid h-full max-h-full grid-rows-min-one-min">
-                    <header className="h-14 rounded-b-lg bg-back-surface">
+                    <header className="rtl h-14 rounded-b-lg bg-back-surface">
                          <HeaderLayout />
                     </header>
 
@@ -30,7 +30,7 @@ const AppLayout = () => {
                          <Outlet />
                     </section>
 
-                    <footer className="">
+                    <footer className="rtl">
                          <Footer />
                     </footer>
                </main>

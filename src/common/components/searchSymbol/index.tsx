@@ -2,8 +2,8 @@ import { useQuerySearchHistory, useQuerySymbolSearch } from '@api/Symbol';
 import { SearchInputIcon, SpinnerIcon } from '@assets/icons';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
 import useDebounce from '@hooks/useDebounce';
-import { FC, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 interface ISymbolSearchProps {
      searchSymbol: SearchSymbol | null;
@@ -44,7 +44,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol })
                          value={symbol}
                          className={_bag =>
                               clsx(
-                                   'cursor-pointer rounded-md px-1 py-3 text-sm text-content-paragraph transition-colors hover:bg-back-primary-container',
+                                   'hover:bg-back-primary-container cursor-pointer rounded-md px-1 py-3 text-sm text-content-paragraph transition-colors',
                                    { 'bg-back-primary-container': _bag.focus }
                               )
                          }
