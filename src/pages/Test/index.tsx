@@ -10,7 +10,7 @@ const Test = () => {
      const [select, setSelect] = useState(false);
      return (
           <div className="flex h-screen flex-wrap items-center justify-center gap-8">
-               <FieldInput
+               {/* <FieldInput
                     onChangeValue={value => {
                          console.log(value);
 
@@ -22,7 +22,7 @@ const Test = () => {
                     variant="advanced"
                     type="text"
 
-               />
+               /> */}
                <SearchInput
                     values={[
                          { id: '3', label: 'مشتری' },
@@ -33,8 +33,9 @@ const Test = () => {
                     }}
                />
 
-               <SelectInput
+               {/* <SelectInput
                     onChange={() => null}
+                    value={""}
                     items={[
                          {
                               id: 'day',
@@ -54,7 +55,7 @@ const Test = () => {
                          },
                     ]}
                     placeholder="اعتبار"
-               />
+               /> */}
 
                <CheckboxButton checked={select} label="dfd" onChange={() => setSelect(prev => !prev)} />
 

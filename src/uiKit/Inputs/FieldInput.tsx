@@ -1,10 +1,10 @@
 import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
+import { ChangeEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
-import { ChangeEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
 interface TFieldInputProps
-     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'className' | 'onChange' | 'placeholder' | 'type'> {
+     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'state' | 'className' | 'onChange' | 'placeholder' | 'type'> {
      variant?: 'simple' | 'advanced';
      type?: 'amount' | 'text';
      unit?: 'rial' | 'share';
@@ -16,6 +16,7 @@ interface TFieldInputProps
      selectIcon?: 'calculator' | 'lock';
      onClickIcon?: () => void;
      placeholder?: string;
+     value: string
 }
 
 const FieldInput = ({
@@ -30,14 +31,12 @@ const FieldInput = ({
      onClickIcon = () => null,
      placeholder = '',
      onChangeValue,
+     value,
      ...props
 }: TFieldInputProps) => {
-     const [value, setValue] = useState('');
+     const [state, setState] = useState(value);
      const inputRef = useRef<HTMLInputElement>(null);
 
-     const formatNumber = (num: string) => {
-          return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-     };
 
      const removeNonNumeric = (str: string) => {
           return str.replace(/[^0-9]/g, '');
@@ -50,27 +49,37 @@ const FieldInput = ({
 
                onChange(numericValue);
           } else {
-               setValue(rawValue);
+               setState(rawValue);
           }
      };
 
-     const onChange = (value: string) => {
-          if (value.length > 20) return;
-          setValue(value);
-          onChangeValue(formatNumber(value));
+     const onChange = (state: string) => {
+          if (state.length > 20) return;
+          setState(state);
+          onChangeValue(state);
      };
 
      const handleKeyDown = (e: KeyboardEvent) => {
           if (inputRef.current && document.activeElement === inputRef.current && type === 'amount') {
                if (e.key === 'ArrowUp') {
                     e.preventDefault();
-                    setValue(prev => String(Number(prev) + 1));
+                    setState(prev => String(Number(prev) + 1));
                } else if (e.key === 'ArrowDown') {
                     e.preventDefault();
-                    setValue(prev => String(Math.max(0, Number(prev) - 1)));
+                    setState(prev => String(Math.max(0, Number(prev) - 1)));
                }
           }
      };
+
+     const valueHandle = () => {
+          if (type === 'amount') {
+               if (Number(state) > 0) {
+                    return sepNumbers(state || '')
+               }
+               return ''
+          }
+          return state
+     }
 
      useEffect(() => {
           window.addEventListener('keydown', handleKeyDown);
@@ -91,15 +100,15 @@ const FieldInput = ({
                >
                     <input
                          ref={inputRef}
-                         value={value}
+                         value={valueHandle()}
                          onChange={handleChange}
                          dir="ltr"
                          className="h-12 w-10/12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
                          {...props}
                     />
-                    {value && (
+                    {state && (
                          <div
-                              onClick={() => setValue('')}
+                              onClick={() => setState('')}
                               className={clsx(
                                    'w-2/12 text-input-default group-focus-within:text-input-active',
                                    variant === 'simple' && 'flex justify-end'
@@ -113,8 +122,8 @@ const FieldInput = ({
                          className={clsx(
                               'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
                               {
-                                   'absolute -top-3 right-2 bg-back-surface px-1': value,
-                                   'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !value,
+                                   'absolute -top-3 right-2 bg-back-surface px-1': state,
+                                   'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !state,
                               }
                          )}
                     >
@@ -136,10 +145,10 @@ const FieldInput = ({
                     <div className="flex w-5/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
                          <div className="flex w-10/12 flex-col text-xs font-normal">
                               <div className="flex items-center justify-between">
-                                   <div className="cursor-pointer" onClick={() => setValue(prev => String(Number(prev) + 1))}>
+                                   <div className="cursor-pointer" onClick={() => setState(prev => String(Number(prev) + 1))}>
                                         <ChevronUpIcon onClick={onClickUpTick} />
                                    </div>
-                                   <button className="flex-1" onClick={() => setValue(String(upTickValue))}>
+                                   <button className="flex-1" onClick={() => setState(String(upTickValue))}>
                                         {sepNumbers(upTickValue)}
                                    </button>
                               </div>
@@ -152,11 +161,11 @@ const FieldInput = ({
                               <div className="flex items-center justify-between">
                                    <div
                                         className="cursor-pointer"
-                                        onClick={() => setValue(prev => String(Math.max(0, Number(prev) - 1)))}
+                                        onClick={() => setState(prev => String(Math.max(0, Number(prev) - 1)))}
                                    >
                                         <ChevronDownIcon />
                                    </div>
-                                   <button className="flex-1" onClick={() => setValue(String(downTickValue))}>
+                                   <button className="flex-1" onClick={() => setState(String(downTickValue))}>
                                         {sepNumbers(downTickValue)}
                                    </button>
                               </div>

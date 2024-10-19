@@ -1,27 +1,32 @@
 
 
-import Input from "@components/inputs";
 import SelectInput from "@uiKit/Inputs/SelectInput";
 import dayjs from "dayjs";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useBuySellContext } from "../../context/buySellContext";
+import { useEffect } from "react";
 
-type validity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
 
 
 const Credit = () => {
-    const [value, setValue] = useState({ id: '1', label: "Day" });
+    const { validity, setValidity } = useBuySellContext();
+
 
     const { t } = useTranslation()
+
+    useEffect(() => {
+        console.log('validity', validity)
+    }, [validity])
 
 
 
     return (
         <div className="flex-1">
             <SelectInput
-                onChange={(item) => setValue(item)}
-                items={VALIDITY_OPTIONS.map(item => ({ id: String(item.id), label: t(`BSValidity.${item.value as validity}`) }))}
+                onChange={(item) => setValidity(item as TValidity)}
+                items={VALIDITY_OPTIONS.map(item => ({ value: String(item.value), label: t(`BSValidity.${item.value as TValidity}`) }))}
                 placeholder="اعتبار"
+                value={validity}
             />
         </div>
     );

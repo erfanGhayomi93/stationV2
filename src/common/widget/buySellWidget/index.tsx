@@ -1,30 +1,31 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BodyBuySell from './components/bodyBuySell';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import clsx from 'clsx';
+import { BuySellProviderContext, useBuySellContext } from './context/buySellContext';
 
 const BuySellWidget = () => {
      const { t } = useTranslation();
 
-     const [tabSelected, setTabSelected] = useState(0);
+     const { side, setSide } = useBuySellContext();
 
-     const tabs = [t('common.buy'), t('common.sell')]
+     const tabs: TSide[] = ['Buy', 'Sell']
 
- 
+
+
      return (
           <div className="h-full">
-               <TabGroup className="relative" selectedIndex={tabSelected} onChange={setTabSelected}>
+               <TabGroup className="relative" selectedIndex={side === 'Buy' ? 0 : 1} onChange={(index) => setSide(tabs[index])}>
                     <TabList className={"flex gap-x-2 border-b border-line-div-2"}>
                          {
                               tabs.map((item, ind) => (
                                    <Tab key={ind}
                                         className={clsx("flex-1 text-content-deselecttab py-2 transition-colors", {
-                                             "data-[selected]:text-content-success-buy data-[selected]:border-b-2 data-[selected]:border:content-success-buy": tabSelected === 0,
-                                             "data-[selected]:text-content-error-sell data-[selected]:border-b-2 data-[selected]:border:content-error-sell": tabSelected === 1
+                                             "data-[selected]:text-content-success-buy data-[selected]:border-b-2 data-[selected]:border:content-success-buy": side === 'Buy',
+                                             "data-[selected]:text-content-error-sell data-[selected]:border-b-2 data-[selected]:border:content-error-sell": side === 'Sell'
                                         })}
                                    >
-                                        {item}
+                                        {t(`common.${item as TSide}`)}
                                    </Tab>
                               ))
                          }
@@ -46,4 +47,17 @@ const BuySellWidget = () => {
      );
 };
 
-export default BuySellWidget;
+
+
+
+export const BuySellWidgetWrapper = () => {
+
+
+     return (
+          <BuySellProviderContext>
+               <BuySellWidget />
+          </BuySellProviderContext>
+     )
+}
+
+export default BuySellWidgetWrapper;
