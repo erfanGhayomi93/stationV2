@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import Modal from "..";
 import RadioButton from "@uiKit/RadioButton";
 import CustomersSearchBody from "./components/customerSearchBody";
+import GroupSearchBody from "./components/groupSearchBody";
 // import SearchInput from "@uiKit/Inputs/SearchInput";
 
 
@@ -13,9 +14,9 @@ const CustomersSearchModal = () => {
 
     const dropdownRef = useRef<HTMLUListElement | null>(null);
 
-    const [selectedValue, setSelectedValue] = useState<string>('name'); // Default value
+    const [selectedValue, setSelectedValue] = useState<'nameGroup' | 'customerGroup'>('nameGroup'); // Default value
 
-    const [valueSearch, setValueSearch] = useState(["test"])
+    // const [valueSearch, setValueSearch] = useState(["test"])
 
 
     const { setCustomersSearchModalSheet } = useModalStore();
@@ -24,10 +25,8 @@ const CustomersSearchModal = () => {
         setCustomersSearchModalSheet(null);
     };
 
-    const options = [
-        { value: 'name', label: 'نام و نام خانوادگی' },
-        { value: 'bourseCode', label: 'کد بورسی' },
-        { value: 'customerCode', label: 'کد مشتری' },
+    const options: { value: 'nameGroup' | 'customerGroup', label: string }[] = [
+        { value: 'nameGroup', label: 'نام مشتری' },
         { value: 'customerGroup', label: 'گروه مشتری' },
     ];
 
@@ -42,7 +41,7 @@ const CustomersSearchModal = () => {
         >
             <div>
                 <div className="flex gap-x-6 items-center">
-                    <span>جستجوی بر اساس:</span>
+                    <span className="text-content-title">جستجوی بر اساس:</span>
 
                     <div className="flex gap-x-6 items-center">
                         {options.map((option) => (
@@ -51,6 +50,7 @@ const CustomersSearchModal = () => {
                                     checked={selectedValue === option.value}
                                     label={option.label}
                                     onChange={() => setSelectedValue(option.value)}
+                                    classes={{ label: "text-content-title text-sm" }}
                                 />
                             </div>
                         ))}
@@ -59,7 +59,8 @@ const CustomersSearchModal = () => {
                 </div>
 
                 <div className="mt-6">
-                    <CustomersSearchBody />
+                    {selectedValue === "nameGroup" && <CustomersSearchBody />}
+                    {selectedValue === "customerGroup" && <GroupSearchBody />}
                 </div>
             </div>
         </Modal>
