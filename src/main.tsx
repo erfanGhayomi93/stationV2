@@ -31,9 +31,3 @@ root.render(
           {/* <ToastContainerCom /> */}
      </I18nextProvider>
 );
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
