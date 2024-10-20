@@ -20,7 +20,7 @@ const BuySellWidget = () => {
                          {
                               tabs.map((item, ind) => (
                                    <Tab key={ind}
-                                        className={clsx("flex-1 text-content-deselecttab py-2 transition-colors", {
+                                        className={clsx("flex-1 text-content-deselecttab py-2 transition-colors outline-none", {
                                              "data-[selected]:text-content-success-buy data-[selected]:border-b-2 data-[selected]:border:content-success-buy": side === 'Buy',
                                              "data-[selected]:text-content-error-sell data-[selected]:border-b-2 data-[selected]:border:content-error-sell": side === 'Sell'
                                         })}
