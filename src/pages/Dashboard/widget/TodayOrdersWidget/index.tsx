@@ -7,7 +7,8 @@ import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { FC, useMemo, useState } from 'react';
+import ipcMain from 'common/classes/IpcMain';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useModalStore } from 'store/modal';
 import { useSymbolStore } from 'store/symbol';
@@ -18,6 +19,8 @@ interface ITodayOrdersWidgetProps {
 
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
+
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
      const queryClient = useQueryClient();
 
@@ -127,6 +130,23 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           'OnSending',
           'OnCanceling',
      ];
+
+     onOMSMessageHandlerRef.current = useMemo(
+          () => (message) => {
+               console.log("message in today order", message)
+               const omsClientKey = message[12];
+               const omsOrderStatus = message[22] as TStatus;
+          }, []
+     )
+
+     useEffect(() => {
+          ipcMain.handle("onOMSMessageReceived", onOMSMessageHandlerRef.current)
+
+          return () => {
+               ipcMain.removeAllHandlers('onOMSMessageReceived')
+          }
+     }, [])
+
 
      return (
           <div className="flex h-full flex-1 flex-col gap-4">

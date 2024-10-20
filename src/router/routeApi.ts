@@ -45,5 +45,8 @@ export const routeApi = () => {
                Get: baseUrl + '/Message/v1/TodaySupervisorMessage',
                Read: baseUrl + '/Message/v1/ReadTodaySupervisorMessages',
           },
+          Trader: {
+               GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
+          },
      };
 };
