@@ -212,9 +212,9 @@
      },
      "optionContracts": {
           "symbolTitle": "نماد",
-          "totalNumberOfSharesTradedColumn": "حجم",
-          "lastPriceColumn": "آخرین قیمت",
-          "demandAndSupplyColumn": "عرضه/تقاضا"
+          "strikePrice": "قیمت اعمال",
+          "contractDate": "تاریخ سررسید",
+          "lastPrice": "آخرین قیمت"
      },
      "supervisorMessage": {
           "type_message_Information": "",

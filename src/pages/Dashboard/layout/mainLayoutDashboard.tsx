@@ -6,11 +6,9 @@ import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';
 import TodayTradesWidget from '../widget/TodayTradesWidget';
 
-const BoxClass = 'p-4 bg-back-surface shadow-sm rounded-lg rtl overflow-y-auto';
+const BoxClass = 'p-4 bg-back-surface shadow-sm rounded-lg rtl overflow-x-hidden overflow-y-auto';
 
 const MainLayoutDashboard = () => {
-
-
      return (
           <div className="rtl grid h-full grid-cols-[2fr,2fr,4fr] gap-2 overflow-hidden">
                <div className="grid h-full grid-rows-min-one gap-2 overflow-hidden">

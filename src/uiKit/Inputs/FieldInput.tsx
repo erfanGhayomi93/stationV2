@@ -140,7 +140,7 @@ const FieldInput = ({
                     <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
                          <div className="flex w-10/12 flex-col text-xs font-normal">
                               <div className="flex items-center justify-between">
-                                   <button className="cursor-pointer" onClick={() => onChange(value + 1)}>
+                                   <button className="cursor-pointer" onClick={() => onChange(String(Number(value) + 1))}>
                                         <ChevronUpIcon onClick={onClickUpTick} />
                                    </button>
                                    <button className="flex-1" onClick={() => onChange(String(upTickValue))}>
@@ -154,7 +154,7 @@ const FieldInput = ({
                                    className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
                               />
                               <div className="flex items-center justify-between">
-                                   <button className="cursor-pointer" onClick={() => onChange(String(+value - 1))}>
+                                   <button className="cursor-pointer" onClick={() => onChange(String(Number(value) - 1))}>
                                         <ChevronDownIcon />
                                    </button>
                                    <button className="flex-1" onClick={() => onChange(String(downTickValue))}>
