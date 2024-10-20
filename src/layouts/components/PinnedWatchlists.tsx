@@ -36,7 +36,7 @@ const initData: ILastPriceTitleProps[] = [
      {
           //   lastPrice: 5342,
           //   lastPriceVar: -1.6,
-          symbolTitle: '1خساپا',
+          symbolTitle: 'فمراد',
           isSelected: false,
           symbolISIN: '4441',
           price: 20,
@@ -45,7 +45,7 @@ const initData: ILastPriceTitleProps[] = [
      {
           //   lastPrice: 56454,
           //   lastPriceVar: 3,
-          symbolTitle: 'خساپا1',
+          symbolTitle: 'فخوز',
           isSelected: false,
           symbolISIN: '111111111111111',
           price: 20,
@@ -72,7 +72,7 @@ const initData: ILastPriceTitleProps[] = [
      {
           //   lastPrice: 5342,
           //   lastPriceVar: -1.6,
-          symbolTitle: 'خساپا1',
+          symbolTitle: 'فملی',
           isSelected: false,
           symbolISIN: '4441',
           price: 20,
@@ -155,20 +155,23 @@ const PinnedWatchlists = () => {
                <div className="relative">
                     <Popup
                          margin={{
-                              y: 8,
+                              x: -20,
+                              y: -40,
                          }}
                          defaultPopupWidth={200}
                          onOpen={() => setIsDropdownOpen(true)}
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                              <ul className="rtl flex flex-col gap-1 rounded-md bg-back-surface px-4 py-3 shadow-E6">
                                    {initData.map((item, index) => (
-                                        <LastPriceTitle
-                                             {...item}
-                                             key={index}
-                                             // onClick={handleClickSymbol}
-                                             isSelected={selectedItem === item.symbolISIN}
-                                        />
+                                        <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
+                                             <LastPriceTitle
+                                                  {...item}
+                                                  key={index}
+                                                  // onClick={handleClickSymbol}
+                                                  isSelected={selectedItem === item.symbolISIN}
+                                             />
+                                        </li>
                                    ))}
                               </ul>
                          )}

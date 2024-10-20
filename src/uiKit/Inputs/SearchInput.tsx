@@ -40,12 +40,15 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
      useEffect(() => {
           if (chipsetsRef.current && inputRef.current) {
                const ulWidth = chipsetsRef.current.offsetWidth;
+
                let totalChipsetsWidth = 0;
                let visibleCount = 0;
 
-               const childNodes = chipsetsRef.current.childNodes;
-               childNodes.forEach((chip: any) => {
-                    const chipsetWidth = chip.offsetWidth;
+               const childNodes = Array.from(chipsetsRef.current.childNodes) as HTMLElement[];
+
+               childNodes.forEach(chip => {
+                    const chipsetWidth = chip.getBoundingClientRect().width;
+
                     totalChipsetsWidth += chipsetWidth;
 
                     if (totalChipsetsWidth <= ulWidth) {
@@ -55,17 +58,21 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
 
                setVisibleChipsetsCount(visibleCount);
 
-               inputRef.current.style.paddingRight = `${totalChipsetsWidth - 8}px`;
+               // Adjust the input padding based on the total width of the chipsets
+               inputRef.current.style.paddingRight = `${totalChipsetsWidth}px`; // Adjust this value if needed
           }
      }, [items, calcWidthWrapper]);
+
+     useEffect(() => {
+          setItems(values);
+     }, [values]);
 
      return (
           <div
                ref={searchInputRef}
-               style={{ width: 300 }}
                className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
           >
-               <div className="flex w-full items-center">
+               <label className="flex w-full items-center">
                     <div className="pl-2">
                          <SearchInputIcon className="size-4 text-icon-default" />
                     </div>
@@ -91,10 +98,10 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
                     </div>
 
                     <ul className="rtl absolute right-2 flex items-center gap-1 overflow-hidden" ref={chipsetsRef}>
-                         {items.slice(0, visibleChipsetsCount).map(value => (
+                         {items.map(value => (
                               <li
                                    key={value.id}
-                                   className="flex items-center gap-1 rounded-lg bg-progressbar-primary-line px-1 py-1 text-content-title"
+                                   className="flex w-full items-center gap-1 text-nowrap rounded-lg bg-progressbar-primary-line px-1 py-1 text-content-title"
                               >
                                    <span className="text-xs">{value.label}</span>
                                    <button
@@ -117,7 +124,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
                               </li>
                          )}
                     </ul>
-               </div>
+               </label>
           </div>
      );
 };

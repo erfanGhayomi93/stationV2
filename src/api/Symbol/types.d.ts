@@ -33,6 +33,14 @@ type ExchangeType =
      | 'FaraBourse'
      | 'EnergyExchange';
 
+type TSymbolStateType =
+     | 'OrderEntryAuthorized_Open'
+     | 'OrderEntryAuthorized_Reserved'
+     | 'OrderEntryForbidden_Reserved'
+     | 'OrderEntryForbidden_Open'
+     | 'OrderEntryAuthorized_Frozen'
+     | 'OrderEntryForbidden_Suspended';
+
 interface ISymbolEvents {
      id: number;
      title: string;
@@ -136,7 +144,7 @@ interface ISymbolData {
      marketUnit: TMarketUnit;
      symbolOrderState: string;
      symbolTradeState: string;
-     groupState: string;
+     groupState: TSymbolStateType;
      symbolState: string;
      companyCode: string;
      tickPrice: number;

@@ -3,6 +3,7 @@ import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useThemeStore } from 'store/theme';
 import {
+     ArrowLeftIcon,
      BackgroundModeIcon,
      CreditIcon,
      DarkModeIcon,
@@ -11,7 +12,6 @@ import {
      LogoutIcon,
      NotificationIcon,
      SystemModeIcon,
-     UpArrowIcon,
 } from '../../assets/icons';
 import AnimatePresence from '../../common/components/animation/AnimatePresence';
 import useClickOutside from '../../common/hooks/useClickOutside';
@@ -96,21 +96,27 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                     <div
                          id="multi-dropdown"
                          className={clsx(
-                              'absolute right-0 top-10 z-10 w-72 rounded-lg bg-back-surface px-4 shadow transition-opacity',
+                              'absolute right-0 top-4 z-10 w-72 rounded-lg bg-back-surface shadow-E6 transition-opacity',
                               {
                                    'opacity-100': isDropdownOpen,
                                    'opacity-0': !isDropdownOpen,
                               }
                          )}
                     >
-                         <button className="flex w-full items-center justify-between border-b border-line-div-2 py-4 text-sm">
+                         <button className="flex w-full items-center justify-between border-b border-line-div-2 p-4 text-sm">
                               <span className="text-content-title">سهیل خسروی</span>
                               <span className="text-content-paragraph">س خ ی 25814</span>
                          </button>
 
-                         <ul className="border-b border-line-div-2 text-sm">
+                         <ul className="border-b border-line-div-2 px-4 py-1 text-sm">
                               {menuItems.map((item, index) => (
-                                   <li key={index} className={item.subMenu ? 'relative' : ''}>
+                                   <li
+                                        key={index}
+                                        className={clsx(
+                                             'rounded-md px-2 transition-colors hover:bg-back-primary/80',
+                                             item.subMenu && 'relative'
+                                        )}
+                                   >
                                         <button
                                              onClick={() => toggleSubDropdown(index)}
                                              className="flex w-full items-center justify-between py-4"
@@ -127,7 +133,11 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                   {item.type === 'price' && (
                                                        <span className="text-content-deselecttab">{t('common.rial')}</span>
                                                   )}
-                                                  {item.subMenu && <UpArrowIcon className="-rotate-90" />}
+                                                  {item.subMenu && (
+                                                       <div>
+                                                            <ArrowLeftIcon className="text-icon-primary" />
+                                                       </div>
+                                                  )}
                                              </div>
                                         </button>
 
@@ -138,8 +148,8 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                             <li
                                                                  key={subIndex}
                                                                  className={clsx(
-                                                                      'hover:bg-back-primary-container mx-3 my-2 cursor-pointer rounded-md p-2 transition-colors',
-                                                                      subItem.label === theme && 'bg-back-primary-container'
+                                                                      'mx-3 my-2 cursor-pointer rounded-md p-2 transition-colors hover:bg-back-primary/80',
+                                                                      subItem.label === theme && 'bg-back-primary'
                                                                  )}
                                                             >
                                                                  <div
@@ -168,7 +178,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                               ))}
                          </ul>
 
-                         <button className="my-4 flex items-center gap-2 text-sm">
+                         <button className="flex w-full items-center gap-2 p-4 text-sm">
                               <LogoutIcon width={20} height={20} className="text-icon-primary" />
                               <span className="text-content-title">خروج از حساب کاربری</span>
                          </button>

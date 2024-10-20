@@ -1,6 +1,7 @@
 import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
 import AngleDownIcon from '../svg/angle-down.svg?react';
 import AngleUpIcon from '../svg/angle-up.svg?react';
+import ArrowLeftIcon from '../svg/arrow-left.svg?react';
 import ArrowDownTriangleIcon from '../svg/arrowDownTriangle.svg?react';
 import BackgroundModeIcon from '../svg/backgroundMode.svg?react';
 import CalculatorIcon from '../svg/calculator.svg?react';
@@ -44,6 +45,7 @@ export {
      AngleDownIcon,
      AngleUpIcon,
      ArrowDownTriangleIcon,
+     ArrowLeftIcon,
      BackgroundModeIcon,
      CalculatorIcon,
      ChevronDownIcon,

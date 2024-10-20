@@ -39,7 +39,7 @@ const OptionContracts = () => {
      }, [optionContractsData]);
 
      return (
-          <div className="relative h-[627px] w-full flex-1">
+          <div className="relative w-full flex-1">
                <AgGrid columnDefs={columnsDef} rowData={rowData} />
           </div>
      );

@@ -11,7 +11,7 @@ const SupervisorMessage = () => {
      const { data: supervisorMessagesSymbolData } = useQueryMessagesSupervisor({ symbolISIN: selectedSymbol });
 
      return (
-          <div className="h-[672px] px-2">
+          <div className="px-2">
                <ul className="flex flex-col">{supervisorMessagesSymbolData?.map(message => <Message item={message} />)}</ul>
           </div>
      );

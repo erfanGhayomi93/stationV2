@@ -1,136 +1,134 @@
 import { useQueryCustomerSearchGroup, useQueryDefaultGroup } from '@api/customer';
 import useDebounce from '@hooks/useDebounce';
-import { useMemo, useState } from 'react'
-import ResultHeader from './resultHeader';
 import { useCustomerStore } from '@store/customer';
+import SearchInput from '@uiKit/Inputs/SearchInput';
+import { useMemo, useState } from 'react';
 import GroupItem from './groupItem';
-
+import ResultHeader from './resultHeader';
 
 const GroupSearchBody = () => {
+     const [term, setTerm] = useState('');
 
-    const [term, setTerm] = useState('');
+     const debouncedTerm = useDebounce(term, 400);
 
-    const debouncedTerm = useDebounce(term, 400);
+     const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
 
-    const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore()
+     const { data: searchGroups } = useQueryCustomerSearchGroup(debouncedTerm);
 
-    const { data: searchGroups } = useQueryCustomerSearchGroup(debouncedTerm);
+     const { data: defaultGroups } = useQueryDefaultGroup();
 
-    const { data: defaultGroups } = useQueryDefaultGroup()
+     const isDefaultUse = useMemo(() => !term?.length, [term]);
 
-    const isDefaultUse = useMemo(() => !term?.length, [term]);
+     const listGroups = useMemo(() => {
+          return isDefaultUse ? defaultGroups : searchGroups;
+     }, [defaultGroups, searchGroups, isDefaultUse]);
 
+     const isGroupChecked = (id: number) => {
+          if (selectedCustomers.length === 0 || !selectedCustomers) return false;
 
-    const listGroups = useMemo(() => {
-        return isDefaultUse ? defaultGroups : searchGroups
+          const findCustomer = listGroups?.find(item => item.id === id);
 
-    }, [defaultGroups, searchGroups, isDefaultUse])
+          const customerISINs = findCustomer?.children?.map(item => item.customerISIN);
+          if (!customerISINs || customerISINs.length === 0) return false;
 
+          const selectedCustomeISINs = selectedCustomers.map(item => item.customerISIN);
 
-    const isGroupChecked = (id: number) => {
-        if (selectedCustomers.length === 0 || !selectedCustomers) return false
+          return customerISINs?.every(item => selectedCustomeISINs.includes(item));
+     };
 
-        const findCustomer = listGroups?.find(item => item.id === id)
+     const isALLSelected = useMemo(() => {
+          if (!listGroups || listGroups.length === 0) return false;
+          // Flatten the list of groups, extract customerISINs, and remove duplicates
+          const allCustomerISINs =
+               listGroups?.flatMap(group => group.children?.map(child => child.customerISIN)).filter(Boolean) || [];
+          const uniqueCustomerISINs = Array.from(new Set(allCustomerISINs)) as string[];
 
-        const customerISINs = findCustomer?.children?.map(item => item.customerISIN)
-        if (!customerISINs || customerISINs.length === 0) return false
+          // Extract the selected customerISINs
+          const selectedCustomerISINs = selectedCustomers.map(customer => customer.customerISIN).filter(Boolean) as string[];
 
+          // Check if every unique ISIN is in the selected ISINs
+          return uniqueCustomerISINs.every(isin => selectedCustomerISINs.includes(isin));
+     }, [listGroups, selectedCustomers]);
 
-        const selectedCustomeISINs = selectedCustomers.map(item => item.customerISIN)
+     const onGroupSelectionChanged = (checked: boolean, id: number) => {
+          const findCustomer = listGroups?.find(item => item.id === id);
 
-        return customerISINs?.every(item => selectedCustomeISINs.includes(item))
-    }
+          if (!findCustomer?.children?.length) return;
 
-    const isALLSelected = useMemo(() => {
-        if (!listGroups || listGroups.length === 0) return false
-        // Flatten the list of groups, extract customerISINs, and remove duplicates
-        const allCustomerISINs = listGroups?.flatMap(group => group.children?.map(child => child.customerISIN)).filter(Boolean) || [];
-        const uniqueCustomerISINs = Array.from(new Set(allCustomerISINs)) as string[];
+          if (checked) {
+               setAllSelectedCustomersWithPrevious(findCustomer.children);
+               return;
+          }
 
-        // Extract the selected customerISINs
-        const selectedCustomerISINs = selectedCustomers.map(customer => customer.customerISIN).filter(Boolean) as string[];
+          const customerISINUnChecked = findCustomer.children.map(item => item.customerISIN);
 
-        // Check if every unique ISIN is in the selected ISINs
-        return uniqueCustomerISINs.every(isin => selectedCustomerISINs.includes(isin));
-    }, [listGroups, selectedCustomers]);
+          const detectCustomer = selectedCustomers.filter(item => {
+               if (customerISINUnChecked.includes(item.customerISIN)) return false;
+               return true;
+          });
 
+          setSelectedCustomers(detectCustomer);
+     };
 
-    const onGroupSelectionChanged = (checked: boolean, id: number) => {
-        const findCustomer = listGroups?.find(item => item.id === id)
+     const onALLSelectionChanged = (checked: boolean) => {
+          if (!listGroups) return;
 
-        if (!findCustomer?.children?.length) return
+          // Flatten the list of groups and extract children
+          const allChildren = listGroups.flatMap(group => group?.children || []);
 
-        if (checked) {
-            setAllSelectedCustomersWithPrevious(findCustomer.children)
-            return
-        }
+          if (checked) {
+               // If checked, select all customers
+               setAllSelectedCustomersWithPrevious(allChildren);
+          } else {
+               // If not checked, filter out customers from the selected list that are in the current group
+               const customerISINs = allChildren.map(child => child.customerISIN);
+               const filteredSelectedCustomers = selectedCustomers.filter(
+                    customer => !customerISINs.includes(customer.customerISIN)
+               );
+               setSelectedCustomers(filteredSelectedCustomers);
+          }
+     };
 
-        const customerISINUnChecked = findCustomer.children.map(item => item.customerISIN)
+     const rowUI = useMemo(
+          () =>
+               !listGroups?.length
+                    ? null
+                    : listGroups?.map((item, ind) => (
+                           <GroupItem<ICustomerAdvancedSearchRes>
+                                key={ind}
+                                ind={ind}
+                                customer={item}
+                                getLabel={v => v.title}
+                                getChildren={v => v.children}
+                                getId={v => v?.id}
+                                isGroupChecked={isGroupChecked}
+                                onGroupSelectionChanged={onGroupSelectionChanged}
+                           />
+                      )),
+          [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged]
+     );
 
-        const detectCustomer = selectedCustomers.filter(item => {
-            if (customerISINUnChecked.includes(item.customerISIN)) return false
-            return true
-        })
+     const selectedCustomerInputValues = useMemo(() => {
+          return selectedCustomers.map(customer => {
+               return {
+                    id: customer.customerISIN,
+                    label: customer.title,
+               };
+          });
+     }, [selectedCustomers]);
 
-        setSelectedCustomers(detectCustomer)
-    }
+     return (
+          <div className="flex flex-col gap-y-6">
+               <div>
+                    <SearchInput onChangeValue={(value, input) => setTerm(input)} values={selectedCustomerInputValues ?? []} />
+               </div>
 
-    const onALLSelectionChanged = (checked: boolean) => {
-        if (!listGroups) return;
+               <div className="grid h-80 grid-rows-min-one rounded-lg">
+                    <ResultHeader isAllSelected={isALLSelected} onALLSelectionChanged={onALLSelectionChanged} />
+                    <div className="overflow-auto">{rowUI}</div>
+               </div>
+          </div>
+     );
+};
 
-        // Flatten the list of groups and extract children
-        const allChildren = listGroups.flatMap(group => group?.children || []);
-
-        if (checked) {
-            // If checked, select all customers
-            setAllSelectedCustomersWithPrevious(allChildren);
-        } else {
-            // If not checked, filter out customers from the selected list that are in the current group
-            const customerISINs = allChildren.map(child => child.customerISIN);
-            const filteredSelectedCustomers = selectedCustomers.filter(customer => !customerISINs.includes(customer.customerISIN));
-            setSelectedCustomers(filteredSelectedCustomers);
-        }
-    };
-
-    const rowUI = useMemo(() => !listGroups?.length ? null : listGroups
-        ?.map((item, ind) => (
-            <GroupItem<ICustomerAdvancedSearchRes>
-                key={ind}
-                ind={ind}
-                customer={item}
-                getLabel={v => v.title}
-                getChildren={(v) => v.children}
-                getId={(v) => v?.id}
-                isGroupChecked={isGroupChecked}
-                onGroupSelectionChanged={onGroupSelectionChanged}
-            />
-        )), [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged])
-
-    return (
-        <div className='flex flex-col gap-y-6'>
-            <div>
-                <input
-                    type="text"
-                    value={term}
-                    onChange={(e) => setTerm(e.target.value)}
-                    className='border border-content-title'
-                />
-            </div>
-
-
-            <div className="grid grid-rows-min-one h-80 rounded-lg">
-                <ResultHeader
-                    isAllSelected={isALLSelected}
-                    onALLSelectionChanged={onALLSelectionChanged}
-                />
-                <div className='overflow-auto'>
-                    {rowUI}
-                </div>
-            </div>
-
-
-        </div>
-    )
-}
-
-export default GroupSearchBody
+export default GroupSearchBody;
