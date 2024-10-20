@@ -19,8 +19,8 @@ interface ISelectGeneralInformation {
 }
 
 const MarketDepthTab = () => {
-    //
-    const { selectedSymbol } = useSymbolStore()
+     //
+     const { selectedSymbol } = useSymbolStore();
 
      const {
           data: { bids, asks },
@@ -104,7 +104,7 @@ const MarketDepthTab = () => {
      //
 
      return (
-          <div className="h-full max-h-full overflow-y-auto px-2">
+          <div className="h-full px-2">
                <div className="grid grid-cols-2 grid-rows-1 gap-x-2">
                     <div className="flex flex-col gap-y-4">
                          <div>

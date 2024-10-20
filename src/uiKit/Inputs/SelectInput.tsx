@@ -5,11 +5,12 @@ import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
-interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'value'> {
+interface TSelectInputProps
+     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
      onChange: (item: string) => void;
-     items?: { value: string; label: string }[];
-     value: string
+     items?: { id: string; label: string }[];
+     value: string;
 }
 
 const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
@@ -24,15 +25,22 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
      });
 
      useEffect(() => {
-          setState(value)
-     }, [value])
-
+          setState(value);
+     }, [value]);
 
      return (
           <div
                ref={selectInputRef}
                className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active"
           >
+               <input
+                    onFocus={() => setOpen(true)}
+                    value={state}
+                    onChange={() => null}
+                    className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"
+                    {...props}
+               />
+
                <div>
                     <ChevronDownIcon
                          className={clsx(
@@ -41,14 +49,6 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                          )}
                     />
                </div>
-               <input
-                    onFocus={() => setOpen(true)}
-                    dir="rtl"
-                    value={state}
-                    onChange={() => null}
-                    className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"
-                    {...props}
-               />
 
                <div
                     className={clsx(
@@ -64,19 +64,16 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
 
                {open && (
                     <AnimatePresence initial={{ animation: 'fadeInDown' }} exit={{ animation: 'fadeOutDown' }}>
-                         <ul className="rtl absolute right-0 top-14 flex w-full flex-col gap-1 rounded-lg bg-back-surface py-2">
+                         <ul className="rtl absolute right-0 top-14 z-50 flex w-full flex-col gap-1 rounded-lg bg-back-surface py-2 shadow-E5">
                               {items?.map((item, ind) => (
-                                   <li
-                                        className="w-full cursor-pointer items-center justify-end px-2"
-                                        key={ind}
-                                   >
+                                   <li className="w-full cursor-pointer items-center justify-end px-2" key={ind}>
                                         <RadioButton
-                                             checked={item.value === state}
+                                             checked={item.id === state}
                                              label={item.label}
                                              onChange={() => {
-                                                  setState(item.value);
+                                                  setState(item.label);
                                                   setOpen(false);
-                                                  onChange(item.value);
+                                                  onChange(item.id);
                                              }}
                                         />
                                    </li>

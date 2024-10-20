@@ -112,7 +112,7 @@ const Popup = ({
                     const maxTop = window.innerHeight - popupHeight - 8;
 
                     if (popupTop > maxTop) {
-                         el.style.top = `${maxTop}px`;
+                         el.style.top = `${maxTop + (margin.y ?? 0)}px `;
                     }
                });
 
@@ -165,7 +165,7 @@ const Popup = ({
                {cloneElement(children({ setOpen: handleOpen, open }), { ref: childRef })}
 
                {/* <ErrorBoundary> */}
-               <div>
+               <>
                     <AnimatePresence
                          initial={{ animation: 'fadeInDown' }}
                          exit={{ animation: 'fadeOutDown' }}
@@ -177,7 +177,7 @@ const Popup = ({
                               </Child>
                          ) : null}
                     </AnimatePresence>
-               </div>
+               </>
                {/* </ErrorBoundary> */}
           </React.Fragment>
      );

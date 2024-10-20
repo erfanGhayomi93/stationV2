@@ -107,21 +107,29 @@ const HeaderLayout = () => {
                     </div>
                     <Popup
                          margin={{
-                              y: 8,
+                              y: 20,
+                              x: 5,
                          }}
                          defaultPopupWidth={200}
                          renderer={() => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                              <ul className="flex w-full flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5">
                                    {symbolTab?.map(item => (
-                                        <LastPriceTitle
-                                             PriceVar={item?.lastTradedPriceVarPercent}
-                                             price={item?.lastTradedPrice}
-                                             symbolISIN={item?.symbolISIN}
-                                             symbolTitle={item?.symbolTitle}
-                                             key={item?.symbolISIN}
-                                             onClick={() => handleClickSymbolFromDropdown(item?.symbolISIN)}
-                                             isSelected={selectedSymbol === item?.symbolISIN}
-                                        />
+                                        <li
+                                             className={clsx(
+                                                  'rtl flex w-full items-center rounded-md p-2 transition-colors hover:bg-back-primary',
+                                                  selectedSymbol === item?.symbolISIN && 'bg-back-primary'
+                                             )}
+                                        >
+                                             <LastPriceTitle
+                                                  PriceVar={item?.lastTradedPriceVarPercent}
+                                                  price={item?.lastTradedPrice}
+                                                  symbolISIN={item?.symbolISIN}
+                                                  symbolTitle={item?.symbolTitle}
+                                                  key={item?.symbolISIN}
+                                                  onClick={() => handleClickSymbolFromDropdown(item?.symbolISIN)}
+                                                  isSelected={selectedSymbol === item?.symbolISIN}
+                                             />
+                                        </li>
                                    ))}
                               </ul>
                          )}

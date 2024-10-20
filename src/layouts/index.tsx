@@ -20,13 +20,13 @@ const AppLayout = () => {
      }, [theme]);
 
      return (
-          <div className="grid h-screen max-h-screen grid-cols-one-min overflow-hidden overflow-x-auto bg-back-2">
-               <main className="grid h-full max-h-full grid-rows-min-one-min">
-                    <header className="rtl h-14 rounded-b-lg bg-back-surface">
+          <div className="grid h-screen max-h-screen grid-cols-one-min overflow-hidden bg-back-2">
+               <main className="grid h-full max-h-full grid-rows-[48px_1fr_40px] gap-y-2 overflow-hidden">
+                    <header className="rtl rounded-b-lg bg-back-surface">
                          <HeaderLayout />
                     </header>
 
-                    <section className="py-2">
+                    <section className="overflow-hidden">
                          <Outlet />
                     </section>
 
