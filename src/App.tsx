@@ -1,23 +1,27 @@
-import { pushEngine } from '@LS/pushEngine';
-import Cookies from 'js-cookie';
 import { Fragment, useEffect } from 'react';
-import { tokenCookieName } from './config/axios';
 import RouterPage from './router/routerPage';
 
 import 'tippy.js/dist/tippy.css';
+import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
+import { useQueryGeneralUser } from '@api/trader';
 
 function App() {
-     useEffect(() => {
-          const clientId = Cookies.get(tokenCookieName);
+     const { data: dataUser } = useQueryGeneralUser()
 
-          pushEngine.connect({
-               DomainName: 'https://pushengine.ramandtech.com',
-               DomainPort: +'443',
-               AdapterSet: 'Ramand_Remoter_Adapter',
-               User: 'default user',
-               Password: clientId ?? 'default password', // get from app context
-          });
-     }, []);
+     const { brokerCode, userName } = dataUser || {};
+
+     const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway()
+
+
+     useEffect(() => {
+          if (userName && brokerCode) {
+               subscribeCustomers(userName, brokerCode)
+          }
+
+          return () => {
+               isSubscribed() && unSubscribeCustomers()
+          }
+     }, [userName])
 
      return <Fragment>{RouterPage}</Fragment>;
 }
