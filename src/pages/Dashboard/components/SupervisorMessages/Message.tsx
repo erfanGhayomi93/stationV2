@@ -30,7 +30,7 @@ const Message = ({ item }: TMessageProps) => {
      return (
           <div onClick={() => onReadMessage(item.id)} className="border-b border-b-line-div-3 py-1">
                <li className="flex cursor-pointer items-center justify-between py-3" key={item.id}>
-                    <div className="flex w-1/2 flex-1 items-center gap-1 text-sm">
+                    <div className="flex w-7/12 flex-1 items-center gap-1 text-sm">
                          <div>
                               <ArrowDownTriangleIcon
                                    className={clsx('text-icon-default transition-transform', {
@@ -52,7 +52,7 @@ const Message = ({ item }: TMessageProps) => {
                          </span>
                          <span className="truncate text-content-title">{removeFirstWord(item.messageTitle)}</span>
                     </div>
-                    <div className="flex w-1/2 flex-1 items-center justify-end gap-2 text-sm text-content-paragraph">
+                    <div className="flex w-5/12 flex-1 items-center justify-end gap-2 text-sm text-content-paragraph">
                          <span>{dateFormatter(item.dateOfEvent, 'time')}</span>
                          <div
                               style={{
@@ -75,7 +75,12 @@ const Message = ({ item }: TMessageProps) => {
 
                {isOpen && (
                     <AnimatePresence initial={{ animation: 'fadeIn' }} exit={{ animation: 'collapseOrders' }}>
-                         <div className="rounded-lg bg-back-2 px-8 py-2 text-justify text-content-paragraph">
+                         <div
+                              onClick={e => {
+                                   e.stopPropagation();
+                              }}
+                              className="rounded-lg bg-back-2 px-8 py-2 text-justify text-sm text-content-paragraph"
+                         >
                               {item.messageBody}
                          </div>
                     </AnimatePresence>

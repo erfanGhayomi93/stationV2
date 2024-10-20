@@ -44,7 +44,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol })
                          value={symbol}
                          className={_bag =>
                               clsx(
-                                   'hover:bg-back-primary-container cursor-pointer rounded-md px-1 py-3 text-sm text-content-paragraph transition-colors',
+                                   'cursor-pointer rounded-md px-1 py-3 text-sm text-content-paragraph transition-colors hover:bg-back-primary',
                                    { 'bg-back-primary-container': _bag.focus }
                               )
                          }
@@ -101,7 +101,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol })
                {!!handleOptions() && (
                     <ComboboxOptions
                          anchor="bottom"
-                         className="rtl z-50 mt-1 w-[var(--input-width)] rounded-xl border bg-back-surface p-2 empty:invisible"
+                         className="rtl z-50 mt-4 w-[var(--input-width)] rounded-xl bg-back-surface p-2 shadow-E6 empty:invisible"
                     >
                          <div className="max-h-80 overflow-y-auto">{handleOptions()}</div>
                     </ComboboxOptions>

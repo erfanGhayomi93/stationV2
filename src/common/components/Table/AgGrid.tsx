@@ -29,7 +29,10 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
 
           return (
                <div
-                    className={clsx('app-ag-table w-full', isDarkMode ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`)}
+                    className={clsx(
+                         'app-ag-table relative w-full',
+                         isDarkMode ? `ag-theme-${tableTheme}-dark` : `ag-theme-${tableTheme}`
+                    )}
                     style={{
                          height: tableHeight ?? '100%',
                     }}
@@ -54,13 +57,19 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          rowBuffer={5}
                          enableRtl
                          suppressNoRowsOverlay
-                         domLayout="normal"
+                         domLayout="autoHeight"
                          defaultColDef={{
                               flex: 1,
                          }}
                          enableCellTextSelection
                          {...props}
                     />
+
+                    {rowData?.length === 0 && (
+                         <div className="flex items-center justify-center">
+                              <span className="tran absolute top-1/2 font-medium">اطلاعاتی وجود ندارد</span>
+                         </div>
+                    )}
                </div>
           );
      }

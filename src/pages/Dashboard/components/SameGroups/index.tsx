@@ -44,8 +44,10 @@ const SameGroups = () => {
           return sameGroupsData ?? [];
      }, [sameGroupsData]);
 
+     console.log(rowData, 'rowData');
+
      return (
-          <div className="relative w-full flex-1">
+          <div className="relative min-h-full w-full flex-1">
                <AgGridTable
                     columnDefs={columnDefs}
                     rowData={rowData}
