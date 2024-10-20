@@ -84,29 +84,29 @@ const MarketIndexes = () => {
      return (
           <div className="flex items-center gap-x-4 text-xs font-medium">
                <div>{data?.filter(item => item.symbolISIN === 'IRX6XTPI0006')?.map(item => uiIndexes(item))}</div>
-               <div>
-                    <Popup
-                         margin={{
-                              y: 8,
-                         }}
-                         defaultPopupWidth={200}
-                         renderer={({ setOpen }) => (
-                              <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
-                                   {data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}
-                              </ul>
-                         )}
-                    >
-                         {({ setOpen, open }) => (
-                              <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
-                                   <UpArrowIcon
-                                        className={clsx('h-min text-icon-default transition-transform', {
-                                             'rotate-180': !open,
-                                        })}
-                                   />
-                              </button>
-                         )}
-                    </Popup>
-               </div>
+
+               <Popup
+                    margin={{
+                         x: -20,
+                         y: -40,
+                    }}
+                    defaultPopupWidth={250}
+                    renderer={({ setOpen }) => (
+                         <ul className="rtl flex flex-col gap-4 text-nowrap rounded-md bg-back-surface px-4 py-3 shadow-E6">
+                              {data?.filter(item => item.symbolISIN !== 'IRX6XTPI0006').map(item => uiIndexes(item))}
+                         </ul>
+                    )}
+               >
+                    {({ setOpen, open }) => (
+                         <button className="flex items-center rounded-lg p-3" onClick={() => setOpen(!open)}>
+                              <UpArrowIcon
+                                   className={clsx('h-min text-icon-default transition-transform', {
+                                        'rotate-180': !open,
+                                   })}
+                              />
+                         </button>
+                    )}
+               </Popup>
           </div>
      );
 };

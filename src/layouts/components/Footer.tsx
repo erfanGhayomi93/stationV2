@@ -10,7 +10,10 @@ const Footer = () => {
 
      return (
           <div className="flex h-10 items-center justify-between rounded-t-md bg-back-surface px-4">
-               <div className="rtl flex items-center gap-x-8">
+               <div className="flex-1">
+                    <PinnedWatchlists />
+               </div>
+               <div className="flex items-center gap-x-8">
                     <div>
                          <MarketIndexes />
                     </div>
@@ -22,10 +25,6 @@ const Footer = () => {
                     <div>
                          <PushEngineInfo />
                     </div>
-               </div>
-
-               <div className="rtl flex-1">
-                    <PinnedWatchlists />
                </div>
           </div>
      );

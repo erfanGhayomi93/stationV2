@@ -112,7 +112,7 @@ const Popup = ({
                     const maxTop = window.innerHeight - popupHeight - 8;
 
                     if (popupTop > maxTop) {
-                         el.style.top = `${maxTop}px`;
+                         el.style.top = `${maxTop + (margin.y ?? 0)}px `;
                     }
                });
 
