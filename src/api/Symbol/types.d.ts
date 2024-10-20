@@ -245,14 +245,16 @@ interface ISameGroupsRes {
 }
 
 interface IOptionContractsRes {
-     symbolISIN: string;
-     sectorCode: string;
-     symbolTitle: string;
-     totalNumberOfSharesTraded: number;
-     lastTradedPriceVarPercent: number;
      bestBuyPrice: number;
      bestBuyPricebestBuyLimitPrice_1: number;
-     bestSellPrice: number;
      bestSellLimitPrice_1: number;
+     bestSellPrice: number;
+     contractEndDate: string;
      lastTradedPrice: number;
+     lastTradedPriceVarPercent: number;
+     sectorCode: string;
+     strikePrice: number;
+     symbolISIN: string;
+     symbolTitle: string;
+     totalNumberOfSharesTraded: number;
 }

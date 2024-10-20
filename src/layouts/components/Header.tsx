@@ -58,14 +58,14 @@ const HeaderLayout = () => {
      }, []);
 
      return (
-          <div className="flex h-full justify-between gap-4 px-4 py-2">
-               <div className="flex w-1/5 items-center justify-end gap-x-4">
+          <div className="flex h-full justify-between gap-4 px-4 pt-2">
+               <div className="flex w-1/5 items-center justify-start gap-x-4 pb-2">
                     <ProfileDropdown />
-                    <div className="w-80">
+                    <div className="flex-1">
                          <SearchSymbol searchSymbol={searchSymbol} setSearchSymbol={handleSetSelectedSymbol} />
                     </div>
                </div>
-               <div className="flex flex-1 items-center justify-end gap-x-2">
+               <div className="flex w-4/5 flex-1 items-center justify-end gap-x-2">
                     <div className="flex h-full flex-1 items-center justify-end">
                          {symbolTab?.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
                               <Fragment key={item?.symbolISIN || ind}>
@@ -135,13 +135,15 @@ const HeaderLayout = () => {
                          )}
                     >
                          {({ setOpen, open }) => (
-                              <button className="flex items-center rounded-lg bg-back-2 p-4" onClick={() => setOpen(!open)}>
-                                   <UpArrowIcon
-                                        className={clsx('h-min text-icon-default transition-transform', {
-                                             'rotate-180': !open,
-                                        })}
-                                   />
-                              </button>
+                              <div className="pb-2">
+                                   <button className="flex items-center rounded-lg bg-back-2 p-4" onClick={() => setOpen(!open)}>
+                                        <UpArrowIcon
+                                             className={clsx('h-min text-icon-default transition-transform', {
+                                                  'rotate-180': !open,
+                                             })}
+                                        />
+                                   </button>
+                              </div>
                          )}
                     </Popup>
                </div>

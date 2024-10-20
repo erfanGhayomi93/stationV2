@@ -70,7 +70,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
      return (
           <div
                ref={searchInputRef}
-               className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
+               className="rtl group relative flex h-12 w-full items-center justify-between overflow-hidden rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
           >
                <label className="flex w-full items-center">
                     <div className="pl-2">
@@ -93,7 +93,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
                          </div>
                     )}
 
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-xs text-input-default transition-all duration-100 group-focus-within:-top-1 group-focus-within:bg-back-surface group-focus-within:px-1 group-focus-within:text-input-active">
+                    <div className="absolute right-8 top-1/2 -translate-y-1/2 bg-transparent text-xs text-input-default transition-all duration-100 group-focus-within:-top-1 group-focus-within:bg-back-surface group-focus-within:px-1 group-focus-within:text-input-active">
                          <span className="">{placeholder}</span>
                     </div>
 
