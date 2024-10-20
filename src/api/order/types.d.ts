@@ -1,8 +1,6 @@
 type TSide = 'Buy' | 'Sell';
 
-type Ttypes = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
-
-type TBsValidityDates = 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled' | 'Day' | 'Week' | 'Month';
+type IOrderType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 
 type IFormType = 'Web' | 'Mobile' | 'BrokerTrader' | 'ClientApi' | 'MarketMaker' | 'Admin' | 'Supervisor';
 
@@ -66,8 +64,8 @@ interface IOpenOrder {
      orderSide: TSide;
      orderOrigin: string;
      parentOrderId: number;
-     orderType: Ttypes;
-     validity: TBsValidityDates;
+     orderType: IOrderType;
+     validity: TValidity;
      validityDate: string;
      orderFrom: IFormType;
      orderAction: TAction | 0;
@@ -126,4 +124,30 @@ interface IDoneOrdersRes {
      tradeDate: string;
      validityDate: number;
      validityType: number;
+}
+
+type TCustomerIsins = string[];
+
+interface ICreateOrderReq {
+     id?: string;
+     status?: string;
+     customerISIN: TCustomerIsins;
+     customerTitle: TCustomerIsins; //for show in notification
+     CustomerTagId?: TCustomerIsins;
+     GTTraderGroupId?: TCustomerIsins;
+     symbolISIN: string;
+     orderSide: TSide;
+     price: number;
+     quantity: number;
+     percent: number;
+     validity: TValidity;
+     validityDate: string | null;
+     orderDraftId: number | undefined;
+     orderType: IOrderType;
+     orderStrategy: string;
+}
+
+interface ICreateOrderRes {
+     successClientKeys: string[];
+     errorNumbers: number;
 }

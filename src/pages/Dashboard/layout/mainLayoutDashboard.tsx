@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import BuySellWidget from 'common/widget/buySellWidget';
-import { useTranslation } from 'react-i18next';
 import { MainSymbol } from '../widget/HeaderSymbol';
 import OrderBookTabsWidget from '../widget/orderBookTabsWidget';
 import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
@@ -10,7 +9,7 @@ import TodayTradesWidget from '../widget/TodayTradesWidget';
 const BoxClass = 'p-4 bg-back-surface shadow-sm rounded-lg rtl overflow-y-auto';
 
 const MainLayoutDashboard = () => {
-     const { t } = useTranslation();
+
 
      return (
           <div className="rtl grid h-full grid-cols-[2fr,2fr,4fr] gap-2 overflow-hidden">

@@ -3,24 +3,30 @@ import AnimatePresence from '@components/animation/AnimatePresence';
 import useClickOutside from '@hooks/useClickOutside';
 import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
-import { InputHTMLAttributes, useRef, useState } from 'react';
+import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
-interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder'> {
+interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
-     onChange: (item: { id: string; label: string }) => void;
-     items?: { id: string; label: string }[];
+     onChange: (item: string) => void;
+     items?: { value: string; label: string }[];
+     value: string
 }
 
-const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
      const selectInputRef = useRef<HTMLDivElement | null>(null);
 
-     const [value, setValue] = useState({ id: '', label: '' });
+     const [state, setState] = useState(value);
 
      const [open, setOpen] = useState(false);
 
      useClickOutside([selectInputRef], () => {
           setOpen(false);
      });
+
+     useEffect(() => {
+          setState(value)
+     }, [value])
+
 
      return (
           <div
@@ -38,7 +44,8 @@ const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInp
                <input
                     onFocus={() => setOpen(true)}
                     dir="rtl"
-                    value={value.label}
+                    value={state}
+                    onChange={() => null}
                     className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"
                     {...props}
                />
@@ -47,8 +54,8 @@ const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInp
                     className={clsx(
                          'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
                          {
-                              'absolute -top-3 right-2 bg-back-surface px-1': value.id,
-                              'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !value.id,
+                              'absolute -top-3 right-2 bg-back-surface px-1': state,
+                              'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !state,
                          }
                     )}
                >
@@ -64,12 +71,12 @@ const SelectInput = ({ onChange, items, placeholder = '', ...props }: TSelectInp
                                         key={ind}
                                    >
                                         <RadioButton
-                                             checked={item.id === value.id}
+                                             checked={item.value === state}
                                              label={item.label}
                                              onChange={() => {
-                                                  setValue(item);
+                                                  setState(item.value);
                                                   setOpen(false);
-                                                  onChange(item);
+                                                  onChange(item.value);
                                              }}
                                         />
                                    </li>
