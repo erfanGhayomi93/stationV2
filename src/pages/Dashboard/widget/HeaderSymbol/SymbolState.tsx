@@ -7,14 +7,8 @@ interface ISymbolStateProps {
 }
 
 const SymbolState = ({ symbolStateTooltip, symbolStateColor }: ISymbolStateProps) => {
-     return (
-          <div
-               title={symbolStateTooltip}
-               className={clsx('h-2 w-2 rounded-full', {
-                    [symbolStateColor('bg')]: !!symbolStateColor('bg'),
-               })}
-          ></div>
-     );
+     console.log(symbolStateColor('bg'), 'symbolStateColor');
+     return <div title={symbolStateTooltip} className={clsx('h-2 w-2 rounded-full', symbolStateColor('bg'))}></div>;
 };
 
 export default SymbolState;

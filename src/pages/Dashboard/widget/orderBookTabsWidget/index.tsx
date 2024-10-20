@@ -18,7 +18,7 @@ const OrderBookTabsWidget = () => {
      ];
 
      return (
-          <TabGroup className="overflow-y-auto" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+          <TabGroup className="" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
                <TabList className={'flex gap-x-2 border-b border-line-div-2'}>
                     {tabs.map((item, ind) => (
                          <Tab
@@ -29,8 +29,8 @@ const OrderBookTabsWidget = () => {
                          </Tab>
                     ))}
                </TabList>
-               <TabPanels className="overflow-y-auto data-[selected]:bg-line-error">
-                    <TabPanel className={'mt-4 h-[627px] overflow-y-auto'}>
+               <TabPanels className="data-[selected]:bg-line-error">
+                    <TabPanel className={'py-2'}>
                          <MarketDepthTab />
                     </TabPanel>
                     <TabPanel>
@@ -39,7 +39,7 @@ const OrderBookTabsWidget = () => {
                     <TabPanel>
                          <OptionContracts />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel className="">
                          <SupervisorMessage />
                     </TabPanel>
                </TabPanels>

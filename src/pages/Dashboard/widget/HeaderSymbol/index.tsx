@@ -56,7 +56,7 @@ export const MainSymbol = () => {
                if (!data?.symbolState) return '';
 
                const stateClasses: Record<string, string> = {
-                    OrderEntryAuthorized_Open: type + '-content-success-buy', // مجاز
+                    OrderEntryAuthorized_Open: `${type}-content-success-buy`, // مجاز
                     OrderEntryAuthorized_Reserved: `${type}-content-warnning`, // مجاز_محفوظ
                     OrderEntryAuthorized_Frozen: `${type}-content-error-sell`, // ممنوع
                     OrderEntryForbidden_Suspended: `${type}-content-error-sell`, // ممنوع_متوقف
@@ -75,7 +75,7 @@ export const MainSymbol = () => {
      ];
 
      return (
-          <div className="flex flex-col gap-y-4 text-sm">
+          <div className="flex flex-col gap-2 text-xs">
                <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-y-1">
                          <div className="flex items-center gap-x-1">
@@ -84,10 +84,10 @@ export const MainSymbol = () => {
                                    symbolStateColor={symbolStateColor}
                                    symbolStateTooltip={symbolStateTooltip()}
                               />
-                              <span className="font-bold text-content-title">{data?.symbolTitle}</span>
+                              <span className="text-sm font-medium text-content-title">{data?.symbolTitle}</span>
                               <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
                               <span className="text-content-deselecttab">
-                                   {data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'}
+                                   {`(${data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'})`}
                               </span>
                               {data?.hasRiskAnnouncement && (
                                    <Tippy content={t('tooltip.hasRiskAnnouncement')}>
@@ -102,12 +102,12 @@ export const MainSymbol = () => {
                          </div>
                     </div>
 
-                    <div className="flex gap-x-1">
+                    <div className="flex gap-x-2">
                          <span className="flex items-center rounded bg-back-2 p-1">
-                              <PinnedIcon className="text-icon-warning" />
+                              <PinnedIcon width="1.5rem" height="1.5rem" className="text-icon-warning" />
                          </span>
                          <span className="flex items-center rounded bg-back-2 p-1">
-                              <WatchlistNegativeIcon className="text-icon-primary" />
+                              <WatchlistNegativeIcon width="1.5rem" height="1.5rem" className="text-icon-primary" />
                          </span>
 
                          <Popup
@@ -118,7 +118,7 @@ export const MainSymbol = () => {
                               //  onOpen={() => setIsDropdownOpen(true)}
                               //  onClose={() => setIsDropdownOpen(false)}
                               renderer={({ setOpen }) => (
-                                   <ul className="rtl flex flex-col gap-4 rounded-md bg-back-surface px-4 py-3 shadow-E2">
+                                   <ul className="rtl flex flex-col rounded-md bg-back-modal p-4 shadow-E2">
                                         {items.map((item, index) => (
                                              <a
                                                   key={index}
@@ -127,11 +127,11 @@ export const MainSymbol = () => {
                                                   target="_blank"
                                                   rel="noreferrer"
                                                   href={item.link}
-                                                  className="flex items-center justify-between"
+                                                  className="flex items-center justify-between border-b border-line-div-2 py-4 last:border-none"
                                              >
-                                                  <div className="flex gap-x-2 pl-10">
-                                                       <item.icon className="text-icon-default" />
-                                                       <span className="text-content-paragraph">{item.label}</span>
+                                                  <div className="flex justify-between gap-x-2">
+                                                       <item.icon width="1.5rem" height="1.5rem" className="text-icon-default" />
+                                                       <span className="text-nowrap text-content-paragraph">{item.label}</span>
                                                   </div>
 
                                                   <UpArrowIcon className="-rotate-90 text-icon-default" />
@@ -142,37 +142,43 @@ export const MainSymbol = () => {
                          >
                               {({ setOpen, open }) => (
                                    <button className="flex items-center rounded bg-back-2 p-1" onClick={() => setOpen(!open)}>
-                                        <LinkIcon className="text-icon-default" />
+                                        <LinkIcon width="1.5rem" height="1.5rem" className="text-icon-default" />
                                    </button>
                               )}
                          </Popup>
                     </div>
                </div>
 
-               <div className="flex rounded bg-back-2 px-4 py-2">
-                    <div className="border-back-1 flex gap-x-6 border-l pl-4">
-                         <span>آخرین قیمت:</span>
+               <div className="flex rounded bg-back-2 px-4 py-3 text-content-title">
+                    <div className="flex gap-x-6 border-l border-line-div-1 pl-4 text-xs">
+                         <span className="font-medium text-content-paragraph">آخرین قیمت:</span>
                          <span className="flex gap-x-1">
                               <span
-                                   className={clsx('ltr', {
+                                   className={clsx('ltr font-bold', {
                                         'text-content-success-buy': Number(data?.lastTradedPriceVarPercent) > 0,
                                         'text-content-error-sell': Number(data?.lastTradedPriceVarPercent) < 0,
+                                        'text-content-title': Number(data?.lastTradedPriceVarPercent) === 0,
                                    })}
                               >{`(${data?.lastTradedPriceVarPercent || '0'}%)`}</span>
-                              <span className="text-content-title">{sepNumbers(Number(data?.lastTradedPrice || '0'))}</span>
+                              <span className="text-base font-bold text-content-title">
+                                   {sepNumbers(Number(data?.lastTradedPrice || '0'))}
+                              </span>
                          </span>
                     </div>
 
                     <div className="flex gap-x-6 pr-4">
-                         <span>قیمت پایانی</span>
+                         <span className="text-xs text-content-paragraph">قیمت پایانی:</span>
                          <span className="flex gap-x-1">
                               <span
-                                   className={clsx('ltr', {
+                                   className={clsx('ltr font-bold', {
                                         'text-content-success-buy': Number(data?.closingPriceVarPercent) > 0,
                                         'text-content-error-sell': Number(data?.closingPriceVarPercent) < 0,
+                                        'text-content-title': Number(data?.closingPriceVarPercent) === 0,
                                    })}
                               >{`(${data?.closingPriceVarPercent || '0'}%)`}</span>
-                              <span className="text-content-title">{sepNumbers(Number(data?.closingPrice || 0))}</span>
+                              <span className="text-base font-bold text-content-title">
+                                   {sepNumbers(Number(data?.closingPrice || 0))}
+                              </span>
                          </span>
                     </div>
                </div>

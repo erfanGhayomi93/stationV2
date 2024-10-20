@@ -165,7 +165,7 @@ const Popup = ({
                {cloneElement(children({ setOpen: handleOpen, open }), { ref: childRef })}
 
                {/* <ErrorBoundary> */}
-               <div>
+               <>
                     <AnimatePresence
                          initial={{ animation: 'fadeInDown' }}
                          exit={{ animation: 'fadeOutDown' }}
@@ -177,7 +177,7 @@ const Popup = ({
                               </Child>
                          ) : null}
                     </AnimatePresence>
-               </div>
+               </>
                {/* </ErrorBoundary> */}
           </React.Fragment>
      );
