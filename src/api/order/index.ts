@@ -40,3 +40,14 @@ export const useGroupDeleteOrders = (params: { ordersId: number[] }) => {
           },
      });
 };
+
+export const useMutationSendOrder = () => {
+     const url = routeApi().Orders.Create;
+
+     return useMutation({
+          mutationFn: async (params: ICreateOrderReq) => {
+               const { data } = await AXIOS.post<GlobalApiResponseType<ICreateOrderRes>>(url, params);
+               return data.result;
+          },
+     });
+};

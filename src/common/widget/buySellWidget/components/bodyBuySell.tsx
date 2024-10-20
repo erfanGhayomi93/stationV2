@@ -8,11 +8,9 @@ import { FC } from 'react';
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useSymbolStore } from '@store/symbol';
 
-interface IBodyBuySellProps {
-     side: TSide
-}
+interface IBodyBuySellProps { }
 
-const BodyBuySell: FC<IBodyBuySellProps> = ({ side }) => {
+const BodyBuySell: FC<IBodyBuySellProps> = () => {
 
      const { selectedSymbol } = useSymbolStore()
 
@@ -33,9 +31,7 @@ const BodyBuySell: FC<IBodyBuySellProps> = ({ side }) => {
                />
                <Credit />
                <InformationTrade />
-               <ActionsOrder
-                    side={side}
-               />
+               <ActionsOrder />
           </div>
      );
 };

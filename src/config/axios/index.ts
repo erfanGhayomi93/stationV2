@@ -10,7 +10,7 @@ const AXIOS = axios
 AXIOS.interceptors.request.use(
      function (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {
           // const client_id = Cookies.get(tokenCookieName);
-          const client_id = 'pAdHKBvLBV6e3283I9ufc5f0AyDYPPbjc7SGludCLtxx1sgkwChTQFQchYh7Dqfq';
+          const client_id = 'CGoDhaivC/WLCA3MiYrYAg8sEfM78XEM0Fm1SpiodTMx7xsbK5l9uQfUq/S86jag';
           if (client_id) config.headers.Authorization = `Bearer ${client_id}`;
 
           return config;

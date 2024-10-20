@@ -32,14 +32,10 @@ const BuySellWidget = () => {
                     </TabList>
                     <TabPanels className="px-2">
                          <TabPanel className="">
-                              <BodyBuySell
-                                   side={"Buy"}
-                              />
+                              <BodyBuySell />
                          </TabPanel>
                          <TabPanel>
-                              <BodyBuySell
-                                   side={"Sell"}
-                              />
+                              <BodyBuySell />
                          </TabPanel>
                     </TabPanels>
                </TabGroup>

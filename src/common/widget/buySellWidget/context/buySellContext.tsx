@@ -9,12 +9,14 @@ export const useBuySellStore = create<IBuySellState>((set) => ({
     validity: 'Day',
     strategy: 'normal',
     validityDate: null,
+    source: "Account",
     setSide: (side: TSide) => set(() => ({ side })),
     setPrice: (price: number) => set(() => ({ price })),
     setQuantity: (quantity: number) => set(() => ({ quantity })),
     setValidity: (validity: TValidity) => set(() => ({ validity })),
     setStrategy: (strategy: TStrategy) => set(() => ({ strategy })),
-    setValidityDate: (validityDate: string | null) => set(() => ({ validityDate }))
+    setValidityDate: (validityDate: string | null) => set(() => ({ validityDate })),
+    setSource: (source: string) => set(() => ({ source })),
 }));
 
 // Create the context

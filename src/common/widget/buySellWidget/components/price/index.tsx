@@ -24,7 +24,6 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue }) => {
             <FieldInput
                 value={String(price)}
                 onChangeValue={value => {
-                    console.log("value", value)
                     setPrice(Number(value))
                 }}
                 placeholder="قیمت"
@@ -32,6 +31,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue }) => {
                 downTickValue={downTickValue}
                 variant="advanced"
                 type="amount"
+                selectIcon="lock"
             />
         </div>
     );

@@ -44,13 +44,12 @@ const FieldInput = ({
 
      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
           const rawValue = e.target.value;
-          if (type === 'amount') {
-               const numericValue = removeNonNumeric(rawValue);
-
-               onChange(numericValue);
-          } else {
-               setState(rawValue);
-          }
+          // if (type === 'amount') {
+          onChange(rawValue);
+          // }
+          //  else {
+          //      setState(rawValue);
+          // }
      };
 
      const onChange = (state: string) => {
@@ -73,10 +72,10 @@ const FieldInput = ({
 
      const valueHandle = () => {
           if (type === 'amount') {
-               if (Number(state) > 0) {
+               if (Number(removeNonNumeric(state)) > 0) {
                     return sepNumbers(state || '')
                }
-               return ''
+               return state
           }
           return state
      }
@@ -94,7 +93,7 @@ const FieldInput = ({
           >
                <div
                     className={clsx('flex items-center', {
-                         'w-7/12': variant === 'advanced',
+                         'w-9/12': variant === 'advanced',
                          'w-full': variant === 'simple',
                     })}
                >
@@ -107,15 +106,15 @@ const FieldInput = ({
                          {...props}
                     />
                     {state && (
-                         <div
+                         <button
                               onClick={() => setState('')}
                               className={clsx(
-                                   'w-2/12 text-input-default group-focus-within:text-input-active',
+                                   'w-2/12 text-input-default group-focus-within:text-input-active flex justify-center',
                                    variant === 'simple' && 'flex justify-end'
                               )}
                          >
                               <XCircleOutlineIcon />
-                         </div>
+                         </button>
                     )}
 
                     <div
@@ -142,13 +141,16 @@ const FieldInput = ({
                )}
 
                {variant === 'advanced' && (
-                    <div className="flex w-5/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
+                    <div className="flex w-3/12 ml-2 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
                          <div className="flex w-10/12 flex-col text-xs font-normal">
                               <div className="flex items-center justify-between">
-                                   <div className="cursor-pointer" onClick={() => setState(prev => String(Number(prev) + 1))}>
+                                   <button
+                                        className="cursor-pointer"
+                                        onClick={() => onChange(value + 1)}
+                                   >
                                         <ChevronUpIcon onClick={onClickUpTick} />
-                                   </div>
-                                   <button className="flex-1" onClick={() => setState(String(upTickValue))}>
+                                   </button>
+                                   <button className="flex-1" onClick={() => onChange(String(upTickValue))}>
                                         {sepNumbers(upTickValue)}
                                    </button>
                               </div>
@@ -159,13 +161,13 @@ const FieldInput = ({
                                    className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
                               />
                               <div className="flex items-center justify-between">
-                                   <div
+                                   <button
                                         className="cursor-pointer"
-                                        onClick={() => setState(prev => String(Math.max(0, Number(prev) - 1)))}
+                                        onClick={() => onChange(String(+value - 1))}
                                    >
                                         <ChevronDownIcon />
-                                   </div>
-                                   <button className="flex-1" onClick={() => setState(String(downTickValue))}>
+                                   </button>
+                                   <button className="flex-1" onClick={() => onChange(String(downTickValue))}>
                                         {sepNumbers(downTickValue)}
                                    </button>
                               </div>
