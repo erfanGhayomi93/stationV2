@@ -28,7 +28,6 @@ const Dropdown = forwardRef(({ items, onChange, defaultSelected }: TDropdownProp
      return (
           <div>
                <Popup
-                    defaultPopupWidth={200}
                     margin={{
                          y: 8,
                     }}
@@ -51,10 +50,10 @@ const Dropdown = forwardRef(({ items, onChange, defaultSelected }: TDropdownProp
                     {({ setOpen, open }) => (
                          <div
                               onClick={() => setOpen(!open)}
-                              style={{ width: '10rem', height: '2.5rem' }}
+                              style={{ height: '2.5rem' }}
                               className="flex items-center justify-between gap-2 rounded-lg border border-input-default bg-back-surface p-2 text-content-title"
                          >
-                              <div className="text-xs">{selectedItem?.label || t('todayOrders.tickPlaceholder')}</div>
+                              <div className="text-nowrap text-xs">{selectedItem?.label || t('todayOrders.tickPlaceholder')}</div>
                               <UpArrowIcon width="0.8rem" height="0.8rem" className="rotate-180" />
                          </div>
                     )}
