@@ -1,149 +1,165 @@
 // import i18next from 'i18next';
 // import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
 import { pushEngine } from '@LS/pushEngine';
+import ipcMain from 'common/classes/IpcMain';
 // import { queryClient } from '@config/reactQuery';
 // import ipcMain from 'common/classes/IpcMain';
 
-let timeOutRefetch: NodeJS.Timeout | undefined = undefined
+let timeOutRefetch: NodeJS.Timeout | undefined = undefined;
 
 type IRamandOMSInstanceType = {
-    subscribeCustomers: (userName: string, brokerCode: string) => void;
-    unSubscribeCustomers: () => void;
-    isSubscribed: () => boolean | undefined;
-    // currentSubscribed: () => string[] | undefined;
+     subscribeCustomers: (userName: string, brokerCode: string) => void;
+     unSubscribeCustomers: () => void;
+     isSubscribed: () => boolean | undefined;
+     // currentSubscribed: () => string[] | undefined;
 };
 
 const createRamandOMSGateway = () => {
+     const translateMessage = (value: string) => {
+          const message = value.split('^');
+          const msgObj: Record<number, string> = {};
 
-    const translateMessage = (value: string) => {
-        const message = value.split('^');
-        const msgObj: Record<number, string> = {};
+          try {
+               message.forEach(item => {
+                    if (item) {
+                         const [index, value] = item.split('=');
+                         msgObj[Number(index)] = value;
+                    }
+               });
+          } catch (e) {
+               //
+          }
 
-        try {
-            message.forEach((item) => {
-                if (item) {
-                    const [index, value] = item.split('=');
-                    msgObj[Number(index)] = value;
-                }
-            });
-        } catch (e) {
-            //
-        }
+          return msgObj;
+     };
 
-        return msgObj;
-    };
+     const handlePushNotification = (message: Record<number, string>) => {
+          const omsClientKey = message[12];
+          const omsOrderStatus = message[22] as TStatus;
+          const orderMessageType = message[200];
+          const errorMessageType = message[208];
 
+          console.log(
+               'omsClientKey',
+               omsClientKey,
+               'omsOrderStatus',
+               omsOrderStatus,
+               'orderMessageType',
+               orderMessageType,
+               'errorMessageType',
+               errorMessageType
+          );
 
-    const handlePushNotification = (message: Record<number, string>) => {
+          // const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
+          const detailsNotif = '';
 
+          if (
+               ['OnBoard', 'PartOfTheOrderDone', 'OrderDone', 'OnBoardModify', 'InOMSQueue', 'Canceled'].includes(omsOrderStatus)
+          ) {
+               // onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
+          } else if (['Error'].includes(omsOrderStatus)) {
+               // const errorTitle = !!errorMessageType ? errorMessageType + detailsNotif : `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}`
+               // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: errorTitle })
+          } else if (['Expired', 'DeleteByEngine'].includes(omsOrderStatus)) {
+               // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
+          }
 
-        const omsClientKey = message[12];
-        const omsOrderStatus = message[22] as TStatus;
-        const orderMessageType = message[200]
-        const errorMessageType = message[208]
+          //         if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
+          //             delete pushNotification[omsClientKey]
+          //
+          //             setLocalStorage(pushNotification)
+          //         }
+     };
 
-        console.log('omsClientKey', omsClientKey, 'omsOrderStatus', omsOrderStatus, 'orderMessageType', orderMessageType, 'errorMessageType', errorMessageType)
+     const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
+          //
 
-        // const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
-        const detailsNotif = ""
+          timeOutRefetch = setTimeout(() => {
+               if (
+                    [
+                         'DeleteByEngine',
+                         'OnBoard',
+                         'Canceled',
+                         'OnBoardModify',
+                         'PartOfTheOrderDone',
+                         'OrderDone',
+                         'Expired',
+                         'Error',
+                         'Modified',
+                    ].includes(omsOrderStatus)
+               ) {
+                    // queryClient.invalidateQueries(['orderList', 'All'])
+                    // queryClient.invalidateQueries(['orderList', 'OnBoard'])
+                    // queryClient.invalidateQueries(['GetOpenPositions'])
+                    // ipcMain.send('update_customer');
+                    // ipcMain.send('refetch_onBoard_order');
+                    clearTimeout(timeOutRefetch);
+               }
+          }, 1000);
+     };
 
-        if (["OnBoard", "PartOfTheOrderDone", "OrderDone", "OnBoardModify", "InOMSQueue", "Canceled"].includes(omsOrderStatus)) {
-            // onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
+     const handleOMSMessage = (message: Record<number, string>) => {
+          const timeOut = setTimeout(() => {
+               ipcMain.send('onOMSMessageReceived', message);
 
-        } else if (["Error"].includes(omsOrderStatus)) {
-            // const errorTitle = !!errorMessageType ? errorMessageType + detailsNotif : `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}`
-            // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: errorTitle })
+               handlePushNotification(message);
 
-        } else if (["Expired", "DeleteByEngine",].includes(omsOrderStatus)) {
-            // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
-        }
+               clearTimeout(timeOutRefetch);
+               const omsOrderStatus = message[22] as TStatus;
+               refetchApiAccordingLs(omsOrderStatus);
 
-        //         if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
-        //             delete pushNotification[omsClientKey]
-        // 
-        //             setLocalStorage(pushNotification)
-        //         }
+               clearTimeout(timeOut);
+          }, 500);
+     };
 
-    }
+     const handleAdminMessage = (message: Record<number, string>) => {
+          // ipcMain.send('onAdminMessageReceived', message);
+     };
 
-    const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
-        //
+     const handleSystemMessage = (message: Record<number, string>) => {
+          // ipcMain.send('onSystemMessageReceived', message);
+     };
 
-        timeOutRefetch = setTimeout(() => {
-            if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error' , 'Modified'].includes(omsOrderStatus)) {
-                // queryClient.invalidateQueries(['orderList', 'All'])
-                // queryClient.invalidateQueries(['orderList', 'OnBoard'])
-                // queryClient.invalidateQueries(['GetOpenPositions'])
-                // ipcMain.send('update_customer');
-                // ipcMain.send('refetch_onBoard_order');
-                clearTimeout(timeOutRefetch)
-            }
-        }, 1000);
-    }
+     const isSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
 
-    const handleOMSMessage = (message: Record<number, string>) => {
-        const timeOut = setTimeout(() => {
-            // ipcMain.send('onOMSMessageReceived', message);
+     // const currentSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.getItems();
 
-            handlePushNotification(message)
+     const subscribeCustomers = (userName: string, brokerCode: string) => {
+          const userNameWithoutNoisy = userName.replace(/[|&;$%@"<>()+,._!#^*?']/g, '');
 
-            clearTimeout(timeOutRefetch)
-            const omsOrderStatus = message[22] as TStatus;
-            refetchApiAccordingLs(omsOrderStatus)
+          const userNameBroker = String(brokerCode + '_' + userNameWithoutNoisy);
 
-            clearTimeout(timeOut)
-        }, 500);
-    };
+          const items = [`${brokerCode || '189'}_All`, userNameBroker];
 
-    const handleAdminMessage = (message: Record<number, string>) => {
-        // ipcMain.send('onAdminMessageReceived', message);
-    };
+          console.log('items', items);
 
-    const handleSystemMessage = (message: Record<number, string>) => {
-        // ipcMain.send('onSystemMessageReceived', message);
-    };
+          if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
-    const isSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.isSubscribed();
+          pushEngine.subscribe({
+               id: 'supervisorMessage',
+               mode: 'RAW',
+               isSnapShot: 'no',
+               adapterName: 'RamandOMSGateway',
+               items: items,
+               fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
+               onFieldsUpdate: ({ changedFields }) => {
+                    //
+                    if (changedFields['OMSMessage']) handleOMSMessage(translateMessage(changedFields['OMSMessage']));
+                    else if (changedFields['AdminMessage']) handleAdminMessage(translateMessage(changedFields['AdminMessage']));
+                    else if (changedFields['SystemMessage'])
+                         handleSystemMessage(translateMessage(changedFields['SystemMessage']));
+               },
+          });
+     };
 
-    // const currentSubscribed = () => pushEngine.getSubscribeById('supervisorMessage')?.getItems();
+     const unSubscribeCustomers = () => pushEngine.unSubscribe('supervisorMessage');
 
-    const subscribeCustomers = (userName: string, brokerCode: string) => {
-
-        const userNameWithoutNoisy = userName.replace(/[|&;$%@"<>()+,._!#^*?']/g, "");
-
-        const userNameBroker = String(brokerCode + '_' + userNameWithoutNoisy);
-
-        const items = [`${brokerCode || '189'}_All`, userNameBroker];
-
-        console.log('items', items);
-
-        if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
-
-        pushEngine.subscribe({
-            id: 'supervisorMessage',
-            mode: 'RAW',
-            isSnapShot: 'no',
-            adapterName: 'RamandOMSGateway',
-            items: items,
-            fields: ['OMSMessage', 'AdminMessage', 'SystemMessage'],
-            onFieldsUpdate: ({ changedFields }) => {
-                //
-                if (changedFields['OMSMessage']) handleOMSMessage(translateMessage(changedFields['OMSMessage']));
-                else if (changedFields['AdminMessage']) handleAdminMessage(translateMessage(changedFields['AdminMessage']));
-                else if (changedFields['SystemMessage']) handleSystemMessage(translateMessage(changedFields['SystemMessage']));
-            },
-        });
-    };
-
-
-    const unSubscribeCustomers = () => pushEngine.unSubscribe('supervisorMessage');
-
-    return {
-        subscribeCustomers,
-        unSubscribeCustomers,
-        isSubscribed,
-        // currentSubscribed,
-    };
+     return {
+          subscribeCustomers,
+          unSubscribeCustomers,
+          isSubscribed,
+          // currentSubscribed,
+     };
 };
 
 const ramandOMSInstance: IRamandOMSInstanceType = createRamandOMSGateway();

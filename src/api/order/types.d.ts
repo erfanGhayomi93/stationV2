@@ -50,6 +50,7 @@ interface ISingleDeleteOrderResult {
 }
 
 interface IOpenOrder {
+     clientKey: string;
      orderId: number;
      userName: null | string;
      customerISIN: string;
