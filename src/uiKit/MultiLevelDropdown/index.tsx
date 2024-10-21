@@ -39,7 +39,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { data: dataUser } = useQueryGeneralUser()
 
-     const { traderTitle, credit } = dataUser || {};
+     const { traderTitle, credit, traderISIN } = dataUser || {};
 
 
 
@@ -114,7 +114,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                     >
                          <button className="flex w-full items-center justify-between border-b border-line-div-2 p-4 text-sm">
                               <span className="text-content-title">{traderTitle}</span>
-                              <span className="text-content-paragraph">س خ ی 25814</span>
+                              <span className="text-content-paragraph">{traderISIN}</span>
                          </button>
 
                          <ul className="border-b border-line-div-2 px-4 py-1 text-sm">
