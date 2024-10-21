@@ -1,13 +1,30 @@
-import CheckboxButton from '@uiKit/CheckboxButton';
 // import FieldInput from '@uiKit/Inputs/FieldInput';
 import MultiSelectInput from '@uiKit/Inputs/MultiSelectInput';
 import SearchInput from '@uiKit/Inputs/SearchInput';
+import SelectInput from '@uiKit/Inputs/SelectInput';
 // import SelectInput from '@uiKit/Inputs/SelectInput';
-import RadioButton from '@uiKit/RadioButton';
 import { useState } from 'react';
 
 const Test = () => {
      const [select, setSelect] = useState(false);
+
+     const fruits = ['Banana', 'Orange', 'Apple', 'Mango'];
+
+     // At position 2, add "Lemon" and "Kiwi":
+     console.log(fruits.slice(0, 1), 'spliceData');
+
+     const [values, setValues] = useState([
+          { id: '1', label: 'مشتری' },
+          { id: '2', label: 'خاواده' },
+          { id: '3', label: 'همسایه' },
+          { id: '4', label: 'بیرون' },
+          { id: '5', label: 'درون' },
+          { id: '6', label: 'مریخ' },
+          { id: '7', label: 'مشرف' },
+          { id: '8', label: 'هدفمند' },
+          { id: '8', label: 'هدفمند' },
+          { id: '8', label: 'هدفمند' },
+     ]);
      return (
           <div className="flex h-screen flex-wrap items-center justify-center gap-8">
                {/* <FieldInput
@@ -23,20 +40,61 @@ const Test = () => {
                     type="text"
 
                /> */}
-               <SearchInput
-                    values={[
-                         { id: '3', label: 'مشتری' },
-                         { id: '3', label: 'خانواده' },
+
+               <SelectInput
+                    items={[
+                         {
+                              id: 'day',
+                              label: 'روز',
+                         },
+                         {
+                              id: 'week',
+                              label: 'هفته',
+                         },
+                         {
+                              id: 'month',
+                              label: 'ماه',
+                         },
+                         {
+                              id: 'year',
+                              label: 'سال',
+                         },
                     ]}
-                    onChangeValue={value => {
-                         console.log('hi');
+                    value={{
+                         id: 'day',
+                         label: 'روز',
                     }}
+                    onChange={value => console.log('')}
+                    placeholder="df"
                />
 
-               {/* <SelectInput
-                    onChange={() => null}
-                    value={""}
-                    items={[
+               <div style={{ width: 300 }}>
+                    <MultiSelectInput
+                         items={[
+                              {
+                                   id: 'day',
+                                   label: 'روز',
+                              },
+                              {
+                                   id: 'week',
+                                   label: 'هفته',
+                              },
+                              {
+                                   id: 'month',
+                                   label: 'ماه',
+                              },
+                              {
+                                   id: 'year',
+                                   label: 'سال',
+                              },
+                         ]}
+                         placeholder="اعتبار"
+                    />
+               </div>
+
+               <SearchInput
+                    placeholder="جستجو"
+                    values={[
                          {
                               id: 'day',
                               label: 'روز',
@@ -54,33 +112,7 @@ const Test = () => {
                               label: 'سال',
                          },
                     ]}
-                    placeholder="اعتبار"
-               /> */}
-
-               <CheckboxButton checked={select} label="dfd" onChange={() => setSelect(prev => !prev)} />
-
-               <RadioButton checked={select} label="dfd" onChange={() => setSelect(prev => !prev)} />
-
-               <MultiSelectInput
-                    items={[
-                         {
-                              id: 'day',
-                              label: 'روز',
-                         },
-                         {
-                              id: 'week',
-                              label: 'هفته',
-                         },
-                         {
-                              id: 'month',
-                              label: 'ماه',
-                         },
-                         {
-                              id: 'year',
-                              label: 'سال',
-                         },
-                    ]}
-                    placeholder="اعتبار"
+                    onChangeValue={value => null}
                />
           </div>
      );
