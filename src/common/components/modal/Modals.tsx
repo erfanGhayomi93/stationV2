@@ -6,9 +6,6 @@ import CustomersSearchModal from './CustomersSearch';
 const Modals = () => {
      const { editOrdersGroupModalSheet, customersSearchModalSheet } = useModalStore();
 
-     console.log(editOrdersGroupModalSheet, 'editOrdersGroupModalSheet');
-
-
 
      if (isObjectNotNull(editOrdersGroupModalSheet)) return <EditOrdersGroupModal />
 

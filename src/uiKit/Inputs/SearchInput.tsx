@@ -1,4 +1,5 @@
 import { SearchInputIcon, XCircleOutlineIcon, XOutlineICon } from '@assets/icons';
+import { useCustomerStore } from '@store/customer';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
@@ -12,14 +13,17 @@ interface TSearchInputProps
      values: TItem[];
      onChangeValue: (items: TItem[], value: string) => void;
      placeholder?: string;
+     handleOpenModal?: () => void
 }
 
-const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSearchInputProps) => {
+const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, ...props }: TSearchInputProps) => {
      const [items, setItems] = useState<TItem[]>(values);
 
      const [inputValue, setInputValue] = useState('');
 
      const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
+
+     const { selectedCustomers, removeSelectedCustomers } = useCustomerStore()
 
      const searchInputRef = useRef<HTMLDivElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
@@ -33,6 +37,8 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
      useEffect(() => {
           if (chipsetsRef.current && searchInputRef.current) {
                const ulWidth = searchInputRef.current.offsetWidth - 110;
+
+               console.log("ulWidth", ulWidth)
 
                let totalChipsetsWidth = 0;
                let visibleCount = 0;
@@ -51,7 +57,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
 
                setVisibleChipsetsCount(visibleCount);
           }
-     }, [searchInputRef, chipsetsRef]);
+     }, [searchInputRef, chipsetsRef, selectedCustomers]);
 
      useEffect(() => {
           setItems(values);
@@ -61,6 +67,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
           <div
                onClick={() => {
                     inputRef.current?.focus();
+                    handleOpenModal?.()
                }}
                ref={searchInputRef}
                className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
@@ -79,11 +86,12 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', ...props }: TSea
                                    <button
                                         onClick={e => {
                                              e.stopPropagation();
-                                             console.log('hi');
-                                             const findIndex = items.findIndex(item => item.id === value.id);
-                                             const newValues = [...items];
-                                             newValues.splice(findIndex, 1);
-                                             setItems(newValues);
+                                             removeSelectedCustomers(value.id)
+                                             // console.log('hi');
+                                             // const findIndex = items.findIndex(item => item.id === value.id);
+                                             // const newValues = [...items];
+                                             // newValues.splice(findIndex, 1);
+                                             // setItems(newValues);
                                         }}
                                         className="text-icon-disable"
                                    >
