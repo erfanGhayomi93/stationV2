@@ -8,7 +8,7 @@ import InformationTrade from './informationTrade';
 import Price from './price';
 import Quantity from './quantity';
 
-interface IBodyBuySellProps {}
+interface IBodyBuySellProps { }
 
 const BodyBuySell: FC<IBodyBuySellProps> = () => {
      const { selectedSymbol } = useSymbolStore();
@@ -18,10 +18,17 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
      });
 
      return (
-          <div className="flex w-full flex-col gap-y-4 pt-3">
+          <div className="flex w-full flex-col gap-y-4 pt-3 outline-none">
                <CustomersSearch />
-               <Price upTickValue={data?.highThreshold} downTickValue={data?.lowThreshold} />
-               <Quantity minTradeQuantity={data?.minTradeQuantity} maxTradeQuantity={data?.maxTradeQuantity} />
+               <Price
+                    upTickValue={data?.highThreshold}
+                    downTickValue={data?.lowThreshold}
+               />
+               <Quantity
+                    minTradeQuantity={data?.minTradeQuantity}
+                    maxTradeQuantity={data?.maxTradeQuantity}
+                    marketUnit={data?.marketUnit}
+               />
                <Credit />
                <InformationTrade />
                <ActionsOrder />

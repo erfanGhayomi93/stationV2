@@ -1,7 +1,7 @@
 
 
 import FieldInput from "@uiKit/Inputs/FieldInput";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useBuySellContext } from "../../context/buySellContext";
 
 
@@ -14,23 +14,19 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue }) => {
 
     const { price, setPrice } = useBuySellContext()
 
-    useEffect(() => {
-        console.log('price', price)
-    }, [price])
-
 
     return (
         <div className="flex-1">
             <FieldInput
-                value={String(price)}
+                value={price}
                 onChangeValue={value => {
-                    setPrice(Number(value))
+                    setPrice(+value)
                 }}
                 placeholder="قیمت"
                 upTickValue={upTickValue}
                 downTickValue={downTickValue}
                 variant="advanced"
-                type="amount"
+                type="number"
                 selectIcon="lock"
             />
         </div>
