@@ -90,97 +90,95 @@ const FieldInput = ({
      }, []);
 
      return (
-          <AnimatePresence initial={{ animation: 'fadeInUp' }} exit={{ animation: 'fadeOutUp' }} >
-               <div className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active">
+          <div className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active">
+               <div
+                    className={clsx('flex items-center', {
+                         'w-9/12': variant === 'advanced',
+                         'w-full': variant === 'simple',
+                    })}
+               >
+                    <input
+                         ref={inputRef}
+                         value={inputValue}
+                         onChange={handleChange}
+                         dir="ltr"
+                         className="h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder focus:outline-non"
+                         {...props}
+                    />
+
+                    {
+                         variant !== 'advanced' && (
+                              <button
+                                   onClick={() => setInputValue('')}
+                                   className={clsx('flex justify-center text-input-default group-focus-within:text-input-active transition-opacity', {
+                                        "opacity-0": !inputValue
+                                   })}
+                              >
+                                   <XCircleOutlineIcon />
+                              </button>
+                         )
+                    }
+
+
                     <div
-                         className={clsx('flex items-center', {
-                              'w-9/12': variant === 'advanced',
-                              'w-full': variant === 'simple',
-                         })}
+                         className={clsx(
+                              'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active focus:outline-non',
+                              {
+                                   'absolute -top-3 right-2 bg-back-surface px-1': inputValue,
+                                   'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !inputValue,
+                              }
+                         )}
                     >
-                         <input
-                              ref={inputRef}
-                              value={inputValue}
-                              onChange={handleChange}
-                              dir="ltr"
-                              className="h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder focus:outline-non"
-                              {...props}
-                         />
+                         <span className="">{placeholder}</span>
+                    </div>
+               </div>
 
-                         {
-                              variant !== 'advanced' && (
-                                   <button
-                                        onClick={() => setInputValue('')}
-                                        className={clsx('flex justify-center text-input-default group-focus-within:text-input-active transition-opacity', {
-                                             "opacity-0": !inputValue
-                                        })}
-                                   >
-                                        <XCircleOutlineIcon />
+               {variant === 'advanced' && (
+                    <div
+                         style={{
+                              minWidth: '1px',
+                              minHeight: '16px',
+                         }}
+                         className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
+                    />
+               )}
+
+               {variant === 'advanced' && (
+                    <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
+                         <div className="flex w-10/12 flex-col text-xs font-normal">
+                              <div className="flex items-center justify-between">
+                                   <button className="cursor-pointer" onClick={() => onChange(String(Number(value) + 1))}>
+                                        <ChevronUpIcon onClick={onClickUpTick} />
                                    </button>
-                              )
-                         }
-
-
-                         <div
-                              className={clsx(
-                                   'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active focus:outline-non',
-                                   {
-                                        'absolute -top-3 right-2 bg-back-surface px-1': inputValue,
-                                        'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !inputValue,
-                                   }
+                                   <button className="flex-1" onClick={() => onChange(String(upTickValue))}>
+                                        {sepNumbers(upTickValue)}
+                                   </button>
+                              </div>
+                              <div
+                                   style={{
+                                        minHeight: '1px',
+                                   }}
+                                   className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
+                              />
+                              <div className="flex items-center justify-between">
+                                   <button className="cursor-pointer" onClick={() => onChange(String(Number(value) - 1))}>
+                                        <ChevronDownIcon />
+                                   </button>
+                                   <button className="flex-1" onClick={() => onChange(String(downTickValue))}>
+                                        {sepNumbers(downTickValue)}
+                                   </button>
+                              </div>
+                         </div>
+                         <div className="w-2/12">
+                              {selectIcon === 'lock' ? (
+                                   <LockIcon onClick={onClickIcon} />
+                              ) : (
+                                   <CalculatorIcon onClick={onClickIcon} />
                               )}
-                         >
-                              <span className="">{placeholder}</span>
                          </div>
                     </div>
-
-                    {variant === 'advanced' && (
-                         <div
-                              style={{
-                                   minWidth: '1px',
-                                   minHeight: '16px',
-                              }}
-                              className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
-                         />
-                    )}
-
-                    {variant === 'advanced' && (
-                         <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
-                              <div className="flex w-10/12 flex-col text-xs font-normal">
-                                   <div className="flex items-center justify-between">
-                                        <button className="cursor-pointer" onClick={() => onChange(String(Number(value) + 1))}>
-                                             <ChevronUpIcon onClick={onClickUpTick} />
-                                        </button>
-                                        <button className="flex-1" onClick={() => onChange(String(upTickValue))}>
-                                             {sepNumbers(upTickValue)}
-                                        </button>
-                                   </div>
-                                   <div
-                                        style={{
-                                             minHeight: '1px',
-                                        }}
-                                        className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
-                                   />
-                                   <div className="flex items-center justify-between">
-                                        <button className="cursor-pointer" onClick={() => onChange(String(Number(value) - 1))}>
-                                             <ChevronDownIcon />
-                                        </button>
-                                        <button className="flex-1" onClick={() => onChange(String(downTickValue))}>
-                                             {sepNumbers(downTickValue)}
-                                        </button>
-                                   </div>
-                              </div>
-                              <div className="w-2/12">
-                                   {selectIcon === 'lock' ? (
-                                        <LockIcon onClick={onClickIcon} />
-                                   ) : (
-                                        <CalculatorIcon onClick={onClickIcon} />
-                                   )}
-                              </div>
-                         </div>
-                    )}
-               </div>
-          </AnimatePresence>
+               )}
+          </div>
      );
 };
 
