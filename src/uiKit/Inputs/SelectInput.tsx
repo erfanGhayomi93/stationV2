@@ -4,12 +4,14 @@ import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useState } from 'react';
 
+type TItem = { id: string; label: string };
+
 interface TSelectInputProps
      extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
-     onChange: (item: string) => void;
-     items?: { id: string; label: string }[];
-     value: { id: string; label: string };
+     onChange: (item: TItem) => void;
+     items?: TItem[];
+     value: TItem;
 }
 
 const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
@@ -33,7 +35,7 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                                         label={item.label}
                                         onChange={() => {
                                              setState(item);
-                                             onChange(item.id);
+                                             onChange(item);
                                              setOpen(false);
                                         }}
                                    />

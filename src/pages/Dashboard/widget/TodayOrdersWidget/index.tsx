@@ -20,7 +20,7 @@ interface ITodayOrdersWidgetProps {
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
 
-     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
      const queryClient = useQueryClient();
 
@@ -51,6 +51,40 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      };
 
      //  const ordersGroupDeleteResult = useGroupDeleteOrders({ ordersId });
+
+     onOMSMessageHandlerRef.current = useMemo(
+          () => (message: Record<number, string>) => {
+               const omsClientKey = message[12];
+               const omsOrderStatus = message[22] as TStatus;
+
+               queryClient.setQueryData(['openOrders', 'OnBoard'], (oldData: IOpenOrder[] | undefined) => {
+                    console.log(oldData, 'oldData');
+                    if (oldData) {
+                         const orders = JSON.parse(JSON.stringify(oldData)) as IOpenOrder[];
+                         const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
+
+                         console.log(updatedOrder, 'updatein order');
+                         const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
+                         if (index >= 0) {
+                              orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOpenOrder;
+                         }
+
+                         return [...orders];
+                    }
+               });
+
+               // if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error'].includes(omsOrderStatus)) {
+               //     clearTimeout(timeOut);
+               //     refetchOnboard();
+               // }
+               //  else if (omsOrderStatus === 'Error') {
+               //     clearTimeout(timeOut);
+               //     refetchOnboard();
+               //     queryClient.invalidateQueries(['orderList', 'Error']);
+               // }
+          },
+          []
+     );
 
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [
@@ -131,22 +165,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           'OnCanceling',
      ];
 
-     onOMSMessageHandlerRef.current = useMemo(
-          () => (message) => {
-               console.log("message in today order", message)
-               const omsClientKey = message[12];
-               const omsOrderStatus = message[22] as TStatus;
-          }, []
-     )
-
      useEffect(() => {
-          ipcMain.handle("onOMSMessageReceived", onOMSMessageHandlerRef.current)
-
-          return () => {
-               ipcMain.removeAllHandlers('onOMSMessageReceived')
-          }
-     }, [])
-
+          ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+     }, []);
 
      return (
           <div className="flex h-full flex-1 flex-col gap-4">

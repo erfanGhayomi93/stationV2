@@ -11,19 +11,16 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useModalStore } from 'store/modal';
 import Modal from '..';
 
-type TTickItems = 'constant' | 'increase' | 'decrease';
+type TTickItems = {
+     id: 'constant' | 'increase' | 'decrease';
+     label: string;
+};
 
 type TInputs = {
      volume: string;
-     tickVolume: {
-          id: TTickItems;
-          label: string;
-     };
+     tickVolume: TTickItems;
      price: string;
-     tickPrice: {
-          id: TTickItems;
-          label: string;
-     };
+     tickPrice: TTickItems;
 };
 
 const EditOrdersGroupModal = () => {
@@ -31,9 +28,7 @@ const EditOrdersGroupModal = () => {
 
      const gridRef = useRef<AgGridReact<IOpenOrder>>(null);
 
-     console.log(gridRef, 'gridRef');
-
-     const dropdownRef = useRef<HTMLUListElement | null>(null);
+     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
      const { editOrdersGroupModalSheet, setEditOrdersGroupModalSheet } = useModalStore();
 
@@ -91,12 +86,7 @@ const EditOrdersGroupModal = () => {
           []
      );
 
-     const TICK_ITEMS = useMemo<
-          {
-               id: TTickItems;
-               label: string;
-          }[]
-     >(() => {
+     const TICK_ITEMS = useMemo<TTickItems[]>(() => {
           return [
                {
                     id: 'constant',
@@ -119,15 +109,26 @@ const EditOrdersGroupModal = () => {
      }, [editOrdersGroupModalSheet]);
 
      const onChangeVolume = (value: string) => {
+          console.log(value, 'value');
+          setFieldValue('volume', value);
+
           const rowData = gridRef.current?.api.getRenderedNodes();
 
-          rowData?.forEach(rowNode => rowNode.setDataValue('remainingQuantity', value.replace(/,/g, '')));
+          if (inputs.tickVolume.id === 'constant') {
+               rowData?.forEach(rowNode => {
+                    rowNode.setDataValue('remainingQuantity', value.replace(/,/g, ''));
+               });
+          }
      };
 
      const onChangePrice = (value: string) => {
+          setFieldValue('price', value);
+
           const rowData = gridRef.current?.api.getRenderedNodes();
 
-          rowData?.forEach(rowNode => rowNode.setDataValue('price', value.replace(/,/g, '')));
+          if (inputs.tickPrice.id === 'constant') {
+               rowData?.forEach(rowNode => rowNode.setDataValue('price', value.replace(/,/g, '')));
+          }
      };
 
      return (
@@ -154,13 +155,22 @@ const EditOrdersGroupModal = () => {
                }
                onCloseModal={onCloseModal}
                dependencies={[dropdownRef]}
+               size="md"
           >
-               <div className="flex h-full flex-col gap-10">
+               <div ref={dropdownRef} className="flex h-full flex-col gap-10">
                     <div className="flex items-center justify-between gap-8">
                          <div className="flex items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
                                    <span>{t('todayOrders.volume')}:</span>
-                                   <SelectInput value="" placeholder="" items={TICK_ITEMS} onChange={() => null} />
+                                   <SelectInput
+                                        value={{
+                                             id: 'constant',
+                                             label: t('todayOrders.constant'),
+                                        }}
+                                        placeholder=""
+                                        items={TICK_ITEMS}
+                                        onChange={value => setFieldValue('tickVolume', value as TTickItems)}
+                                   />
                               </div>
 
                               <div className="basis-5/12">
@@ -170,7 +180,15 @@ const EditOrdersGroupModal = () => {
                          <div className="flex items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
                                    <span>{t('todayOrders.price')}:</span>
-                                   <SelectInput value="" placeholder="" items={TICK_ITEMS} onChange={() => null} />
+                                   <SelectInput
+                                        value={{
+                                             id: 'constant',
+                                             label: t('todayOrders.constant'),
+                                        }}
+                                        placeholder=""
+                                        items={TICK_ITEMS}
+                                        onChange={value => setFieldValue('tickPrice', value as TTickItems)}
+                                   />
                               </div>
 
                               <div className="basis-5/12">
