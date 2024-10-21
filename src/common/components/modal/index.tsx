@@ -1,29 +1,28 @@
 import { XCircleOutlineIcon } from '@assets/icons';
-import useClickOutside from '@hooks/useClickOutside';
+import clsx from 'clsx';
 import { MutableRefObject, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import styles from './Modal.module.scss';
 
 interface IModalProps {
      title: string | JSX.Element;
      onCloseModal: () => void;
      children: JSX.Element;
-     dependencies?: MutableRefObject<HTMLUListElement | null>[];
+     dependencies?: MutableRefObject<HTMLDivElement | null>[];
+     size?: 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+     classes?: Partial<Record<'root' | 'modal' | 'header' | 'x' | 'label', ClassesValue>>;
 }
 
-const Modal = ({ children, onCloseModal, title, dependencies }: IModalProps) => {
+const Modal = ({ children, onCloseModal, title, classes, size }: IModalProps) => {
      const modalRef = useRef<HTMLDivElement | null>(null);
 
-     useClickOutside<HTMLUListElement | HTMLDivElement>([modalRef, ...(dependencies ?? [])], () => {
-          onCloseModal();
-     });
+     //  useClickOutside<HTMLUListElement | HTMLDivElement>([modalRef, ...(dependencies ?? [])], () => {
+     //       onCloseModal();
+     //  });
 
      return createPortal(
-          <div style={{ zIndex: 99, backgroundColor: 'rgba(0,0,0,0.5)' }} className="fixed left-0 top-0 min-h-screen w-full">
-               <div
-                    ref={modalRef}
-                    style={{ maxWidth: '52.2rem' }}
-                    className="rtl fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 rounded-LG bg-back-surface p-8"
-               >
+          <div className={clsx(styles.root, classes?.root)}>
+               <div ref={modalRef} className={clsx(styles.modal, classes?.modal, size && styles[size])}>
                     <div className="flex flex-col gap-10">
                          <div className="flex items-center justify-between">
                               <div className="font-bold text-content-paragraph">{title}</div>

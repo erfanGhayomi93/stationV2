@@ -1,0 +1,43 @@
+.root {
+     background-color: rgba(0, 0, 0, 0.4);
+     position: fixed;
+     left: 0;
+     top: 0;
+     min-height: 100vh;
+     width: 100%;
+     z-index: 99;
+}
+
+// "rtl fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 rounded-LG bg-back-surface p-8"
+
+.modal {
+     direction: rtl;
+     position: fixed;
+     left: 50%;
+     top: 50%;
+     width: 100%;
+     transform: translate(-50%, -50%);
+     border-radius: 8px;
+     background-color: theme('colors.back-surface');
+     padding: 32px;
+
+     &.lg {
+          width: 114rem;
+     }
+
+     &.md {
+          width: 80rem;
+     }
+
+     &.sm {
+          width: 50rem;
+     }
+
+     &.xs {
+          width: 40rem;
+     }
+
+     &.xxs {
+          width: 30rem;
+     }
+}

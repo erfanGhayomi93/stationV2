@@ -30,7 +30,7 @@ const SliderbarDetailsWidget = () => {
      }));
 
      return (
-          <div className="flex flex-col gap-x-1 p-2 w-full">
+          <div className="flex w-full flex-col gap-x-1 p-2">
                <div className="">
                     <SymbolPriceSlider
                          yesterdayClosingPrice={data?.yesterdayClosingPrice ?? 0}

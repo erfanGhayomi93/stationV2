@@ -73,39 +73,39 @@ const createRamandOMSGateway = () => {
                });
           }
 
-//           if (['OrderDone', 'OnBoardModify', 'Canceled', 'Error', 'Expired', 'DeleteByEngine'].includes(omsOrderStatus)) {
-//                delete pushNotification[omsClientKey];
-// 
-//                setLocalStorage(pushNotification);
-//           }
+          //           if (['OrderDone', 'OnBoardModify', 'Canceled', 'Error', 'Expired', 'DeleteByEngine'].includes(omsOrderStatus)) {
+          //                delete pushNotification[omsClientKey];
+          //
+          //                setLocalStorage(pushNotification);
+          //           }
      };
 
-//      const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
-//           //
-// 
-//           timeOutRefetch = setTimeout(() => {
-//                if (
-//                     [
-//                          'DeleteByEngine',
-//                          'OnBoard',
-//                          'Canceled',
-//                          'OnBoardModify',
-//                          'PartOfTheOrderDone',
-//                          'OrderDone',
-//                          'Expired',
-//                          'Error',
-//                          'Modified',
-//                     ].includes(omsOrderStatus)
-//                ) {
-//                     // queryClient.invalidateQueries(['orderList', 'All'])
-//                     // queryClient.invalidateQueries(['orderList', 'OnBoard'])
-//                     // queryClient.invalidateQueries(['GetOpenPositions'])
-//                     // ipcMain.send('update_customer');
-//                     // ipcMain.send('refetch_onBoard_order');
-//                     clearTimeout(timeOutRefetch);
-//                }
-//           }, 1000);
-//      };
+     //      const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
+     //           //
+     //
+     //           timeOutRefetch = setTimeout(() => {
+     //                if (
+     //                     [
+     //                          'DeleteByEngine',
+     //                          'OnBoard',
+     //                          'Canceled',
+     //                          'OnBoardModify',
+     //                          'PartOfTheOrderDone',
+     //                          'OrderDone',
+     //                          'Expired',
+     //                          'Error',
+     //                          'Modified',
+     //                     ].includes(omsOrderStatus)
+     //                ) {
+     //                     // queryClient.invalidateQueries(['orderList', 'All'])
+     //                     // queryClient.invalidateQueries(['orderList', 'OnBoard'])
+     //                     // queryClient.invalidateQueries(['GetOpenPositions'])
+     //                     // ipcMain.send('update_customer');
+     //                     // ipcMain.send('refetch_onBoard_order');
+     //                     clearTimeout(timeOutRefetch);
+     //                }
+     //           }, 1000);
+     //      };
 
      const handleOMSMessage = (message: Record<number, string>) => {
           const timeOut = setTimeout(() => {
@@ -114,9 +114,9 @@ const createRamandOMSGateway = () => {
 
                handlePushNotification(message);
 
-            //    clearTimeout(timeOutRefetch);
-            //    const omsOrderStatus = message[22] as TStatus;
-            //    refetchApiAccordingLs(omsOrderStatus);
+               //    clearTimeout(timeOutRefetch);
+               //    const omsOrderStatus = message[22] as TStatus;
+               //    refetchApiAccordingLs(omsOrderStatus);
 
                clearTimeout(timeOut);
           }, 500);
