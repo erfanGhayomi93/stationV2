@@ -1,11 +1,12 @@
-// import i18next from 'i18next';
+import i18next from 'i18next';
 // import { onErrorNotif, onSuccessNotif } from 'src/handlers/notification';
+import { onErrorNotif, onSuccessNotif } from '@config/toastify';
 import { pushEngine } from '@LS/pushEngine';
 import ipcMain from 'common/classes/IpcMain';
 // import { queryClient } from '@config/reactQuery';
 // import ipcMain from 'common/classes/IpcMain';
 
-let timeOutRefetch: NodeJS.Timeout | undefined = undefined;
+// let timeOutRefetch: NodeJS.Timeout | undefined = undefined;
 
 type IRamandOMSInstanceType = {
      subscribeCustomers: (userName: string, brokerCode: string) => void;
@@ -50,63 +51,72 @@ const createRamandOMSGateway = () => {
                errorMessageType
           );
 
-          // const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
+          //   const detailsNotif = (!!pushNotification[omsClientKey] && !!pushNotification[omsClientKey].symbolTitle) ? `(${pushNotification[omsClientKey].customerTitle} - ${pushNotification[omsClientKey].symbolTitle})` : ""
           const detailsNotif = '';
 
           if (
                ['OnBoard', 'PartOfTheOrderDone', 'OrderDone', 'OnBoardModify', 'InOMSQueue', 'Canceled'].includes(omsOrderStatus)
           ) {
-               // onSuccessNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
+               onSuccessNotif({
+                    toastId: omsClientKey + omsOrderStatus,
+                    title: `${i18next.t(`orderStatus.${omsOrderStatus as TStatus}`)}${detailsNotif}`,
+               });
           } else if (['Error'].includes(omsOrderStatus)) {
-               // const errorTitle = !!errorMessageType ? errorMessageType + detailsNotif : `${i18next.t('order_errors.' + (orderMessageType))}${detailsNotif}`
-               // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: errorTitle })
+               const errorTitle = errorMessageType
+                    ? errorMessageType + detailsNotif
+                    : `${i18next.t(`order_errors.${orderMessageType as errorStatus}`)}${detailsNotif}`;
+               onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: errorTitle });
           } else if (['Expired', 'DeleteByEngine'].includes(omsOrderStatus)) {
-               // onErrorNotif({ toastId: omsClientKey + omsOrderStatus, title: `${i18next.t('order_status.' + (omsOrderStatus))}${detailsNotif}` })
+               onErrorNotif({
+                    toastId: omsClientKey + omsOrderStatus,
+                    title: `${i18next.t(`orderStatus.${omsOrderStatus as TStatus}`)}${detailsNotif}`,
+               });
           }
 
-          //         if (["OrderDone", "OnBoardModify", "Canceled", "Error", "Expired", "DeleteByEngine"].includes(omsOrderStatus)) {
-          //             delete pushNotification[omsClientKey]
+          //           if (['OrderDone', 'OnBoardModify', 'Canceled', 'Error', 'Expired', 'DeleteByEngine'].includes(omsOrderStatus)) {
+          //                delete pushNotification[omsClientKey];
           //
-          //             setLocalStorage(pushNotification)
-          //         }
+          //                setLocalStorage(pushNotification);
+          //           }
      };
 
-     const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
-          //
-
-          timeOutRefetch = setTimeout(() => {
-               if (
-                    [
-                         'DeleteByEngine',
-                         'OnBoard',
-                         'Canceled',
-                         'OnBoardModify',
-                         'PartOfTheOrderDone',
-                         'OrderDone',
-                         'Expired',
-                         'Error',
-                         'Modified',
-                    ].includes(omsOrderStatus)
-               ) {
-                    // queryClient.invalidateQueries(['orderList', 'All'])
-                    // queryClient.invalidateQueries(['orderList', 'OnBoard'])
-                    // queryClient.invalidateQueries(['GetOpenPositions'])
-                    // ipcMain.send('update_customer');
-                    // ipcMain.send('refetch_onBoard_order');
-                    clearTimeout(timeOutRefetch);
-               }
-          }, 1000);
-     };
+     //      const refetchApiAccordingLs = (omsOrderStatus: TStatus) => {
+     //           //
+     //
+     //           timeOutRefetch = setTimeout(() => {
+     //                if (
+     //                     [
+     //                          'DeleteByEngine',
+     //                          'OnBoard',
+     //                          'Canceled',
+     //                          'OnBoardModify',
+     //                          'PartOfTheOrderDone',
+     //                          'OrderDone',
+     //                          'Expired',
+     //                          'Error',
+     //                          'Modified',
+     //                     ].includes(omsOrderStatus)
+     //                ) {
+     //                     // queryClient.invalidateQueries(['orderList', 'All'])
+     //                     // queryClient.invalidateQueries(['orderList', 'OnBoard'])
+     //                     // queryClient.invalidateQueries(['GetOpenPositions'])
+     //                     // ipcMain.send('update_customer');
+     //                     // ipcMain.send('refetch_onBoard_order');
+     //                     clearTimeout(timeOutRefetch);
+     //                }
+     //           }, 1000);
+     //      };
 
      const handleOMSMessage = (message: Record<number, string>) => {
           const timeOut = setTimeout(() => {
+               // ipcMain.send('onOMSMessageReceived', message);
                ipcMain.send('onOMSMessageReceived', message);
 
                handlePushNotification(message);
 
-               clearTimeout(timeOutRefetch);
-               const omsOrderStatus = message[22] as TStatus;
-               refetchApiAccordingLs(omsOrderStatus);
+               //    clearTimeout(timeOutRefetch);
+               //    const omsOrderStatus = message[22] as TStatus;
+               //    refetchApiAccordingLs(omsOrderStatus);
 
                clearTimeout(timeOut);
           }, 500);

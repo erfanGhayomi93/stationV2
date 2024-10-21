@@ -6,15 +6,21 @@ import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
 import ToggleSwitch from '@uiKit/ToggleSwitch';
-import { FC, useMemo, useState } from 'react';
+import ipcMain from 'common/classes/IpcMain';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
 // import { Actions } from './actions';
 
-interface ITodayTradesWidgetProps {}
+interface ITodayTradesWidgetProps { }
 
 const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
      const { t } = useTranslation();
+
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+
+     const timeout = useRef<NodeJS.Timeout | undefined>();
+
 
      const [isAggregate, setIsAggregate] = useState(true);
 
@@ -22,12 +28,10 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
 
      console.log(selectedSymbol, 'selectedSymbol');
 
-     const { data } = useQueryDoneOrders({
+     const { data, refetch } = useQueryDoneOrders({
           symbolISIN: selectedSymbol,
           ...(isAggregate && { aggregateType: 'both' }),
      });
-
-     console.log(data, 'data');
 
      const columnDefs = useMemo<ColDef<IDoneOrdersRes>[]>(
           () => [
@@ -74,6 +78,33 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
           ],
           []
      );
+
+     const refetchDoneOrder = () => {
+          timeout.current = setTimeout(() => {
+               refetch();
+               clearTimeout(timeout.current);
+          }, 2000);
+     }
+
+     onOMSMessageHandlerRef.current = useMemo(
+          () => (message) => {
+               const omsOrderStatus = message[22] as TStatus;
+
+               if (['DeleteByEngine', 'PartOfTheOrderDone', 'OrderDone', 'OnCancelingWithBroker'].includes(omsOrderStatus)) {
+                    clearTimeout(timeout.current);
+                    refetchDoneOrder();
+               }
+          }, []
+     )
+
+     useEffect(() => {
+          ipcMain.handle("onOMSMessageReceived", onOMSMessageHandlerRef.current)
+
+          return () => {
+               ipcMain.removeAllHandlers('onOMSMessageReceived')
+          }
+     }, [])
+
 
      return (
           <div className="flex h-full flex-1 flex-col gap-4">

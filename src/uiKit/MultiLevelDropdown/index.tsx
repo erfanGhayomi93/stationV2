@@ -16,6 +16,7 @@ import {
 import AnimatePresence from '../../common/components/animation/AnimatePresence';
 import useClickOutside from '../../common/hooks/useClickOutside';
 import { sepNumbers } from '../../common/methods/helper';
+import { useQueryGeneralUser } from '@api/trader';
 
 interface IMultiLevelDropdownProps {
      isDropdownOpen: boolean;
@@ -36,10 +37,16 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { theme, setTheme } = useThemeStore();
 
+     const { data: dataUser } = useQueryGeneralUser()
+
+     const { traderTitle, credit, traderISIN } = dataUser || {};
+
+
+
      const menuItems = [
           {
                label: 'اعتبار',
-               value: '10000000000',
+               value: credit,
                type: 'price',
                Icon: CreditIcon,
           },
@@ -77,12 +84,14 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                value: 'کلاسیک',
                subMenu: [],
                Icon: LayoutIcon,
+               disabled: true
           },
           {
                label: 'اعلان',
                value: '2',
                Icon: NotificationIcon,
                subMenu: [],
+               disabled: true
           },
      ];
 
@@ -104,8 +113,8 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                          )}
                     >
                          <button className="flex w-full items-center justify-between border-b border-line-div-2 p-4 text-sm">
-                              <span className="text-content-title">سهیل خسروی</span>
-                              <span className="text-content-paragraph">س خ ی 25814</span>
+                              <span className="text-content-title">{traderTitle}</span>
+                              <span className="text-content-paragraph">{traderISIN}</span>
                          </button>
 
                          <ul className="border-b border-line-div-2 px-4 py-1 text-sm">
@@ -114,12 +123,14 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                         key={index}
                                         className={clsx(
                                              'rounded-md px-2 transition-colors hover:bg-back-primary/80',
-                                             item.subMenu && 'relative'
+                                             item?.disabled && "text-button-disable-disable hover:bg-button-disable-hover opacity-55", item?.disabled,
+                                             item.subMenu && 'relative',
                                         )}
                                    >
                                         <button
                                              onClick={() => toggleSubDropdown(index)}
-                                             className="flex w-full items-center justify-between py-4"
+                                             className="flex w-full items-center justify-between py-4 disabled:text-button-disable-disable"
+                                             disabled={item?.disabled}
                                         >
                                              <div className="flex gap-x-2">
                                                   {<item.Icon width={18} height={18} className="text-icon-primary" />}
@@ -183,8 +194,8 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                               <span className="text-content-title">خروج از حساب کاربری</span>
                          </button>
                     </div>
-               </AnimatePresence>
-          </div>
+               </AnimatePresence >
+          </div >
      );
 };
 

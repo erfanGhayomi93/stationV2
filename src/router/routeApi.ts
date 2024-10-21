@@ -45,5 +45,11 @@ export const routeApi = () => {
                Get: baseUrl + '/Message/v1/TodaySupervisorMessage',
                Read: baseUrl + '/Message/v1/ReadTodaySupervisorMessages',
           },
+          Commission: {
+               GetBuyAndSellCommission: baseUrl + '/Commission/v1/GetBuyAndSellCommision',
+          },
+          Trader: {
+               GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
+          },
      };
 };

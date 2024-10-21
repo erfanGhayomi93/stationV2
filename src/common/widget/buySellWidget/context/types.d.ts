@@ -9,6 +9,8 @@ interface IBuySellState {
      strategy: TStrategy;
      validityDate: string | null;
      source: string;
+     isCalculatedQuantity: boolean;
+     amount: number;
      setSide: (side: TSide) => void;
      setPrice: (price: number) => void;
      setQuantity: (quantity: number) => void;
@@ -16,4 +18,6 @@ interface IBuySellState {
      setStrategy: (strategy: TStrategy) => void;
      setValidityDate: (validityDate: string | null) => void;
      setSource: (source: string) => void;
+     setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => void;
+     setAmount: (amount: number) => void;
 }
