@@ -83,12 +83,14 @@ const CustomersSearchBody = () => {
           });
      }, [selectedCustomers]);
 
-     console.log(selectedCustomerInputValues, 'selectedCustomerInputValues');
 
      return (
           <div className="flex flex-col gap-y-6">
                <div>
-                    <SearchInput onChangeValue={(value, input) => setTerm(input)} values={selectedCustomerInputValues ?? []} />
+                    <SearchInput
+                         onChangeValue={(value, input) => setTerm(input)}
+                         values={selectedCustomerInputValues ?? []}
+                    />
                </div>
 
                <div className="grid h-80 grid-rows-min-one rounded-lg">
