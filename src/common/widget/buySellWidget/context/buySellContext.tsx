@@ -10,6 +10,11 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      validityDate: null,
      source: 'Account',
      isCalculatedQuantity: false,
+     isPercentPrice: false,
+     priceWithPercent: {
+          PriceBasedOn: "",
+          percent: 0
+     },
      amount: 0,
      setSide: (side: TSide) => set(() => ({ side })),
      setPrice: (price: number) => set(() => ({ price })),
@@ -18,8 +23,10 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      setStrategy: (strategy: TStrategy) => set(() => ({ strategy })),
      setValidityDate: (validityDate: string | null) => set(() => ({ validityDate })),
      setSource: (source: string) => set(() => ({ source })),
+     setAmount: (amount: number) => set(() => ({ amount })),
      setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => set(() => ({ isCalculatedQuantity })),
-     setAmount: (amount: number) => set(() => ({ amount }))
+     setIsPercentPrice: (isPercentPrice: boolean) => set(() => ({ isPercentPrice })),
+     setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => set(() => ({ priceWithPercent }))
 }));
 
 // Create the context
