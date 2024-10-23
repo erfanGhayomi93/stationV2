@@ -51,8 +51,6 @@ const EditOrdersGroupModal = () => {
           },
      });
 
-     console.log(inputs, 'inputs');
-
      const onCloseModal = () => {
           setEditOrdersGroupModalSheet(null);
      };
@@ -120,7 +118,7 @@ const EditOrdersGroupModal = () => {
      const onChangeVolume = (value: number) => {
           setFieldValue('volume', value);
 
-          const rowData = gridRef.current?.api.getRenderedNodes();
+          const rowData = gridRef.current?.api?.getRenderedNodes();
 
           rowData?.forEach(rowNode => {
                const initialRowData = [...(initialEditOrdersGroupModalSheet.current?.data ?? [])].find(
@@ -145,7 +143,7 @@ const EditOrdersGroupModal = () => {
      const onChangePrice = (value: number) => {
           setFieldValue('price', value);
 
-          const rowData = gridRef.current?.api.getRenderedNodes();
+          const rowData = gridRef.current?.api?.getRenderedNodes();
 
           rowData?.forEach(rowNode => {
                const initialRowData = [...(editOrdersGroupModalSheet?.data ?? [])].find(

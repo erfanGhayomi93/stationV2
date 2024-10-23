@@ -68,7 +68,7 @@ export const userDeleteGroupOrder = () => {
      const url = routeApi().Orders.GroupOrderDelete;
 
      return useMutation({
-          mutationFn: async (params: IDeleteGroupOrderReq) => {
+          mutationFn: async (params: IDeleteGroupOrderReq[]) => {
                const { data } = await AXIOS.post<GlobalApiResponseType<IDeleteGroupOrderRes>>(url, params);
                return data.result;
           },

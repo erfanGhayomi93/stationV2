@@ -26,7 +26,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
 
-     const { setEditOrdersGroupModalSheet } = useModalStore();
+     const { setEditOrdersGroupModalSheet, setDeleteOrdersGroupModalSheet } = useModalStore();
 
      const { selectedSymbol } = useSymbolStore();
 
@@ -43,6 +43,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                JSON.stringify(queryClient.getQueryData(['SymbolGeneralInformation', selectedSymbol]) ?? [])
           ) as ISymbolGeneralInformationRes;
      };
+
+     const orderStatusIsntModify = ['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'Expired', 'InOMSQueue', 'OnSending'];
 
      onOMSMessageHandlerRef.current = useMemo(
           () => (message: Record<number, string>) => {
@@ -63,18 +65,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     }
                });
 
-               if (
-                    [
-                         'DeleteByEngine',
-                         'OnBoard',
-                         'Canceled',
-                         'OnBoardModify',
-                         'PartOfTheOrderDone',
-                         'OrderDone',
-                         'Expired',
-                         'Error',
-                    ].includes(omsOrderStatus)
-               ) {
+               if (orderStatusIsntModify.includes(omsOrderStatus)) {
                     const timerId = setTimeout(() => {
                          clearTimeout(timerId);
                          refetchTodayOrders();
@@ -151,17 +142,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           }
      };
 
-     const orderStatusIsntModify = [
-          'OrderDone',
-          'Canceled',
-          'DeleteByEngine',
-          'Error',
-          'Expired',
-          'InOMSQueue',
-          'OnSending',
-          'OnCanceling',
-     ];
-
      useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
      }, []);
@@ -207,6 +187,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <div className="flex items-center gap-x-6">
                          <button
                               onClick={() => {
+                                   if (selectedOrders.length === 0) return;
                                    setEditOrdersGroupModalSheet({
                                         side: side,
                                         symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
@@ -218,9 +199,15 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                          </button>
 
                          <button
-                         //   onClick={() => {
-                         //        ordersGroupDeleteResult.mutate();
-                         //   }}
+                              onClick={() => {
+                                   if (selectedOrders.length === 0) return;
+
+                                   setDeleteOrdersGroupModalSheet({
+                                        side: side,
+                                        symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
+                                        data: selectedOrders,
+                                   });
+                              }}
                          >
                               <DeleteIcon className="size-6 text-icon-success" />
                          </button>

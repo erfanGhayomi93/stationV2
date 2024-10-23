@@ -270,4 +270,4 @@ interface IDeleteGroupOrderRes {
      succeeded: boolean;
 }
 
-type IDeleteGroupOrderReq = number[];
+type IDeleteGroupOrderReq = number;
