@@ -8,8 +8,6 @@
      z-index: 99;
 }
 
-// "rtl fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 rounded-LG bg-back-surface p-8"
-
 .modal {
      direction: rtl;
      position: fixed;
@@ -22,22 +20,22 @@
      padding: 32px;
 
      &.lg {
-          width: 114rem;
+          width: 71.25rem;
      }
 
      &.md {
-          width: 80rem;
-     }
-
-     &.sm {
           width: 50rem;
      }
 
+     &.sm {
+          width: 31.25rem;
+     }
+
      &.xs {
-          width: 40rem;
+          width: 25rem;
      }
 
      &.xxs {
-          width: 30rem;
+          width: 18.75rem;
      }
 }

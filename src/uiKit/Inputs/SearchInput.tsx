@@ -13,7 +13,7 @@ interface TSearchInputProps
      values: TItem[];
      onChangeValue: (items: TItem[], value: string) => void;
      placeholder?: string;
-     handleOpenModal?: () => void
+     handleOpenModal?: () => void;
 }
 
 const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, ...props }: TSearchInputProps) => {
@@ -23,7 +23,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
 
      const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
-     const { selectedCustomers, removeSelectedCustomers } = useCustomerStore()
+     const { selectedCustomers, removeSelectedCustomers } = useCustomerStore();
 
      const searchInputRef = useRef<HTMLDivElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
@@ -38,8 +38,6 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
           if (chipsetsRef.current && searchInputRef.current) {
                const ulWidth = searchInputRef.current.offsetWidth - 110;
 
-               console.log("ulWidth", ulWidth)
-
                let totalChipsetsWidth = 0;
                let visibleCount = 0;
 
@@ -47,6 +45,8 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
 
                childNodes.forEach(chip => {
                     const chipsetWidth = chip.getBoundingClientRect().width;
+
+                    console.log(chipsetWidth, 'chipsetWidth');
 
                     totalChipsetsWidth += chipsetWidth;
 
@@ -57,17 +57,18 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
 
                setVisibleChipsetsCount(visibleCount);
           }
-     }, [searchInputRef, chipsetsRef, selectedCustomers]);
+     }, [searchInputRef, chipsetsRef, items]);
 
      useEffect(() => {
           setItems(values);
+          setVisibleChipsetsCount(values.length);
      }, [values]);
 
      return (
           <div
                onClick={() => {
                     inputRef.current?.focus();
-                    handleOpenModal?.()
+                    handleOpenModal?.();
                }}
                ref={searchInputRef}
                className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
@@ -86,7 +87,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                                    <button
                                         onClick={e => {
                                              e.stopPropagation();
-                                             removeSelectedCustomers(value.id)
+                                             removeSelectedCustomers(value.id);
                                              // console.log('hi');
                                              // const findIndex = items.findIndex(item => item.id === value.id);
                                              // const newValues = [...items];
