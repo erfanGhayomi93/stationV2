@@ -19,9 +19,9 @@ type TTickItems = {
 };
 
 type TInputs = {
-     volume: string;
+     volume: number;
      tickVolume: TTickItems;
-     price: string;
+     price: number;
      tickPrice: TTickItems;
 };
 
@@ -39,12 +39,12 @@ const EditOrdersGroupModal = () => {
      const { mutate: mutateModifyGroupOrder, isPending } = useModifyGroupOrder();
 
      const { inputs, setFieldValue } = useInputs<TInputs>({
-          volume: '',
+          volume: 0,
           tickVolume: {
                id: 'constant',
                label: t('todayOrders.constant'),
           },
-          price: '',
+          price: 0,
           tickPrice: {
                id: 'constant',
                label: t('todayOrders.constant'),
@@ -117,7 +117,7 @@ const EditOrdersGroupModal = () => {
           return editOrdersGroupModalSheet.data;
      }, [editOrdersGroupModalSheet]);
 
-     const onChangeVolume = (value: string) => {
+     const onChangeVolume = (value: number) => {
           setFieldValue('volume', value);
 
           const rowData = gridRef.current?.api.getRenderedNodes();
@@ -142,7 +142,7 @@ const EditOrdersGroupModal = () => {
           });
      };
 
-     const onChangePrice = (value: string) => {
+     const onChangePrice = (value: number) => {
           setFieldValue('price', value);
 
           const rowData = gridRef.current?.api.getRenderedNodes();
@@ -229,7 +229,7 @@ const EditOrdersGroupModal = () => {
                                    <FieldInput
                                         variant="simple"
                                         value={inputs.volume}
-                                        onChangeValue={value => onChangeVolume(value as string)}
+                                        onChangeValue={value => onChangeVolume(Number(value))}
                                         clearAble={false}
                                    />
                               </div>
@@ -252,7 +252,7 @@ const EditOrdersGroupModal = () => {
                                    <FieldInput
                                         variant="simple"
                                         value=""
-                                        onChangeValue={value => onChangePrice(value as string)}
+                                        onChangeValue={value => onChangePrice(Number(value))}
                                         clearAble={false}
                                    />
                               </div>

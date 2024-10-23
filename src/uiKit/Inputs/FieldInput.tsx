@@ -1,4 +1,5 @@
 import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
+import useUpdateEffect from '@hooks/useUpdateEffect';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import { ChangeEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
@@ -17,6 +18,9 @@ interface TFieldInputProps
      onClickIcon?: () => void;
      placeholder?: string;
      value: string | number;
+     secondaryPrice?: number;
+     direction?: 'left' | 'right';
+     isPercentage?: boolean;
      clearAble?: boolean;
 }
 
@@ -33,41 +37,81 @@ const FieldInput = ({
      placeholder = '',
      onChangeValue,
      clearAble = true,
+     secondaryPrice,
      value,
+     direction = 'right',
+     isPercentage = false,
      ...props
 }: TFieldInputProps) => {
      const [inputValue, setInputValue] = useState<string | number>(value);
 
      const inputRef = useRef<HTMLInputElement>(null);
 
+     const LimitedToPercentage = (value: number) => {
+          return Math.floor(Math.min(Math.max(0, value), 100));
+     };
+
+     const handleNumericValue = (value: string) => {
+          return value.replace(/[^\d]/g, '');
+     };
+
      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
           const newValue = e.target.value;
 
-          const numericValue = newValue.replace(/[^\d]/g, '');
+          const numericValue = handleNumericValue(newValue);
+          //
+          //           onChange(type === 'number' ? numericValue : newValue);
 
-          onChange(type === 'number' ? numericValue : newValue);
+          if (isPercentage) {
+               const percentNumber = LimitedToPercentage(+numericValue); // Limit to 0-100
+               onChange(percentNumber);
+          } else {
+               onChange(type === 'number' ? numericValue : newValue);
+          }
      };
 
      const onChange = (newValue: string | number) => {
           if (String(inputValue).length > 20) return;
 
           if (type === 'number') {
-               setInputValue(!newValue ? '' : sepNumbers(newValue));
-               onChangeValue(newValue);
+               setInputValue(sepNumbers(newValue));
           } else {
-               setInputValue(!newValue ? '' : sepNumbers(newValue));
-               onChangeValue(newValue);
+               setInputValue(newValue);
           }
      };
+
+     useUpdateEffect(() => {
+          const numericValue = handleNumericValue(String(inputValue));
+
+          onChangeValue(type === 'number' ? numericValue : inputValue);
+     }, [inputValue]);
 
      const handleKeyDown = (e: KeyboardEvent) => {
           if (inputRef.current && document.activeElement === inputRef.current && type === 'number') {
                if (e.key === 'ArrowUp') {
                     e.preventDefault();
-                    setInputValue(prev => String(Number(prev) + 1));
+
+                    setInputValue(prev => {
+                         return String(
+                              Number(
+                                   isPercentage
+                                        ? LimitedToPercentage(+handleNumericValue(String(prev))) + 1
+                                        : +handleNumericValue(String(prev)) + 1
+                              )
+                         );
+                    });
                } else if (e.key === 'ArrowDown') {
                     e.preventDefault();
-                    setInputValue(prev => String(Math.max(0, Number(prev) - 1)));
+                    // setInputValue(prev => String(Math.max(0, Number(prev) - 1)));
+                    setInputValue(prev => {
+                         return String(
+                              Number(
+                                   isPercentage
+                                        ? LimitedToPercentage(+handleNumericValue(String(prev))) - 1
+                                        : +handleNumericValue(String(prev)) - 1
+                              )
+                         );
+                    });
                }
           }
      };
@@ -89,6 +133,8 @@ const FieldInput = ({
 
      return (
           <div className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active">
+               {!!secondaryPrice && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
+
                <div
                     className={clsx('flex items-center', {
                          'w-9/12': variant === 'advanced',
@@ -100,11 +146,17 @@ const FieldInput = ({
                          value={inputValue}
                          onChange={handleChange}
                          dir="ltr"
-                         className="focus:outline-non h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
+                         className={clsx(
+                              'focus:outline-non h-12 w-full flex-1 border-none bg-transparent text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder',
+                              {
+                                   'text-right': direction === 'right',
+                                   'text-left': direction === 'left',
+                              }
+                         )}
                          {...props}
                     />
 
-                    {variant !== 'advanced' && clearAble && (
+                    {variant !== 'advanced' && typeof secondaryPrice !== 'number' && (
                          <button
                               onClick={() => setInputValue('')}
                               className={clsx(
@@ -131,7 +183,7 @@ const FieldInput = ({
                     </div>
                </div>
 
-               {variant === 'advanced' && (
+               {/* {variant === 'advanced' && (
                     <div
                          style={{
                               minWidth: '1px',
@@ -139,7 +191,7 @@ const FieldInput = ({
                          }}
                          className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
                     />
-               )}
+               )} */}
 
                {variant === 'advanced' && (
                     <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
