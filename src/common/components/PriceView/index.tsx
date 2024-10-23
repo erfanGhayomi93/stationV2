@@ -28,7 +28,7 @@ const PriceView = ({
      );
 
      return (
-          <div className="flex snap-center flex-nowrap gap-1 whitespace-nowrap p-2 text-xs">
+          <div className="flex snap-center flex-nowrap justify-between gap-1 whitespace-nowrap p-2 text-xs">
                {label ? <span className="ml-1">{label}:</span> : null}
                <div
                     className={clsx(textColorClassName, {

@@ -4,6 +4,9 @@ export const useModalStore = create<IModalStore>(set => ({
      editOrdersGroupModalSheet: null,
      setEditOrdersGroupModalSheet: value => set(() => ({ editOrdersGroupModalSheet: value })),
 
+     deleteOrdersGroupModalSheet: null,
+     setDeleteOrdersGroupModalSheet: value => set(() => ({ deleteOrdersGroupModalSheet: value })),
+
      customersSearchModalSheet: null,
      setCustomersSearchModalSheet: value => set(() => ({ customersSearchModalSheet: value })),
 }));

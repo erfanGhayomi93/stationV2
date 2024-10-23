@@ -11,6 +11,7 @@ const SliderbarDetailsWidget = () => {
           yesterdayClosingPrice: data?.symbolData?.yesterdayClosingPrice,
           highThreshold: data?.symbolData?.highThreshold,
           lastTradedPrice: data?.symbolData?.lastTradedPrice,
+          lastTradedPriceDate: data?.symbolData.lastTradedDate,
           highestTradePriceOfTradingDay: data?.symbolData?.highestTradePriceOfTradingDay,
           lowThreshold: data?.symbolData?.lowThreshold,
           closingPrice: data?.symbolData?.closingPrice,
@@ -27,7 +28,14 @@ const SliderbarDetailsWidget = () => {
           tommorowHighThreshold: data?.symbolData?.tommorowHighThreshold,
           TickPrice: data?.symbolData?.tickPrice,
           totalTradeValue: data?.symbolData?.totalTradeValue,
+          baseVolume: data?.symbolData?.baseVolume,
+          totalNumberOfSharesTraded: data?.symbolData.totalNumberOfSharesTraded,
+          totalNumberOfTrades: data?.symbolData.totalNumberOfTrades,
+          monthlyTradeVolume: data?.symbolData.monthlyTradeVolume,
+          pe: data?.symbolData.pe,
      }));
+
+     console.log(data?.lastTradedPriceVarPercent, 'lastTradedPriceVarPercent');
 
      return (
           <div className="flex w-full flex-col gap-x-1 p-2">
@@ -61,6 +69,13 @@ const SliderbarDetailsWidget = () => {
                          tommorowHighThreshold={data?.tommorowHighThreshold}
                          totalTradeValue={data?.totalTradeValue}
                          TickPrice={data?.TickPrice}
+                         totalNumberOfSharesTraded={data?.totalNumberOfSharesTraded}
+                         baseVolume={data?.baseVolume}
+                         totalNumberOfTrades={data?.totalNumberOfTrades}
+                         monthlyTradeVolume={data?.monthlyTradeVolume}
+                         lastTradedPriceDate={data?.lastTradedPriceDate}
+                         pe={data?.pe}
+                         lastTradedPriceVarPercent={data?.lastTradedPriceVarPercent}
                     />
                </div>
           </div>

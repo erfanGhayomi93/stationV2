@@ -1,8 +1,10 @@
 import { ColDef } from '@ag-grid-community/core';
 import { AgGridReact } from '@ag-grid-community/react';
+import { useModifyGroupOrder } from '@api/order';
 import AgGridTable from '@components/Table/AgGrid';
 import useInputs from '@hooks/useInputs';
 import { dateFormatter, sepNumbers } from '@methods/helper';
+import Button from '@uiKit/Button';
 import FieldInput from '@uiKit/Inputs/FieldInput';
 import SelectInput from '@uiKit/Inputs/SelectInput';
 import clsx from 'clsx';
@@ -31,6 +33,10 @@ const EditOrdersGroupModal = () => {
      const dropdownRef = useRef<HTMLDivElement | null>(null);
 
      const { editOrdersGroupModalSheet, setEditOrdersGroupModalSheet } = useModalStore();
+
+     const initialEditOrdersGroupModalSheet = useRef(editOrdersGroupModalSheet);
+
+     const { mutate: mutateModifyGroupOrder, isPending } = useModifyGroupOrder();
 
      const { inputs, setFieldValue } = useInputs<TInputs>({
           volume: 0,
@@ -105,30 +111,74 @@ const EditOrdersGroupModal = () => {
 
      const history = useMemo(() => {
           if (!editOrdersGroupModalSheet) return [];
+
           return editOrdersGroupModalSheet.data;
      }, [editOrdersGroupModalSheet]);
 
      const onChangeVolume = (value: number) => {
-          console.log(value, 'value');
           setFieldValue('volume', value);
 
-          const rowData = gridRef.current?.api.getRenderedNodes();
+          const rowData = gridRef.current?.api?.getRenderedNodes();
 
-          if (inputs.tickVolume.id === 'constant') {
-               rowData?.forEach(rowNode => {
-                    rowNode.setDataValue('remainingQuantity', String(value).replace(/,/g, ''));
-               });
-          }
+          rowData?.forEach(rowNode => {
+               const initialRowData = [...(initialEditOrdersGroupModalSheet.current?.data ?? [])].find(
+                    item => item.orderId === rowNode?.data?.orderId
+               );
+
+               if (inputs.tickVolume.id === 'constant') {
+                    rowNode.setDataValue('remainingQuantity', value || initialRowData?.remainingQuantity);
+               }
+               if (inputs.tickVolume.id === 'increase') {
+                    const newValue = (initialRowData?.remainingQuantity ?? 0) + Number(value);
+
+                    rowNode.setDataValue('remainingQuantity', newValue);
+               }
+               if (inputs.tickVolume.id === 'decrease') {
+                    const newValue = (initialRowData?.remainingQuantity ?? 0) - Number(value);
+                    rowNode.setDataValue('remainingQuantity', newValue > 0 ? newValue : (initialRowData?.remainingQuantity ?? 0));
+               }
+          });
      };
 
      const onChangePrice = (value: number) => {
           setFieldValue('price', value);
 
-          const rowData = gridRef.current?.api.getRenderedNodes();
+          const rowData = gridRef.current?.api?.getRenderedNodes();
 
-          if (inputs.tickPrice.id === 'constant') {
-               rowData?.forEach(rowNode => rowNode.setDataValue('price', String(value).replace(/,/g, '')));
-          }
+          rowData?.forEach(rowNode => {
+               const initialRowData = [...(editOrdersGroupModalSheet?.data ?? [])].find(
+                    item => item.orderId === rowNode?.data?.orderId
+               );
+
+               if (inputs.tickPrice.id === 'constant') {
+                    rowNode.setDataValue('price', value || initialRowData?.price);
+               }
+               if (inputs.tickPrice.id === 'increase') {
+                    const newValue = (initialRowData?.price ?? 0) + Number(value);
+
+                    rowNode.setDataValue('price', newValue);
+               }
+               if (inputs.tickPrice.id === 'decrease') {
+                    const newValue = (initialRowData?.price ?? 0) - Number(value);
+                    rowNode.setDataValue('price', newValue > 0 ? newValue : (initialRowData?.price ?? 0));
+               }
+          });
+     };
+
+     const handleEditSelected = () => {
+          if (!editOrdersGroupModalSheet) return;
+
+          const payload = editOrdersGroupModalSheet?.data?.map(item => ({
+               id: item.orderId,
+               price: Number(item.price),
+               quantity: Number(item.remainingQuantity),
+               validity: item.validity,
+               validityDate: item.validityDate ?? null,
+          }));
+
+          mutateModifyGroupOrder(payload);
+
+          onCloseModal();
      };
 
      return (
@@ -155,11 +205,11 @@ const EditOrdersGroupModal = () => {
                }
                onCloseModal={onCloseModal}
                dependencies={[dropdownRef]}
-               size="md"
+               size="lg"
           >
                <div ref={dropdownRef} className="flex h-full flex-col gap-10">
                     <div className="flex items-center justify-between gap-8">
-                         <div className="flex items-center gap-2">
+                         <div className="flex flex-1 items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
                                    <span>{t('todayOrders.volume')}:</span>
                                    <SelectInput
@@ -177,12 +227,12 @@ const EditOrdersGroupModal = () => {
                                    <FieldInput
                                         variant="simple"
                                         value={inputs.volume}
-                                        onChangeValue={value => onChangeVolume(+value)}
-                                        type='number'
+                                        onChangeValue={value => onChangeVolume(Number(value))}
+                                        clearAble={false}
                                    />
                               </div>
                          </div>
-                         <div className="flex items-center gap-2">
+                         <div className="flex flex-1 items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
                                    <span>{t('todayOrders.price')}:</span>
                                    <SelectInput
@@ -199,8 +249,9 @@ const EditOrdersGroupModal = () => {
                               <div className="basis-5/12">
                                    <FieldInput
                                         variant="simple"
-                                        value={inputs.price}
-                                        onChangeValue={value => onChangePrice(+value)}
+                                        value=""
+                                        onChangeValue={value => onChangePrice(Number(value))}
+                                        clearAble={false}
                                    />
                               </div>
                          </div>
@@ -218,14 +269,11 @@ const EditOrdersGroupModal = () => {
                     </div>
 
                     <div className="flex items-center justify-end text-content-white">
-                         <button
-                              className={clsx('basis-5/12 rounded-md py-2 text-sm', {
-                                   'bg-button-success-default': editOrdersGroupModalSheet?.side === 'Buy',
-                                   'bg-button-error-default': editOrdersGroupModalSheet?.side === 'Sell',
-                              })}
-                         >
-                              ثبت تغییرات
-                         </button>
+                         <div className="basis-5/12">
+                              <Button isLoading={isPending} onClick={handleEditSelected}>
+                                   ثبت تغیرات
+                              </Button>
+                         </div>
                     </div>
                </div>
           </Modal>

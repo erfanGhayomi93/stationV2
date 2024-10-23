@@ -51,3 +51,26 @@ export const useMutationSendOrder = () => {
           },
      });
 };
+
+export const useModifyGroupOrder = () => {
+     const url = routeApi().Orders.GroupOrdersModify;
+
+     return useMutation({
+          mutationFn: async (params: IModifyGroupOrderReq[]) => {
+               const { data } = await AXIOS.post<GlobalApiResponseType<IModifyGroupOrderRes>>(url, { items: params });
+               return data.result;
+          },
+          onSuccess: () => {},
+     });
+};
+
+export const userDeleteGroupOrder = () => {
+     const url = routeApi().Orders.GroupOrderDelete;
+
+     return useMutation({
+          mutationFn: async (params: IDeleteGroupOrderReq[]) => {
+               const { data } = await AXIOS.post<GlobalApiResponseType<IDeleteGroupOrderRes>>(url, params);
+               return data.result;
+          },
+     });
+};

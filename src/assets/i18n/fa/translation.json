@@ -158,6 +158,7 @@
           "requestDateColumn": "زمان",
           "statusColumn": "وضعیت",
           "edit_order_group": "ویرایش گروهی سفارشات | <span1>{{side}}</span1> | <span2>{{symbol}}</span2>",
+          "delete_order_group": "حذف گروهی سفارشات | <span1>{{side}}</span1> | <span2>{{symbol}}</span2>",
           "amount": "مقدار",
           "constant": "مقدار ثابت",
           "increase": "افزایش به مقدار",
