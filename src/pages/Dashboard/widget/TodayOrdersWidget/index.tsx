@@ -30,7 +30,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { selectedSymbol } = useSymbolStore();
 
-     const { data } = useQueryTodayOrders({
+     const { data: todayOrdersData, refetch: refetchTodayOrders } = useQueryTodayOrders({
           GtOrderStateRequestType: tabSelected,
           side: side,
           symbolISIN: selectedSymbol,
@@ -38,19 +38,11 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const [selectedOrders, setSelectedOrder] = useState<IOpenOrder[]>([]);
 
-     const handleEditOnce = (row: IOpenOrder) => {
-          // console.log('row', row)
-     };
-
-     //  const getSymbolGeneralInformation = queryClient.getQueriesData(['SymbolGeneralInformation']);
-
      const getSymbolGeneralInformationCache = () => {
           return JSON.parse(
                JSON.stringify(queryClient.getQueryData(['SymbolGeneralInformation', selectedSymbol]) ?? [])
           ) as ISymbolGeneralInformationRes;
      };
-
-     //  const ordersGroupDeleteResult = useGroupDeleteOrders({ ordersId });
 
      onOMSMessageHandlerRef.current = useMemo(
           () => (message: Record<number, string>) => {
@@ -58,12 +50,10 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                const omsOrderStatus = message[22] as TStatus;
 
                queryClient.setQueryData(['openOrders', 'OnBoard'], (oldData: IOpenOrder[] | undefined) => {
-                    console.log(oldData, 'oldData');
                     if (oldData) {
                          const orders = JSON.parse(JSON.stringify(oldData)) as IOpenOrder[];
                          const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
 
-                         console.log(updatedOrder, 'updatein order');
                          const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
                          if (index >= 0) {
                               orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOpenOrder;
@@ -73,15 +63,23 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     }
                });
 
-               // if (['DeleteByEngine', 'OnBoard', 'Canceled', 'OnBoardModify', 'PartOfTheOrderDone', 'OrderDone', 'Expired', 'Error'].includes(omsOrderStatus)) {
-               //     clearTimeout(timeOut);
-               //     refetchOnboard();
-               // }
-               //  else if (omsOrderStatus === 'Error') {
-               //     clearTimeout(timeOut);
-               //     refetchOnboard();
-               //     queryClient.invalidateQueries(['orderList', 'Error']);
-               // }
+               if (
+                    [
+                         'DeleteByEngine',
+                         'OnBoard',
+                         'Canceled',
+                         'OnBoardModify',
+                         'PartOfTheOrderDone',
+                         'OrderDone',
+                         'Expired',
+                         'Error',
+                    ].includes(omsOrderStatus)
+               ) {
+                    const timerId = setTimeout(() => {
+                         clearTimeout(timerId);
+                         refetchTodayOrders();
+                    }, 1000);
+               }
           },
           []
      );
@@ -139,7 +137,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           ],
           [tabSelected]
      );
-     // {data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'}
 
      const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
           if (!event.node.data) return;
@@ -236,10 +233,10 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <AgGridTable
                          rowSelection={{
                               mode: 'multiRow',
-                              //   isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
+                              isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
                          }}
                          selectionColumnDef={{}}
-                         rowData={data ?? []}
+                         rowData={todayOrdersData ?? []}
                          columnDefs={columnDefs}
                          onRowSelected={onRowSelected}
                     />

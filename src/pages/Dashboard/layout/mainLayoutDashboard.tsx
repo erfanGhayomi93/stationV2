@@ -29,22 +29,22 @@ const MainLayoutDashboard = () => {
                     {/* <div className={clsx(BoxClass)}>
                                         <IndividualLegalWidget />
                                    </div> */}
-                    <div className={clsx(BoxClass, 'overflow-auto')}>
+                    <div className={clsx(BoxClass)}>
                          <BuySellWidget />
                     </div>
                     {/* </div> */}
                </div>
 
-               <div className={'grid h-full grid-rows-3 gap-2'}>
-                    <div className={clsx(BoxClass, 'overflow-auto')}>
+               <div className={'grid h-full grid-rows-3 gap-2 overflow-hidden'}>
+                    <div className={clsx(BoxClass)}>
                          <TodayOrdersWidget side={'Buy'} />
                     </div>
 
-                    <div className={clsx(BoxClass, 'overflow-auto')}>
+                    <div className={clsx(BoxClass)}>
                          <TodayOrdersWidget side={'Sell'} />
                     </div>
 
-                    <div className={clsx(BoxClass, 'overflow-auto')}>
+                    <div className={clsx(BoxClass)}>
                          <TodayTradesWidget />
                     </div>
                </div>

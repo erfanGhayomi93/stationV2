@@ -65,7 +65,9 @@ const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParam
                     </div>
                ) : (
                     <div className="flex w-full items-center justify-center gap-3">
-                         <SearchInputIcon width="1.25rem" height="1.25rem" onClick={() => setInputMode(true)} />
+                         <div>
+                              <SearchInputIcon width="1rem" height="1rem" onClick={() => setInputMode(true)} />
+                         </div>
                          <span onClick={() => onSortChange()} className="flex items-center">
                               <span>{displayName}</span>
                               {value}

@@ -1,5 +1,4 @@
 import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
-import AnimatePresence from '@components/animation/AnimatePresence';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import { ChangeEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
@@ -18,6 +17,7 @@ interface TFieldInputProps
      onClickIcon?: () => void;
      placeholder?: string;
      value: string | number;
+     clearAble?: boolean;
 }
 
 const FieldInput = ({
@@ -32,13 +32,13 @@ const FieldInput = ({
      onClickIcon = () => null,
      placeholder = '',
      onChangeValue,
+     clearAble = true,
      value,
      ...props
 }: TFieldInputProps) => {
      const [inputValue, setInputValue] = useState<string | number>(value);
 
      const inputRef = useRef<HTMLInputElement>(null);
-
 
      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
           const newValue = e.target.value;
@@ -51,15 +51,13 @@ const FieldInput = ({
      const onChange = (newValue: string | number) => {
           if (String(inputValue).length > 20) return;
 
-          if (type === "number") {
-               setInputValue(sepNumbers(newValue))
+          if (type === 'number') {
+               setInputValue(!newValue ? '' : sepNumbers(newValue));
                onChangeValue(newValue);
           } else {
-               setInputValue(newValue)
+               setInputValue(!newValue ? '' : sepNumbers(newValue));
                onChangeValue(newValue);
           }
-
-
      };
 
      const handleKeyDown = (e: KeyboardEvent) => {
@@ -76,7 +74,7 @@ const FieldInput = ({
 
      useEffect(() => {
           if (type === 'number') {
-               setInputValue(value === 0 ? '' : sepNumbers(value.toString()));
+               setInputValue(value === 0 || value === '' ? '' : sepNumbers(value.toString()));
           } else {
                setInputValue(value.toString());
           }
@@ -102,27 +100,27 @@ const FieldInput = ({
                          value={inputValue}
                          onChange={handleChange}
                          dir="ltr"
-                         className="h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder focus:outline-non"
+                         className="focus:outline-non h-12 flex-1 border-none bg-transparent text-right text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
                          {...props}
                     />
 
-                    {
-                         variant !== 'advanced' && (
-                              <button
-                                   onClick={() => setInputValue('')}
-                                   className={clsx('flex justify-center text-input-default group-focus-within:text-input-active transition-opacity', {
-                                        "opacity-0": !inputValue
-                                   })}
-                              >
-                                   <XCircleOutlineIcon />
-                              </button>
-                         )
-                    }
-
+                    {variant !== 'advanced' && clearAble && (
+                         <button
+                              onClick={() => setInputValue('')}
+                              className={clsx(
+                                   'flex justify-center text-input-default transition-opacity group-focus-within:text-input-active',
+                                   {
+                                        'opacity-0': !inputValue,
+                                   }
+                              )}
+                         >
+                              <XCircleOutlineIcon />
+                         </button>
+                    )}
 
                     <div
                          className={clsx(
-                              'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active focus:outline-non',
+                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
                               {
                                    'absolute -top-3 right-2 bg-back-surface px-1': inputValue,
                                    'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !inputValue,

@@ -1,11 +1,11 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import {
+     ArrowLeftIcon,
      CodalIcon,
      LinkIcon,
      PinnedIcon,
      RiskAnnouncementIcon,
      TseIcon,
-     UpArrowIcon,
      WatchlistNegativeIcon,
 } from '@assets/icons';
 import Popup from '@components/popup';
@@ -115,8 +115,6 @@ export const MainSymbol = () => {
                                    y: 8,
                               }}
                               defaultPopupWidth={200}
-                              //  onOpen={() => setIsDropdownOpen(true)}
-                              //  onClose={() => setIsDropdownOpen(false)}
                               renderer={({ setOpen }) => (
                                    <ul className="rtl flex flex-col rounded-md bg-back-modal p-4 shadow-E2">
                                         {items.map((item, index) => (
@@ -127,14 +125,14 @@ export const MainSymbol = () => {
                                                   target="_blank"
                                                   rel="noreferrer"
                                                   href={item.link}
-                                                  className="flex items-center justify-between border-b border-line-div-2 py-4 last:border-none"
+                                                  className="flex items-center justify-between rounded-md border-b border-line-div-2 px-2 py-4 transition-colors last:border-none hover:bg-back-primary/80"
                                              >
                                                   <div className="flex justify-between gap-x-2">
                                                        <item.icon width="1.5rem" height="1.5rem" className="text-icon-default" />
                                                        <span className="text-nowrap text-content-paragraph">{item.label}</span>
                                                   </div>
 
-                                                  <UpArrowIcon className="-rotate-90 text-icon-default" />
+                                                  <ArrowLeftIcon className="text-icon-default" />
                                              </a>
                                         ))}
                                    </ul>
