@@ -7,25 +7,25 @@ import { InputHTMLAttributes, useState } from 'react';
 type TItem = { id: string; label: string };
 
 interface TSelectInputProps
-     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'value'> {
+     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem;
 }
 
-const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectInput = ({ onChange,  items, value, placeholder = '', ...props }: TSelectInputProps) => {
      const [state, setState] = useState<{ id: string; label: string }>(value);
 
      return (
           <Popup
                margin={{}}
                renderer={({ setOpen }) => (
-                    <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5">
+                    <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-1 py-3 shadow-E5 text-sm">
                          {items?.map((item, index) => (
                               <li
                                    className={clsx(
-                                        'w-full cursor-pointer items-center justify-start rounded-md px-2 transition-colors hover:bg-back-primary/80',
+                                        'w-full cursor-pointer items-center justify-start rounded-md transition-colors hover:bg-back-primary/80',
                                         item.id === state.id && 'bg-back-primary'
                                    )}
                                    key={index}

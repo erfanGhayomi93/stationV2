@@ -17,9 +17,9 @@ type TTickItems = {
 };
 
 type TInputs = {
-     volume: string;
+     volume: number;
      tickVolume: TTickItems;
-     price: string;
+     price: number;
      tickPrice: TTickItems;
 };
 
@@ -33,12 +33,12 @@ const EditOrdersGroupModal = () => {
      const { editOrdersGroupModalSheet, setEditOrdersGroupModalSheet } = useModalStore();
 
      const { inputs, setFieldValue } = useInputs<TInputs>({
-          volume: '',
+          volume: 0,
           tickVolume: {
                id: 'constant',
                label: t('todayOrders.constant'),
           },
-          price: '',
+          price: 0,
           tickPrice: {
                id: 'constant',
                label: t('todayOrders.constant'),
@@ -108,7 +108,7 @@ const EditOrdersGroupModal = () => {
           return editOrdersGroupModalSheet.data;
      }, [editOrdersGroupModalSheet]);
 
-     const onChangeVolume = (value: string) => {
+     const onChangeVolume = (value: number) => {
           console.log(value, 'value');
           setFieldValue('volume', value);
 
@@ -116,18 +116,18 @@ const EditOrdersGroupModal = () => {
 
           if (inputs.tickVolume.id === 'constant') {
                rowData?.forEach(rowNode => {
-                    rowNode.setDataValue('remainingQuantity', value.replace(/,/g, ''));
+                    rowNode.setDataValue('remainingQuantity', String(value).replace(/,/g, ''));
                });
           }
      };
 
-     const onChangePrice = (value: string) => {
+     const onChangePrice = (value: number) => {
           setFieldValue('price', value);
 
           const rowData = gridRef.current?.api.getRenderedNodes();
 
           if (inputs.tickPrice.id === 'constant') {
-               rowData?.forEach(rowNode => rowNode.setDataValue('price', value.replace(/,/g, '')));
+               rowData?.forEach(rowNode => rowNode.setDataValue('price', String(value).replace(/,/g, '')));
           }
      };
 
@@ -174,7 +174,12 @@ const EditOrdersGroupModal = () => {
                               </div>
 
                               <div className="basis-5/12">
-                                   <FieldInput variant="simple" value="" onChangeValue={value => onChangeVolume(value)} />
+                                   <FieldInput
+                                        variant="simple"
+                                        value={inputs.volume}
+                                        onChangeValue={value => onChangeVolume(+value)}
+                                        type='number'
+                                   />
                               </div>
                          </div>
                          <div className="flex items-center gap-2">
@@ -192,7 +197,11 @@ const EditOrdersGroupModal = () => {
                               </div>
 
                               <div className="basis-5/12">
-                                   <FieldInput variant="simple" value="" onChangeValue={value => onChangePrice(value)} />
+                                   <FieldInput
+                                        variant="simple"
+                                        value={inputs.price}
+                                        onChangeValue={value => onChangePrice(+value)}
+                                   />
                               </div>
                          </div>
                     </div>

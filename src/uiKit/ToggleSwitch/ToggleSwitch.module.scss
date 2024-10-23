@@ -21,9 +21,14 @@
           --ts-label-color: theme('colors.content-paragraph');
      }
 
+     display: flex;
+     align-items: center;
+
      .toggle {
           cursor: pointer;
           display: inline-block;
+          display: flex;
+          align-items: center;
      }
      .toggleSwitch {
           display: inline-block;

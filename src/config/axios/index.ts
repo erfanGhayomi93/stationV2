@@ -11,7 +11,7 @@ AXIOS.interceptors.request.use(
      function (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {
           // const client_id = Cookies.get(tokenCookieName);
 
-          const client_id = 'yU5+FEinACHfmBoSRgkbp8p+Ux6CFWNWc7SGludCLtxx1sgkwChTQC/lio/zZdts';
+          const client_id = 'Y2SIccH7OuV83hwlWbk9/XhEA7iJ2vIcc7SGludCLtxx1sgkwChTQJaDYqSs/X5A';
           if (client_id) config.headers.Authorization = `Bearer ${client_id}`;
 
           return config;
