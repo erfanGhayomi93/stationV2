@@ -5,6 +5,8 @@ import { FC } from "react";
 import { useBuySellContext } from "../../context/buySellContext";
 import { useCommissionValue } from "@hooks/useCommissionValue";
 import useUpdateEffect from "@hooks/useUpdateEffect";
+import ToggleSwitch from "@uiKit/ToggleSwitch";
+import QuantityByPercent from "./QuantityByPercent";
 
 
 interface IPriceProps {
@@ -15,7 +17,7 @@ interface IPriceProps {
 
 const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, marketUnit }) => {
 
-    const { quantity, setQuantity, isCalculatedQuantity, setIsCalculatedQuantity, side, price, amount, setAmount } = useBuySellContext()
+    const { quantity, side, price, amount, isCalculatedQuantity, setQuantity, isPercentQuantity, setIsPercentQuantity, setIsCalculatedQuantity, setAmount } = useBuySellContext()
 
     const { buyCommission, sellCommission } = useCommissionValue(marketUnit)
 
@@ -40,18 +42,32 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
 
     return (
         <div className="flex-1 flex flex-col gap-y-4">
-            <FieldInput
-                value={quantity}
-                onChangeValue={value => {
-                    setQuantity(+value)
-                }}
-                placeholder="تعداد"
-                upTickValue={maxTradeQuantity}
-                downTickValue={minTradeQuantity}
-                variant="advanced"
-                type="number"
-                onClickIcon={() => setIsCalculatedQuantity(!isCalculatedQuantity)}
-            />
+
+            <div className="flex gap-x-1">
+                {
+                    !isPercentQuantity && <FieldInput
+                        value={quantity}
+                        onChangeValue={value => {
+                            setQuantity(+value)
+                        }}
+                        placeholder="تعداد"
+                        upTickValue={maxTradeQuantity}
+                        downTickValue={minTradeQuantity}
+                        variant="advanced"
+                        type="number"
+                        onClickIcon={() => setIsCalculatedQuantity(!isCalculatedQuantity)}
+                    />
+                }
+
+                {isPercentQuantity && <QuantityByPercent />}
+
+                <ToggleSwitch
+                    checked={isPercentQuantity}
+                    label="درصدی"
+                    onChange={() => setIsPercentQuantity(!isPercentQuantity)}
+                />
+            </div>
+
 
             {
                 isCalculatedQuantity && (
