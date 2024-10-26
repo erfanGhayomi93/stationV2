@@ -36,7 +36,7 @@ const MarketIndexes = () => {
                          )}
                          key={item.symbolISIN}
                     >
-                         <span className="ml-2">
+                         <span className="ml-2 text-content-title">
                               {t(
                                    item.symbolISIN === 'IRX6XTPI0006'
                                         ? 'MarketIndexes.MainIndex'
@@ -87,8 +87,8 @@ const MarketIndexes = () => {
 
                <Popup
                     margin={{
-                         x: -20,
                          y: -40,
+                         x: 230,
                     }}
                     defaultPopupWidth={250}
                     renderer={({ setOpen }) => (

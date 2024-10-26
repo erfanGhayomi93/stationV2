@@ -110,9 +110,9 @@ const HeaderLayout = () => {
                               y: 20,
                               x: 5,
                          }}
-                         defaultPopupWidth={200}
+                         defaultPopupWidth={250}
                          renderer={() => (
-                              <ul className="flex w-full flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5">
+                              <ul className="flex flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5">
                                    {symbolTab?.map(item => (
                                         <li
                                              className={clsx(
