@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Captcha from './components/Captch';
 import Input from './components/Input';
 import { PasswordInput } from './components/passwordInput';
@@ -50,6 +51,8 @@ const Login = () => {
                console.log(result, 'result');
                if (result.loginResultType === 'Successful') {
                     setAuthorizeData(result?.token);
+
+                    toast.success('با موفقیت وارد حساب کاربری شدید.');
                     navigate('/');
                }
           },
@@ -66,8 +69,6 @@ const Login = () => {
                term: data.username,
           });
      };
-
-     console.log(errors, 'errors');
 
      return (
           <main className="rtl flex h-screen items-center gap-10 bg-back-surface p-10">

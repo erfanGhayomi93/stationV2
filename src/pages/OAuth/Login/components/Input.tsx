@@ -31,8 +31,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
                                    ref={ref}
                                    disabled={disabled}
                                    type="text"
+                                   dir="ltr"
                                    className={clsx(
-                                        'bg-L-basic dark:bg-D-basic text-L-gray-700 dark:text-D-gray-700 h-full w-full pl-4 outline-none',
+                                        'bg-L-basic dark:bg-D-basic text-L-gray-700 dark:text-D-gray-700 h-full w-full pl-4 outline-none placeholder:text-right',
                                         {
                                              [inputClassName as string]: !!inputClassName,
                                         }

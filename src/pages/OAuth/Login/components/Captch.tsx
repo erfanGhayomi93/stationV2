@@ -107,8 +107,9 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                    id={'captcha' + randomNum}
                                    type="number"
                                    inputMode="numeric"
+                                   dir="ltr"
                                    placeholder={placeHolder}
-                                   className={clsx('h-full w-full border-none outline-none', {
+                                   className={clsx('h-full w-full border-none outline-none placeholder:text-right', {
                                         'h-full w-full border-none outline-none': !!errors.captchaValue,
                                    })}
                                    ref={ref}
