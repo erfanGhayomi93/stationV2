@@ -30,7 +30,9 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
                     marketUnit={data?.marketUnit}
                />
                <Credit />
-               <InformationTrade />
+               <InformationTrade
+                    marketUnit={data?.marketUnit}
+               />
                <ActionsOrder />
           </div>
      );
