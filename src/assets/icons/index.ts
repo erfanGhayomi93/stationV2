@@ -47,6 +47,7 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineICon from '../svg/xOutline.svg?react';
+import MoreInformationIcon from '../svg/moreInformation.svg?react';
 
 export {
      AngleDownIcon,
@@ -98,4 +99,5 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineICon,
+     MoreInformationIcon
 };

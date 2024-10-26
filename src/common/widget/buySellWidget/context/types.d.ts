@@ -6,6 +6,11 @@ interface IPriceWithPercent {
      percent: number;
 }
 
+interface IQuantityWithPercent {
+     quantityBasedOn: string;
+     percent: number;
+}
+
 interface IBuySellState {
      side: TSide;
      price: number;
@@ -17,7 +22,9 @@ interface IBuySellState {
      amount: number;
      isCalculatedQuantity: boolean;
      isPercentPrice: boolean;
+     isPercentQuantity: boolean;
      priceWithPercent: IPriceWithPercent;
+     quantityWithPercent: IQuantityWithPercent;
      setSide: (side: TSide) => void;
      setPrice: (price: number) => void;
      setQuantity: (quantity: number) => void;
@@ -28,5 +35,7 @@ interface IBuySellState {
      setAmount: (amount: number) => void;
      setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => void;
      setIsPercentPrice: (isPercentPrice: boolean) => void;
+     setIsPercentQuantity: (setIsPercentQuantity: boolean) => void;
      setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => void;
+     setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => void;
 }
