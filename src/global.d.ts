@@ -5,7 +5,7 @@ declare module '*.svg' {
 }
 
 declare interface Window {
-     REACT_APP_BROKER_CODE: string;
+     REACT_APP_BROKER_CODE: '189' | '173' | '347';
      REACT_APP_PUSHENGINE_PATH: string;
      REACT_APP_PUSHENGINE_PORT: string;
      REACT_APP_BASE_URL: string;

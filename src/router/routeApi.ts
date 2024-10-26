@@ -6,6 +6,7 @@ export const routeApi = () => {
      // const oAuthApi = window.REACT_APP_OAUTH_PATH
 
      const baseUrl = window.REACT_APP_BASE_URL;
+     const oAuthUrl = window.REACT_APP_OAUTH_PATH;
 
      return {
           Time: {
@@ -51,6 +52,21 @@ export const routeApi = () => {
           },
           Trader: {
                GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
+          },
+
+          OAuth: {
+               authorization: oAuthUrl + '/GTOAuthApi/v1/GTAuthorization',
+               captcha: oAuthUrl + '/Captcha/v1/create',
+               twoFactor: oAuthUrl + '/OAuthApi/v1/TwoFactorAuthorizer',
+               logout: oAuthUrl + '/GTOAuthApi/v1/Logout',
+
+               forgetPasswordRequest: oAuthUrl + '/GTForgetPassword/v1/Request',
+               forgetPasswordValidation: oAuthUrl + '/GTForgetPassword/v1/Validation',
+               forgetPasswordChangePassword: oAuthUrl + '/GTForgetPassword/v1/ChangePassword',
+
+               changePasswordRequest: oAuthUrl + '/GTChangePassword/v1/Request',
+               changePasswordValidation: oAuthUrl + '/GTChangePassword/v1/Validation',
+               changePasswordSetPassword: oAuthUrl + '/GTChangePassword/v1/ChangePassword',
           },
      };
 };

@@ -9,4 +9,7 @@ export const useModalStore = create<IModalStore>(set => ({
 
      customersSearchModalSheet: null,
      setCustomersSearchModalSheet: value => set(() => ({ customersSearchModalSheet: value })),
+
+     confirmLogoutModal: false,
+     setConfirmLogoutModal: value => set(() => ({ confirmLogoutModal: value })),
 }));

@@ -23,4 +23,7 @@ interface IModalStore {
 
      customersSearchModalSheet: TcustomersSearchModalSheet | null;
      setCustomersSearchModalSheet: (state: TcustomersSearchModalSheet | null) => void;
+
+     confirmLogoutModal: boolean;
+     setConfirmLogoutModal: (state: boolean) => void;
 }
