@@ -23,7 +23,7 @@ const Modal = ({ children, onCloseModal, title, classes, size }: IModalProps) =>
      return createPortal(
           <div className={clsx(styles.root, classes?.root)}>
                <div ref={modalRef} className={clsx(styles.modal, classes?.modal, size && styles[size])}>
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-6">
                          <div className="flex items-center justify-between">
                               <div className="font-bold text-content-paragraph">{title}</div>
                               <button onClick={onCloseModal} className="text-icon-default">

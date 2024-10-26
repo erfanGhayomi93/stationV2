@@ -1,4 +1,6 @@
+import { useQueryGeneralUser } from '@api/trader';
 import Modals from '@components/modal/Modals';
+import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useThemeStore } from 'store/theme';
@@ -18,6 +20,22 @@ const AppLayout = () => {
                element.classList.toggle('dark', darkQuery.matches);
           }
      }, [theme]);
+
+     const { data: dataUser } = useQueryGeneralUser();
+
+     const { brokerCode, userName } = dataUser || {};
+
+     const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
+
+     useEffect(() => {
+          if (userName && brokerCode) {
+               subscribeCustomers(userName, brokerCode);
+          }
+
+          return () => {
+               isSubscribed() && unSubscribeCustomers();
+          };
+     }, [userName]);
 
      return (
           <div className="grid h-screen max-h-screen grid-cols-one-min overflow-hidden bg-back-2">
