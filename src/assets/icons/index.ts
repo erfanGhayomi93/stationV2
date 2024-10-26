@@ -16,6 +16,10 @@ import DetailsIcon from '../svg/details.svg?react';
 import DoubleTickIcon from '../svg/DoubleTick.svg?react';
 import EditIcon from '../svg/edit.svg?react';
 import ExcelIcon from '../svg/excel.svg?react';
+import EyeOutlineIcon from '../svg/eye-outline.svg';
+import EyeSlashIcon from '../svg/eye-slash.svg?react';
+import KeyboardSlashIcon from '../svg/keyboard-slash.svg?react';
+import KeyboardIcon from '../svg/keyboard.svg?react';
 import LayoutIcon from '../svg/layout.svg?react';
 import LightModeIcon from '../svg/lightMode.svg?react';
 import LinkIcon from '../svg/link.svg?react';
@@ -25,10 +29,13 @@ import MoreStatusIcon from '../svg/more-status.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
+import RamandIcon from '../svg/ramand.svg?react';
+import RefreshIcon from '../svg/refresh.svg?react';
 import RiskAnnouncementIcon from '../svg/RiskAnnouncement.svg?react';
 import SearchCustomerGroupsIcon from '../svg/searchCustomerGroups.svg?react';
 import SearchCustomersIcon from '../svg/searchCustomers.svg?react';
 import SearchInputIcon from '../svg/searchInput.svg?react';
+import ShieldIcon from '../svg/shield.svg?react';
 import SignalIcon from '../svg/Signal.svg?react';
 import SingleTickIcon from '../svg/singleTick.svg?react';
 import SpinnerIcon from '../svg/Spinner.svg?react';
@@ -60,6 +67,10 @@ export {
      DoubleTickIcon,
      EditIcon,
      ExcelIcon,
+     EyeOutlineIcon,
+     EyeSlashIcon,
+     KeyboardIcon,
+     KeyboardSlashIcon,
      LayoutIcon,
      LightModeIcon,
      LinkIcon,
@@ -69,11 +80,14 @@ export {
      NotificationIcon,
      PinnedIcon,
      ProfileIcon,
+     RamandIcon,
+     RefreshIcon,
      RiskAnnouncementIcon,
      SearchCustomerGroupsIcon,
      SearchCustomersIcon,
      SearchInputIcon,
      SendToBasketIcon,
+     ShieldIcon,
      SignalIcon,
      SingleTickIcon,
      SpinnerIcon,

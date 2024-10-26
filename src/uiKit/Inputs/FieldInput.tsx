@@ -21,6 +21,7 @@ interface TFieldInputProps
      secondaryPrice?: number;
      direction?: 'left' | 'right';
      isPercentage?: boolean;
+     clearAble?: boolean;
 }
 
 const FieldInput = ({
@@ -35,6 +36,7 @@ const FieldInput = ({
      onClickIcon = () => null,
      placeholder = '',
      onChangeValue,
+     clearAble = true,
      secondaryPrice,
      value,
      direction = 'right',
@@ -45,25 +47,23 @@ const FieldInput = ({
 
      const inputRef = useRef<HTMLInputElement>(null);
 
-
      const LimitedToPercentage = (value: number) => {
           return Math.floor(Math.min(Math.max(0, value), 100));
-     }
+     };
 
      const handleNumericValue = (value: string) => {
-          return value.replace(/[^\d]/g, '')
-     }
-
+          return value.replace(/[^\d]/g, '');
+     };
 
      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
           const newValue = e.target.value;
 
-          const numericValue = handleNumericValue(newValue)
-          // 
+          const numericValue = handleNumericValue(newValue);
+          //
           //           onChange(type === 'number' ? numericValue : newValue);
 
           if (isPercentage) {
-               const percentNumber = LimitedToPercentage(+numericValue)  // Limit to 0-100
+               const percentNumber = LimitedToPercentage(+numericValue); // Limit to 0-100
                onChange(percentNumber);
           } else {
                onChange(type === 'number' ? numericValue : newValue);
@@ -73,36 +73,44 @@ const FieldInput = ({
      const onChange = (newValue: string | number) => {
           if (String(inputValue).length > 20) return;
 
-          if (type === "number") {
-               setInputValue(sepNumbers(newValue))
+          if (type === 'number') {
+               setInputValue(sepNumbers(newValue));
           } else {
-               setInputValue(newValue)
+               setInputValue(newValue);
           }
-
-
      };
 
      useUpdateEffect(() => {
           const numericValue = handleNumericValue(String(inputValue));
 
-          onChangeValue(type === "number" ? numericValue : inputValue);
-     }, [inputValue])
+          onChangeValue(type === 'number' ? numericValue : inputValue);
+     }, [inputValue]);
 
      const handleKeyDown = (e: KeyboardEvent) => {
           if (inputRef.current && document.activeElement === inputRef.current && type === 'number') {
-
                if (e.key === 'ArrowUp') {
                     e.preventDefault();
 
                     setInputValue(prev => {
-                         return String(Number(isPercentage ? LimitedToPercentage(+handleNumericValue(String(prev))) + 1 : +handleNumericValue(String(prev)) + 1))
-                    })
+                         return String(
+                              Number(
+                                   isPercentage
+                                        ? LimitedToPercentage(+handleNumericValue(String(prev))) + 1
+                                        : +handleNumericValue(String(prev)) + 1
+                              )
+                         );
+                    });
                } else if (e.key === 'ArrowDown') {
                     e.preventDefault();
                     // setInputValue(prev => String(Math.max(0, Number(prev) - 1)));
                     setInputValue(prev => {
-                         return String(Number(isPercentage ? LimitedToPercentage(+handleNumericValue(String(prev))) - 1 : +handleNumericValue(String(prev)) - 1))
-
+                         return String(
+                              Number(
+                                   isPercentage
+                                        ? LimitedToPercentage(+handleNumericValue(String(prev))) - 1
+                                        : +handleNumericValue(String(prev)) - 1
+                              )
+                         );
                     });
                }
           }
@@ -110,7 +118,7 @@ const FieldInput = ({
 
      useEffect(() => {
           if (type === 'number') {
-               setInputValue(value === 0 ? '' : sepNumbers(value.toString()));
+               setInputValue(value === 0 || value === '' ? '' : sepNumbers(value.toString()));
           } else {
                setInputValue(value.toString());
           }
@@ -125,11 +133,7 @@ const FieldInput = ({
 
      return (
           <div className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active">
-               {!!secondaryPrice && (
-                    <div className="ml-2 text-xs text-content-selected">
-                         {`(${sepNumbers(secondaryPrice)})`}
-                    </div>
-               )}
+               {!!secondaryPrice && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
 
                <div
                     className={clsx('flex items-center', {
@@ -142,30 +146,33 @@ const FieldInput = ({
                          value={inputValue}
                          onChange={handleChange}
                          dir="ltr"
-                         className={clsx('h-12 w-full flex-1 border-none bg-transparent text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder focus:outline-non', {
-                              "text-right": direction === 'right',
-                              "text-left": direction === 'left',
-                         })}
+                         className={clsx(
+                              'focus:outline-non h-12 w-full flex-1 border-none bg-transparent text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder',
+                              {
+                                   'text-right': direction === 'right',
+                                   'text-left': direction === 'left',
+                              }
+                         )}
                          {...props}
                     />
 
-                    {
-                         (variant !== 'advanced' && typeof secondaryPrice !== 'number') && (
-                              <button
-                                   onClick={() => setInputValue('')}
-                                   className={clsx('flex justify-center text-input-default group-focus-within:text-input-active transition-opacity', {
-                                        "opacity-0": !inputValue
-                                   })}
-                              >
-                                   <XCircleOutlineIcon />
-                              </button>
-                         )
-                    }
-
+                    {variant !== 'advanced' && typeof secondaryPrice !== 'number' && (
+                         <button
+                              onClick={() => setInputValue('')}
+                              className={clsx(
+                                   'flex justify-center text-input-default transition-opacity group-focus-within:text-input-active',
+                                   {
+                                        'opacity-0': !inputValue,
+                                   }
+                              )}
+                         >
+                              <XCircleOutlineIcon />
+                         </button>
+                    )}
 
                     <div
                          className={clsx(
-                              'text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active focus:outline-non',
+                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
                               {
                                    'absolute -top-3 right-2 bg-back-surface px-1': inputValue,
                                    'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !inputValue,
@@ -175,8 +182,6 @@ const FieldInput = ({
                          <span className="">{placeholder}</span>
                     </div>
                </div>
-
-
 
                {/* {variant === 'advanced' && (
                     <div

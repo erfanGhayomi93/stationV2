@@ -1,3 +1,5 @@
+import { useQueryGeneralUser } from '@api/trader';
+import { useModalStore } from '@store/modal';
 import clsx from 'clsx';
 import { FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +18,6 @@ import {
 import AnimatePresence from '../../common/components/animation/AnimatePresence';
 import useClickOutside from '../../common/hooks/useClickOutside';
 import { sepNumbers } from '../../common/methods/helper';
-import { useQueryGeneralUser } from '@api/trader';
 
 interface IMultiLevelDropdownProps {
      isDropdownOpen: boolean;
@@ -35,13 +36,13 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { t } = useTranslation();
 
+     const { setConfirmLogoutModal } = useModalStore();
+
      const { theme, setTheme } = useThemeStore();
 
-     const { data: dataUser } = useQueryGeneralUser()
+     const { data: dataUser } = useQueryGeneralUser();
 
      const { traderTitle, credit, traderISIN } = dataUser || {};
-
-
 
      const menuItems = [
           {
@@ -84,14 +85,14 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                value: 'کلاسیک',
                subMenu: [],
                Icon: LayoutIcon,
-               disabled: true
+               disabled: true,
           },
           {
                label: 'اعلان',
                value: '2',
                Icon: NotificationIcon,
                subMenu: [],
-               disabled: true
+               disabled: true,
           },
      ];
 
@@ -123,8 +124,10 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                         key={index}
                                         className={clsx(
                                              'rounded-md px-2 transition-colors hover:bg-back-primary/80',
-                                             item?.disabled && "text-button-disable-disable hover:bg-button-disable-hover opacity-55", item?.disabled,
-                                             item.subMenu && 'relative',
+                                             item?.disabled &&
+                                                  'text-button-disable-disable opacity-55 hover:bg-button-disable-hover',
+                                             item?.disabled,
+                                             item.subMenu && 'relative'
                                         )}
                                    >
                                         <button
@@ -189,13 +192,16 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                               ))}
                          </ul>
 
-                         <button className="flex w-full items-center gap-2 p-4 text-sm">
+                         <button
+                              onClick={() => setConfirmLogoutModal(true)}
+                              className="flex w-full items-center gap-2 p-4 text-sm"
+                         >
                               <LogoutIcon width={20} height={20} className="text-icon-primary" />
                               <span className="text-content-title">خروج از حساب کاربری</span>
                          </button>
                     </div>
-               </AnimatePresence >
-          </div >
+               </AnimatePresence>
+          </div>
      );
 };
 

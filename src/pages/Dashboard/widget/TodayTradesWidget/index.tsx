@@ -12,15 +12,14 @@ import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
 // import { Actions } from './actions';
 
-interface ITodayTradesWidgetProps { }
+interface ITodayTradesWidgetProps {}
 
 const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
      const { t } = useTranslation();
 
-     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
      const timeout = useRef<NodeJS.Timeout | undefined>();
-
 
      const [isAggregate, setIsAggregate] = useState(true);
 
@@ -84,27 +83,27 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                refetch();
                clearTimeout(timeout.current);
           }, 2000);
-     }
+     };
 
      onOMSMessageHandlerRef.current = useMemo(
-          () => (message) => {
+          () => message => {
                const omsOrderStatus = message[22] as TStatus;
 
                if (['DeleteByEngine', 'PartOfTheOrderDone', 'OrderDone', 'OnCancelingWithBroker'].includes(omsOrderStatus)) {
                     clearTimeout(timeout.current);
                     refetchDoneOrder();
                }
-          }, []
-     )
+          },
+          []
+     );
 
      useEffect(() => {
-          ipcMain.handle("onOMSMessageReceived", onOMSMessageHandlerRef.current)
+          ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
 
           return () => {
-               ipcMain.removeAllHandlers('onOMSMessageReceived')
-          }
-     }, [])
-
+               ipcMain.removeAllHandlers('onOMSMessageReceived');
+          };
+     }, []);
 
      return (
           <div className="flex h-full flex-1 flex-col gap-4">
