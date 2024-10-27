@@ -4,8 +4,10 @@ import { persist } from 'zustand/middleware';
 interface ISymbolStore {
      selectedSymbol: string;
      setSelectedSymbol: (state: string) => void;
-     // tabsSymbol: SearchSymbol[];
-     // setTabSymbol: (value: SearchSymbol[]) => void;
+     symbolTitle: string;
+     setSymbolTitle: (value: string) => void;
+     marketUnit?: TMarketUnit;
+     setMarketUnit: (value?: TMarketUnit) => void;
 }
 
 export const useSymbolStore = create<ISymbolStore>()(
@@ -14,8 +16,11 @@ export const useSymbolStore = create<ISymbolStore>()(
                selectedSymbol: '',
                setSelectedSymbol: value => set(() => ({ selectedSymbol: value })),
 
-               // tabsSymbol: [],
-               // setTabSymbol: value => set(() => ({ tabsSymbol: value })),
+               symbolTitle: '',
+               setSymbolTitle: value => set(() => ({ symbolTitle: value })),
+
+               marketUnit: undefined,
+               setMarketUnit: value => set(() => ({ marketUnit: value })),
           }),
           {
                name: 'symbol-manager',

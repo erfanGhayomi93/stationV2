@@ -4,41 +4,25 @@ import Button from "@uiKit/Button"
 import { FC } from "react"
 import { useBuySellContext } from "../../context/buySellContext"
 import { useCustomerStore } from "@store/customer"
-import { uid } from "@methods/helper"
+import { generateSourceOrder, handleValidity, uid } from "@methods/helper"
 import { useSymbolStore } from "@store/symbol"
+import { useModalStore } from "@store/modal"
 
 interface IBodyBuySellProps { }
 
 const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
-    const { price, quantity, side, strategy, validity, validityDate, source } = useBuySellContext()
+    const { price, quantity, side, strategy, validity, validityDate, source, quantityWithPercent } = useBuySellContext()
+
+    const { setIsPercentQuantityOrderModal } = useModalStore()
+
     const { selectedCustomers } = useCustomerStore()
+
     const { selectedSymbol } = useSymbolStore()
 
     const { sendOrders } = useSendOrders()
 
-    const handleValidity = (validity: TValidity): TValidity => {
-        if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
-        return validity;
-    };
-
-    const generateSourceOrder = () => {
-        try {
-            const sourcePosition = source?.split("-")[0]
-            // if (side === 'Sell' && symbolData?.isOption) {
-            if (side === 'Sell') {
-
-                if (sourcePosition === "Position") return sourcePosition
-                return source
-            }
-            return undefined
-        }
-        catch {
-            return undefined
-        }
-    }
-
-    const sendingOrder = () => {
+    const handleSendOrder = () => {
         const CustomerTagId: TCustomerIsins = [];
         const GTTraderGroupId: TCustomerIsins = [];
 
@@ -60,12 +44,22 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
                     symbolISIN: selectedSymbol,
                     validity: handleValidity(validity),
                     validityDate: validityDate,
-                    source: generateSourceOrder(),
+                    source: generateSourceOrder(source , side),
                     // PositionSymbolISIN: (side === 'Sell' && symbolData?.isOption && generateSourceOrder() === "Position") ? source?.split("-")[1] : undefined
                 }
             }).filter(Boolean)
 
         sendOrders(orders)
+    }
+
+    const sendingOrder = () => {
+        if (quantityWithPercent) {
+            setIsPercentQuantityOrderModal(true)
+            return
+        }
+
+        handleSendOrder()
+
     }
 
 
@@ -75,6 +69,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
                 variant={side === "Buy" ? "primary-outline" : "danger-outline"}
                 className="flex-1"
                 icon={<SendToBasketIcon />}
+                disabled={true}
             >
                 ارسال به سبد
             </Button>

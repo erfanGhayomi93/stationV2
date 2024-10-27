@@ -1,5 +1,13 @@
 type TValidity = 'Day' | 'Week' | 'Month' | 'GoodTillDate' | 'FillAndKill' | 'GoodTillCancelled';
+
 type TStrategy = 'normal';
+
+type TQuantityBasedOn = 'remain' | 'purchasePower' | 'stockDailyCredit';
+
+interface IPriceLockIcon {
+     bestBuyLimitPrice_1: number;
+     bestSellLimitPrice_1: number;
+}
 
 interface IPriceWithPercent {
      PriceBasedOn: string;
@@ -7,7 +15,7 @@ interface IPriceWithPercent {
 }
 
 interface IQuantityWithPercent {
-     quantityBasedOn: string;
+     quantityBasedOn: TQuantityBasedOn;
      percent: number;
 }
 
@@ -25,6 +33,7 @@ interface IBuySellState {
      isPercentQuantity: boolean;
      priceWithPercent: IPriceWithPercent;
      quantityWithPercent: IQuantityWithPercent;
+     isLockPrice: boolean;
      setSide: (side: TSide) => void;
      setPrice: (price: number) => void;
      setQuantity: (quantity: number) => void;
@@ -38,4 +47,5 @@ interface IBuySellState {
      setIsPercentQuantity: (setIsPercentQuantity: boolean) => void;
      setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => void;
      setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => void;
+     setIsLockPrice: (isLockPrice: boolean) => void;
 }

@@ -13,25 +13,30 @@ interface IBodyBuySellProps { }
 const BodyBuySell: FC<IBodyBuySellProps> = () => {
      const { selectedSymbol } = useSymbolStore();
 
-     const { data } = useQuerySymbolGeneralInformation<ISymbolData>(selectedSymbol, data => {
-          return data.symbolData;
+     const { data } = useQuerySymbolGeneralInformation<{ symbolData: ISymbolData, ordersData: IOrdersData }>(selectedSymbol, data => {
+          return {
+               symbolData: data.symbolData,
+               ordersData: data.ordersData,
+          };
      });
 
      return (
           <div className="flex w-full flex-col gap-y-4 pt-3 outline-none">
                <CustomersSearch />
                <Price
-                    upTickValue={data?.highThreshold}
-                    downTickValue={data?.lowThreshold}
+                    upTickValue={data?.symbolData.highThreshold}
+                    downTickValue={data?.symbolData.lowThreshold}
+                    bestSellLimitPrice_1={data?.ordersData.bestSellLimitPrice_1}
+                    bestBuyLimitPrice_1={data?.ordersData.bestBuyLimitPrice_1}
                />
                <Quantity
-                    minTradeQuantity={data?.minTradeQuantity}
-                    maxTradeQuantity={data?.maxTradeQuantity}
-                    marketUnit={data?.marketUnit}
+                    minTradeQuantity={data?.symbolData.minTradeQuantity}
+                    maxTradeQuantity={data?.symbolData.maxTradeQuantity}
+                    marketUnit={data?.symbolData.marketUnit}
                />
                <Credit />
                <InformationTrade
-                    marketUnit={data?.marketUnit}
+                    marketUnit={data?.symbolData.marketUnit}
                />
                <ActionsOrder />
           </div>
