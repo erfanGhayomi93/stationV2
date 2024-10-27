@@ -211,7 +211,7 @@ const EditOrdersGroupModal = () => {
                     <div className="flex items-center justify-between gap-8">
                          <div className="flex flex-1 items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
-                                   <span>{t('todayOrders.volume')}:</span>
+                                   <span className="text-content-paragraph">{t('todayOrders.volume')}:</span>
                                    <SelectInput
                                         value={{
                                              id: 'constant',
@@ -234,7 +234,7 @@ const EditOrdersGroupModal = () => {
                          </div>
                          <div className="flex flex-1 items-center gap-2">
                               <div className="flex basis-7/12 items-center gap-2">
-                                   <span>{t('todayOrders.price')}:</span>
+                                   <span className="text-content-paragraph">{t('todayOrders.price')}:</span>
                                    <SelectInput
                                         value={{
                                              id: 'constant',

@@ -302,7 +302,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                               }
                               arrow={false}
                               className={clsx(
-                                   'dark:bg-D-gray-700 top-4 bg-gray-700'
+                                   'dark:bg-D-gray-700 bg-gray-700 top-4'
                                    //  theme
                               )}
                          >
@@ -362,7 +362,7 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                               }
                               arrow={false}
                               className={clsx(
-                                   'dark:bg-D-gray-700 top-4 bg-gray-700'
+                                   'dark:bg-D-gray-700 bg-gray-700 top-4'
                                    // theme
                               )}
                          >
