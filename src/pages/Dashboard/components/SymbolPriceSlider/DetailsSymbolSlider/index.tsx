@@ -1,8 +1,8 @@
-import { ArrowDownTriangleIcon } from '@assets/icons';
 import { dateFormatter, getColorClassBasedAmount, sepNumbers } from '@methods/helper';
+import { useUIStore } from '@store/ui';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface IDetailsSymbolSliderProps {
@@ -53,14 +53,13 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
 }) => {
      const { t } = useTranslation();
 
-     const [isExpand, setExpand] = useState(false);
+     const { isExpandSymbolDetails } = useUIStore();
 
      const [countShowItem, setCountShowItem] = useState(4);
 
-     const toggleExpand = () => {
-          setExpand(prev => !prev);
-          setCountShowItem(prev => (isExpand ? 4 : data.length)); // Toggle between showing 4 and all items
-     };
+     useEffect(() => {
+          setCountShowItem(prev => (isExpandSymbolDetails ? 4 : data.length));
+     }, [isExpandSymbolDetails]);
 
      const data: dataType[][] = [
           [
@@ -199,14 +198,6 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                          ))}
                     </ul>
                ))}
-
-               <div onClick={toggleExpand} className="flex cursor-pointer items-center justify-center py-2">
-                    <div style={{ minHeight: '1px' }} className="w-full flex-1 bg-line-div-2" />
-                    <div className="px-1">
-                         <ArrowDownTriangleIcon className={clsx('transition-transform', isExpand && 'rotate-180')} />
-                    </div>
-                    <div style={{ minHeight: '1px' }} className="w-full flex-1 bg-line-div-2" />
-               </div>
           </ul>
      );
 };

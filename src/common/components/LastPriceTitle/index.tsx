@@ -24,7 +24,7 @@ const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar
           >
                <div className="flex items-center gap-x-1 text-xs">
                     <span
-                         className={clsx('w-9 truncate text-right', {
+                         className={clsx('text-right', {
                               'text-content-paragraph': !isSelected,
                               'font-medium text-content-title': isSelected,
                          })}
