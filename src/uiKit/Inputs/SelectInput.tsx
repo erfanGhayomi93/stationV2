@@ -14,7 +14,7 @@ interface TSelectInputProps
      value: TItem;
 }
 
-const SelectInput = ({ onChange,  items, value, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
      const [state, setState] = useState<{ id: string; label: string }>(value);
 
      return (
@@ -25,7 +25,7 @@ const SelectInput = ({ onChange,  items, value, placeholder = '', ...props }: TS
                          {items?.map((item, index) => (
                               <li
                                    className={clsx(
-                                        'w-full cursor-pointer items-center justify-start rounded-md transition-colors hover:bg-back-primary/80',
+                                        'w-full cursor-pointer items-center justify-start rounded-md transition-colors text-content-paragraph hover:bg-back-primary',
                                         item.id === state.id && 'bg-back-primary'
                                    )}
                                    key={index}

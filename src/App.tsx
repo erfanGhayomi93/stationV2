@@ -1,8 +1,5 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import RouterPage from './router/routerPage';
-
-import { useQueryGeneralUser } from '@api/trader';
-import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
 import 'tippy.js/dist/tippy.css';
 
 function App() {

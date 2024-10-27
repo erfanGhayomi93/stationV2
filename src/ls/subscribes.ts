@@ -50,3 +50,21 @@ export const subscribeMarketDepth = (
           },
      });
 };
+
+export const SubscribeSymbolBestOneOrders = (
+     selectedSymbol: string,
+     fields: ['bestBuyLimitPrice_1', 'bestSellLimitPrice_1'],
+     onItemUpdate: (changedFields: IPriceLockIcon) => void
+) => {
+     pushEngine.subscribe({
+          id: 'SymbolBestOneOrders',
+          mode: 'MERGE',
+          isSnapShot: 'yes',
+          adapterName: 'RamandRLCDData',
+          items: [selectedSymbol],
+          fields: fields,
+          onFieldsUpdate({ changedFields }: { changedFields: IPriceLockIcon }) {
+               onItemUpdate(changedFields);
+          },
+     });
+};

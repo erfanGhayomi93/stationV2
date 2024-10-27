@@ -1,4 +1,4 @@
-import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
+import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockCloseIcon, LockIcon, XCircleOutlineIcon } from '@assets/icons';
 import useUpdateEffect from '@hooks/useUpdateEffect';
 import { sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
@@ -14,7 +14,7 @@ interface TFieldInputProps
      onClickUpTick?: () => void;
      onClickDownTick?: () => void;
      onChangeValue: (v: string | number) => void;
-     selectIcon?: 'calculator' | 'lock';
+     selectIcon?: 'calculator' | 'lock-0' | 'lock-1';
      onClickIcon?: () => void;
      placeholder?: string;
      value: string | number;
@@ -220,9 +220,13 @@ const FieldInput = ({
                               </div>
                          </div>
                          <div className="w-2/12">
-                              {selectIcon === 'lock' ? (
-                                   <LockIcon onClick={onClickIcon} />
-                              ) : (
+                              {selectIcon === 'lock-0' && (
+                                   <LockIcon className='text-icon-disable' onClick={onClickIcon} />
+                              )}
+                              {selectIcon === 'lock-1' && (
+                                   <LockCloseIcon onClick={onClickIcon} />
+                              )}
+                              {selectIcon === 'calculator' && (
                                    <CalculatorIcon onClick={onClickIcon} />
                               )}
                          </div>

@@ -5,12 +5,12 @@ import { useBuySellContext } from "../../context/buySellContext";
 
 
 const QuantityByPercent = () => {
-    const { quantityWithPercent, isPercentQuantity, setQuantityWithPercent, setIsPercentQuantity } = useBuySellContext()
+    const { quantityWithPercent, setQuantityWithPercent } = useBuySellContext()
 
 
 
 
-    const TICK_ITEMS = [
+    const TICK_ITEMS: { id: TQuantityBasedOn, label: string }[] = [
         { id: "remain", label: "وجه نقد" },
         { id: "purchasePower", label: "قدرت خرید" },
         { id: "stockDailyCredit", label: "اعتبار" },
@@ -43,7 +43,7 @@ const QuantityByPercent = () => {
                     items={TICK_ITEMS}
                     onChange={value => setQuantityWithPercent({
                         percent: quantityWithPercent.percent,
-                        quantityBasedOn: value.id
+                        quantityBasedOn: value.id as TQuantityBasedOn
                     })}
                 />
             </div>

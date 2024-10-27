@@ -11,6 +11,7 @@ const BuySellWidget = () => {
 
      const tabs: TSide[] = ['Buy', 'Sell'];
 
+
      return (
           <div className="h-full">
                <TabGroup className="relative" selectedIndex={side === 'Buy' ? 0 : 1} onChange={index => setSide(tabs[index])}>
@@ -23,7 +24,7 @@ const BuySellWidget = () => {
                                              side === 'Buy',
                                         'data-[selected]:border:content-error-sell data-[selected]:border-b-2 data-[selected]:text-content-error-sell':
                                              side === 'Sell',
-                                   })}       
+                                   })}
                               >
                                    {t(`common.${item as TSide}`)}
                               </Tab>
