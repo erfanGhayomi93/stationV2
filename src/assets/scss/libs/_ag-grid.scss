@@ -45,6 +45,7 @@
                     //Checkbox
                     --ag-checkbox-border-radius: 4px,
                     --ag-checkbox-unchecked-color: transparent,
+                    --ag-checkbox-checked-color: rgba(57, 172, 172, 1),
                ),
                alpine-dark: (
                     // font
@@ -87,6 +88,7 @@
                     //Checkbox
                     --ag-checkbox-border-radius: 4px,
                     --ag-checkbox-unchecked-color: transparent,
+                    --ag-checkbox-checked-color: rgba(57, 172, 172, 1),
                ),
                balham: (
                     // font
@@ -125,7 +127,7 @@
                     --ag-icon-size: 14px,
                     //Checkbox
                     --ag-checkbox-border-radius: 4px,
-                    --ag-checkbox-unchecked-color: transparent,
+                    --ag-checkbox-checked-color: rgba(57, 172, 172, 1),
                ),
                balham-dark: (
                     // font
@@ -164,7 +166,7 @@
                     --ag-icon-size: 14px,
                     //Checkbox
                     --ag-checkbox-border-radius: 4px,
-                    --ag-checkbox-unchecked-color: transparent,
+                    --ag-checkbox-checked-color: rgba(57, 172, 172, 1),
                ),
           ),
      )
