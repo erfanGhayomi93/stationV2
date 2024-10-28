@@ -35,7 +35,7 @@ import LogoutIcon from '../svg/logout.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import MoreInformationIcon from '../svg/moreInformation.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
-import PiChartIcon from '../svg/pie-chart.svg?react';
+import PieChartIcon from '../svg/pie-chart.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
 import RamandIcon from '../svg/ramand.svg?react';
@@ -96,7 +96,7 @@ export {
      MoreInformationIcon,
      MoreStatusIcon,
      NotificationIcon,
-     PiChartIcon,
+     PieChartIcon,
      PinnedIcon,
      ProfileIcon,
      RamandIcon,

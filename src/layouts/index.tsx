@@ -39,7 +39,7 @@ const AppLayout = () => {
      }, [userName]);
 
      return (
-          <div className="grid h-screen max-h-screen grid-cols-[1fr_48px] gap-x-4 overflow-hidden bg-back-2">
+          <div className="grid h-screen max-h-screen grid-cols-[1fr_64px] gap-x-4 overflow-hidden bg-back-2">
                <main className="grid h-full max-h-full grid-rows-[48px_1fr_40px] gap-y-2 overflow-hidden">
                     <header className="rtl rounded-b-lg bg-back-surface">
                          <HeaderLayout />
