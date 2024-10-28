@@ -163,7 +163,7 @@ const Login = () => {
                     </div>
 
                     <div className="absolute bottom-20 left-1/2 flex -translate-x-1/2 flex-col gap-8">
-                         <span className="text-4xl font-bold text-content-white">افزایش سرعت و کارایی معاملات</span>
+                         <span className="text-white text-4xl font-bold">افزایش سرعت و کارایی معاملات</span>
                          <div className="flex items-center justify-center gap-2">
                               <div className="h-2 w-28 rounded-[32px] bg-[rgba(217,217,217,1)]"></div>
                               <div className="h-2 w-28 rounded-[32px] bg-[rgba(217,217,217,0.2)]"></div>

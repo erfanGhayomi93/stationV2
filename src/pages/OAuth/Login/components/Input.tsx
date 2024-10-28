@@ -13,6 +13,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Props>(
      ({ disabled, addonAfter, addonBefore, containerClassName, inputClassName, icon, label, textError, ...rest }, ref) => {
+          console.log(textError, 'texteroro');
           //
           return (
                // <div className={` ${containerClassName} ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
@@ -21,7 +22,8 @@ const Input = forwardRef<HTMLInputElement, Props>(
                          className={clsx(
                               'duration-250 flex h-14 w-full items-center overflow-hidden rounded-2xl border border-input-default focus-within:border-input-primary',
                               containerClassName,
-                              disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'
+                              disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic',
+                              textError && 'border-input-error'
                          )}
                     >
                          <div>{addonBefore ? addonBefore : null}</div>
@@ -33,7 +35,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                                    type="text"
                                    dir="ltr"
                                    className={clsx(
-                                        'bg-L-basic dark:bg-D-basic text-L-gray-700 dark:text-D-gray-700 h-full w-full pl-4 outline-none placeholder:text-right',
+                                        'text-L-gray-700 dark:text-D-gray-700 h-full w-full bg-transparent pl-4 outline-none placeholder:text-right',
                                         {
                                              [inputClassName as string]: !!inputClassName,
                                         }
@@ -45,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                     </div>
                     <p
                          className={clsx('text-xs text-icon-error transition-all', {
-                              'pt-1': !!textError,
+                              'pt-2': !!textError,
                          })}
                     >
                          {textError}

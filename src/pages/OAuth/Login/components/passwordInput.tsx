@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { KeyboardIcon, KeyboardSlashIcon, LockIcon } from '@assets/icons';
+import { EyeIcon, EyeSlashIcon, KeyboardIcon, KeyboardSlashIcon, LockIcon } from '@assets/icons';
 import { UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from './Input';
@@ -63,33 +63,33 @@ export const PasswordInput = forwardRef(
                          type={!isShowCurrentPassword ? 'password' : 'text'}
                          data-cy="password"
                          addonAfter={
-                              <div className="flex items-center px-4">
-                                   {/* {isShowCurrentPassword ? (
-                                        <EyeOffOutlineSVG
-                                             className="text-L-gray-500 dark:text-D-gray-500 cursor-pointer"
+                              <div className="flex items-center gap-2 pl-4">
+                                   {isShowCurrentPassword ? (
+                                        <EyeIcon
+                                             className="cursor-pointer text-icon-default"
                                              onClick={() => setIsShowCurrentPassword(prev => !prev)}
                                              width={17}
                                              height={17}
                                         />
                                    ) : (
-                                        <EyeOutlineSVG
-                                             className="text-L-gray-500 dark:text-D-gray-500 cursor-pointer"
+                                        <EyeSlashIcon
+                                             className="cursor-pointer text-icon-default"
                                              onClick={() => setIsShowCurrentPassword(prev => !prev)}
                                              width={17}
                                              height={17}
                                         />
-                                   )} */}
+                                   )}
 
                                    {isVisibleCurrentKeypad ? (
                                         <KeyboardSlashIcon
-                                             className="text-L-gray-500 dark:text-D-gray-500 mr-2 cursor-pointer"
+                                             className="cursor-pointer text-icon-default"
                                              onClick={() => setIsVisibleCurrentKeypad(false)}
                                              width={15}
                                              height={15}
                                         />
                                    ) : (
                                         <KeyboardIcon
-                                             className="text-L-gray-500 dark:text-D-gray-500 mr-2 cursor-pointer"
+                                             className="cursor-pointer text-icon-default"
                                              onClick={() => setIsVisibleCurrentKeypad(true)}
                                              width={15}
                                              height={15}
