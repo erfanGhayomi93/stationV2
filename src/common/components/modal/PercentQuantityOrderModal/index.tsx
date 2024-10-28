@@ -4,16 +4,24 @@ import { useBuySellStore } from "common/widget/buySellWidget/context/buySellCont
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { useCustomerStore } from "@store/customer";
-import { useEffect } from "react";
-import { generateSourceOrder, handleValidity, uid } from "@methods/helper";
+import { useEffect, useMemo, useState } from "react";
+import { generateSourceOrder, handleValidity, sepNumbers, uid } from "@methods/helper";
 import { useSymbolStore } from "@store/symbol";
 import { useCommissionValue } from "@hooks/useCommissionValue";
 import Button from "@uiKit/Button";
+import AgGridTable from '@components/Table/AgGrid';
+import { ColDef } from "@ag-grid-community/core";
+import useSendOrders from "@hooks/useSendOrders";
 
+interface IPercentQuantityOrderValue extends ICustomerAdvancedSearchRes {
+    price: number,
+    quantity: number,
+    percent: number
+}
 
 const PercentQuantityOrderModal = () => {
 
-    // const [value, setValue] = useState([])
+    const [value, setValue] = useState<IPercentQuantityOrderValue[]>([])
 
     const { t } = useTranslation()
 
@@ -21,20 +29,16 @@ const PercentQuantityOrderModal = () => {
 
     const { setIsPercentQuantityOrderModal } = useModalStore();
 
-    const { quantityWithPercent, side, strategy, price, quantity, validity, validityDate, source } = useBuySellStore()
+    const { quantityWithPercent, side, strategy, price, validity, validityDate, source } = useBuySellStore()
 
     const selectedCustomers = useCustomerStore(state => state.selectedCustomers)
 
     const { buyCommission, sellCommission } = useCommissionValue(marketUnit)
 
-    useEffect(() => {
-        console.log({ selectedCustomers })
-    }, [selectedCustomers])
+    const { sendOrders } = useSendOrders()
 
 
-    const handleSendOrder = () => {
-        const CustomerTagId: TCustomerIsins = [];
-        const GTTraderGroupId: TCustomerIsins = [];
+    const handleSetValue = () => {
 
         const getTradedQuantity = (amount: number) => {
             try {
@@ -46,15 +50,37 @@ const PercentQuantityOrderModal = () => {
             }
         };
 
-        const calculaterQuantityByPercent = (customerRemainAndOptionRemainDto: ICustomerRemainAndOptionRemainDto) => {
+        const calculatorQuantityByPercent = (customerRemainAndOptionRemainDto: ICustomerRemainAndOptionRemainDto) => {
             const priceValue = customerRemainAndOptionRemainDto[quantityWithPercent.quantityBasedOn]
-            const amount = Math.floor(priceValue * (quantityWithPercent.percent / 100))
+            const amount = priceValue > 0 ? Math.floor(priceValue * (quantityWithPercent.percent / 100)) : 0
             const quantityValue = Math.floor(getTradedQuantity(amount))
             return quantityValue
         }
 
-        const res = selectedCustomers
-            .map(({ customerISIN, title, customerRemainAndOptionRemainDto }) => ({
+        if (selectedCustomers.length) {
+            const res = selectedCustomers.map((customer) => ({
+                ...customer,
+                price: price,
+                percent: quantityWithPercent.percent,
+                quantity: calculatorQuantityByPercent(customer.customerRemainAndOptionRemainDto)
+            }))
+
+            setValue(res);
+        }
+    }
+
+    useEffect(() => {
+        handleSetValue()
+    }, [])
+
+
+
+    const handleSendOrder = () => {
+        const CustomerTagId: TCustomerIsins = [];
+        const GTTraderGroupId: TCustomerIsins = [];
+
+        const orders: ICreateOrderReq[] = value
+            .map(({ customerISIN, title, quantity }) => ({
                 id: uid(),
                 customerISIN: [customerISIN],
                 customerTitle: [title],
@@ -66,20 +92,49 @@ const PercentQuantityOrderModal = () => {
                 orderType: "LimitOrder" as IOrderType,
                 percent: 0,
                 price: price,
-                quantity: calculaterQuantityByPercent(customerRemainAndOptionRemainDto),
+                quantity: quantity,
                 symbolISIN: selectedSymbol,
                 validity: handleValidity(validity),
                 validityDate: validityDate,
                 source: generateSourceOrder(source, side),
-            }))
+            })).filter(Boolean)
 
-        console.log('res', res)
+        sendOrders(orders)
+
+        setIsPercentQuantityOrderModal(false)
     }
 
 
+    const columnDefs = useMemo<ColDef<IPercentQuantityOrderValue>[]>(
+        () => [
+            {
+                field: 'title',
+                headerName: "نام و نام خانوادگی"
+            },
+            {
+                field: "bourseCode",
+                headerName: "کد بورسی"
+            }, {
+                field: 'quantity',
+                headerName: "تعداد",
+                valueGetter: ({ data }) => sepNumbers(data?.quantity),
+            }, {
+                field: 'price',
+                headerName: "قیمت",
+                valueGetter: ({ data }) => sepNumbers(data?.price),
+            }, {
+                field: `customerRemainAndOptionRemainDto.${quantityWithPercent.quantityBasedOn}`,
+                headerName: `${t(`quantityPercentOption.${quantityWithPercent.quantityBasedOn as TQuantityBasedOn}`)}`,
+                valueGetter: ({ data }) => sepNumbers(data?.customerRemainAndOptionRemainDto[quantityWithPercent.quantityBasedOn]),
+                cellClass: "ltr"
+            }
+        ], []
+    )
+
+
     return (
-        <Modal title={'ارسال سفارش گروهی'} onCloseModal={() => setIsPercentQuantityOrderModal(false)} size="sm">
-            <div>
+        <Modal title={'ارسال سفارش گروهی'} onCloseModal={() => setIsPercentQuantityOrderModal(false)} size="md">
+            <div className="flex flex-col gap-y-6">
                 <p>
                     <span className="border-l border-line-div-2 pl-2 text-content-title">
                         {quantityWithPercent.percent} درصد از {t(`quantityPercentOption.${quantityWithPercent.quantityBasedOn as TQuantityBasedOn}`)}
@@ -96,7 +151,14 @@ const PercentQuantityOrderModal = () => {
                     </span>
                 </p>
 
-                <div className="pt-6">
+                <div className="flex-1">
+                    <AgGridTable
+                        rowData={value ?? []}
+                        columnDefs={columnDefs}
+                    />
+                </div>
+
+                <div className="">
                     <Button
                         variant="primary"
                         onClick={handleSendOrder}

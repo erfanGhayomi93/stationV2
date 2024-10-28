@@ -194,8 +194,8 @@ const FieldInput = ({
                )} */}
 
                {variant === 'advanced' && (
-                    <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default group-focus-within:text-input-active">
-                         <div className="flex w-10/12 flex-col text-xs font-normal">
+                    <div className="ml-2 flex w-3/12 items-center justify-between gap-1 px-1 text-input-default">
+                         <div className="flex w-10/12 flex-col text-xs font-normal group-focus-within:text-input-active">
                               <div className="flex items-center justify-between">
                                    <button className="cursor-pointer" onClick={() => onChange(String(Number(value) + 1))}>
                                         <ChevronUpIcon onClick={onClickUpTick} />
