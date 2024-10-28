@@ -30,6 +30,7 @@ import LayoutIcon from '../svg/layout.svg?react';
 import LightModeIcon from '../svg/lightMode.svg?react';
 import LinkIcon from '../svg/link.svg?react';
 import LockIcon from '../svg/lock.svg?react';
+import LockCloseIcon from '../svg/lockClose.svg?react';
 import LogoutIcon from '../svg/logout.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import MoreInformationIcon from '../svg/moreInformation.svg?react';
@@ -89,6 +90,7 @@ export {
      LayoutIcon,
      LightModeIcon,
      LinkIcon,
+     LockCloseIcon,
      LockIcon,
      LogoutIcon,
      MoreInformationIcon,

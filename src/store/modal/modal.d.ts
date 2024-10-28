@@ -26,4 +26,7 @@ interface IModalStore {
 
      confirmLogoutModal: boolean;
      setConfirmLogoutModal: (state: boolean) => void;
+
+     isPercentQuantityOrderModal: boolean;
+     setIsPercentQuantityOrderModal: (isPercentQuantityOrderModal: boolean) => void;
 }

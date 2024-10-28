@@ -4,7 +4,7 @@ interface SearchSymbol {
      companyISIN: string;
      isOption: boolean;
      isFreeze?: boolean;
-     marketUnit: string;
+     marketUnit?: TMarketUnit;
      companyName: string;
      insCode: null | string;
      symbolTradeState: Symbol.TradeState;

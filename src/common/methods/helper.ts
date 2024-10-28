@@ -262,3 +262,22 @@ export const base64 = {
           return t;
      },
 };
+
+export const handleValidity = (validity: TValidity): TValidity => {
+     if (validity === 'Week' || validity === 'Month') return 'GoodTillDate';
+     return validity;
+};
+
+export const generateSourceOrder = (source: string, side: TSide) => {
+     try {
+          const sourcePosition = source?.split('-')[0];
+          // if (side === 'Sell' && symbolData?.isOption) {
+          if (side === 'Sell') {
+               if (sourcePosition === 'Position') return sourcePosition;
+               return source;
+          }
+          return undefined;
+     } catch {
+          return undefined;
+     }
+};

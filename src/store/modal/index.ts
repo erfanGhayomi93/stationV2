@@ -12,4 +12,7 @@ export const useModalStore = create<IModalStore>(set => ({
 
      confirmLogoutModal: false,
      setConfirmLogoutModal: value => set(() => ({ confirmLogoutModal: value })),
+
+     isPercentQuantityOrderModal: false,
+     setIsPercentQuantityOrderModal: value => set(() => ({ isPercentQuantityOrderModal: value })),
 }));

@@ -1,5 +1,11 @@
 type TcustomerType = 'Legal' | 'Natural';
 
+interface ICustomerRemainAndOptionRemainDto {
+     remain: number;
+     purchasePower: number;
+     stockDailyCredit: number;
+}
+
 interface ICustomerAdvancedSearchRes {
      id: number;
      bourseCode: string;
@@ -12,4 +18,5 @@ interface ICustomerAdvancedSearchRes {
      title: string;
      isFavorite: boolean;
      parentId?: number;
+     customerRemainAndOptionRemainDto: ICustomerRemainAndOptionRemainDto;
 }

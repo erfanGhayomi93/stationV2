@@ -17,10 +17,11 @@ export const useBuySellStore = create<IBuySellState>(set => ({
           percent: 0
      },
      quantityWithPercent: {
-          quantityBasedOn: "",
+          quantityBasedOn: "remain",
           percent: 0
      },
      amount: 0,
+     isLockPrice: false,
      setSide: (side: TSide) => set(() => ({ side })),
      setPrice: (price: number) => set(() => ({ price })),
      setQuantity: (quantity: number) => set(() => ({ quantity })),
@@ -34,6 +35,7 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      setIsPercentQuantity: (isPercentQuantity: boolean) => set(() => ({ isPercentQuantity })),
      setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => set(() => ({ priceWithPercent })),
      setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => set(() => ({ quantityWithPercent })),
+     setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
 }));
 
 // Create the context

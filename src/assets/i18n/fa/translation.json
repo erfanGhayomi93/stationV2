@@ -11,11 +11,9 @@
           "Sell": "فروش",
           "no_data": "اطلاعاتی برای نمایش وجود ندارد."
      },
-
      "alerts": {
           "logout_successful": "با موفقیت از حساب کاربری خود خارج شدید."
      },
-
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",
           "DISCONNECTED": "عدم اتصال به سرور",
@@ -324,7 +322,6 @@
           "type_message_Instant": "عرضه اولیه",
           "type_message_Limitation": "محدودیت معاملاتی"
      },
-
      "login": {
           "login": "ورود",
           "inputUserNameLabel": "کدملی / شماره‌همراه / نام‌کاربری",
@@ -336,12 +333,15 @@
           "confirmLogin": "ورود",
           "inputCaptchaLabel": "کدامنیتی"
      },
-
+     "quantityPercentOption": {
+          "remain": "وجه نقد",
+          "purchasePower": "قدرت خرید",
+          "stockDailyCredit": "اعتبار"
+     },
      "validation": {
           "InputRequired": "{{n}} را وارد کنید",
           "InputDigits": "شما مجاز به وارد کردن تنها {{n}} رقم هستید"
      },
-
      "brokerCode_173": {
           "formSideLogInText": "ورود به سامانه معاملاتی کارگزاری تدبیرگر سرمایه",
           "helpSideTextBox.Title": "رامند، همیشه پایدار",
@@ -375,7 +375,6 @@
           "terms0": "سایت کارگزاری توسعه سهند با استفاده از پروتکل امن SSL به مشتریان خود ارائه خدمات نموده و با آدرس <0>{{n}}</0> شروع می شود.",
           "title": "کارگزاری توسعه سهند "
      },
-
      "confirmLogoutModal": {
           "logoutAccount": "خروج از حساب کاربری",
           "logoutAccountConfirm": "آیا می‌خواهید از حساب کاربری خود خارج شوید؟",
