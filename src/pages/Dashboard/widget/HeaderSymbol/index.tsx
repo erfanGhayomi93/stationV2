@@ -24,36 +24,21 @@ export const MainSymbol = () => {
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
-     const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>(selectedSymbol, data => ({
-          clientSideAlertEnabled: data?.alerts?.clientSideAlertEnabled,
-          symbolTitle: data?.symbolData?.symbolTitle,
-          companyName: data?.symbolData?.companyName,
-          symbolState: data?.symbolData?.symbolState,
-          insCode: data?.symbolData?.insCode,
-          companyCode: data?.symbolData?.companyCode,
-          symbolEvents: data?.symbolData?.eventsWithinNextTenDays || [],
-          hasRiskAnnouncement: data?.symbolData?.hasRiskAnnouncement,
-          exchange: data?.symbolData?.exchange,
-          isIpo: data?.symbolData.isIpo || false,
-          lastTradedPrice: data?.symbolData.lastTradedPrice,
-          lastTradedPriceVarPercent: data?.symbolData.lastTradedPriceVarPercent,
-          closingPrice: data?.symbolData.closingPrice,
-          closingPriceVarPercent: data?.symbolData.closingPriceVarPercent,
-     }));
+     const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>(selectedSymbol);
 
      const symbolStateTooltip = () => {
-          if (data?.symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
-          else if (data?.symbolState === 'OrderEntryAuthorized_Reserved') return 'مجاز_محفوظ';
-          else if (data?.symbolState === 'OrderEntryAuthorized_Frozen') return 'ممنوع';
-          else if (data?.symbolState === 'OrderEntryForbidden_Suspended') return 'ممنوع_متوقف';
-          else if (data?.symbolState === 'OrderEntryForbidden_Open') return 'مجاز_متوقف';
-          else if (data?.symbolState === 'OrderEntryForbidden_Reserved') return 'ممنوع-محفوظ';
+          if (data?.symbolData?.symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
+          else if (data?.symbolData?.symbolState === 'OrderEntryAuthorized_Reserved') return 'مجاز_محفوظ';
+          else if (data?.symbolData?.symbolState === 'OrderEntryAuthorized_Frozen') return 'ممنوع';
+          else if (data?.symbolData?.symbolState === 'OrderEntryForbidden_Suspended') return 'ممنوع_متوقف';
+          else if (data?.symbolData?.symbolState === 'OrderEntryForbidden_Open') return 'مجاز_متوقف';
+          else if (data?.symbolData?.symbolState === 'OrderEntryForbidden_Reserved') return 'ممنوع-محفوظ';
           else return '';
      };
 
      const symbolStateColor = useCallback(
           (type: 'bg' | 'text') => {
-               if (!data?.symbolState) return '';
+               if (!data?.symbolData?.symbolState) return '';
 
                const stateClasses: Record<string, string> = {
                     OrderEntryAuthorized_Open: `${type}-content-success-buy`, // مجاز
@@ -64,14 +49,14 @@ export const MainSymbol = () => {
                     OrderEntryForbidden_Reserved: `${type}-content-warnning`, // ممنوع-محفوظ
                };
 
-               return stateClasses[data?.symbolState as string];
+               return stateClasses[data?.symbolData?.symbolState as string];
           },
-          [data?.symbolState]
+          [data?.symbolData?.symbolState]
      );
 
      const items = [
-          { label: 'سایت TSE ', icon: TseIcon, link: getTSELink(data?.insCode) },
-          { label: 'سایت کدال', icon: CodalIcon, link: getCodalLink(data?.symbolTitle) },
+          { label: 'سایت TSE ', icon: TseIcon, link: getTSELink(data?.symbolData?.insCode) },
+          { label: 'سایت کدال', icon: CodalIcon, link: getCodalLink(data?.symbolData?.symbolTitle) },
      ];
 
      return (
@@ -80,16 +65,16 @@ export const MainSymbol = () => {
                     <div className="flex flex-col gap-y-1">
                          <div className="flex items-center gap-x-1">
                               <SymbolState
-                                   symbolState={data?.symbolState || ''}
+                                   symbolState={data?.symbolData?.symbolState || ''}
                                    symbolStateColor={symbolStateColor}
                                    symbolStateTooltip={symbolStateTooltip()}
                               />
-                              <span className="text-sm font-medium text-content-title">{data?.symbolTitle}</span>
+                              <span className="text-sm font-medium text-content-title">{data?.symbolData?.symbolTitle}</span>
                               <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
                               <span className="text-content-deselecttab">
-                                   {`(${data?.exchange ? t(`exchange_type.${data?.exchange as ExchangeType}`) : '-'})`}
+                                   {`(${data?.symbolData?.exchange ? t(`exchange_type.${data?.symbolData?.exchange as ExchangeType}`) : '-'})`}
                               </span>
-                              {data?.hasRiskAnnouncement && (
+                              {data?.symbolData?.hasRiskAnnouncement && (
                                    <Tippy content={t('tooltip.hasRiskAnnouncement')}>
                                         <span>
                                              <RiskAnnouncementIcon className="text-content-warnning" />
@@ -98,7 +83,9 @@ export const MainSymbol = () => {
                               )}
                          </div>
                          <div>
-                              <span className="text-content-deselecttab">{data?.companyName || t('common.noSymbol')}</span>
+                              <span className="text-content-deselecttab">
+                                   {data?.symbolData?.companyName || t('common.noSymbol')}
+                              </span>
                          </div>
                     </div>
 
@@ -153,13 +140,13 @@ export const MainSymbol = () => {
                          <span className="flex gap-x-1">
                               <span
                                    className={clsx('ltr font-bold', {
-                                        'text-content-success-buy': Number(data?.lastTradedPriceVarPercent) > 0,
-                                        'text-content-error-sell': Number(data?.lastTradedPriceVarPercent) < 0,
-                                        'text-content-title': Number(data?.lastTradedPriceVarPercent) === 0,
+                                        'text-content-success-buy': Number(data?.symbolData?.lastTradedPriceVarPercent) > 0,
+                                        'text-content-error-sell': Number(data?.symbolData?.lastTradedPriceVarPercent) < 0,
+                                        'text-content-title': Number(data?.symbolData?.lastTradedPriceVarPercent) === 0,
                                    })}
-                              >{`(${data?.lastTradedPriceVarPercent || '0'}%)`}</span>
+                              >{`(${data?.symbolData?.lastTradedPriceVarPercent || '0'}%)`}</span>
                               <span className="text-base font-bold text-content-title">
-                                   {sepNumbers(Number(data?.lastTradedPrice || '0'))}
+                                   {sepNumbers(Number(data?.symbolData?.lastTradedPrice || '0'))}
                               </span>
                          </span>
                     </div>
@@ -169,13 +156,13 @@ export const MainSymbol = () => {
                          <span className="flex gap-x-1">
                               <span
                                    className={clsx('ltr font-bold', {
-                                        'text-content-success-buy': Number(data?.closingPriceVarPercent) > 0,
-                                        'text-content-error-sell': Number(data?.closingPriceVarPercent) < 0,
-                                        'text-content-title': Number(data?.closingPriceVarPercent) === 0,
+                                        'text-content-success-buy': Number(data?.symbolData?.closingPriceVarPercent) > 0,
+                                        'text-content-error-sell': Number(data?.symbolData?.closingPriceVarPercent) < 0,
+                                        'text-content-title': Number(data?.symbolData?.closingPriceVarPercent) === 0,
                                    })}
-                              >{`(${data?.closingPriceVarPercent || '0'}%)`}</span>
+                              >{`(${data?.symbolData?.closingPriceVarPercent || '0'}%)`}</span>
                               <span className="text-base font-bold text-content-title">
-                                   {sepNumbers(Number(data?.closingPrice || 0))}
+                                   {sepNumbers(Number(data?.symbolData?.closingPrice || 0))}
                               </span>
                          </span>
                     </div>
