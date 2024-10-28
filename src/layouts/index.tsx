@@ -3,25 +3,11 @@ import Modals from '@components/modal/Modals';
 import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useThemeStore } from 'store/theme';
 import Footer from './components/Footer';
 import HeaderLayout from './components/Header';
 import Sidebar from './components/Sidebar';
 
 const AppLayout = () => {
-     const { theme } = useThemeStore();
-
-     useEffect(() => {
-          const element = document.documentElement;
-
-          if (theme !== 'system') {
-               element.classList.toggle('dark', theme === 'dark');
-          } else {
-               const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-               element.classList.toggle('dark', darkQuery.matches);
-          }
-     }, [theme]);
-
      const { data: dataUser } = useQueryGeneralUser();
 
      const { brokerCode, userName } = dataUser || {};

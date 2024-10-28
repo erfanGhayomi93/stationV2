@@ -89,19 +89,25 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
           };
      }, []);
 
-     console.log(errors, 'erorozs');
-
      return (
-          <div className={clsx('h-14 rounded-2xl border border-input-default focus-within:border-input-primary', className)}>
+          <div
+               className={clsx(
+                    'h-14 rounded-2xl border border-input-default focus-within:border-input-primary',
+                    {
+                         'border-input-error': !!errors.captchaValue,
+                    },
+                    className
+               )}
+          >
                {/* <label htmlFor={'captcha' + randomNum} className="text-L-gray-700 dark:text-D-gray-700 mb-2 block font-medium">
                     {t('login.inputCaptchaLabel')}
                </label> */}
                <div className="relative flex h-full items-center justify-between pr-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-1 items-center gap-2">
                          <div>
                               <ShieldIcon className="text-content-placeholder" />
                          </div>
-                         <div>
+                         <div className="flex-1">
                               <input
                                    data-cy="captcha"
                                    id={'captcha' + randomNum}
@@ -109,9 +115,12 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                    inputMode="numeric"
                                    dir="ltr"
                                    placeholder={placeHolder}
-                                   className={clsx('h-full w-full border-none outline-none placeholder:text-right', {
-                                        'h-full w-full border-none outline-none': !!errors.captchaValue,
-                                   })}
+                                   className={clsx(
+                                        'h-full55 w-full border-none bg-transparent pl-2 text-content-title outline-none placeholder:text-right placeholder:text-content-placeholder',
+                                        {
+                                             'h-full w-full border-none outline-none': !!errors.captchaValue,
+                                        }
+                                   )}
                                    ref={ref}
                                    name={name}
                                    value={state}
@@ -123,7 +132,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                     <div className="flex items-center">
                          <div className="flex cursor-pointer items-center pl-1">
                               <RefreshIcon
-                                   className="text-L-primary-50 dark:text-D-primary-50"
+                                   className="text-icon-default"
                                    onClick={e => {
                                         document.getElementById('captcha' + randomNum)?.focus();
                                         onRefresh();
@@ -132,7 +141,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                          </div>
                          <div className="ml-2 select-none items-center bg-transparent">
                               {!captcha?.base64String || getSessionCaptcha ? (
-                                   <p className="bg-gray-100 mb-[1px] flex h-[37px] w-full items-center justify-center rounded text-sm">
+                                   <p className="flex h-[37px] w-full items-center justify-center rounded text-sm">
                                         لطفا مجددا تلاش کنید.
                                    </p>
                               ) : (
@@ -142,7 +151,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                         width="180px"
                                         height="100%"
                                         alt=""
-                                        className="mb-1 h-[37px] object-fill"
+                                        className="h-[37px] object-fill"
                                    />
                               )}
                          </div>
@@ -150,7 +159,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                </div>
 
                {!!errors.captchaValue && (
-                    <p className="pt-1 text-xs text-input-error transition-all">{errors.captchaValue.message}</p>
+                    <p className="pt-2 text-xs text-input-error transition-all">{errors.captchaValue.message}</p>
                )}
           </div>
      );
