@@ -6,22 +6,21 @@ import { InputHTMLAttributes, useState } from 'react';
 
 type TItem = { id: string; label: string };
 
-interface TSelectInputProps
-     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
+interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem;
 }
 
-const SelectInput = ({ onChange,  items, value, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
      const [state, setState] = useState<{ id: string; label: string }>(value);
 
      return (
           <Popup
                margin={{}}
                renderer={({ setOpen }) => (
-                    <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-1 py-3 shadow-E5 text-sm">
+                    <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-1 py-3 text-sm shadow-E5">
                          {items?.map((item, index) => (
                               <li
                                    className={clsx(
@@ -48,7 +47,7 @@ const SelectInput = ({ onChange,  items, value, placeholder = '', ...props }: TS
                     <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active">
                          <div className="w-full flex-1" onClick={() => setOpen(!open)}>
                               <input
-                                   defaultValue={value.label}
+                                   //    defaultValue={value.label}
                                    value={state.label}
                                    onChange={() => null}
                                    className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"

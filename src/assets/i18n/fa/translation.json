@@ -381,5 +381,37 @@
           "logoutAccountConfirm": "آیا می‌خواهید از حساب کاربری خود خارج شوید؟",
           "cancel": "انصراف",
           "logout": "خروج"
+     },
+
+     "sidebar": {
+          "home": "خانه",
+          "market": "بازار",
+          "portfolioTrader": "سبد معامله‌گر",
+          "requests": "درخواست‌ها",
+          "manageCustomer": "مدیریت مشتریان",
+          "reports": "گزارشات",
+          "performancePortfolio": "عملکرد پرتفوی",
+          "optionTrade": "اختیار معامله",
+          "watchlist": "دیده‌بان",
+          "tradingView": "ابزار تکنیکال",
+          "marketMap": "نقشه بازار",
+          "calender": "تقویم بورسی",
+          "deposit": "واریز وجه",
+          "withdrawal": "برداشت وجه",
+          "freezeAndUnFreeze": "فریز و رفع فریز",
+          "settlementOption": "تسویه اختیار",
+          "changeBroker": "تغییر کارگزار ناظر",
+          "orders": "سفارشات",
+          "trades": "معاملات",
+          "transaction": "گردش حساب",
+          "settlementReport": "گزارش تسویه",
+          "performanceSymbol": "عملکرد نماد",
+          "performanceOption": "عملکرد اختیار",
+          "strategies": "استراتژی‌ها",
+          "requestSettlementOption": "درخواست تسویه اختیار",
+          "requestFreezeAndUnFreeze": "درخواست فریز و رفع فریز",
+          "positionsReport": "تاریخچه موقعیت‌ها",
+          "settings": "تنظیمات",
+          "copyWrite": "&copy; کلیه حقوق وبسایت متعلق به رامند است."
      }
 }

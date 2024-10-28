@@ -32,7 +32,7 @@ const ConfirmLogoutModal = () => {
      return (
           <Modal title={<span>{t('confirmLogoutModal.logoutAccount')}</span>} onCloseModal={onCloseModal} size="xs">
                <div className="flex flex-col gap-8">
-                    <span>{t('confirmLogoutModal.logoutAccountConfirm')}</span>
+                    <span className="text-content-paragraph">{t('confirmLogoutModal.logoutAccountConfirm')}</span>
 
                     <div className="flex items-center gap-2">
                          <Button onClick={onCloseModal} className="basis-4/12 py-3" variant="danger-outline">
