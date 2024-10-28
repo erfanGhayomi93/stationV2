@@ -23,7 +23,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
 
      const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
-     const { selectedCustomers, removeSelectedCustomers } = useCustomerStore();
+     const { removeSelectedCustomers, removeAllSelectedCustomers } = useCustomerStore();
 
      const searchInputRef = useRef<HTMLDivElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
@@ -115,15 +115,16 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                          {...props}
                     />
                     {items.length !== 0 && (
-                         <div
+                         <button
                               onClick={e => {
                                    e.stopPropagation();
                                    setItems([]);
+                                   removeAllSelectedCustomers()
                               }}
                               className="absolute left-2 text-input-default group-focus-within:text-input-active"
                          >
                               <XCircleOutlineIcon />
-                         </div>
+                         </button>
                     )}
                </div>
                <div

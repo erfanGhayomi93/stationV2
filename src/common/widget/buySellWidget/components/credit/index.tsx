@@ -1,6 +1,5 @@
 import SelectInput from '@uiKit/Inputs/SelectInput';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBuySellContext } from '../../context/buySellContext';
 
@@ -9,14 +8,11 @@ const Credit = () => {
 
      const { t } = useTranslation();
 
-     useEffect(() => {
-          console.log('validity', validity);
-     }, [validity]);
 
      return (
           <div className="flex-1">
                <SelectInput
-                    onChange={item => setValidity(item as TValidity)}
+                    onChange={item => setValidity(item.id as TValidity)}
                     items={VALIDITY_OPTIONS.map(item => ({
                          id: String(item.value),
                          label: t(`BSValidity.${item.value as TValidity}`),

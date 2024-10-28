@@ -14,8 +14,6 @@ const CustomersSearchBody = () => {
 
      const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
 
-     console.log(selectedCustomers, 'selectedCustomers');
-
      const { data: searchCustomers } = useQueryCustomerSearch(debouncedTerm);
 
      const { data: defaultCustomers } = useQueryDefaultCustomer();
@@ -30,10 +28,6 @@ const CustomersSearchBody = () => {
           return <div className="text-sm odd:bg-table-row1 even:bg-table-row2" {...props}></div>;
      };
 
-     //     useEffect(() => {
-     //         console.log('selectedCustomers', selectedCustomers)
-     //     }, [selectedCustomers])
-     //
 
      const isALLSelected = useMemo(() => {
           if (!listGroups || listGroups.length === 0) return false;

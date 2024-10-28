@@ -7,6 +7,7 @@ interface ICustomerStore {
      setAllSelectedCustomersWithPrevious: (state: ICustomerAdvancedSearchRes[]) => void;
      setPartSelectedCustomers: (state: ICustomerAdvancedSearchRes) => void;
      removeSelectedCustomers: (customerISIN: string) => void;
+     removeAllSelectedCustomers: () => void;
 }
 
 export const useCustomerStore = create<ICustomerStore>(set => ({
@@ -17,4 +18,5 @@ export const useCustomerStore = create<ICustomerStore>(set => ({
      setPartSelectedCustomers: value => set(state => ({ selectedCustomers: [...state.selectedCustomers, value] })),
      removeSelectedCustomers: value =>
           set(state => ({ selectedCustomers: state.selectedCustomers.filter(customer => customer.customerISIN !== value) })),
+     removeAllSelectedCustomers: () => set(() => ({ selectedCustomers: [] })),
 }));

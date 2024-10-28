@@ -52,8 +52,8 @@ const ResultItem: FC<IResultItem> = ({ data: customer }) => {
             </div>
             <div className="w-4/6 flex border-l border-back-surface py-3 items-center justify-center select-text">{customer?.bourseCode}</div>
             <div className="w-4/6 flex border-l border-back-surface py-3 items-center justify-center select-text">{customer?.nationalCode}</div>
-            <div className="w-4/6 flex border-l border-back-surface py-3 items-center justify-center">{sepNumbers(customer?.purchasePower || 0)}</div>
-            <div className="w-4/6 flex items-center justify-center py-3">{sepNumbers(customer?.creditValue || 0)}</div>
+            <div className="w-4/6 flex border-l border-back-surface py-3 items-center justify-center ltr">{sepNumbers(customer?.customerRemainAndOptionRemainDto.purchasePower || 0)}</div>
+            <div className="w-4/6 flex items-center justify-center py-3 ltr">{sepNumbers(customer?.customerRemainAndOptionRemainDto.remain || 0)}</div>
         </div>
     );
 };
