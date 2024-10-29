@@ -74,6 +74,8 @@ export const routeApi = () => {
                addWatchlistToSymbols: baseUrl + '/Watchlist/v1/AddSymbol',
                getSymbolInWatchlist: baseUrl + '/Watchlist/v1/GetSymbolInWatchlist',
                deleteSymbolInWatchlist: baseUrl + '/Watchlist/v1/DeleteSymbol',
+               getWatchlists: baseUrl + '/Watchlist/v1/WatchLists',
+               createWatchlist: baseUrl + '/Watchlist/v1/Create',
           },
      };
 };

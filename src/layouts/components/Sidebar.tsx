@@ -87,13 +87,19 @@ const Sidebar = () => {
      );
 
      useEffect(() => {
+          let timerId: NodeJS.Timeout;
+
           if (isExpandSidebar) {
-               setTimeout(() => {
+               timerId = setTimeout(() => {
                     setShowContent(true);
                }, 0);
           } else {
                setShowContent(false);
           }
+
+          return () => {
+               clearTimeout(timerId);
+          };
      }, [isExpandSidebar]);
 
      return (
@@ -101,7 +107,7 @@ const Sidebar = () => {
                onMouseEnter={() => setIsExpandSidebar(true)}
                onMouseLeave={() => setIsExpandSidebar(false)}
                style={{
-                    width: showContent ? '15rem' : '4rem',
+                    width: isExpandSidebar ? '15rem' : '4rem',
                     transition: 'width 0.3s ease',
                }}
                className="bg-indigo-300 rtl fixed bottom-0 right-0 top-0 flex flex-col justify-between bg-nav-back-pwa px-2 py-5 shadow-E2"
@@ -137,14 +143,7 @@ const Sidebar = () => {
                                         })}
                                    >
                                         <div>{item.icon}</div>
-                                        <span
-                                             style={{
-                                                  opacity: showContent ? 1 : 0,
-                                             }}
-                                             className="truncate text-base font-medium transition-opacity"
-                                        >
-                                             {item.title}
-                                        </span>
+                                        {showContent && <span className="truncate text-base font-medium">{item.title}</span>}
                                    </div>
                                    <div>{/* <PlusIcon /> */}</div>
                               </div>
@@ -167,15 +166,16 @@ const Sidebar = () => {
                          </span>
                     </div>
 
-                    <span
-                         style={{
-                              fontSize: '11px',
-                              opacity: showContent ? 1 : 0,
-                         }}
-                         className="truncate text-center text-content-placeholder transition-opacity"
-                    >
-                         {t('sidebar.copyWrite')}
-                    </span>
+                    {showContent && (
+                         <span
+                              style={{
+                                   fontSize: '11px',
+                              }}
+                              className="truncate text-center text-content-placeholder"
+                         >
+                              {t('sidebar.copyWrite')}
+                         </span>
+                    )}
                </div>
           </aside>
      );

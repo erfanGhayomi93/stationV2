@@ -27,6 +27,7 @@ type IAddSymbolsWatchlistRes = number;
 interface IAddSymbolsWatchlistReq {
      symbolISIN: string;
      type: string;
+     watchlistId?: number;
 }
 
 interface IGetSymbolInWatchlistRes {
@@ -39,4 +40,23 @@ type TDeleteSymbolInWatchlistRes = boolean;
 interface IDeleteSymbolInWatchlistReq {
      symbolISIN: string;
      type: string;
+     watchlistId?: number;
+}
+
+interface IWatchlistsRes {
+     createDate: string;
+     id: number;
+     isDefault: boolean;
+     isEditable: boolean;
+     type: string;
+     watchListName: string;
+}
+
+interface ICreateWatchlistRes {
+     id: number;
+     isPinned: boolean;
+}
+
+interface ICreateWatchlistReq {
+     watchlistName: string;
 }

@@ -29,4 +29,10 @@ interface IModalStore {
 
      isPercentQuantityOrderModal: boolean;
      setIsPercentQuantityOrderModal: (isPercentQuantityOrderModal: boolean) => void;
+
+     addSymbolToWatchlistModal: boolean;
+     setAddSymbolToWatchlistModal: (state: boolean) => void;
+
+     createNewWatchlistModal: boolean;
+     setCreateNewWatchlistModal: (state: boolean) => void;
 }
