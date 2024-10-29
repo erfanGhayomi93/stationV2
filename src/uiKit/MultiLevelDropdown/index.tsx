@@ -42,7 +42,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
      const { data: dataUser } = useQueryGeneralUser();
 
-     const { traderTitle, credit, traderISIN } = dataUser || {};
+     const { userName, credit, traderISIN } = dataUser || {};
 
      const menuItems = [
           {
@@ -114,7 +114,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                          )}
                     >
                          <button className="flex w-full items-center justify-between border-b border-line-div-2 p-4 text-sm">
-                              <span className="text-content-title">{traderTitle}</span>
+                              <span className="text-content-title">{userName}</span>
                               <span className="text-content-paragraph">{traderISIN}</span>
                          </button>
 
@@ -125,7 +125,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                         className={clsx(
                                              'rounded-md px-2 transition-colors hover:bg-back-primary/80',
                                              item?.disabled &&
-                                                  'text-button-disable-disable opacity-55 hover:bg-button-disable-hover',
+                                             'text-button-disable-disable opacity-55 hover:bg-button-disable-hover',
                                              item?.disabled,
                                              item.subMenu && 'relative'
                                         )}

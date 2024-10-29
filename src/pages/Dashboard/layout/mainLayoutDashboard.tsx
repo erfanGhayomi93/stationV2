@@ -31,7 +31,7 @@ const MainLayoutDashboard = () => {
                          <SliderbarDetailsWidget />
                     </div>
 
-                    <div
+                    <button
                          onClick={() => setExpandSymbolDetails(!isExpandSymbolDetails)}
                          className="flex cursor-pointer items-center justify-center"
                     >
@@ -45,14 +45,10 @@ const MainLayoutDashboard = () => {
                               />
                          </div>
                          <div style={{ minHeight: '1px' }} className="w-full flex-1 bg-line-div-2" />
-                    </div>
-                    {/* <div className={clsx(BoxClass)}>
-                                        <IndividualLegalWidget />
-                                   </div> */}
+                    </button>
                     <div className={clsx(BoxClass)}>
                          <BuySellWidget />
                     </div>
-                    {/* </div> */}
                </div>
 
                <div className={'grid h-full grid-rows-3 gap-2 overflow-hidden'}>
