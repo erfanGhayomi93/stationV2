@@ -1,129 +1,20 @@
+import { useGetWatchlistSymbol } from '@api/watchlist';
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
-import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
+import LastPriceTitle from '@components/LastPriceTitle';
 import Popup from '@components/popup';
+import { useSymbolStore } from '@store/symbol';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Fragment } from 'react/jsx-runtime';
-
-const initData: ILastPriceTitleProps[] = [
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 3,
-          symbolTitle: 'خساپا',
-          isSelected: false,
-          symbolISIN: '11111111111111',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 0,
-          symbolTitle: 'شستا',
-          isSelected: false,
-          symbolISIN: '222',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 4234,
-          //   lastPriceVar: -2,
-          symbolTitle: 'ریشمک',
-          isSelected: false,
-          symbolISIN: '3333',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 5342,
-          //   lastPriceVar: -1.6,
-          symbolTitle: 'فمراد',
-          isSelected: false,
-          symbolISIN: '4441',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 3,
-          symbolTitle: 'فخوز',
-          isSelected: false,
-          symbolISIN: '111111111111111',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 0,
-          symbolTitle: 'شستا1',
-          isSelected: false,
-          symbolISIN: '2221',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 4234,
-          //   lastPriceVar: -2,
-          symbolTitle: 'ریشمک1',
-          isSelected: false,
-          symbolISIN: '33331',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 5342,
-          //   lastPriceVar: -1.6,
-          symbolTitle: 'فملی',
-          isSelected: false,
-          symbolISIN: '4441',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 3,
-          symbolTitle: 'خساپا2',
-          isSelected: false,
-          symbolISIN: '1111111111111112',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 56454,
-          //   lastPriceVar: 0,
-          symbolTitle: 'شستا2',
-          isSelected: false,
-          symbolISIN: '22212',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 4234,
-          //   lastPriceVar: -2,
-          symbolTitle: 'ریشمک2',
-          isSelected: false,
-          symbolISIN: '333312',
-          price: 20,
-          PriceVar: 88,
-     },
-     {
-          //   lastPrice: 5342,
-          //   lastPriceVar: -1.6,
-          symbolTitle: 'خساپا2',
-          isSelected: false,
-          symbolISIN: '44412',
-          price: 20,
-          PriceVar: 88,
-     },
-];
 
 const PinnedWatchlists = () => {
      const [isLaptop, setIsLaptop] = useState(false);
 
-     const [selectedItem, setselectedItem] = useState('222');
+     const { setSelectedSymbol, selectedSymbol } = useSymbolStore();
 
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-     const refDropdown = useRef<HTMLDivElement>(null);
+     const { data: watchlistSymbolData } = useGetWatchlistSymbol({ PageNumber: 1, watchlistType: 'Pinned' });
 
      useEffect(() => {
           const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');
@@ -135,7 +26,7 @@ const PinnedWatchlists = () => {
                <PinnedIcon className="text-icon-warning" />
 
                <div className="flex h-full items-center">
-                    {initData.slice(0, isLaptop ? 2 : 4).map(item => (
+                    {watchlistSymbolData?.slice(0, isLaptop ? 2 : 4).map(item => (
                          <Fragment key={item.symbolISIN}>
                               <div
                                    className={clsx(
@@ -143,9 +34,12 @@ const PinnedWatchlists = () => {
                                    )}
                               >
                                    <LastPriceTitle
-                                        {...item}
-                                        onClick={() => setselectedItem(item.symbolISIN)}
-                                        isSelected={selectedItem === item.symbolISIN}
+                                        onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                        isSelected={selectedSymbol === item.symbolISIN}
+                                        price={item.lastTradedPrice}
+                                        PriceVar={item.lastTradedPriceVarPercent}
+                                        symbolISIN={item.symbolISIN}
+                                        symbolTitle={item.symbolTitle}
                                    />
                               </div>
                          </Fragment>
@@ -163,13 +57,16 @@ const PinnedWatchlists = () => {
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col gap-1 rounded-md bg-back-surface px-4 py-3 shadow-E6">
-                                   {initData.map((item, index) => (
+                                   {watchlistSymbolData?.slice(isLaptop ? 2 : 4).map((item, index) => (
                                         <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
                                              <LastPriceTitle
-                                                  {...item}
                                                   key={index}
-                                                  // onClick={handleClickSymbol}
-                                                  isSelected={selectedItem === item.symbolISIN}
+                                                  onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                                  isSelected={selectedSymbol === item.symbolISIN}
+                                                  PriceVar={item.lastTradedPriceVarPercent}
+                                                  price={item.lastTradedPrice}
+                                                  symbolISIN={item.symbolISIN}
+                                                  symbolTitle={item.symbolTitle}
                                              />
                                         </li>
                                    ))}

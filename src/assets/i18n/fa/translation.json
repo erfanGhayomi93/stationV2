@@ -12,7 +12,11 @@
           "no_data": "اطلاعاتی برای نمایش وجود ندارد."
      },
      "alerts": {
-          "logout_successful": "با موفقیت از حساب کاربری خود خارج شدید."
+          "logout_successful": "با موفقیت از حساب کاربری خود خارج شدید.",
+          "addSymbolWatchlistSuccessful": "نماد با موفقیت به دیده‌بان اضافه شد.",
+          "addSymbolWatchlistError": "اضافه کردن نماد به دیده‌بان با خطا مواجه شد.",
+          "deleteSymbolInWatchlistSuccessful": "نماد با موفقیت از دیده‌بان حذف شد.",
+          "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد."
      },
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",

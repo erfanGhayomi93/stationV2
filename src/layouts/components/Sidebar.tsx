@@ -90,7 +90,7 @@ const Sidebar = () => {
           if (isExpandSidebar) {
                setTimeout(() => {
                     setShowContent(true);
-               }, 100);
+               }, 0);
           } else {
                setShowContent(false);
           }
@@ -101,7 +101,7 @@ const Sidebar = () => {
                onMouseEnter={() => setIsExpandSidebar(true)}
                onMouseLeave={() => setIsExpandSidebar(false)}
                style={{
-                    width: isExpandSidebar ? '15rem' : '4rem',
+                    width: showContent ? '15rem' : '4rem',
                     transition: 'width 0.3s ease',
                }}
                className="bg-indigo-300 rtl fixed bottom-0 right-0 top-0 flex flex-col justify-between bg-nav-back-pwa px-2 py-5 shadow-E2"

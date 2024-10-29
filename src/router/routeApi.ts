@@ -68,5 +68,12 @@ export const routeApi = () => {
                changePasswordValidation: oAuthUrl + '/GTChangePassword/v1/Validation',
                changePasswordSetPassword: oAuthUrl + '/GTChangePassword/v1/ChangePassword',
           },
+
+          Watchlist: {
+               getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
+               addWatchlistToSymbols: baseUrl + '/Watchlist/v1/AddSymbol',
+               getSymbolInWatchlist: baseUrl + '/Watchlist/v1/GetSymbolInWatchlist',
+               deleteSymbolInWatchlist: baseUrl + '/Watchlist/v1/DeleteSymbol',
+          },
      };
 };
