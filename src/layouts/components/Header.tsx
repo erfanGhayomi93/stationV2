@@ -116,13 +116,14 @@ const HeaderLayout = () => {
                          }}
                          defaultPopupWidth={250}
                          renderer={() => (
-                              <ul className="flex flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5">
+                              <ul className="flex flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5 max-h-96 overflow-y-auto">
                                    {symbolTab?.map(item => (
-                                        <li
+                                        <button
                                              className={clsx(
                                                   'rtl flex w-full items-center rounded-md p-2 transition-colors hover:bg-back-primary',
                                                   selectedSymbol === item?.symbolISIN && 'bg-back-primary'
                                              )}
+                                             key={item.symbolISIN}
                                         >
                                              <LastPriceTitle
                                                   PriceVar={item?.lastTradedPriceVarPercent}
@@ -133,7 +134,7 @@ const HeaderLayout = () => {
                                                   onClick={() => handleClickSymbolFromDropdown(item?.symbolISIN)}
                                                   isSelected={selectedSymbol === item?.symbolISIN}
                                              />
-                                        </li>
+                                        </button>
                                    ))}
                               </ul>
                          )}
