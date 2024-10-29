@@ -124,8 +124,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                         key={index}
                                         className={clsx(
                                              'rounded-md px-2 transition-colors hover:bg-back-primary/80',
-                                             item?.disabled &&
-                                             'text-button-disable-disable opacity-55 hover:bg-button-disable-hover',
+                                             item?.disabled && 'text-button-disable-disable opacity-55',
                                              item?.disabled,
                                              item.subMenu && 'relative'
                                         )}
@@ -194,7 +193,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
 
                          <button
                               onClick={() => setConfirmLogoutModal(true)}
-                              className="flex w-full items-center gap-2 p-4 text-sm"
+                              className="flex w-full items-center gap-2 p-4 text-sm hover:bg-back-primary/80"
                          >
                               <LogoutIcon width={20} height={20} className="text-icon-primary" />
                               <span className="text-content-title">خروج از حساب کاربری</span>

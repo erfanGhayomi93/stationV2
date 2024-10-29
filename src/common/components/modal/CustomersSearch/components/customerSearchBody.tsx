@@ -1,5 +1,5 @@
 import { useQueryCustomerSearch, useQueryDefaultCustomer } from '@api/customer';
-import { UserGroupIcon } from '@assets/icons';
+import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import { useCustomerStore } from '@store/customer';
@@ -90,14 +90,29 @@ const CustomersSearchBody = () => {
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                    {selectedCustomers.map((item, index) => (
-                                        <li className="py-3 text-xs text-content-paragraph">{item.title}</li>
+                                        <li className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80">
+                                             <span>{item.title}</span>
+                                             <button
+                                                  onClick={() => {
+                                                       const filterSelectCustomer = selectedCustomers.filter(
+                                                            customer => customer.customerISIN !== item.customerISIN
+                                                       );
+                                                       setSelectedCustomers([...filterSelectCustomer]);
+                                                  }}
+                                             >
+                                                  <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />
+                                             </button>
+                                        </li>
                                    ))}
                               </ul>
                          )}
                     >
                          {({ setOpen, open }) => (
                               <div
-                                   onClick={() => setOpen(!open)}
+                                   onClick={() => {
+                                        if (selectedCustomers.length === 0) return;
+                                        setOpen(!open);
+                                   }}
                                    className="bg- flex items-center gap-1 rounded-lg bg-button-primary-bg-selected px-4 py-3"
                               >
                                    <UserGroupIcon className="text-button-primary-default" />
