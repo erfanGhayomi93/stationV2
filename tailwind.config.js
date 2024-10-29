@@ -38,8 +38,8 @@ module.exports = {
           },
           colors: {
                transparent: 'rgb(0,0,0,0)',
-               // black: 'rgb(0,0,0)',
-               // white: 'rgb(255,255,255)',
+               black: 'rgb(0,0,0)',
+               white: 'rgb(255,255,255)',
                'content-title': 'rgb(var(--color-content-title))',
                'icon-default': 'rgb(var(--color-icon-default))',
                'table-header': 'rgb(var(--color-table-header))',
