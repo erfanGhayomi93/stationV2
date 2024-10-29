@@ -53,3 +53,28 @@ export const useDeleteSymbolInWatchlist = () => {
           },
      });
 };
+
+export const useGetWatchlists = () => {
+     const url = routeApi().Watchlist.getWatchlists;
+
+     return useQuery({
+          queryKey: ['getWatchlists'],
+          queryFn: async () => {
+               const { data } = await AXIOS.get<GlobalApiResponseType<IWatchlistsRes[]>>(url);
+
+               return data.result;
+          },
+     });
+};
+
+export const useCreateWatchlist = () => {
+     const url = routeApi().Watchlist.createWatchlist;
+
+     return useMutation({
+          mutationFn: async (params: ICreateWatchlistReq) => {
+               const { data } = await AXIOS.post<GlobalApiResponseType<ICreateWatchlistRes>>(url, {}, { params });
+
+               return data.result;
+          },
+     });
+};

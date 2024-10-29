@@ -1,16 +1,9 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useAddSymbolToWatchlist, useDeleteSymbolInWatchlist, useGetSymbolInWatchlist } from '@api/watchlist';
-import {
-     ArrowLeftIcon,
-     CodalIcon,
-     LinkIcon,
-     PinnedIcon,
-     RiskAnnouncementIcon,
-     TseIcon,
-     WatchlistNegativeIcon,
-} from '@assets/icons';
+import { ArrowLeftIcon, CodalIcon, EyePlusIcon, LinkIcon, PinnedIcon, RiskAnnouncementIcon, TseIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import { getCodalLink, getTSELink, sepNumbers } from '@methods/helper';
+import { useModalStore } from '@store/modal';
 import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
@@ -26,6 +19,8 @@ export const MainSymbol = () => {
      const queryClient = useQueryClient();
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
+
+     const { setAddSymbolToWatchlistModal } = useModalStore();
 
      const { data } = useQuerySymbolGeneralInformation(selectedSymbol);
 
@@ -111,6 +106,10 @@ export const MainSymbol = () => {
           }
      };
 
+     const isSymbolIsWatchlist = useMemo(() => {
+          return getSymbolInWatchlist?.some(item => item.symbolISIN === selectedSymbol);
+     }, [getSymbolInWatchlist]);
+
      return (
           <div className="flex flex-col gap-2 text-xs">
                <div className="flex items-center justify-between">
@@ -155,9 +154,19 @@ export const MainSymbol = () => {
                                    })}
                               />
                          </button>
-                         <span className="flex items-center rounded bg-back-2 p-1">
-                              <WatchlistNegativeIcon width="1.5rem" height="1.5rem" className="text-icon-primary" />
-                         </span>
+                         <button
+                              onClick={() => {
+                                   setAddSymbolToWatchlistModal(true);
+                              }}
+                              className="flex items-center rounded bg-back-2 p-1"
+                         >
+                              <EyePlusIcon
+                                   className={clsx({
+                                        'text-icon-default': !isSymbolIsWatchlist,
+                                        'text-icon-primary': isSymbolIsWatchlist,
+                                   })}
+                              />
+                         </button>
 
                          <Popup
                               margin={{

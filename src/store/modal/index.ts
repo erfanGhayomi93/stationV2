@@ -15,4 +15,10 @@ export const useModalStore = create<IModalStore>(set => ({
 
      isPercentQuantityOrderModal: false,
      setIsPercentQuantityOrderModal: value => set(() => ({ isPercentQuantityOrderModal: value })),
+
+     addSymbolToWatchlistModal: false,
+     setAddSymbolToWatchlistModal: value => set({ addSymbolToWatchlistModal: value }),
+
+     createNewWatchlistModal: false,
+     setCreateNewWatchlistModal: value => set(() => ({ createNewWatchlistModal: value })),
 }));

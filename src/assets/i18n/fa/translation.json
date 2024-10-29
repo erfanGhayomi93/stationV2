@@ -16,7 +16,9 @@
           "addSymbolWatchlistSuccessful": "نماد با موفقیت به دیده‌بان اضافه شد.",
           "addSymbolWatchlistError": "اضافه کردن نماد به دیده‌بان با خطا مواجه شد.",
           "deleteSymbolInWatchlistSuccessful": "نماد با موفقیت از دیده‌بان حذف شد.",
-          "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد."
+          "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد.",
+          "createNewWatchlistSuccessful": "دیده‌بان جدید با موفقیت ایجاد شد.",
+          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد."
      },
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",
@@ -416,5 +418,15 @@
           "positionsReport": "تاریخچه موقعیت‌ها",
           "settings": "تنظیمات",
           "copyWrite": "\u00A9 کلیه حقوق وبسایت متعلق به رامند است."
+     },
+
+     "addSymbolToWatchlistModal": {
+          "title": "افزودن نماد به دیده‌بان",
+          "newWatchlist": "دیده‌بان جدید",
+          "saveButton": "ثبت تغییرات",
+          "cancelButton": "انصراف",
+          "createNewWatchlistTitle": "ایجاد دیده‌بان جدید",
+          "watchlistTitleInputLabel": "عنوان دیده‌بان",
+          "createWatchlistButton": "ایجاد دیده‌بان"
      }
 }
