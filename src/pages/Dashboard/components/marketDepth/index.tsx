@@ -4,6 +4,7 @@ import { useSymbolStore } from '@store/symbol';
 import { useCallback, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
+import { VirtuosoGrid } from 'react-virtuoso';
 
 export interface IHalfRowDepth {
      price: number;
@@ -92,51 +93,51 @@ const MarketDepthTab = () => {
           return data.sort((a, b) => +a.price - +b.price);
      }, [asks]);
 
-     //
-     //     useEffect(() => {
-     //         console.log('buyData', buyData)
-     //     }, [buyData])
-     //
-     //
-     //     useEffect(() => {
-     //         console.log('bids', bids)
-     //     }, [bids])
-     //
-
-     return (
-          <div className="h-full px-2">
-               <div className="grid grid-cols-2 grid-rows-1 gap-x-2">
-                    <div className="flex flex-col gap-y-4">
-                         <div>
+     const uiNode = useMemo(() => {
+          return <VirtuosoGrid
+               totalCount={buyData.length > sellData.length ? buyData.length : sellData.length}
+               itemContent={(index) => {
+                    const data = [buyData[index], sellData[index]];
+                    return (
+                         <div key={index} className="grid grid-cols-2 gap-x-2">
+                              <div>
+                                   {
+                                        data[0] && <HalfRowDepth
+                                             side={"Buy"}
+                                             data={data[0]}
+                                             isInRange={isPriceInRange(data[0]?.price)}
+                                        />
+                                   }
+                              </div>
+                              <div>
+                                   {
+                                        data[1] && <HalfRowDepth
+                                             side={"Sell"}
+                                             data={data[1]}
+                                             isInRange={isPriceInRange(data[1]?.price)}
+                                        />
+                                   }
+                              </div>
+                         </div>
+                    );
+               }}
+               components={{
+                    Header: () => (
+                         <div className="grid grid-cols-2 gap-x-2 px-2">
                               <OrderBookHeader side="Buy" />
-                         </div>
-                         <div className="flex flex-col">
-                              {buyData.map((item, ind) => (
-                                   <HalfRowDepth
-                                        key={ind + '-' + item.price}
-                                        side="Buy"
-                                        data={item}
-                                        isInRange={isPriceInRange(item.price)}
-                                   />
-                              ))}
-                         </div>
-                    </div>
-
-                    <div className="flex flex-col gap-y-4">
-                         <div>
                               <OrderBookHeader side="Sell" />
                          </div>
-                         <div className="flex flex-col">
-                              {sellData.map((item, ind) => (
-                                   <HalfRowDepth
-                                        key={ind + '-' + item.price}
-                                        side="Sell"
-                                        data={item}
-                                        isInRange={isPriceInRange(item.price)}
-                                   />
-                              ))}
-                         </div>
-                    </div>
+                    ),
+               }}
+          // style={{ height: "100%", marginLeft: 8, marginRight: 8 }}
+          />
+     }, [buyData, sellData])
+
+
+     return (
+          <div className="h-full grid grid-rows-1">
+               <div className='overflow-y-auto'>
+                    {uiNode}
                </div>
           </div>
      );

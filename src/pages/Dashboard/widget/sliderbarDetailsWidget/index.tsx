@@ -20,11 +20,10 @@ const SliderbarDetailsWidget = () => {
 
      const { setDebounce } = UseDebounceOutput();
 
-     const { data, isSuccess } = useQuerySymbolGeneralInformation<any>(selectedSymbol);
+     const { data, isSuccess } = useQuerySymbolGeneralInformation(selectedSymbol);
 
      useEffect(() => {
           if (isSuccess) {
-               console.log('hi');
                {
                     pushEngine.unSubscribe('SymbolGeneralInfoo');
 

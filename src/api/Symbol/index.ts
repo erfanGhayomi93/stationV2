@@ -31,7 +31,10 @@ export const useQuerySearchHistory = () => {
      });
 };
 
-export const useQuerySymbolGeneralInformation = <T>(symbolISIN: string) => {
+export const useQuerySymbolGeneralInformation = <T = ISymbolGeneralInformationRes>(
+     symbolISIN: string,
+     select?: (data: ISymbolGeneralInformationRes) => T
+) => {
      const url = routeApi().Symbol.SymbolGeneralInformation;
 
      return useQuery({
@@ -42,6 +45,7 @@ export const useQuerySymbolGeneralInformation = <T>(symbolISIN: string) => {
                });
                return response.data.result;
           },
+          ...(!!select && { select }),
      });
 };
 
