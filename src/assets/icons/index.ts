@@ -54,6 +54,7 @@ import SystemModeIcon from '../svg/systemMode.svg?react';
 import TseIcon from '../svg/tse.svg?react';
 import UpArrowIcon from '../svg/upArrow.svg?react';
 import UpFillArrowIcon from '../svg/upFillArrow.svg?react';
+import UserGroupIcon from '../svg/user-group.svg?react';
 import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
@@ -116,6 +117,7 @@ export {
      TseIcon,
      UpArrowIcon,
      UpFillArrowIcon,
+     UserGroupIcon,
      WatchlistNegativeIcon,
      XCircleFillIcon,
      XCircleOutlineIcon,
