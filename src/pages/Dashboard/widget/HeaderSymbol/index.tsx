@@ -1,4 +1,5 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
+import { useAddSymbolToWatchlist, useDeleteSymbolInWatchlist, useGetSymbolInWatchlist } from '@api/watchlist';
 import {
      ArrowLeftIcon,
      CodalIcon,
@@ -10,21 +11,29 @@ import {
 } from '@assets/icons';
 import Popup from '@components/popup';
 import { getCodalLink, getTSELink, sepNumbers } from '@methods/helper';
+import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useSymbolStore } from 'store/symbol';
 import SymbolState from './SymbolState';
 
 export const MainSymbol = () => {
      const { t } = useTranslation();
 
-     //  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+     const queryClient = useQueryClient();
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
      const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>(selectedSymbol);
+
+     const { mutate: addSymbolToWatchlistMutate } = useAddSymbolToWatchlist();
+
+     const { mutate: deleteSymbolInWatchlistMutate } = useDeleteSymbolInWatchlist();
+
+     const { data: getSymbolInWatchlist, refetch: refetchGetSymbolInWatchlist } = useGetSymbolInWatchlist();
 
      const symbolStateTooltip = () => {
           if (data?.symbolData?.symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
@@ -59,6 +68,49 @@ export const MainSymbol = () => {
           { label: 'سایت کدال', icon: CodalIcon, link: getCodalLink(data?.symbolData?.symbolTitle) },
      ];
 
+     const symbolIsPinned = useMemo(() => {
+          return getSymbolInWatchlist?.some(({ symbolISIN, watchlistId }) => {
+               if (symbolISIN === selectedSymbol && watchlistId === 3) return true;
+               else return false;
+          });
+     }, [getSymbolInWatchlist, selectedSymbol]);
+
+     const handleAddDeletePinSymbolInWatchlist = () => {
+          if (symbolIsPinned) {
+               deleteSymbolInWatchlistMutate(
+                    { symbolISIN: selectedSymbol, type: 'Pinned' },
+                    {
+                         onSuccess: () => {
+                              refetchGetSymbolInWatchlist();
+
+                              queryClient.refetchQueries({ queryKey: ['watchlistSymbols'] });
+
+                              toast.success(t('alerts.deleteSymbolInWatchlistSuccessful'));
+                         },
+                         onError: () => {
+                              toast.error(t('alerts.deleteSymbolInWatchlistError'));
+                         },
+                    }
+               );
+          } else {
+               addSymbolToWatchlistMutate(
+                    { symbolISIN: selectedSymbol, type: 'Pinned' },
+                    {
+                         onSuccess: () => {
+                              refetchGetSymbolInWatchlist();
+
+                              queryClient.refetchQueries({ queryKey: ['watchlistSymbols'] });
+
+                              toast.success(t('alerts.addSymbolWatchlistSuccessful'));
+                         },
+                         onError: () => {
+                              toast.error(t('alerts.addSymbolWatchlistError'));
+                         },
+                    }
+               );
+          }
+     };
+
      return (
           <div className="flex flex-col gap-2 text-xs">
                <div className="flex items-center justify-between">
@@ -77,7 +129,7 @@ export const MainSymbol = () => {
                               {data?.symbolData?.hasRiskAnnouncement && (
                                    <Tippy content={t('tooltip.hasRiskAnnouncement')}>
                                         <span>
-                                             <RiskAnnouncementIcon className="text-content-warnning" />
+                                             <RiskAnnouncementIcon className="text-content-warning" />
                                         </span>
                                    </Tippy>
                               )}
@@ -90,9 +142,19 @@ export const MainSymbol = () => {
                     </div>
 
                     <div className="flex gap-x-2">
-                         <span className="flex items-center rounded bg-back-2 p-1">
-                              <PinnedIcon width="1.5rem" height="1.5rem" className="text-icon-warning" />
-                         </span>
+                         <button
+                              onClick={handleAddDeletePinSymbolInWatchlist}
+                              className="flex items-center rounded bg-back-2 p-1"
+                         >
+                              <PinnedIcon
+                                   width="1.5rem"
+                                   height="1.5rem"
+                                   className={clsx('transition-colors', {
+                                        'text-icon-warning': symbolIsPinned,
+                                        'text-icon-default': !symbolIsPinned,
+                                   })}
+                              />
+                         </button>
                          <span className="flex items-center rounded bg-back-2 p-1">
                               <WatchlistNegativeIcon width="1.5rem" height="1.5rem" className="text-icon-primary" />
                          </span>

@@ -1,3 +1,4 @@
+import { useGetWatchlistSymbol } from '@api/watchlist';
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
 import Popup from '@components/popup';
@@ -123,7 +124,7 @@ const PinnedWatchlists = () => {
 
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-     const refDropdown = useRef<HTMLDivElement>(null);
+     const { data: watchlistSymbolData } = useGetWatchlistSymbol({ PageNumber: 1, watchlistType: 'Pinned' });
 
      useEffect(() => {
           const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');
@@ -135,7 +136,7 @@ const PinnedWatchlists = () => {
                <PinnedIcon className="text-icon-warning" />
 
                <div className="flex h-full items-center">
-                    {initData.slice(0, isLaptop ? 2 : 4).map(item => (
+                    {watchlistSymbolData?.slice(0, isLaptop ? 2 : 4).map(item => (
                          <Fragment key={item.symbolISIN}>
                               <div
                                    className={clsx(
@@ -143,9 +144,12 @@ const PinnedWatchlists = () => {
                                    )}
                               >
                                    <LastPriceTitle
-                                        {...item}
                                         onClick={() => setselectedItem(item.symbolISIN)}
                                         isSelected={selectedItem === item.symbolISIN}
+                                        price={item.lastTradedPrice}
+                                        PriceVar={item.lastTradedPriceVarPercent}
+                                        symbolISIN={item.symbolISIN}
+                                        symbolTitle={item.symbolTitle}
                                    />
                               </div>
                          </Fragment>
@@ -163,13 +167,16 @@ const PinnedWatchlists = () => {
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col gap-1 rounded-md bg-back-surface px-4 py-3 shadow-E6">
-                                   {initData.map((item, index) => (
+                                   {watchlistSymbolData?.slice(isLaptop ? 2 : 4).map((item, index) => (
                                         <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
                                              <LastPriceTitle
-                                                  {...item}
                                                   key={index}
-                                                  // onClick={handleClickSymbol}
                                                   isSelected={selectedItem === item.symbolISIN}
+                                                  PriceVar={item.lastTradedPriceVarPercent}
+                                                  price={item.lastTradedPrice}
+                                                  symbolISIN={item.symbolISIN}
+                                                  symbolTitle={item.symbolTitle}
+                                                  onClick={() => null}
                                              />
                                         </li>
                                    ))}
