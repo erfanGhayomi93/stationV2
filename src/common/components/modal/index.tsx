@@ -13,7 +13,7 @@ interface IModalProps {
      classes?: Partial<Record<'root' | 'modal' | 'header' | 'x' | 'label', ClassesValue>>;
 }
 
-const Modal = ({ children, onCloseModal, title, classes, size }: IModalProps) => {
+const Modal = ({ children, onCloseModal, title, classes, size = 'md' }: IModalProps) => {
      const modalRef = useRef<HTMLDivElement | null>(null);
 
      //  useClickOutside<HTMLUListElement | HTMLDivElement>([modalRef, ...(dependencies ?? [])], () => {
@@ -23,7 +23,7 @@ const Modal = ({ children, onCloseModal, title, classes, size }: IModalProps) =>
      return createPortal(
           <div className={clsx(styles.root, classes?.root)}>
                <div ref={modalRef} className={clsx(styles.modal, classes?.modal, size && styles[size])}>
-                    <div className="flex flex-col gap-6">
+                    <div className="flex h-full flex-col gap-6 overflow-hidden">
                          <div className="flex items-center justify-between">
                               <div className="font-bold text-content-paragraph">{title}</div>
                               <button onClick={onCloseModal} className="text-icon-default">
@@ -31,9 +31,9 @@ const Modal = ({ children, onCloseModal, title, classes, size }: IModalProps) =>
                               </button>
                          </div>
 
-                         <div className="min-h-1 min-w-full bg-line-div-2" />
+                         <div className="min-h-[1px] min-w-full bg-line-div-2" />
 
-                         <div className="flex-1">{children}</div>
+                         <div className="h-full flex-1">{children}</div>
                     </div>
                </div>
           </div>,

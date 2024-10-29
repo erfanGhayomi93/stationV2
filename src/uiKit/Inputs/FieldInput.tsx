@@ -220,15 +220,9 @@ const FieldInput = ({
                               </div>
                          </div>
                          <div className="w-2/12">
-                              {selectIcon === 'lock-0' && (
-                                   <LockIcon className='text-icon-disable' onClick={onClickIcon} />
-                              )}
-                              {selectIcon === 'lock-1' && (
-                                   <LockCloseIcon onClick={onClickIcon} />
-                              )}
-                              {selectIcon === 'calculator' && (
-                                   <CalculatorIcon onClick={onClickIcon} />
-                              )}
+                              {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable" onClick={onClickIcon} />}
+                              {selectIcon === 'lock-1' && <LockCloseIcon onClick={onClickIcon} />}
+                              {selectIcon === 'calculator' && <CalculatorIcon onClick={onClickIcon} />}
                          </div>
                     </div>
                )}

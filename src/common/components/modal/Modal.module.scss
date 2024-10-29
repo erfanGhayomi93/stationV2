@@ -6,6 +6,7 @@
      min-height: 100vh;
      width: 100%;
      z-index: 99;
+     overflow: hidden;
 }
 
 .modal {
@@ -18,6 +19,8 @@
      border-radius: 8px;
      background-color: theme('colors.back-surface');
      padding: 32px;
+     max-height: 80vh;
+     overflow: hidden;
 
      &.lg {
           width: 71.25rem;

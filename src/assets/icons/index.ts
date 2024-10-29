@@ -20,6 +20,7 @@ import DraftIcon from '../svg/draft.svg?react';
 import EditIcon from '../svg/edit.svg?react';
 import ExcelIcon from '../svg/excel.svg?react';
 import EyeOutlineIcon from '../svg/eye-outline.svg';
+import EyePlusIcon from '../svg/eye-plus.svg?react';
 import EyeSlashIcon from '../svg/eye-slash.svg?react';
 import EyeIcon from '../svg/eye.svg?react';
 import GearIcon from '../svg/gear.svg?react';
@@ -37,6 +38,7 @@ import MoreInformationIcon from '../svg/moreInformation.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
 import PieChartIcon from '../svg/pie-chart.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
+import PlusIcon from '../svg/plus.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
 import RamandIcon from '../svg/ramand.svg?react';
 import RefreshIcon from '../svg/refresh.svg?react';
@@ -83,6 +85,7 @@ export {
      ExcelIcon,
      EyeIcon,
      EyeOutlineIcon,
+     EyePlusIcon,
      EyeSlashIcon,
      GearIcon,
      HomeIcon,
@@ -99,6 +102,7 @@ export {
      NotificationIcon,
      PieChartIcon,
      PinnedIcon,
+     PlusIcon,
      ProfileIcon,
      RamandIcon,
      RefreshIcon,
