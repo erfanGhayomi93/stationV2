@@ -95,12 +95,13 @@ const MarketDepthTab = () => {
 
      const uiNode = useMemo(() => {
           return <VirtuosoGrid
+               // overscan={500}
                totalCount={buyData.length > sellData.length ? buyData.length : sellData.length}
                itemContent={(index) => {
                     const data = [buyData[index], sellData[index]];
                     return (
-                         <div key={index} className="grid grid-cols-2 gap-x-2">
-                              <div>
+                         <div key={index + data[0]?.price + data[1]?.price} className="flex gap-x-2 items-start">
+                              <div className='w-1/2'>
                                    {
                                         data[0] && <HalfRowDepth
                                              side={"Buy"}
@@ -109,7 +110,7 @@ const MarketDepthTab = () => {
                                         />
                                    }
                               </div>
-                              <div>
+                              <div className='w-1/2'>
                                    {
                                         data[1] && <HalfRowDepth
                                              side={"Sell"}

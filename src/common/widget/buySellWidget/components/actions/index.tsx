@@ -12,7 +12,7 @@ interface IBodyBuySellProps { }
 
 const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
-    const { price, quantity, side, strategy, validity, validityDate, source, quantityWithPercent } = useBuySellContext()
+    const { price, quantity, side, strategy, validity, validityDate, source, isPercentQuantity } = useBuySellContext()
 
     const { setIsPercentQuantityOrderModal } = useModalStore()
 
@@ -44,7 +44,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
                     symbolISIN: selectedSymbol,
                     validity: handleValidity(validity),
                     validityDate: validityDate,
-                    source: generateSourceOrder(source , side),
+                    source: generateSourceOrder(source, side),
                     // PositionSymbolISIN: (side === 'Sell' && symbolData?.isOption && generateSourceOrder() === "Position") ? source?.split("-")[1] : undefined
                 }
             }).filter(Boolean)
@@ -53,13 +53,13 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
     }
 
     const sendingOrder = () => {
-        if (quantityWithPercent) {
+
+        if (isPercentQuantity) {
             setIsPercentQuantityOrderModal(true)
             return
         }
 
         handleSendOrder()
-
     }
 
 
