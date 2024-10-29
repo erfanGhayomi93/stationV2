@@ -8,17 +8,20 @@ import InformationTrade from './informationTrade';
 import Price from './price';
 import Quantity from './quantity';
 
-interface IBodyBuySellProps { }
+interface IBodyBuySellProps {}
 
 const BodyBuySell: FC<IBodyBuySellProps> = () => {
      const { selectedSymbol } = useSymbolStore();
 
-     const { data } = useQuerySymbolGeneralInformation<{ symbolData: ISymbolData, ordersData: IOrdersData }>(selectedSymbol, data => {
-          return {
-               symbolData: data.symbolData,
-               ordersData: data.ordersData,
-          };
-     });
+     const { data } = useQuerySymbolGeneralInformation<{ symbolData: ISymbolData; ordersData: IOrdersData }>(
+          selectedSymbol,
+          data => {
+               return {
+                    symbolData: data.symbolData,
+                    ordersData: data.ordersData,
+               };
+          }
+     );
 
      return (
           <div className="flex w-full flex-col gap-y-4 pt-3 outline-none">
@@ -35,9 +38,7 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
                     marketUnit={data?.symbolData.marketUnit}
                />
                <Credit />
-               <InformationTrade
-                    marketUnit={data?.symbolData.marketUnit}
-               />
+               <InformationTrade marketUnit={data?.symbolData.marketUnit} />
                <ActionsOrder />
           </div>
      );

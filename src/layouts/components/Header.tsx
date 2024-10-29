@@ -43,9 +43,9 @@ const HeaderLayout = () => {
 
           setSelectedSymbol(symbol.symbolISIN);
 
-          setMarketUnit(symbol?.marketUnit)
+          setMarketUnit(symbol?.marketUnit);
 
-          setSymbolTitle(symbol.symbolTitle)
+          setSymbolTitle(symbol.symbolTitle);
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
@@ -116,7 +116,7 @@ const HeaderLayout = () => {
                          }}
                          defaultPopupWidth={250}
                          renderer={() => (
-                              <ul className="flex flex-col gap-2 rounded-md bg-back-surface px-4 py-3 shadow-E5 max-h-96 overflow-y-auto">
+                              <ul className="flex max-h-96 flex-col gap-2 overflow-y-auto rounded-md bg-back-surface px-4 py-3 shadow-E5">
                                    {symbolTab?.map(item => (
                                         <button
                                              className={clsx(
