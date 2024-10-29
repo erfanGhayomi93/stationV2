@@ -2,8 +2,9 @@ import { useGetWatchlistSymbol } from '@api/watchlist';
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle, { ILastPriceTitleProps } from '@components/LastPriceTitle';
 import Popup from '@components/popup';
+import { useSymbolStore } from '@store/symbol';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
 const initData: ILastPriceTitleProps[] = [
@@ -120,7 +121,7 @@ const initData: ILastPriceTitleProps[] = [
 const PinnedWatchlists = () => {
      const [isLaptop, setIsLaptop] = useState(false);
 
-     const [selectedItem, setselectedItem] = useState('222');
+     const { setSelectedSymbol, selectedSymbol } = useSymbolStore();
 
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -144,8 +145,8 @@ const PinnedWatchlists = () => {
                                    )}
                               >
                                    <LastPriceTitle
-                                        onClick={() => setselectedItem(item.symbolISIN)}
-                                        isSelected={selectedItem === item.symbolISIN}
+                                        onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                        isSelected={selectedSymbol === item.symbolISIN}
                                         price={item.lastTradedPrice}
                                         PriceVar={item.lastTradedPriceVarPercent}
                                         symbolISIN={item.symbolISIN}
@@ -171,12 +172,12 @@ const PinnedWatchlists = () => {
                                         <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
                                              <LastPriceTitle
                                                   key={index}
-                                                  isSelected={selectedItem === item.symbolISIN}
+                                                  onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                                  isSelected={selectedSymbol === item.symbolISIN}
                                                   PriceVar={item.lastTradedPriceVarPercent}
                                                   price={item.lastTradedPrice}
                                                   symbolISIN={item.symbolISIN}
                                                   symbolTitle={item.symbolTitle}
-                                                  onClick={() => null}
                                              />
                                         </li>
                                    ))}
