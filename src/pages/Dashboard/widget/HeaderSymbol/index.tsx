@@ -24,7 +24,7 @@ export const MainSymbol = () => {
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
-     const { data } = useQuerySymbolGeneralInformation<ISymbolGeneralInformationSelectHeaderSymbol>(selectedSymbol);
+     const { data } = useQuerySymbolGeneralInformation(selectedSymbol);
 
      const symbolStateTooltip = () => {
           if (data?.symbolData?.symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
