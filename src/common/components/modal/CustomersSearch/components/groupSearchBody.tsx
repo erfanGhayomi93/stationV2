@@ -1,4 +1,6 @@
 import { useQueryCustomerSearchGroup, useQueryDefaultGroup } from '@api/customer';
+import { UserGroupIcon } from '@assets/icons';
+import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import { useCustomerStore } from '@store/customer';
 import SearchInput from '@uiKit/Inputs/SearchInput';
@@ -119,8 +121,35 @@ const GroupSearchBody = () => {
 
      return (
           <div className="flex flex-col gap-y-6">
-               <div>
+               <div className="flex items-center gap-4">
                     <SearchInput onChangeValue={(value, input) => setTerm(input)} values={selectedCustomerInputValues ?? []} />
+
+                    <Popup
+                         margin={{
+                              y: 8,
+                         }}
+                         defaultPopupWidth={200}
+                         renderer={({ setOpen }) => (
+                              <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
+                                   {selectedCustomers.map((item, index) => (
+                                        <li className="py-3 text-xs text-content-paragraph">{item.title}</li>
+                                   ))}
+                              </ul>
+                         )}
+                    >
+                         {({ setOpen, open }) => (
+                              <div
+                                   onClick={() => setOpen(!open)}
+                                   className="bg- flex items-center gap-1 rounded-lg bg-button-primary-bg-selected px-4 py-3"
+                              >
+                                   <UserGroupIcon className="text-button-primary-default" />
+
+                                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-button-primary-hover text-icon-white">
+                                        <span className="text-xs">{selectedCustomers.length}</span>
+                                   </div>
+                              </div>
+                         )}
+                    </Popup>
                </div>
 
                <div className="grid h-80 grid-rows-min-one rounded-lg">
