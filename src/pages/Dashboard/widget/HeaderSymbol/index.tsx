@@ -165,7 +165,7 @@ export const MainSymbol = () => {
                               }}
                               defaultPopupWidth={200}
                               renderer={({ setOpen }) => (
-                                   <ul className="rtl flex flex-col rounded-md bg-back-modal p-4 shadow-E2">
+                                   <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                         {items.map((item, index) => (
                                              <a
                                                   key={index}
@@ -174,7 +174,7 @@ export const MainSymbol = () => {
                                                   target="_blank"
                                                   rel="noreferrer"
                                                   href={item.link}
-                                                  className="flex items-center justify-between rounded-md border-b border-line-div-2 px-2 py-4 transition-colors last:border-none hover:bg-back-primary/80"
+                                                  className="flex items-center justify-between rounded-md border-b border-line-div-2 px-2 py-2 transition-colors last:border-none hover:bg-back-primary"
                                              >
                                                   <div className="flex justify-between gap-x-2">
                                                        <item.icon width="1.5rem" height="1.5rem" className="text-icon-default" />
