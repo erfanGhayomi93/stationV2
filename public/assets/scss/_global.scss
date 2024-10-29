@@ -76,3 +76,6 @@ input:-webkit-autofill:active {
      color: #939cad !important;
      -webkit-text-fill-color: #939cad !important;
 }
+.ag-theme-alpine .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine .ag-layout-print .ag-center-cols-container, .ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine-dark .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine-dark .ag-layout-print .ag-center-cols-container, .ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-container {
+     min-height: 130px !important;
+}

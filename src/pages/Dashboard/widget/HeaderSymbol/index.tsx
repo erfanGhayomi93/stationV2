@@ -112,7 +112,7 @@ export const MainSymbol = () => {
      };
 
      return (
-          <div className="flex flex-col gap-2 text-xs">
+          <div className="flex flex-col gap-2 text-xs p-4">
                <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-y-1">
                          <div className="flex items-center gap-x-1">

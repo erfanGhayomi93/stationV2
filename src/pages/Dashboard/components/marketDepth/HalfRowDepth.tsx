@@ -1,9 +1,9 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { IHalfRowDepth } from ".";
 import clsx from "clsx";
 import { sepNumbers } from "@methods/helper";
 import { UpFillArrowIcon } from "@assets/icons";
-import { Virtuoso } from "react-virtuoso";
+// import { Virtuoso } from "react-virtuoso";
 
 
 
@@ -24,40 +24,40 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
     const [isOpenChild, setisOpenChild] = useState(false)
 
 
-    const childUi = useMemo(() => {
-        return (
-
-            < div style={{ height: 33 * (children?.length || 0), maxHeight: 200 }} >
-                <Virtuoso
-                    data={children}
-                    itemContent={(index, child) => (
-                        <div key={index} className={clsx("flex justify-between gap-x-1 px-2 items-center w-full border-b border-line-div-3 py-2", {
-                            "flex-row-reverse pl-7": side === "Sell",
-                            "flex-row pr-7": side === "Buy",
-                            "opacity-40": !isInRange,
-                        })}>
-                            <span
-                                className={clsx("w-1/3 text-content-paragraph", {
-                                    "text-right": side === "Buy",
-                                    "text-left": side === "Sell",
-                                })}
-                            >
-                                {sepNumbers(child.count)}
-                            </span>
-                            <span className="text-content-title text-center w-1/3">{sepNumbers(child.volume)}</span>
-                            <span className={clsx("w-1/3", {
-                                "text-content-success-buy text-left": side === "Buy",
-                                "text-content-error-sell text-right": side === "Sell"
-                            })}>
-                                {sepNumbers(child.price)}
-                            </span>
-                        </div>
-                    )}
-                    totalCount={children?.length}
-                />
-            </div >
-        )
-    }, [children, side, isInRange]);
+    //     const childUi = useMemo(() => {
+    //         return (
+    // 
+    //             < div style={{ height: 33 * (children?.length || 0) }} >
+    //                 <Virtuoso
+    //                     data={children}
+    //                     itemContent={(index, child) => (
+    //                         <div key={index} className={clsx("flex justify-between gap-x-1 px-2 items-center w-full border-b border-line-div-3 py-2", {
+    //                             "flex-row-reverse pl-7": side === "Sell",
+    //                             "flex-row pr-7": side === "Buy",
+    //                             "opacity-40": !isInRange,
+    //                         })}>
+    //                             <span
+    //                                 className={clsx("w-1/3 text-content-paragraph", {
+    //                                     "text-right": side === "Buy",
+    //                                     "text-left": side === "Sell",
+    //                                 })}
+    //                             >
+    //                                 {sepNumbers(child.count)}
+    //                             </span>
+    //                             <span className="text-content-title text-center w-1/3">{sepNumbers(child.volume)}</span>
+    //                             <span className={clsx("w-1/3", {
+    //                                 "text-content-success-buy text-left": side === "Buy",
+    //                                 "text-content-error-sell text-right": side === "Sell"
+    //                             })}>
+    //                                 {sepNumbers(child.price)}
+    //                             </span>
+    //                         </div>
+    //                     )}
+    //                     totalCount={children?.length}
+    //                 />
+    //             </div >
+    //         )
+    //     }, [children, side, isInRange]);
 
 
     return (
@@ -106,10 +106,10 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
             </div>
 
 
-            {isOpenChild && childUi}
+            {/* {isOpenChild && childUi} */}
 
 
-            {/* {
+            {
                 isOpenChild && (
                     <div>
                         {
@@ -139,7 +139,7 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                         }
                     </div>
                 )
-            } */}
+            }
 
 
         </div >

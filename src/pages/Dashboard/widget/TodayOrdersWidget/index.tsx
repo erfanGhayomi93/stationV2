@@ -20,7 +20,7 @@ interface ITodayOrdersWidgetProps {
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
 
-     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
      const queryClient = useQueryClient();
 
@@ -147,8 +147,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      }, []);
 
      return (
-          <div className="flex h-full flex-1 flex-col gap-4">
-               <div className="flex justify-between">
+          <div className="grid grid-rows-min-one">
+               <div className="flex justify-between pb-4">
                     <TabGroup>
                          <TabList className="flex gap-x-4">
                               <Tab
@@ -216,7 +216,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     </div>
                </div>
 
-               <div className="flex-1">
+               <div className="">
                     <AgGridTable
                          rowSelection={{
                               mode: 'multiRow',

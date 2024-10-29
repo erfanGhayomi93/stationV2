@@ -8,14 +8,14 @@ import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';
 import TodayTradesWidget from '../widget/TodayTradesWidget';
 
-const BoxClass = 'p-4 bg-back-surface shadow-sm rounded-lg rtl overflow-x-hidden overflow-y-auto';
+const BoxClass = 'bg-back-surface shadow-sm rounded-lg overflow-x-hidden overflow-y-auto box-border';
 
 const MainLayoutDashboard = () => {
      const { isExpandSymbolDetails, setExpandSymbolDetails } = useUIStore();
 
      return (
-          <div className="rtl grid h-full grid-cols-[2fr,2fr,4fr] gap-2 overflow-hidden">
-               <div className="grid h-full grid-rows-min-one gap-2 overflow-hidden">
+          <div className="rtl grid grid-cols-[1fr,1fr,2fr] gap-2 h-full">
+               <div className="grid grid-rows-min-one gap-2">
                     <div className={BoxClass}>
                          <MainSymbol />
                     </div>
@@ -25,8 +25,9 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className="grid-rows-[min-content max-content 1fr] grid gap-2">
-                    {/* <div className={clsx('grid h-full grid-rows-2 gap-2')}> */}
+
+
+               <div className="grid grid-rows-min-min-one gap-2 h-full overflow-hidden">
                     <div className={clsx(BoxClass)}>
                          <SliderbarDetailsWidget />
                     </div>
@@ -51,16 +52,18 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className={'grid h-full grid-rows-3 gap-2 overflow-hidden'}>
-                    <div className={clsx(BoxClass)}>
+
+
+               <div className={'grid grid-rows-3 gap-2 pl-4'}>
+                    <div className={clsx(BoxClass, 'p-4')}>
                          <TodayOrdersWidget side={'Buy'} />
                     </div>
 
-                    <div className={clsx(BoxClass)}>
+                    <div className={clsx(BoxClass, 'p-4')}>
                          <TodayOrdersWidget side={'Sell'} />
                     </div>
 
-                    <div className={clsx(BoxClass)}>
+                    <div className={clsx(BoxClass, 'p-4')}>
                          <TodayTradesWidget />
                     </div>
                </div>
