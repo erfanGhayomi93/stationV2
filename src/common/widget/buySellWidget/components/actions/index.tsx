@@ -79,7 +79,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
                 className="flex-1"
                 onClick={sendingOrder}
             >
-                ارسال خرید
+                ارسال {side === "Buy" ? "خرید" : "فروش"}
             </Button>
         </div>
     )
