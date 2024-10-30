@@ -129,12 +129,13 @@ const Sidebar = () => {
                     </div>
 
                     <div className={clsx('flex flex-col gap-4')}>
-                         {ITEMS.map(item => (
+                         {ITEMS.map((item , ind) => (
                               <div
                                    onClick={() => {
                                         navigate(item.path ?? '/');
                                    }}
                                    className="flex items-center justify-between gap-3 py-2 pr-[10px] text-icon-default"
+                                   key={ind}
                               >
                                    <div
                                         className={clsx('flex items-center gap-[10px]', {
