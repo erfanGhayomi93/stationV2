@@ -51,7 +51,7 @@ const Message = ({ item }: TMessageProps) => {
                               {t(`supervisorMessage.type_message_${item.type}`)}
                          </span>
 
-                         <span className="w-10 truncate text-content-title">{removeFirstWord(item.messageTitle)}</span>
+                         <span className="w-40 truncate text-content-title">{removeFirstWord(item.messageTitle)}</span>
                     </div>
                     <div className="flex items-center justify-end gap-2 text-sm text-content-paragraph">
                          <span>{dateFormatter(item.dateOfEvent, 'time')}</span>

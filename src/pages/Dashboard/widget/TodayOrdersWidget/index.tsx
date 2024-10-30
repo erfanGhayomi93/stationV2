@@ -20,7 +20,7 @@ interface ITodayOrdersWidgetProps {
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
 
-     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
      const queryClient = useQueryClient();
 
@@ -152,7 +152,10 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <TabGroup>
                          <TabList className="flex gap-x-4">
                               <Tab
-                                   onClick={() => setTabSelected('OnBoard')}
+                                   onClick={() => {
+                                        setTabSelected('OnBoard');
+                                        setSelectedOrder([]);
+                                   }}
                                    className={clsx(
                                         'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
                                         {
@@ -167,7 +170,10 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                                    {side === 'Sell' && t('orders.openTodayOrdersSell')}
                               </Tab>
                               <Tab
-                                   onClick={() => setTabSelected('All')}
+                                   onClick={() => {
+                                        setTabSelected('All');
+                                        setSelectedOrder([]);
+                                   }}
                                    className={clsx(
                                         'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
                                         {
@@ -187,7 +193,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <div className="flex items-center gap-x-6">
                          <button
                               onClick={() => {
-                                   if (selectedOrders.length === 0) return;
+                                   if (selectedOrders.length === 0 && side === side) return;
                                    setEditOrdersGroupModalSheet({
                                         side: side,
                                         symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
