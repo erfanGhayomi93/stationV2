@@ -23,7 +23,7 @@ const CustomersSearch = () => {
 
      return (
           <div className="flex flex-1 items-center gap-2">
-               <div className="w-9/12 flex-1">
+               <div className="w-9/12">
                     <SearchInput
                          handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
                          placeholder="مشتری"
@@ -41,7 +41,10 @@ const CustomersSearch = () => {
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                    {selectedCustomers.map((item, index) => (
-                                        <li className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80">
+                                        <li
+                                             key={index}
+                                             className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80"
+                                        >
                                              <span>{item.title}</span>
                                              <button
                                                   onClick={() => {

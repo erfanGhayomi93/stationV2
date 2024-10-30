@@ -4,4 +4,7 @@ interface IUIStore {
 
      isExpandSidebar: boolean;
      setIsExpandSidebar: (state: boolean) => void;
+
+     selectedOrders: IOpenOrder[];
+     setSelectedOrders: (state: IOpenOrder[]) => void;
 }

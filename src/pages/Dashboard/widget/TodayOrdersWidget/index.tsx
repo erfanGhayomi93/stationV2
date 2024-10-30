@@ -5,6 +5,7 @@ import AgGridTable from '@components/Table/AgGrid';
 import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { dateFormatter, sepNumbers } from '@methods/helper';
+import { useUIStore } from '@store/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import ipcMain from 'common/classes/IpcMain';
@@ -26,7 +27,12 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
 
-     const { setEditOrdersGroupModalSheet, setDeleteOrdersGroupModalSheet } = useModalStore();
+     const {
+          setEditOrdersGroupModalSheet,
+          setDeleteOrdersGroupModalSheet,
+          editOrdersGroupModalSheet,
+          deleteOrdersGroupModalSheet,
+     } = useModalStore();
 
      const { selectedSymbol } = useSymbolStore();
 
@@ -36,7 +42,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           symbolISIN: selectedSymbol,
      });
 
-     const [selectedOrders, setSelectedOrder] = useState<IOpenOrder[]>([]);
+     const { selectedOrders, setSelectedOrders } = useUIStore();
+
+     console.log(selectedOrders, 'selectedOrders selectedOrders');
 
      const getSymbolGeneralInformationCache = () => {
           return JSON.parse(
@@ -135,16 +143,21 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           const data = event.node.data;
 
           if (event.node.isSelected()) {
-               setSelectedOrder(prev => [...prev, data]);
+               setSelectedOrders([...selectedOrders, data]);
           } else {
                const filterSelectedOrders = selectedOrders.filter(order => order.orderId !== data.orderId);
-               setSelectedOrder(filterSelectedOrders);
+               setSelectedOrders(filterSelectedOrders);
           }
      };
 
      useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
      }, []);
+
+     useEffect(() => {
+          // Clear selected rows when `todayOrdersData` changes
+          setSelectedOrders([]);
+     }, [todayOrdersData]);
 
      return (
           <div className="grid grid-rows-min-one">
@@ -154,7 +167,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                               <Tab
                                    onClick={() => {
                                         setTabSelected('OnBoard');
-                                        setSelectedOrder([]);
+                                        setSelectedOrders([]);
                                    }}
                                    className={clsx(
                                         'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
@@ -172,7 +185,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                               <Tab
                                    onClick={() => {
                                         setTabSelected('All');
-                                        setSelectedOrder([]);
+                                        setSelectedOrders([]);
                                    }}
                                    className={clsx(
                                         'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
