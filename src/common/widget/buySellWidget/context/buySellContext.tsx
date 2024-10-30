@@ -13,7 +13,7 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      isPercentPrice: false,
      isPercentQuantity: false,
      priceWithPercent: {
-          PriceBasedOn: "",
+          PriceBasedOn: "GreaterThanClosingPrice",
           percent: 0
      },
      quantityWithPercent: {

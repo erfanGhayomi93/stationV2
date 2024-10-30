@@ -14,8 +14,8 @@ const MainLayoutDashboard = () => {
      const { isExpandSymbolDetails, setExpandSymbolDetails } = useUIStore();
 
      return (
-          <div className="rtl grid grid-cols-[1fr,1fr,2fr] gap-2 h-full">
-               <div className="grid grid-rows-min-one gap-2">
+          <div className="rtl grid grid-cols-[1fr,1fr,2fr] gap-2 h-full overflow-y-auto">
+               <div className="grid grid-rows-min-one gap-2 overflow-y-auto">
                     <div className={BoxClass}>
                          <MainSymbol />
                     </div>
@@ -54,7 +54,7 @@ const MainLayoutDashboard = () => {
 
 
 
-               <div className={'grid grid-rows-3 gap-2 pl-4'}>
+               <div className={'grid grid-rows-3 gap-2 pl-4 overflow-y-auto'}>
                     <div className={clsx(BoxClass, 'p-4')}>
                          <TodayOrdersWidget side={'Buy'} />
                     </div>
