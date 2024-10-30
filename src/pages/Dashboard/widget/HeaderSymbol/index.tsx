@@ -206,7 +206,7 @@ export const MainSymbol = () => {
                </div>
 
                <div className="flex rounded bg-back-2 px-4 py-3 text-content-title">
-                    <div className="flex gap-x-6 border-l border-line-div-1 pl-4 text-xs">
+                    <div className="flex gap-x-1 justify-between flex-1 border-l border-line-div-1 pl-4 text-xs">
                          <span className="text-nowrap font-medium text-content-paragraph">آخرین قیمت:</span>
                          <span className="flex gap-x-1">
                               <span
@@ -222,7 +222,7 @@ export const MainSymbol = () => {
                          </span>
                     </div>
 
-                    <div className="flex gap-x-6 pr-4">
+                    <div className="flex gap-x-1 justify-between flex-1 pr-4">
                          <span className="text-nowrap text-xs text-content-paragraph">قیمت پایانی:</span>
                          <span className="flex gap-x-1">
                               <span
