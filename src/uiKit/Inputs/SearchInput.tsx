@@ -76,7 +76,10 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                     <div className="absolute flex h-full items-center justify-center bg-back-surface pl-1">
                          <SearchInputIcon className="size-4 text-icon-default" />
                     </div>
-                    <ul ref={chipsetsRef} className="rtl flex items-center gap-1 overflow-x-auto px-5 py-1 pr-6">
+                    <ul
+                         ref={chipsetsRef}
+                         className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto px-5 pr-6 pt-1"
+                    >
                          {[...items].map(value => (
                               <li
                                    key={value.id}

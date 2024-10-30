@@ -76,6 +76,41 @@ input:-webkit-autofill:active {
      color: #939cad !important;
      -webkit-text-fill-color: #939cad !important;
 }
-.ag-theme-alpine .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine .ag-layout-print .ag-center-cols-container, .ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine-dark .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine-dark .ag-layout-print .ag-center-cols-container, .ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-viewport, .ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-container, .ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-viewport, .ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-container {
+.ag-theme-alpine .ag-layout-auto-height .ag-center-cols-viewport,
+.ag-theme-alpine .ag-layout-auto-height .ag-center-cols-container,
+.ag-theme-alpine .ag-layout-print .ag-center-cols-viewport,
+.ag-theme-alpine .ag-layout-print .ag-center-cols-container,
+.ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-viewport,
+.ag-theme-alpine-dark .ag-layout-auto-height .ag-center-cols-container,
+.ag-theme-alpine-dark .ag-layout-print .ag-center-cols-viewport,
+.ag-theme-alpine-dark .ag-layout-print .ag-center-cols-container,
+.ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-viewport,
+.ag-theme-alpine-auto-dark .ag-layout-auto-height .ag-center-cols-container,
+.ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-viewport,
+.ag-theme-alpine-auto-dark .ag-layout-print .ag-center-cols-container {
      min-height: 130px !important;
+}
+
+/* Transparent scrollbar styling */
+.transparent-scrollbar {
+     scrollbar-width: thin; /* Makes scrollbar thinner in Firefox */
+     scrollbar-color: transparent transparent; /* Transparent scrollbar in Firefox */
+}
+
+/* Webkit-based browsers */
+.transparent-scrollbar::-webkit-scrollbar {
+     height: 2px; /* Height of horizontal scrollbar */
+     width: 8px; /* Width of vertical scrollbar */
+}
+
+.transparent-scrollbar::-webkit-scrollbar-track {
+     background: transparent; /* Transparent track */
+}
+
+.transparent-scrollbar::-webkit-scrollbar-thumb {
+     background-color: transparent; /* Fully transparent scrollbar thumb */
+}
+
+.transparent-scrollbar:hover::-webkit-scrollbar-thumb {
+     background-color: rgba(0, 0, 0, 0.2); /* Slightly visible on hover for user feedback */
 }
