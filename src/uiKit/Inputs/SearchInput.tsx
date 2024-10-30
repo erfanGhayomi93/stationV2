@@ -21,7 +21,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
 
      const [inputValue, setInputValue] = useState('');
 
-     const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
+     //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
      const { removeSelectedCustomers, removeAllSelectedCustomers } = useCustomerStore();
 
@@ -34,34 +34,33 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
           onChangeValue(items, value);
      };
 
-     useEffect(() => {
-          if (chipsetsRef.current && searchInputRef.current) {
-               const ulWidth = searchInputRef.current.offsetWidth - 110;
+     //  useEffect(() => {
+     //       if (chipsetsRef.current && searchInputRef.current) {
+     //            const ulWidth = searchInputRef.current.offsetWidth - 110;
 
-               let totalChipsetsWidth = 0;
-               let visibleCount = 0;
+     //            console.log(ulWidth, 'ulWidth');
 
-               const childNodes = Array.from(chipsetsRef.current.childNodes) as HTMLElement[];
+     //            let totalChipsetsWidth = 0;
+     //            let visibleCount = 0;
 
-               childNodes.forEach(chip => {
-                    const chipsetWidth = chip.getBoundingClientRect().width;
+     //            const childNodes = Array.from(chipsetsRef.current.childNodes) as HTMLElement[];
 
-                    console.log(chipsetWidth, 'chipsetWidth');
+     //            childNodes.forEach(chip => {
+     //                 const chipsetWidth = chip.getBoundingClientRect().width;
 
-                    totalChipsetsWidth += chipsetWidth;
+     //                 totalChipsetsWidth += chipsetWidth;
 
-                    if (totalChipsetsWidth <= ulWidth) {
-                         visibleCount += 1;
-                    }
-               });
+     //                 if (totalChipsetsWidth <= ulWidth) {
+     //                      visibleCount += 1;
+     //                 }
+     //            });
 
-               setVisibleChipsetsCount(visibleCount);
-          }
-     }, [searchInputRef, chipsetsRef, items]);
+     //            setVisibleChipsetsCount(visibleCount);
+     //       }
+     //  }, [searchInputRef, chipsetsRef, items]);
 
      useEffect(() => {
           setItems(values);
-          setVisibleChipsetsCount(values.length);
      }, [values]);
 
      return (
@@ -74,11 +73,11 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
           >
                <div className="flex w-full items-center gap-1">
-                    <div className="absolute">
+                    <div className="absolute flex h-full items-center justify-center bg-back-surface pl-1">
                          <SearchInputIcon className="size-4 text-icon-default" />
                     </div>
-                    <ul ref={chipsetsRef} className="rtl flex items-center gap-1 pr-5">
-                         {[...items].slice(0, visibleChipsetsCount).map(value => (
+                    <ul ref={chipsetsRef} className="rtl flex items-center gap-1 overflow-x-auto px-5 py-1 pr-6">
+                         {[...items].map(value => (
                               <li
                                    key={value.id}
                                    className="flex items-center gap-1 text-nowrap rounded-lg bg-progressbar-primary-line px-1 py-1 text-content-title"
@@ -101,11 +100,11 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                               </li>
                          ))}
                     </ul>
-                    {visibleChipsetsCount < items.length && (
+                    {/* {visibleChipsetsCount < items.length && (
                          <li className="flex items-center gap-1 rounded-full bg-progressbar-primary-line p-2 text-content-title">
                               <span className="text-xs">{items.length - visibleChipsetsCount}+</span>
                          </li>
-                    )}
+                    )} */}
                     <input
                          ref={inputRef}
                          value={inputValue}
@@ -114,18 +113,20 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                          inputMode="numeric"
                          {...props}
                     />
-                    {items.length !== 0 && (
-                         <button
-                              onClick={e => {
-                                   e.stopPropagation();
-                                   setItems([]);
-                                   removeAllSelectedCustomers()
-                              }}
-                              className="absolute left-2 text-input-default group-focus-within:text-input-active"
-                         >
-                              <XCircleOutlineIcon />
-                         </button>
-                    )}
+                    <div className="flex items-center justify-center">
+                         {items.length !== 0 && (
+                              <button
+                                   onClick={e => {
+                                        e.stopPropagation();
+                                        setItems([]);
+                                        removeAllSelectedCustomers();
+                                   }}
+                                   className="absolute left-2 text-input-default group-focus-within:text-input-active"
+                              >
+                                   <XCircleOutlineIcon />
+                              </button>
+                         )}
+                    </div>
                </div>
                <div
                     className={clsx('absolute text-xs transition-all duration-100', {

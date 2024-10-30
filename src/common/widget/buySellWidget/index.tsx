@@ -13,13 +13,17 @@ const BuySellWidget = () => {
 
      return (
           <div className="h-full">
-               <TabGroup className="grid grid-rows-min-one h-full max-h-full overflow-y-auto" selectedIndex={side === 'Buy' ? 0 : 1} onChange={index => setSide(tabs[index])}>
-                    <TabList className={'flex border-b border-line-div-2 mx-4'}>
+               <TabGroup
+                    className="grid h-full max-h-full grid-rows-min-one overflow-y-auto"
+                    selectedIndex={side === 'Buy' ? 0 : 1}
+                    onChange={index => setSide(tabs[index])}
+               >
+                    <TabList className={'mx-4 flex border-b border-line-div-2'}>
                          {tabs.map((item, ind) => (
                               <Tab
                                    key={ind}
                                    className={clsx(
-                                        'flex-1 select-none text-sm text-content-deselecttab transition-colors focus:outline-none p-4',
+                                        'flex-1 select-none p-4 text-sm text-content-deselecttab transition-colors focus:outline-none',
                                         {
                                              'data-[selected]:border:content-success-buy data-[selected]:border-b-2 data-[selected]:text-content-success-buy':
                                                   side === 'Buy',
@@ -33,13 +37,13 @@ const BuySellWidget = () => {
                          ))}
                     </TabList>
                     <TabPanels className="overflow-x-hidden">
-                         <TabPanel className="focus:border-none focus:outline-none h-full overflow-y-auto relative">
-                              <div className='absolute top-0 w-full px-2'>
+                         <TabPanel className="relative h-full overflow-y-auto focus:border-none focus:outline-none">
+                              <div className="absolute top-0 w-full px-2">
                                    <BodyBuySell />
                               </div>
                          </TabPanel>
-                         <TabPanel className="focus:border-none focus:outline-none h-full overflow-y-auto relative">
-                              <div className='absolute top-0 w-full px-2'>
+                         <TabPanel className="relative h-full overflow-y-auto focus:border-none focus:outline-none">
+                              <div className="absolute top-0 w-full px-2">
                                    <BodyBuySell />
                               </div>
                          </TabPanel>
