@@ -18,7 +18,7 @@ const OrderBookTabsWidget = () => {
      ];
 
      return (
-          <TabGroup className=" h-full grid grid-rows-min-one p-4" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+          <TabGroup className="grid h-full grid-rows-min-one p-4" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
                <TabList className={'flex gap-x-2 border-b border-line-div-2'}>
                     {tabs.map((item, ind) => (
                          <Tab
@@ -30,7 +30,7 @@ const OrderBookTabsWidget = () => {
                     ))}
                </TabList>
                <TabPanels className="data-[selected]:bg-line-error">
-                    <TabPanel className={'py-2 h-full'}>
+                    <TabPanel className={'h-full py-2'}>
                          <MarketDepthTab />
                     </TabPanel>
                     <TabPanel>
@@ -39,7 +39,7 @@ const OrderBookTabsWidget = () => {
                     <TabPanel>
                          <OptionContracts />
                     </TabPanel>
-                    <TabPanel className="">
+                    <TabPanel>
                          <SupervisorMessage />
                     </TabPanel>
                </TabPanels>

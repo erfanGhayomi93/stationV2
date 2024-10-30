@@ -1,4 +1,4 @@
-import { dateFormatter, getColorClassBasedAmount, sepNumbers } from '@methods/helper';
+import { dateFormatter, getColorClassBasedAmount, numFormatter, sepNumbers } from '@methods/helper';
 import { useUIStore } from '@store/ui';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
@@ -101,9 +101,9 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     renderer: value => (
                          <Tippy className="text-xs" content={sepNumbers(value)}>
                               <div className="flex items-center gap-1">
-                                   <span className="font-bold">{`B`}</span>
+                                   {/* <span className="font-bold">{`B`}</span> */}
 
-                                   <span>{sepNumbers(value)}</span>
+                                   <span>{numFormatter(Number(value))}</span>
                               </div>
                          </Tippy>
                     ),
@@ -112,7 +112,8 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.LowHighThreshold'),
                     value: LowThreshold,
-                    formatter: value => sepNumbers(value),
+                    // formatter: value => sepNumbers(value),
+                    renderer: value => <span>{`${LowThreshold} - ${HighThreshold}`}</span>,
                },
           ],
           [
@@ -124,7 +125,8 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
                     value: '-',
-                    formatter: value => sepNumbers(value),
+                    // formatter: value => sepNumbers(value),
+                    renderer: value => <span>{`${tommorowLowThreshold} - ${tommorowHighThreshold}`}</span>,
                },
           ],
           [
