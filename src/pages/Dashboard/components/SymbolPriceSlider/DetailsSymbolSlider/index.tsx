@@ -113,7 +113,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.LowHighThreshold'),
                     value: LowThreshold,
                     // formatter: value => sepNumbers(value),
-                    renderer: value => <span>{`${LowThreshold} - ${HighThreshold}`}</span>,
+                    renderer: value => <span>{`${sepNumbers(LowThreshold)} - ${sepNumbers(HighThreshold)}`}</span>,
                },
           ],
           [
@@ -126,7 +126,9 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
                     value: '-',
                     // formatter: value => sepNumbers(value),
-                    renderer: value => <span>{`${tommorowLowThreshold} - ${tommorowHighThreshold}`}</span>,
+                    renderer: value => (
+                         <span>{`${sepNumbers(tommorowLowThreshold)} - ${sepNumbers(tommorowHighThreshold)}`}</span>
+                    ),
                },
           ],
           [
