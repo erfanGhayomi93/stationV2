@@ -12,7 +12,9 @@ const SupervisorMessage = () => {
 
      return (
           <div className="px-2">
-               <ul className="flex flex-col">{supervisorMessagesSymbolData?.map(message => <Message item={message} />)}</ul>
+               <ul className="flex flex-col">
+                    {supervisorMessagesSymbolData?.map((message, index) => <Message key={index} item={message} />)}
+               </ul>
           </div>
      );
 };
