@@ -1,41 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+     "compilerOptions": {
+          "target": "ES2020",
+          "useDefineForClassFields": true,
+          "lib": ["ES2020", "DOM", "DOM.Iterable"],
+          "module": "ESNext",
+          "skipLibCheck": true,
+          "forceConsistentCasingInFileNames" : false,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
+          /* Bundler mode */
+          "moduleResolution": "bundler",
+          "allowImportingTsExtensions": true,
+          "isolatedModules": true,
+          "moduleDetection": "force",
+          "noEmit": true,
+          "jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": "src",
-    "paths" : {
-       "@components/*": ["./common/components/*"],
-       "@hooks/*": ["./common/hooks/*"],
-       "@methods/*": ["./common/methods/*"],
-       "@widget/*": ["./common/widget/*"],
-       "@uiKit/*": ["./uiKit/*"],
-       "@LS/*": ["./LS/*"],
-       "@assets/*": ["./assets/*"],
-       "@pages/*": ["./pages/*"],
-       "@config/*": ["./config/*"],
-       "@router/*": ["./router/*"],
-       "@api/*": ["./api/*"],
-       "@zustand/*": ["./zustand/*"]
-    },
-  },
-  "types" : ["src/**/*.d.ts" , "src/*.d.ts"],
-	"include": ["src", "src/**/*"],
-
+          /* Linting */
+          "strict": true,
+          "noUnusedLocals": false,
+          "noUnusedParameters": false,
+          "noFallthroughCasesInSwitch": true,
+          "baseUrl": "src",
+          "paths": {
+               "@components/*": ["./common/components/*"],
+               "@hooks/*": ["./common/hooks/*"],
+               "@methods/*": ["./common/methods/*"],
+               "@uiKit/*": ["./uiKit/*"],
+               "@LS/*": ["./LS/*"],
+               "@assets/*": ["./assets/*"],
+               "@pages/*": ["./pages/*"],
+               "@config/*": ["./config/*"],
+               "@router/*": ["./router/*"],
+               "@api/*": ["./api/*"],
+               "@store/*": ["./store/*"]
+          }
+     },
+     "include": ["src/**/*"]
 }

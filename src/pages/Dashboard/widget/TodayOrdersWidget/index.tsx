@@ -1,322 +1,235 @@
-import { useQueryTodayOrders } from "@api/order";
-import { DeleteIcon, EditIcon, ExcelIcon, MoreStatusIcon } from "@assets/icons"
-import LightweightTable, { IColDef } from "@components/LightweightTable/LightweightTable"
-import { dateFormatter, sepNumbers } from "@methods/helper";
-import Button from "@uiKit/Button";
-import { FC, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Actions } from "./actions";
+import { ColDef, RowSelectedEvent } from '@ag-grid-community/core';
+import { useQueryTodayOrders } from '@api/order';
+import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
+import AgGridTable from '@components/Table/AgGrid';
+import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
+import { Tab, TabGroup, TabList } from '@headlessui/react';
+import { dateFormatter, sepNumbers } from '@methods/helper';
+import { useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
+import ipcMain from 'common/classes/IpcMain';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useModalStore } from 'store/modal';
+import { useSymbolStore } from 'store/symbol';
 
 interface ITodayOrdersWidgetProps {
-    side: TSide
+     side: TSide;
 }
 
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
+     const { t } = useTranslation();
 
-    const { t } = useTranslation()
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
 
-    const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard')
+     const queryClient = useQueryClient();
 
-    const { data } = useQueryTodayOrders({
-        GtOrderStateRequestType: tabSelected,
-        side: side
-    })
+     const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
 
-    const handleEditOnce = (row: IOpenOrder) => {
-        // console.log('row', row)
-    }
+     const { setEditOrdersGroupModalSheet, setDeleteOrdersGroupModalSheet } = useModalStore();
 
-    const columnDefs = useMemo<Array<IColDef<IOpenOrder>>>(
-        () => [
-            {
-                colId: 'orderPlaceInPrice',
-                headerName: t('orders.orderPlaceInPriceColumn'),
-                valueGetter: (row) => row?.orderPlaceInPrice ? sepNumbers(row?.orderPlaceInPrice) : "-",
-            },
-            {
-                colId: 'customerTitle ',
-                headerName: t('orders.customerTitleColumn'),
-                valueGetter: (row) => (row.customerTitle ? row.customerTitle : '-'),
-            },
-            {
-                colId: 'bourseCode ',
-                headerName: t('orders.bourceCodeColumn'),
-                valueGetter: (row) => (row.bourseCode ? row.bourseCode : '-'),
-            },
-            {
-                colId: 'quantity',
-                headerName: t('orders.quantityColumn'),
-                valueGetter: (row) => row.quantity,
-            },
-            {
-                colId: 'price',
-                headerName: t('orders.priceColumn'),
-                valueGetter: (row) => sepNumbers(row.price),
-            },
-            {
-                colId: 'remainingQuantity',
-                headerName: t('orders.remainingQuantityColumn'),
-                valueGetter: (row) => row.remainingQuantity,
-            },
-            {
-                colId: 'requestDate',
-                headerName: t('orders.requestDateColumn'),
-                valueGetter: (row) => dateFormatter(row.requestDate),
-                width: 100,
-                cellClass: "ltr"
-            },
-            {
-                colId: "action",
-                headerName: t("common.actionColumn"),
-                cellClass: "!overflow-visible",
-                valueGetter: (row) => row.orderId,
-                valueFormatter: ({ row }) =>
-                    <div className="z-50">
-                        <Actions<IOpenOrder>
-                            row={row}
-                            key={row.orderId}
-                            handleEditOnce={handleEditOnce}
-                        />
+     const { selectedSymbol } = useSymbolStore();
 
+     const { data: todayOrdersData, refetch: refetchTodayOrders } = useQueryTodayOrders({
+          GtOrderStateRequestType: tabSelected,
+          side: side,
+          symbolISIN: selectedSymbol,
+     });
+
+     const [selectedOrders, setSelectedOrder] = useState<IOpenOrder[]>([]);
+
+     const getSymbolGeneralInformationCache = () => {
+          return JSON.parse(
+               JSON.stringify(queryClient.getQueryData(['SymbolGeneralInformation', selectedSymbol]) ?? [])
+          ) as ISymbolGeneralInformationRes;
+     };
+
+     const orderStatusIsntModify = ['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'Expired', 'InOMSQueue', 'OnSending'];
+
+     onOMSMessageHandlerRef.current = useMemo(
+          () => (message: Record<number, string>) => {
+               const omsClientKey = message[12];
+               const omsOrderStatus = message[22] as TStatus;
+
+               queryClient.setQueryData(['openOrders', 'OnBoard'], (oldData: IOpenOrder[] | undefined) => {
+                    if (oldData) {
+                         const orders = JSON.parse(JSON.stringify(oldData)) as IOpenOrder[];
+                         const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
+
+                         const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
+                         if (index >= 0) {
+                              orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOpenOrder;
+                         }
+
+                         return [...orders];
+                    }
+               });
+
+               if (orderStatusIsntModify.includes(omsOrderStatus)) {
+                    const timerId = setTimeout(() => {
+                         clearTimeout(timerId);
+                         refetchTodayOrders();
+                    }, 1000);
+               }
+          },
+          []
+     );
+
+     const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
+          () => [
+               {
+                    field: 'position',
+                    headerName: t('todayOrders.orderPlaceInPriceColumn'),
+                    valueGetter: ({ data }) => sepNumbers(data?.position),
+               },
+               {
+                    field: 'customerTitle',
+                    headerName: t('todayOrders.customerTitleColumn'),
+                    valueGetter: ({ data }) => data?.customerTitle ?? '-',
+                    headerComponent: AGHeaderSearchInput,
+                    filter: 'text',
+               },
+               {
+                    field: 'bourseCode',
+                    headerName: t('todayOrders.bourseCodeColumn'),
+                    valueGetter: ({ data }) => data?.bourseCode ?? '-',
+                    headerComponent: AGHeaderSearchInput,
+                    filter: 'text',
+               },
+               {
+                    field: 'quantity',
+                    headerName: t('todayOrders.quantityColumn'),
+                    valueGetter: ({ data }) => sepNumbers(data?.quantity),
+               },
+               {
+                    field: 'price',
+                    headerName: t('todayOrders.priceColumn'),
+                    valueGetter: ({ data }) => sepNumbers(data?.price),
+               },
+               {
+                    field: 'remainingQuantity',
+                    headerName: t('todayOrders.remainingQuantityColumn'),
+                    valueGetter: ({ data }) => sepNumbers(data?.remainingQuantity),
+               },
+               {
+                    field: 'requestDate',
+                    headerName: t('todayOrders.requestDateColumn'),
+                    valueGetter: ({ data }) => (data?.requestDate ? dateFormatter(data?.requestDate, 'date') : '-'),
+                    cellClass: 'ltr',
+               },
+               {
+                    field: 'orderState',
+                    headerName: t('todayOrders.statusColumn'),
+                    // valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState}`) : '-'),
+                    valueGetter: ({ data }) => (data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'),
+
+                    hide: tabSelected !== 'All' && true,
+               },
+          ],
+          [tabSelected]
+     );
+
+     const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
+          if (!event.node.data) return;
+
+          const data = event.node.data;
+
+          if (event.node.isSelected()) {
+               setSelectedOrder(prev => [...prev, data]);
+          } else {
+               const filterSelectedOrders = selectedOrders.filter(order => order.orderId !== data.orderId);
+               setSelectedOrder(filterSelectedOrders);
+          }
+     };
+
+     useEffect(() => {
+          ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
+     }, []);
+
+     return (
+          <div className="flex h-full flex-1 flex-col gap-4">
+               <div className="flex justify-between">
+                    <TabGroup>
+                         <TabList className="flex gap-x-4">
+                              <Tab
+                                   onClick={() => setTabSelected('OnBoard')}
+                                   className={clsx(
+                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        {
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
+                                                  side === 'Buy',
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-red data-[selected]:font-bold data-[selected]:text-content-error-sell':
+                                                  side === 'Sell',
+                                        }
+                                   )}
+                              >
+                                   {side === 'Buy' && t('orders.openTodayOrdersBuy')}
+                                   {side === 'Sell' && t('orders.openTodayOrdersSell')}
+                              </Tab>
+                              <Tab
+                                   onClick={() => setTabSelected('All')}
+                                   className={clsx(
+                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        {
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
+                                                  side === 'Buy',
+                                             'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-red data-[selected]:font-bold data-[selected]:text-content-error-sell':
+                                                  side === 'Sell',
+                                        }
+                                   )}
+                              >
+                                   {side === 'Buy' && t('orders.AllTodayOrdersBuy')}
+                                   {side === 'Sell' && t('orders.AllTodayOrdersSell')}
+                              </Tab>
+                         </TabList>
+                    </TabGroup>
+
+                    <div className="flex items-center gap-x-6">
+                         <button
+                              onClick={() => {
+                                   if (selectedOrders.length === 0) return;
+                                   setEditOrdersGroupModalSheet({
+                                        side: side,
+                                        symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
+                                        data: selectedOrders,
+                                   });
+                              }}
+                         >
+                              <EditIcon className="size-6 text-icon-success" />
+                         </button>
+
+                         <button
+                              onClick={() => {
+                                   if (selectedOrders.length === 0) return;
+
+                                   setDeleteOrdersGroupModalSheet({
+                                        side: side,
+                                        symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
+                                        data: selectedOrders,
+                                   });
+                              }}
+                         >
+                              <DeleteIcon className="size-6 text-icon-success" />
+                         </button>
+
+                         <ExcelIcon className="size-6 text-icon-success" />
                     </div>
+               </div>
 
-
-            }
-        ],
-        [],
-    );
-
-
-    return (
-        <div className="flex flex-col gap-y-2">
-            <div className="flex justify-between">
-                <div className="flex gap-x-2">
-                    <Button
-                        variant={tabSelected === "OnBoard" && side === "Buy" ? "primary" : tabSelected === "OnBoard" && side === "Sell" ? "danger" : "secondary"}
-                        onClick={() => setTabSelected("OnBoard")}
-                    >
-                        {side === "Buy" && t("orders.openTodayOrdersBuy")}
-                        {side === "Sell" && t("orders.openTodayOrdersSell")}
-                    </Button>
-
-                    <Button
-                        variant={tabSelected === "All" && side === "Buy" ? "primary" : tabSelected === "All" && side === "Sell" ? "danger" : "secondary"}
-                        onClick={() => setTabSelected("All")}
-                    >
-                        {side === "Buy" && t("orders.AllTodayOrdersBuy")}
-                        {side === "Sell" && t("orders.AllTodayOrdersSell")}
-                    </Button>
-                </div>
-
-                <div className="flex gap-x-6 items-center">
-                    <EditIcon className="text-icon-success size-6" />
-
-                    <DeleteIcon className="text-icon-success size-6" />
-
-                    <ExcelIcon className="text-icon-success size-6" />
-                </div>
-            </div>
-
-            <div>
-                <LightweightTable
-                    reverseColors
-                    rowData={data?.slice(0, 4) || []}
-                    columnDefs={columnDefs}
-                // className='h-48'
-                // rowHeight={48}
-                />
-            </div>
-        </div>
-    )
-}
+               <div className="flex-1">
+                    <AgGridTable
+                         rowSelection={{
+                              mode: 'multiRow',
+                              isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
+                         }}
+                         selectionColumnDef={{}}
+                         rowData={todayOrdersData ?? []}
+                         columnDefs={columnDefs}
+                         onRowSelected={onRowSelected}
+                    />
+               </div>
+          </div>
+     );
+};
 
 export default TodayOrdersWidget;
-
-
-// const data = [
-//     {
-//         "requestDate": "2024-08-14T11:29:24.6666667",
-//         "hostOrderNumber": "2239",
-//         "symbolISIN": "IRO1FOLD0001",
-//         "userName": "Admin",
-//         "customerISIN": "18990069635676",
-//         "customerTitle": "سهیل خسروی",
-//         "orderSide": "Buy",
-//         "quantity": 1,
-//         "value": 4065,
-//         "price": 4065,
-//         "symbolTitle": "فولاد",
-//         "bourseCode": "خسر09625",
-//         "remainingQuantity": 0,
-//         "orderId": 5539428,
-//         "orderState": "Canceled",
-//         "orderVolume": 0,
-//         "orderDateTime": "2024-08-14T11:29:24.6666667",
-//         "marketUnit": null,
-//         "triggerPrice": 0,
-//         "orderOrigin": "Client",
-//         "parentOrderId": 0,
-//         "orderType": "LimitOrder",
-//         "validity": "Day",
-//         "validityDate": "0001-01-01T00:00:00",
-//         "orderFrom": "BrokerTrader",
-//         "orderAction": 0,
-//         "orderMinimumQuantity": 0,
-//         "clientKey": "84975ae3-847c-45a8-9f2b-85e747a6ffbe",
-//         "expectedRemainingQuantity": 0,
-//         "sumExecuted": 0,
-//         "position": 0,
-//         "valuePosition": 0,
-//         "lastTradePrice": 0,
-//         "lastErrorCode": null,
-//         "customErrorMsg": null
-//     },
-//     {
-//         "requestDate": "2024-08-14T11:20:47.7266667",
-//         "hostOrderNumber": null,
-//         "symbolISIN": "IRO1FOLD0001",
-//         "userName": "Admin",
-//         "customerISIN": "18990069635676",
-//         "customerTitle": "سهیل خسروی",
-//         "orderSide": "Buy",
-//         "quantity": 1,
-//         "value": 4065,
-//         "price": 4065,
-//         "symbolTitle": "فولاد",
-//         "bourseCode": "خسر09625",
-//         "remainingQuantity": 0,
-//         "orderId": 5539426,
-//         "orderState": "Error",
-//         "orderVolume": 0,
-//         "orderDateTime": "2024-08-14T11:20:47.7266667",
-//         "marketUnit": null,
-//         "triggerPrice": 0,
-//         "orderOrigin": "Client",
-//         "parentOrderId": 0,
-//         "orderType": "LimitOrder",
-//         "validity": "Day",
-//         "validityDate": "0001-01-01T00:00:00",
-//         "orderFrom": "BrokerTrader",
-//         "orderAction": 0,
-//         "orderMinimumQuantity": 0,
-//         "clientKey": "84975ae3-847c-45a8-9f2b-85e747a6ffbe",
-//         "expectedRemainingQuantity": 0,
-//         "sumExecuted": 0,
-//         "position": 0,
-//         "valuePosition": 0,
-//         "lastTradePrice": 0,
-//         "lastErrorCode": "Group_not_authorized_for_this_Trader",
-//         "customErrorMsg": null
-//     },
-//     {
-//         "requestDate": "2024-08-14T11:18:50.36",
-//         "hostOrderNumber": null,
-//         "symbolISIN": "IRO1FOLD0001",
-//         "userName": "Admin",
-//         "customerISIN": "18990069635676",
-//         "customerTitle": "سهیل خسروی",
-//         "orderSide": "Buy",
-//         "quantity": 1,
-//         "value": 14458,
-//         "price": 14458,
-//         "symbolTitle": "فولاد",
-//         "bourseCode": "خسر09625",
-//         "remainingQuantity": 0,
-//         "orderId": 5539425,
-//         "orderState": "Error",
-//         "orderVolume": 0,
-//         "orderDateTime": "2024-08-14T11:18:50.36",
-//         "marketUnit": null,
-//         "triggerPrice": 0,
-//         "orderOrigin": "Client",
-//         "parentOrderId": 0,
-//         "orderType": "LimitOrder",
-//         "validity": "Day",
-//         "validityDate": "0001-01-01T00:00:00",
-//         "orderFrom": "BrokerTrader",
-//         "orderAction": 0,
-//         "orderMinimumQuantity": 0,
-//         "clientKey": "84975ae3-847c-45a8-9f2b-85e747a6ffbe",
-//         "expectedRemainingQuantity": 0,
-//         "sumExecuted": 0,
-//         "position": 0,
-//         "valuePosition": 0,
-//         "lastTradePrice": 0,
-//         "lastErrorCode": "Group_not_authorized_for_this_Trader",
-//         "customErrorMsg": null
-//     },
-//     {
-//         "requestDate": "2024-08-14T11:17:21.0033333",
-//         "hostOrderNumber": null,
-//         "symbolISIN": "IRT3LABF0001",
-//         "userName": "Admin",
-//         "customerISIN": "18990069635676",
-//         "customerTitle": "سهیل خسروی",
-//         "orderSide": "Buy",
-//         "quantity": 1,
-//         "value": 14460.718104000001,
-//         "price": 14458,
-//         "symbolTitle": "لبخند",
-//         "bourseCode": "خسر09625",
-//         "remainingQuantity": 0,
-//         "orderId": 5539424,
-//         "orderState": "Error",
-//         "orderVolume": 0,
-//         "orderDateTime": "2024-08-14T11:17:21.0033333",
-//         "marketUnit": null,
-//         "triggerPrice": 0,
-//         "orderOrigin": "Client",
-//         "parentOrderId": 0,
-//         "orderType": "LimitOrder",
-//         "validity": "Day",
-//         "validityDate": "0001-01-01T00:00:00",
-//         "orderFrom": "BrokerTrader",
-//         "orderAction": 0,
-//         "orderMinimumQuantity": 0,
-//         "clientKey": "84975ae3-847c-45a8-9f2b-85e747a6ffbe",
-//         "expectedRemainingQuantity": 0,
-//         "sumExecuted": 0,
-//         "position": 0,
-//         "valuePosition": 0,
-//         "lastTradePrice": 0,
-//         "lastErrorCode": "Group_not_authorized_for_this_Trader",
-//         "customErrorMsg": null
-//     },
-//     {
-//         "requestDate": "2024-08-14T11:12:38.17",
-//         "hostOrderNumber": null,
-//         "symbolISIN": "IRT3LABF0001",
-//         "userName": "Admin",
-//         "customerISIN": "18990069635676",
-//         "customerTitle": "سهیل خسروی",
-//         "orderSide": "Buy",
-//         "quantity": 1,
-//         "value": 14460.718104000001,
-//         "price": 14458,
-//         "symbolTitle": "لبخند",
-//         "bourseCode": "خسر09625",
-//         "remainingQuantity": 0,
-//         "orderId": 5539421,
-//         "orderState": "Error",
-//         "orderVolume": 0,
-//         "orderDateTime": "2024-08-14T11:12:38.17",
-//         "marketUnit": null,
-//         "triggerPrice": 0,
-//         "orderOrigin": "Client",
-//         "parentOrderId": 0,
-//         "orderType": "LimitOrder",
-//         "validity": "Day",
-//         "validityDate": "0001-01-01T00:00:00",
-//         "orderFrom": "BrokerTrader",
-//         "orderAction": 0,
-//         "orderMinimumQuantity": 0,
-//         "clientKey": "84975ae3-847c-45a8-9f2b-85e747a6ffbe",
-//         "expectedRemainingQuantity": 0,
-//         "sumExecuted": 0,
-//         "position": 0,
-//         "valuePosition": 0,
-//         "lastTradePrice": 0,
-//         "lastErrorCode": "Group_not_authorized_for_this_Trader",
-//         "customErrorMsg": null
-//     }
-// ]

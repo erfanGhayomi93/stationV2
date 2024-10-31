@@ -1,16 +1,11 @@
-import MainLayoutDashboard from "./layout/mainLayoutDashboard";
-
-
-
+import MainLayoutDashboard from './layout/mainLayoutDashboard';
 
 const Dashboard = () => {
-    return (
-        <div className="">
-            <MainLayoutDashboard />
-        </div>
-    )
-}
-
-
+     return (
+          <div className="h-full overflow-hidden">
+               <MainLayoutDashboard />
+          </div>
+     );
+};
 
 export default Dashboard;

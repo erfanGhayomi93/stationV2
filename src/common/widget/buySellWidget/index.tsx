@@ -1,48 +1,54 @@
-import Button from "@uiKit/Button"
-import clsx from "clsx"
-import { useState } from "react"
-import { useTranslation } from "react-i18next"
-import BodyBuySell from "./components/bodyBuySell"
-
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import BodyBuySell from './components/bodyBuySell';
+import { BuySellProviderContext, useBuySellContext } from './context/buySellContext';
 
 const BuySellWidget = () => {
+     const { t } = useTranslation();
 
-    const { t } = useTranslation()
+     const { side, setSide } = useBuySellContext();
 
-    const [tabSelected, setTabSelected] = useState<TSide>('Buy')
+     const tabs: TSide[] = ['Buy', 'Sell'];
 
-    return (
-        <div className="py-2 px-4 flex flex-col gap-y-4 ">
-            <div className="flex gap-x-2">
-                <Button
-                    variant={tabSelected === "Buy" ? "primary" : "secondary"}
-                    onClick={() => setTabSelected("Buy")}
-                    className="flex-1"
-                >
-                    {t("common.buy")}
-                </Button>
 
-                <Button
-                    variant={tabSelected === "Sell" ? "danger" : "secondary"}
-                    onClick={() => setTabSelected("Sell")}
-                    className="flex-1"
-                >
-                    {t("common.sell")}
-                </Button>
-            </div>
+     return (
+          <div className="h-full">
+               <TabGroup className="relative" selectedIndex={side === 'Buy' ? 0 : 1} onChange={index => setSide(tabs[index])}>
+                    <TabList className={'flex gap-x-2 border-b border-line-div-2'}>
+                         {tabs.map((item, ind) => (
+                              <Tab
+                                   key={ind}
+                                   className={clsx('flex-1 py-2 text-content-deselecttab transition-colors focus:outline-none select-none text-sm', {
+                                        'data-[selected]:border:content-success-buy data-[selected]:border-b-2 data-[selected]:text-content-success-buy':
+                                             side === 'Buy',
+                                        'data-[selected]:border:content-error-sell data-[selected]:border-b-2 data-[selected]:text-content-error-sell':
+                                             side === 'Sell',
+                                   })}
+                              >
+                                   {t(`common.${item as TSide}`)}
+                              </Tab>
+                         ))}
+                    </TabList>
+                    <TabPanels className="px-2">
+                         <TabPanel className="focus:outline-none focus:border-none">
+                              <BodyBuySell />
+                         </TabPanel>
+                         <TabPanel className="focus:outline-none focus:border-none">
+                              <BodyBuySell />
+                         </TabPanel>
+                    </TabPanels>
+               </TabGroup>
+          </div>
+     );
+};
 
-            <span className={clsx("w-100 h-0.5", {
-                "bg-line-error": tabSelected === "Sell",
-                "bg-line-success": tabSelected === "Buy"
-            })}></span>
+export const BuySellWidgetWrapper = () => {
+     return (
+          <BuySellProviderContext>
+               <BuySellWidget />
+          </BuySellProviderContext>
+     );
+};
 
-            <div>
-                <BodyBuySell />
-            </div>
-
-            <span className={clsx("w-100 h-0.5 bg-line-div-2")}></span>
-        </div>
-    )
-}
-
-export default BuySellWidget 
+export default BuySellWidgetWrapper;

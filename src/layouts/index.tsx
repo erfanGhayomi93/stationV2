@@ -1,33 +1,63 @@
-import { Outlet } from "react-router-dom";
-import HeaderLayout from "./components/Header";
-import Footer from "./components/Footer";
-
+import { useQueryGeneralUser } from '@api/trader';
+import Modals from '@components/modal/Modals';
+import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import { useThemeStore } from 'store/theme';
+import Footer from './components/Footer';
+import HeaderLayout from './components/Header';
 
 const AppLayout = () => {
-    return (
-        <div className="grid grid-cols-one-min bg-back-2">
+     const { theme } = useThemeStore();
 
-            <main className="grid grid-rows-min-one-min h-screen">
-                <header className="h-14 bg-back-surface rounded-b-lg">
-                    <HeaderLayout />
-                </header>
+     useEffect(() => {
+          const element = document.documentElement;
 
-                <section>
-                    <article>
-                        <Outlet />
-                    </article>
-                </section>
+          if (theme !== 'system') {
+               element.classList.toggle('dark', theme === 'dark');
+          } else {
+               const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+               element.classList.toggle('dark', darkQuery.matches);
+          }
+     }, [theme]);
 
-                <footer className="">
-                    <Footer />
-                </footer>
-            </main>
+     const { data: dataUser } = useQueryGeneralUser();
 
-            <aside className="bg-indigo-300">aside</aside>
+     const { brokerCode, userName } = dataUser || {};
 
-        </div>
-    )
-}
+     const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
 
+     useEffect(() => {
+          if (userName && brokerCode) {
+               subscribeCustomers(userName, brokerCode);
+          }
+
+          return () => {
+               isSubscribed() && unSubscribeCustomers();
+          };
+     }, [userName]);
+
+     return (
+          <div className="grid h-screen max-h-screen grid-cols-one-min overflow-hidden bg-back-2">
+               <main className="grid h-full max-h-full grid-rows-[48px_1fr_40px] gap-y-2 overflow-hidden">
+                    <header className="rtl rounded-b-lg bg-back-surface">
+                         <HeaderLayout />
+                    </header>
+
+                    <section className="overflow-hidden">
+                         <Outlet />
+                    </section>
+
+                    <footer className="rtl">
+                         <Footer />
+                    </footer>
+               </main>
+
+               <aside className="bg-indigo-300">aside</aside>
+
+               <Modals />
+          </div>
+     );
+};
 
 export default AppLayout;

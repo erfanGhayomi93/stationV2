@@ -17,7 +17,10 @@ export default defineConfig({
           !process.env.VITEST ? checker({ typescript: true }) : undefined,
           eslint(),
           svgr({
-               include: '**/*.svg',
+               include: '**/*.svg?react',
+               svgrOptions: {
+                    ref: true,
+               },
           }),
      ],
      build: {

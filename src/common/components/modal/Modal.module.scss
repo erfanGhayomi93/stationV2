@@ -1,0 +1,41 @@
+.root {
+     background-color: rgba(0, 0, 0, 0.4);
+     position: fixed;
+     left: 0;
+     top: 0;
+     min-height: 100vh;
+     width: 100%;
+     z-index: 99;
+}
+
+.modal {
+     direction: rtl;
+     position: fixed;
+     left: 50%;
+     top: 50%;
+     width: 100%;
+     transform: translate(-50%, -50%);
+     border-radius: 8px;
+     background-color: theme('colors.back-surface');
+     padding: 32px;
+
+     &.lg {
+          width: 71.25rem;
+     }
+
+     &.md {
+          width: 50rem;
+     }
+
+     &.sm {
+          width: 31.25rem;
+     }
+
+     &.xs {
+          width: 25rem;
+     }
+
+     &.xxs {
+          width: 18.75rem;
+     }
+}

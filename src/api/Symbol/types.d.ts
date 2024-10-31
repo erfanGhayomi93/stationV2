@@ -33,6 +33,14 @@ type ExchangeType =
      | 'FaraBourse'
      | 'EnergyExchange';
 
+type TSymbolStateType =
+     | 'OrderEntryAuthorized_Open'
+     | 'OrderEntryAuthorized_Reserved'
+     | 'OrderEntryForbidden_Reserved'
+     | 'OrderEntryForbidden_Open'
+     | 'OrderEntryAuthorized_Frozen'
+     | 'OrderEntryForbidden_Suspended';
+
 interface ISymbolEvents {
      id: number;
      title: string;
@@ -136,7 +144,7 @@ interface ISymbolData {
      marketUnit: TMarketUnit;
      symbolOrderState: string;
      symbolTradeState: string;
-     groupState: string;
+     groupState: TSymbolStateType;
      symbolState: string;
      companyCode: string;
      tickPrice: number;
@@ -156,8 +164,8 @@ interface ISymbolData {
      optionContractType?: 'Put' | 'Call';
      tommorowHighThreshold: number;
      tommorowLowThreshold: number;
-     totalNumberOfSharesCount : number;
-     monthlyTradeVolume : number
+     totalNumberOfSharesCount: number;
+     monthlyTradeVolume: number;
 }
 
 interface ISymbolGeneralInformationRes {
@@ -186,4 +194,67 @@ interface ISymbolGeneralInformationSelectHeaderSymbol {
      lastTradedPriceVarPercent: number;
      closingPrice: number;
      closingPriceVarPercent: number;
+}
+
+interface ISymbolTabRes {
+     id: number;
+     symbolISIN: string;
+     traderUserId: number;
+     lastTradedPrice: number;
+     lastTradedPriceVarPercent: number;
+     symbolTitle: string;
+}
+
+// type TChildMarketDepth = [
+//      string, // 0:MessageId
+//      string, // 1:MarketSheetActionCode
+//      'Buy' | 'Sell', // 2:OrderSide
+//      string, // 3:OrderPrice
+//      string, // 4:OrderQuantity
+//      string, // 5:TypeOfMemberOrderOwner
+//      string, // 6:OrderSequenceNumber
+//      string, // 7:OrderEntryDate
+//      string, // 8:TimeOfEvent
+//      string, // 9:HasAnIcon \
+//      string | null, // 10:ClientKey
+// ];
+
+type TBuySellRowMarketDepthItems = [number, number, number, string[][]];
+
+interface IMarketDepthRes {
+     buyRow: {
+          items: TBuySellRowMarketDepthItems;
+     }[];
+     sellRow: {
+          items: TBuySellRowMarketDepthItems;
+     }[];
+     lastTime: string;
+}
+
+interface ISameGroupsRes {
+     bestBuyPrice: number;
+     bestBuyPricebestBuyLimitPrice_1: number;
+     bestSellLimitPrice_1: number;
+     bestSellPrice: number;
+     lastTradedPriceVarPercent: number;
+     sectorCode: string;
+     symbolISIN: string;
+     symbolTitle: string;
+     lastTradedPrice: number;
+     totalNumberOfSharesTraded: number;
+}
+
+interface IOptionContractsRes {
+     bestBuyPrice: number;
+     bestBuyPricebestBuyLimitPrice_1: number;
+     bestSellLimitPrice_1: number;
+     bestSellPrice: number;
+     contractEndDate: string;
+     lastTradedPrice: number;
+     lastTradedPriceVarPercent: number;
+     sectorCode: string;
+     strikePrice: number;
+     symbolISIN: string;
+     symbolTitle: string;
+     totalNumberOfSharesTraded: number;
 }

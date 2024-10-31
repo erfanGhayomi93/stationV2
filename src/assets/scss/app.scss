@@ -1,13 +1,5 @@
-@import "animations";
-@import "tailwind";
+@use 'sass:math';
+@use 'sass:string';
 
-
-// @layer base {
-//     html {
-//         @apply text-base;
-
-//         @screen laptop {
-//             font-size: 0.875rem;
-//         }
-//     }
-// }
+@import 'animations';
+@import 'tailwind';
