@@ -11,7 +11,6 @@ const Test = () => {
      const fruits = ['Banana', 'Orange', 'Apple', 'Mango'];
 
      // At position 2, add "Lemon" and "Kiwi":
-     console.log(fruits.slice(0, 1), 'spliceData');
 
      const [values, setValues] = useState([
           { id: '1', label: 'مشتری' },

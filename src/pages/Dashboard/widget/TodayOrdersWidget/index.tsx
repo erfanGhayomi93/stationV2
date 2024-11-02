@@ -44,7 +44,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { selectedOrders, setSelectedOrders } = useUIStore();
 
-     console.log(selectedOrders, 'selectedOrders selectedOrders');
 
      const getSymbolGeneralInformationCache = () => {
           return JSON.parse(

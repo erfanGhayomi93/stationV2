@@ -9,9 +9,14 @@ import LastPriceTitle from '@components/LastPriceTitle';
 import Popup from '@components/popup';
 import SearchSymbol from '@components/searchSymbol';
 import clsx from 'clsx';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useSymbolStore } from 'store/symbol';
 import ProfileDropdown from './ProfileDropdown';
+import { subscribeSymbolGeneral } from '@LS/subscribes';
+import { pushEngine, UpdatedFieldsType } from '@LS/pushEngine';
+import { queryClient } from '@config/reactQuery';
+
+import UseDebounceOutput from '@hooks/useDebounceOutput';
 
 const HeaderLayout = () => {
      const [isLaptop, setIsLaptop] = useState(false);
@@ -20,7 +25,11 @@ const HeaderLayout = () => {
 
      const { selectedSymbol, setSelectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
 
-     const { data: symbolTab } = useQuerySymbolTab();
+     const { data: symbolTab, isSuccess, refetch: refetchSymbolTab, isFetching } = useQuerySymbolTab();
+
+     const refData = useRef<ISymbolTabRes[]>()
+
+     const { setDebounce } = UseDebounceOutput()
 
      const { mutate: mutateCreate } = useMutationCreateSymbolTab();
 
@@ -29,7 +38,11 @@ const HeaderLayout = () => {
      const { mutate: mutateUpdateCreateTime } = useMutationUpdateCreateDateTimeTab();
 
      const handleClickSymbolFromDropdown = (symbolISIN: string) => {
-          mutateUpdateCreateTime(symbolISIN);
+          mutateUpdateCreateTime(symbolISIN, {
+               onSuccess() {
+                    refetchSymbolTab()
+               },
+          });
 
           setSelectedSymbol(symbolISIN);
      };
@@ -37,7 +50,11 @@ const HeaderLayout = () => {
      const handleSetSelectedSymbol = (symbol: SearchSymbol | null) => {
           if (!symbol) return;
 
-          mutateCreate(symbol.symbolISIN);
+          mutateCreate(symbol.symbolISIN, {
+               onSuccess() {
+                    refetchSymbolTab()
+               },
+          });
 
           setSearchSymbol(symbol);
 
@@ -49,12 +66,73 @@ const HeaderLayout = () => {
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
-          mutateDelete(symbolISIN);
+          mutateDelete(symbolISIN, {
+               onSuccess() {
+                    refetchSymbolTab()
+               },
+          });
 
           const findIndex = symbolTab?.findIndex(item => item.symbolISIN === symbolISIN);
 
           symbolTab && setSelectedSymbol(symbolTab[findIndex === 0 ? 1 : Number(findIndex) - 1].symbolISIN);
      };
+
+     const updateSymbolTab = ({ itemName, changedFields }: UpdatedFieldsType<ISymbolTabSub>) => {
+
+          const symbolsDataSnapshot: ISymbolTabRes[] = JSON.parse(JSON.stringify(refData.current));
+
+          const findSymbolOld = symbolsDataSnapshot.find(item => item.symbolISIN === itemName);
+
+          if (findSymbolOld) {
+               const updatedSymbol = {
+                    ...findSymbolOld,
+                    lastTradedPrice: changedFields.lastTradedPrice ? changedFields.lastTradedPrice : findSymbolOld.lastTradedPrice,
+                    lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent ? changedFields.lastTradedPriceVarPercent : findSymbolOld.lastTradedPriceVarPercent,
+               }
+
+               const indexSymbol = symbolsDataSnapshot.findIndex(item => item.symbolISIN === itemName);
+
+               symbolsDataSnapshot[indexSymbol] = updatedSymbol
+
+               refData.current = symbolsDataSnapshot
+
+               setDebounce(() => {
+                    queryClient.setQueryData(['GetSymbolsTab'], () => {
+                         if (refData.current) return [...refData.current]
+                    })
+               }, 1000)
+          }
+
+     }
+
+     useEffect(() => {
+          if (!isFetching && symbolTab?.length && isSuccess) {
+               //init Ref data
+               refData.current = symbolTab
+
+               const id = 'tabSymbolGeneral';
+               const items = symbolTab?.map(item => item.symbolISIN)
+               const fields = ['lastTradedPrice', 'lastTradedPriceVarPercent']
+
+               subscribeSymbolGeneral<ISymbolTabSub>(
+                    {
+                         id,
+                         items,
+                         fields,
+                         onItemUpdate: (updatedFields) => {
+                              updateSymbolTab(updatedFields)
+                         }
+                    }
+               )
+
+               return () => {
+                    pushEngine.unSubscribe(id)
+               }
+          }
+
+     }, [isFetching])
+
+
 
      useEffect(() => {
           const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');

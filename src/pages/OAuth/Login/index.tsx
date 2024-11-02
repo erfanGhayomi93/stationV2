@@ -48,7 +48,6 @@ const Login = () => {
 
      const { mutate: loginFormSubmit } = useLoginFormSubmit({
           onSuccess: result => {
-               console.log(result, 'result');
                if (result.loginResultType === 'Successful') {
                     setAuthorizeData(result?.token);
 

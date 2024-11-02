@@ -13,7 +13,6 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, Props>(
      ({ disabled, addonAfter, addonBefore, containerClassName, inputClassName, icon, label, textError, ...rest }, ref) => {
-          console.log(textError, 'texteroro');
           //
           return (
                // <div className={` ${containerClassName} ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>

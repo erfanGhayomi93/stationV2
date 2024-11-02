@@ -10,7 +10,6 @@ const CustomersSearch = () => {
 
      const { selectedCustomers, setSelectedCustomers } = useCustomerStore();
 
-     console.log(selectedCustomers, 'selectedCustomers');
 
      const selectedCustomerInputValues = useMemo(() => {
           return selectedCustomers.map(customer => {
@@ -52,7 +51,6 @@ const CustomersSearch = () => {
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
 
-                                                       console.log(filterSelectCustomer, 'filterSelectCustomer');
                                                        setSelectedCustomers([...filterSelectCustomer]);
                                                   }}
                                              >

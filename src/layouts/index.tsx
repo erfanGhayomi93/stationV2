@@ -26,7 +26,7 @@ const AppLayout = () => {
 
      return (
           <div className="grid h-screen max-h-screen grid-cols-[1fr_64px] gap-x-4 bg-back-2">
-               <main className="grid h-full max-h-full grid-rows-[48px_1fr_40px] gap-y-2 overflow-auto">
+               <main className="grid h-full grid-rows-[48px_1fr_40px] gap-y-2 overflow-auto">
                     <header className="rtl rounded-b-lg bg-back-surface">
                          <HeaderLayout />
                     </header>

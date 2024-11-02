@@ -165,7 +165,7 @@ interface ISymbolData {
      tommorowHighThreshold: number;
      tommorowLowThreshold: number;
      totalNumberOfSharesCount: number;
-     monthlyTradeVolume: number;
+     oneMonthTradeVolume: number;
 }
 
 interface ISymbolGeneralInformationRes {
@@ -203,6 +203,11 @@ interface ISymbolTabRes {
      lastTradedPrice: number;
      lastTradedPriceVarPercent: number;
      symbolTitle: string;
+}
+
+interface ISymbolTabSub {
+     lastTradedPrice: number;
+     lastTradedPriceVarPercent: number;
 }
 
 // type TChildMarketDepth = [

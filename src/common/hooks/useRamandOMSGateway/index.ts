@@ -141,8 +141,6 @@ const createRamandOMSGateway = () => {
 
           const items = [`${brokerCode || '189'}_All`, userNameBroker];
 
-          console.log('items', items);
-
           if (isSubscribed()) pushEngine.unSubscribe('supervisorMessage');
 
           pushEngine.subscribe({

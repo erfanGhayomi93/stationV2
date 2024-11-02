@@ -1,15 +1,19 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import UseDebounceOutput from '@hooks/useDebounceOutput';
-import { pushEngine } from '@LS/pushEngine';
+import { pushEngine, UpdatedFieldsType } from '@LS/pushEngine';
+import { subscribeSymbolGeneral } from '@LS/subscribes';
 import SymbolPriceSlider from '@pages/Dashboard/components/SymbolPriceSlider';
 import { DetailsSymbolSlider } from '@pages/Dashboard/components/SymbolPriceSlider/DetailsSymbolSlider';
 import { HighLowPriceSymbol } from '@pages/Dashboard/components/SymbolPriceSlider/HighLowPriceSymbol/HighLowPriceSymbol';
 import { useQueryClient } from '@tanstack/react-query';
+import { SymbolGeneralfields, TFieldSymbolGeneralResLs } from 'common/constant/symbol';
 import { useEffect, useRef } from 'react';
 import { useSymbolStore } from 'store/symbol';
 
 type SymbolDataKey = keyof ISymbolData;
 type IndividualLegalKey = keyof IIndividualLegal;
+
+
 
 const SliderbarDetailsWidget = () => {
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
@@ -20,86 +24,73 @@ const SliderbarDetailsWidget = () => {
 
      const { setDebounce } = UseDebounceOutput();
 
-     const { data, isSuccess } = useQuerySymbolGeneralInformation(selectedSymbol);
+     const { data, isSuccess, isFetching } = useQuerySymbolGeneralInformation(selectedSymbol);
 
-     useEffect(() => {
-          if (isSuccess) {
-               {
-                    pushEngine.unSubscribe('SymbolGeneralInfoo');
 
-                    refData.current = JSON.parse(JSON.stringify(data));
 
-                    pushEngine.subscribe({
-                         id: 'SymbolGeneralInfoo',
-                         mode: 'MERGE',
-                         isSnapShot: 'yes',
-                         adapterName: 'RamandRLCDData',
-                         items: [selectedSymbol],
-                         fields: [
-                              'yesterdayClosingPrice',
-                              'lowThreshold',
-                              'highThreshold',
-                              'individualBuyVolume',
-                              'numberOfIndividualSellers',
-                              'individualSellVolume',
-                              'numberOfLegalBuyers',
-                              'legalBuyVolume',
-                              'numberOfLegalSellers',
-                              'legalSellVolume',
-                              'totalTradeValue',
-                              'totalNumberOfSharesTraded',
-                              'baseVolume',
-                              'firstTradedPrice',
-                              'lastTradedPrice',
-                              'lastTradedPriceVar',
-                              'lastTradedPriceVarPercent',
-                              'closingPrice',
-                              'closingPriceVar',
-                              'closingPriceVarPercent',
-                              'lastTradeDateTime',
-                              'lowestTradePriceOfTradingDay',
-                              'highestTradePriceOfTradingDay',
-                              'symbolState',
-                              'openPrice',
-                         ],
-                         onFieldsUpdate: ({ changedFields, itemName }) => {
-                              console.log(changedFields, 'changedFields');
-                              const tempObj: { symbolData: Partial<ISymbolData>; individualLegal: Partial<IIndividualLegal> } = {
-                                   symbolData: {},
-                                   individualLegal: {},
-                              };
+     const updateSymbolLS = ({ changedFields, itemName }: UpdatedFieldsType<TFieldSymbolGeneralResLs>) => {
 
-                              const { symbolData, individualLegal } = refData.current || tempObj;
+          // const tempObj: { symbolData: Partial<ISymbolData>; individualLegal: Partial<IIndividualLegal> } = {
+          //      symbolData: {},
+          //      individualLegal: {},
+          // };
 
-                              const symbolDataChanged: Partial<ISymbolData> = {};
+          const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
-                              const individualLegalChanged: Partial<IIndividualLegal> = {};
+          let { symbolData, individualLegal } = SymbolGeneralInformationSnapshot;
 
-                              for (const [key, value] of Object.entries(changedFields)) {
-                                   if (value !== null) {
-                                        if (symbolData && key in symbolData) {
-                                             symbolDataChanged[key as SymbolDataKey] = value as ISymbolData[SymbolDataKey];
-                                        }
-                                        if (individualLegal && key in individualLegal) {
-                                             individualLegalChanged[key as IndividualLegalKey] =
-                                                  value as IIndividualLegal[IndividualLegalKey];
-                                        }
-                                   }
-                              }
+          const symbolDataChanged: Partial<ISymbolData> = {};
 
-                              tempObj['symbolData'] = { ...symbolData, ...symbolDataChanged };
-                              tempObj['individualLegal'] = { ...individualLegal, ...individualLegalChanged };
+          const individualLegalChanged: Partial<IIndividualLegal> = {};
 
-                              setDebounce(() => {
-                                   queryClient.setQueryData(['SymbolGeneralInformation', itemName], () => {
-                                        return { ...refData.current, ...tempObj };
-                                   });
-                              }, 1000);
-                         },
-                    });
+          for (const [key, value] of Object.entries(changedFields)) {
+               if (value !== null) {
+                    if (symbolData && key in symbolData) {
+                         symbolDataChanged[key as SymbolDataKey] = value;
+                    }
+                    if (individualLegal && key in individualLegal) {
+                         individualLegalChanged[key as IndividualLegalKey] = value;
+                    }
                }
           }
-     }, [isSuccess]);
+
+          symbolData = { ...symbolData, ...symbolDataChanged };
+          individualLegal = { ...individualLegal, ...individualLegalChanged };
+
+          refData.current = SymbolGeneralInformationSnapshot;
+
+          setDebounce(() => {
+               queryClient.setQueryData(['SymbolGeneralInformation', itemName], () => {
+                    return { ...refData.current };
+               });
+          }, 1000);
+
+     }
+
+     useEffect(() => {
+          if (!isFetching && isSuccess) {
+               //init Ref data
+               refData.current = data;
+
+               const id = 'SymbolGeneralDetails'
+               const items = [selectedSymbol]
+
+
+               subscribeSymbolGeneral<TFieldSymbolGeneralResLs>({
+                    id,
+                    items,
+                    fields: [...SymbolGeneralfields],
+                    onItemUpdate: (updatedFields) => {
+                         updateSymbolLS(updatedFields)
+                    }
+               })
+
+
+               return () => {
+                    pushEngine.unSubscribe(id);
+               }
+          }
+     }, [isFetching]);
 
      return (
           <div className="flex w-full flex-col gap-x-1 p-4">
@@ -135,11 +126,11 @@ const SliderbarDetailsWidget = () => {
                          tommorowLowThreshold={data?.symbolData?.tommorowLowThreshold ?? 0}
                          tommorowHighThreshold={data?.symbolData?.tommorowHighThreshold ?? 0}
                          totalTradeValue={data?.symbolData?.totalTradeValue ?? 0}
-                         TickPrice={data?.symbolData?.tickPrice ?? 0}
+                         tickPrice={data?.symbolData?.tickPrice ?? 0}
                          totalNumberOfSharesTraded={data?.symbolData?.totalNumberOfSharesTraded ?? 0}
                          baseVolume={data?.symbolData?.baseVolume ?? 0}
                          totalNumberOfTrades={data?.symbolData?.totalNumberOfTrades ?? 0}
-                         monthlyTradeVolume={data?.symbolData?.monthlyTradeVolume ?? 0}
+                         oneMonthTradeVolume={data?.symbolData?.oneMonthTradeVolume ?? 0}
                          lastTradedPriceDate={new Date(data?.symbolData?.lastTradedDate ?? 0)?.getTime() ?? 0}
                          pe={data?.symbolData?.pe ?? 0}
                          lastTradedPriceVarPercent={data?.symbolData?.lastTradedPriceVarPercent ?? 0}

@@ -44,7 +44,6 @@ const SameGroups = () => {
           return sameGroupsData ?? [];
      }, [sameGroupsData]);
 
-     console.log(rowData, 'rowData');
 
      return (
           <div className="relative min-h-full w-full flex-1">

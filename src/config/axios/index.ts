@@ -53,7 +53,6 @@ AXIOS.interceptors.response.use(
 
      function (error) {
           if (error.response) {
-               console.log('error.response.status', error.response.status);
 
                switch (error.response.status) {
                     case 400:
@@ -126,7 +125,6 @@ export const setAuthorizeData = (client_id: string) => {
 };
 
 export const unAuthorized = () => {
-     console.log('in UnAuthorezde');
      routerPage.navigate(routerPagePath.oAuth.logout);
 };
 
