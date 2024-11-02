@@ -38,7 +38,7 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
           totalNumberOfTrades: data.symbolData?.totalNumberOfTrades,
           totalNumberOfSharesTraded: data.symbolData?.totalNumberOfSharesTraded,
           baseVolume: data.symbolData?.baseVolume,
-          monthlyTradeVolume: data.symbolData?.monthlyTradeVolume,
+          oneMonthTradeVolume: data.symbolData?.oneMonthTradeVolume,
           totalNumberOfSharesCount: data.symbolData?.totalNumberOfSharesCount,
           pe: data.symbolData?.pe,
           floatFree: data.symbolData?.floatFree,
@@ -86,7 +86,7 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
           [
                {
                     title: t('detailsSymbol.monthlyTradeVolume'),
-                    value: detailsSymbol?.MonthlyTradeVolume,
+                    value: detailsSymbol?.oneMonthTradeVolume,
                     formatter: value => numFormatter(Number(value)),
                },
                {
