@@ -25,7 +25,6 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
-     console.log(selectedSymbol, 'selectedSymbol');
 
      const { data, refetch } = useQueryDoneOrders({
           symbolISIN: selectedSymbol,

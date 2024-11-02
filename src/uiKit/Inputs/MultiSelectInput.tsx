@@ -74,7 +74,6 @@ const MultiSelectInput = ({ onChange, items, value, placeholder = '', ...props }
                                                   <button
                                                        onClick={e => {
                                                             e.stopPropagation();
-                                                            console.log('hi');
                                                             const findIndex = values.findIndex(item => item.id === value.id);
                                                             const newValues = [...values];
                                                             newValues.splice(findIndex, 1);

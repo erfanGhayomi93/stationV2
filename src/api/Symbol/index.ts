@@ -45,6 +45,8 @@ export const useQuerySymbolGeneralInformation = <T = ISymbolGeneralInformationRe
                });
                return response.data.result;
           },
+          gcTime: 0,
+          staleTime: 0,
           ...(!!select && { select }),
      });
 };
@@ -80,11 +82,11 @@ export const useMutationCreateSymbolTab = () => {
 
      return useMutation({
           mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
-          onSuccess: () => {
-               queryClient.invalidateQueries({
-                    queryKey: ['GetSymbolsTab'],
-               });
-          },
+          // onSuccess: () => {
+          //      queryClient.invalidateQueries({
+          //           queryKey: ['GetSymbolsTab'],
+          //      });
+          // },
      });
 };
 
@@ -93,11 +95,11 @@ export const useMutationDeleteSymbolTab = () => {
 
      return useMutation({
           mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
-          onSuccess: () => {
-               queryClient.invalidateQueries({
-                    queryKey: ['GetSymbolsTab'],
-               });
-          },
+          // onSuccess: () => {
+          //      queryClient.invalidateQueries({
+          //           queryKey: ['GetSymbolsTab'],
+          //      });
+          // },
      });
 };
 
@@ -106,11 +108,11 @@ export const useMutationUpdateCreateDateTimeTab = () => {
 
      return useMutation({
           mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
-          onSuccess: () => {
-               queryClient.invalidateQueries({
-                    queryKey: ['GetSymbolsTab'],
-               });
-          },
+          // onSuccess: () => {
+          //      queryClient.invalidateQueries({
+          //           queryKey: ['GetSymbolsTab'],
+          //      });
+          // },
      });
 };
 

@@ -8,7 +8,7 @@ interface IConnect {
      Password: string;
 }
 
-type IChangedField = { [key: string]: any };
+export type IChangedField = { [key: string]: any };
 
 interface ISubscribe<T = IChangedField> {
      id: string;

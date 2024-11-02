@@ -68,3 +68,27 @@ export const SubscribeSymbolBestOneOrders = (
           },
      });
 };
+
+export const subscribeSymbolGeneral = <T>({
+     id,
+     items,
+     fields,
+     onItemUpdate,
+}: {
+     id: string;
+     items: string[];
+     fields: string[];
+     onItemUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
+}) => {
+     pushEngine.subscribe({
+          id,
+          mode: 'MERGE',
+          isSnapShot: 'yes',
+          adapterName: 'RamandRLCDData',
+          items,
+          fields,
+          onFieldsUpdate(updatedFields) {
+               onItemUpdate(updatedFields as UpdatedFieldsType<T>);
+          },
+     });
+};

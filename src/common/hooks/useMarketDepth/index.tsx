@@ -43,7 +43,6 @@ export const useMarketDepth = (selectedSymbol: string) => {
     const deletionOfAllPreviousOrders = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
         const dataCopy = JSON.parse(JSON.stringify({ ...data }))
         const newData: TDataState = dataCopy;
-        console.log('deletionOfAllPreviousOrders', deletionOfAllPreviousOrders)
 
         if (!newData) return {
             data: newData,
@@ -352,14 +351,6 @@ export const useMarketDepth = (selectedSymbol: string) => {
         }
 
     }, [data])
-
-    //     useEffect(() => {
-    //         console.log('bids', bids)
-    //     }, [bids])
-    // 
-    //     useEffect(() => {
-    //         console.log('asks', asks)
-    //     }, [asks])
 
 
 

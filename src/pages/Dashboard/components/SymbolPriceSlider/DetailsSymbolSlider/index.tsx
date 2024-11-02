@@ -15,11 +15,11 @@ interface IDetailsSymbolSliderProps {
      tommorowLowThreshold: number;
      tommorowHighThreshold: number;
      totalTradeValue: number;
-     TickPrice: number;
+     tickPrice: number;
      totalNumberOfSharesTraded: number;
      baseVolume: number;
      totalNumberOfTrades: number;
-     monthlyTradeVolume: number;
+     oneMonthTradeVolume: number;
      pe: number;
      lastTradedPriceDate: number;
      lastTradedPriceVarPercent: number;
@@ -41,12 +41,12 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      HighThreshold,
      tommorowLowThreshold,
      tommorowHighThreshold,
-     TickPrice,
+     tickPrice,
      totalTradeValue,
      totalNumberOfSharesTraded,
      baseVolume,
      totalNumberOfTrades,
-     monthlyTradeVolume,
+     oneMonthTradeVolume,
      lastTradedPriceDate,
      lastTradedPriceVarPercent,
      pe,
@@ -146,14 +146,14 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
           [
                {
                     title: t('detailsSymbol.TickPrice'),
-                    value: TickPrice,
+                    value: tickPrice,
                     formatter: value => sepNumbers(value),
                },
                {
                     title: t('detailsSymbol.monthlyTradeVolume'),
-                    value: monthlyTradeVolume,
+                    value: oneMonthTradeVolume,
                     formatter: value => sepNumbers(value),
-               },
+               }
           ],
           [
                {
@@ -195,8 +195,8 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                                         {child.renderer
                                              ? child.renderer(child.value)
                                              : child?.formatter
-                                               ? child.formatter(child.value) || '−'
-                                               : child.value || '−'}
+                                                  ? child.formatter(child.value) || '−'
+                                                  : child.value || '−'}
                                    </span>
                               </li>
                          ))}
