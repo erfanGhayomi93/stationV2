@@ -24,6 +24,7 @@ export const SymbolGeneralfields = [
      'highestTradePriceOfTradingDay',
      'symbolState',
      'openPrice',
+     'totalNumberOfTrades'
 ] as const;
 
 export type TFieldSymbolGeneralResLs = Record<(typeof SymbolGeneralfields)[number], number>;

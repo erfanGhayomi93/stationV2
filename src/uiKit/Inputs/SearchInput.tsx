@@ -133,8 +133,8 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                </div>
                <div
                     className={clsx('absolute text-xs transition-all duration-100', {
-                         '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0,
-                         'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default': items.length === 0,
+                         '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 ||  !!inputValue ,
+                         'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default': items.length === 0 && !inputValue,
                     })}
                >
                     <span className="">{placeholder}</span>

@@ -72,11 +72,12 @@ export const numFormatter = (num: number, formatNavigateNumber = true) => {
      }
 };
 
-export const dateFormatter = (v: string | number, format: 'date' | 'time' | 'datetime' = 'datetime') => {
+export const dateFormatter = (v: string | number, format: 'date' | 'time' | 'datetime' | 'datetimeSec') => {
      const formats: Record<typeof format, string> = {
           time: 'HH:mm',
           date: 'YYYY/MM/DD',
           datetime: 'YYYY/MM/DD HH:mm',
+          datetimeSec: 'YYYY/MM/DD HH:mm:ss',
      };
 
      const d = dayjs(v ?? new Date()).calendar('jalali');
