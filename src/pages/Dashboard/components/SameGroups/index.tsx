@@ -1,9 +1,13 @@
 import { ColDef } from '@ag-grid-community/core';
 import { useQuerySameGroupSymbol } from '@api/Symbol';
 import AgGridTable from '@components/Table/AgGrid';
+import UseDebounceOutput from '@hooks/useDebounceOutput';
+import { UpdatedFieldsType } from '@LS/pushEngine';
+import { subscribeSymbolGeneral } from '@LS/subscribes';
 import { sepNumbers } from '@methods/helper';
 import { useSymbolStore } from '@store/symbol';
-import { useMemo } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import LastPriceRenderer from './LastPriceRenderer';
 import SupplyAndDemandRenderer from './SupplyAndDemandRenderer';
@@ -13,7 +17,13 @@ const SameGroups = () => {
 
      const { t } = useTranslation();
 
-     const { data: sameGroupsData } = useQuerySameGroupSymbol({ SymbolISIN: selectedSymbol });
+     const queryClient = useQueryClient();
+
+     const { data: sameGroupsData, isSuccess, isFetching } = useQuerySameGroupSymbol({ SymbolISIN: selectedSymbol });
+
+     const refData = useRef<ISameGroupsRes[]>();
+
+     const { setDebounce } = UseDebounceOutput();
 
      const columnDefs = useMemo<ColDef<ISameGroupsRes>[]>(
           () => [
@@ -40,10 +50,69 @@ const SameGroups = () => {
           []
      );
 
+     const updateSameGroup = ({ itemName, changedFields }: UpdatedFieldsType<ISameGroupsSub>) => {
+          const sameGroupsDataSnapshot: ISameGroupsRes[] = JSON.parse(JSON.stringify(refData.current));
+
+          const findSymbolOld = sameGroupsDataSnapshot.find(item => item.symbolISIN === itemName);
+
+          if (findSymbolOld) {
+               const updatedSymbol = {
+                    ...findSymbolOld,
+                    bestBuyPrice: changedFields.bestBuyPrice ? changedFields.bestBuyPrice : findSymbolOld.bestBuyPrice,
+                    bestSellPrice: changedFields.bestSellPrice ? changedFields.bestSellPrice : findSymbolOld.bestSellPrice,
+                    lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent
+                         ? changedFields.lastTradedPriceVarPercent
+                         : findSymbolOld.lastTradedPriceVarPercent,
+                    lastTradedPrice: changedFields.lastTradedPrice
+                         ? changedFields.lastTradedPrice
+                         : findSymbolOld.lastTradedPrice,
+                    totalNumberOfSharesTraded: changedFields.totalNumberOfSharesTraded
+                         ? changedFields.totalNumberOfSharesTraded
+                         : findSymbolOld.totalNumberOfSharesTraded,
+               };
+
+               const findIndexSymbol = sameGroupsDataSnapshot.findIndex(item => item.symbolISIN === itemName);
+
+               sameGroupsDataSnapshot[findIndexSymbol] = updatedSymbol;
+
+               refData.current = sameGroupsDataSnapshot;
+
+               setDebounce(() => {
+                    queryClient.setQueryData(['GetSameGroupsSymbol'], () => {
+                         if (refData.current) return [...refData.current];
+                    });
+               });
+          }
+     };
+
      const rowData = useMemo(() => {
           return sameGroupsData ?? [];
      }, [sameGroupsData]);
 
+     useEffect(() => {
+          if (!isFetching && rowData.length !== 0 && isSuccess) {
+               refData.current = rowData;
+
+               const id = 'sameGroups';
+               const items = rowData?.map(item => item.symbolISIN);
+               const fields = [
+                    'totalNumberOfSharesTraded',
+                    'lastTradedPrice',
+                    'lastTradedPriceVarPercent',
+                    'bestBuyPrice',
+                    'bestSellPrice',
+               ];
+
+               subscribeSymbolGeneral<ISameGroupsRes>({
+                    id,
+                    items,
+                    fields,
+                    onItemUpdate: updatedFields => {
+                         updateSameGroup(updatedFields);
+                    },
+               });
+          }
+     }, [isFetching]);
 
      return (
           <div className="relative min-h-full w-full flex-1">

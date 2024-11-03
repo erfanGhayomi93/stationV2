@@ -80,7 +80,7 @@ export const useMutationCreateSymbolTab = () => {
      const url = routeApi().Symbol.CreateNewSymbolTab;
 
      return useMutation({
-          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } })
+          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
      });
 };
 
@@ -88,7 +88,7 @@ export const useMutationDeleteSymbolTab = () => {
      const url = routeApi().Symbol.RemoveTabByTraderUserIdAndSymbolISIN;
 
      return useMutation({
-          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } })
+          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
      });
 };
 
@@ -96,7 +96,7 @@ export const useMutationUpdateCreateDateTimeTab = () => {
      const url = routeApi().Symbol.UpdateSymbolTabCreateDateTime;
 
      return useMutation({
-          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } })
+          mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
      });
 };
 
