@@ -23,7 +23,8 @@ interface IDetailsSymbolSliderProps {
      pe: number;
      lastTradeDateTime: number;
      lastTradedPriceVarPercent: number;
-     lastTradedPrice: number
+     lastTradedPrice: number;
+     yesterdayClosingPrice : number;
 }
 
 interface dataType {
@@ -50,8 +51,9 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      oneMonthTradeVolume,
      lastTradeDateTime,
      lastTradedPriceVarPercent,
+     lastTradedPrice,
+     yesterdayClosingPrice,
      pe,
-     lastTradedPrice
 }) => {
      const { t } = useTranslation();
 
@@ -68,7 +70,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.lastTradeDateTime'),
                     value: lastTradeDateTime,
-                    formatter: value => dateFormatter(value, 'datetime'),
+                    formatter: value => dateFormatter(value, 'datetimeSec'),
                },
                {
                     title: t('detailsSymbol.lastTradeDateTime'),
@@ -91,7 +93,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                },
                {
                     title: t('detailsSymbol.closingPrice'),
-                    value: closingPrice,
+                    value: yesterdayClosingPrice,
                     formatter: value => sepNumbers(value),
                },
           ],
@@ -122,7 +124,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.totalNumberOfSharesTraded'),
                     value: totalNumberOfSharesTraded,
-                    formatter: value => sepNumbers(value),
+                    formatter: value => numFormatter(+value),
                },
                {
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
@@ -154,7 +156,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.monthlyTradeVolume'),
                     value: oneMonthTradeVolume,
-                    formatter: value => sepNumbers(value),
+                    formatter: value => numFormatter(+value),
                }
           ],
           [

@@ -63,7 +63,7 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
                {
                     title: t('detailsSymbol.lastTradeDateTime'),
                     value: detailsSymbol?.lastTradeDateTime,
-                    formatter: value => dateFormatter(value),
+                    formatter: value => dateFormatter(value , 'datetime'),
                },
                {
                     title: t('detailsSymbol.totalNumberOfTrades'),

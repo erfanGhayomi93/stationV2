@@ -4,7 +4,7 @@ import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import { useCustomerStore } from '@store/customer';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { useMemo, useState } from 'react';
+import { HTMLAttributes, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ResultHeader from './resultHeader';
 import ResultItem from './resultItem';
@@ -26,7 +26,7 @@ const CustomersSearchBody = () => {
           return isDefaultUse ? defaultCustomers : searchCustomers;
      }, [defaultCustomers, searchCustomers, isDefaultUse]);
 
-     const ItemRenderer = (props: any) => {
+     const ItemRenderer = (props: HTMLAttributes<HTMLDivElement>) => {
           return <div className="text-sm odd:bg-table-row1 even:bg-table-row2" {...props}></div>;
      };
 
@@ -81,7 +81,11 @@ const CustomersSearchBody = () => {
      return (
           <div className="flex flex-col gap-y-6">
                <div className="flex items-center gap-4">
-                    <SearchInput onChangeValue={(value, input) => setTerm(input)} values={selectedCustomerInputValues ?? []} />
+                    <SearchInput
+                         onChangeValue={(_, input) => setTerm(input)}
+                         values={selectedCustomerInputValues ?? []}
+                         placeholder='جستجوی مشتری / کدبورسی / کد ملی'
+                    />
                     <Popup
                          margin={{
                               y: 8,
@@ -90,7 +94,10 @@ const CustomersSearchBody = () => {
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                    {selectedCustomers.map((item, index) => (
-                                        <li className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80">
+                                        <li
+                                             key={index}
+                                             className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80"
+                                        >
                                              <span>{item.title}</span>
                                              <button
                                                   onClick={() => {
@@ -98,6 +105,8 @@ const CustomersSearchBody = () => {
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
                                                        setSelectedCustomers([...filterSelectCustomer]);
+                                                       selectedCustomers.length === 1 && setOpen(false)
+
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />

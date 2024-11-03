@@ -147,6 +147,7 @@ const SliderbarDetailsWidget = () => {
                          pe={data?.symbolData?.pe ?? 0}
                          lastTradedPriceVarPercent={data?.symbolData?.lastTradedPriceVarPercent ?? 0}
                          lastTradedPrice={data?.symbolData?.lastTradedPrice ?? 0}
+                         yesterdayClosingPrice={data?.symbolData?.yesterdayClosingPrice ?? 0}
                     />
                </div>
           </div>

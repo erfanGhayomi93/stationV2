@@ -96,17 +96,17 @@ const GroupSearchBody = () => {
                !listGroups?.length
                     ? null
                     : listGroups?.map((item, ind) => (
-                           <GroupItem<ICustomerAdvancedSearchRes>
-                                key={ind}
-                                ind={ind}
-                                customer={item}
-                                getLabel={v => v.title}
-                                getChildren={v => v.children}
-                                getId={v => v?.id}
-                                isGroupChecked={isGroupChecked}
-                                onGroupSelectionChanged={onGroupSelectionChanged}
-                           />
-                      )),
+                         <GroupItem<ICustomerAdvancedSearchRes>
+                              key={ind}
+                              ind={ind}
+                              customer={item}
+                              getLabel={v => v.title}
+                              getChildren={v => v.children}
+                              getId={v => v?.id}
+                              isGroupChecked={isGroupChecked}
+                              onGroupSelectionChanged={onGroupSelectionChanged}
+                         />
+                    )),
           [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged]
      );
 
@@ -122,7 +122,11 @@ const GroupSearchBody = () => {
      return (
           <div className="flex flex-col gap-y-6">
                <div className="flex items-center gap-4">
-                    <SearchInput onChangeValue={(value, input) => setTerm(input)} values={selectedCustomerInputValues ?? []} />
+                    <SearchInput
+                         onChangeValue={(value, input) => setTerm(input)}
+                         values={selectedCustomerInputValues ?? []}
+                         placeholder='جستجوی گروه / مشتری / کدبورسی / کد ملی'
+                    />
 
                     <Popup
                          margin={{

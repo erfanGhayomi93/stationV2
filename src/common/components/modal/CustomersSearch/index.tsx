@@ -1,17 +1,12 @@
-// import clsx from "clsx"
 import { useModalStore } from '@store/modal';
-// import { Trans } from "react-i18next";
 import RadioButton from '@uiKit/RadioButton';
 import { useState } from 'react';
 import Modal from '..';
 import CustomersSearchBody from './components/customerSearchBody';
 import GroupSearchBody from './components/groupSearchBody';
-// import SearchInput from "@uiKit/Inputs/SearchInput";
 
 const CustomersSearchModal = () => {
      const [selectedValue, setSelectedValue] = useState<'nameGroup' | 'customerGroup'>('nameGroup'); // Default value
-
-     // const [valueSearch, setValueSearch] = useState(["test"])
 
      const { setCustomersSearchModalSheet } = useModalStore();
 
