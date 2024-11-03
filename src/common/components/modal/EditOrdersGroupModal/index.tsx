@@ -228,7 +228,6 @@ const EditOrdersGroupModal = () => {
                                         variant="simple"
                                         value={inputs.volume}
                                         onChangeValue={value => onChangeVolume(Number(value))}
-                                        clearAble={false}
                                    />
                               </div>
                          </div>
@@ -251,7 +250,6 @@ const EditOrdersGroupModal = () => {
                                         variant="simple"
                                         value=""
                                         onChangeValue={value => onChangePrice(Number(value))}
-                                        clearAble={false}
                                    />
                               </div>
                          </div>
