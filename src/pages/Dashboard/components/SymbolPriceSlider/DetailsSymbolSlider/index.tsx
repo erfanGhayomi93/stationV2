@@ -21,8 +21,9 @@ interface IDetailsSymbolSliderProps {
      totalNumberOfTrades: number;
      oneMonthTradeVolume: number;
      pe: number;
-     lastTradedPriceDate: number;
+     lastTradeDateTime: number;
      lastTradedPriceVarPercent: number;
+     lastTradedPrice: number
 }
 
 interface dataType {
@@ -47,9 +48,10 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      baseVolume,
      totalNumberOfTrades,
      oneMonthTradeVolume,
-     lastTradedPriceDate,
+     lastTradeDateTime,
      lastTradedPriceVarPercent,
      pe,
+     lastTradedPrice
 }) => {
      const { t } = useTranslation();
 
@@ -65,15 +67,15 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
           [
                {
                     title: t('detailsSymbol.lastTradeDateTime'),
-                    value: lastTradedPriceDate,
+                    value: lastTradeDateTime,
                     formatter: value => dateFormatter(value, 'datetime'),
                },
                {
                     title: t('detailsSymbol.lastTradeDateTime'),
-                    value: firstTradedPrice,
+                    value: lastTradedPrice,
                     renderer: value => (
                          <div className="flex items-center gap-1 text-xs font-bold">
-                              <span>{value}</span>
+                              <span>{sepNumbers(value)}</span>
                               <span
                                    className={clsx(getColorClassBasedAmount(lastTradedPriceVarPercent))}
                               >{`(${lastTradedPriceVarPercent + '%'})`}</span>

@@ -35,6 +35,8 @@ const SliderbarDetailsWidget = () => {
           //      individualLegal: {},
           // };
 
+          console.log({ changedFields })
+
           const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
           let { symbolData, individualLegal } = SymbolGeneralInformationSnapshot;
@@ -57,7 +59,11 @@ const SliderbarDetailsWidget = () => {
           symbolData = { ...symbolData, ...symbolDataChanged };
           individualLegal = { ...individualLegal, ...individualLegalChanged };
 
-          refData.current = SymbolGeneralInformationSnapshot;
+          refData.current = {
+               ...SymbolGeneralInformationSnapshot,
+               symbolData,
+               individualLegal
+          };
 
           setDebounce(() => {
                queryClient.setQueryData(['SymbolGeneralInformation', itemName], () => {
@@ -91,6 +97,12 @@ const SliderbarDetailsWidget = () => {
                }
           }
      }, [isFetching]);
+
+
+     useEffect(() => {
+          console.log('data', data)
+     }, [data])
+
 
      return (
           <div className="flex w-full flex-col gap-x-1 p-4">
@@ -131,9 +143,10 @@ const SliderbarDetailsWidget = () => {
                          baseVolume={data?.symbolData?.baseVolume ?? 0}
                          totalNumberOfTrades={data?.symbolData?.totalNumberOfTrades ?? 0}
                          oneMonthTradeVolume={data?.symbolData?.oneMonthTradeVolume ?? 0}
-                         lastTradedPriceDate={new Date(data?.symbolData?.lastTradedDate ?? 0)?.getTime() ?? 0}
+                         lastTradeDateTime={new Date(data?.symbolData?.lastTradeDateTime ?? 0)?.getTime() ?? 0}
                          pe={data?.symbolData?.pe ?? 0}
                          lastTradedPriceVarPercent={data?.symbolData?.lastTradedPriceVarPercent ?? 0}
+                         lastTradedPrice={data?.symbolData?.lastTradedPrice ?? 0}
                     />
                </div>
           </div>
