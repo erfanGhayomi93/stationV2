@@ -8,7 +8,7 @@ interface QueryClientProviderComProps {
 export const queryClient = new QueryClient({
      defaultOptions: {
           queries: {
-               refetchOnMount: false,
+               // refetchOnMount,
                refetchOnWindowFocus: false,
                retry: false,
           },
