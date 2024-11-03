@@ -10,10 +10,6 @@ import { SymbolGeneralfields, TFieldSymbolGeneralResLs } from 'common/constant/s
 import { useEffect, useRef } from 'react';
 import { useSymbolStore } from 'store/symbol';
 
-type SymbolDataKey = keyof ISymbolData;
-type IndividualLegalKey = keyof IIndividualLegal;
-
-
 
 const SliderbarDetailsWidget = () => {
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
@@ -30,13 +26,6 @@ const SliderbarDetailsWidget = () => {
 
      const updateSymbolLS = ({ changedFields, itemName }: UpdatedFieldsType<TFieldSymbolGeneralResLs>) => {
 
-          // const tempObj: { symbolData: Partial<ISymbolData>; individualLegal: Partial<IIndividualLegal> } = {
-          //      symbolData: {},
-          //      individualLegal: {},
-          // };
-
-          console.log({ changedFields })
-
           const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
           let { symbolData, individualLegal } = SymbolGeneralInformationSnapshot;
@@ -48,10 +37,10 @@ const SliderbarDetailsWidget = () => {
           for (const [key, value] of Object.entries(changedFields)) {
                if (value !== null) {
                     if (symbolData && key in symbolData) {
-                         symbolDataChanged[key as SymbolDataKey] = value;
+                         symbolDataChanged[key as keyof ISymbolData] = value;
                     }
                     if (individualLegal && key in individualLegal) {
-                         individualLegalChanged[key as IndividualLegalKey] = value;
+                         individualLegalChanged[key as keyof IIndividualLegal] = value;
                     }
                }
           }
@@ -98,10 +87,6 @@ const SliderbarDetailsWidget = () => {
           }
      }, [isFetching]);
 
-
-     useEffect(() => {
-          console.log('data', data)
-     }, [data])
 
 
      return (

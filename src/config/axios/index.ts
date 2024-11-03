@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'ax
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
-export const tokenCookieName = 'ROS_2_client_id';
+export const tokenCookieName = 'ROS_client_id';
 
 const toastError = (text: string, id: string) => {
      toast.error(text, {

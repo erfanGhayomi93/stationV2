@@ -8,11 +8,9 @@ interface TFieldInputProps
      extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'onChange' | 'placeholder' | 'type'> {
      variant?: 'simple' | 'advanced';
      type?: 'number' | 'text';
-     unit?: 'rial' | 'share';
      upTickValue?: number;
      downTickValue?: number;
      onClickUpTick?: () => void;
-     onClickDownTick?: () => void;
      onChangeValue: (v: string | number) => void;
      selectIcon?: 'calculator' | 'lock-0' | 'lock-1';
      onClickIcon?: () => void;
@@ -21,29 +19,25 @@ interface TFieldInputProps
      secondaryPrice?: number;
      direction?: 'left' | 'right';
      isPercentage?: boolean;
-     clearAble?: boolean;
 }
 
 const FieldInput = ({
      variant = 'advanced',
      type = 'number',
-     unit = 'rial',
      upTickValue = 0,
      downTickValue = 0,
      onClickUpTick = () => null,
-     onClickDownTick = () => null,
      selectIcon = 'calculator',
      onClickIcon = () => null,
      placeholder = '',
      onChangeValue,
-     clearAble = true,
      secondaryPrice,
      value,
      direction = 'right',
      isPercentage = false,
      ...props
 }: TFieldInputProps) => {
-     const [inputValue, setInputValue] = useState<string | number>(value);
+     const [inputValue, setInputValue] = useState<string | number>(() => value);
 
      const inputRef = useRef<HTMLInputElement>(null);
 
@@ -183,16 +177,6 @@ const FieldInput = ({
                     </div>
                </div>
 
-               {/* {variant === 'advanced' && (
-                    <div
-                         style={{
-                              minWidth: '1px',
-                              minHeight: '16px',
-                         }}
-                         className="bg-input-default opacity-50 transition-colors group-focus-within:bg-input-active"
-                    />
-               )} */}
-
                {variant === 'advanced' && (
                     <div className="ml-2 flex w-4/12 items-center justify-between gap-1 px-1 text-input-default">
                          <div className="flex w-10/12 flex-col text-xs font-normal group-focus-within:text-input-active">
@@ -221,7 +205,7 @@ const FieldInput = ({
                          </div>
                          <div className="w-2/12">
                               {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable" onClick={onClickIcon} />}
-                              {selectIcon === 'lock-1' && <LockCloseIcon onClick={onClickIcon} />}
+                              {selectIcon === 'lock-1' && <LockCloseIcon className="text-icon-primary" onClick={onClickIcon} />}
                               {selectIcon === 'calculator' && <CalculatorIcon onClick={onClickIcon} />}
                          </div>
                     </div>

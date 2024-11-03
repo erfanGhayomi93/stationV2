@@ -23,7 +23,6 @@ const ConfirmLogoutModal = () => {
      const onConfirmLogout = () => {
           toast.success(t('alerts.logout_successful'));
           onCloseModal();
-
           mutate();
 
           navigate(routerPagePath.oAuth.logout);
