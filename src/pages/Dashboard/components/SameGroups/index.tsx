@@ -42,7 +42,7 @@ const SameGroups = () => {
                     cellRenderer: LastPriceRenderer,
                },
                {
-                    field: 'bestBuyPrice',
+                    field: 'bestBuyLimitPrice_1',
                     headerName: t('sameGroups.demandAndSupplyColumn'),
                     cellRenderer: SupplyAndDemandRenderer,
                },
@@ -58,8 +58,12 @@ const SameGroups = () => {
           if (findSymbolOld) {
                const updatedSymbol = {
                     ...findSymbolOld,
-                    bestBuyPrice: changedFields.bestBuyPrice ? changedFields.bestBuyPrice : findSymbolOld.bestBuyPrice,
-                    bestSellPrice: changedFields.bestSellPrice ? changedFields.bestSellPrice : findSymbolOld.bestSellPrice,
+                    bestBuyLimitPrice_1: changedFields.bestBuyLimitPrice_1
+                         ? changedFields.bestBuyLimitPrice_1
+                         : findSymbolOld.bestBuyLimitPrice_1,
+                    bestSellLimitPrice_1: changedFields.bestSellLimitPrice_1
+                         ? changedFields.bestSellLimitPrice_1
+                         : findSymbolOld.bestSellLimitPrice_1,
                     lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent
                          ? changedFields.lastTradedPriceVarPercent
                          : findSymbolOld.lastTradedPriceVarPercent,
@@ -99,8 +103,8 @@ const SameGroups = () => {
                     'totalNumberOfSharesTraded',
                     'lastTradedPrice',
                     'lastTradedPriceVarPercent',
-                    'bestBuyPrice',
-                    'bestSellPrice',
+                    'bestBuyLimitPrice_1',
+                    'bestSellLimitPrice_1',
                ];
 
                subscribeSymbolGeneral<ISameGroupsRes>({
@@ -114,6 +118,10 @@ const SameGroups = () => {
           }
      }, [isFetching]);
 
+     useEffect(() => {
+          console.log('Mounuing');
+     }, []);
+
      return (
           <div className="relative min-h-full w-full flex-1">
                <AgGridTable
@@ -122,6 +130,8 @@ const SameGroups = () => {
                     defaultColDef={{
                          cellClass: 'text-sm',
                     }}
+                    loading={isFetching}
+                    tableHeight="15.4rem"
                />
           </div>
      );

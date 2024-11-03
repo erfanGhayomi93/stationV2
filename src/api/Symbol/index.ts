@@ -104,7 +104,7 @@ export const useQuerySameGroupSymbol = ({ SymbolISIN }: { SymbolISIN: string }) 
      const url = routeApi().Symbol.sameGroupsSymbol;
 
      return useQuery({
-          queryKey: ['GetSameGroupsSymbol'],
+          queryKey: ['GetSameGroupsSymbol', SymbolISIN],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<ISameGroupsRes[]>>(url, { params: { SymbolISIN } });
 

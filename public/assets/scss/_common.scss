@@ -1,0 +1,12 @@
+.spinner {
+     position: relative;
+     display: inline-block;
+     width: 0.8rem;
+     height: 0.8rem;
+     vertical-align: middle;
+     border: 2px solid rgb(var(--color-icon-primary));
+
+     border-right-color: transparent;
+     border-radius: 50%;
+     animation: 750ms linear infinite spinner-border;
+}
