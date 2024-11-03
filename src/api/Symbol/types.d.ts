@@ -237,8 +237,8 @@ interface IMarketDepthRes {
 }
 
 interface ISameGroupsSub {
-     bestBuyPrice: number;
-     bestSellPrice: number;
+     bestBuyLimitPrice_1: number;
+     bestSellLimitPrice_1: number;
      lastTradedPriceVarPercent: number;
      lastTradedPrice: number;
      totalNumberOfSharesTraded: number;
@@ -246,7 +246,7 @@ interface ISameGroupsSub {
 
 interface ISameGroupsRes {
      bestBuyPrice: number;
-     bestBuyPricebestBuyLimitPrice_1: number;
+     bestBuyLimitPrice_1: number;
      bestSellLimitPrice_1: number;
      bestSellPrice: number;
      lastTradedPriceVarPercent: number;
