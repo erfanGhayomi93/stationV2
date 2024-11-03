@@ -23,8 +23,8 @@ stage-Job:
 Preprd-Job01:
   stage: deploy
   script:
-    - npm i
-    - ($env:CI = "false") -and (npm run build)
+    - npm.cmd i
+    - ($env:CI = "false") -and (npm.cmd run build)
     - $date = get-date -format  "dd-MM-yyyy"
     - mkdir -p "D:\UI\Farabi\OnlineStaition2\Versions\Station.$date.$Env:AdminApiS\"
     - Stop-Service -Name "Uionlinestaition2"
@@ -207,4 +207,4 @@ DR-TSS-Job:
 
   artifacts:
   rules:
-    - if: $CI_COMMIT_BRANCH == "Production-TSS"
+    - if: $CI_COMMIT_BRANCH == "Production-TSS"  

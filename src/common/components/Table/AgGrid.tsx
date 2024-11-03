@@ -42,14 +42,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          onFirstDataRendered={fitColumnsSize}
                          onRowDataUpdated={fitColumnsSize}
                          onGridSizeChanged={fitColumnsSize}
-                         containerStyle={
-                              loading
-                                   ? {
-                                          filter: 'blur(2px)',
-                                          WebkitFilter: 'blur(2px)',
-                                     }
-                                   : undefined
-                         }
                          rowHeight={rowHeight}
                          headerHeight={headerHeight}
                          ref={ref}
@@ -61,13 +53,47 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          defaultColDef={{
                               flex: 1,
                          }}
+                         containerStyle={
+                              loading
+                                   ? {
+                                          filter: 'blur(2px)',
+                                          WebkitFilter: 'blur(2px)',
+                                     }
+                                   : undefined
+                         }
                          enableCellTextSelection
+                         suppressColumnVirtualisation
+                         suppressRowHoverHighlight
+                         suppressCellFocus
+                         suppressAnimationFrame
+                         suppressScrollOnNewData
+                         loading={false}
+                         suppressColumnMoveAnimation
+                         suppressDragLeaveHidesColumns
                          {...props}
                     />
 
-                    {rowData?.length === 0 && (
+                    {rowData?.length === 0 && !loading && (
                          <div className="flex items-center justify-center text-content-paragraph">
                               <span className="tran absolute top-1/2 font-medium">اطلاعاتی وجود ندارد</span>
+                         </div>
+                    )}
+
+                    {loading && (
+                         <div
+                              style={{
+                                   height: 'calc(100% - 1.4rem)',
+                              }}
+                              className="absolute top-1/2 flex w-full -translate-y-1/2 flex-col items-center justify-center gap-2 overflow-hidden"
+                         >
+                              <div
+                                   className="spinner"
+                                   style={{
+                                        width: 32 + 'px',
+                                        height: 32 + 'px',
+                                   }}
+                              />
+                              <span>در حال دریافت اطلاعات...</span>
                          </div>
                     )}
                </div>
