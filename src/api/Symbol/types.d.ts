@@ -236,6 +236,14 @@ interface IMarketDepthRes {
      lastTime: string;
 }
 
+interface ISameGroupsSub {
+     bestBuyPrice: number;
+     bestSellPrice: number;
+     lastTradedPriceVarPercent: number;
+     lastTradedPrice: number;
+     totalNumberOfSharesTraded: number;
+}
+
 interface ISameGroupsRes {
      bestBuyPrice: number;
      bestBuyPricebestBuyLimitPrice_1: number;
