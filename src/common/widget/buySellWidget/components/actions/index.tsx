@@ -7,12 +7,13 @@ import { useCustomerStore } from "@store/customer"
 import { generateSourceOrder, handleValidity, uid } from "@methods/helper"
 import { useSymbolStore } from "@store/symbol"
 import { useModalStore } from "@store/modal"
+import { onErrorNotif } from "@config/toastify"
 
 interface IBodyBuySellProps { }
 
 const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
-    const { price, quantity, side, strategy, validity, validityDate, source, isPercentQuantity } = useBuySellContext()
+    const { price, quantity, side, strategy, validity, validityDate, source, isPercentQuantity, quantityWithPercent, priceWithPercent, isPercentPrice } = useBuySellContext()
 
     const { setIsPercentQuantityOrderModal } = useModalStore()
 
@@ -53,6 +54,27 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
     }
 
     const sendingOrder = () => {
+        if (selectedCustomers.length === 0) {
+            onErrorNotif({ title: 'حداقل یک مشتری باید انتخاب شود' })
+            return
+        }
+        else if (!isPercentPrice && !price) {
+            onErrorNotif({ title: ' ورودی قیمت معتبر نمی باشد' })
+            return
+        }
+        else if (isPercentPrice && !priceWithPercent.percent) {
+            onErrorNotif({ title: ' درصد قیمت معتبر نمی باشد' })
+            return
+        }
+        else if (!isPercentQuantity && !quantity) {
+            onErrorNotif({ title: ' ورودی تعداد معتبر نمی باشد' })
+            return
+        }
+        else if (isPercentQuantity && !quantityWithPercent.percent) {
+            onErrorNotif({ title: ' درصد تعداد معتبر نمی باشد' })
+            return
+        }
+
 
         if (isPercentQuantity) {
             setIsPercentQuantityOrderModal(true)
