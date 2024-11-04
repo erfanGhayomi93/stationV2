@@ -41,7 +41,7 @@ const Message = ({ item }: TMessageProps) => {
                               />
                          </div>
                          <span
-                              className={clsx('font-medium', {
+                              className={clsx('', {
                                    'text-content-success-buy': item.type === 'Oppening',
                                    'text-content-error-sell': item.type === 'Stop',
                                    'text-content-info': item.type === 'Instant',
