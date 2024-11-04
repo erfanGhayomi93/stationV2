@@ -25,7 +25,7 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className="grid h-full grid-rows-min-min-one gap-2 overflow-hidden">
+               <div className="grid h-full grid-rows-min-min-one overflow-hidden">
                     <div className={clsx(BoxClass)}>
                          <SliderbarDetailsWidget />
                     </div>
@@ -39,12 +39,13 @@ const MainLayoutDashboard = () => {
                               <ArrowDownTriangleIcon
                                    className={clsx(
                                         'text-icon-default transition-transform',
-                                        isExpandSymbolDetails && 'rotate-180'
+                                        !isExpandSymbolDetails && 'rotate-180'
                                    )}
                               />
                          </div>
                          <div style={{ minHeight: '1px' }} className="w-full flex-1 bg-line-div-2" />
                     </button>
+
                     <div className={clsx(BoxClass)}>
                          <BuySellWidget />
                     </div>

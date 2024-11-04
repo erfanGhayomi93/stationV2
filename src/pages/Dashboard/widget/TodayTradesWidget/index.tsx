@@ -25,7 +25,6 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
-
      const { data, refetch } = useQueryDoneOrders({
           symbolISIN: selectedSymbol,
           ...(isAggregate && { aggregateType: 'both' }),
@@ -108,7 +107,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
           <div className="flex h-full flex-1 flex-col gap-4">
                <div className="flex justify-between">
                     <div className="flex items-center gap-6">
-                         <Button variant="label" className="text-sm font-bold">
+                         <Button variant="label" className="h-10 w-[147px] font-bold">
                               {t('todayTrades.tradesTab')}
                          </Button>
                          <ToggleSwitch
