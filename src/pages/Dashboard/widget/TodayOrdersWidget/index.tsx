@@ -168,7 +168,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                                         setSelectedOrders([]);
                                    }}
                                    className={clsx(
-                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        'h-10 w-[147px] rounded-lg text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
                                         {
                                              'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
                                                   side === 'Buy',
@@ -186,7 +186,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                                         setSelectedOrders([]);
                                    }}
                                    className={clsx(
-                                        'rounded-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
+                                        'h-10 w-[147px] rounded-lg text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
                                         {
                                              'bg-button-tab-deactive text-content-deselecttab data-[selected]:bg-back-green data-[selected]:font-bold data-[selected]:text-content-success-buy':
                                                   side === 'Buy',
@@ -243,6 +243,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                          rowData={todayOrdersData ?? []}
                          columnDefs={columnDefs}
                          onRowSelected={onRowSelected}
+                         defaultColDef={{
+                              flex: 1,
+                         }}
                     />
                </div>
           </div>

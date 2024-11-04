@@ -35,6 +35,7 @@ const SameGroups = () => {
                     field: 'totalNumberOfSharesTraded',
                     headerName: t('sameGroups.totalNumberOfSharesTradedColumn'),
                     valueGetter: ({ data }) => sepNumbers(data?.totalNumberOfSharesTraded),
+                    minWidth: 112,
                },
                {
                     field: 'lastTradedPrice',
@@ -89,16 +90,12 @@ const SameGroups = () => {
           }
      };
 
-     const rowData = useMemo(() => {
-          return sameGroupsData ?? [];
-     }, [sameGroupsData]);
-
      useEffect(() => {
-          if (!isFetching && rowData.length !== 0 && isSuccess) {
-               refData.current = rowData;
+          if (!isFetching && sameGroupsData?.length !== 0 && isSuccess) {
+               refData.current = sameGroupsData;
 
                const id = 'sameGroups';
-               const items = rowData?.map(item => item.symbolISIN);
+               const items = sameGroupsData?.map(item => item.symbolISIN);
                const fields = [
                     'totalNumberOfSharesTraded',
                     'lastTradedPrice',
@@ -115,18 +112,18 @@ const SameGroups = () => {
                          updateSameGroup(updatedFields);
                     },
                });
-          }
 
-          return () => {
-               pushEngine.disConnect();
-          };
+               return () => {
+                    pushEngine.unSubscribe(id);
+               };
+          }
      }, [isFetching]);
 
      return (
           <div className="relative h-full w-full flex-1">
                <AgGridTable
                     columnDefs={columnDefs}
-                    rowData={rowData}
+                    rowData={sameGroupsData}
                     loading={isFetching}
                     rowHeight={48}
                     headerHeight={48}

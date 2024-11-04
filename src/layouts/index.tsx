@@ -31,7 +31,7 @@ const AppLayout = () => {
                          <HeaderLayout />
                     </header>
 
-                    <section className='overflow-auto'>
+                    <section className="overflow-auto">
                          <Outlet />
                     </section>
 
