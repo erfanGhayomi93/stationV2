@@ -2,7 +2,7 @@ import { ColDef } from '@ag-grid-community/core';
 import { useQuerySameGroupSymbol } from '@api/Symbol';
 import AgGridTable from '@components/Table/AgGrid';
 import UseDebounceOutput from '@hooks/useDebounceOutput';
-import { UpdatedFieldsType } from '@LS/pushEngine';
+import { pushEngine, UpdatedFieldsType } from '@LS/pushEngine';
 import { subscribeSymbolGeneral } from '@LS/subscribes';
 import { sepNumbers } from '@methods/helper';
 import { useSymbolStore } from '@store/symbol';
@@ -82,7 +82,7 @@ const SameGroups = () => {
                refData.current = sameGroupsDataSnapshot;
 
                setDebounce(() => {
-                    queryClient.setQueryData(['GetSameGroupsSymbol'], () => {
+                    queryClient.setQueryData(['GetSameGroupsSymbol', selectedSymbol], () => {
                          if (refData.current) return [...refData.current];
                     });
                });
@@ -116,22 +116,21 @@ const SameGroups = () => {
                     },
                });
           }
+
+          return () => {
+               pushEngine.disConnect();
+          };
      }, [isFetching]);
 
-     useEffect(() => {
-          console.log('Mounuing');
-     }, []);
-
      return (
-          <div className="relative min-h-full w-full flex-1">
+          <div className="relative h-full w-full flex-1">
                <AgGridTable
                     columnDefs={columnDefs}
                     rowData={rowData}
-                    defaultColDef={{
-                         cellClass: 'text-sm',
-                    }}
                     loading={isFetching}
-                    tableHeight="15.4rem"
+                    rowHeight={48}
+                    headerHeight={48}
+                    getRowId={({ data }) => data.symbolISIN}
                />
           </div>
      );

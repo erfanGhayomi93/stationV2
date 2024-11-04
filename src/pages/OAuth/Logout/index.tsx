@@ -19,12 +19,12 @@ const Logout = () => {
 
                navigate(routerPagePath.oAuth.login);
           } catch (error) {
-               console.log({ error })
+               console.log({ error });
           }
-     }
+     };
 
      useEffect(() => {
-          handleLogout()
+          handleLogout();
      }, []);
 
      return null;

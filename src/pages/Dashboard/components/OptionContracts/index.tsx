@@ -1,6 +1,6 @@
 import { ColDef } from '@ag-grid-community/core';
 import { useQueryOptionContracts } from '@api/Symbol';
-import AgGrid from '@components/Table/AgGrid';
+import AgGridTable from '@components/Table/AgGrid';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import { useSymbolStore } from '@store/symbol';
 import { useMemo } from 'react';
@@ -44,8 +44,17 @@ const OptionContracts = () => {
      }, [optionContractsData]);
 
      return (
-          <div className="relative w-full flex-1">
-               <AgGrid columnDefs={columnsDef} rowData={rowData} />
+          <div className="relative h-full w-full flex-1">
+               <AgGridTable
+                    defaultColDef={{
+                         flex: 1,
+                    }}
+                    rowHeight={48}
+                    headerHeight={48}
+                    columnDefs={columnsDef}
+                    rowData={rowData}
+                    getRowId={({ data }) => data.symbolISIN}
+               />
           </div>
      );
 };

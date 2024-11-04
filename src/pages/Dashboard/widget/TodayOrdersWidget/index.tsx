@@ -44,7 +44,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { selectedOrders, setSelectedOrders } = useUIStore();
 
-
      const getSymbolGeneralInformationCache = () => {
           return JSON.parse(
                JSON.stringify(queryClient.getQueryData(['SymbolGeneralInformation', selectedSymbol]) ?? [])
@@ -159,7 +158,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      }, [todayOrdersData]);
 
      return (
-          <div className="grid grid-rows-min-one">
+          <div className="grid h-full grid-rows-min-one">
                <div className="flex justify-between pb-4">
                     <TabGroup>
                          <TabList className="flex gap-x-4">
@@ -234,7 +233,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     </div>
                </div>
 
-               <div className="">
+               <div className="h-full flex-1">
                     <AgGridTable
                          rowSelection={{
                               mode: 'multiRow',
