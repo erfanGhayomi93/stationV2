@@ -3,13 +3,26 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import BodyBuySell from './components/bodyBuySell';
 import { BuySellProviderContext, useBuySellContext } from './context/buySellContext';
+import { useSymbolStore } from '@store/symbol';
+import { useEffect } from 'react';
 
 const BuySellWidget = () => {
      const { t } = useTranslation();
 
-     const { side, setSide } = useBuySellContext();
+     const { side, setSide, reset } = useBuySellContext();
+
+     const { selectedSymbol } = useSymbolStore()
 
      const tabs: TSide[] = ['Buy', 'Sell'];
+
+     useEffect(() => {
+          if (selectedSymbol) {
+               return () => {
+                    reset()
+               }
+          }
+     }, [selectedSymbol])
+
 
      return (
           <div className="h-full">

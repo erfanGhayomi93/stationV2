@@ -44,8 +44,8 @@ export const useQuerySymbolGeneralInformation = <T = ISymbolGeneralInformationRe
                });
                return response.data.result;
           },
-          // gcTime: 0,
-          // staleTime: 0,
+          gcTime: 0,
+          staleTime: 0,
           ...(!!select && { select }),
      });
 };
