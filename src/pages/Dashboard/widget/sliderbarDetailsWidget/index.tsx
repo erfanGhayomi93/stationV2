@@ -87,6 +87,13 @@ const SliderbarDetailsWidget = () => {
           }
      }, [isFetching]);
 
+//      useEffect(() => {
+//           console.log({ isSuccess })
+//      }, [isSuccess])
+// 
+//      useEffect(() => {
+//           console.log({ selectedSymbol })
+//      }, [selectedSymbol])
 
 
      return (
