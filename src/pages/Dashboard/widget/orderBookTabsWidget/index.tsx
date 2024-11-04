@@ -33,13 +33,13 @@ const OrderBookTabsWidget = () => {
                     <TabPanel className={'h-full py-2'}>
                          <MarketDepthTab />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel className="h-full">
                          <SameGroups />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel className="h-full">
                          <OptionContracts />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel className="h-full">
                          <SupervisorMessage />
                     </TabPanel>
                </TabPanels>
