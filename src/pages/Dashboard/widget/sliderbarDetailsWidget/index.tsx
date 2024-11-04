@@ -12,7 +12,8 @@ import { useSymbolStore } from 'store/symbol';
 
 
 const SliderbarDetailsWidget = () => {
-     const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
+
+     const { selectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
 
      const refData = useRef<ISymbolGeneralInformationRes>();
 
@@ -22,6 +23,8 @@ const SliderbarDetailsWidget = () => {
 
      const { data, isSuccess, isFetching } = useQuerySymbolGeneralInformation(selectedSymbol);
 
+     const symbolTitle = data?.symbolData.symbolTitle
+     const marketUnit = data?.symbolData.marketUnit
 
 
      const updateSymbolLS = ({ changedFields, itemName }: UpdatedFieldsType<TFieldSymbolGeneralResLs>) => {
@@ -87,13 +90,18 @@ const SliderbarDetailsWidget = () => {
           }
      }, [isFetching]);
 
-//      useEffect(() => {
-//           console.log({ isSuccess })
-//      }, [isSuccess])
-// 
-//      useEffect(() => {
-//           console.log({ selectedSymbol })
-//      }, [selectedSymbol])
+
+     useEffect(() => {
+          if (symbolTitle) {
+               setSymbolTitle(symbolTitle)
+          }
+          if (marketUnit) {
+               setMarketUnit(marketUnit)
+          }
+     }, [symbolTitle, marketUnit])
+
+
+
 
 
      return (

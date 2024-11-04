@@ -24,7 +24,7 @@ const HeaderLayout = () => {
 
      const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null);
 
-     const { selectedSymbol, setSelectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
+     const { selectedSymbol, setSelectedSymbol } = useSymbolStore();
 
      const { data: symbolTab, isSuccess, refetch: refetchSymbolTab, isFetching } = useQuerySymbolTab();
 
@@ -61,9 +61,6 @@ const HeaderLayout = () => {
 
           setSelectedSymbol(symbol.symbolISIN);
 
-          setMarketUnit(symbol?.marketUnit);
-
-          setSymbolTitle(symbol.symbolTitle);
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
