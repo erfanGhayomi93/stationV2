@@ -2,9 +2,9 @@ import FieldInput from "@uiKit/Inputs/FieldInput"
 import SelectInput from "@uiKit/Inputs/SelectInput"
 import { useBuySellContext } from "../../context/buySellContext"
 import useUpdateEffect from "@hooks/useUpdateEffect"
-import { useQuerySymbolGeneralInformation } from "@api/Symbol"
 import { useSymbolStore } from "@store/symbol"
 import { useMemo } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 
 
 
@@ -13,19 +13,21 @@ const PriceByPercent = () => {
 
     const { selectedSymbol } = useSymbolStore()
 
-    const { data: symbolData } = useQuerySymbolGeneralInformation(selectedSymbol, (data) => ({
-        closingPrice: data?.symbolData?.closingPrice,
-        lastTradedPrice: data?.symbolData?.lastTradedPrice,
-        bestBuyLimitPrice_1: data?.ordersData?.bestBuyLimitPrice_1,
-        bestSellLimitPrice_1: data?.ordersData?.bestSellLimitPrice_1,
-    }))
+    const queryClient = useQueryClient()
+
+    const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
+
+    const closingPrice = symbolGeneral?.symbolData?.closingPrice;
+    const lastTradedPrice = symbolGeneral?.symbolData?.lastTradedPrice;
+    const bestBuyLimitPrice_1 = symbolGeneral?.ordersData?.bestBuyLimitPrice_1;
+    const bestSellLimitPrice_1 = symbolGeneral?.ordersData?.bestSellLimitPrice_1;
 
     const priceVar = useMemo(() => {
-        if (priceWithPercent.PriceBasedOn.includes("ClosingPrice")) return symbolData?.closingPrice || 0;
-        else if (priceWithPercent.PriceBasedOn.includes("LastPrice")) return symbolData?.lastTradedPrice || 0;
-        else if (priceWithPercent.PriceBasedOn.includes("BestPrice")) return side !== 'Buy' ? symbolData?.bestBuyLimitPrice_1 || 0 : symbolData?.bestSellLimitPrice_1 || 0
+        if (priceWithPercent.PriceBasedOn.includes("ClosingPrice")) return closingPrice || 0;
+        else if (priceWithPercent.PriceBasedOn.includes("LastPrice")) return lastTradedPrice || 0;
+        else if (priceWithPercent.PriceBasedOn.includes("BestPrice")) return side !== 'Buy' ? bestBuyLimitPrice_1 || 0 : bestSellLimitPrice_1 || 0
         else return 0
-    }, [priceWithPercent.PriceBasedOn, symbolData, side])
+    }, [priceWithPercent.PriceBasedOn, closingPrice, lastTradedPrice, bestBuyLimitPrice_1, bestSellLimitPrice_1, side])
 
     const TICK_ITEMS = [
         { id: "GreaterThanClosingPrice", label: "بیشتر از قیمت پایانی" },
