@@ -104,7 +104,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
      }, []);
 
      return (
-          <div className="flex h-full flex-1 flex-col gap-4">
+          <div className="flex h-full flex-1 flex-col gap-2">
                <div className="flex justify-between">
                     <div className="flex items-center gap-6">
                          <Button variant="label" className="h-10 w-[147px] font-bold">
