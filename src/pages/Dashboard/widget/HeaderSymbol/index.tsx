@@ -52,7 +52,7 @@ export const MainSymbol = () => {
      };
 
      const symbolStateColor = useCallback(
-          (type: 'bg' | 'text') => {
+          (type: 'bg' | 'text', symbolState: string | undefined) => {
                if (!symbolState) return '';
 
                const stateClasses: Record<string, string> = {
@@ -132,7 +132,7 @@ export const MainSymbol = () => {
                                    symbolStateTooltip={symbolStateTooltip()}
                               />
                               <span className="text-sm font-medium text-content-title">{symbolTitle}</span>
-                              <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
+                              <span className={symbolStateColor('text', symbolState)}>{symbolStateTooltip()}</span>
                               <span className="text-content-deselecttab">
                                    {`(${exchange ? t(`exchange_type.${exchange as ExchangeType}`) : '-'})`}
                               </span>

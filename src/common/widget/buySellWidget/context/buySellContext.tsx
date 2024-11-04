@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import { create } from 'zustand';
 
-export const useBuySellStore = create<IBuySellState>(set => ({
+const initialStore: IBuySellState = {
      side: 'Buy',
      price: 0,
      quantity: 0,
@@ -22,6 +22,10 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      },
      amount: 0,
      isLockPrice: false,
+}
+
+export const useBuySellStore = create<IBuySellState & IBuySellAction>(set => ({
+     ...initialStore,
      setSide: (side: TSide) => set(() => ({ side })),
      setPrice: (price: number) => set(() => ({ price })),
      setQuantity: (quantity: number) => set(() => ({ quantity })),
@@ -36,10 +40,11 @@ export const useBuySellStore = create<IBuySellState>(set => ({
      setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => set(() => ({ priceWithPercent })),
      setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => set(() => ({ quantityWithPercent })),
      setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
+     reset: () => set(initialStore)
 }));
 
 // Create the context
-const BuySellContext = createContext<IBuySellState | null>(null);
+const BuySellContext = createContext<IBuySellState & IBuySellAction | null>(null);
 
 // Create a provider component
 export const BuySellProviderContext = ({ children }: { children: ReactNode }) => {

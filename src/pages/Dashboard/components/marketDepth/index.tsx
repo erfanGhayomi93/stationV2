@@ -1,6 +1,6 @@
 import { useMarketDepth } from '@hooks/useMarketDepth';
 import { useSymbolStore } from '@store/symbol';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
 import { useQueryClient } from '@tanstack/react-query';
@@ -28,12 +28,6 @@ const MarketDepthTab = () => {
      const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
      const lowThreshold = symbolGeneral?.symbolData.lowThreshold;
      const highThreshold = symbolGeneral?.symbolData.highThreshold;
-
-//      useEffect(() => {
-//           console.log({ symbolGeneral })
-//      }, [symbolGeneral])
-// 
-//      console.log('render')
 
 
      const isPriceInRange = useCallback(
