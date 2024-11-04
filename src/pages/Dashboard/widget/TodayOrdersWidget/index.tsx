@@ -243,6 +243,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                          rowData={todayOrdersData ?? []}
                          columnDefs={columnDefs}
                          onRowSelected={onRowSelected}
+                         defaultColDef={{
+                              flex: 1,
+                         }}
                     />
                </div>
           </div>

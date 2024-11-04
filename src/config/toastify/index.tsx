@@ -21,12 +21,12 @@ const ToastContainerCom = () => {
                position="bottom-left"
                stacked
                theme={isDark ? 'dark' : 'light'}
+               bodyClassName="truncate [&>div]:truncate"
           />
      );
 };
 
 export default ToastContainerCom;
-
 
 // Success
 export const onSuccessNotif = (options?: IonErrorNotifType) => {
@@ -40,4 +40,3 @@ export const onErrorNotif = (options?: IonErrorNotifType) => {
 export const onInfoNotif = (options?: IonErrorNotifType) => {
      toast.info(options?.title || 'پیام پیش فرض سیستم می باشد', { ...options });
 };
-
