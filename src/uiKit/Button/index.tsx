@@ -40,7 +40,7 @@ const Loading = () => {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      ({ children, variant = 'primary', icon, className, isLoading = false, ...props }, ref) => {
           const baseClass =
-               'py-2 w-full px-6 rounded-lg text-sm border flex items-center justify-center gap-x-2 disabled:text-button-disable-disable';
+               'py-2 px-6 rounded-lg text-sm border flex items-center justify-center gap-x-2 disabled:text-button-disable-disable';
 
           const variantClass = clsx(isLoading && 'opacity-80 pointer-events-none', {
                'text-content-white bg-button-success-default ': variant === 'primary',
@@ -48,7 +48,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                'text-content-white bg-button-error-default': variant === 'danger',
                'text-content-error-sell bg-back-error-default': variant === 'danger-outline',
                'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',
-               'text-content-selected bg-button-tab-active border-none': variant === 'label',
+               'text-content-selected bg-button-tab-active  border-none': variant === 'label',
           });
 
           return (

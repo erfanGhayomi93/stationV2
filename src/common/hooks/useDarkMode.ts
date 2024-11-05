@@ -1,32 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useThemeStore } from 'store/theme';
 
 const useDarkMode = () => {
      const { theme } = useThemeStore();
      const [isDarkMode, setIsDarkMode] = useState(false);
 
-     useEffect(() => {
-          const updateDarkMode = () => {
-               if (theme === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    setIsDarkMode(prefersDark);
-               } else {
-                    setIsDarkMode(theme === 'dark');
-               }
-          };
-
-          updateDarkMode();
-
-          const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+     const updateDarkMode = () => {
           if (theme === 'system') {
-               darkModeMediaQuery.addEventListener('change', updateDarkMode);
+               const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+               setIsDarkMode(prefersDark);
+          } else {
+               setIsDarkMode(theme === 'dark');
           }
+     };
 
-          return () => {
-               if (theme === 'system') {
-                    darkModeMediaQuery.removeEventListener('change', updateDarkMode);
-               }
-          };
+     useLayoutEffect(() => {
+          updateDarkMode();
      }, [theme]);
 
      return isDarkMode;
