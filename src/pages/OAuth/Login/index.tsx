@@ -11,6 +11,11 @@ import Captcha from './components/Captch';
 import Input from './components/Input';
 import { PasswordInput } from './components/passwordInput';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 type formDate = {
      username: string;
      password: string;
@@ -79,44 +84,40 @@ const Login = () => {
                                    {t(`brokerCode_${window.REACT_APP_BROKER_CODE}.formSideLogInText`)}
                               </h1>
                          </div>
-                         <form className="flex flex-col gap-12" onSubmit={handleSubmit(onSubmit)}>
-                              <div>
-                                   <Input
-                                        {...register('username', {
-                                             required: {
-                                                  value: true,
-                                                  message: t('login.inputUserNameLabelRequired'),
-                                             },
-                                        })}
-                                        id="username-login"
-                                        placeholder={t('login.inputUserNameLabel')}
-                                        inputClassName="ltrInsert"
-                                        type={'text'}
-                                        data-cy="username"
-                                        textError={errors.username?.message}
-                                        icon={<ProfileIcon />}
-                                   />
-                              </div>
+                         <form className="flex flex-col gap-14" onSubmit={handleSubmit(onSubmit)}>
+                              <Input
+                                   {...register('username', {
+                                        required: {
+                                             value: true,
+                                             message: t('login.inputUserNameLabelRequired'),
+                                        },
+                                   })}
+                                   id="username-login"
+                                   placeholder={t('login.inputUserNameLabel')}
+                                   inputClassName="ltrInsert"
+                                   type={'text'}
+                                   data-cy="username"
+                                   textError={errors.username?.message}
+                                   icon={<ProfileIcon width="1.5rem" height="1.5rem" />}
+                              />
 
                               <div className="flex flex-col gap-2">
-                                   <div className="relative">
-                                        <PasswordInput
-                                             register={register}
-                                             error={errors.password}
-                                             setValues={setValue}
-                                             name="password"
-                                             labelInput={t('login.inputPasswordLabel')}
-                                             placeHolder={t('login.inputPasswordLabel')}
-                                             watch={watch}
-                                        />
-                                   </div>
+                                   <PasswordInput
+                                        register={register}
+                                        error={errors.password}
+                                        setValues={setValue}
+                                        name="password"
+                                        labelInput={t('login.inputPasswordLabel')}
+                                        placeHolder={t('login.inputPasswordLabel')}
+                                        watch={watch}
+                                   />
 
                                    <span
                                         // onClick={() => navigate('/ForgetPassword')}
                                         className={clsx(
                                              'relative float-left mt-1 cursor-pointer text-left text-sm font-medium text-button-info-default',
                                              {
-                                                  'mt-[-16px]': errors.password,
+                                                  'mt-0': errors.password,
                                              }
                                         )}
                                    >
@@ -124,16 +125,14 @@ const Login = () => {
                                    </span>
                               </div>
 
-                              <div className="">
-                                   <Captcha
-                                        register={register}
-                                        errors={errors}
-                                        captcha={captchaData}
-                                        onRefresh={handleRefetchCaptcha}
-                                        setValue={setValue}
-                                        getValues={getValues}
-                                   />
-                              </div>
+                              <Captcha
+                                   register={register}
+                                   errors={errors}
+                                   captcha={captchaData}
+                                   onRefresh={handleRefetchCaptcha}
+                                   setValue={setValue}
+                                   getValues={getValues}
+                              />
 
                               <div className={clsx('pt-6')}>
                                    <button
@@ -147,27 +146,49 @@ const Login = () => {
                     </div>
                </div>
 
-               <div className="relative basis-7/12">
-                    <img className="h-full w-full object-cover" src="/assets/images/trade-room.png" alt="Trade Room" />
-
-                    <div
-                         className="absolute inset-0 rounded-[32px]"
-                         style={{
-                              background: 'linear-gradient(180deg, rgba(0, 3, 64, 0.5) 0%, rgba(0, 3, 64, 0.8) 100%)',
+               <div className="relative h-full w-full basis-7/12 overflow-hidden rounded-[32px]">
+                    <Swiper
+                         spaceBetween={20}
+                         slidesPerView={1}
+                         autoplay={{
+                              delay: 2500,
+                              disableOnInteraction: false,
                          }}
-                    ></div>
+                         pagination={{
+                              clickable: true,
+                              bulletActiveClass: 'active',
+                         }}
+                         modules={[Pagination, Autoplay]}
+                         centeredSlides={true}
+                         className="h-full w-full"
+                    >
+                         {[1, 2, 3]?.map((slide, index) => (
+                              <SwiperSlide key={index} className="h-full w-full overflow-hidden">
+                                   <div className="h-full w-full">
+                                        <img
+                                             className="h-full w-full overflow-hidden object-cover"
+                                             src="/assets/images/trade-room.png"
+                                             alt="Trade Room"
+                                        />
 
-                    <div className="absolute left-6 top-6">
+                                        <div
+                                             className="absolute inset-0 z-10 overflow-hidden"
+                                             style={{
+                                                  background:
+                                                       'linear-gradient(180deg, rgba(0, 3, 64, 0.5) 0%, rgba(0, 3, 64, 0.8) 100%)',
+                                             }}
+                                        ></div>
+                                   </div>
+                              </SwiperSlide>
+                         ))}
+                    </Swiper>
+
+                    <div className="absolute left-6 top-6 z-50">
                          <RamandIcon />
                     </div>
 
-                    <div className="absolute bottom-20 left-1/2 flex -translate-x-1/2 flex-col gap-8">
-                         <span className="text-white text-4xl font-bold">افزایش سرعت و کارایی معاملات</span>
-                         <div className="flex items-center justify-center gap-2">
-                              <div className="h-2 w-28 rounded-[32px] bg-[rgba(217,217,217,1)]"></div>
-                              <div className="h-2 w-28 rounded-[32px] bg-[rgba(217,217,217,0.2)]"></div>
-                              <div className="h-2 w-28 rounded-[32px] bg-[rgba(217,217,217,0.2)]"></div>
-                         </div>
+                    <div className="absolute bottom-32 left-1/2 z-50 -translate-x-1/2">
+                         <span className="text-4xl font-bold text-white">افزایش سرعت و کارایی معاملات</span>
                     </div>
                </div>
           </main>

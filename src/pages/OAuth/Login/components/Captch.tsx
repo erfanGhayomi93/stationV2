@@ -92,7 +92,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
      return (
           <div
                className={clsx(
-                    'h-14 rounded-2xl border border-input-default focus-within:border-input-primary',
+                    'group relative h-14 rounded-2xl border border-input-default focus-within:border-input-primary',
                     {
                          'border-input-error': !!errors.captchaValue,
                     },
@@ -114,7 +114,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                    type="number"
                                    inputMode="numeric"
                                    dir="ltr"
-                                   placeholder={placeHolder}
+                                   placeholder=""
                                    className={clsx(
                                         'h-full55 w-full border-none bg-transparent pl-2 text-content-title outline-none placeholder:text-right placeholder:text-content-placeholder',
                                         {
@@ -161,6 +161,10 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                {!!errors.captchaValue && (
                     <p className="pt-2 text-xs text-input-error transition-all">{errors.captchaValue.message}</p>
                )}
+
+               <div className="absolute right-12 top-1/2 z-0 -translate-y-1/2 text-content-placeholder transition-all duration-100 group-focus-within:-top-1 group-focus-within:right-4 group-focus-within:bg-back-surface group-focus-within:p-2 group-focus-within:text-xs group-focus-within:text-input-primary group-focus-within:after:content-['*']">
+                    <span>{placeHolder}</span>
+               </div>
           </div>
      );
 };
