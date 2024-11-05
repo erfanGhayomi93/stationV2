@@ -84,7 +84,7 @@ const Login = () => {
                                    {t(`brokerCode_${window.REACT_APP_BROKER_CODE}.formSideLogInText`)}
                               </h1>
                          </div>
-                         <form className="flex flex-col gap-12" onSubmit={handleSubmit(onSubmit)}>
+                         <form className="flex flex-col gap-14" onSubmit={handleSubmit(onSubmit)}>
                               <Input
                                    {...register('username', {
                                         required: {
@@ -117,7 +117,7 @@ const Login = () => {
                                         className={clsx(
                                              'relative float-left mt-1 cursor-pointer text-left text-sm font-medium text-button-info-default',
                                              {
-                                                  'mt-[-16px]': errors.password,
+                                                  'mt-0': errors.password,
                                              }
                                         )}
                                    >

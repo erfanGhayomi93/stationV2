@@ -19,7 +19,6 @@ const Input = forwardRef<HTMLInputElement, Props>(
      ) => {
           //
           return (
-               // <div className={` ${containerClassName} ${disabled ? 'opacity-80' : 'bg-L-basic dark:bg-D-basic'}`}>
                <div className="group relative">
                     <div
                          className={clsx(
@@ -50,7 +49,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                          <div>{addonAfter ? addonAfter : null}</div>
                     </div>
                     <p
-                         className={clsx('text-xs text-icon-error transition-all', {
+                         className={clsx('absolute text-xs text-icon-error transition-all', {
                               'pt-2': !!textError,
                          })}
                     >
