@@ -15,7 +15,7 @@ const Spinner = () => {
 };
 
 const SplashScreen = ({ children }: { children: React.ReactElement }) => {
-     const apiRoutes = useApiPath();
+     const { apiRoutes, isLoading } = useApiPath();
 
      const {
           ready,
@@ -42,8 +42,8 @@ const SplashScreen = ({ children }: { children: React.ReactElement }) => {
           <div>
                {
                     <>
-                         {!languageIsReady && <Spinner />}
-                         {languageIsReady && apiRoutes && children}
+                         {isLoading && <Spinner />}
+                         {(languageIsReady && apiRoutes && !isLoading) && children}
                     </>
                }
           </div>
