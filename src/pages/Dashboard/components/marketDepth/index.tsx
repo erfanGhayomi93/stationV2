@@ -1,9 +1,9 @@
+import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useMarketDepth } from '@hooks/useMarketDepth';
 import { useSymbolStore } from '@store/symbol';
 import { useCallback, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
-import { useQueryClient } from '@tanstack/react-query';
 
 export interface IHalfRowDepth {
      price: number;
@@ -13,6 +13,10 @@ export interface IHalfRowDepth {
      children?: IHalfRowDepth[];
 }
 
+interface ISelectGeneralInformation {
+     lowThreshold: number;
+     highThreshold: number;
+}
 
 const MarketDepthTab = () => {
      //
@@ -22,21 +26,18 @@ const MarketDepthTab = () => {
           data: { bids, asks },
      } = useMarketDepth(selectedSymbol);
 
-     const queryClient = useQueryClient()
-
-
-     const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
-     const lowThreshold = symbolGeneral?.symbolData.lowThreshold;
-     const highThreshold = symbolGeneral?.symbolData.highThreshold;
-
+     const { data: symbolGeneral } = useQuerySymbolGeneralInformation<ISelectGeneralInformation>(selectedSymbol, data => ({
+          lowThreshold: data.symbolData.lowThreshold,
+          highThreshold: data.symbolData.highThreshold,
+     }));
 
      const isPriceInRange = useCallback(
           (price: number) => {
-               if (!lowThreshold || !highThreshold)
+               if (!symbolGeneral?.lowThreshold || !symbolGeneral?.highThreshold)
                     return true; // or maybe false
-               else return +lowThreshold <= +price && +price <= +highThreshold;
+               else return +symbolGeneral.lowThreshold <= +price && +price <= +symbolGeneral.highThreshold;
           },
-          [lowThreshold, highThreshold]
+          [symbolGeneral]
      );
 
      const buyData = useMemo(() => {

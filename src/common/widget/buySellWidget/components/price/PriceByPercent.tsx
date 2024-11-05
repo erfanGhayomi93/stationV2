@@ -2,6 +2,7 @@ import FieldInput from "@uiKit/Inputs/FieldInput"
 import SelectInput from "@uiKit/Inputs/SelectInput"
 import { useBuySellContext } from "../../context/buySellContext"
 import useUpdateEffect from "@hooks/useUpdateEffect"
+// import { useQuerySymbolGeneralInformation } from "@api/Symbol"
 import { useSymbolStore } from "@store/symbol"
 import { useMemo } from "react"
 import { useQueryClient } from "@tanstack/react-query"
@@ -15,8 +16,15 @@ const PriceByPercent = () => {
 
     const queryClient = useQueryClient()
 
-    const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
+    // const { data: symbolData } = useQuerySymbolGeneralInformation(selectedSymbol, (data) => ({
+    //     closingPrice: data?.symbolData?.closingPrice,
+    //     lastTradedPrice: data?.symbolData?.lastTradedPrice,
+    //     bestBuyLimitPrice_1: data?.ordersData?.bestBuyLimitPrice_1,
+    //     bestSellLimitPrice_1: data?.ordersData?.bestSellLimitPrice_1,
+    // }))
 
+    const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
+    
     const closingPrice = symbolGeneral?.symbolData?.closingPrice;
     const lastTradedPrice = symbolGeneral?.symbolData?.lastTradedPrice;
     const bestBuyLimitPrice_1 = symbolGeneral?.ordersData?.bestBuyLimitPrice_1;

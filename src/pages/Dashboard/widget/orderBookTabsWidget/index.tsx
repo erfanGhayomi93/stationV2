@@ -3,19 +3,21 @@ import MarketDepthTab from '@pages/Dashboard/components/marketDepth';
 import OptionContracts from '@pages/Dashboard/components/OptionContracts';
 import SameGroups from '@pages/Dashboard/components/SameGroups';
 import SupervisorMessage from '@pages/Dashboard/components/SupervisorMessages';
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const OrderBookTabsWidget = () => {
      const [selectedIndex, setSelectedIndex] = useState(0);
      const { t } = useTranslation();
 
-     const tabs = [
+     const tabs = useMemo(() => [
           t('orderBookTabs.marketDepthTab'),
           t('orderBookTabs.sameGroupTab'),
           t('orderBookTabs.optionContractTab'),
           t('orderBookTabs.messagesTab'),
-     ];
+     ], []);
+
+     console.log('rendering orderBookTabs')
 
      return (
           <TabGroup className="grid h-full grid-rows-min-one p-4" selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -47,4 +49,4 @@ const OrderBookTabsWidget = () => {
      );
 };
 
-export default OrderBookTabsWidget;
+export default memo(OrderBookTabsWidget);
