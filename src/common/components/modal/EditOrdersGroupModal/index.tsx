@@ -246,11 +246,7 @@ const EditOrdersGroupModal = () => {
                               </div>
 
                               <div className="basis-5/12">
-                                   <FieldInput
-                                        variant="simple"
-                                        value=""
-                                        onChangeValue={value => onChangePrice(Number(value))}
-                                   />
+                                   <FieldInput variant="simple" value="" onChangeValue={value => onChangePrice(Number(value))} />
                               </div>
                          </div>
                     </div>
@@ -263,6 +259,9 @@ const EditOrdersGroupModal = () => {
                               columnDefs={columnDefs}
                               rowData={history}
                               getRowId={params => String(params.data.orderId)}
+                              defaultColDef={{
+                                   flex: 1,
+                              }}
                          />
                     </div>
 
