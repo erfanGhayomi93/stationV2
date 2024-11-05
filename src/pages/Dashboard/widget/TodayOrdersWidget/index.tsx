@@ -159,7 +159,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      return (
           <div className="grid h-full grid-rows-min-one">
-               <div className="flex justify-between pb-4">
+               <div className="flex justify-between pb-2">
                     <TabGroup>
                          <TabList className="flex gap-x-4">
                               <Tab
