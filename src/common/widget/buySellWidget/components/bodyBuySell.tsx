@@ -1,47 +1,44 @@
+import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import CustomersSearch from '@components/customersSearch';
 import { useSymbolStore } from '@store/symbol';
+import { FC } from 'react';
 import ActionsOrder from './actions';
 import Credit from './credit';
 import InformationTrade from './informationTrade';
 import Price from './price';
 import Quantity from './quantity';
-import { useQueryClient } from '@tanstack/react-query';
 
+interface IBodyBuySellProps {}
 
-const BodyBuySell = () => {
+const BodyBuySell: FC<IBodyBuySellProps> = () => {
      const { selectedSymbol } = useSymbolStore();
 
-     const queryClient = useQueryClient()
-
-
-     const symbolGeneral = queryClient.getQueryData<ISymbolGeneralInformationRes>(['SymbolGeneralInformation', selectedSymbol]);
-
-     const bestBuyLimitPrice_1 = symbolGeneral?.ordersData?.bestBuyLimitPrice_1;
-     const bestSellLimitPrice_1 = symbolGeneral?.ordersData?.bestSellLimitPrice_1;
-
-     const highThreshold = symbolGeneral?.symbolData?.highThreshold;
-     const lowThreshold = symbolGeneral?.symbolData?.lowThreshold;
-     const minTradeQuantity = symbolGeneral?.symbolData?.minTradeQuantity;
-     const maxTradeQuantity = symbolGeneral?.symbolData?.maxTradeQuantity;
-     const marketUnit = symbolGeneral?.symbolData?.marketUnit;
-
+     const { data } = useQuerySymbolGeneralInformation<{ symbolData: ISymbolData; ordersData: IOrdersData }>(
+          selectedSymbol,
+          data => {
+               return {
+                    symbolData: data.symbolData,
+                    ordersData: data.ordersData,
+               };
+          }
+     );
 
      return (
           <div className="flex w-full flex-col gap-y-4 px-4 py-4 outline-none">
                <CustomersSearch />
                <Price
-                    upTickValue={highThreshold}
-                    downTickValue={lowThreshold}
-                    bestSellLimitPrice_1={bestSellLimitPrice_1}
-                    bestBuyLimitPrice_1={bestBuyLimitPrice_1}
+                    upTickValue={data?.symbolData.highThreshold}
+                    downTickValue={data?.symbolData.lowThreshold}
+                    bestSellLimitPrice_1={data?.ordersData.bestSellLimitPrice_1}
+                    bestBuyLimitPrice_1={data?.ordersData.bestBuyLimitPrice_1}
                />
                <Quantity
-                    minTradeQuantity={minTradeQuantity}
-                    maxTradeQuantity={maxTradeQuantity}
-                    marketUnit={marketUnit}
+                    minTradeQuantity={data?.symbolData.minTradeQuantity}
+                    maxTradeQuantity={data?.symbolData.maxTradeQuantity}
+                    marketUnit={data?.symbolData.marketUnit}
                />
                <Credit />
-               <InformationTrade marketUnit={marketUnit} />
+               <InformationTrade marketUnit={data?.symbolData.marketUnit} />
                <ActionsOrder />
           </div>
      );
