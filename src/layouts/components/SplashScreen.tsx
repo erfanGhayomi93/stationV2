@@ -4,15 +4,7 @@ import { pushEngine } from '@LS/pushEngine';
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const Spinner = () => {
-     return (
-          <div className="fixed bottom-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 bg-back-2">
-               <div className="spinner h-10 w-10"></div>
-               <span className="text-content-title">...در حال بارگذاری</span>
-          </div>
-     );
-};
+import Loading from './Loading';
 
 const SplashScreen = ({ children }: { children: React.ReactElement }) => {
      const { apiRoutes, isLoading } = useApiPath();
@@ -42,8 +34,8 @@ const SplashScreen = ({ children }: { children: React.ReactElement }) => {
           <div>
                {
                     <>
-                         {isLoading && <Spinner />}
-                         {(languageIsReady && apiRoutes && !isLoading) && children}
+                         {(isLoading || !languageIsReady || !apiRoutes) && <Loading />}
+                         {languageIsReady && apiRoutes && !isLoading && children}
                     </>
                }
           </div>
