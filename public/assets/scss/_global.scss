@@ -12,14 +12,13 @@ body {
      background-color: rgb(var(--color-back-2));
 }
 
-/* input,
-button,
-textarea,
-p,
-pre,
-code {
-   font-family: 'IRANSansX';
-} */
+button:focus {
+     outline: none;
+}
+
+button:focus-visible {
+     outline: none;
+}
 
 .rtl {
      direction: rtl;

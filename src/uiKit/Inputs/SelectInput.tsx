@@ -43,6 +43,7 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                          ))}
                     </ul>
                )}
+               className="dropdown-portal"
           >
                {({ setOpen, open }) => (
                     <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active">

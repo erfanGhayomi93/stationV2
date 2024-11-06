@@ -84,8 +84,9 @@ const CustomersSearchBody = () => {
                     <SearchInput
                          onChangeValue={(_, input) => setTerm(input)}
                          values={selectedCustomerInputValues ?? []}
-                         placeholder='جستجوی مشتری / کدبورسی / کد ملی'
+                         placeholder="جستجوی مشتری / کدبورسی / کد ملی"
                     />
+
                     <Popup
                          margin={{
                               y: 8,
@@ -105,8 +106,7 @@ const CustomersSearchBody = () => {
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
                                                        setSelectedCustomers([...filterSelectCustomer]);
-                                                       selectedCustomers.length === 1 && setOpen(false)
-
+                                                       selectedCustomers.length === 1 && setOpen(false);
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />
@@ -115,6 +115,7 @@ const CustomersSearchBody = () => {
                                    ))}
                               </ul>
                          )}
+                         className="dropdown-portal"
                     >
                          {({ setOpen, open }) => (
                               <div
