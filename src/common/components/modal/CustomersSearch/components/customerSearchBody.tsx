@@ -101,6 +101,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                          removeAllSelectedCustomers={() => dispatch({ type: "REMOVE_ALL_SELECTED_CUSTOMERS" })}
                          removeSelectedCustomers={(customerISIN) => dispatch({ type: "REMOVE_SELECTED_CUSTOMER", payload: customerISIN })}
                     />
+
                     <Popup
                          margin={{
                               y: 8,
@@ -120,9 +121,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
                                                        dispatch({ type: "SET_SELECTED_CUSTOMERS", payload: filterSelectCustomer })
-                                                       // setSelectedCustomers([...filterSelectCustomer]);
                                                        if (selectedCustomers.length === 1) setOpen(false)
-
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />
@@ -131,6 +130,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                                    ))}
                               </ul>
                          )}
+                         className="dropdown-portal"
                     >
                          {({ setOpen, open }) => (
                               <div

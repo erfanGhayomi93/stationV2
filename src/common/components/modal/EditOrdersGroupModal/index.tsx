@@ -204,7 +204,6 @@ const EditOrdersGroupModal = () => {
                     />
                }
                onCloseModal={onCloseModal}
-               dependencies={[dropdownRef]}
                size="lg"
           >
                <div ref={dropdownRef} className="flex h-full flex-col gap-10">

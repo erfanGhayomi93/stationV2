@@ -1,6 +1,6 @@
 import { XCircleOutlineIcon } from '@assets/icons';
 import clsx from 'clsx';
-import { MutableRefObject, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Modal.module.scss';
 
@@ -8,7 +8,6 @@ interface IModalProps {
      title: string | JSX.Element;
      onCloseModal: () => void;
      children: JSX.Element;
-     dependencies?: MutableRefObject<HTMLDivElement | null>[];
      size?: 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
      classes?: Partial<Record<'root' | 'modal' | 'header' | 'x' | 'label', ClassesValue>>;
 }
@@ -16,9 +15,35 @@ interface IModalProps {
 const Modal = ({ children, onCloseModal, title, classes, size = 'md' }: IModalProps) => {
      const modalRef = useRef<HTMLDivElement | null>(null);
 
-     //  useClickOutside<HTMLUListElement | HTMLDivElement>([modalRef, ...(dependencies ?? [])], () => {
-     //       onCloseModal();
-     //  });
+     useEffect(() => {
+          const handleBackdropClick = (e: MouseEvent) => {
+               const target = e.target as HTMLElement;
+
+               if (modalRef.current && !modalRef.current.contains(target as Node) && !target?.closest('.dropdown-portal')) {
+                    onCloseModal();
+               }
+          };
+
+          document.addEventListener('mousedown', handleBackdropClick);
+
+          return () => {
+               document.removeEventListener('mousedown', handleBackdropClick);
+          };
+     }, []);
+
+     useEffect(() => {
+          const handleEscapeClose = (e: globalThis.KeyboardEvent) => {
+               if (e.key === 'Escape') {
+                    onCloseModal();
+               }
+          };
+
+          document.addEventListener('keydown', handleEscapeClose);
+
+          return () => {
+               document.removeEventListener('keydown', handleEscapeClose);
+          };
+     }, []);
 
      return createPortal(
           <div className={clsx(styles.root, classes?.root)}>

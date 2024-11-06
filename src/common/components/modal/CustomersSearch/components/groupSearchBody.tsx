@@ -171,6 +171,7 @@ const GroupSearchBody: FC<IGroupSearchBodyProps> = ({ dispatch, selectedCustomer
                                    ))}
                               </ul>
                          )}
+                         className="dropdown-portal"
                     >
                          {({ setOpen, open }) => (
                               <div
