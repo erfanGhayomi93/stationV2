@@ -3,7 +3,7 @@ import Popup from '@components/popup';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useState } from 'react';
 
-type TItem = { id: string; label: string; onClick?: () => void };
+type TItem = { id?: number; value: string, label: string; onClick?: () => void };
 
 interface TSelectValidityInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
@@ -13,7 +13,7 @@ interface TSelectValidityInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
 }
 
 const SelectValidityInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectValidityInputProps) => {
-     const [state, setState] = useState<{ id: string; label: string }>(value);
+     const [state, setState] = useState<{ id?: number; label: string, value: string }>(value);
 
      useEffect(() => {
           setState(value);
