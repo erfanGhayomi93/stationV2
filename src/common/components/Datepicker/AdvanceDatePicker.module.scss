@@ -101,6 +101,7 @@
      z-index: 99999;
      background-color: theme('colors.back-surface');
      direction: rtl;
+     border: 1px solid theme('colors.input-primary');
 }
 
 .switch,
@@ -151,6 +152,7 @@ ul.days {
      justify-content: center;
      //  font-family: var(--rg-dp-font-family), sans-serif;
      color: theme('colors.content-title');
+     font-size: 0.875rem;
 
      &.between {
           //   background-color: var(--rg-db-active-background-color);
