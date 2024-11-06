@@ -61,7 +61,10 @@ const PinnedWatchlists = () => {
                                         <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
                                              <LastPriceTitle
                                                   key={index}
-                                                  onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                                  onClick={() => {
+                                                       setSelectedSymbol(item.symbolISIN);
+                                                       setOpen(false);
+                                                  }}
                                                   isSelected={selectedSymbol === item.symbolISIN}
                                                   PriceVar={item.lastTradedPriceVarPercent}
                                                   price={item.lastTradedPrice}

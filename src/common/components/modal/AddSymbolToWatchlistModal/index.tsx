@@ -104,10 +104,10 @@ const AddSymbolToWatchlistModal = () => {
                     <div className="min-h-[1px] w-full bg-line-div-2" />
 
                     <div className="flex items-center gap-4">
-                         <Button onClick={onCloseModal} variant="primary">
+                         <Button onClick={onCloseModal} variant="primary" className="flex-1">
                               {t('addSymbolToWatchlistModal.saveButton')}
                          </Button>
-                         <Button onClick={onCloseModal} variant="primary-outline">
+                         <Button onClick={onCloseModal} variant="primary-outline" className="flex-1">
                               {t('addSymbolToWatchlistModal.cancelButton')}
                          </Button>
                     </div>

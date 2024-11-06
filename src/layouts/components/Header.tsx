@@ -60,7 +60,6 @@ const HeaderLayout = () => {
           setSearchSymbol(symbol);
 
           setSelectedSymbol(symbol.symbolISIN);
-
      };
 
      const handleRemoveTabSymbol = (symbolISIN: string) => {
@@ -188,7 +187,7 @@ const HeaderLayout = () => {
                               x: 5,
                          }}
                          defaultPopupWidth={250}
-                         renderer={() => (
+                         renderer={({ setOpen }) => (
                               <ul className="flex max-h-96 flex-col gap-2 overflow-y-auto rounded-md bg-back-surface px-4 py-3 shadow-E5">
                                    {symbolTab?.map(item => (
                                         <button
@@ -204,7 +203,10 @@ const HeaderLayout = () => {
                                                   symbolISIN={item?.symbolISIN}
                                                   symbolTitle={item?.symbolTitle}
                                                   key={item?.symbolISIN}
-                                                  onClick={() => handleClickSymbolFromDropdown(item?.symbolISIN)}
+                                                  onClick={() => {
+                                                       handleClickSymbolFromDropdown(item?.symbolISIN);
+                                                       setOpen(false);
+                                                  }}
                                                   isSelected={selectedSymbol === item?.symbolISIN}
                                              />
                                         </button>

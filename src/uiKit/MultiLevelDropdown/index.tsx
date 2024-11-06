@@ -168,6 +168,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                                  <div
                                                                       onClick={() => {
                                                                            subItem.onClick?.();
+                                                                           closeDropDowns?.();
                                                                       }}
                                                                       className="flex gap-x-2"
                                                                  >
