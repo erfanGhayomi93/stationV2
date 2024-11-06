@@ -1,35 +1,38 @@
 import { ChevronDownIcon } from '@assets/icons';
 import Popup from '@components/popup';
-import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useEffect, useState } from 'react';
 
 type TItem = { id: string; label: string; onClick?: () => void };
 
-interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
+interface TSelectValidityInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem;
 }
 
-const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectValidityInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectValidityInputProps) => {
      const [state, setState] = useState<{ id: string; label: string }>(value);
+
+     useEffect(() => {
+          setState(value);
+     }, [value]);
 
      return (
           <Popup
                margin={{}}
                renderer={({ setOpen }) => (
-                    <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-1 py-3 text-sm shadow-E5">
+                    <ul className="rtl grid w-full grid-cols-3 flex-col gap-2 rounded-md border border-input-primary bg-back-surface p-2 text-sm">
                          {items?.map((item, index) => (
                               <li
                                    className={clsx(
-                                        'w-full cursor-pointer items-center justify-start rounded-md text-content-paragraph transition-colors hover:bg-back-primary',
+                                        'flex cursor-pointer items-center justify-center rounded-lg text-content-paragraph transition-colors',
                                         item.id === state.id && 'bg-back-primary'
                                    )}
                                    key={index}
                               >
-                                   <RadioButton
+                                   {/* <RadioButton
                                         checked={item.id === state.id}
                                         label={item.label}
                                         onChange={() => {
@@ -38,7 +41,22 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                                              setOpen(false);
                                              item.onClick?.();
                                         }}
-                                   />
+                                   /> */}
+
+                                   <div
+                                        className={clsx(
+                                             'p-3 text-xs text-content-paragraph',
+                                             item.id === state.id && 'bg-back-primary'
+                                        )}
+                                        onClick={() => {
+                                             setState(item);
+                                             onChange(item);
+                                             setOpen(false);
+                                             item.onClick?.();
+                                        }}
+                                   >
+                                        {item.label}
+                                   </div>
                               </li>
                          ))}
                     </ul>
@@ -78,4 +96,4 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
      );
 };
 
-export default SelectInput;
+export default SelectValidityInput;

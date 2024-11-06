@@ -1,28 +1,27 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import { useSymbolStore } from '@store/symbol';
 import clsx from 'clsx';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import BodyBuySell from './components/bodyBuySell';
 import { BuySellProviderContext, useBuySellContext } from './context/buySellContext';
-import { useSymbolStore } from '@store/symbol';
-import { useEffect } from 'react';
 
 const BuySellWidget = () => {
      const { t } = useTranslation();
 
      const { side, setSide, reset } = useBuySellContext();
 
-     const { selectedSymbol } = useSymbolStore()
+     const { selectedSymbol } = useSymbolStore();
 
      const tabs: TSide[] = ['Buy', 'Sell'];
 
      useEffect(() => {
           if (selectedSymbol) {
                return () => {
-                    reset()
-               }
+                    reset();
+               };
           }
-     }, [selectedSymbol])
-
+     }, [selectedSymbol]);
 
      return (
           <div className="h-full">

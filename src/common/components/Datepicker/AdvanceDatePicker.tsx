@@ -3,7 +3,7 @@ import { getDateMilliseconds, weekDaysName, yearMonthsName } from '@constant/dat
 import dayjs from '@libs/dayjs';
 import { dayAsJalali, isBefore, isBetween, isSameOrAfter, isSameOrBefore } from '@methods/helper';
 import clsx from 'clsx';
-import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Dispatch, forwardRef, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useTranslation } from 'react-i18next';
@@ -62,6 +62,7 @@ interface AdvancedDatepickerProps {
      nonBorder?: boolean;
      dataTestId?: string;
      open?: boolean;
+     setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const AdvancedDatepicker = ({
@@ -81,6 +82,7 @@ const AdvancedDatepicker = ({
      weekDays = weekDaysName,
      dataTestId = 'advanced_date_picker',
      open,
+     setOpen,
 }: AdvancedDatepickerProps) => {
      const rootRef = useRef<HTMLDivElement>(null);
      const inputRef = useRef<HTMLInputElement>(null);
@@ -248,9 +250,9 @@ const AdvancedDatepicker = ({
                datepickerEl.style.width = rectOffset.width + 'px';
                datepickerEl.style.left = rectOffset.left + 'px';
                if (placement === 'bottom') {
-                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + 'px';
+                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + 48 + 'px';
                } else {
-                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 + 'px';
+                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 - 48 + 'px';
                }
           },
           [rootRef.current]
@@ -270,8 +272,7 @@ const AdvancedDatepicker = ({
      }, [focusing]);
 
      useEffect(() => {
-          if (!open) return;
-          setVisibleCalendar(true);
+          setVisibleCalendar(open ?? false);
      }, [open]);
 
      return (
@@ -334,7 +335,10 @@ const AdvancedDatepicker = ({
                               isDisabledDate={isDisabledDate}
                               weekDays={weekDays}
                               onChange={onChange}
-                              onClose={() => setVisibleCalendar(false)}
+                              onClose={() => {
+                                   setVisibleCalendar(false);
+                                   setOpen?.(false);
+                              }}
                               dataTestId={`${dataTestId}_dialogbox`}
                          />,
                          document.body
@@ -404,7 +408,7 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
                const d = dayAsJalali(`${day.year}/${day.month}/${day.date}`).toDate();
 
                onChange(d);
-               onClose();
+               //    onClose();
           };
 
           const onChangeMonth = (monthKey: number) => {
@@ -492,10 +496,6 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
                },
                [value]
           );
-
-          useEffect(() => {
-               setDatepickerValue(value);
-          }, [value]);
 
           return (
                <div
