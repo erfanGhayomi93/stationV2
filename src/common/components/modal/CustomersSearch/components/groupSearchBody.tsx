@@ -96,17 +96,17 @@ const GroupSearchBody = () => {
                !listGroups?.length
                     ? null
                     : listGroups?.map((item, ind) => (
-                         <GroupItem<ICustomerAdvancedSearchRes>
-                              key={ind}
-                              ind={ind}
-                              customer={item}
-                              getLabel={v => v.title}
-                              getChildren={v => v.children}
-                              getId={v => v?.id}
-                              isGroupChecked={isGroupChecked}
-                              onGroupSelectionChanged={onGroupSelectionChanged}
-                         />
-                    )),
+                           <GroupItem<ICustomerAdvancedSearchRes>
+                                key={ind}
+                                ind={ind}
+                                customer={item}
+                                getLabel={v => v.title}
+                                getChildren={v => v.children}
+                                getId={v => v?.id}
+                                isGroupChecked={isGroupChecked}
+                                onGroupSelectionChanged={onGroupSelectionChanged}
+                           />
+                      )),
           [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged]
      );
 
@@ -125,7 +125,7 @@ const GroupSearchBody = () => {
                     <SearchInput
                          onChangeValue={(value, input) => setTerm(input)}
                          values={selectedCustomerInputValues ?? []}
-                         placeholder='جستجوی گروه / مشتری / کدبورسی / کد ملی'
+                         placeholder="جستجوی گروه / مشتری / کدبورسی / کد ملی"
                     />
 
                     <Popup
@@ -152,6 +152,7 @@ const GroupSearchBody = () => {
                                    ))}
                               </ul>
                          )}
+                         className="dropdown-portal"
                     >
                          {({ setOpen, open }) => (
                               <div
