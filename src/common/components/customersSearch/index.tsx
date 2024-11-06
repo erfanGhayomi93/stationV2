@@ -10,7 +10,6 @@ const CustomersSearch = () => {
 
      const { selectedCustomers, setSelectedCustomers, removeAllSelectedCustomers, removeSelectedCustomers } = useCustomerStore();
 
-
      const selectedCustomerInputValues = useMemo(() => {
           return selectedCustomers.map(customer => {
                return {
@@ -54,6 +53,8 @@ const CustomersSearch = () => {
                                                        );
 
                                                        setSelectedCustomers([...filterSelectCustomer]);
+
+                                                       setOpen(false);
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />
