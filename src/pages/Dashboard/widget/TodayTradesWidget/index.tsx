@@ -123,7 +123,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                </div>
 
                <div className="flex-1">
-                    <AgGridTable rowData={data ?? []} columnDefs={columnDefs} />
+                    <AgGridTable rowData={data ?? []} columnDefs={columnDefs} defaultColDef={{ flex: 1 }} />
                </div>
           </div>
      );

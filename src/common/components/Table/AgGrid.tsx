@@ -2,6 +2,7 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
+import Spinner from '@components/Spinner';
 import useDarkMode from '@hooks/useDarkMode';
 import { getHeightsForTables } from '@methods/helper';
 import clsx from 'clsx';
@@ -70,6 +71,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                                    {
                                         suppressMovable: true,
                                         sortable: true,
+                                        flex: 1,
                                    },
                                    defaultColDef ?? {}
                               )}
@@ -82,23 +84,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                               </div>
                          )}
 
-                         {loading && (
-                              <div
-                                   style={{
-                                        height: 'calc(100% - 1.4rem)',
-                                   }}
-                                   className="absolute top-1/2 flex w-full -translate-y-1/2 flex-col items-center justify-center gap-2 overflow-hidden"
-                              >
-                                   <div
-                                        className="spinner"
-                                        style={{
-                                             width: 32 + 'px',
-                                             height: 32 + 'px',
-                                        }}
-                                   />
-                                   <span>در حال دریافت اطلاعات...</span>
-                              </div>
-                         )}
+                         {loading && <Spinner />}
                     </div>
                </Suspense>
           );

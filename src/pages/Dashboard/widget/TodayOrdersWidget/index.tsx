@@ -27,12 +27,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const [tabSelected, setTabSelected] = useState<TOrderStateRequestType>('OnBoard');
 
-     const {
-          setEditOrdersGroupModalSheet,
-          setDeleteOrdersGroupModalSheet,
-          editOrdersGroupModalSheet,
-          deleteOrdersGroupModalSheet,
-     } = useModalStore();
+     const { setEditOrdersGroupModalSheet, setDeleteOrdersGroupModalSheet } = useModalStore();
 
      const { selectedSymbol } = useSymbolStore();
 

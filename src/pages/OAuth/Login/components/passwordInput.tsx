@@ -43,7 +43,7 @@ export const PasswordInput = forwardRef(
           };
 
           return (
-               <>
+               <div className="group relative">
                     <Input
                          id={name + '-changePassword'}
                          {...register(`${name}`, {
@@ -108,7 +108,7 @@ export const PasswordInput = forwardRef(
                          ref={keyboardRef}
                          strech={strech}
                     />
-               </>
+               </div>
           );
      }
 );
