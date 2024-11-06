@@ -9,6 +9,7 @@ interface IProps {
      positiveClassName?: string;
      negativeClassName?: string;
      neutralClassName?: string;
+     amountChange?: number
      onClickPrice?: () => void;
 }
 
@@ -16,6 +17,7 @@ const PriceView = ({
      price,
      percentage,
      label,
+     amountChange,
      positiveClassName = 'text-content-success-buy',
      negativeClassName = 'text-content-error-sell',
      neutralClassName = 'text-content-title',
@@ -31,13 +33,19 @@ const PriceView = ({
           <div className="flex snap-center flex-nowrap justify-between gap-1 whitespace-nowrap p-2 text-xs">
                {label ? <span className="ml-1 text-content-paragraph">{label}:</span> : null}
                <div
-                    className={clsx(textColorClassName, {
+                    className={clsx('flex gap-x-1', {
                          'cursor-pointer': !!onClickPrice,
                     })}
                     style={{ direction: 'ltr' }}
                     onClick={() => (onClickPrice ? onClickPrice() : null)}
                >
-                    {`${sepNumbers(price?.toFixed ? +price.toFixed() : price)} (${percentage ? percentage : 0}%)`}
+                    <span>{`${sepNumbers(price?.toFixed ? +price.toFixed() : price)}`}</span>
+                    {
+                         amountChange && (
+                              <span className={textColorClassName}>{sepNumbers(amountChange)}</span>
+                         )
+                    }
+                    <span className={textColorClassName}>{` (${percentage ? percentage : 0}%)`}</span>
                </div>
           </div>
      );

@@ -123,14 +123,12 @@ const SliderbarDetailsWidget = () => {
                          highestTradePriceOfTradingDay={data?.symbolData?.highestTradePriceOfTradingDay ?? 0}
                          lowestTradePriceOfTradingDay={data?.symbolData?.lowestTradePriceOfTradingDay ?? 0}
                          yesterdayClosingPrice={data?.symbolData?.yesterdayClosingPrice ?? 0}
-                         openPrice={data?.symbolData?.openPrice ?? 0}
                     />
                </div>
 
                <div>
                     <DetailsSymbolSlider
                          firstTradedPrice={data?.symbolData?.firstTradedPrice ?? 0}
-                         closingPrice={data?.symbolData?.closingPrice ?? 0}
                          threeMonthEfficiency={data?.symbolData?.threeMonthEfficiency ?? 0}
                          oneMonthEfficiency={data?.symbolData?.oneMonthEfficiency ?? 0}
                          LowThreshold={data?.symbolData?.lowThreshold ?? 0}
