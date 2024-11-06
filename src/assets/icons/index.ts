@@ -61,8 +61,16 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineICon from '../svg/xOutline.svg?react';
+import ArrowRightIcon from '../svg/arrowRight.svg?react';
+import CalenderIcon from '../svg/calculator.svg?react';
+import DoubleArrowLeftIcon from '../svg/doubleArrowLeft.svg?react';
+import DoubleArrowRightIcon from '../svg/doubleArrowRight.svg?react';
 
 export {
+     DoubleArrowRightIcon,
+     DoubleArrowLeftIcon,
+     CalenderIcon,
+     ArrowRightIcon,
      AngleDownIcon,
      AngleUpIcon,
      ArrowDownTriangleIcon,

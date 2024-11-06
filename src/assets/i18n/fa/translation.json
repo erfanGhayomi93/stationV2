@@ -20,6 +20,22 @@
           "createNewWatchlistSuccessful": "دیده‌بان جدید با موفقیت ایجاد شد.",
           "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد."
      },
+
+     "dates": {
+          "daily": "روزانه",
+          "weekly": "هفتگی",
+          "monthly": "ماهانه",
+          "yearly": "سالانه",
+          "day": "روز",
+          "week": "هفته",
+          "month": "ماه",
+          "year": "سال",
+          "custom": "دلخواه",
+          "today": "امروز",
+          "from_date": "از تاریخ",
+          "to_date": "تا تاریخ"
+     },
+
      "serverConnection": {
           "CONNECTING": "درحال اتصال به سرور",
           "DISCONNECTED": "عدم اتصال به سرور",

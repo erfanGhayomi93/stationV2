@@ -282,3 +282,47 @@ export const generateSourceOrder = (source: string, side: TSide) => {
           return undefined;
      }
 };
+
+export const dayAsJalali = (v: dayjs.ConfigType) => {
+     return dayjs(v, {
+          // @ts-expect-error: dayjs does not recognize jalali
+          jalali: true,
+     });
+};
+
+// DatePicker Helper
+export const isBefore = (date1: Date, date2 = new Date()): boolean => {
+     const year1 = date1.getFullYear();
+     const month1 = date1.getMonth();
+     const day1 = date1.getDate();
+
+     const year2 = date2.getFullYear();
+     const month2 = date2.getMonth();
+     const day2 = date2.getDate();
+
+     return year1 < year2 || (year1 === year2 && (month1 < month2 || (month1 === month2 && day1 < day2)));
+};
+
+export const isSameOrAfter = (date1: Date, date2 = new Date()): boolean => {
+     const year1 = date1.getFullYear();
+     const month1 = date1.getMonth();
+     const day1 = date1.getDate();
+
+     const year2 = date2.getFullYear();
+     const month2 = date2.getMonth();
+     const day2 = date2.getDate();
+
+     return year1 > year2 || (year1 === year2 && (month1 > month2 || (month1 === month2 && day1 >= day2)));
+};
+
+export const isSameOrBefore = (date1: Date, date2 = new Date()): boolean => {
+     const year1 = date1.getFullYear();
+     const month1 = date1.getMonth();
+     const day1 = date1.getDate();
+
+     const year2 = date2.getFullYear();
+     const month2 = date2.getMonth();
+     const day2 = date2.getDate();
+
+     return year1 < year2 || (year1 === year2 && (month1 < month2 || (month1 === month2 && day1 <= day2)));
+};
