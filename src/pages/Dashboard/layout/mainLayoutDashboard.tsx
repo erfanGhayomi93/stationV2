@@ -2,7 +2,7 @@ import { ArrowDownTriangleIcon } from '@assets/icons';
 import { useUIStore } from '@store/ui';
 import clsx from 'clsx';
 import BuySellWidget from 'common/widget/buySellWidget';
-import { MainSymbol } from '../widget/HeaderSymbol';
+import MainSymbol from '../widget/HeaderSymbol';
 import OrderBookTabsWidget from '../widget/orderBookTabsWidget';
 import SliderbarDetailsWidget from '../widget/sliderbarDetailsWidget';
 import TodayOrdersWidget from '../widget/TodayOrdersWidget';

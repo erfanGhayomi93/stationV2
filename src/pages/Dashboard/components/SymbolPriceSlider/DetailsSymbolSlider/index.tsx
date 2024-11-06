@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 
 interface IDetailsSymbolSliderProps {
      firstTradedPrice: number;
-     closingPrice: number;
      threeMonthEfficiency: number;
      oneMonthEfficiency: number;
      LowThreshold: number;
@@ -24,7 +23,7 @@ interface IDetailsSymbolSliderProps {
      lastTradeDateTime: number;
      lastTradedPriceVarPercent: number;
      lastTradedPrice: number;
-     yesterdayClosingPrice : number;
+     yesterdayClosingPrice: number;
 }
 
 interface dataType {
@@ -36,7 +35,6 @@ interface dataType {
 
 export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      firstTradedPrice,
-     closingPrice,
      threeMonthEfficiency,
      oneMonthEfficiency,
      LowThreshold,
@@ -62,7 +60,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      const [countShowItem, setCountShowItem] = useState(4);
 
      useEffect(() => {
-          setCountShowItem(prev => (isExpandSymbolDetails ? 4 : data.length));
+          setCountShowItem(isExpandSymbolDetails ? 4 : data.length);
      }, [isExpandSymbolDetails]);
 
      const data: dataType[][] = [
@@ -78,6 +76,9 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     renderer: value => (
                          <div className="flex items-center gap-1 text-xs font-bold">
                               <span>{sepNumbers(value)}</span>
+                              <span className={clsx(getColorClassBasedAmount(lastTradedPriceVarPercent))}>
+                                   {sepNumbers(lastTradedPrice - yesterdayClosingPrice)}
+                              </span>
                               <span
                                    className={clsx(getColorClassBasedAmount(lastTradedPriceVarPercent))}
                               >{`(${lastTradedPriceVarPercent + '%'})`}</span>
@@ -117,7 +118,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.LowHighThreshold'),
                     value: LowThreshold,
                     // formatter: value => sepNumbers(value),
-                    renderer: value => <span>{`${sepNumbers(LowThreshold)} - ${sepNumbers(HighThreshold)}`}</span>,
+                    renderer: () => <span>{`${sepNumbers(LowThreshold)} - ${sepNumbers(HighThreshold)}`}</span>,
                },
           ],
           [
@@ -130,7 +131,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
                     value: '-',
                     // formatter: value => sepNumbers(value),
-                    renderer: value => (
+                    renderer: () => (
                          <span>{`${sepNumbers(tommorowLowThreshold)} - ${sepNumbers(tommorowHighThreshold)}`}</span>
                     ),
                },
