@@ -1,5 +1,4 @@
 import { SearchInputIcon, XCircleOutlineIcon, XOutlineICon } from '@assets/icons';
-import { useCustomerStore } from '@store/customer';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
@@ -14,16 +13,17 @@ interface TSearchInputProps
      onChangeValue: (items: TItem[], value: string) => void;
      placeholder?: string;
      handleOpenModal?: () => void;
+     removeSelectedCustomers: (customerISIN: string) => void;
+     removeAllSelectedCustomers: () => void;
 }
 
-const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, ...props }: TSearchInputProps) => {
+const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, removeAllSelectedCustomers, removeSelectedCustomers, ...props }: TSearchInputProps) => {
      const [items, setItems] = useState<TItem[]>(values);
 
      const [inputValue, setInputValue] = useState('');
 
      //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
-     const { removeSelectedCustomers, removeAllSelectedCustomers } = useCustomerStore();
 
      const searchInputRef = useRef<HTMLDivElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
@@ -133,7 +133,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                </div>
                <div
                     className={clsx('absolute text-xs transition-all duration-100', {
-                         '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 ||  !!inputValue ,
+                         '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 || !!inputValue,
                          'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default': items.length === 0 && !inputValue,
                     })}
                >

@@ -1,8 +1,7 @@
 // import { ChevronIcon } from 'src/common/icons';
 import { Disclosure, DisclosureButton, DisclosurePanel, Transition } from '@headlessui/react'
-
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { Dispatch, useEffect, useMemo, useState } from 'react';
 // import ResultItem from './ResultItem';
 import { ChevronUpIcon } from '@assets/icons';
 import ResultItem from './resultItem';
@@ -16,6 +15,8 @@ interface IResultItem<T> {
     getChildren: (v: T) => ICustomerAdvancedSearchRes[] | undefined,
     isGroupChecked: (id: number) => boolean,
     onGroupSelectionChanged: (checked: boolean, id: number) => void,
+    dispatch: Dispatch<ICustomerAction>,
+    selectedCustomers: ICustomerAdvancedSearchRes[];
 }
 
 const GroupItem = <T,>({
@@ -25,7 +26,9 @@ const GroupItem = <T,>({
     getChildren,
     getId,
     isGroupChecked,
-    onGroupSelectionChanged
+    onGroupSelectionChanged,
+    dispatch,
+    selectedCustomers
 }: IResultItem<T>) => {
     return (
         <div className="flex w-full">
@@ -38,6 +41,8 @@ const GroupItem = <T,>({
                 getId={getId}
                 isGroupChecked={isGroupChecked}
                 onGroupSelectionChanged={onGroupSelectionChanged}
+                dispatch={dispatch}
+                selectedCustomers={selectedCustomers}
             />
         </div>
     );
@@ -51,7 +56,9 @@ const Item = <T,>({
     getChildren,
     getId,
     isGroupChecked,
-    onGroupSelectionChanged
+    onGroupSelectionChanged,
+    dispatch,
+    selectedCustomers
 }: IResultItem<T>) => {
 
     const customerId = useMemo(() => getId(customer), [getId, customer]);
@@ -117,6 +124,8 @@ const Item = <T,>({
                                     <ResultItem
                                         key={ind}
                                         data={child}
+                                        dispatch={dispatch}
+                                        selectedCustomers={selectedCustomers}
                                     />
                                 ))}
 
