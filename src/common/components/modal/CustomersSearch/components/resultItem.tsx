@@ -1,15 +1,15 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { Dispatch, FC, useEffect, useMemo, useState } from 'react';
 import { sepNumbers } from '@methods/helper';
-import { useCustomerStore } from '@store/customer';
 import CheckboxButton from '@uiKit/CheckboxButton';
 
 interface IResultItem {
     data: ICustomerAdvancedSearchRes,
+    dispatch: Dispatch<ICustomerAction>,
+    selectedCustomers: ICustomerAdvancedSearchRes[];
 }
 
-const ResultItem: FC<IResultItem> = ({ data: customer }) => {
+const ResultItem: FC<IResultItem> = ({ data: customer, dispatch, selectedCustomers }) => {
 
-    const { selectedCustomers, setPartSelectedCustomers, removeSelectedCustomers } = useCustomerStore()
     const [checked, setChecked] = useState(selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN))
 
     useEffect(() => {
@@ -17,12 +17,11 @@ const ResultItem: FC<IResultItem> = ({ data: customer }) => {
     }, [selectedCustomers])
 
 
-
     const onSelectionChanged = useMemo(() => (isChecked: boolean, customer: ICustomerAdvancedSearchRes) => {
         try {
             isChecked
-                ? setPartSelectedCustomers(customer)
-                : removeSelectedCustomers(customer.customerISIN)
+                ? dispatch({ type: 'ADD_PART_SELECTED_CUSTOMER', payload: customer })
+                : dispatch({ type: 'REMOVE_SELECTED_CUSTOMER', payload: customer.customerISIN })
         } catch {
             //
         }

@@ -1,12 +1,19 @@
 import { useModalStore } from '@store/modal';
 import RadioButton from '@uiKit/RadioButton';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import Modal from '..';
 import CustomersSearchBody from './components/customerSearchBody';
 import GroupSearchBody from './components/groupSearchBody';
+import { customerReducer } from './store';
+import Button from '@uiKit/Button';
+import { useCustomerStore } from '@store/customer';
 
 const CustomersSearchModal = () => {
      const [selectedValue, setSelectedValue] = useState<'nameGroup' | 'customerGroup'>('nameGroup'); // Default value
+
+     const { selectedCustomers, setSelectedCustomers } = useCustomerStore()
+
+     const [state, dispatch] = useReducer(customerReducer, { selectedCustomers: selectedCustomers });
 
      const { setCustomersSearchModalSheet } = useModalStore();
 
@@ -18,6 +25,12 @@ const CustomersSearchModal = () => {
           { value: 'nameGroup', label: 'نام مشتری' },
           { value: 'customerGroup', label: 'گروه مشتری' },
      ];
+
+     const addCustomerToGlobalStore = () => {
+          setSelectedCustomers(state.selectedCustomers)
+          onCloseModal()
+     }
+
 
      return (
           <Modal title={'جستجوی مشتری'} onCloseModal={onCloseModal} size="lg">
@@ -40,8 +53,34 @@ const CustomersSearchModal = () => {
                     </div>
 
                     <div className="mt-6">
-                         {selectedValue === 'nameGroup' && <CustomersSearchBody />}
-                         {selectedValue === 'customerGroup' && <GroupSearchBody />}
+                         {selectedValue === 'nameGroup' && <CustomersSearchBody
+                              selectedCustomers={state.selectedCustomers}
+                              dispatch={dispatch}
+                         />}
+                         {selectedValue === 'customerGroup' && <GroupSearchBody
+                              selectedCustomers={state.selectedCustomers}
+                              dispatch={dispatch}
+                         />}
+                    </div>
+                    <div className="mt-6 flex gap-x-4">
+
+                         <Button
+                              className='flex-1'
+                              variant='primary-outline'
+                              onClick={onCloseModal}
+                         >
+                              انصراف
+                         </Button>
+
+                         <Button
+                              className='flex-1'
+                              variant='primary'
+                              onClick={addCustomerToGlobalStore}
+                         >
+                              تایید و بستن
+                         </Button>
+
+
                     </div>
                </div>
           </Modal>

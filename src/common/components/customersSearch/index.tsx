@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 const CustomersSearch = () => {
      const { setCustomersSearchModalSheet } = useModalStore();
 
-     const { selectedCustomers, setSelectedCustomers } = useCustomerStore();
+     const { selectedCustomers, setSelectedCustomers, removeAllSelectedCustomers, removeSelectedCustomers } = useCustomerStore();
 
 
      const selectedCustomerInputValues = useMemo(() => {
@@ -28,6 +28,8 @@ const CustomersSearch = () => {
                          placeholder="مشتری"
                          onChangeValue={() => null}
                          values={selectedCustomerInputValues ?? []}
+                         removeAllSelectedCustomers={removeAllSelectedCustomers}
+                         removeSelectedCustomers={removeSelectedCustomers}
                     />
                </div>
 

@@ -2,18 +2,21 @@ import { useQueryCustomerSearchGroup, useQueryDefaultGroup } from '@api/customer
 import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
-import { useCustomerStore } from '@store/customer';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { useMemo, useState } from 'react';
+import { Dispatch, FC, useMemo, useState } from 'react';
 import GroupItem from './groupItem';
 import ResultHeader from './resultHeader';
 
-const GroupSearchBody = () => {
+interface IGroupSearchBodyProps {
+     dispatch: Dispatch<ICustomerAction>,
+     selectedCustomers: ICustomerAdvancedSearchRes[];
+}
+
+
+const GroupSearchBody: FC<IGroupSearchBodyProps> = ({ dispatch, selectedCustomers }) => {
      const [term, setTerm] = useState('');
 
      const debouncedTerm = useDebounce(term, 400);
-
-     const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
 
      const { data: searchGroups } = useQueryCustomerSearchGroup(debouncedTerm);
 
@@ -58,7 +61,8 @@ const GroupSearchBody = () => {
           if (!findCustomer?.children?.length) return;
 
           if (checked) {
-               setAllSelectedCustomersWithPrevious(findCustomer.children);
+               dispatch({ type: 'ADD_SELECTED_CUSTOMERS', payload: findCustomer.children })
+               // setAllSelectedCustomersWithPrevious(findCustomer.children);
                return;
           }
 
@@ -69,7 +73,9 @@ const GroupSearchBody = () => {
                return true;
           });
 
-          setSelectedCustomers(detectCustomer);
+          dispatch({ type: 'SET_SELECTED_CUSTOMERS', payload: detectCustomer })
+
+          // setSelectedCustomers(detectCustomer);
      };
 
      const onALLSelectionChanged = (checked: boolean) => {
@@ -80,14 +86,19 @@ const GroupSearchBody = () => {
 
           if (checked) {
                // If checked, select all customers
-               setAllSelectedCustomersWithPrevious(allChildren);
+               dispatch({ type: 'ADD_SELECTED_CUSTOMERS', payload: allChildren })
+
+               // setAllSelectedCustomersWithPrevious(allChildren);
           } else {
                // If not checked, filter out customers from the selected list that are in the current group
                const customerISINs = allChildren.map(child => child.customerISIN);
                const filteredSelectedCustomers = selectedCustomers.filter(
                     customer => !customerISINs.includes(customer.customerISIN)
                );
-               setSelectedCustomers(filteredSelectedCustomers);
+
+               dispatch({ type: 'SET_SELECTED_CUSTOMERS', payload: filteredSelectedCustomers })
+
+               // setSelectedCustomers(filteredSelectedCustomers);
           }
      };
 
@@ -96,17 +107,19 @@ const GroupSearchBody = () => {
                !listGroups?.length
                     ? null
                     : listGroups?.map((item, ind) => (
-                           <GroupItem<ICustomerAdvancedSearchRes>
-                                key={ind}
-                                ind={ind}
-                                customer={item}
-                                getLabel={v => v.title}
-                                getChildren={v => v.children}
-                                getId={v => v?.id}
-                                isGroupChecked={isGroupChecked}
-                                onGroupSelectionChanged={onGroupSelectionChanged}
-                           />
-                      )),
+                         <GroupItem<ICustomerAdvancedSearchRes>
+                              key={ind}
+                              ind={ind}
+                              customer={item}
+                              getLabel={v => v.title}
+                              getChildren={v => v.children}
+                              getId={v => v?.id}
+                              isGroupChecked={isGroupChecked}
+                              onGroupSelectionChanged={onGroupSelectionChanged}
+                              dispatch={dispatch}
+                              selectedCustomers={selectedCustomers}
+                         />
+                    )),
           [searchGroups, defaultGroups, isDefaultUse, isGroupChecked, onGroupSelectionChanged]
      );
 
@@ -123,9 +136,11 @@ const GroupSearchBody = () => {
           <div className="flex flex-col gap-y-6">
                <div className="flex items-center gap-4">
                     <SearchInput
-                         onChangeValue={(value, input) => setTerm(input)}
+                         onChangeValue={(_, input) => setTerm(input)}
                          values={selectedCustomerInputValues ?? []}
-                         placeholder="جستجوی گروه / مشتری / کدبورسی / کد ملی"
+                         placeholder='جستجوی گروه / مشتری / کدبورسی / کد ملی'
+                         removeAllSelectedCustomers={() => dispatch({ type: "REMOVE_ALL_SELECTED_CUSTOMERS" })}
+                         removeSelectedCustomers={(customerISIN) => dispatch({ type: "REMOVE_SELECTED_CUSTOMER", payload: customerISIN })}
                     />
 
                     <Popup
@@ -136,14 +151,18 @@ const GroupSearchBody = () => {
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                    {selectedCustomers.map((item, index) => (
-                                        <li className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80">
+                                        <li key={index} className="group flex items-center justify-between rounded-lg p-2 text-xs text-content-paragraph hover:bg-back-primary/80">
                                              <span>{item.title}</span>
                                              <button
                                                   onClick={() => {
                                                        const filterSelectCustomer = selectedCustomers.filter(
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
-                                                       setSelectedCustomers([...filterSelectCustomer]);
+                                                       dispatch({ type: 'SET_SELECTED_CUSTOMERS', payload: filterSelectCustomer })
+
+                                                       if (selectedCustomers.length === 1) setOpen(false)
+
+                                                       // setSelectedCustomers([...filterSelectCustomer]);
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />
