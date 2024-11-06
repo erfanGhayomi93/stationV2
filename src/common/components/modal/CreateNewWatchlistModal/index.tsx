@@ -35,7 +35,7 @@ const CreateNewWatchlistModal = () => {
                          />
                     </div>
 
-                    <div />
+                    <div className="min-h-[1px] w-full bg-line-div-2" />
 
                     <div className="flex items-center gap-4">
                          <Button
@@ -43,7 +43,7 @@ const CreateNewWatchlistModal = () => {
                                    onCloseModal();
                               }}
                               variant="primary-outline"
-                              className="py-3"
+                              className="flex-1"
                          >
                               {t('addSymbolToWatchlistModal.cancelButton')}
                          </Button>
@@ -68,7 +68,7 @@ const CreateNewWatchlistModal = () => {
                                    onCloseModal();
                               }}
                               variant="primary"
-                              className="py-3"
+                              className="flex-1"
                          >
                               {t('addSymbolToWatchlistModal.createWatchlistButton')}
                          </Button>
