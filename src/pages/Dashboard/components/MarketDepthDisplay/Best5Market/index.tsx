@@ -13,7 +13,7 @@ interface IBest5MarketProps {
 export const Best5Market: FC<IBest5MarketProps> = ({ onDataStatus }) => {
     const { selectedSymbol } = useSymbolStore()
 
-    const { data, isLoading, isSuccess } = useQuerySymbolGeneralInformation(selectedSymbol, (data) => {
+    const { data, isLoading } = useQuerySymbolGeneralInformation(selectedSymbol, (data) => {
         return data.ordersData
     })
 
@@ -48,10 +48,6 @@ export const Best5Market: FC<IBest5MarketProps> = ({ onDataStatus }) => {
 
         return res;
     }, [data])
-
-    useEffect(() => {
-        console.log({ isSuccess })
-    }, [isSuccess])
 
 
     useEffect(() => {

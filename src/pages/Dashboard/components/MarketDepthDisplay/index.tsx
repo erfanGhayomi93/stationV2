@@ -1,28 +1,47 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Best5Market } from './Best5Market'
 import MarketDepthTab from './marketDepth'
 import { ArrowDownTriangleIcon } from '@assets/icons'
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 
 
 const MarketDepthDisplay = () => {
     const [isMarketDepth, setIsMarketDepth] = useState(false)
 
+    // const [loading, setLoading] = useState({
+    //     marketDepth: false,
+    //     best5Market: false
+    // })
+
     const [isData, setIsData] = useState({
         marketDepth: false,
         best5Market: false
     })
+
+    // useEffect(() => {
+    //     console.log({ loading })
+    // }, [loading])
+
+    // 
+    //     if ((isMarketDepth && loading.marketDepth) || (!isMarketDepth && loading.best5Market)) {
+    //         return <Spinner />
+    //     }
+
 
     return (
         <div className={clsx('grid grid-rows-one-min', {
             "relative": !isMarketDepth
         })}>
             {
-                !isMarketDepth && <Best5Market onDataStatus={(flag: boolean) => setIsData(prev => ({ ...prev, best5Market: flag }))} />
+                !isMarketDepth && <Best5Market
+                    onDataStatus={(flag: boolean) => setIsData(prev => ({ ...prev, best5Market: flag }))}
+                />
             }
             {
-                isMarketDepth && <MarketDepthTab onDataStatus={(flag: boolean) => setIsData(prev => ({ ...prev, marketDepth: flag }))} />
+                isMarketDepth && <MarketDepthTab
+                    onDataStatus={(flag: boolean) => setIsData(prev => ({ ...prev, marketDepth: flag }))}
+                />
             }
 
             {

@@ -4,6 +4,7 @@ import { useSymbolStore } from '@store/symbol';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
+import Spinner from '@components/Spinner';
 
 export interface IHalfRowDepth {
      price: number;
@@ -104,6 +105,10 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                onDataStatus(false)
           }
      }, [buyData, sellData])
+
+     if (isLoading) {
+          return <Spinner />
+     }
 
 
      return (

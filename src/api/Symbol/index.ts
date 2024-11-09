@@ -44,7 +44,6 @@ export const useQuerySymbolGeneralInformation = <T = ISymbolGeneralInformationRe
                });
                return response.data.result;
           },
-          staleTime: 0,
           enabled: !!symbolISIN,
           ...(!!select && { select }),
      });

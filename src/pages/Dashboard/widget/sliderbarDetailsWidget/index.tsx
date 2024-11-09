@@ -21,7 +21,7 @@ const SliderbarDetailsWidget = () => {
 
      const { setDebounce } = UseDebounceOutput();
 
-     const { data, isSuccess, isFetching } = useQuerySymbolGeneralInformation(selectedSymbol);
+     const { data, isSuccess } = useQuerySymbolGeneralInformation(selectedSymbol);
 
      const symbolTitle = data?.symbolData.symbolTitle
      const marketUnit = data?.symbolData.marketUnit
@@ -31,30 +31,37 @@ const SliderbarDetailsWidget = () => {
 
           const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
-          let { symbolData, individualLegal } = SymbolGeneralInformationSnapshot;
+          let { symbolData, individualLegal, ordersData } = SymbolGeneralInformationSnapshot;
 
           const symbolDataChanged: Partial<ISymbolData> = {};
 
           const individualLegalChanged: Partial<IIndividualLegal> = {};
+
+          const ordersDataChanged: Partial<IOrdersData> = {};
 
           for (const [key, value] of Object.entries(changedFields)) {
                if (value !== null) {
                     if (symbolData && key in symbolData) {
                          symbolDataChanged[key as keyof ISymbolData] = value;
                     }
-                    if (individualLegal && key in individualLegal) {
+                    else if (individualLegal && key in individualLegal) {
                          individualLegalChanged[key as keyof IIndividualLegal] = value;
+                    }
+                    else if (ordersData && key in ordersData) {
+                         ordersDataChanged[key as keyof IOrdersData] = value;
                     }
                }
           }
 
           symbolData = { ...symbolData, ...symbolDataChanged };
           individualLegal = { ...individualLegal, ...individualLegalChanged };
+          ordersData = { ...ordersData, ...ordersDataChanged };
 
           refData.current = {
                ...SymbolGeneralInformationSnapshot,
                symbolData,
-               individualLegal
+               individualLegal,
+               ordersData
           };
 
           setDebounce(() => {
@@ -66,7 +73,7 @@ const SliderbarDetailsWidget = () => {
      }
 
      useEffect(() => {
-          if (!isFetching && isSuccess) {
+          if (isSuccess && selectedSymbol) {
                //init Ref data
                refData.current = data;
 
@@ -83,12 +90,14 @@ const SliderbarDetailsWidget = () => {
                     }
                })
 
-
-               return () => {
-                    pushEngine.unSubscribe(id);
-               }
           }
-     }, [isFetching]);
+     }, [selectedSymbol, isSuccess]);
+
+     useEffect(() => {
+          return () => {
+               pushEngine.unSubscribe("SymbolGeneralDetails");
+          }
+     }, [selectedSymbol])
 
 
      useEffect(() => {

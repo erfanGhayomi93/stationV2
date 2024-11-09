@@ -97,16 +97,16 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                             "text-left": side === "Sell",
                         })}
                     >
-                        {sepNumbers(count)}
+                        {count ? sepNumbers(count) : '-'}
                     </span>
 
-                    <span className="text-content-title text-center w-1/3">{sepNumbers(volume)}</span>
+                    <span className="text-content-title text-center w-1/3">{volume ? sepNumbers(volume) : '-'}</span>
 
                     <span className={clsx(" w-1/3", {
                         "text-content-success-buy text-left": side === "Buy",
                         "text-content-error-sell text-right": side === "Sell"
                     })}>
-                        {sepNumbers(price)}
+                        {price ? sepNumbers(price) : "-"}
                     </span>
                 </div>
             </div>
