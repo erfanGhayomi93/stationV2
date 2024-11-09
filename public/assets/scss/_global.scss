@@ -36,19 +36,14 @@ button:focus-visible {
 
 /* Track */
 ::-webkit-scrollbar-track {
-     box-shadow: inset 0 0 5px #cccccc;
      border-radius: 10px;
+     background: rgb(var(--color-scrollbar-track));
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-     background: #c0c0c0;
+     background: rgb(var(--color-scrollbar-thumb));
      border-radius: 100vh;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-     background: #808080;
 }
 
 /* Chrome, Safari, Edge, Opera */
