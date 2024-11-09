@@ -112,6 +112,7 @@ const DeleteOrdersGroupModal = () => {
 
                     <div className="flex items-center justify-end text-content-white">
                          <Button
+                              className="h-10 basis-6/12"
                               variant="danger"
                               icon={<DeleteIcon className="text-content-white" />}
                               onClick={handleDeleteSelected}

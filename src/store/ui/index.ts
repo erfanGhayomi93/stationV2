@@ -6,7 +6,4 @@ export const useUIStore = create<IUIStore>(set => ({
 
      isExpandSidebar: false,
      setIsExpandSidebar: value => set(() => ({ isExpandSidebar: value })),
-
-     selectedOrders: [],
-     setSelectedOrders: value => set(() => ({ selectedOrders: value })),
 }));

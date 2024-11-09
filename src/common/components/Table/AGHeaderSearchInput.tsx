@@ -46,7 +46,7 @@ const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParam
                     <div className="flex items-center bg-back-surface">
                          <input
                               className="w-full rounded-sm border-none bg-transparent p-1 outline-none"
-                              placeholder={`نام ${displayName}`}
+                              placeholder={`${displayName}`}
                               onChange={onInputChange}
                               ref={inputRef}
                               value={value}
