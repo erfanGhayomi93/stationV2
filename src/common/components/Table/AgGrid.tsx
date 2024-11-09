@@ -80,7 +80,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
 
                          {rowData?.length === 0 && !loading && (
                               <div className="flex items-center justify-center text-content-paragraph">
-                                   <span className="tran absolute top-1/2 font-medium">اطلاعاتی وجود ندارد</span>
+                                   <span className="absolute top-1/2 -translate-y-1 font-medium">اطلاعاتی وجود ندارد</span>
                               </div>
                          )}
 

@@ -10,14 +10,15 @@ const OrderBookTabsWidget = () => {
      const [selectedIndex, setSelectedIndex] = useState(0);
      const { t } = useTranslation();
 
-     const tabs = useMemo(() => [
-          t('orderBookTabs.marketDepthTab'),
-          t('orderBookTabs.sameGroupTab'),
-          t('orderBookTabs.optionContractTab'),
-          t('orderBookTabs.messagesTab'),
-     ], []);
-
-     console.log('rendering orderBookTabs')
+     const tabs = useMemo(
+          () => [
+               t('orderBookTabs.marketDepthTab'),
+               t('orderBookTabs.sameGroupTab'),
+               t('orderBookTabs.optionContractTab'),
+               t('orderBookTabs.messagesTab'),
+          ],
+          []
+     );
 
      return (
           <TabGroup className="grid h-full grid-rows-min-one p-4" selectedIndex={selectedIndex} onChange={setSelectedIndex}>

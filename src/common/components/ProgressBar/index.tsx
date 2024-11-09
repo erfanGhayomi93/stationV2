@@ -1,3 +1,4 @@
+import { numFormatter, sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -20,14 +21,15 @@ const ProgressBar: React.FC<Props> = ({
 }) => {
      return (
           <div className="flex w-full flex-col items-center gap-y-0.5">
-               <div className="flex w-full items-center text-xs">
-                    <span className="w-1/3 text-right text-content-paragraph">
-                         {origin === 'end' && `${Number(percent).toFixed(2)}%`}
-                    </span>
-                    <span className="w-1/3 text-center text-content-title">{topCenter}</span>
-                    <span className="w-1/3 text-left text-content-paragraph">
-                         {origin === 'start' && `${Number(percent).toFixed(2)}%`}
-                    </span>
+               <div className="flex w-full items-center justify-between text-xs">
+                    {origin === 'end' && (
+                         <span className="text-right text-content-paragraph">{`${Number(percent).toFixed(2)}%`}</span>
+                    )}
+                    {origin === 'start' && <span className="text-content-paragraph">{`${Number(percent).toFixed(2)}%`}</span>}
+                    <span className="text-nowrap text-center text-content-title">{numFormatter(Number(topCenter))}</span>
+                    <div className="flex items-center justify-center text-xs text-content-title">
+                         <span className="text-center">{sepNumbers(bottomCenter)}</span>
+                    </div>
                </div>
 
                <div
@@ -41,10 +43,6 @@ const ProgressBar: React.FC<Props> = ({
                          className={clsx('h-full rounded-md', bgColorClass)}
                          style={{ width: `${Number(percent).toFixed(2)}%` }}
                     ></div>
-               </div>
-
-               <div className="flex w-full items-center justify-center text-xs text-content-title">
-                    <span className="w-1/3 text-center">{bottomCenter}</span>
                </div>
           </div>
      );

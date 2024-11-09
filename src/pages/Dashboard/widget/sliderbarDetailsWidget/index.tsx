@@ -10,9 +10,7 @@ import { SymbolGeneralfields, TFieldSymbolGeneralResLs } from 'common/constant/s
 import { useEffect, useRef } from 'react';
 import { useSymbolStore } from 'store/symbol';
 
-
 const SliderbarDetailsWidget = () => {
-
      const { selectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
 
      const refData = useRef<ISymbolGeneralInformationRes>();
@@ -23,12 +21,10 @@ const SliderbarDetailsWidget = () => {
 
      const { data, isSuccess, isFetching } = useQuerySymbolGeneralInformation(selectedSymbol);
 
-     const symbolTitle = data?.symbolData.symbolTitle
-     const marketUnit = data?.symbolData.marketUnit
-
+     const symbolTitle = data?.symbolData.symbolTitle;
+     const marketUnit = data?.symbolData.marketUnit;
 
      const updateSymbolLS = ({ changedFields, itemName }: UpdatedFieldsType<TFieldSymbolGeneralResLs>) => {
-
           const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
           let { symbolData, individualLegal } = SymbolGeneralInformationSnapshot;
@@ -54,7 +50,7 @@ const SliderbarDetailsWidget = () => {
           refData.current = {
                ...SymbolGeneralInformationSnapshot,
                symbolData,
-               individualLegal
+               individualLegal,
           };
 
           setDebounce(() => {
@@ -62,47 +58,39 @@ const SliderbarDetailsWidget = () => {
                     return { ...refData.current };
                });
           }, 1000);
-
-     }
+     };
 
      useEffect(() => {
           if (!isFetching && isSuccess) {
                //init Ref data
                refData.current = data;
 
-               const id = 'SymbolGeneralDetails'
-               const items = [selectedSymbol]
-
+               const id = 'SymbolGeneralDetails';
+               const items = [selectedSymbol];
 
                subscribeSymbolGeneral<TFieldSymbolGeneralResLs>({
                     id,
                     items,
                     fields: [...SymbolGeneralfields],
-                    onItemUpdate: (updatedFields) => {
-                         updateSymbolLS(updatedFields)
-                    }
-               })
-
+                    onItemUpdate: updatedFields => {
+                         updateSymbolLS(updatedFields);
+                    },
+               });
 
                return () => {
                     pushEngine.unSubscribe(id);
-               }
+               };
           }
      }, [isFetching]);
 
-
      useEffect(() => {
           if (symbolTitle) {
-               setSymbolTitle(symbolTitle)
+               setSymbolTitle(symbolTitle);
           }
           if (marketUnit) {
-               setMarketUnit(marketUnit)
+               setMarketUnit(marketUnit);
           }
-     }, [symbolTitle, marketUnit])
-
-
-
-
+     }, [symbolTitle, marketUnit]);
 
      return (
           <div className="flex w-full flex-col gap-x-1 p-4">

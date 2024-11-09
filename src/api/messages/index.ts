@@ -6,7 +6,7 @@ export const useQueryMessagesSupervisor = ({ symbolISIN }: { symbolISIN: string 
      const url = routeApi().SupervisorMessage.Get;
 
      return useQuery({
-          queryKey: ['GetSupervisorMessages'],
+          queryKey: ['GetSupervisorMessages', symbolISIN],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<ISupervisorMessageRes[]>>(url, { params: { symbolISIN } });
 
