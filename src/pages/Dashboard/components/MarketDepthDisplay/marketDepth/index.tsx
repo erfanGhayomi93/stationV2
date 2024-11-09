@@ -1,7 +1,7 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useMarketDepth } from '@hooks/useMarketDepth';
 import { useSymbolStore } from '@store/symbol';
-import { useCallback, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
 
@@ -18,12 +18,17 @@ interface ISelectGeneralInformation {
      highThreshold: number;
 }
 
-const MarketDepthTab = () => {
+interface IMarketDepthTabProps {
+     onDataStatus: (flag: boolean) => void;
+}
+
+const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
      //
      const { selectedSymbol } = useSymbolStore();
 
      const {
           data: { bids, asks },
+          isLoading
      } = useMarketDepth(selectedSymbol);
 
      const { data: symbolGeneral } = useQuerySymbolGeneralInformation<ISelectGeneralInformation>(selectedSymbol, data => ({
@@ -92,23 +97,34 @@ const MarketDepthTab = () => {
           return data.sort((a, b) => +a.price - +b.price);
      }, [asks]);
 
+     useEffect(() => {
+          if ((!!buyData.length || !!sellData.length) && !isLoading) {
+               onDataStatus(true)
+          } else {
+               onDataStatus(false)
+          }
+     }, [buyData, sellData])
+
 
      return (
-          <div className="h-full max-h-full overflow-y-auto px-2">
-               <div className="grid grid-cols-2 grid-rows-1 gap-x-2">
+          <div className="h-full max-h-full px-2">
+               <div className="grid grid-cols-2 grid-rows-1 gap-x-2 overflow-y-auto">
                     <div className="flex flex-col gap-y-4">
                          <div>
                               <OrderBookHeader side="Buy" />
                          </div>
                          <div className="flex flex-col">
-                              {buyData.slice(0, 100).map((item, ind) => (
-                                   <HalfRowDepth
-                                        key={ind + '-' + item.price}
-                                        side="Buy"
-                                        data={item}
-                                        isInRange={isPriceInRange(item.price)}
-                                   />
-                              ))}
+                              {buyData
+                                   // .slice(0, 100)
+                                   .map((item, ind) => (
+                                        <HalfRowDepth
+                                             key={item.price + 'Buy' + ind}
+                                             side="Buy"
+                                             data={item}
+                                             isInRange={isPriceInRange(item.price)}
+                                             isMarketDepth
+                                        />
+                                   ))}
                          </div>
                     </div>
 
@@ -117,14 +133,17 @@ const MarketDepthTab = () => {
                               <OrderBookHeader side="Sell" />
                          </div>
                          <div className="flex flex-col">
-                              {sellData.slice(0, 100).map((item, ind) => (
-                                   <HalfRowDepth
-                                        key={ind + '-' + item.price}
-                                        side="Sell"
-                                        data={item}
-                                        isInRange={isPriceInRange(item.price)}
-                                   />
-                              ))}
+                              {sellData
+                                   // .slice(0, 100)
+                                   .map((item, ind) => (
+                                        <HalfRowDepth
+                                             key={item.price + 'Sell' + ind}
+                                             side="Sell"
+                                             data={item}
+                                             isInRange={isPriceInRange(item.price)}
+                                             isMarketDepth
+                                        />
+                                   ))}
                          </div>
                     </div>
                </div>
