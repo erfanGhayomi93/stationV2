@@ -1,4 +1,5 @@
 import { dateFormatter, getColorClassBasedAmount, numFormatter, sepNumbers } from '@methods/helper';
+import IndividualLegalWidget from '@pages/Dashboard/widget/individualLegalWidget';
 import { useUIStore } from '@store/ui';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
@@ -131,9 +132,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
                     value: '-',
                     // formatter: value => sepNumbers(value),
-                    renderer: () => (
-                         <span>{`${sepNumbers(tommorowLowThreshold)} - ${sepNumbers(tommorowHighThreshold)}`}</span>
-                    ),
+                    renderer: () => <span>{`${sepNumbers(tommorowLowThreshold)} - ${sepNumbers(tommorowHighThreshold)}`}</span>,
                },
           ],
           [
@@ -158,7 +157,7 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     title: t('detailsSymbol.monthlyTradeVolume'),
                     value: oneMonthTradeVolume,
                     formatter: value => numFormatter(+value),
-               }
+               },
           ],
           [
                {
@@ -187,26 +186,42 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      ];
 
      return (
-          <ul className="mt-2">
-               {data.slice(0, countShowItem).map((item, index) => (
-                    <ul key={index} className="mx-3 flex border-b border-line-div-3 py-3 text-xs last:border-none">
-                         {item.map((child, ind) => (
-                              <li
-                                   key={ind}
-                                   className="flex flex-1 justify-between border-line-div-3 odd:border-l odd:pl-3 even:pr-3"
-                              >
-                                   <span className="text-content-paragraph">{child.title}:</span>
-                                   <span className="ltr text-content-title">
-                                        {child.renderer
-                                             ? child.renderer(child.value)
-                                             : child?.formatter
-                                                  ? child.formatter(child.value) || '−'
-                                                  : child.value || '−'}
-                                   </span>
-                              </li>
-                         ))}
-                    </ul>
-               ))}
-          </ul>
+          <>
+               <ul className="">
+                    {data.slice(0, countShowItem).map((item, index) => (
+                         <ul
+                              style={{
+                                   padding: '0.75rem 0.5rem',
+                              }}
+                              key={index}
+                              className={clsx(
+                                   'flex border-b border-line-div-3 text-xs',
+                                   isExpandSymbolDetails && 'last:border-none last:pb-0'
+                              )}
+                         >
+                              {item.map((child, ind) => (
+                                   <li
+                                        key={ind}
+                                        className="flex flex-1 justify-between border-line-div-3 odd:border-l odd:pl-3 even:pr-3"
+                                   >
+                                        <span className="text-content-paragraph">{child.title}:</span>
+                                        <span className="ltr text-content-title">
+                                             {child.renderer
+                                                  ? child.renderer(child.value)
+                                                  : child?.formatter
+                                                    ? child.formatter(child.value) || '−'
+                                                    : child.value || '−'}
+                                        </span>
+                                   </li>
+                              ))}
+                         </ul>
+                    ))}
+               </ul>
+               {data.length === countShowItem && (
+                    <div className="pt-2">
+                         <IndividualLegalWidget />
+                    </div>
+               )}
+          </>
      );
 };

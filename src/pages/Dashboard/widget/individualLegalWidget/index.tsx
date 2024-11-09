@@ -1,6 +1,5 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import ProgressBar from '@components/progressBar';
-import { dateFormatter, numFormatter, sepNumbers } from '@methods/helper';
 import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
@@ -12,12 +11,6 @@ interface IIndividualLegalWidgetProps {
      // baseVolume: number
      // pe: number
      // floatFree: number
-}
-
-interface dataType {
-     title: string;
-     value: number | string;
-     formatter?: (value: number | string) => string;
 }
 
 const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
@@ -58,57 +51,9 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
           return { individual, legal };
      }, [detailsSymbol?.individualSellVolume, detailsSymbol?.legalSellVolume]);
 
-     const data: dataType[][] = [
-          [
-               {
-                    title: t('detailsSymbol.lastTradeDateTime'),
-                    value: detailsSymbol?.lastTradeDateTime,
-                    formatter: value => dateFormatter(value , 'datetime'),
-               },
-               {
-                    title: t('detailsSymbol.totalNumberOfTrades'),
-                    value: detailsSymbol?.TotalNumberOfTrades,
-                    formatter: value => sepNumbers(value),
-               },
-          ],
-          [
-               {
-                    title: t('detailsSymbol.totalNumberOfSharesTraded'),
-                    value: detailsSymbol?.totalNumberOfSharesTraded,
-                    formatter: value => sepNumbers(value),
-               },
-               {
-                    title: t('detailsSymbol.baseVolume'),
-                    value: detailsSymbol?.baseVolume,
-                    formatter: value => sepNumbers(value),
-               },
-          ],
-          [
-               {
-                    title: t('detailsSymbol.monthlyTradeVolume'),
-                    value: detailsSymbol?.oneMonthTradeVolume,
-                    formatter: value => numFormatter(Number(value)),
-               },
-               {
-                    title: t('detailsSymbol.totalNumberOfSharesCount'),
-                    value: detailsSymbol?.totalNumberOfSharesCount,
-               },
-          ],
-          [
-               {
-                    title: t('detailsSymbol.floatFree'),
-                    value: detailsSymbol?.floatFree,
-               },
-               {
-                    title: t('detailsSymbol.pe'),
-                    value: detailsSymbol?.pe,
-               },
-          ],
-     ];
-
      return (
           <div className="flex flex-col gap-y-1 p-2">
-               <div className="flex flex-col justify-center gap-y-4 text-sm">
+               <div className="flex flex-col justify-center gap-y-6 text-xs">
                     <div className="flex items-center justify-between">
                          <ProgressBar
                               percent={buyPercent.individual * 100}
@@ -146,24 +91,6 @@ const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
                               bottomCenter={detailsSymbol?.numberOfLegalSellers}
                          />
                     </div>
-               </div>
-
-               <div className="mt-2">
-                    {data?.map((item, index) => (
-                         <div key={index} className="mx-3 flex border-b border-line-div-3 py-3 text-xs last:border-none">
-                              {item.map((child, ind) => (
-                                   <div
-                                        key={ind}
-                                        className="flex flex-1 justify-between border-line-div-3 odd:border-l odd:pl-3 even:pr-3"
-                                   >
-                                        <span className="text-content-paragraph">{child.title}:</span>
-                                        <span className="ltr text-content-title">
-                                             {child?.formatter ? child.formatter(child.value) || '−' : child.value || '−'}
-                                        </span>
-                                   </div>
-                              ))}
-                         </div>
-                    ))}
                </div>
           </div>
      );

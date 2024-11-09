@@ -29,8 +29,8 @@ const Message = ({ item }: TMessageProps) => {
 
      return (
           <div onClick={() => onReadMessage(item.id)} className="border-b border-b-line-div-3 py-1">
-               <li className="flex cursor-pointer items-center justify-between py-3" key={item.id}>
-                    <div className="flex items-center gap-1 truncate text-sm">
+               <li className="flex cursor-pointer items-center gap-2 py-3" key={item.id}>
+                    <div className="flex w-full max-w-full flex-1 items-center gap-1 truncate text-sm">
                          <div>
                               <ArrowDownTriangleIcon
                                    className={clsx('text-icon-default transition-transform', {
@@ -51,7 +51,7 @@ const Message = ({ item }: TMessageProps) => {
                               {t(`supervisorMessage.type_message_${item.type}`)}
                          </span>
 
-                         <span className="w-40 truncate text-content-title">{removeFirstWord(item.messageTitle)}</span>
+                         <span className="w-10 flex-1 truncate text-content-title">{removeFirstWord(item.messageTitle)}</span>
                     </div>
                     <div className="flex items-center justify-end gap-2 text-sm text-content-paragraph">
                          <span>{dateFormatter(item.dateOfEvent, 'time')}</span>
