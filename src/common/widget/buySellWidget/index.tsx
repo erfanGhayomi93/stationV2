@@ -49,15 +49,11 @@ const BuySellWidget = () => {
                          ))}
                     </TabList>
                     <TabPanels className="overflow-x-hidden">
-                         <TabPanel className="relative h-full overflow-y-auto focus:border-none focus:outline-none">
-                              <div className="absolute top-0 w-full px-2">
-                                   <BodyBuySell />
-                              </div>
+                         <TabPanel className="h-full overflow-y-auto focus:border-none focus:outline-none">
+                              <BodyBuySell />
                          </TabPanel>
-                         <TabPanel className="relative h-full overflow-y-auto focus:border-none focus:outline-none">
-                              <div className="absolute top-0 w-full px-2">
-                                   <BodyBuySell />
-                              </div>
+                         <TabPanel className="h-full overflow-y-auto focus:border-none focus:outline-none">
+                              <BodyBuySell />
                          </TabPanel>
                     </TabPanels>
                </TabGroup>
