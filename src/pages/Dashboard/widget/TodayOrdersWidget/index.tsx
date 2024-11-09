@@ -1,11 +1,10 @@
-import { ColDef, RowSelectedEvent } from '@ag-grid-community/core';
+import { ColDef, SelectionChangedEvent } from '@ag-grid-community/core';
 import { useQueryTodayOrders } from '@api/order';
 import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
 import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { dateFormatter, sepNumbers } from '@methods/helper';
-import { useUIStore } from '@store/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import ipcMain from 'common/classes/IpcMain';
@@ -29,6 +28,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { setEditOrdersGroupModalSheet, setDeleteOrdersGroupModalSheet } = useModalStore();
 
+     const ordersGroupSelectData = useRef<IOpenOrder[] | null>(null);
+
      const { selectedSymbol } = useSymbolStore();
 
      const { data: todayOrdersData, refetch: refetchTodayOrders } = useQueryTodayOrders({
@@ -36,8 +37,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           side: side,
           symbolISIN: selectedSymbol,
      });
-
-     const { selectedOrders, setSelectedOrders } = useUIStore();
 
      const getSymbolGeneralInformationCache = () => {
           return JSON.parse(
@@ -130,27 +129,13 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
           [tabSelected]
      );
 
-     const onRowSelected = (event: RowSelectedEvent<IOpenOrder>) => {
-          if (!event.node.data) return;
-
-          const data = event.node.data;
-
-          if (event.node.isSelected()) {
-               setSelectedOrders([...selectedOrders, data]);
-          } else {
-               const filterSelectedOrders = selectedOrders.filter(order => order.orderId !== data.orderId);
-               setSelectedOrders(filterSelectedOrders);
-          }
+     const onRowSelected = (event: SelectionChangedEvent<IOpenOrder>) => {
+          ordersGroupSelectData.current = event.api.getSelectedRows();
      };
 
      useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
      }, []);
-
-     useEffect(() => {
-          // Clear selected rows when `todayOrdersData` changes
-          setSelectedOrders([]);
-     }, [todayOrdersData]);
 
      return (
           <div className="grid h-full grid-rows-min-one">
@@ -160,7 +145,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                               <Tab
                                    onClick={() => {
                                         setTabSelected('OnBoard');
-                                        setSelectedOrders([]);
                                    }}
                                    className={clsx(
                                         'h-10 w-[147px] rounded-lg text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
@@ -178,7 +162,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                               <Tab
                                    onClick={() => {
                                         setTabSelected('All');
-                                        setSelectedOrders([]);
                                    }}
                                    className={clsx(
                                         'h-10 w-[147px] rounded-lg text-sm font-medium transition-colors focus:outline-none data-[focus]:outline-none',
@@ -199,11 +182,15 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     <div className="flex items-center gap-x-6">
                          <button
                               onClick={() => {
-                                   if (selectedOrders.length === 0 && side === side) return;
+                                   if (
+                                        (ordersGroupSelectData.current?.length === 0 || !ordersGroupSelectData.current) &&
+                                        side === side
+                                   )
+                                        return;
                                    setEditOrdersGroupModalSheet({
                                         side: side,
                                         symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
-                                        data: selectedOrders,
+                                        data: ordersGroupSelectData?.current ?? [],
                                    });
                               }}
                          >
@@ -212,12 +199,16 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
                          <button
                               onClick={() => {
-                                   if (selectedOrders.length === 0) return;
+                                   if (
+                                        (ordersGroupSelectData.current?.length === 0 || !ordersGroupSelectData.current) &&
+                                        side === side
+                                   )
+                                        return;
 
                                    setDeleteOrdersGroupModalSheet({
                                         side: side,
                                         symbolTitle: getSymbolGeneralInformationCache?.().symbolData.symbolTitle ?? '',
-                                        data: selectedOrders,
+                                        data: ordersGroupSelectData?.current ?? [],
                                    });
                               }}
                          >
@@ -233,11 +224,12 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                          rowSelection={{
                               mode: 'multiRow',
                               isRowSelectable: data => !orderStatusIsntModify.includes(data.data?.orderState ?? ''),
+                              enableClickSelection: true,
                          }}
                          selectionColumnDef={{}}
                          rowData={todayOrdersData ?? []}
                          columnDefs={columnDefs}
-                         onRowSelected={onRowSelected}
+                         onSelectionChanged={onRowSelected}
                          defaultColDef={{
                               flex: 1,
                          }}

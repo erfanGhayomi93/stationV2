@@ -34,7 +34,7 @@ const EditOrdersGroupModal = () => {
 
      const { editOrdersGroupModalSheet, setEditOrdersGroupModalSheet } = useModalStore();
 
-     const initialEditOrdersGroupModalSheet = useRef(editOrdersGroupModalSheet);
+     const initialEditOrdersGroupModalSheet = useRef([...(editOrdersGroupModalSheet?.data ?? [])]);
 
      const { mutate: mutateModifyGroupOrder, isPending } = useModifyGroupOrder();
 
@@ -112,7 +112,7 @@ const EditOrdersGroupModal = () => {
      const history = useMemo(() => {
           if (!editOrdersGroupModalSheet) return [];
 
-          return editOrdersGroupModalSheet.data;
+          return JSON.parse(JSON.stringify(editOrdersGroupModalSheet.data));
      }, [editOrdersGroupModalSheet]);
 
      const onChangeVolume = (value: number) => {
@@ -121,7 +121,7 @@ const EditOrdersGroupModal = () => {
           const rowData = gridRef.current?.api?.getRenderedNodes();
 
           rowData?.forEach(rowNode => {
-               const initialRowData = [...(initialEditOrdersGroupModalSheet.current?.data ?? [])].find(
+               const initialRowData = [...(initialEditOrdersGroupModalSheet.current ?? [])].find(
                     item => item.orderId === rowNode?.data?.orderId
                );
 
@@ -166,14 +166,16 @@ const EditOrdersGroupModal = () => {
      };
 
      const handleEditSelected = () => {
-          if (!editOrdersGroupModalSheet) return;
+          const rowData = gridRef.current?.api?.getRenderedNodes();
 
-          const payload = editOrdersGroupModalSheet?.data?.map(item => ({
-               id: item.orderId,
-               price: Number(item.price),
-               quantity: Number(item.remainingQuantity),
-               validity: item.validity,
-               validityDate: item.validityDate ?? null,
+          if (!rowData) return;
+
+          const payload = rowData.map(item => ({
+               id: item.data?.orderId ?? 0,
+               price: Number(item.data?.price),
+               quantity: Number(item.data?.remainingQuantity),
+               validity: item.data?.validity,
+               validityDate: item.data?.validityDate ?? null,
           }));
 
           mutateModifyGroupOrder(payload);
@@ -224,6 +226,7 @@ const EditOrdersGroupModal = () => {
 
                               <div className="basis-5/12">
                                    <FieldInput
+                                        type="number"
                                         variant="simple"
                                         value={inputs.volume}
                                         onChangeValue={value => onChangeVolume(Number(value))}
@@ -245,7 +248,12 @@ const EditOrdersGroupModal = () => {
                               </div>
 
                               <div className="basis-5/12">
-                                   <FieldInput variant="simple" value="" onChangeValue={value => onChangePrice(Number(value))} />
+                                   <FieldInput
+                                        type="number"
+                                        variant="simple"
+                                        value={inputs.price}
+                                        onChangeValue={value => onChangePrice(Number(value))}
+                                   />
                               </div>
                          </div>
                     </div>
@@ -265,11 +273,9 @@ const EditOrdersGroupModal = () => {
                     </div>
 
                     <div className="flex items-center justify-end text-content-white">
-                         <div className="basis-5/12">
-                              <Button isLoading={isPending} onClick={handleEditSelected}>
-                                   ثبت تغیرات
-                              </Button>
-                         </div>
+                         <Button variant="primary" className="h-10 basis-6/12" isLoading={isPending} onClick={handleEditSelected}>
+                              ثبت تغیرات
+                         </Button>
                     </div>
                </div>
           </Modal>

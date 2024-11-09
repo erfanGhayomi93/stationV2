@@ -317,7 +317,8 @@
           "default": "خطایی رخ داده است.",
           "Contract_IsExpired": "خطا: امکان ثبت سفارش برای قراردادهای اختیار سررسید شده وجود ندارد.",
           "AccessToOneOrMoreCustomersDenied": "دسترسی به مشتری(ها) تعریف نشده است ",
-          "PositionBlockISIN_Not_Valid": "موقعیت تضمین شده نامعتبر است"
+          "PositionBlockISIN_Not_Valid": "موقعیت تضمین شده نامعتبر است",
+          "Modify_Order_Is_Same": "تغییر در سفارش ایجاد نشد."
      },
      "orderBookTabs": {
           "marketDepthTab": "مظنه‌ها",
