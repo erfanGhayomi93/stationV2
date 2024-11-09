@@ -10,9 +10,7 @@ import { SymbolGeneralfields, TFieldSymbolGeneralResLs } from 'common/constant/s
 import { useEffect, useRef } from 'react';
 import { useSymbolStore } from 'store/symbol';
 
-
 const SliderbarDetailsWidget = () => {
-
      const { selectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
 
      const refData = useRef<ISymbolGeneralInformationRes>();
@@ -23,12 +21,10 @@ const SliderbarDetailsWidget = () => {
 
      const { data, isSuccess } = useQuerySymbolGeneralInformation(selectedSymbol);
 
-     const symbolTitle = data?.symbolData.symbolTitle
-     const marketUnit = data?.symbolData.marketUnit
-
+     const symbolTitle = data?.symbolData.symbolTitle;
+     const marketUnit = data?.symbolData.marketUnit;
 
      const updateSymbolLS = ({ changedFields, itemName }: UpdatedFieldsType<TFieldSymbolGeneralResLs>) => {
-
           const SymbolGeneralInformationSnapshot: ISymbolGeneralInformationRes = JSON.parse(JSON.stringify(refData.current));
 
           let { symbolData, individualLegal, ordersData } = SymbolGeneralInformationSnapshot;
@@ -69,17 +65,15 @@ const SliderbarDetailsWidget = () => {
                     return { ...refData.current };
                });
           }, 1000);
-
-     }
+     };
 
      useEffect(() => {
           if (isSuccess && selectedSymbol) {
                //init Ref data
                refData.current = data;
 
-               const id = 'SymbolGeneralDetails'
-               const items = [selectedSymbol]
-
+               const id = 'SymbolGeneralDetails';
+               const items = [selectedSymbol];
 
                subscribeSymbolGeneral<TFieldSymbolGeneralResLs>({
                     id,
@@ -99,19 +93,14 @@ const SliderbarDetailsWidget = () => {
           }
      }, [selectedSymbol])
 
-
      useEffect(() => {
           if (symbolTitle) {
-               setSymbolTitle(symbolTitle)
+               setSymbolTitle(symbolTitle);
           }
           if (marketUnit) {
-               setMarketUnit(marketUnit)
+               setMarketUnit(marketUnit);
           }
-     }, [symbolTitle, marketUnit])
-
-
-
-
+     }, [symbolTitle, marketUnit]);
 
      return (
           <div className="flex w-full flex-col gap-x-1 p-4">

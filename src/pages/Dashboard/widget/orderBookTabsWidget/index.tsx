@@ -9,24 +9,25 @@ import { useTranslation } from 'react-i18next';
 const OrderBookTabsWidget = () => {
      const [selectedIndex, setSelectedIndex] = useState(0);
 
-     const [isPending, startTransition] = useTransition()
+     const [isPending, startTransition] = useTransition();
 
      const { t } = useTranslation();
 
-     const tabs = useMemo(() => [
-          t('orderBookTabs.marketDepthTab'),
-          t('orderBookTabs.sameGroupTab'),
-          t('orderBookTabs.optionContractTab'),
-          t('orderBookTabs.messagesTab'),
-     ], []);
+     const tabs = useMemo(
+          () => [
+               t('orderBookTabs.marketDepthTab'),
+               t('orderBookTabs.sameGroupTab'),
+               t('orderBookTabs.optionContractTab'),
+               t('orderBookTabs.messagesTab'),
+          ],
+          []
+     );
 
      const handleTabChange = (ind: number) => {
           startTransition(() => {
-               setSelectedIndex(ind)
-          })
-     }
-
-
+               setSelectedIndex(ind);
+          });
+     };
 
      return (
           <TabGroup className="grid h-full grid-rows-min-one p-2" selectedIndex={selectedIndex} onChange={handleTabChange}>
@@ -40,24 +41,20 @@ const OrderBookTabsWidget = () => {
                          </Tab>
                     ))}
                </TabList>
-               {
-                    !isPending && (
-                         <TabPanels className="data-[selected]:bg-line-error overflow-y-auto mt-1 relative">
-                              <TabPanel className={'h-full py-2'}>
-                                   {<MarketDepthDisplay />}
-                              </TabPanel>
-                              <TabPanel className="h-full">
-                                   <SameGroups />
-                              </TabPanel>
-                              <TabPanel className="h-full">
-                                   <OptionContracts />
-                              </TabPanel>
-                              <TabPanel className="h-full">
-                                   <SupervisorMessage />
-                              </TabPanel>
-                         </TabPanels>
-                    )
-               }
+               {!isPending && (
+                    <TabPanels className="relative mt-1 overflow-y-auto data-[selected]:bg-line-error">
+                         <TabPanel className={'h-full py-2'}>{<MarketDepthDisplay />}</TabPanel>
+                         <TabPanel className="h-full">
+                              <SameGroups />
+                         </TabPanel>
+                         <TabPanel className="h-full">
+                              <OptionContracts />
+                         </TabPanel>
+                         <TabPanel className="h-full">
+                              <SupervisorMessage />
+                         </TabPanel>
+                    </TabPanels>
+               )}
           </TabGroup>
      );
 };

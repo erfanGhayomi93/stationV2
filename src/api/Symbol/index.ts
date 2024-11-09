@@ -116,7 +116,7 @@ export const useQueryOptionContracts = ({ symbolISIN }: { symbolISIN: string }) 
      const url = routeApi().Symbol.optionContracts;
 
      return useQuery({
-          queryKey: ['GetOptionContract'],
+          queryKey: ['GetOptionContract', symbolISIN],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<IOptionContractsRes[]>>(url, { params: { symbolISIN } });
                return response.data.result;
