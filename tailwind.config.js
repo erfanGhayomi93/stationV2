@@ -133,6 +133,9 @@ module.exports = {
                'icon-info': 'rgb(var(--color-icon-info))',
                'icon-primary': 'rgb(var(--color-icon-primary))',
                'icon-rivasp': 'rgb(var(--color-icon-rivasp))',
+               'logo-ramand': 'rgb(var(--color-logo-ramand))',
+               'scrollbar-thumb': 'rgb(var(--color-scrollbar-thumb))',
+               'scrollbar-track': 'rgb(var(--color-scrollbar-track))',
           },
      },
 };

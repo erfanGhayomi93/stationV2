@@ -24,7 +24,7 @@ const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar
           >
                <div className="flex items-center gap-x-1 text-xs">
                     <span
-                         className={clsx('text-right', {
+                         className={clsx('whitespace-nowrap text-right', {
                               'text-content-paragraph': !isSelected,
                               'font-medium text-content-title': isSelected,
                          })}
