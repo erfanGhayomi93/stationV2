@@ -11,14 +11,15 @@ interface IHalfRowDepthProps {
     side: TSide;
     data: IHalfRowDepth;
     isInRange: boolean;
-
+    isMarketDepth?: boolean
 }
 
 
 const HalfRowDepth: FC<IHalfRowDepthProps> = ({
     data: { count, percent, price, volume, children },
     isInRange,
-    side
+    side,
+    isMarketDepth
 }) => {
 
     const [isOpenChild, setisOpenChild] = useState(false)
@@ -76,15 +77,20 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                     "opacity-40": !isInRange,
                     "flex-row-reverse": side === "Sell"
                 })}>
-                    <button
-                        disabled={count === 1}
-                        onClick={() => setisOpenChild(!isOpenChild)}
-                    >
-                        <UpFillArrowIcon className={clsx("text-icon-default transition-transform", {
-                            "rotate-180": !isOpenChild,
-                            "opacity-40": count === 1
-                        })} />
-                    </button>
+                    {
+                        isMarketDepth && (
+                            <button
+                                disabled={count === 1}
+                                onClick={() => setisOpenChild(!isOpenChild)}
+                            >
+                                <UpFillArrowIcon className={clsx("text-icon-default transition-transform", {
+                                    "rotate-180": !isOpenChild,
+                                    "opacity-40": count === 1
+                                })} />
+                            </button>
+                        )
+                    }
+
                     <span
                         className={clsx("w-1/3 text-content-paragraph", {
                             "text-right": side === "Buy",
