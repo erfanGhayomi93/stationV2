@@ -26,7 +26,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
 
 
 
-    const { data } = useQueryMarketDepthV2(selectedSymbol)
+    const { data, isLoading } = useQueryMarketDepthV2(selectedSymbol)
 
 
     const [bids, setBids] = useState<IState>({
@@ -355,8 +355,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
 
 
     return {
-        actions: {
-        },
+        isLoading,
         data:
             { bids, asks },
     }
