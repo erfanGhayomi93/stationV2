@@ -51,7 +51,7 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className={'grid grid-rows-3 gap-2 overflow-y-auto pl-4'}>
+               <div className={'grid grid-rows-3 gap-2 overflow-y-auto'}>
                     <div className={clsx(BoxClass, 'p-4')}>
                          <TodayOrdersWidget side={'Buy'} />
                     </div>
