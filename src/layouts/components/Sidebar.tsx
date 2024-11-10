@@ -10,6 +10,7 @@ import {
      ShapesIcon,
      StoneFourIcon,
 } from '@assets/icons';
+import { routerPagePath } from '@router/routerPage';
 import { useUIStore } from '@store/ui';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
@@ -32,7 +33,7 @@ const Sidebar = () => {
                     icon: <HomeIcon />,
                     title: t('sidebar.home'),
                     disable: false,
-                    path: '/',
+                    path: routerPagePath.dashboard,
                },
                {
                     id: 'market',
@@ -59,10 +60,10 @@ const Sidebar = () => {
                     disable: true,
                },
                {
-                    id: 'manageCustomer',
+                    id: 'customersManage',
                     icon: <CommunityIcon />,
                     title: t('sidebar.manageCustomer'),
-                    disable: true,
+                    path: routerPagePath.customersManage,
                },
                {
                     id: 'reports',
@@ -129,7 +130,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className={clsx('flex flex-col gap-4')}>
-                         {ITEMS.map((item , ind) => (
+                         {ITEMS.map((item, ind) => (
                               <div
                                    onClick={() => {
                                         navigate(item.path ?? '/');
@@ -167,16 +168,24 @@ const Sidebar = () => {
                          </span>
                     </div>
 
-                    {showContent && (
-                         <span
-                              style={{
-                                   fontSize: '11px',
-                              }}
-                              className="truncate text-center text-content-placeholder"
-                         >
-                              {t('sidebar.copyWrite')}
-                         </span>
-                    )}
+                    {/* {showContent && ( */}
+                    <a
+                         href={import.meta.env.APP_RAMAND_WEBSITE_URL}
+                         aria-label="Read more about ramand group"
+                         role="link"
+                         target="_blank"
+                         rel="noreferrer"
+                         style={{
+                              fontSize: '11px',
+                         }}
+                         className={clsx(
+                              'truncate text-center text-content-placeholder hover:text-button-info-hover',
+                              !showContent && 'opacity-0'
+                         )}
+                    >
+                         {t('sidebar.copyWrite')}
+                    </a>
+                    {/* )} */}
                </div>
           </aside>
      );
