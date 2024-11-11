@@ -20,8 +20,8 @@ const CustomersSearch = () => {
      }, [selectedCustomers]);
 
      return (
-          <div className="flex flex-1 items-center gap-2">
-               <div className="w-9/12">
+          <div className="flex flex-1 items-center mb-2">
+               <div className="w-9/12 px-4">
                     <SearchInput
                          handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
                          placeholder="مشتری"
@@ -32,7 +32,7 @@ const CustomersSearch = () => {
                     />
                </div>
 
-               <div className="flex w-3/12 items-center justify-center">
+               <div className="flex w-3/12 items-center justify-center pl-4">
                     <Popup
                          margin={{
                               y: 8,

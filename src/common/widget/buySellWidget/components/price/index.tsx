@@ -1,13 +1,13 @@
 
 
-import FieldInput from "@uiKit/Inputs/FieldInput";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useBuySellContext } from "../../context/buySellContext";
 import PriceByPercent from "./PriceByPercent";
 import ToggleSwitch from "@uiKit/ToggleSwitch";
 import { useSymbolStore } from "@store/symbol";
 import { SubscribeSymbolBestOneOrders } from "@LS/subscribes";
 import { pushEngine } from "@LS/pushEngine";
+import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
 
 
 interface IPriceProps {
@@ -66,30 +66,50 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         }
     }, [side, selectedSymbol])
 
+    useEffect(() => {
+        console.log({ price })
+    }, [price])
+
+    const isBetweenUpDownTick = useMemo(() => {
+        if (!downTickValue || !upTickValue) return true; // Return true if either tick value is undefined
+
+        // Check if price is strictly between downTickValue and upTickValue
+        return price >= downTickValue && price <= upTickValue;
+    }, [price, downTickValue, upTickValue]);
+
 
     return (
-        <div className="flex-1 flex gap-x-1">
+        <div className="flex-1 flex items-center">
+            <div className="w-9/12 flex px-4">
+                {
+                    !isPercentPrice &&
+                    <FieldInputNumber
+                        value={price}
+                        onChangeValue={value => setPrice(+value)}
+                        placeholder="قیمت"
+                        upTickValue={upTickValue}
+                        downTickValue={downTickValue}
+                        variant="advanced"
+                        selectIcon={isLockPrice ? "lock-1" : "lock-0"}
+                        onClickIcon={handleClickLock}
+                        isError={!isBetweenUpDownTick}
+                        textError="قیمت در آستانه مجاز نمی‌باشد."
+                    />
+                }
 
-            {!isPercentPrice &&
-                <FieldInput
-                    value={price}
-                    onChangeValue={value => setPrice(+value)}
-                    placeholder="قیمت"
+                {isPercentPrice && <PriceByPercent
                     upTickValue={upTickValue}
                     downTickValue={downTickValue}
-                    variant="advanced"
-                    type="number"
-                    selectIcon={isLockPrice ? "lock-1" : "lock-0"}
-                    onClickIcon={handleClickLock}
                 />}
+            </div>
 
-            {isPercentPrice && <PriceByPercent />}
-
-            <ToggleSwitch
-                checked={isPercentPrice}
-                label="درصدی"
-                onChange={() => setIsPercentPrice(!isPercentPrice)}
-            />
+            <div className="w-3/12 pl-4">
+                <ToggleSwitch
+                    checked={isPercentPrice}
+                    label="درصدی"
+                    onChange={() => setIsPercentPrice(!isPercentPrice)}
+                />
+            </div>
 
         </div>
     );

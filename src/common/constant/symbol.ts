@@ -4,6 +4,7 @@ export const SymbolGeneralfields = [
      'highThreshold',
      'individualBuyVolume',
      'numberOfIndividualSellers',
+     'numberOfIndividualBuyers',
      'individualSellVolume',
      'numberOfLegalBuyers',
      'legalBuyVolume',
