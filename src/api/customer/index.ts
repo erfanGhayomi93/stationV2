@@ -59,3 +59,18 @@ export const useQueryDefaultGroup = () => {
           staleTime: 0,
      });
 };
+
+export const useCustomerInformation = ({ customerISIN }: ICustomerInformationReq) => {
+     const url = routeApi().Customer.GetCustomerInformation;
+
+     return useQuery({
+          queryKey: ['getCustomerInformation'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerInformationRes>>(url, {
+                    params: { customerISIN },
+               });
+
+               return response.data.result;
+          },
+     });
+};

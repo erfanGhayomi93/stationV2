@@ -356,6 +356,24 @@
           "confirmLogin": "ورود",
           "inputCaptchaLabel": "کدامنیتی"
      },
+
+     "loginError": {
+          "Successful": "با موفقیت وارد حساب کاربری شدید",
+          "ChangePassword": "",
+          "ForceForgetPassword": "مجاز به ورود نیستید. ابتدا رمزعبور خود را تغییر دهید",
+          "ForceChangePassword": "مجاز به ورود نیستید. ابتدا رمزعبور خود را تغییر دهید",
+          "TwoFactor": "",
+          "UserOrPasswordNotValid": "نام‌کاربری یا رمزعبور اشتباه است",
+          "InvalidRequest": "درخواست نامعتبر است",
+          "CookieRemove": "اعتبار توکن به اتمام رسیده است",
+          "InvalidCaptcha": "کدامنیتی صحیح نمیباشد",
+          "OtpIsNotValid": "کد تایید اشتباه است",
+          "OtpTooRequest": "دفعات استفاده بیش از حد مجاز است. لطفا چند دقیقه دیگر مجدد امتحان کنید",
+          "UserIsLock": "برای دقایقی حساب شما مسدود شده است",
+          "UserIsNotApproved": "حساب کاربری شما توسط کارگزاری مسدود می‌باشد،جهت کسب اطلاعات بیشتر با پشتیبانی تماس حاصل فرمائید.",
+          "OtpExpired": "مهلت استفاده از کد به پایان رسیده است. لطفا مجدد تلاش کنید",
+          "TooRequestAttempt": ""
+     },
      "quantityPercentOption": {
           "remain": "وجه نقد",
           "purchasePower": "قدرت خرید",
@@ -445,5 +463,33 @@
           "createNewWatchlistTitle": "ایجاد دیده‌بان جدید",
           "watchlistTitleInputLabel": "عنوان دیده‌بان",
           "createWatchlistButton": "ایجاد دیده‌بان"
+     },
+
+     "customersManage": {
+          "customersTab": "مشتریان",
+          "customerGroupTab": "گروه مشتری",
+          "myGroupsTab": "گروه‌های من",
+          "customerCol": "مشتری",
+          "bourseCodeCol": "کد بورسی",
+          "nationalCodeCol": "کدملی",
+          "purchasePowerCol": "قدرت خرید سهم",
+          "purchasePowerOptionCol": "قدرت خرید آپشن",
+          "actionCol": "عملیات",
+          "displayPortfolioActionItem": "مشاهده پرتفوی",
+          "addToGroupActionItem": "افزودن به گروه",
+          "deleteFromGroupActionItem": "حذف از گروه",
+          "personalInformationTab": "اطلاعات هویتی",
+          "financialStatusTab": "اطلاعات مالی",
+          "contractsTab": "قراردادها",
+          "personalInformationFatherName": "نام پدر",
+          "personalInformationBourseCode": "کد بورسی",
+          "personalInformationNationalCode": "کد ملی/شناسه ملی",
+          "personalInformationRecordNumber": "شماره ثبت",
+          "personalInformationPhoneNumber": "تلفن ثابت",
+          "personalInformationMobileNumber": "تلفن همراه",
+          "personalInformationKind": "نوع",
+          "personalInformationReferral": "معرف",
+          "customerKindNatural": "حقیقی",
+          "customerKindLegal": "حقوقی"
      }
 }

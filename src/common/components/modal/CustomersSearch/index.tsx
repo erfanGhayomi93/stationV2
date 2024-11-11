@@ -1,17 +1,17 @@
+import { useCustomerStore } from '@store/customer';
 import { useModalStore } from '@store/modal';
+import Button from '@uiKit/Button';
 import RadioButton from '@uiKit/RadioButton';
 import { useReducer, useState } from 'react';
 import Modal from '..';
 import CustomersSearchBody from './components/customerSearchBody';
 import GroupSearchBody from './components/groupSearchBody';
 import { customerReducer } from './store';
-import Button from '@uiKit/Button';
-import { useCustomerStore } from '@store/customer';
 
 const CustomersSearchModal = () => {
      const [selectedValue, setSelectedValue] = useState<'nameGroup' | 'customerGroup'>('nameGroup'); // Default value
 
-     const { selectedCustomers, setSelectedCustomers } = useCustomerStore()
+     const { selectedCustomers, setSelectedCustomers } = useCustomerStore();
 
      const [state, dispatch] = useReducer(customerReducer, { selectedCustomers: selectedCustomers });
 
@@ -27,10 +27,9 @@ const CustomersSearchModal = () => {
      ];
 
      const addCustomerToGlobalStore = () => {
-          setSelectedCustomers(state.selectedCustomers)
-          onCloseModal()
-     }
-
+          setSelectedCustomers(state.selectedCustomers);
+          onCloseModal();
+     };
 
      return (
           <Modal title={'جستجوی مشتری'} onCloseModal={onCloseModal} size="lg">
@@ -53,34 +52,21 @@ const CustomersSearchModal = () => {
                     </div>
 
                     <div className="mt-6">
-                         {selectedValue === 'nameGroup' && <CustomersSearchBody
-                              selectedCustomers={state.selectedCustomers}
-                              dispatch={dispatch}
-                         />}
-                         {selectedValue === 'customerGroup' && <GroupSearchBody
-                              selectedCustomers={state.selectedCustomers}
-                              dispatch={dispatch}
-                         />}
+                         {selectedValue === 'nameGroup' && (
+                              <CustomersSearchBody selectedCustomers={state.selectedCustomers} dispatch={dispatch} />
+                         )}
+                         {selectedValue === 'customerGroup' && (
+                              <GroupSearchBody selectedCustomers={state.selectedCustomers} dispatch={dispatch} />
+                         )}
                     </div>
                     <div className="mt-6 flex gap-x-4">
-
-                         <Button
-                              className='flex-1'
-                              variant='primary-outline'
-                              onClick={onCloseModal}
-                         >
+                         <Button className="flex-1" variant="primary-outline" onClick={onCloseModal}>
                               انصراف
                          </Button>
 
-                         <Button
-                              className='flex-1'
-                              variant='primary'
-                              onClick={addCustomerToGlobalStore}
-                         >
+                         <Button className="flex-1" variant="primary" onClick={addCustomerToGlobalStore}>
                               تایید و بستن
                          </Button>
-
-
                     </div>
                </div>
           </Modal>

@@ -68,8 +68,10 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
      -webkit-background-clip: text;
      transition: background-color 5000s ease-in-out 0s;
-     color: #939cad !important;
+     color: rgb(var(--color-content-title)) !important;
      -webkit-text-fill-color: #939cad !important;
+     font-weight: 500 !important;
+     font-size: 0.875rem;
 }
 .ag-theme-alpine .ag-layout-auto-height .ag-center-cols-viewport,
 .ag-theme-alpine .ag-layout-auto-height .ag-center-cols-container,

@@ -38,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                                    dir="ltr"
                                    placeholder=""
                                    className={clsx(
-                                        'text-L-gray-700 dark:text-D-gray-700 z-10 h-full w-full bg-transparent pl-4 outline-none placeholder:text-right',
+                                        'z-10 h-full w-full bg-transparent pl-4 text-sm font-medium text-content-title outline-none placeholder:text-right',
                                         {
                                              [inputClassName as string]: !!inputClassName,
                                         }
