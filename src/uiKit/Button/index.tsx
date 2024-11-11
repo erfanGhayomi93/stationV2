@@ -2,7 +2,15 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react';
 
 type ButtonProps = {
-     variant?: 'primary' | 'primary-outline' | 'secondary' | 'danger' | 'danger-outline' | 'label';
+     variant?:
+          | 'primary'
+          | 'primary-outline'
+          | 'primary-darkness'
+          | 'primary-darkness-outline'
+          | 'secondary'
+          | 'danger'
+          | 'danger-outline'
+          | 'label';
      className?: string;
      icon?: ReactNode;
      isLoading?: boolean;
@@ -40,11 +48,13 @@ const Loading = () => {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      ({ children, variant = 'primary', icon, className, isLoading = false, ...props }, ref) => {
           const baseClass =
-               'py-2 px-6 rounded-lg text-sm border flex items-center justify-center gap-x-2 disabled:text-button-disable-disable';
+               'py-2 px-6 rounded-lg w-full text-sm border flex items-center justify-center gap-x-2 disabled:text-button-disable-disable';
 
           const variantClass = clsx(isLoading && 'opacity-80 pointer-events-none w-full', {
                'text-content-white bg-button-success-default border:content-success-buy': variant === 'primary',
                'text-content-success-buy bg-content-white border:content-success-buy': variant === 'primary-outline',
+               'text-content-white bg-button-primary-default ': variant === 'primary-darkness',
+               'text-content-success-buy bg-content-white border-button-primary-default': variant === 'primary-darkness-outline',
                'text-content-white bg-button-error-default': variant === 'danger',
                'text-content-error-sell bg-back-error-default': variant === 'danger-outline',
                'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',

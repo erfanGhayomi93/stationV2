@@ -41,6 +41,8 @@ export const routeApi = () => {
 
                GroupAdvancedSearch: baseUrl + '/Customer/v1/GroupAdvancedSearch',
                GetGroups: baseUrl + '/Customer/v1/GetGroups',
+
+               GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
           },
 
           SupervisorMessage: {

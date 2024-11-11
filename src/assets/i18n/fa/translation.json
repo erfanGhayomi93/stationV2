@@ -463,5 +463,33 @@
           "createNewWatchlistTitle": "ایجاد دیده‌بان جدید",
           "watchlistTitleInputLabel": "عنوان دیده‌بان",
           "createWatchlistButton": "ایجاد دیده‌بان"
+     },
+
+     "customersManage": {
+          "customersTab": "مشتریان",
+          "customerGroupTab": "گروه مشتری",
+          "myGroupsTab": "گروه‌های من",
+          "customerCol": "مشتری",
+          "bourseCodeCol": "کد بورسی",
+          "nationalCodeCol": "کدملی",
+          "purchasePowerCol": "قدرت خرید سهم",
+          "purchasePowerOptionCol": "قدرت خرید آپشن",
+          "actionCol": "عملیات",
+          "displayPortfolioActionItem": "مشاهده پرتفوی",
+          "addToGroupActionItem": "افزودن به گروه",
+          "deleteFromGroupActionItem": "حذف از گروه",
+          "personalInformationTab": "اطلاعات هویتی",
+          "financialStatusTab": "اطلاعات مالی",
+          "contractsTab": "قراردادها",
+          "personalInformationFatherName": "نام پدر",
+          "personalInformationBourseCode": "کد بورسی",
+          "personalInformationNationalCode": "کد ملی/شناسه ملی",
+          "personalInformationRecordNumber": "شماره ثبت",
+          "personalInformationPhoneNumber": "تلفن ثابت",
+          "personalInformationMobileNumber": "تلفن همراه",
+          "personalInformationKind": "نوع",
+          "personalInformationReferral": "معرف",
+          "customerKindNatural": "حقیقی",
+          "customerKindLegal": "حقوقی"
      }
 }

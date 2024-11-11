@@ -1,3 +1,4 @@
+import CustomerManage from '@pages/CustomersManage';
 import Dashboard from '@pages/Dashboard';
 import Login from '@pages/OAuth/Login';
 import Logout from '@pages/OAuth/Logout';
@@ -11,6 +12,7 @@ const routerPagePath = {
           login: '/oauth/login',
           logout: '/oauth/logout',
      },
+     customersManage: '/customers-manage',
 };
 
 const routerPage = createBrowserRouter([
@@ -21,6 +23,11 @@ const routerPage = createBrowserRouter([
                {
                     element: <Dashboard />,
                     index: true,
+               },
+
+               {
+                    element: <CustomerManage />,
+                    path: routerPagePath.customersManage,
                },
 
                {

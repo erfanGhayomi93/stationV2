@@ -18,7 +18,6 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
 
      return (
           <Popup
-               margin={{}}
                renderer={({ setOpen }) => (
                     <ul className="rtl flex w-full flex-col gap-2 rounded-md bg-back-surface px-1 py-3 text-sm shadow-E5">
                          {items?.map((item, index) => (

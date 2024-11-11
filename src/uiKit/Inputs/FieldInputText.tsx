@@ -5,13 +5,19 @@ import { InputHTMLAttributes, useState } from 'react';
 interface TFieldInputTextProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'placeholder'> {
      onChange: (value: string) => void;
      placeholder: string;
+     classes?: Partial<Record<'root', ClassesValue | undefined>>;
 }
 
-const FieldInputText = ({ onChange, placeholder, ...props }: TFieldInputTextProps) => {
+const FieldInputText = ({ onChange, placeholder, classes, ...props }: TFieldInputTextProps) => {
      const [inputValue, setInputValue] = useState<string | number>('');
 
      return (
-          <div className="rtl group relative flex h-12 w-full items-center justify-between rounded-2xl border border-input-default px-3 py-2 transition-colors focus-within:border-input-primary">
+          <div
+               className={clsx(
+                    classes?.root,
+                    'rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default px-3 py-2 transition-colors focus-within:border-input-primary'
+               )}
+          >
                <div className="flex flex-1 items-center">
                     <input
                          value={inputValue}

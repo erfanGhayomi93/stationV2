@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+     .tab-primary {
+          @apply h-10 w-[9.18rem] rounded-lg bg-button-tab-deactive text-sm font-medium text-content-deselecttab transition-colors focus:outline-none data-[focus]:outline-none;
+
+          &.active {
+               @apply data-[selected]:bg-button-tab-active data-[selected]:font-bold data-[selected]:text-content-selected;
+          }
+     }
+}
