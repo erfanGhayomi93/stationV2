@@ -24,18 +24,18 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
      );
 
      return (
-          <div className="flex w-full flex-col gap-y-4 px-4 py-4 outline-none">
+          <div className="flex w-full flex-col gap-y-4 py-4 outline-none">
                <CustomersSearch />
+               <Quantity
+                    minTradeQuantity={data?.symbolData.minTradeQuantity}
+                    maxTradeQuantity={data?.symbolData.maxTradeQuantity}
+                    marketUnit={data?.symbolData.marketUnit}
+               />
                <Price
                     upTickValue={data?.symbolData.highThreshold}
                     downTickValue={data?.symbolData.lowThreshold}
                     bestSellLimitPrice_1={data?.ordersData.bestSellLimitPrice_1}
                     bestBuyLimitPrice_1={data?.ordersData.bestBuyLimitPrice_1}
-               />
-               <Quantity
-                    minTradeQuantity={data?.symbolData.minTradeQuantity}
-                    maxTradeQuantity={data?.symbolData.maxTradeQuantity}
-                    marketUnit={data?.symbolData.marketUnit}
                />
                <Credit />
                <InformationTrade marketUnit={data?.symbolData.marketUnit} />

@@ -13,12 +13,12 @@ const initialStore: IBuySellState = {
      isPercentPrice: false,
      isPercentQuantity: false,
      priceWithPercent: {
-          PriceBasedOn: "GreaterThanClosingPrice",
-          percent: 0
+          priceBasedOn: "GreaterThanClosingPrice",
+          percent: 1
      },
      quantityWithPercent: {
           quantityBasedOn: "remain",
-          percent: 0
+          percent: 1
      },
      amount: 0,
      isLockPrice: false,
@@ -37,8 +37,12 @@ export const useBuySellStore = create<IBuySellState & IBuySellAction>(set => ({
      setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => set(() => ({ isCalculatedQuantity })),
      setIsPercentPrice: (isPercentPrice: boolean) => set(() => ({ isPercentPrice })),
      setIsPercentQuantity: (isPercentQuantity: boolean) => set(() => ({ isPercentQuantity })),
-     setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => set(() => ({ priceWithPercent })),
-     setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => set(() => ({ quantityWithPercent })),
+     setPriceWithPercentBaseOn: (priceBasedOn: string) => set((value) => ({ priceWithPercent: { ...value.priceWithPercent, priceBasedOn } })),
+     setPriceWithPercentValue: (percent: number) => set((value) => ({ priceWithPercent: { ...value.priceWithPercent, percent } })),
+
+     setQuantityWithBaseOn: (quantityBasedOn: TQuantityBasedOn) => set((value) => ({ quantityWithPercent: { ...value.quantityWithPercent, quantityBasedOn } })),
+     setQuantityWithValue: (percent: number) => set((value) => ({ quantityWithPercent: { ...value.quantityWithPercent, percent } })),
+
      setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
      reset: () => set(initialStore)
 }));
