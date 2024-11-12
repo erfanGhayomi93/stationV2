@@ -1,14 +1,29 @@
+import { useQueryPortfolio } from '@api/portfolio';
 import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
+import { sepNumbers } from '@methods/helper';
 import { useCustomerStore } from '@store/customer';
 import { useModalStore } from '@store/modal';
+import { useSymbolStore } from '@store/symbol';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { useMemo } from 'react';
+import { useBuySellContext } from 'common/widget/buySellWidget/context/buySellContext';
+import { useEffect, useMemo } from 'react';
 
 const CustomersSearch = () => {
      const { setCustomersSearchModalSheet } = useModalStore();
 
      const { selectedCustomers, setSelectedCustomers, removeAllSelectedCustomers, removeSelectedCustomers } = useCustomerStore();
+
+     const { selectedSymbol } = useSymbolStore()
+
+     const { data, refetch: refetchPortlolio } = useQueryPortfolio({
+          CustomerISIN: [selectedCustomers[0]?.customerISIN],
+          SymbolISIN: [selectedSymbol]
+     })
+
+     const asset = useMemo(() => data?.result[0]?.asset, [data?.result])
+
+     const { side } = useBuySellContext()
 
      const selectedCustomerInputValues = useMemo(() => {
           return selectedCustomers.map(customer => {
@@ -19,20 +34,61 @@ const CustomersSearch = () => {
           });
      }, [selectedCustomers]);
 
+     useEffect(() => {
+          if (side === 'Sell' && selectedCustomers?.length === 1) {
+               refetchPortlolio();
+          }
+     }, [side, selectedCustomers, refetchPortlolio])
+
+
+
      return (
-          <div className="flex flex-1 items-center gap-2">
-               <div className="w-9/12">
-                    <SearchInput
-                         handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
-                         placeholder="مشتری"
-                         onChangeValue={() => null}
-                         values={selectedCustomerInputValues ?? []}
-                         removeAllSelectedCustomers={removeAllSelectedCustomers}
-                         removeSelectedCustomers={removeSelectedCustomers}
-                    />
+          <div className="flex flex-1 items-center mb-3">
+               <div className="w-9/12 px-4">
+                    <div className='relative'>
+                         <SearchInput
+                              handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
+                              placeholder="مشتری"
+                              onChangeValue={() => null}
+                              values={selectedCustomerInputValues ?? []}
+                              removeAllSelectedCustomers={removeAllSelectedCustomers}
+                              removeSelectedCustomers={removeSelectedCustomers}
+                         />
+
+                         {
+                              selectedCustomers.length === 1 && (
+                                   <div className='text-xs absolute flex gap-x-1 mt-0.5 pr-1'>
+                                        {
+                                             side === 'Buy' && (
+                                                  <>
+                                                       <span className='text-content-paragraph'>قدرت خرید مشتری:</span>
+                                                       <span className='text-content-success-buy'>
+                                                            {sepNumbers(selectedCustomers[0].customerRemainAndOptionRemainDto.purchasePower)}
+                                                       </span>
+                                                       <span className='text-content-paragraph'>ریال</span>
+                                                  </>
+                                             )
+                                        }
+                                        {
+                                             (side === 'Sell' && !!asset) &&
+                                             (
+                                                  <>
+                                                       <span className='text-content-paragraph'>دارایی مشتری:</span>
+                                                       <span className='text-content-title'>
+                                                            {sepNumbers(asset)}
+                                                       </span>
+                                                       <span className='text-content-paragraph'>سهم</span>
+                                                  </>
+                                             )
+                                        }
+
+                                   </div>
+                              )
+                         }
+                    </div>
                </div>
 
-               <div className="flex w-3/12 items-center justify-center">
+               <div className="flex w-3/12 items-center justify-center pl-4">
                     <Popup
                          margin={{
                               y: 8,

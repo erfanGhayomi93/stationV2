@@ -285,6 +285,19 @@ export const generateSourceOrder = (source: string, side: TSide) => {
      }
 };
 
+export const createQueryKeyByParams = <T>(params: T) => {
+     return Object.entries(params as Record<string, unknown>)
+          .filter(
+               ([_, value]) =>
+                    value !== undefined &&
+                    value !== null &&
+                    (typeof value === 'number' ||
+                         (typeof value === 'string' && value !== '') ||
+                         (Array.isArray(value) && value.length > 0))
+          )
+          .map(([key, value]) => ({ [key]: value }));
+};
+
 export const dayAsJalali = (v: dayjs.ConfigType) => {
      return dayjs(v, {
           // @ts-expect-error: dayjs does not recognize jalali

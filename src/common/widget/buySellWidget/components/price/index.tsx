@@ -1,13 +1,14 @@
 
 
-import FieldInput from "@uiKit/Inputs/FieldInput";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useBuySellContext } from "../../context/buySellContext";
 import PriceByPercent from "./PriceByPercent";
 import ToggleSwitch from "@uiKit/ToggleSwitch";
 import { useSymbolStore } from "@store/symbol";
-import { SubscribeSymbolBestOneOrders } from "@LS/subscribes";
-import { pushEngine } from "@LS/pushEngine";
+// import { SubscribeSymbolBestOneOrders } from "@LS/subscribes";
+// import { pushEngine } from "@LS/pushEngine";
+import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
+import useUpdateEffect from "@hooks/useUpdateEffect";
 
 
 interface IPriceProps {
@@ -27,8 +28,14 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         if (price) {
             setPrice(price)
         }
-        subscribeBestPrice()
+        // subscribeBestPrice()
     }
+
+    useUpdateEffect(() => {
+        if (isLockPrice) {
+            setPriceProcess()
+        }
+    }, [bestSellLimitPrice_1, bestBuyLimitPrice_1])
 
     const handleLockPrice = () => {
         setIsLockPrice(true)
@@ -37,7 +44,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
 
     const handleUnLockPrice = () => {
         setIsLockPrice(false)
-        if (isLockPrice) pushEngine.unSubscribe('SymbolBestOneOrders');
+        // if (isLockPrice) pushEngine.unSubscribe('SymbolBestOneOrders');
     }
 
     const handleClickLock = () => {
@@ -49,16 +56,16 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         handleLockPrice()
     }
 
-    const subscribeBestPrice = () => {
-        SubscribeSymbolBestOneOrders(selectedSymbol, ["bestBuyLimitPrice_1", "bestSellLimitPrice_1"], (changedFields) => {
-            if ('bestBuyLimitPrice_1' in changedFields && side === 'Sell') {
-                setPrice(changedFields.bestBuyLimitPrice_1)
-            }
-            else if ('bestSellLimitPrice_1' in changedFields && side === 'Buy') {
-                setPrice(changedFields.bestSellLimitPrice_1)
-            }
-        })
-    }
+    // const subscribeBestPrice = () => {
+    //     SubscribeSymbolBestOneOrders(selectedSymbol, ["bestBuyLimitPrice_1", "bestSellLimitPrice_1"], (changedFields) => {
+    //         if ('bestBuyLimitPrice_1' in changedFields && side === 'Sell') {
+    //             setPrice(changedFields.bestBuyLimitPrice_1)
+    //         }
+    //         else if ('bestSellLimitPrice_1' in changedFields && side === 'Buy') {
+    //             setPrice(changedFields.bestSellLimitPrice_1)
+    //         }
+    //     })
+    // }
 
     useEffect(() => {
         return () => {
@@ -67,29 +74,49 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
     }, [side, selectedSymbol])
 
 
-    return (
-        <div className="flex-1 flex gap-x-1">
 
-            {!isPercentPrice &&
-                <FieldInput
-                    value={price}
-                    onChangeValue={value => setPrice(+value)}
-                    placeholder="قیمت"
+    const isBetweenUpDownTick = useMemo(() => {
+        if (!downTickValue || !upTickValue) return true;
+
+        return price >= downTickValue && price <= upTickValue;
+    }, [price, downTickValue, upTickValue]);
+
+
+    return (
+        <div className="flex-1 flex items-center">
+            <div className="w-9/12 flex px-4">
+                {
+                    !isPercentPrice &&
+                    <FieldInputNumber
+                        value={price}
+                        onChangeValue={value => {
+                            setPrice(+value)
+                            setIsLockPrice(false);
+                        }}
+                        placeholder="قیمت"
+                        upTickValue={upTickValue}
+                        downTickValue={downTickValue}
+                        variant="advanced"
+                        selectIcon={isLockPrice ? "lock-1" : "lock-0"}
+                        onClickIcon={handleClickLock}
+                        isError={!isBetweenUpDownTick}
+                        textError="قیمت در آستانه مجاز نمی‌باشد."
+                    />
+                }
+
+                {isPercentPrice && <PriceByPercent
                     upTickValue={upTickValue}
                     downTickValue={downTickValue}
-                    variant="advanced"
-                    type="number"
-                    selectIcon={isLockPrice ? "lock-1" : "lock-0"}
-                    onClickIcon={handleClickLock}
                 />}
+            </div>
 
-            {isPercentPrice && <PriceByPercent />}
-
-            <ToggleSwitch
-                checked={isPercentPrice}
-                label="درصدی"
-                onChange={() => setIsPercentPrice(!isPercentPrice)}
-            />
+            <div className="w-3/12 pl-4">
+                <ToggleSwitch
+                    checked={isPercentPrice}
+                    label="درصدی"
+                    onChange={() => setIsPercentPrice(!isPercentPrice)}
+                />
+            </div>
 
         </div>
     );

@@ -86,7 +86,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
 
     return (
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 px-4">
             <Button
                 variant={side === "Buy" ? "primary-outline" : "danger-outline"}
                 className="flex-1"

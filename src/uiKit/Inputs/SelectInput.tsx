@@ -13,7 +13,7 @@ interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
      value: TItem;
 }
 
-const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {
+const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {  
      const [state, setState] = useState<{ id: string; label: string }>(value);
 
      return (

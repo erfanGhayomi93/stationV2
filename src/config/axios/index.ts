@@ -1,6 +1,7 @@
 import { routerPage, routerPagePath } from '@router/routerPage';
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
+import QueryString from 'qs';
 import { toast } from 'react-toastify';
 
 export const tokenCookieName = 'ROS_client_id';
@@ -11,10 +12,7 @@ const toastError = (text: string, id: string) => {
      });
 };
 
-const AXIOS = axios
-     .create
-     // {    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' })}
-     ();
+const AXIOS = axios.create({ paramsSerializer: params => QueryString.stringify(params, { arrayFormat: 'repeat' }) });
 
 AXIOS.interceptors.request.use(
      function (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {

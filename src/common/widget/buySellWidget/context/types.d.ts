@@ -10,7 +10,7 @@ interface IPriceLockIcon {
 }
 
 interface IPriceWithPercent {
-     PriceBasedOn: string;
+     priceBasedOn: string;
      percent: number;
 }
 
@@ -48,8 +48,10 @@ interface IBuySellAction {
      setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => void;
      setIsPercentPrice: (isPercentPrice: boolean) => void;
      setIsPercentQuantity: (setIsPercentQuantity: boolean) => void;
-     setPriceWithPercent: (priceWithPercent: IPriceWithPercent) => void;
-     setQuantityWithPercent: (quantityWithPercent: IQuantityWithPercent) => void;
+     setPriceWithPercentBaseOn: (priceBasedOn: string) => void;
+     setPriceWithPercentValue: (percent: number) => void;
+     setQuantityWithBaseOn: (quantityBasedOn: TQuantityBasedOn) => void;
+     setQuantityWithValue: (percent: number) => void;
      setIsLockPrice: (isLockPrice: boolean) => void;
      reset: () => void;
 }

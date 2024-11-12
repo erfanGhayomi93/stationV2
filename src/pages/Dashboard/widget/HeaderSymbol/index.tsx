@@ -56,23 +56,20 @@ const MainSymbol = () => {
           else return '';
      };
 
-     const symbolStateColor = useCallback(
-          (type: 'bg' | 'text') => {
-               if (symbolState) return '';
+     const symbolStateColor = useCallback((type: 'bg' | 'text', symbolState: string) => {
+          if (!symbolState) return '';
 
-               const stateClasses: Record<string, string> = {
-                    OrderEntryAuthorized_Open: `${type}-content-success-buy`, // مجاز
-                    OrderEntryAuthorized_Reserved: `${type}-content-warnning`, // مجاز_محفوظ
-                    OrderEntryAuthorized_Frozen: `${type}-content-error-sell`, // ممنوع
-                    OrderEntryForbidden_Suspended: `${type}-content-error-sell`, // ممنوع_متوقف
-                    OrderEntryForbidden_Open: `${type}-content-warnning`, // مجاز_متوقف
-                    OrderEntryForbidden_Reserved: `${type}-content-warnning`, // ممنوع-محفوظ
-               };
+          const stateClasses: Record<string, string> = {
+               OrderEntryAuthorized_Open: `${type}-content-success-buy`, // مجاز
+               OrderEntryAuthorized_Reserved: `${type}-content-warnning`, // مجاز_محفوظ
+               OrderEntryAuthorized_Frozen: `${type}-content-error-sell`, // ممنوع
+               OrderEntryForbidden_Suspended: `${type}-content-error-sell`, // ممنوع_متوقف
+               OrderEntryForbidden_Open: `${type}-content-warnning`, // مجاز_متوقف
+               OrderEntryForbidden_Reserved: `${type}-content-warnning`, // ممنوع-محفوظ
+          };
 
-               return stateClasses[symbolState as string];
-          },
-          [symbolState]
-     );
+          return stateClasses[symbolState as string];
+     }, []);
 
      const items = [
           { label: 'سایت TSE ', icon: TseIcon, link: getTSELink(insCode) },
@@ -137,7 +134,7 @@ const MainSymbol = () => {
                                    symbolStateTooltip={symbolStateTooltip()}
                               />
                               <span className="text-sm font-medium text-content-title">{symbolTitle}</span>
-                              <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
+                              <span className={symbolStateColor('text', symbolState)}>{symbolStateTooltip()}</span>
                               <span className="text-content-deselecttab">
                                    {`(${exchange ? t(`exchange_type.${exchange as ExchangeType}`) : '-'})`}
                               </span>
@@ -187,7 +184,7 @@ const MainSymbol = () => {
                                    y: 8,
                               }}
                               defaultPopupWidth={200}
-                              renderer={({ setOpen }) => (
+                              renderer={() => (
                                    <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                         {items.map((item, index) => (
                                              <a

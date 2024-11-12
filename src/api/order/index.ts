@@ -64,7 +64,7 @@ export const useModifyGroupOrder = () => {
      });
 };
 
-export const userDeleteGroupOrder = () => {
+export const useDeleteGroupOrder = () => {
      const url = routeApi().Orders.GroupOrderDelete;
 
      return useMutation({

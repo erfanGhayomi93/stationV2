@@ -10,9 +10,9 @@ export const useCommissionValue = (marketUnit?: TMarketUnit): ICommissionRes => 
         marketUnitTitle: '',
         sellCommission: 0,
     }
-    try {
-        const { data: commissionData } = useQueryCommission();
+    const { data: commissionData } = useQueryCommission();
 
+    try {
         if (!marketUnit || !commissionData) return defaultValue;
 
         const res = commissionData?.find(({ marketUnitTitle }) => marketUnitTitle === marketUnit);
