@@ -9,12 +9,7 @@ export const useQueryPortfolio = (params: IPortfolioReq) => {
      return useQuery({
           queryKey: ['portfolioList', ...createQueryKeyByParams<IPortfolioReq>(params)],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalPaginatedApiResponse<IPortfolioRes[]>>(url, {
-                    params: {
-                         SymbolISIN: params.SymbolISIN,
-                         CustomerISIN: params.CustomerISIN,
-                    },
-               });
+               const response = await AXIOS.get<GlobalPaginatedApiResponse<IPortfolioRes[]>>(url, { params });
                return response.data;
           },
           enabled: false,
