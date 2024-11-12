@@ -1,12 +1,22 @@
 import { useTabSlice } from '@store/tab';
-import { useCallback } from 'react';
+import { createContext, Dispatch, SetStateAction, useCallback, useState } from 'react';
 import CustomersMangeLayout from './layout';
 import CustomerGroup from './widget/CustomerGroup';
 import Customers from './widget/Customers';
 import MyGroups from './widget/MyGroups';
 
+export const CustomersContext = createContext<{
+     customers: ICustomerAdvancedSearchRes[];
+     setCustomers: Dispatch<SetStateAction<ICustomerAdvancedSearchRes[]>>;
+}>({
+     customers: [],
+     setCustomers: () => null,
+});
+
 const CustomerManage = () => {
-     const { customersManageTab, setCustomersManageTab } = useTabSlice();
+     const { customersManageTab } = useTabSlice();
+
+     const [customers, setCustomers] = useState<ICustomerAdvancedSearchRes[]>([]);
 
      const CustomerTabRenderer = useCallback(() => {
           const components = {
@@ -18,7 +28,16 @@ const CustomerManage = () => {
           return components[customersManageTab];
      }, [customersManageTab]);
 
-     return <CustomersMangeLayout>{<CustomerTabRenderer />}</CustomersMangeLayout>;
+     return (
+          <CustomersContext.Provider
+               value={{
+                    customers,
+                    setCustomers,
+               }}
+          >
+               <CustomersMangeLayout>{<CustomerTabRenderer />}</CustomersMangeLayout>
+          </CustomersContext.Provider>
+     );
 };
 
 export default CustomerManage;

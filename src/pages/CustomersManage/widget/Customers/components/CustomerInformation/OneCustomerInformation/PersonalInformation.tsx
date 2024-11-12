@@ -1,11 +1,14 @@
 import { useCustomerInformation } from '@api/customer';
-import { useMemo } from 'react';
+import { CustomersContext } from '@pages/CustomersManage';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const PersonalInformation = () => {
      const { t } = useTranslation();
 
-     const { data } = useCustomerInformation({ customerISIN: 18990069635676 });
+     const { customers } = useContext(CustomersContext);
+
+     const { data } = useCustomerInformation({ customerISIN: customers[0].customerISIN });
 
      const PERSONAL_INFORMATION_ITEMS = useMemo(
           () => [
@@ -26,7 +29,7 @@ const PersonalInformation = () => {
      );
 
      return (
-          <ul className="flex flex-1 flex-col">
+          <ul className="flex flex-1 flex-col overflow-auto px-20">
                {PERSONAL_INFORMATION_ITEMS.map(({ id, name, value }) => (
                     <li
                          key={id}

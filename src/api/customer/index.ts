@@ -2,13 +2,15 @@ import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
 import { useQuery } from '@tanstack/react-query';
 
-export const useQueryCustomerSearch = (term: string) => {
+export const useQueryCustomerSearch = ({ term, customerType }: { term: string; customerType: 'Natural' | 'Legal' | 'All' }) => {
      const url = routeApi().Customer.AdvancedSearch;
 
      return useQuery({
-          queryKey: ['AdvancedSearch' + term],
+          queryKey: ['AdvancedSearch', term, customerType],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, { params: { term } });
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, {
+                    params: customerType ? { term, customerType } : { term },
+               });
                return response.data.result;
           },
           gcTime: 0,
@@ -64,12 +66,45 @@ export const useCustomerInformation = ({ customerISIN }: ICustomerInformationReq
      const url = routeApi().Customer.GetCustomerInformation;
 
      return useQuery({
-          queryKey: ['getCustomerInformation'],
+          queryKey: ['getCustomerInformation', customerISIN],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<ICustomerInformationRes>>(url, {
                     params: { customerISIN },
                });
 
+               return response.data.result;
+          },
+     });
+};
+
+export const useCustomerFinancialStatus = ({ customerISIN }: ICustomerFinancialReq) => {
+     const url = routeApi().Customer.GetCustomerFinancialStatus;
+
+     return useQuery({
+          queryKey: ['getCustomerFinancial', customerISIN],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerFinancialRes>>(url, {
+                    params: {
+                         customerISIN,
+                    },
+               });
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useCustomerContracts = ({ customerISIN }: ICustomerContractsReq) => {
+     const url = routeApi().Customer.GetCustomerContract;
+
+     return useQuery({
+          queryKey: ['getCustomerContracts', customerISIN],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerContractsRes[]>>(url, {
+                    params: {
+                         customerISIN,
+                    },
+               });
                return response.data.result;
           },
      });

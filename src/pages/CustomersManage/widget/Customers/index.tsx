@@ -6,10 +6,14 @@ import CustomersTable from '@pages/CustomersManage/widget/Customers/components/C
 import { useMemo, useState } from 'react';
 import CustomersInformation from './components/CustomerInformation';
 
+type TCustomerType = 'Natural' | 'Legal' | 'All';
+
 const Customers = () => {
      const [term, setTerm] = useState('');
 
-     const { data: searchCustomers } = useQueryCustomerSearch(useDebounce(term, 400));
+     const [customerType, setCustomerType] = useState<TCustomerType>('All');
+
+     const { data: searchCustomers } = useQueryCustomerSearch({ term: useDebounce(term, 400), customerType });
 
      const { data: defaultCustomers } = useQueryDefaultCustomer();
 
@@ -22,7 +26,10 @@ const Customers = () => {
      return (
           <>
                <div className="grid grid-rows-min-one gap-6 rounded-md bg-back-surface p-6">
-                    <CustomersManageFilters onChangeSearchInput={value => setTerm(value)} onChangeSelectInput={() => null} />
+                    <CustomersManageFilters
+                         onChangeSearchInput={value => setTerm(value)}
+                         onChangeSelectInput={item => setCustomerType(item.id as TCustomerType)}
+                    />
                     <CustomersTable data={listGroups} />
                </div>
 
