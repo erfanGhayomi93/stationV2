@@ -22,7 +22,7 @@ interface ICustomerAdvancedSearchRes {
 }
 
 interface ICustomerInformationReq {
-     customerISIN: number;
+     customerISIN: string;
 }
 
 interface ICustomerInformationRes {
@@ -42,4 +42,40 @@ interface ICustomerInformationRes {
      remainT2: number;
      stationCredit: number;
      stationName: string;
+}
+
+interface ICustomerFinancialReq {
+     customerISIN: string;
+}
+
+interface ICustomerFinancialRes {
+     bourseCode: string;
+     credit: number;
+     creditDebt: number;
+     customerISIN: string;
+     customerTitle: string;
+     marginValue: number;
+     nationalCode: string;
+     orderBlockValue: number;
+     paymentRequestBlockValue: number;
+     saveDate: string;
+     status: 'Normal' | 'AtRisk' | 'CallMargin';
+     t1: number;
+     t2: number;
+}
+
+interface ICustomerContractsReq {
+     customerISIN: string;
+}
+
+interface ICustomerContractsRes {
+     agreementId: number;
+     approveBySMS: boolean;
+     attachmentUrl: string;
+     canChangeByCustomer: boolean;
+     changeDate: string;
+     description: string;
+     state: 'Accepted' | 'NotSpecified' | 'expired';
+     title: string;
+     type: string;
 }

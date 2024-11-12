@@ -41,8 +41,9 @@ export const toFixed = (v: number, l = 3, round = true) => {
      return sepNumbers(integer) + '.' + (round ? String(decimalAsNumber).slice(2) : decimal);
 };
 
-export const numFormatter = (num: number, formatNavigateNumber = true) => {
+export const numFormatter = (num: number, formatNavigateNumber = true, isScale = true) => {
      try {
+          let originalName = num;
           if (isNaN(num)) return '−';
 
           const suffixes = ['', ' K', ' M', ' B', ' T'];
@@ -53,6 +54,7 @@ export const numFormatter = (num: number, formatNavigateNumber = true) => {
           if (num < 0) {
                isNegative = true;
                num = Math.abs(num);
+               originalName = Math.abs(originalName);
           }
 
           while (num >= divisor && index < suffixes.length - 1) {
@@ -60,7 +62,7 @@ export const numFormatter = (num: number, formatNavigateNumber = true) => {
                index++;
           }
 
-          let formattedNum = num.toFixed(3).replace(/\.?0+$/, '') + suffixes[index];
+          let formattedNum = isScale ? num.toFixed(3).replace(/\.?0+$/, '') + suffixes[index] : sepNumbers(originalName);
 
           if (isNegative) {
                formattedNum = formatNavigateNumber ? `(${formattedNum})` : `-${formattedNum}`;

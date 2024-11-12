@@ -122,7 +122,7 @@ export const setAuthorizeData = (client_id: string) => {
 };
 
 export const unAuthorized = () => {
-     routerPage.navigate(routerPagePath.oAuth.logout);
+     routerPage.navigate(routerPagePath.logout);
 };
 
 export default AXIOS;

@@ -17,7 +17,7 @@ const Logout = () => {
                pushEngine.disConnect();
                delete AXIOS.defaults.headers.common['Authorization'];
 
-               navigate(routerPagePath.oAuth.login);
+               navigate(routerPagePath.login);
           } catch (error) {
                console.log({ error });
           }

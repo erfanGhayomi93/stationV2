@@ -26,7 +26,7 @@ const ConfirmLogoutModal = () => {
 
           mutate();
 
-          navigate(routerPagePath.oAuth.logout);
+          navigate(routerPagePath.logout);
      };
 
      return (

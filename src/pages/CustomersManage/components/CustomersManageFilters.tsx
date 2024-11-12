@@ -47,8 +47,12 @@ const CustomersManageFilters = ({ onChangeSearchInput, onChangeSelectInput }: TC
                     <div>
                          <SelectInput
                               onChange={onChangeSelectInput}
-                              items={[{ id: 'df', label: '' }]}
-                              value={{ id: '', label: '' }}
+                              items={[
+                                   { id: 'All', label: t('customersManage.customersFilterAll') },
+                                   { id: 'Natural', label: t('customersManage.customersFilterNatural') },
+                                   { id: 'Legal', label: t('customersManage.customersFilterLegal') },
+                              ]}
+                              value={{ id: 'All', label: t('customersManage.customersFilterAll') }}
                          />
                     </div>
                </div>
