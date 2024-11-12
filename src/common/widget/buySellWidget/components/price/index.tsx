@@ -5,9 +5,10 @@ import { useBuySellContext } from "../../context/buySellContext";
 import PriceByPercent from "./PriceByPercent";
 import ToggleSwitch from "@uiKit/ToggleSwitch";
 import { useSymbolStore } from "@store/symbol";
-import { SubscribeSymbolBestOneOrders } from "@LS/subscribes";
-import { pushEngine } from "@LS/pushEngine";
+// import { SubscribeSymbolBestOneOrders } from "@LS/subscribes";
+// import { pushEngine } from "@LS/pushEngine";
 import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
+import useUpdateEffect from "@hooks/useUpdateEffect";
 
 
 interface IPriceProps {
@@ -27,8 +28,14 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         if (price) {
             setPrice(price)
         }
-        subscribeBestPrice()
+        // subscribeBestPrice()
     }
+
+    useUpdateEffect(() => {
+        if (isLockPrice) {
+            setPriceProcess()
+        }
+    }, [bestSellLimitPrice_1, bestBuyLimitPrice_1])
 
     const handleLockPrice = () => {
         setIsLockPrice(true)
@@ -37,7 +44,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
 
     const handleUnLockPrice = () => {
         setIsLockPrice(false)
-        if (isLockPrice) pushEngine.unSubscribe('SymbolBestOneOrders');
+        // if (isLockPrice) pushEngine.unSubscribe('SymbolBestOneOrders');
     }
 
     const handleClickLock = () => {
@@ -49,16 +56,16 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         handleLockPrice()
     }
 
-    const subscribeBestPrice = () => {
-        SubscribeSymbolBestOneOrders(selectedSymbol, ["bestBuyLimitPrice_1", "bestSellLimitPrice_1"], (changedFields) => {
-            if ('bestBuyLimitPrice_1' in changedFields && side === 'Sell') {
-                setPrice(changedFields.bestBuyLimitPrice_1)
-            }
-            else if ('bestSellLimitPrice_1' in changedFields && side === 'Buy') {
-                setPrice(changedFields.bestSellLimitPrice_1)
-            }
-        })
-    }
+    // const subscribeBestPrice = () => {
+    //     SubscribeSymbolBestOneOrders(selectedSymbol, ["bestBuyLimitPrice_1", "bestSellLimitPrice_1"], (changedFields) => {
+    //         if ('bestBuyLimitPrice_1' in changedFields && side === 'Sell') {
+    //             setPrice(changedFields.bestBuyLimitPrice_1)
+    //         }
+    //         else if ('bestSellLimitPrice_1' in changedFields && side === 'Buy') {
+    //             setPrice(changedFields.bestSellLimitPrice_1)
+    //         }
+    //     })
+    // }
 
     useEffect(() => {
         return () => {
@@ -66,14 +73,11 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
         }
     }, [side, selectedSymbol])
 
-    useEffect(() => {
-        console.log({ price })
-    }, [price])
+
 
     const isBetweenUpDownTick = useMemo(() => {
-        if (!downTickValue || !upTickValue) return true; // Return true if either tick value is undefined
+        if (!downTickValue || !upTickValue) return true;
 
-        // Check if price is strictly between downTickValue and upTickValue
         return price >= downTickValue && price <= upTickValue;
     }, [price, downTickValue, upTickValue]);
 
@@ -85,7 +89,10 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
                     !isPercentPrice &&
                     <FieldInputNumber
                         value={price}
-                        onChangeValue={value => setPrice(+value)}
+                        onChangeValue={value => {
+                            setPrice(+value)
+                            setIsLockPrice(false);
+                        }}
                         placeholder="قیمت"
                         upTickValue={upTickValue}
                         downTickValue={downTickValue}

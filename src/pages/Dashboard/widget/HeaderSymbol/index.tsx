@@ -2,7 +2,7 @@ import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useAddSymbolToWatchlist, useDeleteSymbolInWatchlist, useGetSymbolInWatchlist } from '@api/watchlist';
 import { ArrowLeftIcon, CodalIcon, EyePlusIcon, LinkIcon, PinnedIcon, RiskAnnouncementIcon, TseIcon } from '@assets/icons';
 import Popup from '@components/popup';
-import { getCodalLink, getTSELink, sepNumbers } from '@methods/helper';
+import { getCodalLink, getTSELink } from '@methods/helper';
 import { useModalStore } from '@store/modal';
 import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
@@ -61,8 +61,8 @@ const MainSymbol = () => {
      };
 
      const symbolStateColor = useCallback(
-          (type: 'bg' | 'text') => {
-               if (symbolState) return '';
+          (type: 'bg' | 'text', symbolState: string) => {
+               if (!symbolState) return '';
 
                const stateClasses: Record<string, string> = {
                     OrderEntryAuthorized_Open: `${type}-content-success-buy`, // مجاز
@@ -75,7 +75,7 @@ const MainSymbol = () => {
 
                return stateClasses[symbolState as string];
           },
-          [symbolState]
+          []
      );
 
      const items = [
@@ -143,7 +143,7 @@ const MainSymbol = () => {
                                    symbolStateTooltip={symbolStateTooltip()}
                               />
                               <span className="text-sm font-medium text-content-title">{symbolTitle}</span>
-                              <span className={symbolStateColor('text')}>{symbolStateTooltip()}</span>
+                              <span className={symbolStateColor('text', symbolState)}>{symbolStateTooltip()}</span>
                               <span className="text-content-deselecttab">
                                    {`(${exchange ? t(`exchange_type.${exchange as ExchangeType}`) : '-'})`}
                               </span>
@@ -195,7 +195,7 @@ const MainSymbol = () => {
                                    y: 8,
                               }}
                               defaultPopupWidth={200}
-                              renderer={({ setOpen }) => (
+                              renderer={() => (
                                    <ul className="rtl flex flex-col rounded-md bg-back-surface p-4 shadow-E2">
                                         {items.map((item, index) => (
                                              <a

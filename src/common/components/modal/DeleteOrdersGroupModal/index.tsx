@@ -1,5 +1,5 @@
 import { ColDef } from '@ag-grid-community/core';
-import { userDeleteGroupOrder } from '@api/order';
+import { useDeleteGroupOrder } from '@api/order';
 import { DeleteIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
 import { dateFormatter, sepNumbers } from '@methods/helper';
@@ -19,7 +19,7 @@ const DeleteOrdersGroupModal = () => {
           setDeleteOrdersGroupModalSheet(null);
      };
 
-     const { mutate: mutateDeleteGroupOrder } = userDeleteGroupOrder();
+     const { mutate: mutateDeleteGroupOrder } = useDeleteGroupOrder();
 
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [

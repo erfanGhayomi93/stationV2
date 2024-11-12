@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { LightstreamerClient, Subscription } from 'lightstreamer-client-web';
 
 interface IConnect {
@@ -74,7 +75,9 @@ const subscribe = <T = IChangedField>({ id, mode, items, fields, adapterName, is
           onItemUpdate: updateInfo => {
                const updatedFields: UpdatedFieldsType = { itemName: updateInfo?.getItemName(), changedFields: {} };
                updateInfo?.[updateInfo.isSnapshot() ? 'forEachField' : 'forEachChangedField']((name, _, value) => {
-                    value !== null && (updatedFields.changedFields[name] = isNaN(value as any) ? value : +value);
+                    if (value !== null) {
+                         updatedFields.changedFields[name] = isNaN(value as any) ? value : +value;
+                    }
                });
 
                if (updatedFields.itemName && Object.keys(updatedFields.changedFields).length > 0)

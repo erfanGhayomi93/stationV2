@@ -3,7 +3,7 @@ import clsx from 'clsx';
 interface ISymbolStateProps {
      symbolState: string;
      symbolStateTooltip?: string;
-     symbolStateColor: (type: 'bg' | 'text', symbolState: string | undefined) => string;
+     symbolStateColor: (type: 'bg' | 'text', symbolState: string) => string;
 }
 
 const SymbolState = ({ symbolStateTooltip, symbolStateColor, symbolState }: ISymbolStateProps) => {

@@ -78,6 +78,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                                 onClickIcon={() => setIsCalculatedQuantity(!isCalculatedQuantity)}
                                 isError={!isBetweenMaxMinQuantity}
                                 textError="حجم در تعداد مجاز نمی‌باشد."
+                                selectIcon={!isCalculatedQuantity ? 'calculator-0' : 'calculator-1'}
                             />
                         )
                     }

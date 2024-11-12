@@ -5,6 +5,7 @@ import { FC, useCallback, useEffect, useMemo } from 'react';
 import HalfRowDepth from './HalfRowDepth';
 import OrderBookHeader from './OrderBookHeader';
 import Spinner from '@components/Spinner';
+import { useBuySellStore } from 'common/widget/buySellWidget/context/buySellContext';
 
 export interface IHalfRowDepth {
      price: number;
@@ -26,6 +27,8 @@ interface IMarketDepthTabProps {
 const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
      //
      const { selectedSymbol } = useSymbolStore();
+
+     const { setPrice, setQuantity, setSide, setIsLockPrice } = useBuySellStore()
 
      const {
           data: { bids, asks },
@@ -98,6 +101,35 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
           return data.sort((a, b) => +a.price - +b.price);
      }, [asks]);
 
+     const clickPrice = (price: number, side?: TSide) => {
+          setPrice(price)
+          if (side) setSide(side)
+          setIsLockPrice(false)
+     }
+
+     const clickVolume = (volume: number, side?: TSide) => {
+          setQuantity(volume)
+          if (side) setSide(side)
+          setIsLockPrice(false)
+     }
+
+     const clickTotalUpQueue = (side: TSide, ind: number) => {
+          const data = side == "Buy" ? buyData : sellData;
+          const price = data[0].price;
+          const mode = side === "Buy" ? "Sell" : "Buy";
+          const collectData = data.slice(0, ind + 1);
+
+
+          let collectVolume = 0;
+          collectData.forEach(item => {
+               collectVolume += item.volume
+          })
+
+          clickPrice(price, mode)
+          clickVolume(collectVolume)
+     }
+
+
      useEffect(() => {
           if ((!!buyData.length || !!sellData.length) && !isLoading) {
                onDataStatus(true)
@@ -120,13 +152,16 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                          </div>
                          <div className="flex flex-col">
                               {buyData
-                                   // .slice(0, 100)
+                                   .slice(0, 100)
                                    .map((item, ind) => (
                                         <HalfRowDepth
                                              key={item.price + 'Buy' + ind}
                                              side="Buy"
                                              data={item}
                                              isInRange={isPriceInRange(item.price)}
+                                             clickPrice={clickPrice}
+                                             clickVolume={clickVolume}
+                                             clickTotalUpQueue={(side) => clickTotalUpQueue(side, ind)}
                                              isMarketDepth
                                         />
                                    ))}
@@ -139,13 +174,16 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                          </div>
                          <div className="flex flex-col">
                               {sellData
-                                   // .slice(0, 100)
+                                   .slice(0, 100)
                                    .map((item, ind) => (
                                         <HalfRowDepth
                                              key={item.price + 'Sell' + ind}
                                              side="Sell"
                                              data={item}
                                              isInRange={isPriceInRange(item.price)}
+                                             clickPrice={clickPrice}
+                                             clickVolume={clickVolume}
+                                             clickTotalUpQueue={(side) => clickTotalUpQueue(side, ind)}
                                              isMarketDepth
                                         />
                                    ))}
