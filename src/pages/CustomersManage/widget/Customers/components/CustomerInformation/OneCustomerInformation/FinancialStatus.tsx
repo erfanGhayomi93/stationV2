@@ -1,14 +1,17 @@
 import { useCustomerFinancialStatus } from '@api/customer';
 import { RiskAnnouncementIcon } from '@assets/icons';
 import { sepNumbers } from '@methods/helper';
+import { CustomersContext } from '@pages/CustomersManage';
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const FinancialStatus = () => {
      const { t } = useTranslation();
 
-     const { data } = useCustomerFinancialStatus({ customerISIN: 18990069635676 });
+     const { customers } = useContext(CustomersContext);
+
+     const { data } = useCustomerFinancialStatus({ customerISIN: customers[0].customerISIN });
 
      const FINANCIAL_STATUS_ITEMS = useMemo<
           { id: string; name: string; value: number | string | React.ReactElement; unit?: 'rial' }[]

@@ -2,13 +2,15 @@ import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
 import { useQuery } from '@tanstack/react-query';
 
-export const useQueryCustomerSearch = (term: string) => {
+export const useQueryCustomerSearch = ({ term, customerType }: { term: string; customerType: 'Natural' | 'Legal' | 'All' }) => {
      const url = routeApi().Customer.AdvancedSearch;
 
      return useQuery({
-          queryKey: ['AdvancedSearch' + term],
+          queryKey: ['AdvancedSearch', term, customerType],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, { params: { term } });
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAdvancedSearchRes[]>>(url, {
+                    params: customerType ? { term, customerType } : { term },
+               });
                return response.data.result;
           },
           gcTime: 0,

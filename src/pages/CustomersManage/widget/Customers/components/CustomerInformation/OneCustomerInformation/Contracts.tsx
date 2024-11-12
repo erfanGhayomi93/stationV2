@@ -2,13 +2,16 @@ import { ColDef } from '@ag-grid-community/core';
 import { useCustomerContracts } from '@api/customer';
 import AgGridTable from '@components/Table/AgGrid';
 import { dateFormatter } from '@methods/helper';
-import { useMemo } from 'react';
+import { CustomersContext } from '@pages/CustomersManage';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Contracts = () => {
      const { t } = useTranslation();
 
-     const { data } = useCustomerContracts({ customerISIN: 18990069635676 });
+     const { customers } = useContext(CustomersContext);
+
+     const { data } = useCustomerContracts({ customerISIN: customers[0].customerISIN ?? '' });
 
      const COLUMNS_DEFS = useMemo<ColDef<ICustomerContractsRes>[]>(
           () => [

@@ -22,7 +22,7 @@ interface ICustomerAdvancedSearchRes {
 }
 
 interface ICustomerInformationReq {
-     customerISIN: number;
+     customerISIN: string;
 }
 
 interface ICustomerInformationRes {
@@ -45,7 +45,7 @@ interface ICustomerInformationRes {
 }
 
 interface ICustomerFinancialReq {
-     customerISIN: number;
+     customerISIN: string;
 }
 
 interface ICustomerFinancialRes {
@@ -65,7 +65,7 @@ interface ICustomerFinancialRes {
 }
 
 interface ICustomerContractsReq {
-     customerISIN: number;
+     customerISIN: string;
 }
 
 interface ICustomerContractsRes {
