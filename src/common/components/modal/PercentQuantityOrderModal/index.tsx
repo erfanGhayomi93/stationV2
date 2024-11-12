@@ -140,7 +140,7 @@ const PercentQuantityOrderModal = () => {
                         {quantityWithPercent.percent} درصد از {t(`quantityPercentOption.${quantityWithPercent.quantityBasedOn as TQuantityBasedOn}`)}
                     </span>
 
-                    <span className="pr-2 text-content-paragraph">
+                    <span className="mx-2 text-content-paragraph">
                         {symbolTitle}
                     </span>
                     <span className={clsx("pr-1", {
@@ -155,6 +155,7 @@ const PercentQuantityOrderModal = () => {
                     <AgGridTable
                         rowData={value ?? []}
                         columnDefs={columnDefs}
+                        tableHeight="13rem"
                     />
                 </div>
 

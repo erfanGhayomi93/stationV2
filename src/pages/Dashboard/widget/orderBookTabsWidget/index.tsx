@@ -43,7 +43,9 @@ const OrderBookTabsWidget = () => {
                </TabList>
                {!isPending && (
                     <TabPanels className="relative mt-1 overflow-y-auto data-[selected]:bg-line-error">
-                         <TabPanel className={'h-full py-2'}>{<MarketDepthDisplay />}</TabPanel>
+                         <TabPanel className={'h-full py-2'}>
+                              <MarketDepthDisplay />
+                         </TabPanel>
                          <TabPanel className="h-full">
                               <SameGroups />
                          </TabPanel>

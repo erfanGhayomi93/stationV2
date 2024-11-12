@@ -2,8 +2,9 @@ import { useQuerySymbolGeneralInformation } from "@api/Symbol"
 import { useSymbolStore } from "@store/symbol"
 import OrderBookHeader from "../marketDepth/OrderBookHeader"
 import HalfRowDepth from "../marketDepth/HalfRowDepth"
-import { FC, useEffect, useMemo } from "react"
+import { FC, useCallback, useEffect, useMemo } from "react"
 import { IHalfRowDepth } from "../marketDepth"
+import { useBuySellStore } from "common/widget/buySellWidget/context/buySellContext"
 
 interface IBest5MarketProps {
     onDataStatus: (flag: boolean) => void;
@@ -13,41 +14,118 @@ interface IBest5MarketProps {
 export const Best5Market: FC<IBest5MarketProps> = ({ onDataStatus }) => {
     const { selectedSymbol } = useSymbolStore()
 
+    const { setPrice, setQuantity, setSide, setIsLockPrice } = useBuySellStore()
+
     const { data, isLoading } = useQuerySymbolGeneralInformation(selectedSymbol, (data) => {
-        return data.ordersData
+        return {
+            ordersData: data.ordersData,
+            lowThreshold: data.symbolData.lowThreshold,
+            highThreshold: data.symbolData.highThreshold,
+        }
     })
 
+    const totalQuantity = useMemo(() => {
+        const buyQuantities = [
+            data?.ordersData?.bestBuyLimitQuantity_1,
+            data?.ordersData?.bestBuyLimitQuantity_2,
+            data?.ordersData?.bestBuyLimitQuantity_3,
+            data?.ordersData?.bestBuyLimitQuantity_4,
+            data?.ordersData?.bestBuyLimitQuantity_5,
+        ]
+
+        const sellQuantities = [
+            data?.ordersData?.bestSellLimitQuantity_1,
+            data?.ordersData?.bestSellLimitQuantity_2,
+            data?.ordersData?.bestSellLimitQuantity_3,
+            data?.ordersData?.bestSellLimitQuantity_4,
+            data?.ordersData?.bestSellLimitQuantity_5,
+        ];
+
+        const totalBuyQuantity = buyQuantities.reduce((sum, qty) => (sum ?? 0) + (qty ?? 0), 0);
+        const totalSellQuantity = sellQuantities.reduce((sum, qty) => (sum ?? 0) + (qty ?? 0), 0);
+
+        return { totalBuyQuantity, totalSellQuantity };
+    }, [data?.ordersData]
+    )
+
     const buyData = useMemo(() => {
-        if (!data) return []
+        if (!data?.ordersData) return []
 
         const res: IHalfRowDepth[] = []
 
         for (let i = 1; i <= 5; i++) {
+            const volume = data.ordersData[`bestBuyLimitQuantity_${i}` as keyof IOrdersData]
+            const price = data.ordersData[`bestBuyLimitPrice_${i}` as keyof IOrdersData]
+            const count = data.ordersData[`numberOfOrdersAtBestBuy_${i}` as keyof IOrdersData]
             res.push({
-                price: data[`bestBuyLimitPrice_${i}` as keyof IOrdersData],
-                volume: data[`bestBuyLimitQuantity_${i}` as keyof IOrdersData],
-                count: data[`numberOfOrdersAtBestBuy_${i}` as keyof IOrdersData],
+                price,
+                volume,
+                count,
+                percent: volume / (totalQuantity.totalBuyQuantity ?? 0)
             })
         }
 
         return res;
-    }, [data])
+    }, [data?.ordersData])
 
     const sellData = useMemo(() => {
-        if (!data) return []
+        if (!data?.ordersData) return []
 
         const res: IHalfRowDepth[] = []
 
         for (let i = 1; i <= 5; i++) {
+            const volume = data.ordersData[`bestSellLimitQuantity_${i}` as keyof IOrdersData]
+            const price = data.ordersData[`bestSellLimitPrice_${i}` as keyof IOrdersData]
+            const count = data.ordersData[`numberOfOrdersAtBestSell_${i}` as keyof IOrdersData]
+
             res.push({
-                price: data[`bestSellLimitPrice_${i}` as keyof IOrdersData],
-                volume: data[`bestSellLimitQuantity_${i}` as keyof IOrdersData],
-                count: data[`numberOfOrdersAtBestSell_${i}` as keyof IOrdersData],
+                price,
+                volume,
+                count,
+                percent: volume / (totalQuantity.totalSellQuantity ?? 0)
             })
         }
 
         return res;
-    }, [data])
+    }, [data?.ordersData])
+
+    const isPriceInRange = useCallback(
+        (price: number) => {
+            if (!data?.lowThreshold || !data?.highThreshold)
+                return true; // or maybe false
+            else return +data.lowThreshold <= +price && +price <= +data.highThreshold;
+        },
+        [data?.lowThreshold, data?.highThreshold]
+    );
+
+    const clickPrice = (price: number, side?: TSide) => {
+        setPrice(price)
+        if (side) setSide(side)
+        setIsLockPrice(false)
+    }
+
+    const clickVolume = (volume: number, side?: TSide) => {
+        setQuantity(volume)
+        if (side) setSide(side)
+        setIsLockPrice(false)
+    }
+
+    const clickTotalUpQueue = (side: TSide, ind: number) => {
+        const data = side == "Buy" ? buyData : sellData;
+        const price = data[0].price;
+        const mode = side === "Buy" ? "Sell" : "Buy";
+        const collectData = data.slice(0, ind + 1);
+
+
+        let collectVolume = 0;
+        collectData.forEach(item => {
+            collectVolume += item.volume
+        })
+
+        clickPrice(price, mode)
+        clickVolume(collectVolume)
+    }
+
 
 
     useEffect(() => {
@@ -67,13 +145,15 @@ export const Best5Market: FC<IBest5MarketProps> = ({ onDataStatus }) => {
                     </div>
                     <div className="flex flex-col">
                         {buyData
-                            .slice(0, 100)
                             .map((item, ind) => (
                                 <HalfRowDepth
                                     key={item.price + 'Buy' + ind}
                                     side="Buy"
                                     data={item}
-                                    isInRange={true}
+                                    isInRange={isPriceInRange(item.price)}
+                                    clickPrice={clickPrice}
+                                    clickVolume={clickVolume}
+                                    clickTotalUpQueue={(side) => clickTotalUpQueue(side, ind)}
                                 />
                             ))}
                     </div>
@@ -85,13 +165,15 @@ export const Best5Market: FC<IBest5MarketProps> = ({ onDataStatus }) => {
                     </div>
                     <div className="flex flex-col">
                         {sellData
-                            .slice(0, 100)
                             .map((item, ind) => (
                                 <HalfRowDepth
                                     key={item.price + 'Sell' + ind}
                                     side="Sell"
                                     data={item}
-                                    isInRange={true}
+                                    isInRange={isPriceInRange(item.price)}
+                                    clickPrice={clickPrice}
+                                    clickVolume={clickVolume}
+                                    clickTotalUpQueue={(side) => clickTotalUpQueue(side, ind)}
                                 />
                             ))}
                     </div>

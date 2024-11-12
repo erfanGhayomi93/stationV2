@@ -53,7 +53,9 @@ export const routeApi = () => {
           Trader: {
                GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
           },
-
+          Portfolios : {
+               CustomerPortfolio : baseUrl + '/Portfolio/v1/Portfolios'
+          },
           OAuth: {
                authorization: oAuthUrl + '/GTOAuthApi/v1/GTAuthorization',
                captcha: oAuthUrl + '/Captcha/v1/create',

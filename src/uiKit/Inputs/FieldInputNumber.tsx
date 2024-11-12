@@ -9,7 +9,7 @@ interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
      value: number;
      upTickValue?: number;
      downTickValue?: number;
-     selectIcon?: 'calculator' | 'lock-0' | 'lock-1';
+     selectIcon?: 'calculator-0' | 'calculator-1' | 'lock-0' | 'lock-1';
      onClickIcon?: () => void;
      variant?: 'simple' | 'advanced';
      placeholder?: string;
@@ -24,7 +24,7 @@ const FieldInputNumber = ({
      value,
      upTickValue = 0,
      downTickValue = 0,
-     selectIcon = 'calculator',
+     selectIcon = 'calculator-0',
      onClickIcon = () => null,
      placeholder = '',
      variant = 'advanced',
@@ -89,7 +89,7 @@ const FieldInputNumber = ({
                          value={+inputValue ? sepNumbers(inputValue) : ''}
                          onChange={handleChange}
                          dir="ltr"
-                         className={clsx('focus:outline-none h-12 w-full flex-1 border-none bg-transparent text-sm placeholder:text-xs placeholder:text-content-placeholder', {
+                         className={clsx('focus:outline-none text-content-title h-12 w-full flex-1 border-none bg-transparent text-sm placeholder:text-xs placeholder:text-content-placeholder', {
                               'text-right': direction !== 'left',
                               'text-left': direction === 'left',
                          })}
@@ -141,9 +141,12 @@ const FieldInputNumber = ({
                          </div>
 
                          <div className="w-2/12">
-                              {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable" onClick={onClickIcon} />}
-                              {selectIcon === 'lock-1' && <LockCloseIcon className="text-icon-primary" onClick={onClickIcon} />}
-                              {selectIcon === 'calculator' && <CalculatorIcon onClick={onClickIcon} />}
+                              {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable transition-colors" onClick={onClickIcon} />}
+                              {selectIcon === 'lock-1' && <LockCloseIcon className="text-icon-primary transition-colors" onClick={onClickIcon} />}
+                              {selectIcon.includes('calculator') && <CalculatorIcon className={clsx("transition-colors", {
+                                   "text-icon-disable": selectIcon === 'calculator-0',
+                                   "text-icon-primary": selectIcon === 'calculator-1'
+                              })} onClick={onClickIcon} />}
                          </div>
                     </div>
                )}
