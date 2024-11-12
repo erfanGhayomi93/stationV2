@@ -1,12 +1,12 @@
-import { useQueryPreprdSettings } from '@api/Setting';
+import { useQueryGlobalSettings } from '@api/Setting';
 import { useEffect, useState } from 'react';
 
 const useApiPath = () => {
      const [apiRoutes, setApiRoutes] = useState<IGetSettingsRes[]>();
 
-     //  const { data, isLoading } = useQueryGlobalSettings();
+     const { data, isLoading } = useQueryGlobalSettings();
 
-     const { data, isLoading } = useQueryPreprdSettings();
+     // const { data, isLoading } = useQueryPreprdSettings();
 
      useEffect(() => {
           if (data) {
