@@ -8,10 +8,8 @@ import AppLayout from '../layouts';
 
 const routerPagePath = {
      dashboard: '/',
-     oAuth: {
-          login: '/oauth/login',
-          logout: '/oauth/logout',
-     },
+     login: '/login',
+     logout: '/logout',
      customersManage: '/customers-manage',
 };
 
@@ -37,11 +35,11 @@ const routerPage = createBrowserRouter([
           ],
      },
      {
-          path: routerPagePath.oAuth.login,
+          path: routerPagePath.login,
           element: <Login />,
      },
      {
-          path: routerPagePath.oAuth.logout,
+          path: routerPagePath.logout,
           element: <Logout />,
      },
 ]);

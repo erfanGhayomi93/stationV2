@@ -13,6 +13,7 @@ import CloseIcon from '../svg/close.svg?react';
 import CodalIcon from '../svg/codal.svg?react';
 import CommunityIcon from '../svg/community.svg?react';
 import CreditIcon from '../svg/credit.svg?react';
+import CrownIcon from '../svg/crown.svg?react';
 import DarkModeIcon from '../svg/darkMode.svg?react';
 import DeleteIcon from '../svg/delete.svg?react';
 import DetailsIcon from '../svg/details.svg?react';
@@ -83,6 +84,7 @@ export {
      CodalIcon,
      CommunityIcon,
      CreditIcon,
+     CrownIcon,
      DarkModeIcon,
      DeleteIcon,
      DetailsIcon,

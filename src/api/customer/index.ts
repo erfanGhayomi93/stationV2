@@ -64,12 +64,45 @@ export const useCustomerInformation = ({ customerISIN }: ICustomerInformationReq
      const url = routeApi().Customer.GetCustomerInformation;
 
      return useQuery({
-          queryKey: ['getCustomerInformation'],
+          queryKey: ['getCustomerInformation', customerISIN],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<ICustomerInformationRes>>(url, {
                     params: { customerISIN },
                });
 
+               return response.data.result;
+          },
+     });
+};
+
+export const useCustomerFinancialStatus = ({ customerISIN }: ICustomerFinancialReq) => {
+     const url = routeApi().Customer.GetCustomerFinancialStatus;
+
+     return useQuery({
+          queryKey: ['getCustomerFinancial', customerISIN],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerFinancialRes>>(url, {
+                    params: {
+                         customerISIN,
+                    },
+               });
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useCustomerContracts = ({ customerISIN }: ICustomerContractsReq) => {
+     const url = routeApi().Customer.GetCustomerContract;
+
+     return useQuery({
+          queryKey: ['getCustomerContracts', customerISIN],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerContractsRes[]>>(url, {
+                    params: {
+                         customerISIN,
+                    },
+               });
                return response.data.result;
           },
      });

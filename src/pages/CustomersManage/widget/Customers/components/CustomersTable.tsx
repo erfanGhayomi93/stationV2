@@ -11,8 +11,6 @@ type TCustomersTableProps = {
 const CustomersTable = ({ data }: TCustomersTableProps) => {
      const { t } = useTranslation();
 
-     console.log(data, 'data');
-
      const COLUMN_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
           () => [
                {

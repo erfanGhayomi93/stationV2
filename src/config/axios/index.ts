@@ -53,7 +53,6 @@ AXIOS.interceptors.response.use(
 
      function (error) {
           if (error.response) {
-
                switch (error.response.status) {
                     case 400:
                          toastError('دسترسی غیرمجاز', 'Bad Request');
@@ -125,7 +124,7 @@ export const setAuthorizeData = (client_id: string) => {
 };
 
 export const unAuthorized = () => {
-     routerPage.navigate(routerPagePath.oAuth.logout);
+     routerPage.navigate(routerPagePath.logout);
 };
 
 export default AXIOS;

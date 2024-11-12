@@ -43,3 +43,39 @@ interface ICustomerInformationRes {
      stationCredit: number;
      stationName: string;
 }
+
+interface ICustomerFinancialReq {
+     customerISIN: number;
+}
+
+interface ICustomerFinancialRes {
+     bourseCode: string;
+     credit: number;
+     creditDebt: number;
+     customerISIN: string;
+     customerTitle: string;
+     marginValue: number;
+     nationalCode: string;
+     orderBlockValue: number;
+     paymentRequestBlockValue: number;
+     saveDate: string;
+     status: 'Normal' | 'AtRisk' | 'CallMargin';
+     t1: number;
+     t2: number;
+}
+
+interface ICustomerContractsReq {
+     customerISIN: number;
+}
+
+interface ICustomerContractsRes {
+     agreementId: number;
+     approveBySMS: boolean;
+     attachmentUrl: string;
+     canChangeByCustomer: boolean;
+     changeDate: string;
+     description: string;
+     state: 'Accepted' | 'NotSpecified' | 'expired';
+     title: string;
+     type: string;
+}

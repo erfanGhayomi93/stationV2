@@ -2,7 +2,8 @@ import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import { useAddSymbolToWatchlist, useDeleteSymbolInWatchlist, useGetSymbolInWatchlist } from '@api/watchlist';
 import { ArrowLeftIcon, CodalIcon, EyePlusIcon, LinkIcon, PinnedIcon, RiskAnnouncementIcon, TseIcon } from '@assets/icons';
 import Popup from '@components/popup';
-import { getCodalLink, getTSELink, sepNumbers } from '@methods/helper';
+import PriceWithAmountChange from '@components/priceView/priceWithAmountChange';
+import { getCodalLink, getTSELink } from '@methods/helper';
 import { useModalStore } from '@store/modal';
 import { useQueryClient } from '@tanstack/react-query';
 import Tippy from '@tippyjs/react';
@@ -12,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSymbolStore } from 'store/symbol';
 import SymbolState from './SymbolState';
-import PriceWithAmountChange from '@components/priceView/priceWithAmountChange';
 
 const MainSymbol = () => {
      const { t } = useTranslation();
@@ -31,24 +31,20 @@ const MainSymbol = () => {
 
      const { data: getSymbolInWatchlist, refetch: refetchGetSymbolInWatchlist } = useGetSymbolInWatchlist();
 
+     const lastTradedPrice = data?.symbolData?.lastTradedPrice || 0;
+     const closingPrice = data?.symbolData?.closingPrice || 0;
+     const yesterdayClosingPrice = data?.symbolData?.yesterdayClosingPrice || 0;
+     const symbolTitle = data?.symbolData?.symbolTitle || '';
+     const symbolState = data?.symbolData?.symbolState || '';
+     const lastTradedPriceVarPercent = data?.symbolData?.lastTradedPriceVarPercent || 0;
+     const closingPriceVarPercent = data?.symbolData?.closingPriceVarPercent || 0;
+     const insCode = data?.symbolData?.insCode || '';
+     const exchange = data?.symbolData?.exchange || '';
+     const hasRiskAnnouncement = data?.symbolData?.hasRiskAnnouncement || false;
+     const companyName = data?.symbolData?.companyName || '';
 
-     const lastTradedPrice = data?.symbolData?.lastTradedPrice || 0
-     const closingPrice = data?.symbolData?.closingPrice || 0
-     const yesterdayClosingPrice = data?.symbolData?.yesterdayClosingPrice || 0
-     const symbolTitle = data?.symbolData?.symbolTitle || ''
-     const symbolState = data?.symbolData?.symbolState || ''
-     const lastTradedPriceVarPercent = data?.symbolData?.lastTradedPriceVarPercent || 0
-     const closingPriceVarPercent = data?.symbolData?.closingPriceVarPercent || 0
-     const insCode = data?.symbolData?.insCode || ''
-     const exchange = data?.symbolData?.exchange || ''
-     const hasRiskAnnouncement = data?.symbolData?.hasRiskAnnouncement || false
-     const companyName = data?.symbolData?.companyName || ''
-
-
-     const lastTradePriceAmountChanged = lastTradedPrice - yesterdayClosingPrice
-     const closingPriceAmountChanged = closingPrice - yesterdayClosingPrice
-
-
+     const lastTradePriceAmountChanged = lastTradedPrice - yesterdayClosingPrice;
+     const closingPriceAmountChanged = closingPrice - yesterdayClosingPrice;
 
      const symbolStateTooltip = () => {
           if (symbolState === 'OrderEntryAuthorized_Open') return 'مجاز';
@@ -126,14 +122,12 @@ const MainSymbol = () => {
           }
      };
 
-
-
      const isSymbolIsWatchlist = useMemo(() => {
           return getSymbolInWatchlist?.some(item => item.symbolISIN === selectedSymbol);
      }, [getSymbolInWatchlist]);
 
      return (
-          <div className="flex flex-col gap-2 text-xs p-4">
+          <div className="flex flex-col gap-2 p-4 text-xs">
                <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-y-1">
                          <div className="flex items-center gap-x-1">
@@ -156,9 +150,7 @@ const MainSymbol = () => {
                               )}
                          </div>
                          <div>
-                              <span className="text-content-deselecttab">
-                                   {companyName || t('common.noSymbol')}
-                              </span>
+                              <span className="text-content-deselecttab">{companyName || t('common.noSymbol')}</span>
                          </div>
                     </div>
 
@@ -227,9 +219,9 @@ const MainSymbol = () => {
                     </div>
                </div>
 
-               <div className="flex justify-between rounded bg-back-2 px-0.5 py-3 text-content-title gap-x-1">
-                    <div className="flex justify-center gap-x-1 flex-1 text-xs font-bold border-l border-line-div-1">
-                         <span className="text-nowrap text-xs text-content-paragraph font-medium">آخرین قیمت:</span>
+               <div className="flex justify-between gap-x-1 rounded bg-back-2 px-0.5 py-3 text-content-title">
+                    <div className="flex flex-1 justify-center gap-x-1 border-l border-line-div-1 text-xs font-bold">
+                         <span className="text-nowrap text-xs font-medium text-content-paragraph">آخرین قیمت:</span>
 
                          <PriceWithAmountChange
                               percentage={lastTradedPriceVarPercent}
@@ -240,7 +232,7 @@ const MainSymbol = () => {
 
                     {/* <span className=''></span> */}
 
-                    <div className="flex gap-x-1 flex-1 justify-center">
+                    <div className="flex flex-1 justify-center gap-x-1">
                          <span className="text-nowrap text-xs text-content-paragraph">آخرین پایانی:</span>
 
                          <PriceWithAmountChange
@@ -253,6 +245,5 @@ const MainSymbol = () => {
           </div>
      );
 };
-
 
 export default MainSymbol;

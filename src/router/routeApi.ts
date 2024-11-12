@@ -43,6 +43,8 @@ export const routeApi = () => {
                GetGroups: baseUrl + '/Customer/v1/GetGroups',
 
                GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
+               GetCustomerFinancialStatus: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
+               GetCustomerContract: baseUrl + '/Agreement/v1/Get',
           },
 
           SupervisorMessage: {
