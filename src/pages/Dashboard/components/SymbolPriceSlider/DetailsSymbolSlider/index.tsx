@@ -1,9 +1,8 @@
 import { dateFormatter, getColorClassBasedAmount, numFormatter, sepNumbers } from '@methods/helper';
-import IndividualLegalWidget from '@pages/Dashboard/widget/individualLegalWidget';
 import { useUIStore } from '@store/ui';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface IDetailsSymbolSliderProps {
@@ -58,11 +57,11 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
 
      const { isExpandSymbolDetails } = useUIStore();
 
-     const [countShowItem, setCountShowItem] = useState(4);
+     // const [countShowItem, setCountShowItem] = useState(4);
 
-     useEffect(() => {
-          setCountShowItem(isExpandSymbolDetails ? 4 : data.length);
-     }, [isExpandSymbolDetails]);
+     // useEffect(() => {
+     //      setCountShowItem(isExpandSymbolDetails ? 4 : data.length);
+     // }, [isExpandSymbolDetails]);
 
      const data: dataType[][] = [
           [
@@ -101,6 +100,21 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
           ],
           [
                {
+                    title: t('detailsSymbol.totalNumberOfSharesTraded'),
+                    value: totalNumberOfSharesTraded,
+                    formatter: value => numFormatter(+value),
+               },
+
+
+               {
+                    title: t('detailsSymbol.LowHighThreshold'),
+                    value: LowThreshold,
+                    // formatter: value => sepNumbers(value),
+                    renderer: () => <span>{`${sepNumbers(LowThreshold)} - ${sepNumbers(HighThreshold)}`}</span>,
+               },
+          ],
+          [
+               {
                     title: t('detailsSymbol.totalTradeValue'),
                     value: totalTradeValue,
                     // formatter: value => sepNumbers(value),
@@ -113,20 +127,6 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                               </div>
                          </Tippy>
                     ),
-               },
-
-               {
-                    title: t('detailsSymbol.LowHighThreshold'),
-                    value: LowThreshold,
-                    // formatter: value => sepNumbers(value),
-                    renderer: () => <span>{`${sepNumbers(LowThreshold)} - ${sepNumbers(HighThreshold)}`}</span>,
-               },
-          ],
-          [
-               {
-                    title: t('detailsSymbol.totalNumberOfSharesTraded'),
-                    value: totalNumberOfSharesTraded,
-                    formatter: value => numFormatter(+value),
                },
                {
                     title: t('detailsSymbol.TommorowLowHighThreshold'),
@@ -142,17 +142,19 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     formatter: value => sepNumbers(value),
                },
                {
-                    title: t('detailsSymbol.totalNumberOfTrades'),
-                    value: totalNumberOfTrades,
-                    formatter: value => sepNumbers(value),
-               },
-          ],
-          [
-               {
                     title: t('detailsSymbol.TickPrice'),
                     value: tickPrice,
                     formatter: value => sepNumbers(value),
                },
+
+          ],
+          [
+               {
+                    title: t('detailsSymbol.totalNumberOfTrades'),
+                    value: totalNumberOfTrades,
+                    formatter: value => sepNumbers(value),
+               },
+
                {
                     title: t('detailsSymbol.monthlyTradeVolume'),
                     value: oneMonthTradeVolume,
@@ -188,40 +190,40 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
      return (
           <>
                <ul className="">
-                    {data.slice(0, countShowItem).map((item, index) => (
-                         <ul
-                              style={{
-                                   padding: '0.75rem 0.5rem',
-                              }}
-                              key={index}
-                              className={clsx(
-                                   'flex border-b border-line-div-3 text-xs',
-                                   isExpandSymbolDetails && 'last:border-none last:pb-0'
-                              )}
-                         >
-                              {item.map((child, ind) => (
-                                   <li
-                                        key={ind}
-                                        className="flex flex-1 justify-between border-line-div-3 odd:border-l odd:pl-3 even:pr-3"
-                                   >
-                                        <span className="text-content-paragraph">{child.title}:</span>
-                                        <span className="ltr text-content-title">
-                                             {child.renderer
-                                                  ? child.renderer(child.value)
-                                                  : child?.formatter
-                                                    ? child.formatter(child.value) || '−'
-                                                    : child.value || '−'}
-                                        </span>
-                                   </li>
-                              ))}
-                         </ul>
-                    ))}
+                    {data
+                         // .slice(0, countShowItem)
+                         .map((item, index) => (
+                              <ul
+                                   style={{
+                                        padding: '0.75rem 0.5rem',
+                                   }}
+                                   key={index}
+                                   className={clsx(
+                                        'flex border-b border-line-div-3 text-xs',
+                                        isExpandSymbolDetails && 'last:border-none last:pb-0'
+                                   )}
+                              >
+                                   {item.map((child, ind) => (
+                                        <li
+                                             key={ind}
+                                             className="flex flex-1 justify-between border-line-div-3 odd:border-l odd:pl-3 even:pr-3"
+                                        >
+                                             <span className="text-content-paragraph">{child.title}:</span>
+                                             <span className="ltr text-content-title">
+                                                  {child.renderer
+                                                       ? child.renderer(child.value)
+                                                       : child?.formatter
+                                                            ? child.formatter(child.value) || '−'
+                                                            : child.value || '−'}
+                                             </span>
+                                        </li>
+                                   ))}
+                              </ul>
+                         ))}
                </ul>
-               {data.length === countShowItem && (
-                    <div className="pt-2">
-                         <IndividualLegalWidget />
-                    </div>
-               )}
+               {/* {data.length === countShowItem && ( */}
+
+               {/* )} */}
           </>
      );
 };
