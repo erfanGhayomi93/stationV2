@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSymbolStore } from 'store/symbol';
 import SymbolState from './SymbolState';
+import SymbolPriceSlider from '@pages/Dashboard/components/SymbolPriceSlider';
 
 const MainSymbol = () => {
      const { t } = useTranslation();
@@ -31,17 +32,21 @@ const MainSymbol = () => {
 
      const { data: getSymbolInWatchlist, refetch: refetchGetSymbolInWatchlist } = useGetSymbolInWatchlist();
 
-     const lastTradedPrice = data?.symbolData?.lastTradedPrice || 0;
-     const closingPrice = data?.symbolData?.closingPrice || 0;
-     const yesterdayClosingPrice = data?.symbolData?.yesterdayClosingPrice || 0;
-     const symbolTitle = data?.symbolData?.symbolTitle || '';
-     const symbolState = data?.symbolData?.symbolState || '';
-     const lastTradedPriceVarPercent = data?.symbolData?.lastTradedPriceVarPercent || 0;
-     const closingPriceVarPercent = data?.symbolData?.closingPriceVarPercent || 0;
-     const insCode = data?.symbolData?.insCode || '';
-     const exchange = data?.symbolData?.exchange || '';
-     const hasRiskAnnouncement = data?.symbolData?.hasRiskAnnouncement || false;
-     const companyName = data?.symbolData?.companyName || '';
+     const lastTradedPrice = data?.symbolData?.lastTradedPrice ?? 0;
+     const closingPrice = data?.symbolData?.closingPrice ?? 0;
+     const yesterdayClosingPrice = data?.symbolData?.yesterdayClosingPrice ?? 0;
+     const symbolTitle = data?.symbolData?.symbolTitle ?? '';
+     const symbolState = data?.symbolData?.symbolState ?? '';
+     const lastTradedPriceVarPercent = data?.symbolData?.lastTradedPriceVarPercent ?? 0;
+     const closingPriceVarPercent = data?.symbolData?.closingPriceVarPercent ?? 0;
+     const insCode = data?.symbolData?.insCode ?? '';
+     const exchange = data?.symbolData?.exchange ?? '';
+     const hasRiskAnnouncement = data?.symbolData?.hasRiskAnnouncement ?? false;
+     const companyName = data?.symbolData?.companyName ?? '';
+     const highThreshold = data?.symbolData?.highThreshold ?? 0;
+     const lowThreshold = data?.symbolData?.lowThreshold ?? 0;
+     const lowestTradePriceOfTradingDay = data?.symbolData?.lowestTradePriceOfTradingDay ?? 0;
+     const highestTradePriceOfTradingDay = data?.symbolData?.highestTradePriceOfTradingDay ?? 0;
 
      const lastTradePriceAmountChanged = lastTradedPrice - yesterdayClosingPrice;
      const closingPriceAmountChanged = closingPrice - yesterdayClosingPrice;
@@ -238,6 +243,18 @@ const MainSymbol = () => {
                               amountChange={closingPriceAmountChanged}
                          />
                     </div>
+               </div>
+
+               <div className="">
+                    <SymbolPriceSlider
+                         yesterdayClosingPrice={yesterdayClosingPrice}
+                         thresholdData={[lowThreshold, highThreshold]}
+                         exchangeData={[closingPrice, lastTradedPrice]}
+                         boundaryData={[
+                              lowestTradePriceOfTradingDay,
+                              highestTradePriceOfTradingDay,
+                         ]}
+                    />
                </div>
           </div>
      );

@@ -1,5 +1,5 @@
-import { ArrowDownTriangleIcon } from '@assets/icons';
-import { useUIStore } from '@store/ui';
+// import { ArrowDownTriangleIcon } from '@assets/icons';
+// import { useUIStore } from '@store/ui';
 import clsx from 'clsx';
 import BuySellWidget from 'common/widget/buySellWidget';
 import MainSymbol from '../widget/HeaderSymbol';
@@ -11,7 +11,7 @@ import TodayTradesWidget from '../widget/TodayTradesWidget';
 const BoxClass = 'bg-back-surface shadow-sm rounded-lg overflow-x-hidden overflow-y-auto box-border ';
 
 const MainLayoutDashboard = () => {
-     const { isExpandSymbolDetails, setExpandSymbolDetails } = useUIStore();
+     // const { isExpandSymbolDetails, setExpandSymbolDetails } = useUIStore();
 
      return (
           <div className="rtl grid h-full grid-cols-[1fr,1fr,2fr] gap-2 overflow-y-auto">
@@ -25,12 +25,12 @@ const MainLayoutDashboard = () => {
                     </div>
                </div>
 
-               <div className="grid h-full grid-rows-min-min-one overflow-hidden">
+               <div className="grid h-full grid-rows-one-min gap-y-2 rounded-lg overflow-y-auto">
                     <div className={clsx(BoxClass)}>
                          <SliderbarDetailsWidget />
                     </div>
 
-                    <button
+                    {/* <button
                          onClick={() => setExpandSymbolDetails(!isExpandSymbolDetails)}
                          className="flex cursor-pointer items-center justify-center"
                     >
@@ -44,7 +44,7 @@ const MainLayoutDashboard = () => {
                               />
                          </div>
                          <div style={{ minHeight: '1px' }} className="w-full flex-1 bg-line-div-2" />
-                    </button>
+                    </button> */}
 
                     <div className={clsx(BoxClass)}>
                          <BuySellWidget />

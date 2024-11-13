@@ -2,13 +2,13 @@ import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import UseDebounceOutput from '@hooks/useDebounceOutput';
 import { pushEngine, UpdatedFieldsType } from '@LS/pushEngine';
 import { subscribeSymbolGeneral } from '@LS/subscribes';
-import SymbolPriceSlider from '@pages/Dashboard/components/SymbolPriceSlider';
 import { DetailsSymbolSlider } from '@pages/Dashboard/components/SymbolPriceSlider/DetailsSymbolSlider';
 import { HighLowPriceSymbol } from '@pages/Dashboard/components/SymbolPriceSlider/HighLowPriceSymbol/HighLowPriceSymbol';
 import { useQueryClient } from '@tanstack/react-query';
 import { SymbolGeneralfields, TFieldSymbolGeneralResLs } from 'common/constant/symbol';
 import { useEffect, useRef } from 'react';
 import { useSymbolStore } from 'store/symbol';
+import IndividualLegalWidget from '../individualLegalWidget';
 
 const SliderbarDetailsWidget = () => {
      const { selectedSymbol, setMarketUnit, setSymbolTitle } = useSymbolStore();
@@ -103,20 +103,13 @@ const SliderbarDetailsWidget = () => {
      }, [symbolTitle, marketUnit]);
 
      return (
-          <div className="flex w-full flex-col gap-x-1 p-4">
+          <div className="flex w-full flex-col gap-x-1 p-4 rounded-lg overflow-y-auto">
+
                <div className="">
-                    <SymbolPriceSlider
-                         yesterdayClosingPrice={data?.symbolData?.yesterdayClosingPrice ?? 0}
-                         thresholdData={[data?.symbolData?.lowThreshold ?? 0, data?.symbolData?.highThreshold ?? 0]}
-                         exchangeData={[data?.symbolData?.closingPrice ?? 0, data?.symbolData?.lastTradedPrice ?? 0]}
-                         boundaryData={[
-                              data?.symbolData?.lowestTradePriceOfTradingDay ?? 0,
-                              data?.symbolData?.highestTradePriceOfTradingDay ?? 0,
-                         ]}
-                    />
+                    <IndividualLegalWidget />
                </div>
 
-               <div className="mt-2">
+               <div className="my-1">
                     <HighLowPriceSymbol
                          highestTradePriceOfTradingDay={data?.symbolData?.highestTradePriceOfTradingDay ?? 0}
                          lowestTradePriceOfTradingDay={data?.symbolData?.lowestTradePriceOfTradingDay ?? 0}

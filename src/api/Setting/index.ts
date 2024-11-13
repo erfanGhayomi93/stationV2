@@ -51,7 +51,7 @@ const preprdMock = {
           },
           {
                name: 'REACT_APP_ENV',
-               value: 'production',
+               value: 'development',
           },
           {
                name: 'REACT_APP_LANG',

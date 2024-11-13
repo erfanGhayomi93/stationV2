@@ -15,7 +15,7 @@ export const useQueryCustomerSearch = ({ term, customerType }: { term: string; c
           },
           gcTime: 0,
           staleTime: 0,
-          enabled: term.length > 2,
+          enabled: term?.length > 2,
      });
 };
 
