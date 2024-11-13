@@ -18,13 +18,11 @@ const  PriceWithAmountChange: React.FC<PriceDisplayProps> = ({ value = 0, percen
     });
 
     return (
-        <>
             <span className="flex gap-x-1 items-center">
                 <span className={percentageClass}>{`(${percentage}%)`}</span>
                 <span className={percentageClass}>{sepNumbers(amountChange)}</span>
-                <span className="text-base text-content-title">{sepNumbers(value)}</span>
+                <span className="text-sm text-content-title">{sepNumbers(value)}</span>
             </span>
-        </>
     );
 
 }
