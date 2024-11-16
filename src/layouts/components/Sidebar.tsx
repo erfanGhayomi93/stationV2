@@ -112,7 +112,7 @@ const Sidebar = () => {
                     width: isExpandSidebar ? '15rem' : '4rem',
                     transition: 'width 0.3s ease',
                }}
-               className="bg-indigo-300 z-[100] rtl fixed bottom-0 right-0 top-0 flex flex-col justify-between bg-nav-back-pwa px-2 py-5 shadow-E2"
+               className="bg-indigo-300 rtl fixed bottom-0 right-0 top-0 flex flex-col justify-between bg-nav-back-pwa px-2 py-5 shadow-E2 hover:z-[100]"
           >
                <div className="flex flex-col gap-5">
                     <div className="flex items-center gap-2 py-4">
