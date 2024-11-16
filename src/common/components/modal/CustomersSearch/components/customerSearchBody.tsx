@@ -3,11 +3,10 @@ import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { Dispatch, FC, HTMLAttributes, useMemo } from 'react';
+import { Dispatch, FC, HTMLAttributes, useMemo ,useState} from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ResultHeader from './resultHeader';
 import ResultItem from './resultItem';
-import { useState } from 'react';
 
 interface ICustomersSearchBodyProps {
      dispatch: Dispatch<ICustomerAction>,

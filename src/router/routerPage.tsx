@@ -5,12 +5,14 @@ import Logout from '@pages/OAuth/Logout';
 import Test from '@pages/Test';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AppLayout from '../layouts';
+import Basket from '@pages/Basket';
 
 const routerPagePath = {
      dashboard: '/',
      login: '/login',
      logout: '/logout',
      customersManage: '/customers-manage',
+     basket: '/basket',
 };
 
 const routerPage = createBrowserRouter([
@@ -27,7 +29,10 @@ const routerPage = createBrowserRouter([
                     element: <CustomerManage />,
                     path: routerPagePath.customersManage,
                },
-
+               {
+                    element: <Basket />,
+                    path: routerPagePath.basket
+               },
                {
                     element: <Test />,
                     path: '/test',

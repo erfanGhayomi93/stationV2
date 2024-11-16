@@ -67,6 +67,9 @@ import UserGroupIcon from '../svg/user-group.svg?react';
 import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
+import FilterCloseIcon from '../svg/filter-close.svg?react';
+import FilterOpenIcon from '../svg/filter-open.svg?react';
+import ClockIcon from '@assets/svg/clock.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 
 export {
@@ -140,4 +143,7 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
+     FilterOpenIcon,
+     ClockIcon,
+     FilterCloseIcon,
 };

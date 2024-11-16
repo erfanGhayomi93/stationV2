@@ -51,7 +51,7 @@ const Sidebar = () => {
                     id: 'portfolioTrader',
                     icon: <BasketIcon />,
                     title: t('sidebar.portfolioTrader'),
-                    disable: true,
+                    path: routerPagePath.basket
                },
                {
                     id: 'requests',

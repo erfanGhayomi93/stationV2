@@ -40,8 +40,8 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                     x: side === "Buy" ? 0 : -80,
                 }}
                 renderer={({ setOpen }) => (
-                    <div className="rtl text-nowrap rounded-md bg-tooltip-back text-tooltip-content shadow-E6 flex flex-col px-3 py-2 gap-y-1 text-xs min-w-max">
-                        <span
+                    <div className="rtl text-nowrap rounded-md bg-tooltip-back text-tooltip-content shadow-E6 flex flex-col px-3 py-2 gap-y-1 text-xs min-w-max items-start">
+                        <button
                             className="hover:text-button-info-hover cursor-pointer transition-colors"
                             onClick={() => {
                                 clickPrice?.(price, 'Buy')
@@ -50,8 +50,8 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                             }}
                         >
                             خرید
-                        </span>
-                        <span
+                        </button>
+                        <button
                             className="hover:text-button-info-hover cursor-pointer transition-colors"
                             onClick={() => {
                                 clickPrice?.(price, 'Sell')
@@ -60,8 +60,8 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                             }}
                         >
                             فروش
-                        </span>
-                        <span
+                        </button>
+                        <button
                             className="hover:text-button-info-hover cursor-pointer transition-colors"
                             onClick={() => {
                                 clickTotalUpQueue?.(side)
@@ -69,7 +69,7 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                             }}
                         >
                             جمع کردن صف
-                        </span>
+                        </button>
                     </div>
                 )}
             >
@@ -159,7 +159,7 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                         )
                     }
 
-                    <span
+                    <button
                         className={clsx("w-1/3 text-content-paragraph", {
                             "text-right": side === "Buy",
                             "text-left": side === "Sell",
@@ -167,16 +167,16 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                         onClick={() => clickPrice?.(count)}
                     >
                         {count ? sepNumbers(count) : '-'}
-                    </span>
+                    </button>
 
-                    <span
+                    <button
                         className="text-content-title text-center w-1/3 cursor-pointer"
                         onClick={() => clickVolume?.(volume)}
                     >
                         {volume ? sepNumbers(volume) : '-'}
-                    </span>
+                    </button>
 
-                    <span
+                    <button
                         className={clsx("w-1/3 cursor-pointer", {
                             "text-content-success-buy text-left": side === "Buy",
                             "text-content-error-sell text-right": side === "Sell"
@@ -184,7 +184,7 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                         onClick={() => clickPrice?.(price)}
                     >
                         {price ? sepNumbers(price) : "-"}
-                    </span>
+                    </button>
                 </div>
             </div>
 
@@ -199,7 +199,7 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
                                     "flex-row pr-7": side === "Buy",
                                     "opacity-40": !isInRange,
                                 })}>
-                                    <span
+                                    <button
                                         className={clsx("w-1/3 text-content-paragraph", {
                                             "text-right": side === "Buy",
                                             "text-left": side === "Sell",
@@ -207,21 +207,21 @@ const HalfRowDepth: FC<IHalfRowDepthProps> = ({
 
                                     >
                                         {sepNumbers(child.count)}
-                                    </span>
-                                    <span
+                                    </button>
+                                    <button
                                         className="text-content-title text-center w-1/3 cursor-pointer"
                                         onClick={() => clickVolume?.(child.volume)}
                                     >
                                         {sepNumbers(child.volume)}
-                                    </span>
-                                    <span className={clsx("w-1/3 cursor-pointer", {
+                                    </button>
+                                    <button className={clsx("w-1/3 cursor-pointer", {
                                         "text-content-success-buy text-left": side === "Buy",
                                         "text-content-error-sell text-right": side === "Sell"
                                     })}
                                         onClick={() => clickPrice?.(child.price)}
                                     >
                                         {sepNumbers(child.price)}
-                                    </span>
+                                    </button>
                                 </div>
                             ))
                         }
