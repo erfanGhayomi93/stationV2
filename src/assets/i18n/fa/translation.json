@@ -520,6 +520,7 @@
           "selectCustomersBourseCode": "کد بورسی",
           "selectCustomersNationalCode": "کدملی",
           "listSelectCustomer": "لیست مشتریان انتخاب شده",
-          "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید."
+          "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید.",
+          "groupCustomerNameCol": "نام گروه مشتریان"
      }
 }

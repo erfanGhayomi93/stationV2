@@ -1,24 +1,17 @@
 import { useTabSlice } from '@store/tab';
-import { createContext, Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import CustomerInformation from './components/CustomerInformation';
+import CustomersManageTabs from './components/CustomersManageTab';
+import CustomerContextProvider from './context';
 import CustomersMangeLayout from './layout';
 import CustomerGroup from './widget/CustomerGroup';
 import Customers from './widget/Customers';
 import MyGroups from './widget/MyGroups';
 
-export const CustomersContext = createContext<{
-     customers: ICustomerAdvancedSearchRes[];
-     setCustomers: Dispatch<SetStateAction<ICustomerAdvancedSearchRes[]>>;
-}>({
-     customers: [],
-     setCustomers: () => null,
-});
-
 const CustomerManage = () => {
      const { customersManageTab } = useTabSlice();
 
-     const [customers, setCustomers] = useState<ICustomerAdvancedSearchRes[]>([]);
-
-     const CustomerTabRenderer = useCallback(() => {
+     const CustomerCategoryRenderer = useCallback(() => {
           const components = {
                customers: <Customers />,
                customerGroup: <CustomerGroup />,
@@ -29,14 +22,20 @@ const CustomerManage = () => {
      }, [customersManageTab]);
 
      return (
-          <CustomersContext.Provider
-               value={{
-                    customers,
-                    setCustomers,
-               }}
-          >
-               <CustomersMangeLayout>{<CustomerTabRenderer />}</CustomersMangeLayout>
-          </CustomersContext.Provider>
+          <CustomerContextProvider>
+               <CustomersMangeLayout>
+                    {
+                         <>
+                              <div className="grid grid-cols-2 grid-rows-min-one gap-6 rounded-md bg-back-surface p-6">
+                                   <CustomersManageTabs />
+
+                                   <CustomerCategoryRenderer />
+                              </div>
+                              <CustomerInformation />
+                         </>
+                    }
+               </CustomersMangeLayout>
+          </CustomerContextProvider>
      );
 };
 

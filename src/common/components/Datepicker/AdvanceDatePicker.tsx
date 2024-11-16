@@ -1,4 +1,4 @@
-import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineICon } from '@assets/icons';
+import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineIcon } from '@assets/icons';
 import { getDateMilliseconds, weekDaysName, yearMonthsName } from '@constant/date';
 import dayjs from '@libs/dayjs';
 import { dayAsJalali, isBefore, isBetween, isSameOrAfter, isSameOrBefore } from '@methods/helper';
@@ -668,7 +668,7 @@ const Months = ({ onChange, onClose, value, classes, months = yearMonthsName, da
      <div className={clsx(styles.selection, classes?.selection, 'darkness:bg-gray-50 bg-white')}>
           <div className={clsx(styles.back, classes?.back)}>
                <button role="button" type="button" onClick={onClose} data-testid={`${dataTestId}_close`}>
-                    <XOutlineICon width="2rem" height="2rem" />
+                    <XOutlineIcon width="2rem" height="2rem" />
                </button>
           </div>
 
@@ -718,7 +718,7 @@ const Years = ({ onChange, onClose, value, classes, dataTestId }: YearsProps) =>
           <div className={clsx(styles.selection, classes?.selection)}>
                <div className={clsx(styles.back, classes?.back)}>
                     <button role="button" type="button" onClick={onClose} data-testid={`${dataTestId}_close`}>
-                         <XOutlineICon width="2rem" height="2rem" />
+                         <XOutlineIcon width="2rem" height="2rem" />
                     </button>
                </div>
 

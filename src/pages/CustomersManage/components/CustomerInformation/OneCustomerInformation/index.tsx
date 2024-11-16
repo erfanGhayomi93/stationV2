@@ -1,7 +1,7 @@
 import { CrownIcon } from '@assets/icons';
 import Divider from '@components/Divider';
 import { Tab, TabGroup, TabList } from '@headlessui/react';
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import clsx from 'clsx';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

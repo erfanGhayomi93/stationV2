@@ -2,7 +2,7 @@ import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
 import { useQuery } from '@tanstack/react-query';
 
-export const useQueryCustomerSearch = ({ term, customerType }: { term: string; customerType: 'Natural' | 'Legal' | 'All' }) => {
+export const useQueryCustomerSearch = (term: string, customerType?: 'Natural' | 'Legal' | 'All') => {
      const url = routeApi().Customer.AdvancedSearch;
 
      return useQuery({
@@ -33,7 +33,7 @@ export const useQueryDefaultCustomer = () => {
      });
 };
 
-export const useQueryCustomerSearchGroup = (term: string) => {
+export const useQueryCustomerSearchGroup = (term: string, customerType?: 'Natural' | 'Legal' | 'All') => {
      const url = routeApi().Customer.GroupAdvancedSearch;
 
      return useQuery({

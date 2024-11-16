@@ -6,7 +6,7 @@ import ArrowDownTriangleIcon from '../svg/arrowDownTriangle.svg?react';
 import ArrowRightIcon from '../svg/arrowRight.svg?react';
 import BackgroundModeIcon from '../svg/backgroundMode.svg?react';
 import BasketIcon from '../svg/basket.svg?react';
-import { default as CalculatorIcon, default as CalenderIcon } from '../svg/calculator.svg?react';
+import CalculatorIcon from '../svg/calculator.svg?react';
 import ChevronDownIcon from '../svg/ChevronDown.svg?react';
 import ChevronUpIcon from '../svg/chevronUp.svg?react';
 import CloseIcon from '../svg/close.svg?react';
@@ -59,6 +59,7 @@ import SpinnerIcon from '../svg/Spinner.svg?react';
 import StartIcon from '../svg/start.svg?react';
 import StoneFourIcon from '../svg/stone-four.svg?react';
 import SystemModeIcon from '../svg/systemMode.svg?react';
+import TickFillIcon from '../svg/tickFill.svg?react';
 import TseIcon from '../svg/tse.svg?react';
 import UpArrowIcon from '../svg/upArrow.svg?react';
 import UpFillArrowIcon from '../svg/upFillArrow.svg?react';
@@ -66,7 +67,7 @@ import UserGroupIcon from '../svg/user-group.svg?react';
 import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
-import XOutlineICon from '../svg/xOutline.svg?react';
+import XOutlineIcon from '../svg/xOutline.svg?react';
 
 export {
      AngleDownIcon,
@@ -77,7 +78,6 @@ export {
      BackgroundModeIcon,
      BasketIcon,
      CalculatorIcon,
-     CalenderIcon,
      ChevronDownIcon,
      ChevronUpIcon,
      CloseIcon,
@@ -131,6 +131,7 @@ export {
      StartIcon,
      StoneFourIcon,
      SystemModeIcon,
+     TickFillIcon,
      TseIcon,
      UpArrowIcon,
      UpFillArrowIcon,
@@ -138,5 +139,5 @@ export {
      WatchlistNegativeIcon,
      XCircleFillIcon,
      XCircleOutlineIcon,
-     XOutlineICon,
+     XOutlineIcon,
 };
