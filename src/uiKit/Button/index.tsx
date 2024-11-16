@@ -54,7 +54,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                'text-content-white bg-button-success-default border:content-success-buy': variant === 'primary',
                'text-content-success-buy bg-content-white border:content-success-buy': variant === 'primary-outline',
                'text-content-white bg-button-primary-default ': variant === 'primary-darkness',
-               'text-content-success-buy bg-content-white border-button-primary-default': variant === 'primary-darkness-outline',
+               'text-button-primary-default bg-content-white border-button-primary-default':
+                    variant === 'primary-darkness-outline',
                'text-content-white bg-button-error-default': variant === 'danger',
                'text-content-error-sell bg-back-error-default': variant === 'danger-outline',
                'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',
