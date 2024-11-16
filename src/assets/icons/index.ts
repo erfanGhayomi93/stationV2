@@ -70,7 +70,7 @@ import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import FilterCloseIcon from '../svg/filter-close.svg?react';
 import FilterOpenIcon from '../svg/filter-open.svg?react';
 import ClockIcon from '@assets/svg/clock.svg?react';
-import XOutlineICon from '../svg/xOutline.svg?react';
+import XOutlineIcon from '../svg/xOutline.svg?react';
 
 export {
      AngleDownIcon,
@@ -142,7 +142,7 @@ export {
      WatchlistNegativeIcon,
      XCircleFillIcon,
      XCircleOutlineIcon,
-     XOutlineICon,
+     XOutlineIcon,
      FilterOpenIcon,
      ClockIcon,
      FilterCloseIcon,
