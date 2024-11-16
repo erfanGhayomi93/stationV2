@@ -2,7 +2,7 @@ import { ColDef } from '@ag-grid-community/core';
 import { useCustomerContracts } from '@api/customer';
 import AgGridTable from '@components/Table/AgGrid';
 import { dateFormatter } from '@methods/helper';
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 

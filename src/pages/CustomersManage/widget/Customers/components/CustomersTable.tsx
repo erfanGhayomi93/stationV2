@@ -1,7 +1,7 @@
 import { ColDef, SelectionChangedEvent } from '@ag-grid-community/core';
 import AgGrid from '@components/Table/AgGrid';
 import { numFormatter, sepNumbers } from '@methods/helper';
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionRenderer from './ActionRenderer';
@@ -61,10 +61,10 @@ const CustomersTable = ({ data }: TCustomersTableProps) => {
      );
 
      return (
-          <div className="text-content-error-sell">
+          <div className="col-span-2 text-content-error-sell">
                <AgGrid
                     columnDefs={COLUMN_DEFS}
-                    rowData={data ?? []}
+                    rowData={data}
                     rowSelection={{
                          mode: 'multiRow',
                     }}

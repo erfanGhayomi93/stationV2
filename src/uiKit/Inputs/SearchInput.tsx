@@ -1,4 +1,4 @@
-import { SearchInputIcon, XCircleOutlineIcon, XOutlineICon } from '@assets/icons';
+import { SearchInputIcon, XCircleOutlineIcon, XOutlineIcon } from '@assets/icons';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
@@ -17,13 +17,20 @@ interface TSearchInputProps
      removeAllSelectedCustomers: () => void;
 }
 
-const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, removeAllSelectedCustomers, removeSelectedCustomers, ...props }: TSearchInputProps) => {
+const SearchInput = ({
+     values,
+     onChangeValue,
+     placeholder = '',
+     handleOpenModal,
+     removeAllSelectedCustomers,
+     removeSelectedCustomers,
+     ...props
+}: TSearchInputProps) => {
      const [items, setItems] = useState<TItem[]>(values);
 
      const [inputValue, setInputValue] = useState('');
 
      //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
-
 
      const searchInputRef = useRef<HTMLDivElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
@@ -64,7 +71,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
      }, [values]);
 
      return (
-          <div className='w-full'>
+          <div className="w-full">
                <div
                     onClick={() => {
                          inputRef.current?.focus();
@@ -99,7 +106,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                                              }}
                                              className="text-icon-disable"
                                         >
-                                             <XOutlineICon />
+                                             <XOutlineIcon />
                                         </button>
                                    </li>
                               ))}
@@ -135,7 +142,8 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                     <div
                          className={clsx('absolute text-xs transition-all duration-100', {
                               '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 || !!inputValue,
-                              'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default': items.length === 0 && !inputValue,
+                              'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default':
+                                   items.length === 0 && !inputValue,
                          })}
                     >
                          <span className="">{placeholder}</span>

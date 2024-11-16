@@ -1,4 +1,4 @@
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import Button from '@uiKit/Button';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';

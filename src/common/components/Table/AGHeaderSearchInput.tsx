@@ -1,5 +1,5 @@
 import { IHeaderParams } from '@ag-grid-community/core';
-import { SearchInputIcon, XOutlineICon } from '@assets/icons';
+import { SearchInputIcon, XOutlineIcon } from '@assets/icons';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 // import { ArrowSortDownIcon, ArrowSortUpIcon, SearchIcon } from 'src/common/icons';
@@ -60,7 +60,7 @@ const AGHeaderSearchInput = ({ api, displayName, column, setSort }: IHeaderParam
                                    setInputMode(false);
                               }}
                          >
-                              <XOutlineICon />
+                              <XOutlineIcon />
                          </button>
                     </div>
                ) : (

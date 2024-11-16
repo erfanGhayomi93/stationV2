@@ -40,7 +40,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          }}
                     >
                          <AgGridReact
-                              modules={[ClientSideRowModelModule]}
                               onFirstDataRendered={fitColumnsSize}
                               onRowDataUpdated={fitColumnsSize}
                               onGridSizeChanged={fitColumnsSize}

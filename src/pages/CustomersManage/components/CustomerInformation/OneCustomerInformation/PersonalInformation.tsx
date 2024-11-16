@@ -1,5 +1,5 @@
 import { useCustomerInformation } from '@api/customer';
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 

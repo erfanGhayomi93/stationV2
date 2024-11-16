@@ -21,11 +21,17 @@ export default tseslint.config(
                ...reactHooks.configs.recommended.rules,
                // 'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
                '@typescript-eslint/no-unused-vars': 'warn',
-               '@typescript-eslint/no-unused-expressions': 'warn',
+               '@typescript-eslint/no-unused-expressions': [
+                    'warn',
+                    {
+                         allowShortCircuit: true,
+                         allowTernary: true,
+                    },
+               ],
                '@typescript-eslint/no-explicit-any': 'warn',
                '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
                '@typescript-eslint/no-empty-object-type': 'warn',
-               "react-hooks/exhaustive-deps": "off"
+               'react-hooks/exhaustive-deps': 'off',
           },
      }
 );

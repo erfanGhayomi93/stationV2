@@ -1,7 +1,7 @@
 import { useCustomerFinancialStatus } from '@api/customer';
-import { RiskAnnouncementIcon } from '@assets/icons';
+import { RiskAnnouncementIcon, TickFillIcon } from '@assets/icons';
 import { sepNumbers } from '@methods/helper';
-import { CustomersContext } from '@pages/CustomersManage';
+import { CustomersContext } from '@pages/CustomersManage/context';
 import clsx from 'clsx';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,13 +22,16 @@ const FinancialStatus = () => {
                     name: t('customersManage.financialStatusCustomerStatus'),
                     value: (
                          <div className="flex items-center gap-x-2">
-                              <RiskAnnouncementIcon
-                                   className={clsx({
-                                        'hidden text-transparent': data?.status === 'Normal',
-                                        'text-icon-error': data?.status === 'CallMargin',
-                                        'text-icon-warning': data?.status === 'AtRisk',
-                                   })}
-                              />
+                              {data?.status === 'Normal' ? (
+                                   <TickFillIcon className="text-icon-success" />
+                              ) : (
+                                   <RiskAnnouncementIcon
+                                        className={clsx({
+                                             'text-icon-error': data?.status === 'CallMargin',
+                                             'text-icon-warning': data?.status === 'AtRisk',
+                                        })}
+                                   />
+                              )}
 
                               <span>{t(`customersManage.financialStatusCustomerStatus${data?.status ?? 'Normal'}`)}</span>
                          </div>
@@ -43,55 +46,55 @@ const FinancialStatus = () => {
                {
                     id: 'purchasShares',
                     name: t('customersManage.financialStatusPurchasShares'),
-                    value: data?.t1 ?? '-',
+                    value: sepNumbers(data?.t1),
                     unit: 'rial',
                },
                {
                     id: 'purchasOption',
                     name: t('customersManage.financialStatusPurchasOption'),
-                    value: data?.t1 ?? '-',
+                    value: sepNumbers(data?.t1),
                     unit: 'rial',
                },
                {
                     id: 'sharesBlocked',
                     name: t('customersManage.financialStatusSharesBlocked'),
-                    value: data?.orderBlockValue ?? '-',
+                    value: sepNumbers(data?.orderBlockValue),
                     unit: 'rial',
                },
                {
                     id: 'optionBlocked',
                     name: t('customersManage.financialStatusOptionBlocked'),
-                    value: data?.orderBlockValue ?? '-',
+                    value: sepNumbers(data?.orderBlockValue),
                     unit: 'rial',
                },
                {
                     id: 'withdrawalBlocked',
                     name: t('customersManage.financialStatusWithdrawalBlocked'),
-                    value: data?.orderBlockValue ?? '-',
+                    value: sepNumbers(data?.orderBlockValue),
                     unit: 'rial',
                },
                {
                     id: 'sharesCredit',
                     name: t('customersManage.financialStatusSharesCredit'),
-                    value: data?.credit ?? '-',
+                    value: sepNumbers(data?.credit),
                     unit: 'rial',
                },
                {
                     id: 'optionCredit',
                     name: t('customersManage.financialStatusOptionCredit'),
-                    value: data?.credit ?? '-',
+                    value: sepNumbers(data?.credit),
                     unit: 'rial',
                },
                {
                     id: 'remainT1',
                     name: t('customersManage.financialStatusRemainT1'),
-                    value: data?.t1 ?? '-',
+                    value: sepNumbers(data?.t1),
                     unit: 'rial',
                },
                {
                     id: 'remainT2',
                     name: t('customersManage.financialStatusRemainT2'),
-                    value: data?.t2 ?? '-',
+                    value: sepNumbers(data?.t2),
                     unit: 'rial',
                },
           ],
@@ -99,20 +102,22 @@ const FinancialStatus = () => {
      );
 
      return (
-          <ul className="flex flex-1 flex-col overflow-y-auto px-20">
-               {FINANCIAL_STATUS_ITEMS.map(({ id, name, value, unit }) => (
-                    <li
-                         key={id}
-                         className="flex items-center justify-between border-b border-line-div-2 py-4 text-sm font-medium last:border-none"
-                    >
-                         <span className="text-content-selected">{name}</span>
-                         <div className="flex items-center gap-2">
-                              <span className="text-content-title">{value ?? '-'}</span>
-                              {unit && t(`common.${unit ?? 'rial'}`)}
-                         </div>
-                    </li>
-               ))}
-          </ul>
+          <div className="max-h-full flex-1 overflow-hidden px-20">
+               <ul className="flex h-full flex-1 flex-col overflow-y-auto">
+                    {FINANCIAL_STATUS_ITEMS.map(({ id, name, value, unit }) => (
+                         <li
+                              key={id}
+                              className="flex items-center justify-between border-b border-line-div-2 py-4 text-sm font-medium last:border-none"
+                         >
+                              <span className="text-content-selected">{name}</span>
+                              <div className="flex items-center gap-2 pl-2 text-content-title">
+                                   <span>{value ?? '-'}</span>
+                                   {unit && t(`common.${unit ?? 'rial'}`)}
+                              </div>
+                         </li>
+                    ))}
+               </ul>
+          </div>
      );
 };
 
