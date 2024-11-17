@@ -33,7 +33,7 @@ export const useQueryDefaultCustomer = () => {
      });
 };
 
-export const useQueryCustomerSearchGroup = (term: string, customerType?: 'Natural' | 'Legal' | 'All') => {
+export const useQueryCustomerSearchGroup = (term: string, customerType?: TCustomerType) => {
      const url = routeApi().Customer.GroupAdvancedSearch;
 
      return useQuery({
@@ -105,6 +105,32 @@ export const useCustomerContracts = ({ customerISIN }: ICustomerContractsReq) =>
                          customerISIN,
                     },
                });
+               return response.data.result;
+          },
+     });
+};
+
+export const useMyGroupsDefault = () => {
+     const url = routeApi().Customer.GetMyGroup;
+
+     return useQuery({
+          queryKey: ['getMyGroupDefault'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<IMyGroupsInformationRes[]>>(url);
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useMyGroupsAdvanced = (term: string, customerType?: TCustomerType) => {
+     const url = routeApi().Customer.MyGroupAdvancedSearch;
+
+     return useQuery({
+          queryKey: ['getMyGroupAdvanced', term],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<IMyGroupsInformationRes[]>>(url);
+
                return response.data.result;
           },
      });

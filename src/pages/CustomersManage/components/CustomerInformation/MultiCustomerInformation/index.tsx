@@ -1,17 +1,13 @@
 import { ColDef } from '@ag-grid-community/core';
 import Divider from '@components/Divider';
 import AgGridTable from '@components/Table/AgGrid';
-import { CustomersContext } from '@pages/CustomersManage/context';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const MultiCustomerInformation = () => {
+const MultiCustomerInformation = ({ data }: { data: (ICustomerAdvancedSearchRes | IMyGroupsCustomerInformation)[] }) => {
      const { t } = useTranslation();
 
-     const { customers } = useContext(CustomersContext);
-
-     console.log(customers, 'customers');
-     const COLUMNS_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
+     const COLUMNS_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes | IMyGroupsCustomerInformation>[]>(
           () => [
                {
                     field: 'title',
@@ -27,7 +23,7 @@ const MultiCustomerInformation = () => {
                     headerName: t('customersManage.selectCustomersNationalCode'),
                },
           ],
-          [customers]
+          []
      );
 
      return (
@@ -36,7 +32,7 @@ const MultiCustomerInformation = () => {
 
                <Divider />
                <div className="h-full w-full flex-1">
-                    <AgGridTable columnDefs={COLUMNS_DEFS} rowData={customers ?? []} />
+                    <AgGridTable columnDefs={COLUMNS_DEFS} rowData={data ?? []} />
                </div>
           </div>
      );

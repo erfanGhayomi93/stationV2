@@ -45,6 +45,9 @@ export const routeApi = () => {
                GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
                GetCustomerFinancialStatus: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
                GetCustomerContract: baseUrl + '/Agreement/v1/Get',
+
+               GetMyGroup: baseUrl + '/CustomerGroup/v1/GetGroups',
+               MyGroupAdvancedSearch: baseUrl + '/CustomerGroup/v1/SearchCustomerGroup',
           },
 
           SupervisorMessage: {
@@ -57,8 +60,8 @@ export const routeApi = () => {
           Trader: {
                GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
           },
-          Portfolios : {
-               CustomerPortfolio : baseUrl + '/Portfolio/v1/Portfolios'
+          Portfolios: {
+               CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
           },
           OAuth: {
                authorization: oAuthUrl + '/GTOAuthApi/v1/GTAuthorization',
