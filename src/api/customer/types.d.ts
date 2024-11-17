@@ -1,5 +1,16 @@
 type TcustomerType = 'Legal' | 'Natural';
 
+interface IMyGroupsCustomerInformation {
+     bourseCode: string;
+     credit: number;
+     customerISIN: string;
+     customerRemainAndOptionRemainDto: ICustomerRemainAndOptionRemainDto;
+     customerType: ICustomerMultiTypeType;
+     nationalCode: string;
+     purchasePower: number;
+     title: string;
+}
+
 interface ICustomerRemainAndOptionRemainDto {
      remain: number;
      purchasePower: number;
@@ -78,4 +89,11 @@ interface ICustomerContractsRes {
      state: 'Accepted' | 'NotSpecified' | 'expired';
      title: string;
      type: string;
+}
+
+interface IMyGroupsInformationRes {
+     children: IMyGroupCustomerInformation[];
+     customerISINs: string;
+     groupName: string;
+     id: number;
 }

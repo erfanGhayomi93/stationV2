@@ -1,11 +1,14 @@
 import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { useTabSlice } from '@store/tab';
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CustomersContext } from '../context';
 
 const CustomersManageTab = () => {
      const { t } = useTranslation();
+
+     const { resetCustomersState } = useContext(CustomersContext);
 
      const { customersManageTab, setCustomersManageTab } = useTabSlice();
 
@@ -18,13 +21,22 @@ const CustomersManageTab = () => {
           []
      );
 
+     const handleClickTab = (id: TCustomersManageTab) => {
+          setCustomersManageTab(id);
+          if (customersManageTab !== id) {
+               resetCustomersState();
+          }
+     };
+
      return (
           <TabGroup>
                <TabList className="flex gap-x-4">
                     {TABS.map(({ id, label }) => (
                          <Tab
                               className={clsx('tab-primary', id === customersManageTab && 'active')}
-                              onClick={() => setCustomersManageTab(id)}
+                              onClick={() => {
+                                   handleClickTab(id);
+                              }}
                          >
                               {label}
                          </Tab>
