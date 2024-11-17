@@ -25,6 +25,27 @@ const MyGroupTable = ({ data }: TMyGroupTableProps) => {
                     valueGetter: ({ data }) => data?.groupName,
                     cellRenderer: 'agGroupCellRenderer',
                },
+               {
+                    field: 'id',
+                    headerName: t('customersManage.bourseCodeCol'),
+               },
+               {
+                    field: 'id',
+                    headerName: t('customersManage.nationalCodeCol'),
+               },
+               {
+                    field: 'id',
+                    headerName: t('customersManage.purchasePowerCol'),
+               },
+               {
+                    field: 'id',
+                    headerName: t('customersManage.purchasePowerOptionCol'),
+               },
+               {
+                    field: 'id',
+                    headerName: t('customersManage.actionCol'),
+                    // cellRenderer: ActionRenderer,
+               },
           ],
           []
      );

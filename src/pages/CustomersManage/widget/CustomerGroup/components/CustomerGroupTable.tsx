@@ -16,14 +16,13 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
 
      const customerGroupSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
 
-     console.log(customerGroupSelectData, 'customerGroupSelectData');
-
      const COLUMNS_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
           () => [
                {
                     field: 'title',
                     headerName: t('customersManage.groupCustomerNameCol'),
                     valueGetter: ({ data }) => data?.title,
+                    // cellRenderer: GroupRowCellRenderer,
                     cellRenderer: 'agGroupCellRenderer',
                },
                {
@@ -88,7 +87,7 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
                          flex: 1,
                     },
                     enableRtl: true,
-                    // onRowSelected: onRowSelected,
+
                     onRowSelected(event) {
                          customerGroupSelectData.current = event.api.getSelectedRows();
 
@@ -105,7 +104,6 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
           <div className="col-span-2 text-content-error-sell">
                <AgGridTable
                     masterDetail={true}
-                    detailRowHeight={200}
                     detailCellRendererParams={detailCellRendererParams}
                     rowData={data}
                     columnDefs={COLUMNS_DEFS}
