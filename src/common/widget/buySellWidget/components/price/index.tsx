@@ -84,7 +84,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
 
     return (
         <div className="flex-1 flex items-center">
-            <div className="w-9/12 flex px-4">
+            <div className="w-9/12 flex pl-4">
                 {
                     !isPercentPrice &&
                     <FieldInputNumber
@@ -110,7 +110,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
                 />}
             </div>
 
-            <div className="w-3/12 pl-4">
+            <div className="w-3/12">
                 <ToggleSwitch
                     checked={isPercentPrice}
                     label="درصدی"

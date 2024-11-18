@@ -73,6 +73,8 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
+import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
+import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
 
 export {
      AngleDownIcon,
@@ -150,4 +152,6 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
+     ExcelImportIcon,
+     ExcelExportIcon,
 };

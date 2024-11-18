@@ -3,7 +3,7 @@ import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { Dispatch, FC, HTMLAttributes, useMemo ,useState} from 'react';
+import { Dispatch, FC, HTMLAttributes, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ResultHeader from './resultHeader';
 import ResultItem from './resultItem';
@@ -21,7 +21,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
 
      // const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
 
-     const { data: searchCustomers } = useQueryCustomerSearch({ term: debouncedTerm, customerType: 'All' });
+     const { data: searchCustomers } = useQueryCustomerSearch(debouncedTerm, 'All');
 
      const { data: defaultCustomers } = useQueryDefaultCustomer();
 

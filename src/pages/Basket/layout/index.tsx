@@ -34,7 +34,7 @@ const LayoutReport: FC<ILayoutReportProps> = ({ rightNodeHeader, leftNodeHeader,
                         {
                             !isOpenFilter && (
                                 <button
-                                    className=" p-2 bg-button-tab-deactive"
+                                    className="p-2 bg-button-tab-deactive"
                                     onClick={() => setIsOpenFilter(!isOpenFilter)}
                                 >
                                     <FilterOpenIcon className="text-icon-default" />
@@ -54,7 +54,7 @@ const LayoutReport: FC<ILayoutReportProps> = ({ rightNodeHeader, leftNodeHeader,
             >
                 {
                     isOpenFilter ? (
-                        <div className="grid grid-rows-min-one-min p-4 pt-6 bg-back-surface min-w-48 rounded-lg">
+                        <div className="grid grid-rows-min-one-min p-4 pt-6 bg-back-surface w-72 rounded-lg">
                             <div className="flex justify-between items-center">
                                 <span>حذف فیلترها</span>
                                 <button
@@ -64,7 +64,7 @@ const LayoutReport: FC<ILayoutReportProps> = ({ rightNodeHeader, leftNodeHeader,
                                     <FilterCloseIcon className="text-button-primary-default" />
                                 </button>
                             </div>
-                            <div>
+                            <div className="pt-6">
                                 {leftNodeFilter}
                             </div>
                             <div className="pt-6 pb-2 border-t border-line-div-2">

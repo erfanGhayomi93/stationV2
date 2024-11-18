@@ -20,7 +20,7 @@ const InformationTrade: FC<InformationTradeProps> = ({ marketUnit }) => {
 
     return (
         <div>
-            <div className="flex justify-between gap-x-2 text-xs px-4">
+            <div className="flex justify-between gap-x-2 text-xs">
                 <div className="flex gap-x-1 text-content-paragraph">
                     <Tippy className="min-w-80" content={<TooltipOrderInformation
                         commission={commission}

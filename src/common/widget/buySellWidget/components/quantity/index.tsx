@@ -65,7 +65,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
         <div className={clsx('flex-1 flex flex-col gap-y-4', styles.container)}>
 
             <div className="flex items-center">
-                <div className="flex w-9/12 px-4">
+                <div className="flex w-9/12 pl-4">
                     {
                         !isPercentQuantity && (
                             <FieldInputNumber
@@ -86,7 +86,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                     {isPercentQuantity && <QuantityByPercent />}
                 </div>
 
-                <div className="w-3/12 pl-4">
+                <div className="w-3/12">
                     <ToggleSwitch
                         checked={isPercentQuantity}
                         label="درصدی"
@@ -98,7 +98,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
 
             {
                 isCalculatedQuantity && (
-                    <div className="w-9/12 px-4">
+                    <div className="w-9/12 pl-4">
                         <FieldInputNumber
                             value={amount}
                             onChangeValue={value => {

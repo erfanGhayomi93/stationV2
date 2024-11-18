@@ -6,7 +6,7 @@ import { useCustomerStore } from '@store/customer';
 import { useModalStore } from '@store/modal';
 import { useSymbolStore } from '@store/symbol';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { useBuySellContext } from 'common/widget/buySellWidget/context/buySellContext';
+import { useBuySellStore } from 'common/widget/buySellWidget/context/buySellContext';
 import { useEffect, useMemo } from 'react';
 
 const CustomersSearch = () => {
@@ -23,7 +23,7 @@ const CustomersSearch = () => {
 
      const asset = useMemo(() => data?.result[0]?.asset, [data?.result])
 
-     const { side } = useBuySellContext()
+     const { side } = useBuySellStore()
 
      const selectedCustomerInputValues = useMemo(() => {
           return selectedCustomers.map(customer => {
@@ -43,9 +43,9 @@ const CustomersSearch = () => {
 
 
      return (
-          <div className="flex flex-1 items-center mb-3">
-               <div className="w-9/12 px-4">
-                    <div className='relative'>
+          <div className="flex items-center mb-3">
+               <div className="w-9/12 pl-4">
+               <div className='relative'>
                          <SearchInput
                               handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
                               placeholder="مشتری"
@@ -85,10 +85,11 @@ const CustomersSearch = () => {
                                    </div>
                               )
                          }
+
                     </div>
                </div>
 
-               <div className="flex w-3/12 items-center justify-center pl-4">
+               <div className="flex w-3/12 items-center justify-center">
                     <Popup
                          margin={{
                               y: 8,
@@ -121,19 +122,19 @@ const CustomersSearch = () => {
                          )}
                     >
                          {({ setOpen, open }) => (
-                              <div
+                              <button
                                    onClick={() => {
                                         if (selectedCustomers.length === 0) return;
                                         setOpen(!open);
                                    }}
-                                   className="bg- flex items-center gap-1 rounded-lg bg-button-primary-bg-selected px-4 py-3"
+                                   className="flex items-center gap-1 rounded-lg bg-button-primary-bg-selected px-3 py-3"
                               >
                                    <UserGroupIcon className="text-button-primary-default" />
 
                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-button-primary-hover text-icon-white">
                                         <span className="text-xs">{selectedCustomers.length}</span>
                                    </div>
-                              </div>
+                              </button>
                          )}
                     </Popup>
                </div>

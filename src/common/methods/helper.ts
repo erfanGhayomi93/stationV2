@@ -298,6 +298,17 @@ export const createQueryKeyByParams = <T>(params: T) => {
           .map(([key, value]) => ({ [key]: value }));
 };
 
+export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
+     const obj: { [key: string]: any } = {};
+     for (const [key, value] of Object.entries(object)) {
+          if (value) {
+               obj[key] = value;
+          }
+     }
+
+     return obj;
+};
+
 export const dayAsJalali = (v: dayjs.ConfigType) => {
      return dayjs(v, {
           // @ts-expect-error: dayjs does not recognize jalali

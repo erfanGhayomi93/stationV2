@@ -30,9 +30,11 @@ const SearchInput = ({
 
      const [inputValue, setInputValue] = useState('');
 
+     const [widthSize, setWidthSize] = useState(0)
+
      //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
-     const searchInputRef = useRef<HTMLDivElement | null>(null);
+     const searchInputRef = useRef<HTMLButtonElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
      const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -67,12 +69,25 @@ const SearchInput = ({
      //  }, [searchInputRef, chipsetsRef, items]);
 
      useEffect(() => {
+          if (searchInputRef.current) {
+               const resizeObserver = new ResizeObserver(() => {
+                    setWidthSize(searchInputRef?.current?.offsetWidth ?? 0)
+               });
+
+               resizeObserver.observe(searchInputRef.current);
+
+               return () => resizeObserver.disconnect(); // Cleanup observer on unmount
+          }
+     }, []);
+
+
+     useEffect(() => {
           setItems(values);
      }, [values]);
 
      return (
           <div className="w-full">
-               <div
+               <button
                     onClick={() => {
                          inputRef.current?.focus();
                          handleOpenModal?.();
@@ -86,9 +101,10 @@ const SearchInput = ({
                          </div>
                          <ul
                               ref={chipsetsRef}
-                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto px-5 pr-6 pt-1"
+                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto px-5 pr-6 pt-1 truncate"
+                              style={{ width: widthSize - 60 }}
                          >
-                              {[...items].map(value => (
+                              {items.map(value => (
                                    <li
                                         key={value.id}
                                         className="flex items-center gap-1 text-nowrap rounded-lg bg-progressbar-primary-line px-1 py-1 text-content-title"
@@ -111,11 +127,7 @@ const SearchInput = ({
                                    </li>
                               ))}
                          </ul>
-                         {/* {visibleChipsetsCount < items.length && (
-                         <li className="flex items-center gap-1 rounded-full bg-progressbar-primary-line p-2 text-content-title">
-                              <span className="text-xs">{items.length - visibleChipsetsCount}+</span>
-                         </li>
-                    )} */}
+
                          <input
                               ref={inputRef}
                               value={inputValue}
@@ -124,6 +136,7 @@ const SearchInput = ({
                               inputMode="numeric"
                               {...props}
                          />
+
                          <div className="flex items-center justify-center">
                               {items.length !== 0 && (
                                    <button
@@ -138,7 +151,9 @@ const SearchInput = ({
                                    </button>
                               )}
                          </div>
+
                     </div>
+
                     <div
                          className={clsx('absolute text-xs transition-all duration-100', {
                               '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 || !!inputValue,
@@ -148,7 +163,7 @@ const SearchInput = ({
                     >
                          <span className="">{placeholder}</span>
                     </div>
-               </div>
+               </button>
           </div>
      );
 };
