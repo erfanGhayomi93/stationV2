@@ -241,3 +241,15 @@
      color: theme('colors.tooltip-content');
      padding: 4px 8px;
 }
+
+.ag-cell-expandable {
+     flex-direction: row-reverse;
+     justify-content: space-between;
+     align-items: center;
+
+     & .ag-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+     }
+}

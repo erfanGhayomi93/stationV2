@@ -3,48 +3,47 @@ import AgGridTable from '@components/Table/AgGrid';
 import { CustomersContext } from '@pages/CustomersManage/context';
 import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import ActionRenderer from '../ActionRenderer';
+import ActionRenderer from './ActionRender';
+// import ActionRenderer from '../ActionRenderer';
 
-type TCustomerGroupTableProps = {
-     data: ICustomerAdvancedSearchRes[];
+type TMyGroupTableProps = {
+     data: IMyGroupsInformationRes[];
 };
 
-const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
+const MyGroupTable = ({ data }: TMyGroupTableProps) => {
      const { t } = useTranslation();
 
-     const { setCustomerGroup } = useContext(CustomersContext);
+     const { setMyGroups } = useContext(CustomersContext);
 
-     const customerGroupSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
+     const myGroupsSelectData = useRef<IMyGroupsCustomerInformation[] | null>(null);
 
-     const COLUMNS_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
+     const COLUMNS_DEFS = useMemo<ColDef<IMyGroupsInformationRes>[]>(
           () => [
                {
-                    field: 'title',
+                    field: 'groupName',
                     headerName: t('customersManage.groupCustomerNameCol'),
-                    valueGetter: ({ data }) => data?.title,
+                    valueGetter: ({ data }) => data?.groupName,
                     cellRenderer: 'agGroupCellRenderer',
                },
                {
-                    field: 'bourseCode',
+                    field: 'id',
                     headerName: t('customersManage.bourseCodeCol'),
-                    headerClass: 'hidden',
                },
                {
-                    field: 'nationalCode',
+                    field: 'id',
                     headerName: t('customersManage.nationalCodeCol'),
                },
                {
-                    field: 'purchasePower',
+                    field: 'id',
                     headerName: t('customersManage.purchasePowerCol'),
                },
                {
-                    field: 'customerRemainAndOptionRemainDto.remain',
+                    field: 'id',
                     headerName: t('customersManage.purchasePowerOptionCol'),
                },
                {
                     field: 'id',
                     headerName: t('customersManage.actionCol'),
-
                     // cellRenderer: ActionRenderer,
                },
           ],
@@ -86,11 +85,11 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
                          flex: 1,
                     },
                     enableRtl: true,
-
+                    // onRowSelected: onRowSelected,
                     onRowSelected(event) {
-                         customerGroupSelectData.current = event.api.getSelectedRows();
+                         myGroupsSelectData.current = event.api.getSelectedRows();
 
-                         setCustomerGroup(customerGroupSelectData.current);
+                         setMyGroups(myGroupsSelectData.current);
                     },
                },
                getDetailRowData: (params: GetDetailRowDataParams) => {
@@ -103,6 +102,7 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
           <div className="col-span-2 text-content-error-sell">
                <AgGridTable
                     masterDetail={true}
+                    detailRowHeight={200}
                     detailCellRendererParams={detailCellRendererParams}
                     rowData={data}
                     columnDefs={COLUMNS_DEFS}
@@ -116,4 +116,4 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
      );
 };
 
-export default CustomerGroupTable;
+export default MyGroupTable;

@@ -13,7 +13,7 @@ const Spinner = () => {
                          height: 32 + 'px',
                     }}
                />
-               <span>در حال دریافت اطلاعات...</span>
+               <span className="text-content-paragraph">در حال دریافت اطلاعات...</span>
           </div>
      );
 };

@@ -1,4 +1,5 @@
 import { XCircleOutlineIcon } from '@assets/icons';
+import Spinner from '@components/Spinner';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -10,9 +11,10 @@ interface IModalProps {
      children: JSX.Element;
      size?: 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
      classes?: Partial<Record<'root' | 'modal' | 'header' | 'x' | 'label', ClassesValue>>;
+     loading?: boolean;
 }
 
-const Modal = ({ children, onCloseModal, title, classes, size = 'md' }: IModalProps) => {
+const Modal = ({ children, onCloseModal, title, classes, loading = false, size = 'md' }: IModalProps) => {
      const modalRef = useRef<HTMLDivElement | null>(null);
 
      useEffect(() => {
@@ -58,7 +60,15 @@ const Modal = ({ children, onCloseModal, title, classes, size = 'md' }: IModalPr
 
                          <div className="min-h-[1px] min-w-full bg-line-div-2" />
 
-                         <div className="h-full flex-1">{children}</div>
+                         <div className="h-full flex-1">
+                              {loading ? (
+                                   <div className="relative h-40">
+                                        <Spinner />
+                                   </div>
+                              ) : (
+                                   children
+                              )}
+                         </div>
                     </div>
                </div>
           </div>,

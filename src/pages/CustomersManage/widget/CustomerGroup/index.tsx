@@ -17,7 +17,7 @@ const CustomerGroup = () => {
 
      const isDefaultUse = useMemo(() => !term?.length, [term]);
 
-     const listGroups = useMemo(() => {
+     const rowData = useMemo(() => {
           return isDefaultUse ? defaultCustomerGroupData : searchCustomerGroupData;
      }, [defaultCustomerGroupData, searchCustomerGroupData, isDefaultUse]);
 
@@ -33,7 +33,7 @@ const CustomerGroup = () => {
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomerGroupTable data={listGroups ?? []} />
+               <CustomerGroupTable data={rowData ?? []} />
           </>
      );
 };
