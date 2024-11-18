@@ -97,3 +97,8 @@ interface IMyGroupsInformationRes {
      groupName: string;
      id: number;
 }
+
+interface ICreateCustomerGroupReq {
+     customerISINs?: string[];
+     groupName: string;
+}

@@ -35,4 +35,7 @@ interface IModalStore {
 
      createNewWatchlistModal: boolean;
      setCreateNewWatchlistModal: (state: boolean) => void;
+
+     createNewCustomerGroupModal: boolean;
+     setCreateNewCustomerGroupModal: (state: boolean) => void;
 }

@@ -1,4 +1,5 @@
 import { CustomersContext } from '@pages/CustomersManage/context';
+import { useModalStore } from '@store/modal';
 import { useTabSlice } from '@store/tab';
 import Button from '@uiKit/Button';
 import { useCallback, useContext, useState } from 'react';
@@ -15,6 +16,8 @@ const CustomerInformation = () => {
      const { customersManageTab } = useTabSlice();
 
      const { customers, customerGroup, myGroups } = useContext(CustomersContext);
+
+     const { setCreateNewCustomerGroupModal } = useModalStore();
 
      const [selectCustomerInformationTab] = useState<TCustomerInformationTab>('personalInformation');
 
@@ -40,14 +43,20 @@ const CustomerInformation = () => {
           return customerInformationSelectComponents[select];
      }, [selectCustomerInformationTab, customers, customerGroup, myGroups]);
 
+     const handleCreateCustomerGroup = () => {
+          setCreateNewCustomerGroupModal(true);
+     };
+
      return (
           <section className="flex max-h-full flex-col items-center gap-4 overflow-hidden rounded-md bg-back-surface py-6">
                <CustomerInformationSelectRender />
 
-               {customers.length !== 0 && (
+               {(customers.length !== 0 || customerGroup.length !== 0 || myGroups.length !== 0) && (
                     <div className="flex w-full items-center gap-4 p-6 pb-0 shadow-E1">
                          <Button variant="primary-darkness">{t('customersManage.addGroupButton')}</Button>
-                         <Button variant="primary-darkness-outline">{t('customersManage.createGroupButton')}</Button>
+                         <Button onClick={handleCreateCustomerGroup} variant="primary-darkness-outline">
+                              {t('customersManage.createGroupButton')}
+                         </Button>
                     </div>
                )}
           </section>

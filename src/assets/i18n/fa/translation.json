@@ -18,7 +18,9 @@
           "deleteSymbolInWatchlistSuccessful": "نماد با موفقیت از دیده‌بان حذف شد.",
           "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد.",
           "createNewWatchlistSuccessful": "دیده‌بان جدید با موفقیت ایجاد شد.",
-          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد."
+          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد.",
+          "createNewCustomerGroupSuccessful": "گروه جدید با موفقیت ایجاد شد.",
+          "createNewCustomerGroupError": "ایجاد گروه جدید با خطا مواجه شد."
      },
 
      "dates": {
@@ -523,5 +525,11 @@
           "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید.",
           "groupCustomerNameCol": "نام گروه مشتریان",
           "customerNameCol": "نام مشتری"
+     },
+
+     "createNewCustomerGroupModal": {
+          "title": "ایجاد گروه جدید",
+          "newCustomerInputLabel": "نام گروه جدید را وارد کنید.",
+          "changeConfirmButton": "ثبت تغییرات"
      }
 }

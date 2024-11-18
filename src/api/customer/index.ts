@@ -1,6 +1,6 @@
 import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useQueryCustomerSearch = (term: string, customerType?: 'Natural' | 'Legal' | 'All') => {
      const url = routeApi().Customer.AdvancedSearch;
@@ -130,6 +130,21 @@ export const useMyGroupsAdvanced = (term: string, customerType?: TCustomerType) 
           queryKey: ['getMyGroupAdvanced', term],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<IMyGroupsInformationRes[]>>(url);
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useCreateNewCustomerGroup = () => {
+     const url = routeApi().Customer.CreateNewCustomerGroup;
+
+     return useMutation({
+          mutationFn: async (params: ICreateCustomerGroupReq) => {
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, {
+                    customerISINs: params.customerISINs ?? [],
+                    groupName: params.groupName,
+               });
 
                return response.data.result;
           },
