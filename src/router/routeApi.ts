@@ -48,6 +48,14 @@ export const routeApi = () => {
 
                GetMyGroup: baseUrl + '/CustomerGroup/v1/GetGroups',
                MyGroupAdvancedSearch: baseUrl + '/CustomerGroup/v1/SearchCustomerGroup',
+
+               CreateNewCustomerGroup: baseUrl + '/CustomerGroup/v1/CreateGroup',
+
+               AddCustomersToGroups: baseUrl + '/CustomerGroup/v1/AddMultipleCustomersToMultipleGroups',
+
+               EditCustomerGroupName: baseUrl + '/CustomerGroup/v1/UpdateGroup',
+
+               deleteCustomerGroup: baseUrl + '/CustomerGroup/v1/DeleteGroup',
           },
 
           SupervisorMessage: {

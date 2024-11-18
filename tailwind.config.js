@@ -32,9 +32,6 @@ module.exports = {
                     E7: '0px 16px 24px 0px rgba(0, 0, 0, 0.16)',
                     E8: '0px 20px 24px 0px rgba(0, 0, 0, 0.24)',
                },
-               borderRadius: {
-                    LG: '32px',
-               },
           },
           colors: {
                transparent: 'rgb(0,0,0,0)',

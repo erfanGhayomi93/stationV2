@@ -5,7 +5,6 @@ import Popup from '@components/popup';
 import { useSymbolStore } from '@store/symbol';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { Fragment } from 'react/jsx-runtime';
 
 const PinnedWatchlists = () => {
      const [isLaptop, setIsLaptop] = useState(false);
@@ -27,11 +26,12 @@ const PinnedWatchlists = () => {
 
                <div className="flex h-full items-center">
                     {watchlistSymbolData?.slice(0, isLaptop ? 2 : 4).map(item => (
-                         <Fragment key={item.symbolISIN}>
+                         <>
                               <div
                                    className={clsx(
                                         'flex h-full cursor-pointer items-center gap-x-1 px-3 transition-colors last:pl-0'
                                    )}
+                                   key={item.symbolISIN}
                               >
                                    <LastPriceTitle
                                         onClick={() => setSelectedSymbol(item.symbolISIN)}
@@ -42,7 +42,7 @@ const PinnedWatchlists = () => {
                                         symbolTitle={item.symbolTitle}
                                    />
                               </div>
-                         </Fragment>
+                         </>
                     ))}
                </div>
 
@@ -58,7 +58,10 @@ const PinnedWatchlists = () => {
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col gap-1 rounded-md bg-back-surface px-4 py-3 shadow-E6">
                                    {watchlistSymbolData?.slice(isLaptop ? 2 : 4).map((item, index) => (
-                                        <li className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary">
+                                        <li
+                                             key={index}
+                                             className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
+                                        >
                                              <LastPriceTitle
                                                   key={index}
                                                   onClick={() => {

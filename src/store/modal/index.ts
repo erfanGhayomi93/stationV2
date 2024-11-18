@@ -21,4 +21,19 @@ export const useModalStore = create<IModalStore>(set => ({
 
      createNewWatchlistModal: false,
      setCreateNewWatchlistModal: value => set(() => ({ createNewWatchlistModal: value })),
+
+     createNewCustomerGroupModal: false,
+     setCreateNewCustomerGroupModal: value => set(() => ({ createNewCustomerGroupModal: value })),
+
+     addCustomersToGroupModal: null,
+     setAddCustomersToGroupModal: value => set(() => ({ addCustomersToGroupModal: value })),
+
+     manageCustomerGroupModal: false,
+     setManageCustomerGroupModal: value => set(() => ({ manageCustomerGroupModal: value })),
+
+     editCustomerGroupModal: null,
+     setEditCustomerGroupModal: value => set(() => ({ editCustomerGroupModal: value })),
+
+     deleteCustomerGroupModal: null,
+     setDeleteCustomerGroupModal: value => set(() => ({ deleteCustomerGroupModal: value })),
 }));

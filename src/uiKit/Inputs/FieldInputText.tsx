@@ -44,7 +44,7 @@ const FieldInputText = ({ onChange, placeholder, classes, ...props }: TFieldInpu
                               'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
                               {
                                    'absolute -top-3 right-2 bg-back-surface px-1': inputValue,
-                                   'absolute right-2 top-1/2 -translate-y-1/2 bg-transparent px-1': !inputValue,
+                                   'absolute right-2 top-1/2 -z-10 -translate-y-1/2 bg-transparent px-1': !inputValue,
                               }
                          )}
                     >

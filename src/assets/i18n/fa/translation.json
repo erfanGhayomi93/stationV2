@@ -18,7 +18,15 @@
           "deleteSymbolInWatchlistSuccessful": "نماد با موفقیت از دیده‌بان حذف شد.",
           "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد.",
           "createNewWatchlistSuccessful": "دیده‌بان جدید با موفقیت ایجاد شد.",
-          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد."
+          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد.",
+          "createNewCustomerGroupSuccessful": "گروه جدید با موفقیت ایجاد شد.",
+          "createNewCustomerGroupError": "ایجاد گروه جدید با خطا مواجه شد.",
+          "addCustomersToGroupsSuccessful": "مشتری‌ها با موفقیت به گروه‌ها اضافه شدند.",
+          "addCustomersToGroupsError": "اضافه کردن مشتری‌ها به گروه‌ها با خطا مواجه شد.",
+          "editCustomerGroupNameSuccessful": "نام گروه مشتری با موفقیت تغییر کرد.",
+          "editCustomerGroupNameError": "تغییر نام گروه مشتری با خطا مواجه شد.",
+          "deleteCustomerGroupSuccessful": "گروه مشتری موردنظر با موفقیت حذف شد.",
+          "deleteCustomerGroupError": "حذف گروه مشتری با خطا مواجه شد."
      },
 
      "dates": {
@@ -523,5 +531,32 @@
           "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید.",
           "groupCustomerNameCol": "نام گروه مشتریان",
           "customerNameCol": "نام مشتری"
+     },
+
+     "createNewCustomerGroupModal": {
+          "title": "ایجاد گروه جدید",
+          "newCustomerInputLabel": "نام گروه جدید را وارد کنید.",
+          "changeConfirmButton": "ثبت تغییرات"
+     },
+
+     "addCustomersToGroupModal": {
+          "title": "افزودن به گروه",
+          "newGroupButton": "گروه جدید",
+          "addToGroupButton": "افزودن به گروه"
+     },
+
+     "manageCustomersGroupsModal": {
+          "title": "مدیریت گروه‌های من",
+          "createNewGroupButton": "ایجاد گروه جدید",
+          "groupNameCol": "نام گروه",
+          "actionCol": "عملیات",
+          "editGroupModalTitle": "ویرایش <span>گروه {{name}}</span>",
+          "editGroupNewNameHelper": "برای گروه مشتری خود یک عنوان انتخاب نمایید.",
+          "editGroupNewNamePlaceholder": "عنوان گروه",
+          "confirmChangeButton": "ثبت تغییرات",
+          "deleteCustomerGroupModalTitle": "حذف <span>گروه {{name}}</span>",
+          "confirmDeleteCustomerGroupQuestion": "آیا از حذف <span>{{name}}</span> اطمینان دارید؟",
+          "cancelButton": "انصراف",
+          "deleteButton": "حذف"
      }
 }
