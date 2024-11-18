@@ -150,3 +150,43 @@ export const useCreateNewCustomerGroup = () => {
           },
      });
 };
+
+export const useAddCustomersToGroups = () => {
+     const url = routeApi().Customer.AddCustomersToGroups;
+
+     return useMutation({
+          mutationFn: async (params: IAddCustomersToGroupsReq) => {
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, params);
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useEditCustomerGroupName = () => {
+     const url = routeApi().Customer.EditCustomerGroupName;
+
+     return useMutation({
+          mutationFn: async (params: IEditCustomerGroupNameReq) => {
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, params);
+
+               return response.data.result;
+          },
+     });
+};
+
+export const useDeleteCustomerGroup = () => {
+     const url = routeApi().Customer.deleteCustomerGroup;
+
+     return useMutation({
+          mutationFn: async (params: IDeleteCustomerGroupReq) => {
+               const formData = new FormData();
+
+               formData.append('groupId', String(params.groupId));
+
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, formData);
+
+               return response.data.result;
+          },
+     });
+};

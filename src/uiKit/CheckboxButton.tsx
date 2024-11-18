@@ -11,11 +11,7 @@ const CheckboxButton = ({ onChange, checked, label, classes }: TCheckboxButtonTy
      return (
           <div
                onClick={onChange}
-               className={clsx(
-                    'flex cursor-pointer items-center gap-2 rounded-lg',
-                    classes?.root,
-                    // checked && 'bg-back-primary'
-               )}
+               className={clsx('flex cursor-pointer items-center gap-2 rounded-lg', classes?.root)}
                tabIndex={-1}
                role="checkbox"
                aria-checked={checked}
@@ -25,7 +21,7 @@ const CheckboxButton = ({ onChange, checked, label, classes }: TCheckboxButtonTy
                          {checked && (
                               <div className="absolute flex h-full w-full items-center justify-center rounded bg-button-primary-default">
                                    <svg
-                                        className="w-3 h-3 text-icon-white"
+                                        className="h-3 w-3 text-icon-white"
                                         fill="none"
                                         stroke="currentColor"
                                         strokeWidth="3"
@@ -38,7 +34,7 @@ const CheckboxButton = ({ onChange, checked, label, classes }: TCheckboxButtonTy
                     </div>
                </div>
 
-               {label && <span className={clsx(classes?.label)}>{label}</span>}
+               {label && <span className={clsx('text-content-title', classes?.label)}>{label}</span>}
           </div>
      );
 };

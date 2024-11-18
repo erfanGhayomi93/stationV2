@@ -22,7 +22,6 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
                     field: 'title',
                     headerName: t('customersManage.groupCustomerNameCol'),
                     valueGetter: ({ data }) => data?.title,
-                    // cellRenderer: GroupRowCellRenderer,
                     cellRenderer: 'agGroupCellRenderer',
                },
                {

@@ -14,6 +14,18 @@ type TcustomersSearchModalSheet = {
      symbolTitle: string;
 };
 
+type TAddCustomersToGroupModal = {
+     customers: string[];
+};
+
+type TEditCustomerGroupModal = {
+     customer: IMyGroupsInformationRes;
+};
+
+type TDeleteCustomerGroupModal = {
+     customer: IMyGroupsInformationRes;
+};
+
 interface IModalStore {
      editOrdersGroupModalSheet: TEditOrdersGroupModalSheet | null;
      setEditOrdersGroupModalSheet: (state: TEditOrdersGroupModalSheet | null) => void;
@@ -38,4 +50,16 @@ interface IModalStore {
 
      createNewCustomerGroupModal: boolean;
      setCreateNewCustomerGroupModal: (state: boolean) => void;
+
+     addCustomersToGroupModal: TAddCustomersToGroupModal | null;
+     setAddCustomersToGroupModal: (state: TAddCustomersToGroupModal | null) => void;
+
+     manageCustomerGroupModal: boolean;
+     setManageCustomerGroupModal: (state: boolean) => void;
+
+     editCustomerGroupModal: TEditCustomerGroupModal | null;
+     setEditCustomerGroupModal: (state: TEditCustomerGroupModal | null) => void;
+
+     deleteCustomerGroupModal: TDeleteCustomerGroupModal | null;
+     setDeleteCustomerGroupModal: (state: TDeleteCustomerGroupModal | null) => void;
 }

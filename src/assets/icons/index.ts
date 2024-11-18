@@ -1,3 +1,4 @@
+import ClockIcon from '@assets/svg/clock.svg?react';
 import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
 import AngleDownIcon from '../svg/angle-down.svg?react';
 import AngleUpIcon from '../svg/angle-up.svg?react';
@@ -16,6 +17,7 @@ import CreditIcon from '../svg/credit.svg?react';
 import CrownIcon from '../svg/crown.svg?react';
 import DarkModeIcon from '../svg/darkMode.svg?react';
 import DeleteIcon from '../svg/delete.svg?react';
+import DeleteOutlineIcon from '../svg/deleteOutline.svg?react';
 import DetailsIcon from '../svg/details.svg?react';
 import DoubleArrowLeftIcon from '../svg/doubleArrowLeft.svg?react';
 import DoubleArrowRightIcon from '../svg/doubleArrowRight.svg?react';
@@ -27,6 +29,8 @@ import EyeOutlineIcon from '../svg/eye-outline.svg';
 import EyePlusIcon from '../svg/eye-plus.svg?react';
 import EyeSlashIcon from '../svg/eye-slash.svg?react';
 import EyeIcon from '../svg/eye.svg?react';
+import FilterCloseIcon from '../svg/filter-close.svg?react';
+import FilterOpenIcon from '../svg/filter-open.svg?react';
 import GearIcon from '../svg/gear.svg?react';
 import HomeIcon from '../svg/home.svg?react';
 import KeyboardSlashIcon from '../svg/keyboard-slash.svg?react';
@@ -40,6 +44,7 @@ import LogoutIcon from '../svg/logout.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import MoreInformationIcon from '../svg/moreInformation.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
+import DraftOutlineIcon from '../svg/penDraftOutline.svg?react';
 import PieChartIcon from '../svg/pie-chart.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
 import PlusIcon from '../svg/plus.svg?react';
@@ -67,9 +72,6 @@ import UserGroupIcon from '../svg/user-group.svg?react';
 import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
-import FilterCloseIcon from '../svg/filter-close.svg?react';
-import FilterOpenIcon from '../svg/filter-open.svg?react';
-import ClockIcon from '@assets/svg/clock.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 
 export {
@@ -83,6 +85,7 @@ export {
      CalculatorIcon,
      ChevronDownIcon,
      ChevronUpIcon,
+     ClockIcon,
      CloseIcon,
      CodalIcon,
      CommunityIcon,
@@ -90,17 +93,21 @@ export {
      CrownIcon,
      DarkModeIcon,
      DeleteIcon,
+     DeleteOutlineIcon,
      DetailsIcon,
      DoubleArrowLeftIcon,
      DoubleArrowRightIcon,
      DoubleTickIcon,
      DraftIcon,
+     DraftOutlineIcon,
      EditIcon,
      ExcelIcon,
      EyeIcon,
      EyeOutlineIcon,
      EyePlusIcon,
      EyeSlashIcon,
+     FilterCloseIcon,
+     FilterOpenIcon,
      GearIcon,
      HomeIcon,
      KeyboardIcon,
@@ -143,7 +150,4 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
-     FilterOpenIcon,
-     ClockIcon,
-     FilterCloseIcon,
 };

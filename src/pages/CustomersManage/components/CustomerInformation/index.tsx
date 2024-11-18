@@ -17,7 +17,7 @@ const CustomerInformation = () => {
 
      const { customers, customerGroup, myGroups } = useContext(CustomersContext);
 
-     const { setCreateNewCustomerGroupModal } = useModalStore();
+     const { setCreateNewCustomerGroupModal, setAddCustomersToGroupModal } = useModalStore();
 
      const [selectCustomerInformationTab] = useState<TCustomerInformationTab>('personalInformation');
 
@@ -47,13 +47,27 @@ const CustomerInformation = () => {
           setCreateNewCustomerGroupModal(true);
      };
 
+     const handleAddCustomersToGroup = () => {
+          if (customersManageTab === 'customers') {
+               setAddCustomersToGroupModal({ customers: customers.map(customer => customer.customerISIN) });
+          }
+          if (customersManageTab === 'customerGroup') {
+               setAddCustomersToGroupModal({ customers: customerGroup.map(customer => customer.customerISIN) });
+          }
+          if (customersManageTab === 'myGroups') {
+               setAddCustomersToGroupModal({ customers: myGroups.map(customer => customer.customerISIN) });
+          }
+     };
+
      return (
           <section className="flex max-h-full flex-col items-center gap-4 overflow-hidden rounded-md bg-back-surface py-6">
                <CustomerInformationSelectRender />
 
                {(customers.length !== 0 || customerGroup.length !== 0 || myGroups.length !== 0) && (
                     <div className="flex w-full items-center gap-4 p-6 pb-0 shadow-E1">
-                         <Button variant="primary-darkness">{t('customersManage.addGroupButton')}</Button>
+                         <Button onClick={handleAddCustomersToGroup} variant="primary-darkness">
+                              {t('customersManage.addGroupButton')}
+                         </Button>
                          <Button onClick={handleCreateCustomerGroup} variant="primary-darkness-outline">
                               {t('customersManage.createGroupButton')}
                          </Button>

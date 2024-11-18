@@ -4,7 +4,7 @@ import { useModalStore } from '@store/modal';
 import { useQueryClient } from '@tanstack/react-query';
 import Button from '@uiKit/Button';
 import FieldInputText from '@uiKit/Inputs/FieldInputText';
-import { useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Modal from '..';
@@ -18,41 +18,50 @@ const CreateNewCustomerGroupModal = () => {
 
      const [customerGroupName, setCustomerGroupName] = useState('');
 
-     const { mutate: createCustomerGroupMutate } = useCreateNewCustomerGroup();
+     const { mutate: createCustomerGroupMutate, reset: createCustomerGroupReset } = useCreateNewCustomerGroup();
 
      const onCloseModal = () => {
           setCreateNewCustomerGroupModal(false);
      };
 
-     const reset = () => {
-          setCustomerGroupName('');
+     const isAllowConfirmButton = customerGroupName.length >= 2;
 
-          onCloseModal();
-     };
+     const onSubmitCreateGroup = (event: FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
 
-     const handleCreateNewCustomerGroup = () => {
+          if (!isAllowConfirmButton) {
+               return;
+          }
+
           createCustomerGroupMutate(
                { groupName: customerGroupName },
                {
                     onSuccess: () => {
                          toast.success(t('alerts.createNewCustomerGroupSuccessful'));
 
-                         queryClient.refetchQueries({ queryKey: ['getMyGroupAdvanced'] });
-
-                         reset();
+                         queryClient.refetchQueries({ queryKey: ['getMyGroupDefault'] });
                     },
                     onError: () => {
                          toast.error(t('alerts.createNewCustomerGroupError'));
+                    },
 
-                         reset();
+                    onSettled: () => {
+                         onCloseModal();
                     },
                }
           );
      };
 
+     useEffect(() => {
+          return () => {
+               createCustomerGroupReset();
+               setCustomerGroupName('');
+          };
+     }, []);
+
      return (
           <Modal size="xs" title={t('createNewCustomerGroupModal.title')} onCloseModal={onCloseModal}>
-               <div className="flex flex-col gap-6">
+               <form onSubmit={onSubmitCreateGroup} className="flex flex-col gap-6">
                     <div>
                          <FieldInputText
                               placeholder={t('createNewCustomerGroupModal.newCustomerInputLabel')}
@@ -65,11 +74,11 @@ const CreateNewCustomerGroupModal = () => {
                     <Divider />
 
                     <div className="flex items-center gap-4">
-                         <Button onClick={handleCreateNewCustomerGroup} variant="primary-darkness">
+                         <Button disabled={!isAllowConfirmButton} type="submit" variant="primary-darkness">
                               {t('createNewCustomerGroupModal.changeConfirmButton')}
                          </Button>
                     </div>
-               </div>
+               </form>
           </Modal>
      );
 };

@@ -102,3 +102,17 @@ interface ICreateCustomerGroupReq {
      customerISINs?: string[];
      groupName: string;
 }
+
+interface IAddCustomersToGroupsReq {
+     customerISINs: string[];
+     groupId: number[];
+}
+
+interface IEditCustomerGroupNameReq {
+     groupName: string;
+     id: number;
+}
+
+interface IDeleteCustomerGroupReq {
+     groupId: number;
+}

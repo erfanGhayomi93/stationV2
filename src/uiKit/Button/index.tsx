@@ -48,7 +48,7 @@ const Loading = () => {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      ({ children, variant = 'primary', icon, className, isLoading = false, ...props }, ref) => {
           const baseClass =
-               'py-2 px-6 rounded-lg w-full text-sm border flex items-center justify-center gap-x-2 disabled:text-button-disable-disable';
+               'py-2 px-6 rounded-lg w-full text-sm border flex items-center justify-center gap-x-2 disabled:opacity-60';
 
           const variantClass = clsx(isLoading && 'opacity-80 pointer-events-none w-full', {
                'text-content-white bg-button-success-default border:content-success-buy': variant === 'primary',
