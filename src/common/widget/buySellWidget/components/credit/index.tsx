@@ -53,7 +53,7 @@ const Credit = () => {
      ];
 
      return (
-          <div className="flex-1 px-4">
+          <div className="flex-1">
                <SelectValidityInput
                     onChange={item => {
                          setValidity(item.value as TValidity)

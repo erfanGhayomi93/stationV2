@@ -10,11 +10,11 @@ interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
      placeholder?: string;
      onChange: (item: TItem) => void;
      items?: TItem[];
-     value: TItem;
+     value: TItem | null;
 }
 
 const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {  
-     const [state, setState] = useState<{ id: string; label: string }>(value);
+     const [state, setState] = useState<{ id: string; label: string } | null>(value);
 
      return (
           <Popup
@@ -24,12 +24,12 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                               <li
                                    className={clsx(
                                         'w-full cursor-pointer items-center justify-start rounded-md text-content-paragraph transition-colors hover:bg-back-primary',
-                                        item.id === state.id && 'bg-back-primary'
+                                        item.id === state?.id && 'bg-back-primary'
                                    )}
                                    key={index}
                               >
                                    <RadioButton
-                                        checked={item.id === state.id}
+                                        checked={item.id === state?.id}
                                         label={item.label}
                                         onChange={() => {
                                              setState(item);
@@ -49,7 +49,7 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                          <div className="w-full flex-1" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}
-                                   value={state.label}
+                                   value={state?.label}
                                    onChange={() => null}
                                    className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"
                                    dir="rtl"
@@ -65,8 +65,8 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                               </div>
                               <div
                                    className={clsx('absolute text-xs transition-all duration-100', {
-                                        '-top-3 right-2 bg-back-surface px-1 text-input-active': value,
-                                        'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !value,
+                                        '-top-3 right-2 bg-back-surface px-1 text-input-active': state,
+                                        'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !state,
                                    })}
                               >
                                    <span className="">{placeholder}</span>

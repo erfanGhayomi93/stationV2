@@ -74,7 +74,11 @@ export const routeApi = () => {
                changePasswordValidation: oAuthUrl + '/GTChangePassword/v1/Validation',
                changePasswordSetPassword: oAuthUrl + '/GTChangePassword/v1/ChangePassword',
           },
+          Baskets : {
+               cartList : baseUrl + '/Cart/v1/CartList' ,
+               CartDetailList : baseUrl + '/Cart/v1/CartDetailList' ,
 
+          },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
                addWatchlistToSymbols: baseUrl + '/Watchlist/v1/AddSymbol',

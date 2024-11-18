@@ -70,6 +70,8 @@ import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import FilterCloseIcon from '../svg/filter-close.svg?react';
 import FilterOpenIcon from '../svg/filter-open.svg?react';
 import ClockIcon from '@assets/svg/clock.svg?react';
+import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
+import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 
 export {
@@ -145,5 +147,7 @@ export {
      XOutlineIcon,
      FilterOpenIcon,
      ClockIcon,
+     ExcelImportIcon,
+     ExcelExportIcon,
      FilterCloseIcon,
 };

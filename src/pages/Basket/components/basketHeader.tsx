@@ -1,28 +1,28 @@
 import { ClockIcon } from "@assets/icons";
 import { dateFormatter } from "@methods/helper";
 import clsx from "clsx";
-import { Dayjs } from "dayjs";
 import { FC } from "react";
 
 
 interface IBasketHeader {
     name: string;
-    date: string;
+    date: string | null;
     isSelected?: boolean;
-    clickBasket: () => void;
+    id : number
+    clickBasket: (id : number) => void;
 }
-const BasketHeader: FC<IBasketHeader> = ({ date, name, isSelected, clickBasket }) => {
+const BasketHeader: FC<IBasketHeader> = ({ date, name, isSelected, clickBasket , id }) => {
     return (
-        <div className={clsx('p-2 flex items-center  rounded-2xl gap-x-2 select-none cursor-pointer', {
+        <button className={clsx('p-2 flex items-center rounded-2xl gap-x-2 select-none cursor-pointer transition-colors', {
             "bg-button-tab-deactive text-content-deselecttab": !isSelected,
             "bg-button-tab-active text-content-selected": isSelected
         })}
-            onClick={clickBasket}
+            onClick={() => clickBasket(id)}
         >
             <span className="font-bold">{name}</span>
-            <span>{dateFormatter(date, 'datetime')}</span>
+            <span className="whitespace-nowrap ltr">{date && dateFormatter(date, 'datetime')}</span>
             <ClockIcon />
-        </div>
+        </button>
     )
 }
 

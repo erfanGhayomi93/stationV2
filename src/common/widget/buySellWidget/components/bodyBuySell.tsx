@@ -24,7 +24,7 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
      );
 
      return (
-          <div className="flex w-full flex-col gap-y-4 py-4 outline-none">
+          <div className="flex w-full flex-col gap-y-4 py-4 px-4 outline-none">
                <CustomersSearch />
                <Quantity
                     minTradeQuantity={data?.symbolData.minTradeQuantity}
