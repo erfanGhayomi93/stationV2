@@ -1,7 +1,6 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { ArrowLeftIcon, DeleteIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon, StartIcon } from '@assets/icons';
+import { ArrowLeftIcon, DeleteIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon } from '@assets/icons';
 import Popup from '@components/popup';
-import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,14 +30,14 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
 
      return (
           <div className="flex h-full items-center justify-center gap-4">
-               <button
+               {/* <button
                     className={clsx({
                          'text-icon-default': !params.data?.isFavorite,
                          'text-icon-warning': params.data?.isFavorite,
                     })}
                >
                     <StartIcon />
-               </button>
+               </button> */}
                <Popup
                     margin={{
                          x: -20,

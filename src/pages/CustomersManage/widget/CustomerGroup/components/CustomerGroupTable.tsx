@@ -7,9 +7,10 @@ import ActionRenderer from '../ActionRenderer';
 
 type TCustomerGroupTableProps = {
      data: ICustomerAdvancedSearchRes[];
+     loading: boolean;
 };
 
-const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
+const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
      const { t } = useTranslation();
 
      const { setCustomerGroup } = useContext(CustomersContext);
@@ -92,6 +93,7 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
 
                          setCustomerGroup(customerGroupSelectData.current);
                     },
+                    rowHeight: 48,
                },
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
@@ -111,6 +113,7 @@ const CustomerGroupTable = ({ data }: TCustomerGroupTableProps) => {
                          valueGetter: () => null,
                     }}
                     groupDefaultExpanded={0}
+                    loading={loading}
                />
           </div>
      );

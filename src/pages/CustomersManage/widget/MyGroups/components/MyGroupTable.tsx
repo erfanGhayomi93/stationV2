@@ -8,9 +8,10 @@ import ActionRenderer from './ActionRender';
 
 type TMyGroupTableProps = {
      data: IMyGroupsInformationRes[];
+     loading?: boolean;
 };
 
-const MyGroupTable = ({ data }: TMyGroupTableProps) => {
+const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
      const { t } = useTranslation();
 
      const { setMyGroups } = useContext(CustomersContext);
@@ -91,6 +92,7 @@ const MyGroupTable = ({ data }: TMyGroupTableProps) => {
 
                          setMyGroups(myGroupsSelectData.current);
                     },
+                    rowHeight: 48,
                },
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
@@ -102,7 +104,6 @@ const MyGroupTable = ({ data }: TMyGroupTableProps) => {
           <div className="col-span-2 text-content-error-sell">
                <AgGridTable
                     masterDetail={true}
-                    detailRowHeight={200}
                     detailCellRendererParams={detailCellRendererParams}
                     rowData={data}
                     columnDefs={COLUMNS_DEFS}
@@ -111,6 +112,7 @@ const MyGroupTable = ({ data }: TMyGroupTableProps) => {
                          valueGetter: () => null,
                     }}
                     groupDefaultExpanded={0}
+                    loading={loading}
                />
           </div>
      );

@@ -352,3 +352,13 @@ export const isSameOrBefore = (date1: Date, date2 = new Date()): boolean => {
 
      return year1 < year2 || (year1 === year2 && (month1 < month2 || (month1 === month2 && day1 <= day2)));
 };
+
+export const factoryQueryKey = <T extends object>(obj: T): string => {
+     const sortObj = {} as T;
+
+     (Object.keys(obj) as Array<keyof T>).sort().forEach(k => {
+          sortObj[k] = obj[k];
+     });
+
+     return JSON.stringify(sortObj);
+};

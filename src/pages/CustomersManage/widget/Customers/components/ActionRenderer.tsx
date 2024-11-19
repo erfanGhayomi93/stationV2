@@ -1,11 +1,14 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { ArrowLeftIcon, DeleteIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon, StartIcon } from '@assets/icons';
+import { ArrowLeftIcon, DeleteIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon } from '@assets/icons';
 import Popup from '@components/popup';
-import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchRes>) => {
+interface ActionRendererParams extends CustomCellRendererProps<ICustomerAdvancedSearchRes> {
+     onPortfolioCustomer: (data: ICustomerAdvancedSearchRes | undefined) => void;
+}
+
+const ActionRenderer = ({ data, onPortfolioCustomer }: ActionRendererParams) => {
      const { t } = useTranslation();
 
      const MORE_ACTION_ITEMS = useMemo(
@@ -14,6 +17,7 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
                     id: 'displayPortfolio',
                     label: t('customersManage.displayPortfolioActionItem'),
                     icon: <PieChartIcon />,
+                    onClick: onPortfolioCustomer,
                },
                {
                     id: 'addToGroup',
@@ -31,14 +35,14 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
 
      return (
           <div className="flex h-full items-center justify-center gap-4">
-               <button
+               {/* <button
                     className={clsx({
                          'text-icon-default': !params.data?.isFavorite,
                          'text-icon-warning': params.data?.isFavorite,
                     })}
                >
                     <StartIcon />
-               </button>
+               </button> */}
                <Popup
                     margin={{
                          x: -20,
@@ -48,14 +52,15 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
                          <ul className="rtl flex flex-col gap-2 rounded-md bg-back-surface p-4 shadow-E5">
                               {MORE_ACTION_ITEMS.map(({ id, icon, label }) => (
                                    <li
-                                        className="flex items-center justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
+                                        className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
                                         key={id}
+                                        onClick={() => onPortfolioCustomer?.(data)}
                                    >
                                         <div className="flex items-center gap-2">
                                              <span className="text-icon-default">{icon}</span>
                                              <span className="text-sm text-content-paragraph">{label}</span>
                                         </div>
-                                        <ArrowLeftIcon />
+                                        <ArrowLeftIcon className="text-icon-default" />
                                    </li>
                               ))}
                          </ul>
