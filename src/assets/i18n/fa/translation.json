@@ -573,6 +573,25 @@
           "portfolioProfitLossCol": "سود/زیان",
           "portfolioPercentProfitLossCol": "درصد سود و زیان",
           "portfolioBuySellCol": "خرید/فروش",
-          "portfolioFreezeSymbolTooltip": "نماد فریز شده است."
+          "portfolioFreezeSymbolTooltip": "نماد فریز شده است.",
+          "positionsSymbolTitleCol": "نماد",
+          "positionsPositionCol": "موقعیت",
+          "positionsCountCol": "تعداد",
+          "positionsGuaranteePlaceCol": "محل تضمین",
+          "positionsPhysicalSettlementCol": "تسویه فیزیکی",
+          "positionsRemainToDueCol": "مانده تا سررسید",
+          "positionsStrikePriceCol": "قیمت اعمال",
+          "positionsValueClosePositionCol": "ارزش بستن",
+          "positionsAverageBuySellCol": "میانگین خرید/فروش",
+          "positionsLastPriceCol": "آخرین قیمت",
+          "positionsActionCol": "عملیات",
+          "positionsPositionSideBuy": "خرید",
+          "positionsPositionSideSell": "فروش",
+          "positionsBlockTypeAll": "همه",
+          "positionsBlockTypeAccount": "وجه نقد",
+          "positionsBlockTypePortfolio": "سهم پایه",
+          "positionsBlockTypePosition": "موقعیت",
+          "positionsChangeGuaranteeActionTooltip": "تغییر روش تضمین",
+          "positionsClosePositionActionTooltip": "بستن موقعیت"
      }
 }

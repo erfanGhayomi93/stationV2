@@ -9,7 +9,7 @@ interface IModalProps {
      title: string | JSX.Element;
      onCloseModal: () => void;
      children: JSX.Element;
-     size?: 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+     size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
      classes?: Partial<Record<'root' | 'modal' | 'header' | 'x' | 'label', ClassesValue>>;
      loading?: boolean;
 }

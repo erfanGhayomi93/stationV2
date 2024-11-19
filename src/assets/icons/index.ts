@@ -13,6 +13,7 @@ import CalculatorIcon from '../svg/calculator.svg?react';
 import ChevronDownIcon from '../svg/ChevronDown.svg?react';
 import ChevronUpIcon from '../svg/chevronUp.svg?react';
 import CloseIcon from '../svg/close.svg?react';
+import CloseFillIcon from '../svg/closeFill.svg?react';
 import CodalIcon from '../svg/codal.svg?react';
 import CommunityIcon from '../svg/community.svg?react';
 import CreditIcon from '../svg/credit.svg?react';
@@ -56,6 +57,7 @@ import PlusSquareFillIcon from '../svg/PlusSquareFill.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
 import RamandIcon from '../svg/ramand.svg?react';
 import RefreshIcon from '../svg/refresh.svg?react';
+import ReturnFillIcon from '../svg/returnFill.svg?react';
 import RiskAnnouncementIcon from '../svg/RiskAnnouncement.svg?react';
 import SearchCustomerGroupsIcon from '../svg/searchCustomerGroups.svg?react';
 import SearchCustomersIcon from '../svg/searchCustomers.svg?react';
@@ -91,6 +93,7 @@ export {
      ChevronDownIcon,
      ChevronUpIcon,
      ClockIcon,
+     CloseFillIcon,
      CloseIcon,
      CodalIcon,
      CommunityIcon,
@@ -137,6 +140,7 @@ export {
      ProfileIcon,
      RamandIcon,
      RefreshIcon,
+     ReturnFillIcon,
      RiskAnnouncementIcon,
      SearchCustomerGroupsIcon,
      SearchCustomersIcon,

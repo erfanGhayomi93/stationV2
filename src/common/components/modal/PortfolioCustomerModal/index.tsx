@@ -13,7 +13,7 @@ const PortfolioCustomerModal = () => {
 
      return (
           <Modal
-               size="lg"
+               size="xl"
                title={
                     <Trans
                          i18nKey="portfolioCustomerModal.title"
