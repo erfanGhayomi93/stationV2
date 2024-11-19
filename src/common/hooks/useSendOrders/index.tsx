@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 // import { useAppDispatch } from 'src/redux/hooks';
 // import { useBuySellDispatch } from '../BuySell/context/BuySellContext';
 import { useMutationSendOrder } from '@api/order';
+import useBuySellStore from 'common/widget/buySellWidget/context/buySellContext';
+import { useCustomerStore } from '@store/customer';
 
 const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
     const ORDER_SENDING_GAP = 400;
 
 
     const [clientIdStore, setClientIdStore] = useState({})
+    const { isKeepForm, reset } = useBuySellStore()
+    const { removeAllSelectedCustomers } = useCustomerStore()
 
     // const appDispatch = useAppDispatch();
     // const ByeSellDispatch = useBuySellDispatch();
@@ -95,6 +99,10 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         }
         finally {
             setOrdersLoading(false);
+            if (!isKeepForm) {
+                reset();
+                removeAllSelectedCustomers()
+            }
             // resetByeSellData(ByeSellDispatch, appDispatch)
         }
     };

@@ -12,6 +12,17 @@ export const useQueryCartList = () => {
                const response = await AXIOS.get<GlobalApiResponseType<ICartListRes[]>>(url);
                return response.data.result;
           },
+          select(data) {
+             return data.map(item => {
+               if(item.sendDate === "0001-01-01T00:00:00"){
+                    return {
+                         ...item , 
+                         sendDate : null
+                    }
+               }
+               return item;
+             })
+          },
      });
 };
 

@@ -1,51 +1,86 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { create } from 'zustand';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 const initialStore: IBuySellState = {
-     side: 'Buy',
+     side: "Buy",
      price: 0,
      quantity: 0,
-     validity: 'Day',
-     strategy: 'normal',
+     validity: "Day",
+     strategy: "normal",
      validityDate: null,
-     source: 'Account',
+     source: "Account",
      isCalculatedQuantity: false,
      isPercentPrice: false,
      isPercentQuantity: false,
      priceWithPercent: {
           priceBasedOn: "GreaterThanClosingPrice",
-          percent: 1
+          percent: 1,
      },
      quantityWithPercent: {
           quantityBasedOn: "remain",
-          percent: 1
+          percent: 1,
      },
      amount: 0,
      isLockPrice: false,
-}
+     isKeepForm: false,
+};
 
-export const useBuySellStore = create<IBuySellState & IBuySellAction>(set => ({
-     ...initialStore,
-     setSide: (side: TSide) => set(() => ({ side })),
-     setPrice: (price: number) => set(() => ({ price })),
-     setQuantity: (quantity: number) => set(() => ({ quantity })),
-     setValidity: (validity: TValidity) => set(() => ({ validity })),
-     setStrategy: (strategy: TStrategy) => set(() => ({ strategy })),
-     setValidityDate: (validityDate: string | null) => set(() => ({ validityDate })),
-     setSource: (source: string) => set(() => ({ source })),
-     setAmount: (amount: number) => set(() => ({ amount })),
-     setIsCalculatedQuantity: (isCalculatedQuantity: boolean) => set(() => ({ isCalculatedQuantity })),
-     setIsPercentPrice: (isPercentPrice: boolean) => set(() => ({ isPercentPrice })),
-     setIsPercentQuantity: (isPercentQuantity: boolean) => set(() => ({ isPercentQuantity })),
-     setPriceWithPercentBaseOn: (priceBasedOn: string) => set((value) => ({ priceWithPercent: { ...value.priceWithPercent, priceBasedOn } })),
-     setPriceWithPercentValue: (percent: number) => set((value) => ({ priceWithPercent: { ...value.priceWithPercent, percent } })),
+type BuySellStore = IBuySellState & IBuySellAction;
 
-     setQuantityWithBaseOn: (quantityBasedOn: TQuantityBasedOn) => set((value) => ({ quantityWithPercent: { ...value.quantityWithPercent, quantityBasedOn } })),
-     setQuantityWithValue: (percent: number) => set((value) => ({ quantityWithPercent: { ...value.quantityWithPercent, percent } })),
 
-     setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
-     reset: () => set(initialStore)
-}));
+export const useBuySellStore = create(
+     persist<BuySellStore, [], [], { isKeepForm: boolean }>(
+          (set) => ({
+               ...initialStore,
+               setSide: (side: TSide) => set(() => ({ side })),
+               setPrice: (price: number) => set(() => ({ price })),
+               setQuantity: (quantity: number) => set(() => ({ quantity })),
+               setValidity: (validity: TValidity) => set(() => ({ validity })),
+               setStrategy: (strategy: TStrategy) => set(() => ({ strategy })),
+               setValidityDate: (validityDate: string | null) => set(() => ({ validityDate })),
+               setSource: (source: string) => set(() => ({ source })),
+               setAmount: (amount: number) => set(() => ({ amount })),
+               setIsCalculatedQuantity: (isCalculatedQuantity: boolean) =>
+                    set(() => ({ isCalculatedQuantity })),
+               setIsPercentPrice: (isPercentPrice: boolean) => set(() => ({ isPercentPrice })),
+               setIsPercentQuantity: (isPercentQuantity: boolean) =>
+                    set(() => ({ isPercentQuantity })),
+               setPriceWithPercentBaseOn: (priceBasedOn: string) =>
+                    set((state: IBuySellState) => ({
+                         priceWithPercent: { ...state.priceWithPercent, priceBasedOn },
+                    })),
+               setPriceWithPercentValue: (percent: number) =>
+                    set((state) => ({
+                         priceWithPercent: { ...state.priceWithPercent, percent },
+                    })),
+               setQuantityWithBaseOn: (quantityBasedOn: TQuantityBasedOn) =>
+                    set((state) => ({
+                         quantityWithPercent: { ...state.quantityWithPercent, quantityBasedOn },
+                    })),
+               setQuantityWithValue: (percent: number) =>
+                    set((state) => ({
+                         quantityWithPercent: { ...state.quantityWithPercent, percent },
+                    })),
+               setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
+               setIsKeepForm: (isKeepForm: boolean) => set(() => ({ isKeepForm })),
+               reset: () =>
+                    set((state) => ({
+                         ...initialStore,
+                         side: state.side,
+                         isKeepForm: state.isKeepForm,
+                    })),
+          }),
+          {
+               name: "buy-sell-store", // Key for localStorage
+               // storage: createJSONStorage(() => localStorage), // Using localStorage for persistence
+               partialize: (state) => ({ isKeepForm: state.isKeepForm }), // Persist only `isKeepForm`
+          }
+     )
+);
+
+export default useBuySellStore;
+
 
 // Create the context
 const BuySellContext = createContext<IBuySellState & IBuySellAction | null>(null);
