@@ -558,5 +558,21 @@
           "confirmDeleteCustomerGroupQuestion": "آیا از حذف <span>{{name}}</span> اطمینان دارید؟",
           "cancelButton": "انصراف",
           "deleteButton": "حذف"
+     },
+
+     "portfolioCustomerModal": {
+          "title": "پرتفوی مشتری: <span>{{name}}</span>",
+          "portfolioTab": "پرتفوی",
+          "positionsTab": "موقعیت‌ها",
+          "portfolioSymbolTitleCol": "نماد",
+          "portfolioAssetCol": "تعداد",
+          "portfolioAveragePriceCol": "میانگین قیمت",
+          "portfolioFinalPriceCol": "بهای تمام شده",
+          "portfolioNetValueCol": "خالص ارزش روز",
+          "portfolioLastPriceCol": "آخرین قیمت",
+          "portfolioProfitLossCol": "سود/زیان",
+          "portfolioPercentProfitLossCol": "درصد سود و زیان",
+          "portfolioBuySellCol": "خرید/فروش",
+          "portfolioFreezeSymbolTooltip": "نماد فریز شده است."
      }
 }

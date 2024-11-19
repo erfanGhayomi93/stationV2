@@ -141,7 +141,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                          </div>
                          <div className="ml-2 select-none items-center bg-transparent">
                               {!captcha?.base64String || getSessionCaptcha ? (
-                                   <p className="flex h-[37px] w-full items-center justify-center rounded text-sm">
+                                   <p className="flex text-content-paragraph h-[37px] w-full items-center justify-center rounded text-sm">
                                         لطفا مجددا تلاش کنید.
                                    </p>
                               ) : (

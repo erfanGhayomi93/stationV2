@@ -13,7 +13,7 @@ const CustomerGroup = () => {
 
      const { data: searchCustomerGroupData } = useQueryCustomerSearchGroup(termDebounce, customerType);
 
-     const { data: defaultCustomerGroupData } = useQueryDefaultGroup();
+     const { data: defaultCustomerGroupData, isLoading: isLoadingDefaultCustomerGroup } = useQueryDefaultGroup();
 
      const isDefaultUse = useMemo(() => !term?.length, [term]);
 
@@ -33,7 +33,7 @@ const CustomerGroup = () => {
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomerGroupTable data={rowData ?? []} />
+               <CustomerGroupTable data={rowData ?? []} loading={isLoadingDefaultCustomerGroup} />
           </>
      );
 };

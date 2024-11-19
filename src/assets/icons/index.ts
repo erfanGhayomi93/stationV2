@@ -1,4 +1,6 @@
 import ClockIcon from '@assets/svg/clock.svg?react';
+import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
+import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
 import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
 import AngleDownIcon from '../svg/angle-down.svg?react';
 import AngleUpIcon from '../svg/angle-up.svg?react';
@@ -41,6 +43,7 @@ import LinkIcon from '../svg/link.svg?react';
 import LockIcon from '../svg/lock.svg?react';
 import LockCloseIcon from '../svg/lockClose.svg?react';
 import LogoutIcon from '../svg/logout.svg?react';
+import MinusSquareFillIcon from '../svg/minusSquareFill.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import MoreInformationIcon from '../svg/moreInformation.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
@@ -49,6 +52,7 @@ import PieChartIcon from '../svg/pie-chart.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
 import PlusIcon from '../svg/plus.svg?react';
 import PlusFillIcon from '../svg/plusFill.svg?react';
+import PlusSquareFillIcon from '../svg/PlusSquareFill.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
 import RamandIcon from '../svg/ramand.svg?react';
 import RefreshIcon from '../svg/refresh.svg?react';
@@ -60,6 +64,7 @@ import ShapesIcon from '../svg/shapes.svg?react';
 import ShieldIcon from '../svg/shield.svg?react';
 import SignalIcon from '../svg/Signal.svg?react';
 import SingleTickIcon from '../svg/singleTick.svg?react';
+import SnowIcon from '../svg/snow.svg?react';
 import SpinnerIcon from '../svg/Spinner.svg?react';
 import StartIcon from '../svg/start.svg?react';
 import StoneFourIcon from '../svg/stone-four.svg?react';
@@ -73,8 +78,6 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
-import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
-import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
 
 export {
      AngleDownIcon,
@@ -103,7 +106,9 @@ export {
      DraftIcon,
      DraftOutlineIcon,
      EditIcon,
+     ExcelExportIcon,
      ExcelIcon,
+     ExcelImportIcon,
      EyeIcon,
      EyeOutlineIcon,
      EyePlusIcon,
@@ -120,6 +125,7 @@ export {
      LockCloseIcon,
      LockIcon,
      LogoutIcon,
+     MinusSquareFillIcon,
      MoreInformationIcon,
      MoreStatusIcon,
      NotificationIcon,
@@ -127,6 +133,7 @@ export {
      PinnedIcon,
      PlusFillIcon,
      PlusIcon,
+     PlusSquareFillIcon,
      ProfileIcon,
      RamandIcon,
      RefreshIcon,
@@ -139,6 +146,7 @@ export {
      ShieldIcon,
      SignalIcon,
      SingleTickIcon,
+     SnowIcon,
      SpinnerIcon,
      StartIcon,
      StoneFourIcon,
@@ -152,6 +160,4 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
-     ExcelImportIcon,
-     ExcelExportIcon,
 };

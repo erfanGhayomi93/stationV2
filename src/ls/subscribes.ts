@@ -92,3 +92,27 @@ export const subscribeSymbolGeneral = <T>({
           },
      });
 };
+
+export const subscriptionPortfolio = <T>({
+     id,
+     items,
+     fields,
+     onItemUpdate,
+}: {
+     id: string;
+     items: string[];
+     fields: string[];
+     onItemUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
+}) => {
+     pushEngine.subscribe({
+          id,
+          adapterName: 'RamandRLCDData',
+          mode: 'MERGE',
+          items,
+          fields,
+          isSnapShot: 'yes',
+          onFieldsUpdate: updateFields => {
+               onItemUpdate(updateFields as UpdatedFieldsType<T>);
+          },
+     });
+};

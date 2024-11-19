@@ -36,4 +36,7 @@ export const useModalStore = create<IModalStore>(set => ({
 
      deleteCustomerGroupModal: null,
      setDeleteCustomerGroupModal: value => set(() => ({ deleteCustomerGroupModal: value })),
+
+     portfolioCustomerModal: null,
+     setPortfolioCustomerModal: value => set(() => ({ portfolioCustomerModal: value })),
 }));

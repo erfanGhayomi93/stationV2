@@ -13,7 +13,7 @@ const Customers = () => {
 
      const { data: searchCustomers } = useQueryCustomerSearch(termDebounce, customerType);
 
-     const { data: defaultCustomers } = useQueryDefaultCustomer();
+     const { data: defaultCustomers, isLoading: isLoadingDefaultCustomers } = useQueryDefaultCustomer();
 
      const onChangeSearchInput = (value: string) => {
           setTerm(value);
@@ -33,7 +33,7 @@ const Customers = () => {
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomersTable data={listGroups} />
+               <CustomersTable data={listGroups} loading={isLoadingDefaultCustomers} />
           </>
      );
 };
