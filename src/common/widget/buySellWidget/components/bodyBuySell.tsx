@@ -7,6 +7,7 @@ import Credit from './credit';
 import InformationTrade from './informationTrade';
 import Price from './price';
 import Quantity from './quantity';
+import { ActionAdvance } from './ActionAdvance.tsx';
 
 interface IBodyBuySellProps {}
 
@@ -40,6 +41,8 @@ const BodyBuySell: FC<IBodyBuySellProps> = () => {
                <Credit />
                <InformationTrade marketUnit={data?.symbolData.marketUnit} />
                <ActionsOrder />
+
+               <ActionAdvance />
           </div>
      );
 };

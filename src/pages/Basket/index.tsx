@@ -11,6 +11,7 @@ import { useQueryCartList, useQueryDetailsCart } from "@api/basket"
 import { cleanObjectOfFalsyValues } from "@methods/helper"
 import { useCustomerStore } from "@store/customer"
 import useUpdateEffect from "@hooks/useUpdateEffect"
+import ScrollableSlider from "@components/scrollableSlider"
 
 export const initialDataFilterBasket: IDetailsCartFilter = {
   SymbolISIN: null,
@@ -45,26 +46,30 @@ const Basket = () => {
   const rightNodeHeader = useMemo(() => {
 
     const basketsHeader = (
-      <Fragment>
-        {
-          cartList?.map(item => (
-            <BasketHeader
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              date={item.sendDate}
-              isSelected={+item.id === Number(selectedBasket)}
-              clickBasket={(id) => setSelectedBasket(id)}
-            />
-          ))
-        }
-      </Fragment>
+      <ScrollableSlider pixelsToScroll={150}>
+        <div className="flex gap-x-4">
+          {
+            cartList?.map(item => (
+              <BasketHeader
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                date={item.sendDate}
+                isSelected={+item.id === Number(selectedBasket)}
+                clickBasket={(id) => setSelectedBasket(id)}
+              />
+            ))
+          }
+        </div>
+      </ScrollableSlider>
     )
 
 
     return (
-      <Fragment>
-        {basketsHeader}
+      <div className="flex gap-x-2">
+        <div className="w-4/6">
+          {basketsHeader}
+        </div>
 
         <button className="p-2 text-icon-default bg-button-tab-deactive rounded-lg hover:text-button-primary-hover transition-colors">
           <PlusIcon width={24} height={24} />
@@ -73,7 +78,7 @@ const Basket = () => {
         <button className="p-2 text-icon-default bg-button-tab-deactive rounded-lg hover:text-button-primary-hover transition-colors">
           <EditIcon width={24} height={24} />
         </button>
-      </Fragment>
+      </div>
     )
   }, [cartList, selectedBasket])
 
@@ -84,12 +89,14 @@ const Basket = () => {
           variant="primary-darkness-outline"
           className="text-nowrap"
           icon={<ClockIcon width={22} height={22} />}
+          disabled={true}
         >
           تعیین زمان ارسال
         </Button>
         <Button
           variant="primary-darkness"
           className="py-[9px]"
+          disabled={true}
         >
           ارسال سبد اول
         </Button>
@@ -172,13 +179,6 @@ const Basket = () => {
       setFilterData(prev => ({ ...prev, SymbolISIN: searchSymbol.symbolISIN }))
     }
   }, [searchSymbol])
-
-  useEffect(() => {
-    console.log({ filterData })
-  }, [filterData])
-
-
-
 
 
 

@@ -23,12 +23,12 @@ const LayoutReport: FC<ILayoutReportProps> = ({ rightNodeHeader, leftNodeHeader,
             // 'grid-cols-2': !isOpenFilter ,
         })}>
             <div className="grid grid-rows-min-one h-full gap-y-6 p-6 bg-back-surface rounded-lg">
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-x-4 items-center">
-                        <h1 className="text-content-title font-medium text-xl">{title}</h1>
-                        {rightNodeHeader}
-                    </div>
-                    <div className="flex gap-x-2 items-center">
+                <div className="grid grid-cols-2 items-center">
+                        <div className="gap-x-4 grid grid-cols-min-one items-center">
+                            <h1 className="text-content-title font-medium text-xl text-nowrap">{title}</h1>
+                            <div>{rightNodeHeader}</div>
+                        </div>
+                    <div className="flex gap-x-2 items-center justify-self-end">
                         {leftNodeHeader}
 
                         {
