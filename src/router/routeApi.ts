@@ -71,6 +71,11 @@ export const routeApi = () => {
           Portfolios: {
                CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
           },
+
+          Option: {
+               GetOptionOrder: baseUrl + '/Option/v1/OptionOrders',
+          },
+
           OAuth: {
                authorization: oAuthUrl + '/GTOAuthApi/v1/GTAuthorization',
                captcha: oAuthUrl + '/Captcha/v1/create',
@@ -85,10 +90,9 @@ export const routeApi = () => {
                changePasswordValidation: oAuthUrl + '/GTChangePassword/v1/Validation',
                changePasswordSetPassword: oAuthUrl + '/GTChangePassword/v1/ChangePassword',
           },
-          Baskets : {
-               cartList : baseUrl + '/Cart/v1/CartList' ,
-               CartDetailList : baseUrl + '/Cart/v1/CartDetailList' ,
-
+          Baskets: {
+               cartList: baseUrl + '/Cart/v1/CartList',
+               CartDetailList: baseUrl + '/Cart/v1/CartDetailList',
           },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',

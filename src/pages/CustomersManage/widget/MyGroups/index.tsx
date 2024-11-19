@@ -13,7 +13,7 @@ const MyGroups = () => {
 
      const { data: advancedMyGroupData } = useMyGroupsAdvanced(termDebounce, customerType);
 
-     const { data: defaultMyGroupData } = useMyGroupsDefault();
+     const { data: defaultMyGroupData, isLoading: isLoadingDefaultCustomerGroup } = useMyGroupsDefault();
 
      const isDefaultUse = useMemo(() => !term?.length, [term]);
 
@@ -33,7 +33,7 @@ const MyGroups = () => {
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <MyGroupTable data={rowData ?? []} />
+               <MyGroupTable loading={isLoadingDefaultCustomerGroup} data={rowData ?? []} />
           </>
      );
 };

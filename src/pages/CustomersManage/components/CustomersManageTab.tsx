@@ -25,7 +25,7 @@ const CustomersManageTab = () => {
           []
      );
 
-     const handleClickTab = (id: TCustomersManageTab) => {
+     const handleChangeTab = (id: TCustomersManageTab) => {
           setCustomersManageTab(id);
           if (customersManageTab !== id) {
                resetCustomersState();
@@ -45,7 +45,7 @@ const CustomersManageTab = () => {
                                    key={id}
                                    className={clsx('tab-primary', id === customersManageTab && 'active')}
                                    onClick={() => {
-                                        handleClickTab(id);
+                                        handleChangeTab(id);
                                    }}
                               >
                                    {label}

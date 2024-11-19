@@ -26,6 +26,10 @@ type TDeleteCustomerGroupModal = {
      customer: IMyGroupsInformationRes;
 };
 
+type TPortfolioCustomerModal = {
+     customer: ICustomerAdvancedSearchRes;
+};
+
 interface IModalStore {
      editOrdersGroupModalSheet: TEditOrdersGroupModalSheet | null;
      setEditOrdersGroupModalSheet: (state: TEditOrdersGroupModalSheet | null) => void;
@@ -62,4 +66,7 @@ interface IModalStore {
 
      deleteCustomerGroupModal: TDeleteCustomerGroupModal | null;
      setDeleteCustomerGroupModal: (state: TDeleteCustomerGroupModal | null) => void;
+
+     portfolioCustomerModal: TPortfolioCustomerModal | null;
+     setPortfolioCustomerModal: (state: TPortfolioCustomerModal | null) => void;
 }

@@ -12,6 +12,7 @@ import ManageCustomersGroupsModal from './ManageCustomersGroupsModal';
 import DeleteCustomerGroupModal from './ManageCustomersGroupsModal/DeleteCustomerGroupModal';
 import EditCustomerGroupModal from './ManageCustomersGroupsModal/EditCustomerGroupModal';
 import PercentQuantityOrderModal from './PercentQuantityOrderModal';
+import PortfolioCustomerModal from './PortfolioCustomerModal';
 
 const Modals = () => {
      const {
@@ -27,6 +28,7 @@ const Modals = () => {
           manageCustomerGroupModal,
           editCustomerGroupModal,
           deleteCustomerGroupModal,
+          portfolioCustomerModal,
      } = useModalStore();
 
      if (isObjectNotNull(editOrdersGroupModalSheet)) return <EditOrdersGroupModal />;
@@ -41,6 +43,7 @@ const Modals = () => {
      if (isObjectNotNull(editCustomerGroupModal)) return <EditCustomerGroupModal />;
      if (isObjectNotNull(deleteCustomerGroupModal)) return <DeleteCustomerGroupModal />;
      if (manageCustomerGroupModal) return <ManageCustomersGroupsModal />;
+     if (isObjectNotNull(portfolioCustomerModal)) return <PortfolioCustomerModal />;
      else return null;
 };
 

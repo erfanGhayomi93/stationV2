@@ -1,4 +1,6 @@
 import ClockIcon from '@assets/svg/clock.svg?react';
+import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
+import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
 import SendToBasketIcon from '@assets/svg/sendToBasket.svg?react';
 import AngleDownIcon from '../svg/angle-down.svg?react';
 import AngleUpIcon from '../svg/angle-up.svg?react';
@@ -11,6 +13,7 @@ import CalculatorIcon from '../svg/calculator.svg?react';
 import ChevronDownIcon from '../svg/ChevronDown.svg?react';
 import ChevronUpIcon from '../svg/chevronUp.svg?react';
 import CloseIcon from '../svg/close.svg?react';
+import CloseFillIcon from '../svg/closeFill.svg?react';
 import CodalIcon from '../svg/codal.svg?react';
 import CommunityIcon from '../svg/community.svg?react';
 import CreditIcon from '../svg/credit.svg?react';
@@ -41,6 +44,7 @@ import LinkIcon from '../svg/link.svg?react';
 import LockIcon from '../svg/lock.svg?react';
 import LockCloseIcon from '../svg/lockClose.svg?react';
 import LogoutIcon from '../svg/logout.svg?react';
+import MinusSquareFillIcon from '../svg/minusSquareFill.svg?react';
 import MoreStatusIcon from '../svg/more-status.svg?react';
 import MoreInformationIcon from '../svg/moreInformation.svg?react';
 import NotificationIcon from '../svg/notification.svg?react';
@@ -49,9 +53,11 @@ import PieChartIcon from '../svg/pie-chart.svg?react';
 import PinnedIcon from '../svg/pinned.svg?react';
 import PlusIcon from '../svg/plus.svg?react';
 import PlusFillIcon from '../svg/plusFill.svg?react';
+import PlusSquareFillIcon from '../svg/PlusSquareFill.svg?react';
 import ProfileIcon from '../svg/profile.svg?react';
 import RamandIcon from '../svg/ramand.svg?react';
 import RefreshIcon from '../svg/refresh.svg?react';
+import ReturnFillIcon from '../svg/returnFill.svg?react';
 import RiskAnnouncementIcon from '../svg/RiskAnnouncement.svg?react';
 import SearchCustomerGroupsIcon from '../svg/searchCustomerGroups.svg?react';
 import SearchCustomersIcon from '../svg/searchCustomers.svg?react';
@@ -60,6 +66,7 @@ import ShapesIcon from '../svg/shapes.svg?react';
 import ShieldIcon from '../svg/shield.svg?react';
 import SignalIcon from '../svg/Signal.svg?react';
 import SingleTickIcon from '../svg/singleTick.svg?react';
+import SnowIcon from '../svg/snow.svg?react';
 import SpinnerIcon from '../svg/Spinner.svg?react';
 import StartIcon from '../svg/start.svg?react';
 import StoneFourIcon from '../svg/stone-four.svg?react';
@@ -73,8 +80,6 @@ import WatchlistNegativeIcon from '../svg/watchlistNegative.svg?react';
 import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
-import ExcelImportIcon from '@assets/svg/excel-import.svg?react';
-import ExcelExportIcon from '@assets/svg/excel-export.svg?react';
 
 export {
      AngleDownIcon,
@@ -88,6 +93,7 @@ export {
      ChevronDownIcon,
      ChevronUpIcon,
      ClockIcon,
+     CloseFillIcon,
      CloseIcon,
      CodalIcon,
      CommunityIcon,
@@ -103,7 +109,9 @@ export {
      DraftIcon,
      DraftOutlineIcon,
      EditIcon,
+     ExcelExportIcon,
      ExcelIcon,
+     ExcelImportIcon,
      EyeIcon,
      EyeOutlineIcon,
      EyePlusIcon,
@@ -120,6 +128,7 @@ export {
      LockCloseIcon,
      LockIcon,
      LogoutIcon,
+     MinusSquareFillIcon,
      MoreInformationIcon,
      MoreStatusIcon,
      NotificationIcon,
@@ -127,9 +136,11 @@ export {
      PinnedIcon,
      PlusFillIcon,
      PlusIcon,
+     PlusSquareFillIcon,
      ProfileIcon,
      RamandIcon,
      RefreshIcon,
+     ReturnFillIcon,
      RiskAnnouncementIcon,
      SearchCustomerGroupsIcon,
      SearchCustomersIcon,
@@ -139,6 +150,7 @@ export {
      ShieldIcon,
      SignalIcon,
      SingleTickIcon,
+     SnowIcon,
      SpinnerIcon,
      StartIcon,
      StoneFourIcon,
@@ -152,6 +164,4 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
-     ExcelImportIcon,
-     ExcelExportIcon,
 };

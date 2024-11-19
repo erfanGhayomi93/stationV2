@@ -51,7 +51,7 @@ const Sidebar = () => {
                     id: 'portfolioTrader',
                     icon: <BasketIcon />,
                     title: t('sidebar.portfolioTrader'),
-                    path: routerPagePath.basket
+                    path: routerPagePath.basket,
                },
                {
                     id: 'requests',
@@ -64,7 +64,7 @@ const Sidebar = () => {
                     icon: <CommunityIcon />,
                     title: t('sidebar.manageCustomer'),
                     path: routerPagePath.customersManage,
-                    disable: window.REACT_APP_ENV !== "development",
+                    disable: window.REACT_APP_ENV !== 'development',
                },
                {
                     id: 'reports',
@@ -134,6 +134,8 @@ const Sidebar = () => {
                          {ITEMS.map((item, ind) => (
                               <div
                                    onClick={() => {
+                                        if (item.disable) return;
+
                                         navigate(item.path ?? '/');
                                    }}
                                    className="flex items-center justify-between gap-3 py-2 pr-[10px] text-icon-default"
