@@ -1,9 +1,12 @@
 import { ColDef, GetDetailRowDataParams, IDetailCellRendererParams } from '@ag-grid-community/core';
 import AgGridTable from '@components/Table/AgGrid';
+import useDarkMode from '@hooks/useDarkMode';
+import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
+import { useModalStore } from '@store/modal';
 import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import ActionRenderer from '../ActionRenderer';
+import ActionRenderer from './ActionRenderer';
 
 type TCustomerGroupTableProps = {
      data: ICustomerAdvancedSearchRes[];
@@ -13,9 +16,21 @@ type TCustomerGroupTableProps = {
 const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
      const { t } = useTranslation();
 
+     const isDarkMode = useDarkMode();
+
      const { setCustomerGroup } = useContext(CustomersContext);
 
+     const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
+
      const customerGroupSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
+
+     const onPortfolioCustomer = (data: ICustomerAdvancedSearchRes) => {
+          setPortfolioCustomerModal({ customer: data });
+     };
+
+     const onAddCustomerToGroups = (data: ICustomerAdvancedSearchRes) => {
+          setAddCustomersToGroupModal({ customers: [data.customerISIN] });
+     };
 
      const COLUMNS_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
           () => [
@@ -45,8 +60,6 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                {
                     field: 'id',
                     headerName: t('customersManage.actionCol'),
-
-                    // cellRenderer: ActionRenderer,
                },
           ],
           []
@@ -70,17 +83,35 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                               headerName: t('customersManage.nationalCodeCol'),
                          },
                          {
-                              field: 'purchasePower',
+                              field: 'customerRemainAndOptionRemainDto.purchasePower',
                               headerName: t('customersManage.purchasePowerCol'),
+                              valueFormatter: ({ data }) =>
+                                   '\u200e' +
+                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchasePower ?? 0, true, false),
+                              cellClassRules: {
+                                   'text-content-error-sell': ({ data }) =>
+                                        (data?.customerRemainAndOptionRemainDto.purchasePower ?? 0) < 0,
+                              },
                          },
                          {
-                              field: 'customerRemainAndOptionRemainDto.remain',
+                              field: 'customerRemainAndOptionRemainDto.purchaseOptionPower',
                               headerName: t('customersManage.purchasePowerOptionCol'),
+                              valueFormatter: ({ data }) =>
+                                   '\u200e' +
+                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0, true, false),
+                              cellClassRules: {
+                                   'text-content-error-sell': ({ data }) =>
+                                        (data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0) < 0,
+                              },
                          },
                          {
                               field: 'id',
                               headerName: t('customersManage.actionCol'),
                               cellRenderer: ActionRenderer,
+                              cellRendererParams: {
+                                   onPortfolioCustomer,
+                                   onAddCustomerToGroups,
+                              },
                          },
                     ],
                     defaultColDef: {
@@ -93,16 +124,19 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
 
                          setCustomerGroup(customerGroupSelectData.current);
                     },
-                    rowHeight: 48,
+                    rowHeight: 40,
+
+                    detailRowAutoHeight: true,
                },
+
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
                },
           } as IDetailCellRendererParams<any, any>;
-     }, []);
+     }, [isDarkMode]);
 
      return (
-          <div className="col-span-2 text-content-error-sell">
+          <div className="col-span-2">
                <AgGridTable
                     masterDetail={true}
                     detailCellRendererParams={detailCellRendererParams}
@@ -114,6 +148,7 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     }}
                     groupDefaultExpanded={0}
                     loading={loading}
+                    detailRowAutoHeight
                />
           </div>
      );

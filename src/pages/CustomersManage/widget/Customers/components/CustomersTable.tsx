@@ -1,6 +1,6 @@
 import { ColDef, SelectionChangedEvent } from '@ag-grid-community/core';
 import AgGrid from '@components/Table/AgGrid';
-import { numFormatter, sepNumbers } from '@methods/helper';
+import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
 import { useModalStore } from '@store/modal';
 import { useContext, useMemo, useRef } from 'react';
@@ -17,7 +17,7 @@ const CustomersTable = ({ data, loading }: TCustomersTableProps) => {
 
      const { setCustomers } = useContext(CustomersContext);
 
-     const { setPortfolioCustomerModal } = useModalStore();
+     const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
      const customersSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
 
@@ -29,6 +29,10 @@ const CustomersTable = ({ data, loading }: TCustomersTableProps) => {
 
      const onPortfolioCustomer = (data: ICustomerAdvancedSearchRes) => {
           setPortfolioCustomerModal({ customer: data });
+     };
+
+     const onAddCustomerToGroups = (data: ICustomerAdvancedSearchRes) => {
+          setAddCustomersToGroupModal({ customers: [data.customerISIN] });
      };
 
      const COLUMN_DEFS = useMemo<ColDef<ICustomerAdvancedSearchRes>[]>(
@@ -46,17 +50,22 @@ const CustomersTable = ({ data, loading }: TCustomersTableProps) => {
                     headerName: t('customersManage.nationalCodeCol'),
                },
                {
-                    field: 'purchasePower',
+                    field: 'customerRemainAndOptionRemainDto.purchasePower',
                     headerName: t('customersManage.purchasePowerCol'),
-                    valueFormatter: ({ data }) => sepNumbers(data?.purchasePower),
-               },
-               {
-                    field: 'customerRemainAndOptionRemainDto.remain',
-                    headerName: t('customersManage.purchasePowerOptionCol'),
                     valueFormatter: ({ data }) =>
                          '\u200e' + numFormatter(data?.customerRemainAndOptionRemainDto.purchasePower ?? 0, true, false),
                     cellClassRules: {
                          'text-content-error-sell': ({ data }) => (data?.customerRemainAndOptionRemainDto.purchasePower ?? 0) < 0,
+                    },
+               },
+               {
+                    field: 'customerRemainAndOptionRemainDto.purchaseOptionPower',
+                    headerName: t('customersManage.purchasePowerOptionCol'),
+                    valueFormatter: ({ data }) =>
+                         '\u200e' + numFormatter(data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0, true, false),
+                    cellClassRules: {
+                         'text-content-error-sell': ({ data }) =>
+                              (data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0) < 0,
                     },
                },
                {
@@ -65,6 +74,7 @@ const CustomersTable = ({ data, loading }: TCustomersTableProps) => {
                     cellRenderer: ActionRenderer,
                     cellRendererParams: {
                          onPortfolioCustomer,
+                         onAddCustomerToGroups,
                     },
                },
           ],

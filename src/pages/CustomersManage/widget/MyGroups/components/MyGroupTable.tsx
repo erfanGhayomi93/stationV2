@@ -1,5 +1,7 @@
 import { ColDef, GetDetailRowDataParams, IDetailCellRendererParams } from '@ag-grid-community/core';
 import AgGridTable from '@components/Table/AgGrid';
+import useDarkMode from '@hooks/useDarkMode';
+import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
 import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +15,8 @@ type TMyGroupTableProps = {
 
 const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
      const { t } = useTranslation();
+
+     const isDarkMode = useDarkMode();
 
      const { setMyGroups } = useContext(CustomersContext);
 
@@ -45,7 +49,6 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                {
                     field: 'id',
                     headerName: t('customersManage.actionCol'),
-                    // cellRenderer: ActionRenderer,
                },
           ],
           []
@@ -69,17 +72,36 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                               headerName: t('customersManage.nationalCodeCol'),
                          },
                          {
-                              field: 'purchasePower',
+                              field: 'customerRemainAndOptionRemainDto.purchasePower',
                               headerName: t('customersManage.purchasePowerCol'),
+                              valueFormatter: ({ data }) =>
+                                   '\u200e' +
+                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchasePower ?? 0, true, false),
+                              cellClassRules: {
+                                   'text-content-error-sell': ({ data }) =>
+                                        (data?.customerRemainAndOptionRemainDto.purchasePower ?? 0) < 0,
+                              },
                          },
                          {
-                              field: 'customerRemainAndOptionRemainDto.remain',
+                              field: 'customerRemainAndOptionRemainDto.purchaseOptionPower',
                               headerName: t('customersManage.purchasePowerOptionCol'),
+                              valueFormatter: ({ data }) =>
+                                   '\u200e' +
+                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0, true, false),
+                              cellClassRules: {
+                                   'text-content-error-sell': ({ data }) =>
+                                        (data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0) < 0,
+                              },
                          },
                          {
                               field: 'id',
                               headerName: t('customersManage.actionCol'),
                               cellRenderer: ActionRenderer,
+                              cellRendererParams: {
+                                   //    onPortfolioCustomers,
+                                   //    onAddCustomerToGroups,
+                                   //    onDeleteCustomerToGroups,
+                              },
                          },
                     ],
                     defaultColDef: {
@@ -98,7 +120,7 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     params.successCallback(params.data.children);
                },
           } as IDetailCellRendererParams<any, any>;
-     }, []);
+     }, [isDarkMode]);
 
      return (
           <div className="col-span-2 text-content-error-sell">
@@ -113,6 +135,7 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     }}
                     groupDefaultExpanded={0}
                     loading={loading}
+                    detailRowAutoHeight
                />
           </div>
      );
