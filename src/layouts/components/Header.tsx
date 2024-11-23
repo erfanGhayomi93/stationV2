@@ -138,11 +138,7 @@ const HeaderLayout = () => {
                <div className="flex w-1/5 items-center justify-start gap-x-4 pb-2">
                     <ProfileDropdown />
                     <div className="flex-1">
-                         <SearchSymbol
-                              searchSymbol={searchSymbol}
-                              setSearchSymbol={handleSetSelectedSymbol}
-                              isMainPage
-                         />
+                         <SearchSymbol searchSymbol={searchSymbol} setSearchSymbol={handleSetSelectedSymbol} isMainPage />
                     </div>
                </div>
                <div className="flex w-4/5 flex-1 items-center justify-end gap-x-2">

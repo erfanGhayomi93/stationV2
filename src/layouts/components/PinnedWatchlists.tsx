@@ -26,23 +26,19 @@ const PinnedWatchlists = () => {
 
                <div className="flex h-full items-center">
                     {watchlistSymbolData?.slice(0, isLaptop ? 2 : 4).map(item => (
-                         <>
-                              <div
-                                   className={clsx(
-                                        'flex h-full cursor-pointer items-center gap-x-1 px-3 transition-colors last:pl-0'
-                                   )}
-                                   key={item.symbolISIN}
-                              >
-                                   <LastPriceTitle
-                                        onClick={() => setSelectedSymbol(item.symbolISIN)}
-                                        isSelected={selectedSymbol === item.symbolISIN}
-                                        price={item.lastTradedPrice}
-                                        PriceVar={item.lastTradedPriceVarPercent}
-                                        symbolISIN={item.symbolISIN}
-                                        symbolTitle={item.symbolTitle}
-                                   />
-                              </div>
-                         </>
+                         <div
+                              className={clsx('flex h-full cursor-pointer items-center gap-x-1 px-3 transition-colors last:pl-0')}
+                              key={item.symbolISIN}
+                         >
+                              <LastPriceTitle
+                                   onClick={() => setSelectedSymbol(item.symbolISIN)}
+                                   isSelected={selectedSymbol === item.symbolISIN}
+                                   price={item.lastTradedPrice}
+                                   PriceVar={item.lastTradedPriceVarPercent}
+                                   symbolISIN={item.symbolISIN}
+                                   symbolTitle={item.symbolTitle}
+                              />
+                         </div>
                     ))}
                </div>
 
