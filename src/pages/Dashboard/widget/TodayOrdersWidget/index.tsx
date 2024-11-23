@@ -124,7 +124,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     //@ts-expect-error
                     cellRenderer: ({ data }) => {
-                         if (data?.orderState === 'Error') {
+                         if (data?.orderState === 'Error' && data?.customErrorMsg) {
                               return (
                                    <Tippy content={data?.customErrorMsg}>
                                         <span>{data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'}</span>
