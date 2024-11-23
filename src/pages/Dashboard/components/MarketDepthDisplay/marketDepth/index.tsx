@@ -115,7 +115,7 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
 
      const clickTotalUpQueue = (side: TSide, ind: number) => {
           const data = side == "Buy" ? buyData : sellData;
-          const price = data[0].price;
+          const price = side === 'Sell' ?data[0].price : data[ind].price;
           const mode = side === "Buy" ? "Sell" : "Buy";
           const collectData = data.slice(0, ind + 1);
 

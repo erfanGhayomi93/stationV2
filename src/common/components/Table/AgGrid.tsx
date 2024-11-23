@@ -1,11 +1,11 @@
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
+import { AgGridEvent, ColTypeDef, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
 import { MasterDetailModule } from '@ag-grid-enterprise/master-detail';
 import Spinner from '@components/Spinner';
 import useDarkMode from '@hooks/useDarkMode';
-import { getHeightsForTables } from '@methods/helper';
+import { dateFormatter, getHeightsForTables, numFormatter, sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import { forwardRef, memo, Ref, Suspense, useMemo } from 'react';
 
@@ -27,6 +27,28 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
           };
 
           const isDarkMode = useDarkMode();
+
+          const ColumnTypes = useMemo((): { [key: string]: ColTypeDef<unknown> } => {
+               return {
+                    sepratedNumber: {
+                         valueFormatter: ({ value }) => sepNumbers(value),
+                         cellStyle: { direction: 'ltr' },
+                    },
+                    abbreviatedNumber: {
+                         valueFormatter: ({ value }) => (value ? numFormatter(value) : value),
+                    },
+                    date: {
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'datetime') : value)
+                    },
+                    dateWithoutTime: {
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'date') : value)
+                    },
+                    agTableIndex: {
+                         valueGetter: 'node.rowIndex + 1',
+                         cellRenderer: 'agGroupCellRenderer',
+                    }
+               };
+          }, []);
 
           return (
                <Suspense>
@@ -52,9 +74,9 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                               containerStyle={
                                    loading
                                         ? {
-                                               filter: 'blur(2px)',
-                                               WebkitFilter: 'blur(2px)',
-                                          }
+                                             filter: 'blur(2px)',
+                                             WebkitFilter: 'blur(2px)',
+                                        }
                                         : undefined
                               }
                               enableCellTextSelection
@@ -66,6 +88,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                               loading={false}
                               suppressColumnMoveAnimation
                               suppressDragLeaveHidesColumns
+                              columnTypes={ColumnTypes}
                               defaultColDef={Object.assign(
                                    {
                                         suppressMovable: true,
