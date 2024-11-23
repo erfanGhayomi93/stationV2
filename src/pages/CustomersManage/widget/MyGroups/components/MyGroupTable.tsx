@@ -1,10 +1,14 @@
 import { ColDef, GetDetailRowDataParams, IDetailCellRendererParams } from '@ag-grid-community/core';
+import { useDeleteCustomerFromGroup } from '@api/customer';
 import AgGridTable from '@components/Table/AgGrid';
 import useDarkMode from '@hooks/useDarkMode';
 import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
+import { useModalStore } from '@store/modal';
+import { useQueryClient } from '@tanstack/react-query';
 import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import ActionRenderer from './ActionRender';
 // import ActionRenderer from '../ActionRenderer';
 
@@ -16,11 +20,42 @@ type TMyGroupTableProps = {
 const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
      const { t } = useTranslation();
 
+     const queryClient = useQueryClient();
+
      const isDarkMode = useDarkMode();
 
      const { setMyGroups } = useContext(CustomersContext);
 
+     const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
+
+     const { mutate: deleteCustomerFromGroupMutate } = useDeleteCustomerFromGroup();
+
      const myGroupsSelectData = useRef<IMyGroupsCustomerInformation[] | null>(null);
+
+     const onPortfolioCustomers = (data: ICustomerAdvancedSearchRes) => {
+          setPortfolioCustomerModal({ customer: data });
+     };
+
+     const onAddCustomerToGroups = (data: IMyGroupsCustomerInformation) => {
+          setAddCustomersToGroupModal({ customers: [data?.customerISIN] });
+     };
+
+     const onDeleteCustomerToGroups = (data: IMyGroupsCustomerInformation) => {
+          deleteCustomerFromGroupMutate(
+               { groupId: data?.groupId, customerISINs: [data?.customerISIN] },
+               {
+                    onSuccess: () => {
+                         queryClient.invalidateQueries({ queryKey: ['getMyGroupDefault'] });
+
+                         toast.success(t('alerts.deleteCustomerFromGroupSuccessful'));
+                    },
+
+                    onError: () => {
+                         toast.error(t('alerts.deleteCustomerFromGroupError'));
+                    },
+               }
+          );
+     };
 
      const COLUMNS_DEFS = useMemo<ColDef<IMyGroupsInformationRes>[]>(
           () => [
@@ -98,9 +133,9 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                               headerName: t('customersManage.actionCol'),
                               cellRenderer: ActionRenderer,
                               cellRendererParams: {
-                                   //    onPortfolioCustomers,
-                                   //    onAddCustomerToGroups,
-                                   //    onDeleteCustomerToGroups,
+                                   onPortfolioCustomers,
+                                   onAddCustomerToGroups,
+                                   onDeleteCustomerToGroups,
                               },
                          },
                     ],
@@ -108,18 +143,20 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                          flex: 1,
                     },
                     enableRtl: true,
-                    // onRowSelected: onRowSelected,
+
                     onRowSelected(event) {
                          myGroupsSelectData.current = event.api.getSelectedRows();
 
                          setMyGroups(myGroupsSelectData.current);
                     },
-                    rowHeight: 48,
+                    detailRowAutoHeight: true,
+
+                    rowHeight: 40,
                },
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
                },
-          } as IDetailCellRendererParams<any, any>;
+          } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, IMyGroupsCustomerInformation>;
      }, [isDarkMode]);
 
      return (

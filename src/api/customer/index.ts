@@ -190,3 +190,15 @@ export const useDeleteCustomerGroup = () => {
           },
      });
 };
+
+export const useDeleteCustomerFromGroup = () => {
+     const url = routeApi().Customer.deleteCustomerFromGroup;
+
+     return useMutation({
+          mutationFn: async (params: IDeleteCustomerFromGroupReq) => {
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, params);
+
+               return response.data.result;
+          },
+     });
+};

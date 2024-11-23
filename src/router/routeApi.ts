@@ -57,6 +57,8 @@ export const routeApi = () => {
                EditCustomerGroupName: baseUrl + '/CustomerGroup/v1/UpdateGroup',
 
                deleteCustomerGroup: baseUrl + '/CustomerGroup/v1/DeleteGroup',
+
+               deleteCustomerFromGroup: baseUrl + '/CustomerGroup/v1/RemoveCustomersFromGroup',
           },
 
           SupervisorMessage: {
