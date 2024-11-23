@@ -1,8 +1,9 @@
 (() => {
      const initialConfigDarkMode = () => {
-          const theme = JSON.parse(localStorage.getItem('theme') ?? '')?.state.theme;
+          const themeData = localStorage.getItem('theme');
 
-          console.log(theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches, 'theme in system');
+          const theme = themeData ? JSON.parse(themeData)?.state?.theme : null;
+
           document.documentElement.classList.toggle(
                'dark',
                theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
