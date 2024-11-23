@@ -6,13 +6,13 @@ import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { Tab, TabGroup, TabList } from '@headlessui/react';
 import { dateFormatter, sepNumbers } from '@methods/helper';
 import { useQueryClient } from '@tanstack/react-query';
-import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import ipcMain from 'common/classes/IpcMain';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useModalStore } from 'store/modal';
 import { useSymbolStore } from 'store/symbol';
+import OrderStateRenderer from './OrderStateRenderer';
 
 interface ITodayOrdersWidgetProps {
      side: TSide;
@@ -121,21 +121,8 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                {
                     field: 'orderState',
                     headerName: t('todayOrders.statusColumn'),
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-expect-error
-                    cellRenderer: ({ data }) => {
-                         if (data?.orderState === 'Error' && data?.customErrorMsg) {
-                              return (
-                                   <Tippy content={data?.customErrorMsg}>
-                                        <span>{data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'}</span>
-                                   </Tippy>
-                              );
-                         } else {
-                              return <span>{data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'}</span>;
-                         }
-                    },
-
                     hide: tabSelected !== 'All' && true,
+                    cellRenderer: OrderStateRenderer,
                },
           ],
           [tabSelected]
