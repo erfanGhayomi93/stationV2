@@ -3,10 +3,11 @@ import Dashboard from '@pages/Dashboard';
 import Login from '@pages/OAuth/Login';
 import Logout from '@pages/OAuth/Logout';
 import Test from '@pages/Test';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router/dom';
 import AppLayout from '../layouts';
 import Basket from '@pages/Basket';
 import SplashScreenWrapper from 'layouts/components/SplashScreen';
+import { createBrowserRouter } from 'react-router';
 
 
 const routerPagePath = {
@@ -55,7 +56,11 @@ const routerPage = createBrowserRouter([
                },
           ]
      }
-]);
+], {
+     future: {
+          v7_startTransition: true,
+     },
+});
 
 
 export default (

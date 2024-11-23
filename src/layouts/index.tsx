@@ -2,7 +2,7 @@ import { useQueryGeneralUser } from '@api/trader';
 import Modals from '@components/modal/Modals';
 import useRamandOMSGateway from '@hooks/useRamandOMSGateway';
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import Footer from './components/Footer';
 import HeaderLayout from './components/Header';
 import Sidebar from './components/Sidebar';

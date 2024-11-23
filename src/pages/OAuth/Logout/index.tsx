@@ -3,7 +3,7 @@ import { pushEngine } from '@LS/pushEngine';
 import { routerPagePath } from '@router/routerPage';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Logout = () => {
      const navigate = useNavigate();

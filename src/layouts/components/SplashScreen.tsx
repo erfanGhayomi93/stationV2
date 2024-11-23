@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 import Loading from './Loading';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router';
 import { routerPagePath } from '@router/routerPage';
 import { useQueryGeneralUser } from '@api/trader';
 
