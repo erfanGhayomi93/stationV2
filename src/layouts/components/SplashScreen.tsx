@@ -1,23 +1,28 @@
 import { tokenCookieName } from '@config/axios';
-import useApiPath from '@hooks/useApiPath';
 import { pushEngine } from '@LS/pushEngine';
 import Cookies from 'js-cookie';
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+// import { useTranslation } from 'react-i18next';
 import Loading from './Loading';
+import { Outlet, Navigate } from 'react-router-dom';
+import { routerPagePath } from '@router/routerPage';
+import { useQueryGeneralUser } from '@api/trader';
 
-const SplashScreen = ({ children }: { children: React.ReactElement }) => {
-     const { apiRoutes, isLoading } = useApiPath();
 
-     const {
-          ready,
-          i18n: { resolvedLanguage },
-     } = useTranslation();
+const SplashScreenWrapper = () => {
 
-     const languageIsReady = ready && resolvedLanguage === 'fa';
+     const { data, isSuccess, isLoading: isLoadingUser } = useQueryGeneralUser();
+
+     // const {
+     //      ready,
+     //      i18n: { resolvedLanguage },
+     // } = useTranslation();
+
+     // const languageIsReady = ready && resolvedLanguage === 'fa';
+
 
      useEffect(() => {
-          if (apiRoutes) {
+          if (data) {
                const clientId = Cookies.get(tokenCookieName);
 
                pushEngine.connect({
@@ -28,18 +33,20 @@ const SplashScreen = ({ children }: { children: React.ReactElement }) => {
                     Password: clientId ?? 'default password', // get from app context
                });
           }
-     }, [apiRoutes]);
+     }, [data]);
 
-     return (
-          <div>
-               {
-                    <>
-                         {(isLoading || !languageIsReady || !apiRoutes) && <Loading />}
-                         {languageIsReady && apiRoutes && !isLoading && children}
-                    </>
-               }
-          </div>
-     );
+     if (isLoadingUser) {
+          return <Loading />
+     }
+
+     if (!isSuccess) {
+          <Navigate to={routerPagePath.login} />
+          return <Outlet />
+     }
+
+
+     return <Outlet />
+
 };
 
-export default SplashScreen;
+export default SplashScreenWrapper;

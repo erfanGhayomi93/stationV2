@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 const useApiPath = () => {
      const [apiRoutes, setApiRoutes] = useState<IGetSettingsRes[]>();
 
-     const { data, isLoading } = useQueryGlobalSettings();
+     const { data, isLoading, isSuccess } = useQueryGlobalSettings();
 
-     // const { data, isLoading } = useQueryPreprdSettings();
+     // const { data, isLoading, isSuccess } = useQueryPreprdSettings();
 
      useEffect(() => {
           if (data) {
@@ -21,7 +21,7 @@ const useApiPath = () => {
           }
      }, [data]);
 
-     return { apiRoutes, isLoading };
+     return { apiRoutes, isLoading, isSuccess };
 };
 
 export default useApiPath;

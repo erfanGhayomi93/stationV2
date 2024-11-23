@@ -6,6 +6,8 @@ import Test from '@pages/Test';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AppLayout from '../layouts';
 import Basket from '@pages/Basket';
+import SplashScreenWrapper from 'layouts/components/SplashScreen';
+
 
 const routerPagePath = {
      dashboard: '/',
@@ -18,37 +20,46 @@ const routerPagePath = {
 const routerPage = createBrowserRouter([
      {
           path: '/',
-          element: <AppLayout />,
+          element: <SplashScreenWrapper />,
           children: [
                {
-                    element: <Dashboard />,
-                    index: true,
-               },
+                    path: '/',
+                    element: <AppLayout />,
+                    children: [
+                         {
+                              element: <Dashboard />,
+                              index: true,
+                         },
 
-               {
-                    element: <CustomerManage />,
-                    path: routerPagePath.customersManage,
+                         {
+                              element: <CustomerManage />,
+                              path: routerPagePath.customersManage,
+                         },
+                         {
+                              element: <Basket />,
+                              path: routerPagePath.basket
+                         },
+                         {
+                              element: <Test />,
+                              path: '/test',
+                         },
+                    ],
                },
                {
-                    element: <Basket />,
-                    path: routerPagePath.basket
+                    path: routerPagePath.login,
+                    element: <Login />,
                },
                {
-                    element: <Test />,
-                    path: '/test',
+                    path: routerPagePath.logout,
+                    element: <Logout />,
                },
-          ],
-     },
-     {
-          path: routerPagePath.login,
-          element: <Login />,
-     },
-     {
-          path: routerPagePath.logout,
-          element: <Logout />,
-     },
+          ]
+     }
 ]);
 
-export default <RouterProvider router={routerPage} />;
+
+export default (
+     <RouterProvider router={routerPage} />
+)
 
 export { routerPage, routerPagePath };
