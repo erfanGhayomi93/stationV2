@@ -1,8 +1,10 @@
+import { useMutationUpdateCurrentTab } from '@api/Symbol';
 import { useGetWatchlistSymbol } from '@api/watchlist';
 import { PinnedIcon, UpArrowIcon } from '@assets/icons';
 import LastPriceTitle from '@components/LastPriceTitle';
 import Popup from '@components/popup';
 import { useSymbolStore } from '@store/symbol';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -15,31 +17,45 @@ const PinnedWatchlists = () => {
 
      const { data: watchlistSymbolData } = useGetWatchlistSymbol({ PageNumber: 1, watchlistType: 'Pinned' });
 
+     const { mutate: mutateCurrentTab } = useMutationUpdateCurrentTab()
+
+     const queryClient = useQueryClient()
+
      useEffect(() => {
           const mediaQuery = window.matchMedia('(min-width: 1024px) and (max-width: 1440px)');
           setIsLaptop(mediaQuery.matches);
      }, []);
+
+     const handleSelectedTab = (newSymbolISIN: string) => {
+          mutateCurrentTab({ currentSymbolISIN: selectedSymbol, newSymbolISIN: newSymbolISIN }, {
+               onSuccess: () => {
+                    queryClient.refetchQueries({ queryKey: ['GetSymbolsTab'] })
+               }
+          })
+          setSelectedSymbol(newSymbolISIN)
+     }
 
      return (
           <div className="flex items-center">
                <PinnedIcon className="text-icon-warning" />
 
                <div className="flex h-full items-center">
-                    {watchlistSymbolData?.slice(0, isLaptop ? 2 : 4).map(item => (
-                         <div
-                              className={clsx('flex h-full cursor-pointer items-center gap-x-1 px-3 transition-colors last:pl-0')}
-                              key={item.symbolISIN}
-                         >
-                              <LastPriceTitle
-                                   onClick={() => setSelectedSymbol(item.symbolISIN)}
-                                   isSelected={selectedSymbol === item.symbolISIN}
-                                   price={item.lastTradedPrice}
-                                   PriceVar={item.lastTradedPriceVarPercent}
-                                   symbolISIN={item.symbolISIN}
-                                   symbolTitle={item.symbolTitle}
-                              />
-                         </div>
-                    ))}
+                    {watchlistSymbolData
+                         ?.slice(0, isLaptop ? 2 : 4).map(item => (
+                              <div
+                                   className={clsx('flex h-full cursor-pointer items-center gap-x-1 px-3 transition-colors last:pl-0')}
+                                   key={item.symbolISIN}
+                              >
+                                   <LastPriceTitle
+                                        onClick={() => handleSelectedTab(item.symbolISIN)}
+                                        isSelected={selectedSymbol === item.symbolISIN}
+                                        price={item.lastTradedPrice}
+                                        PriceVar={item.lastTradedPriceVarPercent}
+                                        symbolISIN={item.symbolISIN}
+                                        symbolTitle={item.symbolTitle}
+                                   />
+                              </div>
+                         ))}
                </div>
 
                <div className="relative">
@@ -53,25 +69,26 @@ const PinnedWatchlists = () => {
                          onClose={() => setIsDropdownOpen(false)}
                          renderer={({ setOpen }) => (
                               <ul className="rtl flex flex-col gap-1 rounded-md bg-back-surface px-4 py-3 shadow-E6">
-                                   {watchlistSymbolData?.slice(isLaptop ? 2 : 4).map((item, index) => (
-                                        <li
-                                             key={index}
-                                             className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
-                                        >
-                                             <LastPriceTitle
+                                   {watchlistSymbolData
+                                        ?.slice(isLaptop ? 2 : 4).map((item, index) => (
+                                             <li
                                                   key={index}
-                                                  onClick={() => {
-                                                       setSelectedSymbol(item.symbolISIN);
-                                                       setOpen(false);
-                                                  }}
-                                                  isSelected={selectedSymbol === item.symbolISIN}
-                                                  PriceVar={item.lastTradedPriceVarPercent}
-                                                  price={item.lastTradedPrice}
-                                                  symbolISIN={item.symbolISIN}
-                                                  symbolTitle={item.symbolTitle}
-                                             />
-                                        </li>
-                                   ))}
+                                                  className="flex w-full flex-1 justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
+                                             >
+                                                  <LastPriceTitle
+                                                       key={index}
+                                                       onClick={() => {
+                                                            handleSelectedTab(item.symbolISIN);
+                                                            setOpen(false);
+                                                       }}
+                                                       isSelected={selectedSymbol === item.symbolISIN}
+                                                       PriceVar={item.lastTradedPriceVarPercent}
+                                                       price={item.lastTradedPrice}
+                                                       symbolISIN={item.symbolISIN}
+                                                       symbolTitle={item.symbolTitle}
+                                                  />
+                                             </li>
+                                        ))}
                               </ul>
                          )}
                     >

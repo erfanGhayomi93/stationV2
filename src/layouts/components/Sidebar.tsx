@@ -15,7 +15,7 @@ import { useUIStore } from '@store/ui';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Sidebar = () => {
      const { t } = useTranslation();
