@@ -362,7 +362,8 @@
           "inputPasswordPlaceholder": "رمزعبور خود را وارد نمایید",
           "forgetPasswordLabel": "فراموشی کلمه عبور",
           "confirmLogin": "ورود",
-          "inputCaptchaLabel": "کدامنیتی"
+          "inputCaptchaLabel": "کدامنیتی",
+          "pleaseTryAgain": "لطفا مجددا تلاش کنید.ش"
      },
 
      "loginError": {
