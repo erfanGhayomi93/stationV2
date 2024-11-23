@@ -1,10 +1,15 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { ArrowLeftIcon, DeleteIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon } from '@assets/icons';
+import { ArrowLeftIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchRes>) => {
+interface ActionRendererParams extends CustomCellRendererProps<ICustomerAdvancedSearchRes> {
+     onPortfolioCustomer: (data: ICustomerAdvancedSearchRes | undefined) => void;
+     onAddCustomerToGroups: (data: ICustomerAdvancedSearchRes | undefined) => void;
+}
+
+const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups }: ActionRendererParams) => {
      const { t } = useTranslation();
 
      const MORE_ACTION_ITEMS = useMemo(
@@ -13,17 +18,19 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
                     id: 'displayPortfolio',
                     label: t('customersManage.displayPortfolioActionItem'),
                     icon: <PieChartIcon />,
+                    onClick: onPortfolioCustomer,
                },
                {
                     id: 'addToGroup',
                     label: t('customersManage.addToGroupActionItem'),
                     icon: <PlusFillIcon />,
+                    onClick: onAddCustomerToGroups,
                },
-               {
-                    id: 'deleteFromGroup',
-                    label: t('customersManage.deleteFromGroupActionItem'),
-                    icon: <DeleteIcon />,
-               },
+               //    {
+               //         id: 'deleteFromGroup',
+               //         label: t('customersManage.deleteFromGroupActionItem'),
+               //         icon: <DeleteIcon />,
+               //    },
           ],
           []
      );
@@ -45,16 +52,17 @@ const ActionRenderer = (params: CustomCellRendererProps<ICustomerAdvancedSearchR
                     defaultPopupWidth={204}
                     renderer={({ setOpen }) => (
                          <ul className="rtl flex flex-col gap-2 rounded-md bg-back-surface p-4 shadow-E5">
-                              {MORE_ACTION_ITEMS.map(({ id, icon, label }) => (
+                              {MORE_ACTION_ITEMS.map(({ id, icon, label, onClick }) => (
                                    <li
-                                        className="flex items-center justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
+                                        className="flex cursor-pointer items-center justify-between rounded-md p-2 transition-colors hover:bg-back-primary"
                                         key={id}
+                                        onClick={() => onClick?.(data)}
                                    >
                                         <div className="flex items-center gap-2">
                                              <span className="text-icon-default">{icon}</span>
                                              <span className="text-sm text-content-paragraph">{label}</span>
                                         </div>
-                                        <ArrowLeftIcon />
+                                        <ArrowLeftIcon className="text-icon-default" />
                                    </li>
                               ))}
                          </ul>

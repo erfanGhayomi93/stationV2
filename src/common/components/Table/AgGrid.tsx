@@ -38,15 +38,15 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          valueFormatter: ({ value }) => (value ? numFormatter(value) : value),
                     },
                     date: {
-                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'datetime') : value)
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'datetime') : value),
                     },
                     dateWithoutTime: {
-                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'date') : value)
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'date') : value),
                     },
                     agTableIndex: {
                          valueGetter: 'node.rowIndex + 1',
                          cellRenderer: 'agGroupCellRenderer',
-                    }
+                    },
                };
           }, []);
 
@@ -74,9 +74,9 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                               containerStyle={
                                    loading
                                         ? {
-                                             filter: 'blur(2px)',
-                                             WebkitFilter: 'blur(2px)',
-                                        }
+                                               filter: 'blur(2px)',
+                                               WebkitFilter: 'blur(2px)',
+                                          }
                                         : undefined
                               }
                               enableCellTextSelection

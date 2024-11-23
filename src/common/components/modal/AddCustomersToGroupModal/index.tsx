@@ -90,10 +90,11 @@ const AddCustomersToGroupModal = () => {
                                              onChange={() => onChangeSelectGroup(id)}
                                              checked={selectGroup.includes(id)}
                                              label={groupName}
+                                             classes={{ label: 'text-sm' }}
                                         />
                                    </div>
 
-                                   <span className="pl-2 text-content-paragraph">{children.length}</span>
+                                   <span className="pl-2 text-sm text-content-paragraph">{children.length}</span>
                               </li>
                          ))}
                     </ul>
