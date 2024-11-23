@@ -215,7 +215,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                               <DeleteIcon className="size-6 text-icon-success" />
                          </button>
 
-                         <ExcelIcon className="size-6 text-icon-success" />
+                         <button disabled className="disabled:opacity-60">
+                              <ExcelIcon className="size-6 text-icon-success" />
+                         </button>
                     </div>
                </div>
 

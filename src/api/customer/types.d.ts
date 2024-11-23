@@ -12,8 +12,28 @@ interface IMyGroupsCustomerInformation {
 }
 
 interface ICustomerRemainAndOptionRemainDto {
-     remain: number;
+     blockedValue: number;
+     credit: number;
+     creditOption: number;
+     customerISIN: string;
+     optionBlockValue: number;
+     optionDailyCredit: number;
+     optionRemainT0: number;
+     optionRemainT1: number;
+     optionRemainT2: number;
+     optionRemainT3: number;
+     paymentBlockValue: number;
+     purchaseOptionPower: number;
      purchasePower: number;
+     purchasePowerT1: number;
+     purchasePowerT2: number;
+     remain: number;
+     remainT0: number;
+     remainT1: number;
+     remainT2: number;
+     remainT3: number;
+     settlementBlock: number;
+     stockBlockValue: number;
      stockDailyCredit: number;
 }
 

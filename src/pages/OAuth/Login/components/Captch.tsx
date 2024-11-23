@@ -15,16 +15,17 @@ interface CaptchaType {
 }
 
 export const Captcha = ({ register, errors, captcha, onRefresh, className = '', setValue, getValues }: CaptchaType) => {
+     const { t } = useTranslation();
+
      const genarateNumber = () => {
           return Math.floor(Math.random() * 1000);
      };
 
      const randomNum = genarateNumber();
      const [state, setState] = useState('');
-     const { t } = useTranslation();
 
      // const placeHolder = t(`FormSide.Input.Captcha.Placeholder`);
-     const placeHolder = 'کد امنیتی';
+     const placeHolder = t('login.inputCaptchaLabel');
 
      const { name, ref } = register('captchaValue', {
           required: {
@@ -92,7 +93,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
      return (
           <div
                className={clsx(
-                    'group relative h-14 rounded-2xl border border-input-default focus-within:border-input-primary',
+                    'group relative z-10 h-14 rounded-2xl border border-input-default bg-transparent focus-within:border-input-primary',
                     {
                          'border-input-error': !!errors.captchaValue,
                     },
@@ -116,7 +117,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                    dir="ltr"
                                    placeholder=""
                                    className={clsx(
-                                        'h-full55 w-full border-none bg-transparent pl-2 text-content-title outline-none placeholder:text-right placeholder:text-content-placeholder',
+                                        'relative z-20 h-full w-full border-none bg-transparent pl-2 text-content-title outline-none placeholder:text-right placeholder:text-content-placeholder',
                                         {
                                              'h-full w-full border-none outline-none': !!errors.captchaValue,
                                         }
@@ -126,6 +127,9 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                                    value={state}
                                    onChange={handleOnChange}
                               />
+                         </div>
+                         <div className="absolute right-12 top-1/2 z-10 -translate-y-1/2 text-content-placeholder transition-all duration-100 group-focus-within:-top-1 group-focus-within:right-4 group-focus-within:bg-back-surface group-focus-within:p-2 group-focus-within:text-xs group-focus-within:text-input-primary group-focus-within:after:content-['*']">
+                              {placeHolder}
                          </div>
                     </div>
 
@@ -141,9 +145,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                          </div>
                          <div className="ml-2 select-none items-center bg-transparent">
                               {!captcha?.base64String || getSessionCaptcha ? (
-                                   <p className="flex text-content-paragraph h-[37px] w-full items-center justify-center rounded text-sm">
-                                        لطفا مجددا تلاش کنید.
-                                   </p>
+                                   <p>{t('login.pleaseTryAgain')}</p>
                               ) : (
                                    <img
                                         src={captcha?.base64String}
@@ -161,10 +163,6 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                {!!errors.captchaValue && (
                     <p className="pt-2 text-xs text-input-error transition-all">{errors.captchaValue.message}</p>
                )}
-
-               <div className="absolute right-12 top-1/2 z-0 -translate-y-1/2 text-content-placeholder transition-all duration-100 group-focus-within:-top-1 group-focus-within:right-4 group-focus-within:bg-back-surface group-focus-within:p-2 group-focus-within:text-xs group-focus-within:text-input-primary group-focus-within:after:content-['*']">
-                    <span>{placeHolder}</span>
-               </div>
           </div>
      );
 };

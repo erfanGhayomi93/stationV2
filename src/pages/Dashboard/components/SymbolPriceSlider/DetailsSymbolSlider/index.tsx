@@ -102,9 +102,12 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.totalNumberOfSharesTraded'),
                     value: totalNumberOfSharesTraded,
-                    formatter: value => numFormatter(+value),
+                    renderer: value => (
+                         <Tippy className="text-xs" content={sepNumbers(value)}>
+                              <span>{numFormatter(+value)}</span>
+                         </Tippy>
+                    ),
                },
-
 
                {
                     title: t('detailsSymbol.LowHighThreshold'),
@@ -146,7 +149,6 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                     value: tickPrice,
                     formatter: value => sepNumbers(value),
                },
-
           ],
           [
                {
@@ -213,8 +215,8 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                                                   {child.renderer
                                                        ? child.renderer(child.value)
                                                        : child?.formatter
-                                                            ? child.formatter(child.value) || '−'
-                                                            : child.value || '−'}
+                                                         ? child.formatter(child.value) || '−'
+                                                         : child.value || '−'}
                                              </span>
                                         </li>
                                    ))}

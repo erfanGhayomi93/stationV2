@@ -117,9 +117,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                          />
                     </div>
 
-                    <div className="flex items-center gap-x-6">
+                    <button disabled className="flex items-center gap-x-6 disabled:opacity-60">
                          <ExcelIcon className="size-6 text-icon-success" />
-                    </div>
+                    </button>
                </div>
 
                <div className="flex-1">
