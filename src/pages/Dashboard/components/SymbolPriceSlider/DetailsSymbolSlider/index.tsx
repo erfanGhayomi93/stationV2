@@ -142,7 +142,11 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.baseVolume'),
                     value: baseVolume,
-                    formatter: value => sepNumbers(value),
+                    renderer: value => (
+                         <Tippy content={sepNumbers(+value)}>
+                              <span>{numFormatter(+value)}</span>
+                         </Tippy>
+                    ),
                },
                {
                     title: t('detailsSymbol.TickPrice'),
@@ -160,7 +164,11 @@ export const DetailsSymbolSlider: FC<IDetailsSymbolSliderProps> = ({
                {
                     title: t('detailsSymbol.monthlyTradeVolume'),
                     value: oneMonthTradeVolume,
-                    formatter: value => numFormatter(+value),
+                    renderer: value => (
+                         <Tippy content={sepNumbers(value)}>
+                              <span>{numFormatter(+value)}</span>
+                         </Tippy>
+                    ),
                },
           ],
           [
