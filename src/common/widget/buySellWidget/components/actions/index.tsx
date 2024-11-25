@@ -9,13 +9,13 @@ import { useSymbolStore } from "@store/symbol"
 import { useModalStore } from "@store/modal"
 import { onErrorNotif } from "@config/toastify"
 
-interface IBodyBuySellProps { }
+interface IBodyBuySellProps {}
 
 const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
-    const { price, quantity, side, strategy, validity, validityDate, source, isPercentQuantity, quantityWithPercent, priceWithPercent, isPercentPrice } = useBuySellContext()
+    const { price, quantity, side, strategy, validity, validityDate, source, isPercentQuantity, quantityWithPercent, priceWithPercent, isPercentPrice, isDivideOrder } = useBuySellContext()
 
-    const { setIsPercentQuantityOrderModal } = useModalStore()
+    const { setIsPercentQuantityOrderModal, setDividedOrdersModal } = useModalStore()
 
     const { selectedCustomers } = useCustomerStore()
 
@@ -76,8 +76,13 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
         }
 
 
-        if (isPercentQuantity) {
+        else if (isPercentQuantity) {
             setIsPercentQuantityOrderModal(true)
+            return
+        }
+
+        else if (isDivideOrder) {
+            setDividedOrdersModal(true)
             return
         }
 
@@ -97,7 +102,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
             </Button>
 
             <Button
-                variant={side === "Buy" ? "primary" : "danger"}
+                variant={isDivideOrder ? 'info' : side === "Buy" ? "primary" : "danger"}
                 className="flex-1"
                 onClick={sendingOrder}
             >

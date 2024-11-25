@@ -10,7 +10,8 @@ type ButtonProps = {
           | 'secondary'
           | 'danger'
           | 'danger-outline'
-          | 'label';
+          | 'label'
+          | 'info';
      className?: string;
      icon?: ReactNode;
      isLoading?: boolean;
@@ -60,6 +61,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                'text-content-error-sell bg-back-error-default': variant === 'danger-outline',
                'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',
                'text-content-selected bg-button-tab-active  border-none': variant === 'label',
+               'text-input-focus bg-button-info-bg-selected border-input-focus': variant === 'info',
           });
 
           return (

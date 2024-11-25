@@ -24,6 +24,7 @@ const initialStore: IBuySellState = {
      amount: 0,
      isLockPrice: false,
      isKeepForm: false,
+     isDivideOrder: false,
 };
 
 type BuySellStore = IBuySellState & IBuySellAction;
@@ -64,6 +65,7 @@ export const useBuySellStore = create(
                     })),
                setIsLockPrice: (isLockPrice: boolean) => set(() => ({ isLockPrice })),
                setIsKeepForm: (isKeepForm: boolean) => set(() => ({ isKeepForm })),
+               setIsDivideOrder: (isDivideOrder: boolean) => set(() => ({ isDivideOrder })),
                reset: () =>
                     set((state) => ({
                          ...initialStore,

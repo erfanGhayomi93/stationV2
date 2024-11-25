@@ -271,3 +271,14 @@ interface IDeleteGroupOrderRes {
 }
 
 type IDeleteGroupOrderReq = number;
+
+interface IDividedOrderRow {
+     id: string;
+     customerTitle: string;
+     customerISIN: string;
+      quantity: number;
+      price: number;
+      status?: OrderStatusType;
+     isError : boolean 
+     clientKey?: string;
+ }

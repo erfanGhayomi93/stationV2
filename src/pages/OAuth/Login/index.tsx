@@ -44,7 +44,7 @@ const Login = () => {
 
      const navigate = useNavigate();
 
-     const { data: captchaData, refetch: refetchCaptcha, isFetching: isLoadingCaptcha } = useCaptcha();
+     const { data: captchaData, refetch: refetchCaptcha} = useCaptcha();
 
      const handleRefetchCaptcha = (): void => {
           refetchCaptcha();
