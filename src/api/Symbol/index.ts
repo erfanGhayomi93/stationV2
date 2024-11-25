@@ -108,6 +108,14 @@ export const useMutationUpdateCurrentTab = () => {
      });
 };
 
+export const useMutationClearSymbolTab = () => {
+     const url = routeApi().Symbol.CleareSymbolTabAfterLogOut;
+
+     return useMutation({
+          mutationFn: () => AXIOS.post(url),
+     });
+};
+
 export const useQuerySameGroupSymbol = ({ SymbolISIN }: { SymbolISIN: string }) => {
      const url = routeApi().Symbol.sameGroupsSymbol;
 

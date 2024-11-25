@@ -1,8 +1,9 @@
 import { ChangeEvent, InputHTMLAttributes, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockCloseIcon, LockIcon } from '@assets/icons';
+import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockCloseIcon, LockIcon, MoreInformationIcon } from '@assets/icons';
 import { sepNumbers } from '@methods/helper';
 import AnimatePresence from '@components/animation/AnimatePresence';
+import Tippy from '@tippyjs/react';
 
 interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'placeholder' | 'onChange' | 'type'> {
      onChangeValue: (v: number) => void;
@@ -14,6 +15,7 @@ interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
      variant?: 'simple' | 'advanced';
      placeholder?: string;
      isError?: boolean;
+     isInfo?: boolean;
      textError?: string;
      direction?: 'left' | 'right';
      secondaryPrice?: number;
@@ -29,6 +31,7 @@ const FieldInputNumber = ({
      placeholder = '',
      variant = 'advanced',
      isError,
+     isInfo,
      textError,
      direction = 'right',
      secondaryPrice,
@@ -74,9 +77,11 @@ const FieldInputNumber = ({
 
      return (
           <div className={clsx('rtl mb-3 group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active', {
-               "border-input-error focus-within:border-input-error ": isErrorInput
+               "border-input-error focus-within:border-input-error ": isErrorInput,
+               "border-input-focus focus-within:border-input-focus bg-button-info-bg-selected": isInfo,
+
           })}>
-               {!!secondaryPrice && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
+               {(!!secondaryPrice && !!value) && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
 
                <div
                     className={clsx('flex items-center', {
@@ -84,6 +89,10 @@ const FieldInputNumber = ({
                          'w-full': variant === 'simple',
                     })}
                >
+                    {isInfo && <Tippy content={'تقسیم سفارش'} allowHTML>
+                         <MoreInformationIcon width={16} height={16} className="text-button-info-default ml-1" />
+                    </Tippy>}
+
                     <input
                          ref={inputRef}
                          value={+inputValue ? sepNumbers(inputValue) : ''}
@@ -104,7 +113,8 @@ const FieldInputNumber = ({
                               {
                                    'absolute -top-3 right-2 bg-back-surface px-1': +inputValue,
                                    'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !+inputValue,
-                                   "text-input-error group-focus-within:text-input-error": isErrorInput
+                                   "text-input-error group-focus-within:text-input-error": isErrorInput,
+                                   "text-input-focus group-focus-within:text-input-focus": isInfo,
                               }
                          )}
                     >

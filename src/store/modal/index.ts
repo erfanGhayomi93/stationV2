@@ -16,6 +16,9 @@ export const useModalStore = create<IModalStore>(set => ({
      isPercentQuantityOrderModal: false,
      setIsPercentQuantityOrderModal: value => set(() => ({ isPercentQuantityOrderModal: value })),
 
+     dividedOrdersModal: false,
+     setDividedOrdersModal: value => set(() => ({ dividedOrdersModal : value })),
+
      addSymbolToWatchlistModal: false,
      setAddSymbolToWatchlistModal: value => set({ addSymbolToWatchlistModal: value }),
 

@@ -26,6 +26,7 @@ export const routeApi = () => {
                RemoveTabByTraderUserIdAndSymbolISIN: baseUrl + '/Symbol/v1/RemoveTabByTraderUserIdAndSymbolISIN',
                UpdateSymbolTabCreateDateTime: baseUrl + '/Symbol/v1/UpdateSymbolTabCreateDateTime',
                UpdateTheCurrentTab: baseUrl + '/Symbol/v1/UpdateTheCurrentTab',
+               CleareSymbolTabAfterLogOut: baseUrl + '/Symbol/v1/CleareSymbolTabAfterLogOut',
                GetMarketDepthV2: baseUrl + '/Symbol/v1/GetMarketDepthV2',
           },
           Orders: {

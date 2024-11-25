@@ -55,10 +55,10 @@ const ResultItem: FC<IResultItem> = ({ data: customer, dispatch, selectedCustome
                     {customer?.nationalCode}
                </div>
                <div className="ltr flex w-4/6 items-center justify-center border-l border-back-surface py-3">
-                    {sepNumbers(customer?.customerRemainAndOptionRemainDto.purchasePower || 0)}
+                    {sepNumbers(customer?.customerRemainAndOptionRemainDto?.purchasePower || 0)}
                </div>
                <div className="ltr flex w-4/6 items-center justify-center py-3">
-                    {sepNumbers(customer?.customerRemainAndOptionRemainDto.credit || 0)}
+                    {sepNumbers(customer?.customerRemainAndOptionRemainDto?.stockDailyCredit || 0)}
                </div>
           </div>
      );
