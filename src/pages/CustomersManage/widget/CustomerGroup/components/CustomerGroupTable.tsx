@@ -20,8 +20,6 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
 
      const { customerGroup, setCustomerGroup } = useContext(CustomersContext);
 
-     console.log(customerGroup, 'customerGroup');
-
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
      const customerGroupSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
@@ -122,8 +120,19 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     },
                     enableRtl: true,
                     onRowSelected(event) {
-                         //  console.log(event.api.getS);
+                         const selectedRows = event.api.getSelectedRows();
+
+                         customerGroupSelectData.current = [...(customerGroupSelectData.current ?? []), ...selectedRows];
+
+                         const uniqueItems = Array.from(
+                              new Map(customerGroupSelectData.current.map(item => [item.customerISIN, item])).values()
+                         );
+
+                         setCustomerGroup(uniqueItems);
+
+                         customerGroupSelectData.current = uniqueItems;
                     },
+
                     rowHeight: 40,
                     detailRowAutoHeight: true,
                },
