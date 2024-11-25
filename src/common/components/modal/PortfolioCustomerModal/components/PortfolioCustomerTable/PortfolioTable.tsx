@@ -5,7 +5,7 @@ import AgGridTable from '@components/Table/AgGrid';
 import UseDebounceOutput from '@hooks/useDebounceOutput';
 import { UpdatedFieldsType } from '@LS/pushEngine';
 import { subscriptionPortfolio } from '@LS/subscribes';
-import { sepNumbers } from '@methods/helper';
+import { createQueryKeyByParams, sepNumbers } from '@methods/helper';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,7 @@ const PortfolioTable = ({ customer }: IPortfolioTableProps) => {
           isSuccess,
           isFetching,
           isLoading,
-     } = useQueryPortfolio({ CustomerISIN: customer.customerISIN }, { enabled: true });
+     } = useQueryPortfolio({ CustomerISIN: [customer.customerISIN] });
 
      const { data: commission } = useQueryCommission();
 
@@ -144,11 +144,15 @@ const PortfolioTable = ({ customer }: IPortfolioTableProps) => {
                refData.current = portfolioDataSnapshot;
 
                setDebounce(() => {
-                    queryClient.setQueryData(['portfolioList'], () => {
-                         if (refData.current) {
-                              return [...refData.current];
+                    queryClient.setQueryData(
+                         ['portfolioList', ...createQueryKeyByParams<IPortfolioReq>({ CustomerISIN: [customer.customerISIN] })],
+                         (oldData: GlobalPaginatedApiResponse<IPortfolioRes[]>) => {
+                              return {
+                                   ...oldData,
+                                   result: refData.current,
+                              };
                          }
-                    });
+                    );
                });
           }
      };

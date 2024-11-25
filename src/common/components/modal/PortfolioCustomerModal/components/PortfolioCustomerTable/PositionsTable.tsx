@@ -2,8 +2,12 @@ import { ColDef } from '@ag-grid-community/core';
 import { useQueryCommission } from '@api/commission';
 import { usePositionsCustomer } from '@api/option';
 import AgGridTable from '@components/Table/AgGrid';
+import UseDebounceOutput from '@hooks/useDebounceOutput';
+import { UpdatedFieldsType } from '@LS/pushEngine';
+import { subscriptPosition } from '@LS/subscribes';
 import { dateFormatter, sepNumbers } from '@methods/helper';
-import { useMemo } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionCellRenderer from './ActionCellRenderer';
 
@@ -14,7 +18,18 @@ interface IPositionsTableProps {
 const PositionsTable = ({ customer }: IPositionsTableProps) => {
      const { t } = useTranslation();
 
-     const { data: positionsCustomerData, isLoading, isFetching } = usePositionsCustomer({ customerISIN: customer.customerISIN });
+     const queryClient = useQueryClient();
+
+     const refData = useRef<IPositionsCustomerRes[]>([]);
+
+     const { setDebounce } = UseDebounceOutput();
+
+     const {
+          data: positionsCustomerData,
+          isLoading,
+          isFetching,
+          isSuccess,
+     } = usePositionsCustomer({ customerISIN: customer.customerISIN });
 
      const { data: commissionData } = useQueryCommission();
 
@@ -116,6 +131,78 @@ const PositionsTable = ({ customer }: IPositionsTableProps) => {
           ],
           []
      );
+
+     const updatePortfolioData = ({ itemName, changedFields }: UpdatedFieldsType<IPositionsCustomerRes>) => {
+          const portfolioDataSnapshot: IPositionsCustomerRes[] = JSON.parse(JSON.stringify(refData.current));
+
+          const findSymbolOld = portfolioDataSnapshot.find(symbol => symbol.symbolISIN === itemName);
+
+          if (findSymbolOld) {
+               const updatedSymbol = {
+                    ...findSymbolOld,
+                    bestBuyLimitPrice_1: changedFields.bestBuyLimitPrice_1
+                         ? changedFields.bestBuyLimitPrice_1
+                         : findSymbolOld.bestBuyLimitPrice_1,
+
+                    bestSellLimitPrice_1: changedFields.bestSellLimitPrice_1
+                         ? changedFields.bestSellLimitPrice_1
+                         : findSymbolOld.bestSellLimitPrice_1,
+
+                    closingPrice: changedFields.closingPrice ? changedFields.closingPrice : findSymbolOld.closingPrice,
+                    closingPriceVarPercent: changedFields.closingPriceVarPercent
+                         ? changedFields.closingPriceVarPercent
+                         : findSymbolOld.closingPriceVarPercent,
+
+                    lastTradedPriceVarPercent: changedFields.lastTradedPriceVarPercent
+                         ? changedFields.lastTradedPriceVarPercent
+                         : findSymbolOld.lastTradedPriceVarPercent,
+
+                    lastTradedPrice: changedFields.lastTradedPrice
+                         ? changedFields.lastTradedPrice
+                         : findSymbolOld.lastTradedPrice,
+               };
+
+               const findIndexSymbol = portfolioDataSnapshot.findIndex(symbol => symbol.symbolISIN === itemName);
+
+               portfolioDataSnapshot[findIndexSymbol] = updatedSymbol;
+
+               refData.current = portfolioDataSnapshot;
+
+               setDebounce(() => {
+                    queryClient.setQueryData(['getPositionsCustomer', { customerISIN: customer.customerISIN }], () => {
+                         return [...refData.current];
+                    });
+               });
+          }
+     };
+
+     useEffect(() => {
+          if (!isFetching && isSuccess && positionsCustomerData?.length !== 0) {
+               refData.current = positionsCustomerData;
+
+               const id = 'positionSymbols';
+               const items = positionsCustomerData?.map(symbol => symbol.symbolISIN);
+
+               const fields = [
+                    'bestBuyLimitPrice_1',
+                    'bestSellLimitPrice_1',
+                    'closingPrice',
+                    'closingPriceVarPercent',
+                    'lastTradedPrice',
+                    'lastTradedPriceVarPercent',
+               ];
+
+               subscriptPosition<IPositionsCustomerRes>({
+                    id,
+                    items,
+                    fields,
+                    onItemUpdate: updateFields => {
+                         updatePortfolioData(updateFields);
+                    },
+               });
+          }
+     }, [isFetching]);
+
      return (
           <div className="h-full flex-1">
                <AgGridTable

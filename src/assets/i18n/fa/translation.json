@@ -26,7 +26,9 @@
           "editCustomerGroupNameSuccessful": "نام گروه مشتری با موفقیت تغییر کرد.",
           "editCustomerGroupNameError": "تغییر نام گروه مشتری با خطا مواجه شد.",
           "deleteCustomerGroupSuccessful": "گروه مشتری موردنظر با موفقیت حذف شد.",
-          "deleteCustomerGroupError": "حذف گروه مشتری با خطا مواجه شد."
+          "deleteCustomerGroupError": "حذف گروه مشتری با خطا مواجه شد.",
+          "deleteCustomerFromGroupSuccessful": "مشتری موردنظر با موفقیت از گروه حذف شد.",
+          "deleteCustomerFromGroupError": "حذف مشتری از گروه موردنظر با خطا مواجه شد."
      },
 
      "dates": {

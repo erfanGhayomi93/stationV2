@@ -9,6 +9,7 @@ interface IMyGroupsCustomerInformation {
      nationalCode: string;
      purchasePower: number;
      title: string;
+     groupId: number;
 }
 
 interface ICustomerRemainAndOptionRemainDto {
@@ -112,7 +113,7 @@ interface ICustomerContractsRes {
 }
 
 interface IMyGroupsInformationRes {
-     children: IMyGroupCustomerInformation[];
+     children: IMyGroupsCustomerInformation[];
      customerISINs: string;
      groupName: string;
      id: number;
@@ -134,5 +135,10 @@ interface IEditCustomerGroupNameReq {
 }
 
 interface IDeleteCustomerGroupReq {
+     groupId: number;
+}
+
+interface IDeleteCustomerFromGroupReq {
+     customerISINs: string[];
      groupId: number;
 }

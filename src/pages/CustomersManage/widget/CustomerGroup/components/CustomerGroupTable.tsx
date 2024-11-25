@@ -18,7 +18,7 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
 
      const isDarkMode = useDarkMode();
 
-     const { setCustomerGroup } = useContext(CustomersContext);
+     const { customerGroup, setCustomerGroup } = useContext(CustomersContext);
 
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
@@ -114,25 +114,33 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                               },
                          },
                     ],
+
                     defaultColDef: {
                          flex: 1,
                     },
                     enableRtl: true,
-
                     onRowSelected(event) {
-                         customerGroupSelectData.current = event.api.getSelectedRows();
+                         const selectedRows = event.api.getSelectedRows();
 
-                         setCustomerGroup(customerGroupSelectData.current);
+                         customerGroupSelectData.current = [...(customerGroupSelectData.current ?? []), ...selectedRows];
+
+                         const uniqueItems = Array.from(
+                              new Map(customerGroupSelectData.current.map(item => [item.customerISIN, item])).values()
+                         );
+
+                         setCustomerGroup(uniqueItems);
+
+                         customerGroupSelectData.current = uniqueItems;
                     },
-                    rowHeight: 40,
 
+                    rowHeight: 40,
                     detailRowAutoHeight: true,
                },
 
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
                },
-          } as IDetailCellRendererParams<any, any>;
+          } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, ICustomerAdvancedSearchRes>;
      }, [isDarkMode]);
 
      return (

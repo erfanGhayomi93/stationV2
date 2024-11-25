@@ -10,7 +10,7 @@ const ActionRenderer = ({ data, onDeleteGroup, onEditGroup }: IActionRendererPar
      const isFavoriteCustomer = data?.id === -1;
 
      return (
-          <div className="flex items-center justify-center gap-4 text-icon-default">
+          <div className="flex h-full items-center justify-center gap-4 text-icon-default">
                <button className="disabled:opacity-60" disabled={isFavoriteCustomer} onClick={() => onEditGroup(data)}>
                     <DraftOutlineIcon />
                </button>
