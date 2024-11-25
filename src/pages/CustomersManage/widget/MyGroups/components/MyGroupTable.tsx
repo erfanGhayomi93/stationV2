@@ -145,9 +145,17 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     enableRtl: true,
 
                     onRowSelected(event) {
-                         myGroupsSelectData.current = event.api.getSelectedRows();
+                         const selectedRows = event.api.getSelectedRows();
 
-                         setMyGroups(myGroupsSelectData.current);
+                         myGroupsSelectData.current = [...(myGroupsSelectData.current ?? []), ...selectedRows];
+
+                         const uniqueItems = Array.from(
+                              new Map(myGroupsSelectData.current.map(item => [item.customerISIN, item])).values()
+                         );
+
+                         setMyGroups(uniqueItems);
+
+                         myGroupsSelectData.current = uniqueItems;
                     },
                     detailRowAutoHeight: true,
 
