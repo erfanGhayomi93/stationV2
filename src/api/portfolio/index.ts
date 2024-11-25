@@ -15,7 +15,7 @@ export const useQueryPortfolio = (
                const response = await AXIOS.get<GlobalPaginatedApiResponse<IPortfolioRes[]>>(url, { params });
                return response.data;
           },
-          enabled: false,
+          //   enabled: false,
           ...options,
      });
 };

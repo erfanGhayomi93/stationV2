@@ -18,7 +18,9 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
 
      const isDarkMode = useDarkMode();
 
-     const { setCustomerGroup } = useContext(CustomersContext);
+     const { customerGroup, setCustomerGroup } = useContext(CustomersContext);
+
+     console.log(customerGroup, 'customerGroup');
 
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
@@ -114,25 +116,22 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                               },
                          },
                     ],
+
                     defaultColDef: {
                          flex: 1,
                     },
                     enableRtl: true,
-
                     onRowSelected(event) {
-                         customerGroupSelectData.current = event.api.getSelectedRows();
-
-                         setCustomerGroup(customerGroupSelectData.current);
+                         //  console.log(event.api.getS);
                     },
                     rowHeight: 40,
-
                     detailRowAutoHeight: true,
                },
 
                getDetailRowData: (params: GetDetailRowDataParams) => {
                     params.successCallback(params.data.children);
                },
-          } as IDetailCellRendererParams<any, any>;
+          } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, ICustomerAdvancedSearchRes>;
      }, [isDarkMode]);
 
      return (
