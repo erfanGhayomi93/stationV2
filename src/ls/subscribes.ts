@@ -116,3 +116,27 @@ export const subscriptionPortfolio = <T>({
           },
      });
 };
+
+export const subscriptPosition = <T>({
+     id,
+     items,
+     fields,
+     onItemUpdate,
+}: {
+     id: string;
+     items: string[];
+     fields: string[];
+     onItemUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
+}) => {
+     pushEngine.subscribe({
+          id,
+          adapterName: 'RamandRLCDData',
+          mode: 'MERGE',
+          items,
+          fields,
+          isSnapShot: 'yes',
+          onFieldsUpdate: updatedField => {
+               onItemUpdate(updatedField as UpdatedFieldsType<T>);
+          },
+     });
+};
