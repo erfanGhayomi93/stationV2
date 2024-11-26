@@ -14,6 +14,7 @@ export const useQueryTodayOrders = (params: ITodayOrderReq) => {
                return response.data.result;
           },
           gcTime: 0,
+          enabled: !!params.symbolISIN,
      });
 };
 
@@ -27,6 +28,7 @@ export const useQueryDoneOrders = (params: IDoneOrdersReq) => {
                return response.data.result;
           },
           gcTime: 0,
+          enabled: !!params.symbolISIN,
      });
 };
 
