@@ -102,7 +102,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
             </Button>
 
             <Button
-                variant={isDivideOrder ? 'info' : side === "Buy" ? "primary" : "danger"}
+                variant={side === "Buy" ? "primary" : "danger"}
                 className="flex-1"
                 onClick={sendingOrder}
                 isLoading={ordersLoading}
