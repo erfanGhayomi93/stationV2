@@ -17,6 +17,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useAppState } from '@store/appState';
 import { useEffect } from 'react';
+import { useSymbolStore } from '@store/symbol';
 
 type formDate = {
      username: string;
@@ -28,6 +29,8 @@ const Login = () => {
      const { t } = useTranslation();
 
      const { appState, setAppState } = useAppState()
+
+     const { setSelectedSymbol } = useSymbolStore()
 
      const {
           register,
@@ -89,6 +92,7 @@ const Login = () => {
           if (appState !== 'LoggedOut') {
                setAppState('LoggedOut')
           }
+          setSelectedSymbol('')
      }, [])
 
 
