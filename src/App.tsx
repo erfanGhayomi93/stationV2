@@ -3,12 +3,14 @@ import { Fragment, useEffect } from 'react';
 import 'tippy.js/dist/tippy.css';
 import RouterPage from './router/routerPage';
 import useApiPath from '@hooks/useApiPath';
-import Loading from 'layouts/components/Loading';
+import { useAppState } from '@store/appState';
 
 function App() {
      const { theme } = useThemeStore();
 
      const { apiRoutes, isLoading, isSuccess } = useApiPath();
+
+     const { setAppState } = useAppState()
 
 
      useEffect(() => {
@@ -22,11 +24,21 @@ function App() {
           }
      }, [theme]);
 
-     if (isLoading) return <Loading />
+     useEffect(() => {
+          if (isLoading) {
+               setAppState('Loading')
+          }
+          else if (apiRoutes && isSuccess) {
+               setAppState('FetchedConfig')
+          }
+     }, [apiRoutes, isLoading])
+
+
 
      return (
           <Fragment>
-               {(!apiRoutes || !isSuccess) ? 'moshkeli pish umade' : RouterPage}
+               {(apiRoutes && isSuccess) && RouterPage}
+               {/* {!(apiRoutes && isSuccess) && 'Crashed'} */}
           </Fragment>
      )
 }

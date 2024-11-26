@@ -1,17 +1,21 @@
 import { tokenCookieName } from '@config/axios';
 import { pushEngine } from '@LS/pushEngine';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 import Loading from './Loading';
 import { Outlet, Navigate } from 'react-router';
 import { routerPagePath } from '@router/routerPage';
 import { useQueryGeneralUser } from '@api/trader';
+import { useAppState } from '@store/appState';
+import useUpdateEffect from '@hooks/useUpdateEffect';
 
 
 const SplashScreenWrapper = () => {
 
-     const { data, isSuccess, isLoading: isLoadingUser } = useQueryGeneralUser();
+     const { appState, setAppState } = useAppState()
+
+     const { data, isLoading: isLoadingUser, refetch: refetchGeneralUser } = useQueryGeneralUser();
 
      // const {
      //      ready,
@@ -22,7 +26,8 @@ const SplashScreenWrapper = () => {
 
 
      useEffect(() => {
-          if (data) {
+          if (data?.userName && appState === 'LoggedIn') {
+
                const clientId = Cookies.get(tokenCookieName);
 
                pushEngine.connect({
@@ -33,19 +38,41 @@ const SplashScreenWrapper = () => {
                     Password: clientId ?? 'default password', // get from app context
                });
           }
-     }, [data]);
+     }, [data?.userName, appState]);
 
-     if (isLoadingUser) {
-          return <Loading />
-     }
+     useUpdateEffect(() => {
+          if (appState === 'LoggedIn') {
+               refetchGeneralUser()
+          }
+     }, [appState])
 
-     if (!isSuccess) {
+     useEffect(() => {
+          if (isLoadingUser) {
+               setAppState('Loading')
+          } else if (data) {
+               setAppState('LoggedIn')
+          }
+          else if (!data) {
+               setAppState('LoggedOut')
+          }
+     }, [isLoadingUser, data])
+
+
+
+
+     if (appState === 'LoggedOut') {
           <Navigate to={routerPagePath.login} />
           return <Outlet />
      }
 
+     return (
+          <Fragment>
+               {appState === 'Loading' && <Loading />}
 
-     return <Outlet />
+               {appState === 'LoggedIn' && <Outlet />}
+          </Fragment>
+     )
+
 
 };
 

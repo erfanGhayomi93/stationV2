@@ -1,11 +1,12 @@
 import SelectInput from "@uiKit/Inputs/SelectInput";
 import { useBuySellContext } from "../../context/buySellContext";
 import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
+import clsx from "clsx";
 
 
 
 const QuantityByPercent = () => {
-    const { quantityWithPercent, setQuantityWithBaseOn, setQuantityWithValue } = useBuySellContext()
+    const { quantityWithPercent, setQuantityWithBaseOn, setQuantityWithValue , side } = useBuySellContext()
 
 
     const TICK_ITEMS: { id: TQuantityBasedOn, label: string }[] = [
@@ -25,6 +26,10 @@ const QuantityByPercent = () => {
                     placeholder="درصد"
                     direction='left'
                     secondaryPrice={0}
+                    bgPlaceholder={clsx({
+                        'bg-button-error-bg-selected': side === 'Sell',
+                        'bg-button-success-bg-selected': side === 'Buy',
+                    })}
                 />
             </div>
 
@@ -34,6 +39,10 @@ const QuantityByPercent = () => {
                     placeholder="انتخاب کنید"
                     items={TICK_ITEMS}
                     onChange={value => setQuantityWithBaseOn(value.id as TQuantityBasedOn)}
+                    bgPlaceholder={clsx({
+                        'bg-button-error-bg-selected': side === 'Sell',
+                        'bg-button-success-bg-selected': side === 'Buy',
+                    })}
                 />
             </div>
 

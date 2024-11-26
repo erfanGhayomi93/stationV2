@@ -3,9 +3,10 @@ import { useBuySellContext } from "../../context/buySellContext"
 import useUpdateEffect from "@hooks/useUpdateEffect"
 // import { useQuerySymbolGeneralInformation } from "@api/Symbol"
 import { useSymbolStore } from "@store/symbol"
-import { FC, useEffect, useMemo } from "react"
+import { FC, useMemo } from "react"
 import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber"
 import { useQuerySymbolGeneralInformation } from "@api/Symbol"
+import clsx from "clsx"
 
 interface IPriceByPercentProps {
     downTickValue?: number;
@@ -94,6 +95,10 @@ const PriceByPercent: FC<IPriceByPercentProps> = ({ downTickValue, upTickValue }
                     direction='left'
                     isError={!isBetweenUpDownTick}
                     textError="قیمت در آستانه مجاز نمی‌باشد."
+                    bgPlaceholder={clsx({
+                        'bg-button-error-bg-selected': side === 'Sell',
+                        'bg-button-success-bg-selected': side === 'Buy',
+                    })}
                 />
             </div>
 
@@ -105,6 +110,10 @@ const PriceByPercent: FC<IPriceByPercentProps> = ({ downTickValue, upTickValue }
                     onChange={value => {
                         setPriceWithPercentBaseOn(value.id)
                     }}
+                    bgPlaceholder={clsx({
+                        'bg-button-error-bg-selected': side === 'Sell',
+                        'bg-button-success-bg-selected': side === 'Buy',
+                    })}
                 />
             </div>
 

@@ -9,6 +9,7 @@ import { useSymbolStore } from "@store/symbol";
 // import { pushEngine } from "@LS/pushEngine";
 import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
 import useUpdateEffect from "@hooks/useUpdateEffect";
+import clsx from "clsx";
 
 
 interface IPriceProps {
@@ -101,6 +102,10 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
                         onClickIcon={handleClickLock}
                         isError={!isBetweenUpDownTick}
                         textError="قیمت در آستانه مجاز نمی‌باشد."
+                        bgPlaceholder={clsx({
+                            'bg-button-error-bg-selected': side === 'Sell',
+                            'bg-button-success-bg-selected': side === 'Buy',
+                        })}
                     />
                 }
 

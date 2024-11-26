@@ -24,7 +24,10 @@ const BuySellWidget = () => {
      }, [selectedSymbol]);
 
      return (
-          <div className="h-full">
+          <div className={clsx('h-full', {
+               'bg-button-error-bg-selected': side === 'Sell',
+               'bg-button-success-bg-selected': side === 'Buy',
+          })}>
                <TabGroup
                     className="grid h-full max-h-full grid-rows-min-one overflow-y-auto"
                     selectedIndex={side === 'Buy' ? 0 : 1}

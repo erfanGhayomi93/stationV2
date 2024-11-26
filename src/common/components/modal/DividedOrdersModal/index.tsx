@@ -12,7 +12,6 @@ import { useCustomerStore } from '@store/customer'
 import { useQuerySymbolGeneralInformation } from '@api/Symbol'
 import Button from '@uiKit/Button'
 import useSendOrders from '@hooks/useSendOrders'
-// import Tippy from '@tippyjs/react'
 
 
 const DividedOrdersModal: FC = () => {
@@ -34,7 +33,7 @@ const DividedOrdersModal: FC = () => {
         data => data.symbolData,
     );
 
-    const { sendOrders } = useSendOrders()
+    const { sendOrders, ordersLoading } = useSendOrders()
 
 
     const COLUMNS_DEFS = useMemo<ColDef<IDividedOrderRow>[]>(
@@ -151,6 +150,11 @@ const DividedOrdersModal: FC = () => {
             }));
 
             sendOrders(orders)
+
+            const timer = setTimeout(() => {
+                setDividedOrdersModal(false);
+                clearTimeout(timer);
+            }, 500);
         }
 
     }
@@ -237,6 +241,7 @@ const DividedOrdersModal: FC = () => {
                             variant='primary'
                             // className='w-1/3'
                             onClick={onSendAll}
+                            isLoading={ordersLoading}
                         >
                             ارسال همه
                         </Button>

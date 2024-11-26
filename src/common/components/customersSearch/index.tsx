@@ -6,6 +6,7 @@ import { useCustomerStore } from '@store/customer';
 import { useModalStore } from '@store/modal';
 import { useSymbolStore } from '@store/symbol';
 import SearchInput from '@uiKit/Inputs/SearchInput';
+import clsx from 'clsx';
 import { useBuySellStore } from 'common/widget/buySellWidget/context/buySellContext';
 import { useEffect, useMemo } from 'react';
 
@@ -45,7 +46,7 @@ const CustomersSearch = () => {
      return (
           <div className="flex items-center mb-3">
                <div className="w-9/12 pl-4">
-               <div className='relative'>
+                    <div className='relative'>
                          <SearchInput
                               handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
                               placeholder="مشتری"
@@ -53,6 +54,10 @@ const CustomersSearch = () => {
                               values={selectedCustomerInputValues ?? []}
                               removeAllSelectedCustomers={removeAllSelectedCustomers}
                               removeSelectedCustomers={removeSelectedCustomers}
+                              bgPlaceholder={clsx({
+                                   'bg-button-error-bg-selected': side === 'Sell',
+                                   'bg-button-success-bg-selected': side === 'Buy',
+                              })}
                          />
 
                          {
@@ -127,11 +132,20 @@ const CustomersSearch = () => {
                                         if (selectedCustomers.length === 0) return;
                                         setOpen(!open);
                                    }}
-                                   className="flex items-center gap-1 rounded-lg bg-button-primary-bg-selected px-3 py-3"
+                                   className={clsx("flex items-center gap-1 rounded-lg px-3 py-3",{
+                                        'bg-button-error-bg-selected': side === 'Sell',
+                                        'bg-button-success-bg-selected': side === 'Buy',
+                                   })}
                               >
-                                   <UserGroupIcon className="text-button-primary-default" />
+                                   <UserGroupIcon className={clsx({
+                                        "text-button-primary-default" :  side === 'Buy' , 
+                                        "text-button-error-default": side === 'Sell'
+                                   })} />
 
-                                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-button-primary-hover text-icon-white">
+                                   <div className={clsx('flex h-5 w-5 items-center justify-center rounded-full text-icon-white' , {
+                                        "bg-button-primary-hover" : side === 'Buy' ,
+                                        "bg-button-error-hover" : side === 'Sell' ,
+                                   })}>
                                         <span className="text-xs">{selectedCustomers.length}</span>
                                    </div>
                               </button>

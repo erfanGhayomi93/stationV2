@@ -9,7 +9,7 @@ import Price from './price';
 import Quantity from './quantity';
 import { ActionAdvance } from './ActionAdvance.tsx';
 
-interface IBodyBuySellProps {}
+interface IBodyBuySellProps { }
 
 const BodyBuySell: FC<IBodyBuySellProps> = () => {
      const { selectedSymbol } = useSymbolStore();

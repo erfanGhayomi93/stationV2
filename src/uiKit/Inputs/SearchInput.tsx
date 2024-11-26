@@ -15,6 +15,7 @@ interface TSearchInputProps
      handleOpenModal?: () => void;
      removeSelectedCustomers: (customerISIN: string) => void;
      removeAllSelectedCustomers: () => void;
+     bgPlaceholder?: string
 }
 
 const SearchInput = ({
@@ -24,6 +25,7 @@ const SearchInput = ({
      handleOpenModal,
      removeAllSelectedCustomers,
      removeSelectedCustomers,
+     bgPlaceholder,
      ...props
 }: TSearchInputProps) => {
      const [items, setItems] = useState<TItem[]>(values);
@@ -97,7 +99,7 @@ const SearchInput = ({
                     className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
                >
                     <div className="flex w-full items-center gap-1 pr-6">
-                         <div className="absolute right-2 flex h-full items-center justify-center bg-back-surface">
+                         <div className="absolute right-2 flex h-full items-center justify-center">
                               <SearchInputIcon className="size-4 text-icon-default" />
                          </div>
                          <ul
@@ -158,6 +160,7 @@ const SearchInput = ({
                     <div
                          className={clsx('absolute text-xs transition-all duration-100', {
                               '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 || !!inputValue,
+                              [bgPlaceholder as string]: bgPlaceholder && (items.length > 0 || !!inputValue),
                               'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default':
                                    items.length === 0 && !inputValue,
                          })}

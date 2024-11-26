@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import { useAppDispatch } from 'src/redux/hooks';
 // import { useBuySellDispatch } from '../BuySell/context/BuySellContext';
 import { useMutationSendOrder } from '@api/order';
@@ -8,6 +8,7 @@ import { useCustomerStore } from '@store/customer';
 const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
     const ORDER_SENDING_GAP = 400;
 
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // UseRef with proper type
 
     const [clientIdStore, setClientIdStore] = useState({})
     const { isKeepForm, reset } = useBuySellStore()
@@ -20,12 +21,31 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         (!!Object.keys(clientIdStore).length && !!onOrderResultReceived) && onOrderResultReceived(clientIdStore)
     }, [clientIdStore])
 
+    const { mutate: mutateSendOrder, status } = useMutationSendOrder()
+
 
     const [ordersLoading, setOrdersLoading] = useState(false);
 
 
-
-    const { mutate: mutateSendOrder } = useMutationSendOrder()
+    useEffect(() => {
+        if (status === 'pending') {
+            setOrdersLoading(true);
+            if (timerRef.current !== null) {
+                clearTimeout(timerRef.current);
+            }
+        }
+        else {
+            timerRef.current = setTimeout(() => {
+                setOrdersLoading(false);
+            }, 500);
+            return () => {
+                if (timerRef.current !== null) {
+                    clearTimeout(timerRef.current); // Cleanup timer on unmount
+                    timerRef.current = null;
+                }
+            }
+        }
+    }, [status]);
 
 
     const splitOrdersByCustomers = (orders: ICreateOrderReq[]) => {
@@ -55,15 +75,15 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
     const sendOrders = (orders: ICreateOrderReq[]) => {
         if (!orders.length) return;
 
-        setOrdersLoading(true);
+        // setOrdersLoading(true);
 
         const bunchOfRequests: ICreateOrderReq[][] = createEachBunchOfRequests(orders);
 
-        function send() {
+        async function send() {
             for (let ind = 0; ind < bunchOfRequests.length; ind++) {
                 const orderGroups = bunchOfRequests[ind];
 
-                ind !== 0 && new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
+                bunchOfRequests.length !== 1 && await new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
 
                 const order: ICreateOrderReq = {
                     ...orderGroups[0],
@@ -95,21 +115,19 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
         try {
             send();
         } catch {
-            setOrdersLoading(false);
+            //
         }
         finally {
-            setOrdersLoading(false);
             if (!isKeepForm) {
                 reset();
                 removeAllSelectedCustomers()
             }
-            // resetByeSellData(ByeSellDispatch, appDispatch)
         }
     };
 
     return {
         sendOrders,
-        ordersLoading,
+        ordersLoading: ordersLoading,
     };
 };
 

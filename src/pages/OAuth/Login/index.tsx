@@ -15,6 +15,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useAppState } from '@store/appState';
+import { useEffect } from 'react';
 
 type formDate = {
      username: string;
@@ -24,6 +26,8 @@ type formDate = {
 
 const Login = () => {
      const { t } = useTranslation();
+
+     const { appState, setAppState } = useAppState()
 
      const {
           register,
@@ -44,7 +48,7 @@ const Login = () => {
 
      const navigate = useNavigate();
 
-     const { data: captchaData, refetch: refetchCaptcha} = useCaptcha();
+     const { data: captchaData, refetch: refetchCaptcha } = useCaptcha();
 
      const handleRefetchCaptcha = (): void => {
           refetchCaptcha();
@@ -55,15 +59,18 @@ const Login = () => {
           onSuccess: result => {
                if (result.loginResultType === 'Successful') {
                     setAuthorizeData(result?.token);
-
-                    toast.success('با موفقیت وارد حساب کاربری شدید.');
+                    setAppState('LoggedIn')
+                    // toast.success('با موفقیت وارد حساب کاربری شدید.');
                     navigate('/');
+               } else {
+                    setAppState('LoggedOut')
                }
           },
           onError: params => {
                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                //@ts-expect-error
                toast.error(t(`loginError.${params.response.data.result.loginResultType}`));
+               setAppState('LoggedOut')
 
                handleRefetchCaptcha();
           },
@@ -77,6 +84,13 @@ const Login = () => {
                term: data.username,
           });
      };
+
+     useEffect(() => {
+          if (appState !== 'LoggedOut') {
+               setAppState('LoggedOut')
+          }
+     }, [])
+
 
      return (
           <main className="rtl flex h-screen items-center gap-10 bg-back-surface p-10">

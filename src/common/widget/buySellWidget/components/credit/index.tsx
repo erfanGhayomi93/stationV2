@@ -6,7 +6,7 @@ import { useBuySellContext } from '../../context/buySellContext';
 import SelectValidityInput from '../SelectValidityInput';
 
 const Credit = () => {
-     const { validity, setValidity, setValidityDate } = useBuySellContext();
+     const { validity, setValidity, setValidityDate , side } = useBuySellContext();
 
      const [showCalender, setShowCalender] = useState(false);
 
@@ -79,6 +79,7 @@ const Credit = () => {
                                    ? dayjs(calenderDate).calendar('jalali').locale('fa').format('YYYY-MM-DD')
                                    : t(`BSValidity.${validity}`),
                     }}
+                    side={side}
                />
 
                <AdvancedDatepicker
