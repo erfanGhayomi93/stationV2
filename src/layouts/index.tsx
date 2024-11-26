@@ -15,12 +15,16 @@ const AppLayout = () => {
      const { isSubscribed, subscribeCustomers, unSubscribeCustomers } = useRamandOMSGateway();
 
      useEffect(() => {
+          // const queryClient = new QueryCache();
+
           if (userName && brokerCode) {
                subscribeCustomers(userName, brokerCode);
           }
 
           return () => {
+               // queryClient?.clear(); 
                isSubscribed() && unSubscribeCustomers();
+               // console.log('unmounted')
           };
      }, [userName]);
 
@@ -31,7 +35,7 @@ const AppLayout = () => {
                          <HeaderLayout />
                     </header>
 
-                    <section className="overflow-auto p-4 pr-0">
+                    <section className="overflow-auto p-2 pr-0">
                          <Outlet />
                     </section>
 

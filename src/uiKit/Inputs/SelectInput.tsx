@@ -11,9 +11,10 @@ interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem | null;
+     bgPlaceholder?: string
 }
 
-const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectInputProps) => {  
+const SelectInput = ({ onChange, items, value, placeholder = '', bgPlaceholder, ...props }: TSelectInputProps) => {
      const [state, setState] = useState<{ id: string; label: string } | null>(value);
 
      return (
@@ -66,6 +67,7 @@ const SelectInput = ({ onChange, items, value, placeholder = '', ...props }: TSe
                               <div
                                    className={clsx('absolute text-xs transition-all duration-100', {
                                         '-top-3 right-2 bg-back-surface px-1 text-input-active': state,
+                                        [bgPlaceholder as string]: bgPlaceholder && state,
                                         'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !state,
                                    })}
                               >

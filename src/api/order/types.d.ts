@@ -125,6 +125,7 @@ interface IDoneOrdersRes {
      tradeDate: string;
      validityDate: number;
      validityType: number;
+     averagePrice: number;
 }
 
 type TCustomerIsins = string[];
@@ -276,9 +277,9 @@ interface IDividedOrderRow {
      id: string;
      customerTitle: string;
      customerISIN: string;
-      quantity: number;
-      price: number;
-      status?: OrderStatusType;
-     isError : boolean 
+     quantity: number;
+     price: number;
+     status?: OrderStatusType;
+     isError: boolean;
      clientKey?: string;
- }
+}

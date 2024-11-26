@@ -111,7 +111,7 @@ const FinancialStatus = () => {
                          >
                               <span className="text-content-selected">{name}</span>
                               <div className="flex items-center gap-2 pl-2 text-content-title">
-                                   <span>{value ?? '-'}</span>
+                                   <span className='ltr'>{value ?? '-'}</span>
                                    {unit && t(`common.${unit ?? 'rial'}`)}
                               </div>
                          </li>

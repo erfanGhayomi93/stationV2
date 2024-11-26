@@ -19,6 +19,7 @@ interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
      textError?: string;
      direction?: 'left' | 'right';
      secondaryPrice?: number;
+     bgPlaceholder?: string
 }
 
 const FieldInputNumber = ({
@@ -35,6 +36,7 @@ const FieldInputNumber = ({
      textError,
      direction = 'right',
      secondaryPrice,
+     bgPlaceholder,
      ...props
 }: TFieldInputProps) => {
      const [inputValue, setInputValue] = useState<string>(value.toString());
@@ -109,9 +111,10 @@ const FieldInputNumber = ({
 
                     <div
                          className={clsx(
-                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
+                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active px-1',
                               {
-                                   'absolute -top-3 right-2 bg-back-surface px-1': +inputValue,
+                                   'absolute -top-3 right-2 px-1 bg-back-surface': +inputValue,
+                                   [bgPlaceholder as string]: bgPlaceholder && +inputValue,
                                    'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !+inputValue,
                                    "text-input-error group-focus-within:text-input-error": isErrorInput,
                                    "text-input-focus group-focus-within:text-input-focus": isInfo,

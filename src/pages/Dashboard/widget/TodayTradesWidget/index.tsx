@@ -59,9 +59,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                     valueGetter: ({ data }) => (data?.quantity ? sepNumbers(data?.quantity) : '-'),
                },
                {
-                    field: 'totalPrice',
+                    field: 'averagePrice',
                     headerName: t('todayTrades.averagePriceColumn'),
-                    valueGetter: ({ data }) => (data?.totalPrice ? sepNumbers(data?.totalPrice) : '-'),
+                    valueGetter: ({ data }) => (data?.averagePrice ? sepNumbers(data?.averagePrice) : '-'),
                },
                {
                     field: 'totalPrice',

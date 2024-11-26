@@ -10,9 +10,10 @@ interface TSelectValidityInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem;
+     side: TSide
 }
 
-const SelectValidityInput = ({ onChange, items, value, placeholder = '', ...props }: TSelectValidityInputProps) => {
+const SelectValidityInput = ({ onChange, items, value, placeholder = '', side, ...props }: TSelectValidityInputProps) => {
      const [state, setState] = useState<{ id?: number; label: string, value: string }>(value);
 
      useEffect(() => {
@@ -84,6 +85,8 @@ const SelectValidityInput = ({ onChange, items, value, placeholder = '', ...prop
                               <div
                                    className={clsx('absolute text-xs transition-all duration-100', {
                                         '-top-3 right-2 bg-back-surface px-1 text-input-active': value,
+                                        'bg-button-error-bg-selected': side === 'Sell' && value,
+                                        'bg-button-success-bg-selected': side === 'Buy' && value,
                                         'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !value,
                                    })}
                               >

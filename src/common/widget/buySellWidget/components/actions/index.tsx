@@ -1,7 +1,7 @@
 import { SendToBasketIcon } from "@assets/icons"
 import useSendOrders from "@hooks/useSendOrders"
 import Button from "@uiKit/Button"
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { useBuySellContext } from "../../context/buySellContext"
 import { useCustomerStore } from "@store/customer"
 import { generateSourceOrder, handleValidity, uid } from "@methods/helper"
@@ -9,7 +9,7 @@ import { useSymbolStore } from "@store/symbol"
 import { useModalStore } from "@store/modal"
 import { onErrorNotif } from "@config/toastify"
 
-interface IBodyBuySellProps {}
+interface IBodyBuySellProps { }
 
 const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
@@ -21,7 +21,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
 
     const { selectedSymbol } = useSymbolStore()
 
-    const { sendOrders } = useSendOrders()
+    const { sendOrders, ordersLoading } = useSendOrders()
 
     const handleSendOrder = () => {
         const CustomerTagId: TCustomerIsins = [];
@@ -105,6 +105,7 @@ const ActionsOrder: FC<IBodyBuySellProps> = () => {
                 variant={isDivideOrder ? 'info' : side === "Buy" ? "primary" : "danger"}
                 className="flex-1"
                 onClick={sendingOrder}
+                isLoading={ordersLoading}
             >
                 ارسال {side === "Buy" ? "خرید" : "فروش"}
             </Button>

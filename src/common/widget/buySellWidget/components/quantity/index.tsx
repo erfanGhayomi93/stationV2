@@ -78,6 +78,10 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                                 // textError="حجم در تعداد مجاز نمی‌باشد."
                                 selectIcon={!isCalculatedQuantity ? 'calculator-0' : 'calculator-1'}
                                 isInfo={isDivideOrder}
+                                bgPlaceholder={clsx({
+                                    'bg-button-error-bg-selected': side === 'Sell',
+                                    'bg-button-success-bg-selected': side === 'Buy',
+                                })}
                             />
                         )
                     }
@@ -105,6 +109,10 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                             }}
                             placeholder="ارزش"
                             variant="simple"
+                            bgPlaceholder={clsx({
+                                'bg-button-error-bg-selected': side === 'Sell',
+                                'bg-button-success-bg-selected': side === 'Buy',
+                            })}
                         />
                     </div>
                 )
