@@ -214,7 +214,7 @@
           "sourceColumn": "مبدا"
      },
      "orderStatus": {
-          "InOMSQueue": "در حال ارسال",
+          "InOMSQueue": "در حال پردازش",
           "OnSending": " در حال ارسال ",
           "Error": "خطا",
           "DeleteByEngine": "حذف شده توسط هسته",

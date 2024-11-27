@@ -20,7 +20,7 @@ const createRamandOMSGateway = () => {
           const message = value.split('^');
           const msgObj: Record<number, string> = {};
 
-          try {
+          try {   
                message.forEach(item => {
                     if (item) {
                          const [index, value] = item.split('=');

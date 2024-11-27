@@ -27,7 +27,7 @@ const FieldInputNumber = ({
      value,
      upTickValue = 0,
      downTickValue = 0,
-     selectIcon = 'calculator-0',
+     selectIcon,
      onClickIcon = () => null,
      placeholder = '',
      variant = 'advanced',
@@ -128,7 +128,10 @@ const FieldInputNumber = ({
 
                {variant === 'advanced' && (
                     <div className="ml-2 flex w-4/12 items-center justify-between gap-1 px-1 text-input-default">
-                         <div className="flex w-10/12 flex-col text-xs font-normal group-focus-within:text-input-active">
+                         <div className={clsx("flex flex-col text-xs font-normal group-focus-within:text-input-active" , {
+                              'w-10/12' : !!selectIcon ,
+                              'w-full' : !selectIcon ,
+                         })}>
                               <div className="flex items-center justify-between">
                                    <button className="cursor-pointer" onClick={() => onChangeValue(value + 1)}>
                                         <ChevronUpIcon />
@@ -153,13 +156,20 @@ const FieldInputNumber = ({
                               </div>
                          </div>
 
-                         <div className="w-2/12">
+                         <div className={clsx({
+                              "w-2/12": !!selectIcon,
+                              "hidden": !selectIcon,
+                         })}>
                               {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable transition-colors" onClick={onClickIcon} />}
                               {selectIcon === 'lock-1' && <LockCloseIcon className="text-icon-primary transition-colors" onClick={onClickIcon} />}
-                              {selectIcon.includes('calculator') && <CalculatorIcon className={clsx("transition-colors", {
-                                   "text-icon-disable": selectIcon === 'calculator-0',
-                                   "text-icon-primary": selectIcon === 'calculator-1'
-                              })} onClick={onClickIcon} />}
+                              {(selectIcon?.includes('calculator')) &&
+                                   (
+                                        <CalculatorIcon className={clsx("transition-colors", {
+                                             "text-icon-disable": selectIcon === 'calculator-0',
+                                             "text-icon-primary": selectIcon === 'calculator-1'
+                                        })} onClick={onClickIcon} />
+                                   )
+                              }
                          </div>
                     </div>
                )}

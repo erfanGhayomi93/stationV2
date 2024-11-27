@@ -282,4 +282,6 @@ interface IDividedOrderRow {
      status?: OrderStatusType;
      isError: boolean;
      clientKey?: string;
+     orderMessageType?: string;
+     errorMessageType?: string;
 }
