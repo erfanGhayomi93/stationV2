@@ -47,7 +47,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                {
                     field: 'orderSide',
                     headerName: t('todayTrades.sideColumn'),
-                    valueGetter: ({ data }) => t(`common.${data?.orderSide.toLowerCase()}`, '-'),
+                    valueGetter: ({ data }) => t(`common.${data?.orderSide}`, '-'),
                     cellClassRules: {
                          'text-content-success-buy': ({ data }) => data?.orderSide === 'Buy',
                          'text-content-error-sell': ({ data }) => data?.orderSide === 'Sell',

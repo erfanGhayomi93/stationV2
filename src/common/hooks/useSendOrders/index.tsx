@@ -6,7 +6,7 @@ import useBuySellStore from 'common/widget/buySellWidget/context/buySellContext'
 import { useCustomerStore } from '@store/customer';
 
 const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) => void) => {
-    const ORDER_SENDING_GAP = 400;
+    const ORDER_SENDING_GAP = 450;
 
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null); // UseRef with proper type
 
@@ -79,11 +79,9 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
 
         const bunchOfRequests: ICreateOrderReq[][] = createEachBunchOfRequests(orders);
 
-        async function send() {
-            for (let ind = 0; ind < bunchOfRequests.length; ind++) {
-                const orderGroups = bunchOfRequests[ind];
-
-                bunchOfRequests.length !== 1 && await new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP));
+        const send = async () => {
+            for (const orderGroups of bunchOfRequests) {
+                bunchOfRequests.length !== 1 && await new Promise((resolve) => setTimeout(resolve, ORDER_SENDING_GAP))
 
                 const order: ICreateOrderReq = {
                     ...orderGroups[0],
@@ -96,13 +94,12 @@ const useSendOrders = (onOrderResultReceived?: (x: { [key: string]: string }) =>
                     order.customerTitle = [...order.customerTitle, ...item.customerTitle];
                 });
 
-
                 const storeClientKey: { [key: string]: string } = {};
 
                 mutateSendOrder(order, {
                     onSuccess(data) {
                         orderGroups.forEach((item, index) => {
-                            storeClientKey[item.id || item.orderDraftId || item.customerISIN[0]] =
+                            storeClientKey[item?.id || item?.orderDraftId || item?.customerISIN[0]] =
                                 data.successClientKeys[index];
                         });
                         setClientIdStore(storeClientKey);

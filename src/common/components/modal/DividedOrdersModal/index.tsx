@@ -5,13 +5,17 @@ import useBuySellStore from 'common/widget/buySellWidget/context/buySellContext'
 import clsx from 'clsx'
 import { useSymbolStore } from '@store/symbol'
 import { handleValidity, sepNumbers, uid } from '@methods/helper'
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ColDef } from '@ag-grid-community/core'
 import AgGrid from '@components/Table/AgGrid'
 import { useCustomerStore } from '@store/customer'
 import { useQuerySymbolGeneralInformation } from '@api/Symbol'
 import Button from '@uiKit/Button'
 import useSendOrders from '@hooks/useSendOrders'
+import FieldInputNumber from '@uiKit/Inputs/FieldInputNumber'
+import ipcMain from 'common/classes/IpcMain'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Tippy from '@tippyjs/react'
 
 
 const DividedOrdersModal: FC = () => {
@@ -20,20 +24,48 @@ const DividedOrdersModal: FC = () => {
 
     const { t } = useTranslation()
 
-    const { side, quantity, price, strategy, validity, validityDate } = useBuySellStore()
+    const { side, quantity, price, strategy, validity, validityDate, setQuantity, setPrice } = useBuySellStore()
 
     const { selectedSymbol, symbolTitle } = useSymbolStore()
 
     const { selectedCustomers } = useCustomerStore()
 
-    const [divideData, setDivideData] = useState<IDividedOrderRow[]>()
+    const queryClient = useQueryClient()
+
+    // const [divideData, setDivideData] = useState<IDividedOrderRow[]>()
+
+    const { data: divideData } = useQuery<IDividedOrderRow[]>({
+        queryKey: ['divideOrderCache']
+    })
+
 
     const { data: symbolData } = useQuerySymbolGeneralInformation<ISymbolData>(
         selectedSymbol,
         data => data.symbolData,
     );
 
-    const { sendOrders, ordersLoading } = useSendOrders()
+    const { sendOrders, ordersLoading } = useSendOrders((x) => onOrderResultReceived(x))
+
+    const onOMSMessageHandlerRef = useRef<{
+        onUpdate: (message: Record<number, string>) => void
+    }>({
+        onUpdate: () => { }
+    });
+
+    const onOrderResultReceived = (x: Record<string, string>) => {
+        let divideDataSnapshot: IDividedOrderRow[] = JSON.parse(JSON.stringify(divideData))
+
+        divideDataSnapshot = divideDataSnapshot.map(item => {
+            if (x[item.id]) {
+                return { ...item, clientKey: x[item.id] }
+            }
+
+            return item
+        })
+
+        queryClient.setQueryData(['divideOrderCache'], () => divideDataSnapshot)
+
+    }
 
 
     const COLUMNS_DEFS = useMemo<ColDef<IDividedOrderRow>[]>(
@@ -59,15 +91,21 @@ const DividedOrdersModal: FC = () => {
                 minWidth: 180,
                 cellRenderer: ({ data }: { data: IDividedOrderRow }) => {
                     if (data?.status === 'Error') {
+                        const dataVal = data?.errorMessageType ? data?.errorMessageType : t(`order_errors.${data?.orderMessageType as errorStatus}`)
                         return (
-                            // <Tippy content={data?.customErrorMsg}>
-                            <span>{data?.status ? t(`orderStatus.${data?.status as TStatus}`) : '-'}</span>
-                            // </Tippy>
+                            <Tippy content={dataVal}>
+                                <span>{dataVal}</span>
+                            </Tippy>
                         );
                     } else {
                         return <span>{data?.status ? t(`orderStatus.${data?.status as TStatus}`) : '-'}</span>;
                     }
-                }
+                },
+                cellClassRules: {
+                    'text-content-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'InOMSQueue'].includes(value),
+                    'text-content-success-buy': ({ value }) => value === 'OrderDone',
+                    'text-content-error-cell': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
+                },
             },
         ],
         []
@@ -129,7 +167,6 @@ const DividedOrdersModal: FC = () => {
 
 
     const onSendAll = () => {
-
         if (divideData) {
             const orders: ICreateOrderReq[] = divideData.map(({ customerISIN, id, price, quantity, customerTitle }) => ({
                 id: id,
@@ -151,58 +188,133 @@ const DividedOrdersModal: FC = () => {
 
             sendOrders(orders)
 
-            const timer = setTimeout(() => {
-                setDividedOrdersModal(false);
-                clearTimeout(timer);
-            }, 500);
+            const updatedDividedOrder = divideData.map(item => ({ ...item, status: 'InOMSQueue' }))
+
+            queryClient.setQueryData(['divideOrderCache'], () => updatedDividedOrder)
+
+            // const timer = setTimeout(() => {
+            //     setDividedOrdersModal(false);
+            //     clearTimeout(timer);
+            // }, 500);
         }
 
     }
+
+    const isBetweenUpDownTick = useMemo(() => {
+        if (!symbolData?.lowThreshold || !symbolData?.highThreshold) return true;
+
+        return price >= symbolData?.lowThreshold && price <= symbolData?.highThreshold;
+    }, [price, symbolData?.lowThreshold, symbolData?.highThreshold]);
+
+    onOMSMessageHandlerRef.current.onUpdate = useMemo(
+        () => (message: Record<number, string>) => {
+            const omsClientKey = message[12];
+            const omsOrderStatus = message[22] as TStatus;
+
+            const orderMessageType = message[200];
+            const errorMessageType = message[208];
+
+            const timer = setTimeout(() => {
+                queryClient.setQueryData(['divideOrderCache'], (oldData: IDividedOrderRow[]) => {
+                    const dividedSnapshot: IDividedOrderRow[] = oldData ? JSON.parse(JSON.stringify(oldData)) : [];
+
+
+                    const res = dividedSnapshot.map(item => {
+                        if (item.clientKey === omsClientKey) {
+                            return { ...item, status: omsOrderStatus, orderMessageType, errorMessageType }
+                        }
+                        return item
+                    })
+                    return res
+                })
+                clearTimeout(timer);
+            }, 800)
+        },
+        []
+    );
+
 
 
     useEffect(() => {
         const dividedOrders = handleDivideOrders(quantity, price, selectedCustomers);
 
-        setDivideData(dividedOrders)
-    }, [])
+        queryClient.setQueryData(['divideOrderCache'], () => dividedOrders)
+    }, [quantity, price])
 
+    useEffect(() => {
+        ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current.onUpdate);
+    }, [divideData]);
 
 
     return (
         <Modal title={'سفارش تقسیم'} onCloseModal={() => setDividedOrdersModal(false)} size="md" >
             <div className="grid grid-rows-min-one-min gap-y-6">
-                <p className='flex gap-x-1'>
-                    <span className='text-content-deselecttab'>
-                        سفارش
-                    </span>
+                <div>
+                    <p className='flex gap-x-1'>
+                        <span className='text-content-deselecttab'>
+                            سفارش
+                        </span>
 
-                    <span className={clsx({
-                        "text-content-success-buy": side === "Buy",
-                        "text-content-error-sell": side === "Sell"
-                    })}>
-                        {t(`common.${side}`)}
-                    </span>
+                        <span className={clsx({
+                            "text-content-success-buy": side === "Buy",
+                            "text-content-error-sell": side === "Sell"
+                        })}>
+                            {t(`common.${side}`)}
+                        </span>
 
-                    <span className="text-content-deselecttab">
-                        {symbolTitle}
-                    </span>
+                        <span className="text-content-deselecttab">
+                            {symbolTitle}
+                        </span>
 
-                    <span className='text-content-deselecttab'>
-                        به تعداد
-                    </span>
+                        <span className='text-content-deselecttab'>
+                            به تعداد
+                        </span>
 
-                    <span className='text-content-title'>
-                        {sepNumbers(quantity)}
-                    </span>
+                        <span className='text-content-title'>
+                            {sepNumbers(quantity)}
+                        </span>
 
-                    <span className='text-content-deselecttab'>
-                        به قیمت
-                    </span>
+                        <span className='text-content-deselecttab'>
+                            به قیمت
+                        </span>
 
-                    <span className='text-content-title'>
-                        {sepNumbers(price)}
-                    </span>
-                </p>
+                        <span className='text-content-title'>
+                            {sepNumbers(price)}
+                        </span>
+                    </p>
+                </div>
+
+                <div className='flex gap-x-8'>
+                    <div className=''>
+                        {
+                            <FieldInputNumber
+                                value={quantity}
+                                onChangeValue={value => setQuantity(+value)}
+                                placeholder="حجم"
+                                upTickValue={symbolData?.maxTradeQuantity}
+                                downTickValue={symbolData?.minTradeQuantity}
+                                variant="advanced"
+                            />
+                        }
+                    </div>
+
+                    <div>
+                        <FieldInputNumber
+                            value={price}
+                            onChangeValue={value => {
+                                setPrice(+value)
+                            }}
+                            placeholder="قیمت"
+                            upTickValue={symbolData?.highThreshold}
+                            downTickValue={symbolData?.lowThreshold}
+                            variant="advanced"
+                            isError={!isBetweenUpDownTick}
+                            textError="قیمت در آستانه مجاز نمی‌باشد."
+                        />
+
+                    </div>
+
+                </div>
 
                 <div>
                     <AgGrid
@@ -210,9 +322,6 @@ const DividedOrdersModal: FC = () => {
                         columnDefs={COLUMNS_DEFS}
                         rowData={divideData || []}
                     />
-
-
-
                 </div>
 
                 <div className='flex justify-between items-center'>
@@ -242,6 +351,7 @@ const DividedOrdersModal: FC = () => {
                             // className='w-1/3'
                             onClick={onSendAll}
                             isLoading={ordersLoading}
+                            disabled={!isBetweenUpDownTick || !divideData?.length}
                         >
                             ارسال همه
                         </Button>
