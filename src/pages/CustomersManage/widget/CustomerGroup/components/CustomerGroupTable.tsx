@@ -1,12 +1,19 @@
-import { ColDef, GetDetailRowDataParams, IDetailCellRendererParams } from '@ag-grid-community/core';
+import {
+     ColDef,
+     FirstDataRenderedEvent,
+     GetDetailRowDataParams,
+     GetRowIdParams,
+     IDetailCellRendererParams,
+} from '@ag-grid-community/core';
 import AgGridTable from '@components/Table/AgGrid';
 import useDarkMode from '@hooks/useDarkMode';
 import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
 import { useModalStore } from '@store/modal';
-import { useContext, useMemo, useRef } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionRenderer from './ActionRenderer';
+import { AgGridReact } from '@ag-grid-community/react';
 
 type TCustomerGroupTableProps = {
      data: ICustomerAdvancedSearchRes[];
@@ -16,13 +23,13 @@ type TCustomerGroupTableProps = {
 const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
      const { t } = useTranslation();
 
+     const gridRef = useRef<AgGridReact<ICustomerAdvancedSearchRes>>(null);
+
      const isDarkMode = useDarkMode();
 
      const { customerGroup, setCustomerGroup } = useContext(CustomersContext);
 
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
-
-     const customerGroupSelectData = useRef<ICustomerAdvancedSearchRes[] | null>(null);
 
      const onPortfolioCustomer = (data: ICustomerAdvancedSearchRes) => {
           setPortfolioCustomerModal({ customer: data });
@@ -64,6 +71,28 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
           ],
           []
      );
+
+     const getAllSelectedRows = useCallback(() => {
+          const allSelectedRowsMap = new Map<string, ICustomerAdvancedSearchRes>();
+
+          gridRef.current?.api.forEachNode(node => {
+               if (node.master && node.expanded) {
+                    const detailGridInfo = gridRef.current?.api.getDetailGridInfo(`detail_${node.id}`);
+
+                    if (detailGridInfo) {
+                         const selectedDetailRows = detailGridInfo.api?.getSelectedRows();
+
+                         selectedDetailRows?.forEach(row => {
+                              if (row.customerISIN && !allSelectedRowsMap.has(row.customerISIN)) {
+                                   allSelectedRowsMap.set(row.customerISIN, row);
+                              }
+                         });
+                    }
+               }
+          });
+
+          return Array.from(allSelectedRowsMap.values());
+     }, []);
 
      const detailCellRendererParams = useMemo(() => {
           return {
@@ -118,23 +147,15 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     defaultColDef: {
                          flex: 1,
                     },
+
                     enableRtl: true,
                     onRowSelected(event) {
-                         const selectedRows = event.api.getSelectedRows();
+                         const selectedRows = getAllSelectedRows();
 
-                         customerGroupSelectData.current = [...(customerGroupSelectData.current ?? []), ...selectedRows];
-
-                         const uniqueItems = Array.from(
-                              new Map(customerGroupSelectData.current.map(item => [item.customerISIN, item])).values()
-                         );
-
-                         setCustomerGroup(uniqueItems);
-
-                         customerGroupSelectData.current = uniqueItems;
+                         setCustomerGroup(selectedRows);
                     },
 
                     rowHeight: 40,
-                    detailRowAutoHeight: true,
                },
 
                getDetailRowData: (params: GetDetailRowDataParams) => {
@@ -143,9 +164,24 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
           } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, ICustomerAdvancedSearchRes>;
      }, [isDarkMode]);
 
+     const isRowMaster = useCallback((dataItem: ICustomerAdvancedSearchRes) => {
+          return dataItem ? dataItem.children.length > 0 : false;
+     }, []);
+
+     const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
+          setTimeout(() => {
+               params.api.getDisplayedRowAtIndex(0)!.setExpanded(true);
+          }, 0);
+     }, []);
+
+     const getRowId = useCallback((params: GetRowIdParams) => {
+          return String(params.data.id);
+     }, []);
+
      return (
-          <div className="col-span-2">
+          <div className="col-span-2 h-full w-full">
                <AgGridTable
+                    ref={gridRef}
                     masterDetail={true}
                     detailCellRendererParams={detailCellRendererParams}
                     rowData={data}
@@ -157,6 +193,10 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     groupDefaultExpanded={0}
                     loading={loading}
                     detailRowAutoHeight
+                    getRowId={getRowId}
+                    keepDetailRows={true}
+                    isRowMaster={isRowMaster}
+                    onFirstDataRendered={onFirstDataRendered}
                />
           </div>
      );

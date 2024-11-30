@@ -1,4 +1,10 @@
-import { ColDef, GetDetailRowDataParams, IDetailCellRendererParams } from '@ag-grid-community/core';
+import {
+     ColDef,
+     FirstDataRenderedEvent,
+     GetDetailRowDataParams,
+     GetRowIdParams,
+     IDetailCellRendererParams,
+} from '@ag-grid-community/core';
 import { useDeleteCustomerFromGroup } from '@api/customer';
 import AgGridTable from '@components/Table/AgGrid';
 import useDarkMode from '@hooks/useDarkMode';
@@ -6,10 +12,11 @@ import { numFormatter } from '@methods/helper';
 import { CustomersContext } from '@pages/CustomersManage/context';
 import { useModalStore } from '@store/modal';
 import { useQueryClient } from '@tanstack/react-query';
-import { useContext, useMemo, useRef } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ActionRenderer from './ActionRender';
+import { AgGridReact } from '@ag-grid-community/react';
 // import ActionRenderer from '../ActionRenderer';
 
 type TMyGroupTableProps = {
@@ -20,6 +27,8 @@ type TMyGroupTableProps = {
 const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
      const { t } = useTranslation();
 
+     const gridRef = useRef<AgGridReact<IMyGroupsInformationRes>>(null);
+
      const queryClient = useQueryClient();
 
      const isDarkMode = useDarkMode();
@@ -29,8 +38,6 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
      const { mutate: deleteCustomerFromGroupMutate } = useDeleteCustomerFromGroup();
-
-     const myGroupsSelectData = useRef<IMyGroupsCustomerInformation[] | null>(null);
 
      const onPortfolioCustomers = (data: ICustomerAdvancedSearchRes) => {
           setPortfolioCustomerModal({ customer: data });
@@ -56,6 +63,28 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                }
           );
      };
+
+     const getAllSelectedRows = useCallback(() => {
+          const allSelectedRowsMap = new Map<string, IMyGroupsCustomerInformation>();
+
+          gridRef.current?.api.forEachNode(node => {
+               if (node.master && node.expanded) {
+                    const detailGridInfo = gridRef.current?.api.getDetailGridInfo(`detail_${node.id}`);
+
+                    if (detailGridInfo) {
+                         const selectedDetailRows = detailGridInfo.api?.getSelectedRows();
+
+                         selectedDetailRows?.forEach(row => {
+                              if (row.customerISIN && !allSelectedRowsMap.has(row.customerISIN)) {
+                                   allSelectedRowsMap.set(row.customerISIN, row);
+                              }
+                         });
+                    }
+               }
+          });
+
+          return Array.from(allSelectedRowsMap.values());
+     }, []);
 
      const COLUMNS_DEFS = useMemo<ColDef<IMyGroupsInformationRes>[]>(
           () => [
@@ -145,17 +174,9 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     enableRtl: true,
 
                     onRowSelected(event) {
-                         const selectedRows = event.api.getSelectedRows();
+                         const selectedRows = getAllSelectedRows();
 
-                         myGroupsSelectData.current = [...(myGroupsSelectData.current ?? []), ...selectedRows];
-
-                         const uniqueItems = Array.from(
-                              new Map(myGroupsSelectData.current.map(item => [item.customerISIN, item])).values()
-                         );
-
-                         setMyGroups(uniqueItems);
-
-                         myGroupsSelectData.current = uniqueItems;
+                         setMyGroups(selectedRows);
                     },
                     detailRowAutoHeight: true,
 
@@ -165,11 +186,26 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     params.successCallback(params.data.children);
                },
           } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, IMyGroupsCustomerInformation>;
-     }, [isDarkMode]);
+     }, [isDarkMode, loading]);
+
+     const isRowMaster = useCallback((dataItem: IMyGroupsInformationRes) => {
+          return dataItem ? dataItem.children.length > 0 : false;
+     }, []);
+
+     const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
+          setTimeout(() => {
+               params.api.getDisplayedRowAtIndex(0)!.setExpanded(true);
+          }, 0);
+     }, []);
+
+     const getRowId = useCallback((params: GetRowIdParams) => {
+          return String(params.data.id);
+     }, []);
 
      return (
-          <div className="col-span-2 text-content-error-sell">
+          <div className="col-span-2">
                <AgGridTable
+                    ref={gridRef}
                     masterDetail={true}
                     detailCellRendererParams={detailCellRendererParams}
                     rowData={data}
@@ -181,6 +217,10 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     groupDefaultExpanded={0}
                     loading={loading}
                     detailRowAutoHeight
+                    getRowId={getRowId}
+                    keepDetailRows={true}
+                    isRowMaster={isRowMaster}
+                    onFirstDataRendered={onFirstDataRendered}
                />
           </div>
      );
