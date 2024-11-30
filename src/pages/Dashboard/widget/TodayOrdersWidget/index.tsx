@@ -79,9 +79,9 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [
                {
-                    field: 'position',
+                    field: 'hostOrderNumber',
                     headerName: t('todayOrders.orderPlaceInPriceColumn'),
-                    valueGetter: ({ data }) => sepNumbers(data?.position),
+                    valueGetter: ({ data }) => sepNumbers(data?.hostOrderNumber),
                },
                {
                     field: 'customerTitle',
