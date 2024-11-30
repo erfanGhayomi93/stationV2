@@ -186,7 +186,7 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     params.successCallback(params.data.children);
                },
           } as IDetailCellRendererParams<ICustomerAdvancedSearchRes, IMyGroupsCustomerInformation>;
-     }, [isDarkMode, loading]);
+     }, [isDarkMode]);
 
      const isRowMaster = useCallback((dataItem: IMyGroupsInformationRes) => {
           return dataItem ? dataItem.children.length > 0 : false;
