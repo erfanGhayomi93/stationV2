@@ -29,11 +29,19 @@ const Customers = () => {
           return isDefaultUse ? defaultCustomers : searchCustomers;
      }, [defaultCustomers, searchCustomers, isDefaultUse]);
 
+     const filterDataBasedOnCustomerType = useMemo(() => {
+          return listGroups?.filter(item => {
+               if (customerType === 'All') return item;
+               if (customerType === 'Legal') return item.customerType === 'Legal';
+               if (customerType === 'Natural') return item.customerType === 'Natural';
+          });
+     }, [listGroups, customerType]);
+
      return (
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomersTable data={listGroups} loading={isLoadingDefaultCustomers} />
+               <CustomersTable data={filterDataBasedOnCustomerType} loading={isLoadingDefaultCustomers} />
           </>
      );
 };

@@ -37,7 +37,7 @@ const AddCustomersToGroupModal = () => {
                     onSuccess: () => {
                          toast.success(t('alerts.addCustomersToGroupsSuccessful'));
 
-                         queryClient.refetchQueries({ queryKey: ['getMyGroupAdvanced'] });
+                         queryClient.invalidateQueries({ queryKey: ['getMyGroupDefault'] });
 
                          onCloseModal();
                     },

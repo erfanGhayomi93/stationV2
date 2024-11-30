@@ -19,8 +19,6 @@ const CustomerInformation = () => {
 
      const { setCreateNewCustomerGroupModal, setAddCustomersToGroupModal } = useModalStore();
 
-     const [selectCustomerInformationTab] = useState<TCustomerInformationTab>('personalInformation');
-
      const CustomerInformationSelectRender = useCallback(() => {
           const selectDataMultiCustomer = {
                customers,
@@ -28,20 +26,28 @@ const CustomerInformation = () => {
                myGroups,
           };
 
+          const getComponentKey = () => {
+               if (selectDataMultiCustomer[customersManageTab].length === 0) {
+                    return 'emptyCustomers';
+               }
+
+               if (customers.length === 1 && customersManageTab === 'customers') {
+                    return 'oneCustomers';
+               }
+
+               return 'multiCustomers';
+          };
+
           const customerInformationSelectComponents = {
                emptyCustomers: <EmptyCustomerInformation />,
                oneCustomers: <OneCustomerInformation />,
                multiCustomers: <MultiCustomerInformation data={selectDataMultiCustomer[customersManageTab]} />,
           };
-          const select =
-               selectDataMultiCustomer[customersManageTab].length === 0
-                    ? 'emptyCustomers'
-                    : customers.length === 1 && customersManageTab === 'customers'
-                      ? 'oneCustomers'
-                      : 'multiCustomers';
 
-          return customerInformationSelectComponents[select];
-     }, [selectCustomerInformationTab, customers, customerGroup, myGroups]);
+          const selectedComponentKey = getComponentKey();
+
+          return customerInformationSelectComponents[selectedComponentKey];
+     }, [customers, customerGroup, myGroups, customersManageTab]);
 
      const handleCreateCustomerGroup = () => {
           setCreateNewCustomerGroupModal(true);
