@@ -46,7 +46,7 @@ export const numFormatter = (num: number, formatNavigateNumber = true, isScale =
           let originalName = num;
           if (isNaN(num)) return '−';
 
-          const suffixes = ['', ' K', ' M', ' B', ' T'];
+          const suffixes = ['', ' K', ' M', ' B'];
           const divisor = 1e3;
           let index = 0;
           let isNegative = false;
