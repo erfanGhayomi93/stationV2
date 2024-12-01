@@ -4,7 +4,7 @@ import { DeleteIcon, EditIcon, ExcelIcon } from '@assets/icons';
 import AgGridTable from '@components/Table/AgGrid';
 import AGHeaderSearchInput from '@components/Table/AGHeaderSearchInput';
 import { Tab, TabGroup, TabList } from '@headlessui/react';
-import { dateFormatter, sepNumbers } from '@methods/helper';
+import { dateFormatter, sepNumbers, zeroPad } from '@methods/helper';
 import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import ipcMain from 'common/classes/IpcMain';
@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { useModalStore } from 'store/modal';
 import { useSymbolStore } from 'store/symbol';
 import OrderStateRenderer from './OrderStateRenderer';
+import { subscribeOrderInPrice } from '@LS/subscribes';
+import { pushEngine } from '@LS/pushEngine';
 
 interface ITodayOrdersWidgetProps {
      side: TSide;
@@ -21,7 +23,7 @@ interface ITodayOrdersWidgetProps {
 const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const { t } = useTranslation();
 
-     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
+     const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => { });
 
      const queryClient = useQueryClient();
 
@@ -33,7 +35,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { selectedSymbol } = useSymbolStore();
 
-     const { data: todayOrdersData, refetch: refetchTodayOrders } = useQueryTodayOrders({
+     const { data: todayOrdersData, refetch: refetchTodayOrders, isSuccess } = useQueryTodayOrders({
           GtOrderStateRequestType: tabSelected,
           side: side,
           symbolISIN: selectedSymbol,
@@ -135,6 +137,39 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
      }, []);
+
+     useEffect(() => {
+          if (isSuccess && !!todayOrdersData?.length) {
+
+               const id = 'subscribeOrderInPrice'
+               const items: string[] = [];
+
+               for (const order of todayOrdersData) {
+                    const { symbolISIN, orderSide, hostOrderNumber, orderDateTime } = order;
+                    const d = new Date(orderDateTime)
+                    const msDate = `${d.getFullYear()}${zeroPad(String(d.getMonth() + 1))}${zeroPad(String(d.getDate()))}`;
+
+                    const item = "ms_" + symbolISIN + "_" + orderSide + "_" + hostOrderNumber + "_" + msDate;
+                    if (orderSide && hostOrderNumber && orderDateTime) items.push(item);
+               }
+
+               console.log({ items })
+
+               if (items.length === 0) return;
+
+               subscribeOrderInPrice({
+                    id,
+                    items,
+                    onItemUpdate(updatedFields) {
+                         console.log({ updatedFields })
+                    },
+               })
+
+               return () => {
+                    pushEngine.unSubscribe(id)
+               }
+          }
+     }, [isSuccess , todayOrdersData])
 
      return (
           <div className="grid h-full grid-rows-min-one">

@@ -41,6 +41,14 @@ export const toFixed = (v: number, l = 3, round = true) => {
      return sepNumbers(integer) + '.' + (round ? String(decimalAsNumber).slice(2) : decimal);
 };
 
+export const zeroPad = (num: string, length = 2): string => {
+	while (num.length < length) {
+		num = `0${num}`;
+	}
+
+	return num;
+};
+
 export const numFormatter = (num: number, formatNavigateNumber = true, isScale = true) => {
      try {
           let originalName = num;
