@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 const ActionCellRenderer = (params: CustomGroupCellRendererProps<IPositionsCustomerRes>) => {
      const { t } = useTranslation();
 
+     console.log(params, 'params');
+
      return (
           <div className="flex h-full items-center gap-4 text-icon-default">
                <Tippy content={t('portfolioCustomerModal.positionsChangeGuaranteeActionTooltip')}>

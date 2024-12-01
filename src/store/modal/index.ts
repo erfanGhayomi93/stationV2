@@ -17,7 +17,7 @@ export const useModalStore = create<IModalStore>(set => ({
      setIsPercentQuantityOrderModal: value => set(() => ({ isPercentQuantityOrderModal: value })),
 
      dividedOrdersModal: false,
-     setDividedOrdersModal: value => set(() => ({ dividedOrdersModal : value })),
+     setDividedOrdersModal: value => set(() => ({ dividedOrdersModal: value })),
 
      addSymbolToWatchlistModal: false,
      setAddSymbolToWatchlistModal: value => set({ addSymbolToWatchlistModal: value }),
@@ -42,4 +42,19 @@ export const useModalStore = create<IModalStore>(set => ({
 
      portfolioCustomerModal: null,
      setPortfolioCustomerModal: value => set(() => ({ portfolioCustomerModal: value })),
+
+     manageBasketOrderModal: false,
+     setManageBasketOrderModal: value => set(() => ({ manageBasketOrderModal: value })),
+
+     createNewBasketModal: false,
+     setCreateNewBasketModal: value => set(() => ({ createNewBasketModal: value })),
+
+     editBasketOrderModal: null,
+     setEditBasketOrderModal: value => set(() => ({ editBasketOrderModal: value })),
+
+     addOrderToBasketModal: null,
+     setAddOrderToBasketModal: value => set(() => ({ addOrderToBasketModal: value })),
+
+     confirmDeleteBasketOrderModal: null,
+     setConfirmDeleteBasketOrderModal: value => set(() => ({ confirmDeleteBasketOrderModal: value })),
 }));

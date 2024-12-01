@@ -81,8 +81,10 @@ import XCircleFillIcon from '../svg/XCircleFill.svg?react';
 import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 import SendIcon from '../svg/send.svg?react';
+import RocketIcon from '../svg/rocket.svg?react';
 
 export {
+     RocketIcon,
      AngleDownIcon,
      AngleUpIcon,
      ArrowDownTriangleIcon,
@@ -165,5 +167,5 @@ export {
      XCircleFillIcon,
      XCircleOutlineIcon,
      XOutlineIcon,
-     SendIcon
+     SendIcon,
 };

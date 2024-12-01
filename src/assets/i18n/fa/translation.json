@@ -28,7 +28,15 @@
           "deleteCustomerGroupSuccessful": "گروه مشتری موردنظر با موفقیت حذف شد.",
           "deleteCustomerGroupError": "حذف گروه مشتری با خطا مواجه شد.",
           "deleteCustomerFromGroupSuccessful": "مشتری موردنظر با موفقیت از گروه حذف شد.",
-          "deleteCustomerFromGroupError": "حذف مشتری از گروه موردنظر با خطا مواجه شد."
+          "deleteCustomerFromGroupError": "حذف مشتری از گروه موردنظر با خطا مواجه شد.",
+          "createNewBasketSuccessFull": "دسته سفارش جدید با موفقیت ایجاد شد.",
+          "createNewBasketError": "ایجاد دسته سفارش جدید با خطا مواجه شد.",
+          "deleteBasketSuccessFull": "حذف دسته سفارش موردنظر با موفقیت انجام شد.",
+          "deleteBasketError": "حذف دسته سفارش مورد نظر با خظا مواجه شد.",
+          "editBasketOrderSuccessful": "نام دسته سفارش موردنظر با موفقیت تغییر کرد.",
+          "editBasketOrderError": "تغییر دسته سفارش موردنظر با خطا مواجه شد.",
+          "deleteOrderToBasketOrderSuccessful": "سفارش موردنظر از سبد سفارش با موفقیت حذف شد.",
+          "deleteOrderToBasketOrderError": "حذف سفارش موردنظر از سبد سفارش با خطا مواجه شد."
      },
 
      "dates": {
@@ -596,5 +604,52 @@
           "positionsBlockTypePosition": "موقعیت",
           "positionsChangeGuaranteeActionTooltip": "تغییر روش تضمین",
           "positionsClosePositionActionTooltip": "بستن موقعیت"
+     },
+
+     "basketOrder": {
+          "customerNameCol": "مشتری",
+          "symbolTitleCol": "نماد",
+          "sideCol": "سمت",
+          "priceCol": "قیمت",
+          "lastPriceCol": "آخرین قیمت",
+          "percentCol": "درصد",
+          "quantityCol": "تعداد",
+          "actionCol": "عملیات",
+          "title": "دسته سفارش",
+          "AddNewOrderToBasketBtn": "افزودن سفارش جدید به سبد"
+     },
+
+
+     "manageBasketOrderModal": {
+          "title": "مدیریت دسته سفارش",
+          "basketOrderNameCol": "نام دسته سفارش",
+          "sendTimeCol": "زمان ارسال",
+          "actionCol": "عملیات",
+          "addBasketOrderBtn": "افزودن دسته سفارش"
+     },
+
+     "createNewBasketModal": {
+          "title": "ایجاد دسته سفارش",
+          "basketNameInputLabel": "نام دسته سفارش خود را وارد کنید",
+          "createBasketBtn": "ایجاد دسته سفارش"
+     },
+
+     "editBasketOrderModal": {
+          "title": "ویرایش <span>{{name}}</span",
+          "editBasketOrderNameHelper": "برای دسته سفارش خود یک عنوان انتخاب نمایید.",
+          "basketOrderNameLabel": "عنوان دسته سفارش",
+          "saveChangeBtn": "ثبت تغییرات"
+     },
+
+     "addOrderToBasketOrderModal": {
+          "title": "افزودن سفارش به دسته سفارش",
+          "createNewBasketOrderBtn": "افزودن دسته سفارش"
+     },
+
+     "confirmDeleteBasketOrderModal": {
+          "title": "حذف <span>{{name}}</span>",
+          "confirmDeleteBasketOrderQuestion": "آیا از حذف سبد <span>{{name}}</span> اطمینان دارید؟",
+          "cancelBtn": "انصراف",
+          "deleteBtn": "حذف"
      }
 }

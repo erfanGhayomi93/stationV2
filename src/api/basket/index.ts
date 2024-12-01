@@ -1,7 +1,7 @@
 import AXIOS from '@config/axios';
 import { createQueryKeyByParams } from '@methods/helper';
 import { routeApi } from '@router/routeApi';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useQueryCartList = () => {
      const url = routeApi().Baskets.cartList;
@@ -13,15 +13,15 @@ export const useQueryCartList = () => {
                return response.data.result;
           },
           select(data) {
-             return data.map(item => {
-               if(item.sendDate === "0001-01-01T00:00:00"){
-                    return {
-                         ...item , 
-                         sendDate : null
+               return data.map(item => {
+                    if (item.sendDate === '0001-01-01T00:00:00') {
+                         return {
+                              ...item,
+                              sendDate: null,
+                         };
                     }
-               }
-               return item;
-             })
+                    return item;
+               });
           },
      });
 };
@@ -36,5 +36,52 @@ export const useQueryDetailsCart = (params: IDetailsCartReq) => {
                return response.data;
           },
           enabled: !!params.CartId,
+     });
+};
+
+export const useCreateCart = () => {
+     const url = routeApi().Baskets.createCart;
+
+     return useMutation({
+          mutationFn: async (params: ICreateCartReq) => {
+               const response = await AXIOS.post(url, null, { params });
+
+               return response.data;
+          },
+     });
+};
+
+export const useDeleteCart = () => {
+     const url = routeApi().Baskets.deleteCart;
+
+     return useMutation({
+          mutationFn: async (params: IDeleteCartReq) => {
+               const response = await AXIOS.post(url, null, { params });
+
+               return response.data;
+          },
+     });
+};
+
+export const useEditCart = () => {
+     const url = routeApi().Baskets.editCart;
+     return useMutation({
+          mutationFn: async (params: IEditCartReq) => {
+               const response = await AXIOS.post(url, null, { params });
+
+               return response.data;
+          },
+     });
+};
+
+export const useDeleteDetails = () => {
+     const url = routeApi().Baskets.deleteDetails;
+
+     return useMutation({
+          mutationFn: async (params: IDeleteDetailsCartRes) => {
+               const response = await AXIOS.post(url, null, { params });
+
+               return response.data;
+          },
      });
 };

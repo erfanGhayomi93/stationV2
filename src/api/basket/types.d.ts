@@ -48,3 +48,22 @@ interface IDetailsCartRes {
      lastTradedPriceVarPercent: number;
      customers: ICustomers[];
 }
+
+interface ICreateCartReq {
+     name: string;
+}
+
+interface IDeleteCartReq {
+     id: number;
+}
+
+interface IEditCartReq {
+     name: string;
+     sendDate: string;
+     id: number;
+     isPinned: boolean;
+}
+
+interface IDeleteDetailsCartRes {
+     cartDetailId: number;
+}
