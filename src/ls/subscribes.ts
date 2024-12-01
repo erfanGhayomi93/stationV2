@@ -140,3 +140,26 @@ export const subscriptPosition = <T>({
           },
      });
 };
+
+export const subscribeOrderInPrice = <T>({
+     id,
+     items,
+     onItemUpdate,
+}: {
+     id: string;
+     items: string[];
+     onItemUpdate: (updatedFields: UpdatedFieldsType<T>) => void;
+}) => {
+     pushEngine.subscribe({
+          id,
+          adapterName: 'RamandRLCDData',
+          items,
+          fields: ['orderPlaceInPrice', 'orderVolumeInPrice'],
+          isSnapShot: 'no',
+          mode: 'MERGE',
+          onFieldsUpdate: updatedField => {
+               console.log({ updatedField });
+               onItemUpdate(updatedField as UpdatedFieldsType<T>);
+          },
+     });
+};
