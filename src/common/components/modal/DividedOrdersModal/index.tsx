@@ -5,7 +5,7 @@ import useBuySellStore from 'common/widget/buySellWidget/context/buySellContext'
 import clsx from 'clsx'
 import { useSymbolStore } from '@store/symbol'
 import { handleValidity, sepNumbers, uid } from '@methods/helper'
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react'
 import { ColDef } from '@ag-grid-community/core'
 import AgGrid from '@components/Table/AgGrid'
 import { useCustomerStore } from '@store/customer'
@@ -16,6 +16,36 @@ import FieldInputNumber from '@uiKit/Inputs/FieldInputNumber'
 import ipcMain from 'common/classes/IpcMain'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Tippy from '@tippyjs/react'
+import { CustomCellRendererProps } from '@ag-grid-community/react';
+import { DeleteOutlineIcon, SendIcon } from '@assets/icons';
+
+interface IActionRendererParamsProps extends CustomCellRendererProps<IDividedOrderRow> {
+    onDeleteOrder: (data: IDividedOrderRow | undefined) => void;
+    onSendOrder: (data: IDividedOrderRow | undefined) => void;
+}
+
+const ActionRenderer = ({ data, onDeleteOrder, onSendOrder }: IActionRendererParamsProps) => {
+
+    return (
+        <div className="flex h-full items-center justify-center gap-4 text-icon-default">
+            <button
+                className="disabled:opacity-60"
+                onClick={() => onSendOrder(data)}
+                disabled={data?.status}
+            >
+                <SendIcon />
+            </button>
+            <button
+                className="disabled:opacity-60"
+                onClick={() => onDeleteOrder(data)}
+                disabled={data?.status}
+            >
+                <DeleteOutlineIcon />
+            </button>
+        </div>
+    );
+};
+
 
 
 const DividedOrdersModal: FC = () => {
@@ -32,12 +62,9 @@ const DividedOrdersModal: FC = () => {
 
     const queryClient = useQueryClient()
 
-    // const [divideData, setDivideData] = useState<IDividedOrderRow[]>()
-
     const { data: divideData } = useQuery<IDividedOrderRow[]>({
         queryKey: ['divideOrderCache']
     })
-
 
     const { data: symbolData } = useQuerySymbolGeneralInformation<ISymbolData>(
         selectedSymbol,
@@ -64,7 +91,36 @@ const DividedOrdersModal: FC = () => {
         })
 
         queryClient.setQueryData(['divideOrderCache'], () => divideDataSnapshot)
+    }
 
+    const onSendOrder = (data: IDividedOrderRow) => {
+        if (data) {
+            const order: ICreateOrderReq =
+            {
+                id: data.id,
+                customerISIN: [data.customerISIN],
+                customerTitle: [data.customerTitle],
+                CustomerTagId: [],
+                GTTraderGroupId: [],
+                orderSide: side,
+                orderDraftId: undefined,
+                orderStrategy: strategy,
+                orderType: 'LimitOrder',
+                percent: 0,
+                price: data.price,
+                quantity: data.quantity,
+                symbolISIN: selectedSymbol,
+                validity: handleValidity(validity),
+                validityDate: validityDate
+            }
+            
+            sendOrders([order])
+        }
+
+    }
+
+    const onDeleteOrder = (data: IDividedOrderRow) => {
+        setQuantity(quantity - data.quantity)
     }
 
 
@@ -93,7 +149,7 @@ const DividedOrdersModal: FC = () => {
                     if (data?.status === 'Error') {
                         const dataVal = data?.errorMessageType ? data?.errorMessageType : t(`order_errors.${data?.orderMessageType as errorStatus}`)
                         return (
-                            <Tippy content={dataVal}>
+                            <Tippy className='rtl' content={dataVal}>
                                 <span>{dataVal}</span>
                             </Tippy>
                         );
@@ -104,11 +160,21 @@ const DividedOrdersModal: FC = () => {
                 cellClassRules: {
                     'text-content-warning': ({ value }) => !['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'InOMSQueue'].includes(value),
                     'text-content-success-buy': ({ value }) => value === 'OrderDone',
-                    'text-content-error-cell': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
+                    'text-content-error-sell': ({ value }) => ['Canceled', 'DeleteByEngine', 'Error'].includes(value),
                 },
             },
+            {
+                headerName: 'عملیات',
+                field: 'id',
+                cellRenderer: ActionRenderer,
+                cellRendererParams: {
+                    onSendOrder,
+                    onDeleteOrder
+                }
+
+            }
         ],
-        []
+        [quantity]
     );
 
     const handleDivideOrders = useCallback((quantity: number, price: number, selectedCustomers: ICustomerAdvancedSearchRes[]): IDividedOrderRow[] | undefined => {
@@ -168,36 +234,32 @@ const DividedOrdersModal: FC = () => {
 
     const onSendAll = () => {
         if (divideData) {
-            const orders: ICreateOrderReq[] = divideData.map(({ customerISIN, id, price, quantity, customerTitle }) => ({
-                id: id,
-                customerISIN: [customerISIN],
-                customerTitle: [customerTitle],
-                CustomerTagId: [],
-                GTTraderGroupId: [],
-                orderSide: side,
-                orderDraftId: undefined,
-                orderStrategy: strategy,
-                orderType: 'LimitOrder',
-                percent: 0,
-                price,
-                quantity,
-                symbolISIN: selectedSymbol,
-                validity: handleValidity(validity),
-                validityDate: validityDate,
-            }));
+            const orders: ICreateOrderReq[] = divideData
+                .filter(item => !item.status)
+                .map(({ customerISIN, id, price, quantity, customerTitle }) => ({
+                    id: id,
+                    customerISIN: [customerISIN],
+                    customerTitle: [customerTitle],
+                    CustomerTagId: [],
+                    GTTraderGroupId: [],
+                    orderSide: side,
+                    orderDraftId: undefined,
+                    orderStrategy: strategy,
+                    orderType: 'LimitOrder',
+                    percent: 0,
+                    price,
+                    quantity,
+                    symbolISIN: selectedSymbol,
+                    validity: handleValidity(validity),
+                    validityDate: validityDate,
+                }));
 
             sendOrders(orders)
 
             const updatedDividedOrder = divideData.map(item => ({ ...item, status: 'InOMSQueue' }))
 
             queryClient.setQueryData(['divideOrderCache'], () => updatedDividedOrder)
-
-            // const timer = setTimeout(() => {
-            //     setDividedOrdersModal(false);
-            //     clearTimeout(timer);
-            // }, 500);
         }
-
     }
 
     const isBetweenUpDownTick = useMemo(() => {

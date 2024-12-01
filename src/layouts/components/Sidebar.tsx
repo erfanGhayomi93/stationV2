@@ -52,7 +52,6 @@ const Sidebar = () => {
                     icon: <BasketIcon />,
                     title: t('sidebar.portfolioTrader'),
                     path: routerPagePath.basket,
-                    disable: window.REACT_APP_ENV !== 'development',
                },
                {
                     id: 'requests',
@@ -65,7 +64,6 @@ const Sidebar = () => {
                     icon: <CommunityIcon />,
                     title: t('sidebar.manageCustomer'),
                     path: routerPagePath.customersManage,
-                    disable: window.REACT_APP_ENV !== 'development',
                },
                {
                     id: 'reports',

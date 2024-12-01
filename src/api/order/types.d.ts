@@ -72,7 +72,7 @@ interface IOpenOrder {
      orderAction: TAction | 0;
      orderMinimumQuantity: number;
      orderDateTime: string;
-     hostOrderNumber: null | string;
+     hostOrderNumber: string;
      expectedRemainingQuantity: number;
      sumExecuted: number;
      symbolTitle: string;
