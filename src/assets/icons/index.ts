@@ -84,6 +84,7 @@ import SendIcon from '../svg/send.svg?react';
 import RocketIcon from '../svg/rocket.svg?react';
 
 export {
+     RocketIcon,
      AngleDownIcon,
      AngleUpIcon,
      ArrowDownTriangleIcon,
