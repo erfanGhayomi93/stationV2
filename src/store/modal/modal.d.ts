@@ -30,6 +30,18 @@ type TPortfolioCustomerModal = {
      customer: ICustomerAdvancedSearchRes;
 };
 
+type TEditBasketOrderModal = {
+     basket: ICartListRes;
+};
+
+type TAddOrderToBasketModal = {
+     orders: IDetailsCartRes[];
+};
+
+type TConfirmDeleteBasketOrderModal = {
+     basket: ICartListRes;
+};
+
 interface IModalStore {
      editOrdersGroupModalSheet: TEditOrdersGroupModalSheet | null;
      setEditOrdersGroupModalSheet: (state: TEditOrdersGroupModalSheet | null) => void;
@@ -72,4 +84,19 @@ interface IModalStore {
 
      portfolioCustomerModal: TPortfolioCustomerModal | null;
      setPortfolioCustomerModal: (state: TPortfolioCustomerModal | null) => void;
+
+     manageBasketOrderModal: boolean;
+     setManageBasketOrderModal: (state: boolean) => void;
+
+     createNewBasketModal: boolean;
+     setCreateNewBasketModal: (state: boolean) => void;
+
+     editBasketOrderModal: TEditBasketOrderModal | null;
+     setEditBasketOrderModal: (state: TEditBasketOrderModal | null) => void;
+
+     addOrderToBasketModal: TAddOrderToBasketModal | null;
+     setAddOrderToBasketModal: (state: TAddOrderToBasketModal | null) => void;
+
+     confirmDeleteBasketOrderModal: TConfirmDeleteBasketOrderModal | null;
+     setConfirmDeleteBasketOrderModal: (state: TConfirmDeleteBasketOrderModal | null) => void;
 }

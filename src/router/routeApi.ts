@@ -97,6 +97,10 @@ export const routeApi = () => {
           Baskets: {
                cartList: baseUrl + '/Cart/v1/CartList',
                CartDetailList: baseUrl + '/Cart/v1/CartDetailList',
+               createCart: baseUrl + '/Cart/v1/CreateCart',
+               deleteCart: baseUrl + '/Cart/v1/DeleteCart',
+               editCart: baseUrl + '/Cart/v1/EditCart',
+               deleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
           },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',

@@ -14,6 +14,11 @@ import EditCustomerGroupModal from './ManageCustomersGroupsModal/EditCustomerGro
 import PercentQuantityOrderModal from './PercentQuantityOrderModal';
 import PortfolioCustomerModal from './PortfolioCustomerModal';
 import DividedOrdersModal from './DividedOrdersModal';
+import ManageBasketOrderModal from '@components/modal/ManageBasketOrderModal';
+import CreateNewBasketModal from 'common/components/modal/ManageBasketOrderModal/CreateNewBasketModal';
+import EditBasketOrderModal from '@components/modal/ManageBasketOrderModal/EditBasketOrderModal';
+import AddOrderToBasketOrderModal from '@components/modal/AddOrderToBasketOrderModal';
+import ConfirmDeleteBasketOrderModal from '@components/modal/ManageBasketOrderModal/ConfirmDeleteBasketOrderModal';
 
 const Modals = () => {
      const {
@@ -30,7 +35,12 @@ const Modals = () => {
           editCustomerGroupModal,
           deleteCustomerGroupModal,
           portfolioCustomerModal,
-          dividedOrdersModal
+          dividedOrdersModal,
+          manageBasketOrderModal,
+          createNewBasketModal,
+          editBasketOrderModal,
+          addOrderToBasketModal,
+          confirmDeleteBasketOrderModal,
      } = useModalStore();
 
      if (isObjectNotNull(editOrdersGroupModalSheet)) return <EditOrdersGroupModal />;
@@ -47,6 +57,11 @@ const Modals = () => {
      if (manageCustomerGroupModal) return <ManageCustomersGroupsModal />;
      if (isObjectNotNull(portfolioCustomerModal)) return <PortfolioCustomerModal />;
      if (dividedOrdersModal) return <DividedOrdersModal />;
+     if (createNewBasketModal) return <CreateNewBasketModal />;
+     if (isObjectNotNull(editBasketOrderModal)) return <EditBasketOrderModal />;
+     if (isObjectNotNull(confirmDeleteBasketOrderModal)) return <ConfirmDeleteBasketOrderModal />;
+     if (manageBasketOrderModal) return <ManageBasketOrderModal />;
+     if (isObjectNotNull(addOrderToBasketModal)) return <AddOrderToBasketOrderModal />;
      else return null;
 };
 
