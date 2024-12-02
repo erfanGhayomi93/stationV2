@@ -58,6 +58,7 @@ const CreateNewWatchlistModal = () => {
                               onChange={value => {
                                    setWatchlistName(value);
                               }}
+                              autoFocus={true}
                          />
                     </div>
 

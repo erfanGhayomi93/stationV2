@@ -40,7 +40,7 @@ const FinancialStatus = () => {
                {
                     id: 'margin',
                     name: t('customersManage.financialStatusMargin'),
-                    value: sepNumbers(data?.marginValue),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.marginValue),
                     unit: 'rial',
                },
                {

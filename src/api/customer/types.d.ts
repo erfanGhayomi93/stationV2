@@ -82,10 +82,9 @@ interface ICustomerFinancialReq {
 
 interface ICustomerFinancialRes {
      bourseCode: string;
-     credit: number;
-     creditDebt: number;
      customerISIN: string;
      customerRemainAndOptionRemainDto: {
+          marginValue: number;
           blockedValue: number;
           credit: number;
           creditOption: number;
@@ -110,38 +109,13 @@ interface ICustomerFinancialRes {
           stockBlockValue: number;
           stockDailyCredit: number;
      };
-     blockedValue: number;
-     credit: number;
-     creditOption: number;
-     customerISIN: string;
-     optionBlockValue: number;
-     optionDailyCredit: number;
-     optionRemainT0: number;
-     optionRemainT1: number;
-     optionRemainT2: number;
-     optionRemainT3: number;
-     paymentBlockValue: number;
-     purchaseOptionPower: number;
-     purchasePower: number;
-     purchasePowerT1: number;
-     purchasePowerT2: number;
-     remain: number;
-     remainT0: number;
-     remainT1: number;
-     remainT2: number;
-     remainT3: number;
-     settlementBlock: number;
-     stockBlockValue: number;
-     stockDailyCredit: number;
+
      customerTitle: string;
-     marginValue: string;
      nationalCode: string;
-     orderBlockValue: string;
-     paymentRequestBlockValue: string;
+     orderBlockValue: number;
+     paymentRequestBlockValue: number;
      saveDate: string;
      status: 'Normal' | 'CallMargin' | 'AtRisk';
-     t1: string;
-     t2: string;
 }
 
 interface ICustomerContractsReq {
