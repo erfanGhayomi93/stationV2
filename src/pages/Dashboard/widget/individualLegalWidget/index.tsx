@@ -1,24 +1,15 @@
 import { useQuerySymbolGeneralInformation } from '@api/Symbol';
 import ProgressBar from '@components/progressBar';
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
 
-interface IIndividualLegalWidgetProps {
-     // lastTradeDateTime: number
-     // TotalNumberOfTrades: number
-     // totalNumberOfSharesTraded: number
-     // baseVolume: number
-     // pe: number
-     // floatFree: number
-}
-
-const IndividualLegalWidget: FC<IIndividualLegalWidgetProps> = () => {
+const IndividualLegalWidget = () => {
      const { t } = useTranslation();
 
      const selectedSymbol = useSymbolStore(state => state.selectedSymbol);
 
-     const { data: detailsSymbol } = useQuerySymbolGeneralInformation<any>(selectedSymbol, data => ({
+     const { data: detailsSymbol } = useQuerySymbolGeneralInformation(selectedSymbol, data => ({
           individualBuyVolume: data.individualLegal.individualBuyVolume,
           individualSellVolume: data.individualLegal.individualSellVolume,
           legalBuyVolume: data.individualLegal.legalBuyVolume,

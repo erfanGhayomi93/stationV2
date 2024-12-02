@@ -42,11 +42,11 @@ export const toFixed = (v: number, l = 3, round = true) => {
 };
 
 export const zeroPad = (num: string, length = 2): string => {
-	while (num.length < length) {
-		num = `0${num}`;
-	}
+     while (num.length < length) {
+          num = `0${num}`;
+     }
 
-	return num;
+     return num;
 };
 
 export const numFormatter = (num: number, formatNavigateNumber = true, isScale = true) => {
@@ -77,7 +77,8 @@ export const numFormatter = (num: number, formatNavigateNumber = true, isScale =
           }
 
           return `\u200e${formattedNum}`;
-     } catch (e) {
+     } catch (error) {
+          console.error(error);
           return '−';
      }
 };
@@ -104,7 +105,8 @@ export const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', numb
           const headerHeight = 32;
 
           return { rowHeight, headerHeight };
-     } catch (e) {
+     } catch (error) {
+          console.error(error);
           return { rowHeight: 40, headerHeight: 32 };
      }
 };
@@ -172,7 +174,7 @@ export const getTSELink = (insCode?: string | number): string => {
 // temporary add use in login page
 export const base64 = {
      _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-     encode: function (e: any) {
+     encode: function (e: string) {
           let t = '';
           let n, r, i, s, o, u, a;
           let f = 0;
@@ -194,7 +196,7 @@ export const base64 = {
           }
           return t;
      },
-     decode: function (e: any) {
+     decode: function (e: string) {
           let t = '';
           let n, r, i;
           let s, o, u, a;
@@ -220,7 +222,7 @@ export const base64 = {
           t = base64._utf8_decode(t);
           return t;
      },
-     _utf8_encode: function (e: any) {
+     _utf8_encode: function (e: string) {
           e = e.replace(/\r\n/g, '\n');
           let t = '';
           for (let n = 0; n < e.length; n++) {
@@ -238,7 +240,7 @@ export const base64 = {
           }
           return t;
      },
-     _utf8_decode: function (e: any) {
+     _utf8_decode: function (e: string) {
           let t = '';
           let n = 0;
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -296,7 +298,7 @@ export const generateSourceOrder = (source: string, side: TSide) => {
 export const createQueryKeyByParams = <T>(params: T) => {
      return Object.entries(params as Record<string, unknown>)
           .filter(
-               ([_, value]) =>
+               ([, value]) =>
                     value !== undefined &&
                     value !== null &&
                     (typeof value === 'number' ||
@@ -306,15 +308,14 @@ export const createQueryKeyByParams = <T>(params: T) => {
           .map(([key, value]) => ({ [key]: value }));
 };
 
-export const cleanObjectOfFalsyValues = (object: { [key: string]: any }) => {
-     const obj: { [key: string]: any } = {};
+export const cleanObjectOfFalsyValues = <T extends Record<string, any>>(object: T): Partial<T> => {
+     const result: Partial<T> = {};
      for (const [key, value] of Object.entries(object)) {
           if (value) {
-               obj[key] = value;
+               result[key as keyof T] = value as T[keyof T]; // Ensure type alignment
           }
      }
-
-     return obj;
+     return result;
 };
 
 export const dayAsJalali = (v: dayjs.ConfigType) => {

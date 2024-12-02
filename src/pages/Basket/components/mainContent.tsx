@@ -11,10 +11,17 @@ interface IMainContentProps {
      data?: IDetailsCartRes[];
 }
 
-export const valueFormatterCustomerTitle = (data: any) => {
-     const customerTitle = data.value.map((item: any) => item.customerTitle);
+interface Customer {
+     customerTitle: string;
+}
 
-     return String(customerTitle);
+interface Data {
+     value: Customer[];
+}
+
+export const valueFormatterCustomerTitle = (data: Data): string => {
+     const customerTitles = data.value.map(item => item.customerTitle);
+     return customerTitles.join(', ');
 };
 
 const MainContent: FC<IMainContentProps> = ({ data }) => {
@@ -24,6 +31,7 @@ const MainContent: FC<IMainContentProps> = ({ data }) => {
 
      const { mutate } = useDeleteDetails();
 
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const onSendOrder = (data: IDetailsCartRes) => {
           //
      };
@@ -45,6 +53,7 @@ const MainContent: FC<IMainContentProps> = ({ data }) => {
           );
      };
 
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const onEditOrder = (data: IDetailsCartRes) => {
           //
      };

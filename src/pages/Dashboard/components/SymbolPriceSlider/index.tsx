@@ -59,8 +59,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                }
 
                return num;
-          } catch (e) {
-               //
+          } catch (error) {
+               console.error(error);
           }
 
           return num;
@@ -89,8 +89,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                if (!tooltipElement) return;
 
                tooltipElement.style.opacity = '1';
-          } catch (e) {
-               //
+          } catch (error) {
+               console.error(error);
           }
      };
 
@@ -135,8 +135,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                     spanChild2.classList.remove('text-L-error-200');
                     spanChild2.classList.add('text-L-success-200');
                }
-          } catch (e) {
-               //
+          } catch (error) {
+               console.error(error);
           }
      };
 
@@ -146,8 +146,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                if (!tooltipElement) return;
 
                tooltipElement.style.opacity = '0';
-          } catch (e) {
-               //
+          } catch (error) {
+               console.error(error);
           }
      };
 
@@ -242,8 +242,8 @@ const SymbolPriceSlider = ({ thresholdData, boundaryData, exchangeData, yesterda
                     1;
 
                setConfig(instanceOfConfig);
-          } catch (e) {
-               //
+          } catch (error) {
+               console.log(error);
           }
      };
 

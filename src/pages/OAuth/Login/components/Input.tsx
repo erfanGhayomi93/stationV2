@@ -13,10 +13,7 @@ interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'place
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
-     (
-          { disabled, addonAfter, addonBefore, containerClassName, inputClassName, icon, label, textError, placeholder, ...rest },
-          ref
-     ) => {
+     ({ disabled, addonAfter, addonBefore, containerClassName, inputClassName, icon, textError, placeholder, ...rest }, ref) => {
           //
           return (
                <div className="group relative">

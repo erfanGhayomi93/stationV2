@@ -1,7 +1,5 @@
-import { queryClient } from '../config/reactQuery';
-
 export const routeApi = () => {
-     const data: IGetSettingsRes[] | undefined = queryClient.getQueryData(['GetSettings']);
+     // const data: IGetSettingsRes[] | undefined = queryClient.getQueryData(['GetSettings']);
 
      // const oAuthApi = window.REACT_APP_OAUTH_PATH
 

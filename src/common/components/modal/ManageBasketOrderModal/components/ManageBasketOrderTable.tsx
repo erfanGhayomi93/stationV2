@@ -4,9 +4,6 @@ import { ColDef } from '@ag-grid-community/core';
 import { useTranslation } from 'react-i18next';
 import { dateFormatter } from '@methods/helper.ts';
 import ActionRenderer from './ActionRenderer.tsx';
-import { useDeleteCart } from '@api/basket';
-import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import { useModalStore } from '@store/modal';
 
 interface IManageBasketOrderModalProps {
@@ -16,10 +13,6 @@ interface IManageBasketOrderModalProps {
 
 const ManageBasketOrderModal = ({ data, loading }: IManageBasketOrderModalProps) => {
      const { t } = useTranslation();
-
-     const queryClient = useQueryClient();
-
-     const { mutate } = useDeleteCart();
 
      const { setEditBasketOrderModal, setConfirmDeleteBasketOrderModal } = useModalStore();
 

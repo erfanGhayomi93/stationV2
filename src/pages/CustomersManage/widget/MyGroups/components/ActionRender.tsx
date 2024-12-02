@@ -52,7 +52,7 @@ const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups, onDe
                          x: -20,
                     }}
                     defaultPopupWidth={204}
-                    renderer={({ setOpen }) => (
+                    renderer={() => (
                          <ul className="rtl flex flex-col gap-2 rounded-md bg-back-surface p-4 shadow-E5">
                               {MORE_ACTION_ITEMS.map(({ id, icon, label, onClick }) => (
                                    <li

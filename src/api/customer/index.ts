@@ -33,6 +33,7 @@ export const useQueryDefaultCustomer = () => {
      });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useQueryCustomerSearchGroup = (term: string, customerType?: TCustomerType) => {
      const url = routeApi().Customer.GroupAdvancedSearch;
 
