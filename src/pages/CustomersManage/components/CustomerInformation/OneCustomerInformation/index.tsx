@@ -45,10 +45,10 @@ const OneCustomerInformation = () => {
           <div className="flex max-h-full flex-1 flex-col gap-y-4 overflow-hidden pt-4">
                <div className="flex items-center justify-between px-20">
                     <span className="text-base font-bold text-content-title">{customers[0]?.title}</span>
-                    <div className="flex items-center gap-2 rounded-[20px] border border-button-primary-selected bg-button-primary-bg-selected px-6 py-1 text-button-primary-selected">
-                         <CrownIcon />
-                         <span>ویژه</span>
-                    </div>
+                    {/*<div className="flex items-center gap-2 rounded-[20px] border border-button-primary-selected bg-button-primary-bg-selected px-6 py-1 text-button-primary-selected">*/}
+                    {/*     <CrownIcon />*/}
+                    {/*     <span>ویژه</span>*/}
+                    {/*</div>*/}
                </div>
 
                <div className="px-20">

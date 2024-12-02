@@ -38,7 +38,11 @@ const MyGroups = () => {
                          if (customerType === 'Natural') return item.customerType === 'Natural';
                     });
 
-                    return { ...child, children: filteredChildren };
+                    if (customerType === 'All') {
+                         return { ...child, children: filteredChildren };
+                    } else {
+                         return filteredChildren.length > 0 ? { ...child, children: filteredChildren } : null;
+                    }
                })
                .filter(Boolean);
      }, [rowData, customerType]);
