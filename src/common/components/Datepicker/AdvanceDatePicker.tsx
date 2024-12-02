@@ -1,12 +1,11 @@
 import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineIcon } from '@assets/icons';
-import { getDateMilliseconds, weekDaysName, yearMonthsName } from '@constant/date';
+import { weekDaysName, yearMonthsName } from '@constant/date';
 import dayjs from '@libs/dayjs';
-import { dayAsJalali, isBefore, isBetween, isSameOrAfter, isSameOrBefore } from '@methods/helper';
+import { dayAsJalali, isBefore, isSameOrAfter, isSameOrBefore } from '@methods/helper';
 import clsx from 'clsx';
 import { Dispatch, forwardRef, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useTranslation } from 'react-i18next';
 import styles from './AdvanceDatePicker.module.scss';
 
 type DateValue = null | string | number | Date;
@@ -68,9 +67,7 @@ interface AdvancedDatepickerProps {
 const AdvancedDatepicker = ({
      classes,
      value,
-     clearable,
      placement = 'bottom',
-     placeholder,
      dateIsDisabled,
      disabledIsBefore,
      disabledIsSameOrBefore,
@@ -88,7 +85,7 @@ const AdvancedDatepicker = ({
      const inputRef = useRef<HTMLInputElement>(null);
      const datepickerRef = useRef<HTMLDivElement | undefined>(undefined);
 
-     const [focusing, setFocusing] = useState(false);
+     const [focusing] = useState(false);
 
      const [visibleCalendar, setVisibleCalendar] = useState(false);
 
@@ -97,43 +94,43 @@ const AdvancedDatepicker = ({
           return dayjs(d).calendar('jalali').format('YYYY / MM / DD');
      }, [value]);
 
-     const [inputValue, setInputValue] = useState(valueAsJalali);
+     const [, setInputValue] = useState(valueAsJalali);
 
-     const onClickDocument = (e: MouseEvent) => {
-          const rootEl = rootRef.current;
-          const datepickerEl = datepickerRef.current;
-          if (!rootEl || !datepickerEl) {
-               setVisibleCalendar(false);
-               document.removeEventListener('mousedown', onClickDocument);
-               return;
-          }
+     // const onClickDocument = (e: MouseEvent) => {
+     //      const rootEl = rootRef.current;
+     //      const datepickerEl = datepickerRef.current;
+     //      if (!rootEl || !datepickerEl) {
+     //           setVisibleCalendar(false);
+     //           document.removeEventListener('mousedown', onClickDocument);
+     //           return;
+     //      }
+     //
+     //      const target: Node = (e.target || e.currentTarget) as Node;
+     //      if (target && !datepickerEl.contains(target) && !rootEl.contains(target)) {
+     //           setVisibleCalendar(false);
+     //           document.removeEventListener('mousedown', onClickDocument);
+     //      }
+     // };
 
-          const target: Node = (e.target || e.currentTarget) as Node;
-          if (target && !datepickerEl.contains(target) && !rootEl.contains(target)) {
-               setVisibleCalendar(false);
-               document.removeEventListener('mousedown', onClickDocument);
-          }
-     };
+     // const onClickIcon = () => {
+     //      const inputElement = inputRef.current;
+     //      if (!inputElement) return;
+     //
+     //      setInputValue('');
+     //      inputElement.focus();
+     //
+     //      openCalendar();
+     // };
 
-     const onClickIcon = () => {
-          const inputElement = inputRef.current;
-          if (!inputElement) return;
-
-          setInputValue('');
-          inputElement.focus();
-
-          openCalendar();
-     };
-
-     const isValidYear = (value: Date) => {
-          const d = dayAsJalali(value).calendar('jalali');
-          if (!d.isValid()) return;
-
-          const nYear = value.getFullYear();
-          const currentYear = new Date().getFullYear();
-
-          return isBetween(currentYear - 100, nYear, currentYear + 100);
-     };
+     // const isValidYear = (value: Date) => {
+     //      const d = dayAsJalali(value).calendar('jalali');
+     //      if (!d.isValid()) return;
+     //
+     //      const nYear = value.getFullYear();
+     //      const currentYear = new Date().getFullYear();
+     //
+     //      return isBetween(currentYear - 100, nYear, currentYear + 100);
+     // };
 
      const isDisabledDate = (d: Date): boolean => {
           if (dateIsDisabled) return dateIsDisabled(d);
@@ -145,97 +142,97 @@ const AdvancedDatepicker = ({
           return false;
      };
 
-     const onBlurInput = (value: string, blurInput = true) => {
-          if (blurInput) setFocusing(false);
+     // const onBlurInput = (value: string, blurInput = true) => {
+     //      if (blurInput) setFocusing(false);
+     //
+     //      value = value.replace(/\s/g, '');
+     //
+     //      const d = dayAsJalali(value).calendar('jalali');
+     //      if (!d.isValid()) return;
+     //
+     //      const asDate = d.toDate();
+     //
+     //      if (isValidYear(asDate) === false) return;
+     //
+     //      if (!isDisabledDate(asDate)) onChange(asDate);
+     // };
 
-          value = value.replace(/\s/g, '');
+     // const openCalendar = () => {
+     //      setVisibleCalendar(true);
+     //      setFocusing(true);
+     //      document.addEventListener('mousedown', onClickDocument);
+     // };
 
-          const d = dayAsJalali(value).calendar('jalali');
-          if (!d.isValid()) return;
+     // const onKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+     //      try {
+     //           const { key } = e;
+     //
+     //           if (['Enter', 'ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(key)) {
+     //                e.preventDefault();
+     //                e.stopPropagation();
+     //           }
+     //
+     //           if (key === 'Enter') {
+     //                onBlurInput(inputValue, true);
+     //                return setVisibleCalendar(false);
+     //           }
+     //
+     //           if (key === 'Tab') return setVisibleCalendar(false);
+     //
+     //           if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'ArrowRight' || key === 'ArrowLeft') {
+     //                const { Week: weekAsTimestamp, Day: dayAsTimestamp } = getDateMilliseconds;
+     //                const timestamps = {
+     //                     ArrowDown: weekAsTimestamp,
+     //                     ArrowUp: -1 * weekAsTimestamp,
+     //                     ArrowRight: -1 * dayAsTimestamp,
+     //                     ArrowLeft: dayAsTimestamp,
+     //                };
+     //
+     //                if (value === null) return;
+     //
+     //                const valueAsTimestamp = typeof value === 'number' ? value : new Date(value).getTime();
+     //                const nextDate = new Date(valueAsTimestamp + timestamps[key]);
+     //
+     //                if (isDisabledDate(nextDate) || isValidYear(nextDate) === false) return;
+     //
+     //                onChange(nextDate);
+     //           }
+     //      } catch (e) {
+     //           //
+     //      }
+     // };
 
-          const asDate = d.toDate();
+     // const checkDateValue = (str: string, max: number) => {
+     //      if (str.charAt(0) !== '0' || str === '00') {
+     //           let num = Number(str);
+     //           if (isNaN(num) || num <= 0 || num > max) num = 1;
+     //
+     //           str = num > Number(max.toString().charAt(0)) && num.toString().length === 1 ? `0${num}` : num.toString();
+     //      }
+     //
+     //      return str;
+     // };
 
-          if (isValidYear(asDate) === false) return;
-
-          if (!isDisabledDate(asDate)) onChange(asDate);
-     };
-
-     const openCalendar = () => {
-          setVisibleCalendar(true);
-          setFocusing(true);
-          document.addEventListener('mousedown', onClickDocument);
-     };
-
-     const onKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-          try {
-               const { key } = e;
-
-               if (['Enter', 'ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(key)) {
-                    e.preventDefault();
-                    e.stopPropagation();
-               }
-
-               if (key === 'Enter') {
-                    onBlurInput(inputValue, true);
-                    return setVisibleCalendar(false);
-               }
-
-               if (key === 'Tab') return setVisibleCalendar(false);
-
-               if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'ArrowRight' || key === 'ArrowLeft') {
-                    const { Week: weekAsTimestamp, Day: dayAsTimestamp } = getDateMilliseconds;
-                    const timestamps = {
-                         ArrowDown: weekAsTimestamp,
-                         ArrowUp: -1 * weekAsTimestamp,
-                         ArrowRight: -1 * dayAsTimestamp,
-                         ArrowLeft: dayAsTimestamp,
-                    };
-
-                    if (value === null) return;
-
-                    const valueAsTimestamp = typeof value === 'number' ? value : new Date(value).getTime();
-                    const nextDate = new Date(valueAsTimestamp + timestamps[key]);
-
-                    if (isDisabledDate(nextDate) || isValidYear(nextDate) === false) return;
-
-                    onChange(nextDate);
-               }
-          } catch (e) {
-               //
-          }
-     };
-
-     const checkDateValue = (str: string, max: number) => {
-          if (str.charAt(0) !== '0' || str === '00') {
-               let num = Number(str);
-               if (isNaN(num) || num <= 0 || num > max) num = 1;
-
-               str = num > Number(max.toString().charAt(0)) && num.toString().length === 1 ? `0${num}` : num.toString();
-          }
-
-          return str;
-     };
-
-     const dateFormatter = (input: string) => {
-          try {
-               if (/\D\/$/.test(input)) input = input.substring(0, input.length - 3);
-
-               const values = input.split('/').map(v => {
-                    return v.replace(/\D/g, '');
-               });
-
-               if (values[1]) values[1] = checkDateValue(values[1], 12);
-               if (values[2]) values[2] = checkDateValue(values[2], 31);
-
-               const output = values.map((v, i) => {
-                    return (v.length === 4 && i === 0) || (v.length === 2 && i === 1) ? `${v} / ` : v;
-               });
-
-               return output.join('').substring(0, 14);
-          } catch (e) {
-               return '';
-          }
-     };
+     // const dateFormatter = (input: string) => {
+     //      try {
+     //           if (/\D\/$/.test(input)) input = input.substring(0, input.length - 3);
+     //
+     //           const values = input.split('/').map(v => {
+     //                return v.replace(/\D/g, '');
+     //           });
+     //
+     //           if (values[1]) values[1] = checkDateValue(values[1], 12);
+     //           if (values[2]) values[2] = checkDateValue(values[2], 31);
+     //
+     //           const output = values.map((v, i) => {
+     //                return (v.length === 4 && i === 0) || (v.length === 2 && i === 1) ? `${v} / ` : v;
+     //           });
+     //
+     //           return output.join('').substring(0, 14);
+     //      } catch (e) {
+     //           return '';
+     //      }
+     // };
 
      const onDatepickerLoad = useCallback(
           (datepickerEl: HTMLDivElement) => {
@@ -384,8 +381,6 @@ interface DialogBoxProps {
 
 const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
      ({ classes, isDisabledDate, weekDays, value, onChange, onClose, dataTestId }, ref) => {
-          const { t } = useTranslation();
-
           const [datepickerValue, setDatepickerValue] = useState<DateValue>(value);
 
           const [mode, setMode] = useState<'month' | 'year' | null>(null);
@@ -429,14 +424,14 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
                setMode(null);
           };
 
-          const setTodayDate = () => {
-               const d = new Date();
-
-               if (isDisabledDate(d)) return;
-
-               onChange(d);
-               setDatepickerValue(d);
-          };
+          // const setTodayDate = () => {
+          //      const d = new Date();
+          //
+          //      if (isDisabledDate(d)) return;
+          //
+          //      onChange(d);
+          //      setDatepickerValue(d);
+          // };
 
           const getDatepickerValue = useMemo(() => {
                if (!datepickerValue) return [];

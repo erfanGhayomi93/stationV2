@@ -64,7 +64,8 @@ const Popup = ({
                     return;
 
                throw new Error();
-          } catch (e) {
+          } catch (error) {
+               console.log(error);
                setOpen(false);
                abort();
           }
@@ -117,8 +118,8 @@ const Popup = ({
                });
 
                if (className) el.setAttribute('class', cn(className));
-          } catch (e) {
-               //
+          } catch (error) {
+               console.log(error);
           }
      }, []);
 
@@ -155,8 +156,8 @@ const Popup = ({
           try {
                if (open && !disabled) onOpen?.();
                else onClose?.();
-          } catch (e) {
-               //
+          } catch (error) {
+               console.log(error);
           }
      }, [open, disabled]);
 

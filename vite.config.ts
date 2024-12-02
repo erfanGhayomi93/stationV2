@@ -1,6 +1,5 @@
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
-import sass from 'sass';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import eslint from 'vite-plugin-eslint';
@@ -40,13 +39,6 @@ export default defineConfig({
                '@router': path.resolve(__dirname, './src/router'),
                '@api': path.resolve(__dirname, './src/api'),
                '@zustand': path.resolve(__dirname, './src/zustand'),
-          },
-     },
-     css: {
-          preprocessorOptions: {
-               scss: {
-                    implementation: sass,
-               },
           },
      },
 });

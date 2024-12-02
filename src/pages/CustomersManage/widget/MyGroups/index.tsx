@@ -38,7 +38,7 @@ const MyGroups = () => {
                          if (customerType === 'Natural') return item.customerType === 'Natural';
                     });
 
-                    return filteredChildren?.length ? { ...child, children: filteredChildren } : null;
+                    return { ...child, children: filteredChildren };
                })
                .filter(Boolean);
      }, [rowData, customerType]);

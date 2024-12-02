@@ -27,7 +27,7 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
 
      const isDarkMode = useDarkMode();
 
-     const { customerGroup, setCustomerGroup } = useContext(CustomersContext);
+     const { setCustomerGroup } = useContext(CustomersContext);
 
      const { setPortfolioCustomerModal, setAddCustomersToGroupModal } = useModalStore();
 
@@ -149,6 +149,7 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     },
 
                     enableRtl: true,
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     onRowSelected(event) {
                          const selectedRows = getAllSelectedRows();
 
@@ -195,7 +196,7 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     detailRowAutoHeight
                     getRowId={getRowId}
                     keepDetailRows={true}
-                    isRowMaster={isRowMaster}
+                    // isRowMaster={isRowMaster}
                     onFirstDataRendered={onFirstDataRendered}
                />
           </div>

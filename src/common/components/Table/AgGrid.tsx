@@ -113,6 +113,4 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
      }
 );
 
-export default memo(AgGridTable) as <TData extends unknown>(
-     props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }
-) => JSX.Element;
+export default memo(AgGridTable) as <TData>(props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }) => JSX.Element;

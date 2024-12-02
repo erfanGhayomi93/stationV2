@@ -7,14 +7,11 @@ import { sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
 import ToggleSwitch from '@uiKit/ToggleSwitch';
 import ipcMain from 'common/classes/IpcMain';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
-// import { Actions } from './actions';
 
-interface ITodayTradesWidgetProps {}
-
-const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
+const TodayTradesWidget = () => {
      const { t } = useTranslation();
 
      const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});

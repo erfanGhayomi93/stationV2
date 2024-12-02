@@ -219,7 +219,7 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                     detailRowAutoHeight
                     getRowId={getRowId}
                     keepDetailRows={true}
-                    isRowMaster={isRowMaster}
+                    // isRowMaster={isRowMaster}
                     onFirstDataRendered={onFirstDataRendered}
                />
           </div>

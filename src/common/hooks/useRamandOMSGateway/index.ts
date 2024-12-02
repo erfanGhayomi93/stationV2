@@ -20,15 +20,15 @@ const createRamandOMSGateway = () => {
           const message = value.split('^');
           const msgObj: Record<number, string> = {};
 
-          try {   
+          try {
                message.forEach(item => {
                     if (item) {
                          const [index, value] = item.split('=');
                          msgObj[Number(index)] = value;
                     }
                });
-          } catch (e) {
-               //
+          } catch (error) {
+               console.error(error);
           }
 
           return msgObj;
@@ -122,10 +122,11 @@ const createRamandOMSGateway = () => {
           }, 500);
      };
 
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const handleAdminMessage = (message: Record<number, string>) => {
           // ipcMain.send('onAdminMessageReceived', message);
      };
-
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const handleSystemMessage = (message: Record<number, string>) => {
           // ipcMain.send('onSystemMessageReceived', message);
      };

@@ -1,6 +1,5 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
 import { RocketIcon, DraftOutlineIcon, DeleteOutlineIcon } from '@assets/icons';
-import { useTranslation } from 'react-i18next';
 
 interface ActionRendererParams extends CustomCellRendererProps<IDetailsCartRes> {
      onSendOrder: (data: IDetailsCartRes | undefined) => void;
