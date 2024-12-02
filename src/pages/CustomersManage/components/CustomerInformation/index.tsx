@@ -2,13 +2,13 @@ import { CustomersContext } from '@pages/CustomersManage/context';
 import { useModalStore } from '@store/modal';
 import { useTabSlice } from '@store/tab';
 import Button from '@uiKit/Button';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import EmptyCustomerInformation from './EmptyCustomerInformation';
 import MultiCustomerInformation from './MultiCustomerInformation';
 import OneCustomerInformation from './OneCustomerInformation';
 
-type TCustomerInformationTab = 'personalInformation' | 'financialStatus' | 'contracts';
+// type TCustomerInformationTab = 'personalInformation' | 'financialStatus' | 'contracts';
 
 const CustomerInformation = () => {
      const { t } = useTranslation();

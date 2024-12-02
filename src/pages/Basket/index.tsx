@@ -13,7 +13,6 @@ import { useCustomerStore } from '@store/customer';
 import useUpdateEffect from '@hooks/useUpdateEffect';
 import ScrollableSlider from '@components/scrollableSlider';
 import { useModalStore } from '@store/modal';
-import PlaceholderButton from '@components/PlaceholderButton.tsx';
 import { useTranslation } from 'react-i18next';
 
 export const initialDataFilterBasket: IDetailsCartFilter = {
