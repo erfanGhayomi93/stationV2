@@ -153,7 +153,6 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     if (orderSide && hostOrderNumber && orderDateTime) items.push(item);
                }
 
-               console.log({ items })
 
                if (items.length === 0) return;
 

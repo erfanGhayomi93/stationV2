@@ -1,4 +1,4 @@
-import { useQuerySearchHistory, useQuerySymbolSearch } from '@api/Symbol';
+import { useQuerySymbolSearch } from '@api/Symbol';
 import { SearchInputIcon, SpinnerIcon } from '@assets/icons';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
 import useDebounce from '@hooks/useDebounce';
@@ -9,16 +9,15 @@ interface ISymbolSearchProps {
      searchSymbol: SearchSymbol | null;
      setSearchSymbol: (symbol: SearchSymbol | null) => void;
      isMainPage?: boolean;
+     historyData?: SearchSymbol[]
 }
 
-const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, isMainPage }) => {
+const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, isMainPage, historyData }) => {
      const [query, setQuery] = useState('');
 
      const debouncedTerm = useDebounce(query, 400);
 
      const { data, refetch, isFetching: isFetchingSearch } = useQuerySymbolSearch(debouncedTerm);
-
-     const { data: historyData } = useQuerySearchHistory();
 
      useEffect(() => {
           if (debouncedTerm.length > 2) refetch();
@@ -68,6 +67,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, i
                     if (symbol) {
                          setSearchSymbol(symbol);
                          if (!isMainPage && symbol?.symbolTitle) setQuery(symbol.symbolTitle);
+                         else setQuery('')
                     }
                }}
           >

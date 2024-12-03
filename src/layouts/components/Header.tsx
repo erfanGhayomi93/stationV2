@@ -4,6 +4,8 @@ import {
      useMutationCreateSymbolTab,
      useMutationDeleteSymbolTab,
      useMutationUpdateCreateDateTimeTab,
+     useQuerySearchHistory,
+     useQuerySymbolGeneralInformation,
      useQuerySymbolTab,
 } from '@api/Symbol';
 import { CloseIcon, UpArrowIcon } from '@assets/icons';
@@ -16,6 +18,7 @@ import clsx from 'clsx';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useSymbolStore } from 'store/symbol';
 import ProfileDropdown from './ProfileDropdown';
+import useUpdateEffect from '@hooks/useUpdateEffect';
 
 const HeaderLayout = () => {
      const [isLaptop, setIsLaptop] = useState(false);
@@ -27,6 +30,10 @@ const HeaderLayout = () => {
      const { selectedSymbol, setSelectedSymbol } = useSymbolStore();
 
      const { data: symbolTab, isSuccess, refetch: refetchSymbolTab, isFetching } = useQuerySymbolTab();
+
+     const { isSuccess: isSuccessSymbolGeneral } = useQuerySymbolGeneralInformation(selectedSymbol);
+
+     const { data: historyData, refetch: refetchHistory } = useQuerySearchHistory();
 
      const refData = useRef<ISymbolTabRes[]>();
 
@@ -133,12 +140,23 @@ const HeaderLayout = () => {
           setIsLaptop(mediaQuery.matches);
      }, []);
 
+     useUpdateEffect(() => {
+          if (isSuccessSymbolGeneral) {
+               refetchHistory()
+          }
+     }, [isSuccessSymbolGeneral])
+
      return (
           <div className="flex h-full justify-between gap-4 px-4 pt-2">
                <div className="flex w-1/5 items-center justify-start gap-x-4 pb-2">
                     <ProfileDropdown />
                     <div className="flex-1">
-                         <SearchSymbol searchSymbol={searchSymbol} setSearchSymbol={handleSetSelectedSymbol} isMainPage />
+                         <SearchSymbol
+                              searchSymbol={searchSymbol}
+                              setSearchSymbol={handleSetSelectedSymbol}
+                              historyData={historyData}
+                              isMainPage
+                         />
                     </div>
                </div>
                <div className="flex w-4/5 flex-1 items-center justify-end gap-x-2">

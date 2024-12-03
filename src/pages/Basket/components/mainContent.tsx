@@ -6,6 +6,8 @@ import ActionRenderer from '@pages/Basket/components/ActionRenderer.tsx';
 import { useDeleteDetails } from '@api/basket';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
+import useSendOrders from '@hooks/useSendOrders';
+import { uid } from '@methods/helper';
 
 interface IMainContentProps {
      data?: IDetailsCartRes[];
@@ -31,9 +33,32 @@ const MainContent: FC<IMainContentProps> = ({ data }) => {
 
      const { mutate } = useDeleteDetails();
 
+     const { sendOrders, ordersLoading } = useSendOrders()
+
      // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const onSendOrder = (data: IDetailsCartRes) => {
-          //
+          if (data) {
+               const order: ICreateOrderReq =
+               {
+                    id: uid(),
+                    customerISIN: [data.customerISIN],
+                    customerTitle: [data.customers[0].customerTitle],
+                    CustomerTagId: [],
+                    GTTraderGroupId: [],
+                    orderSide: data.side,
+                    orderDraftId: undefined,
+                    orderStrategy: data.orderStrategy,
+                    orderType: 'LimitOrder',
+                    percent: 0,
+                    price: data.price,
+                    quantity: data.quantity,
+                    symbolISIN: data.symbolISIN,
+                    validity: data.validity,
+                    validityDate: data.validityDate
+               }
+
+               sendOrders([order])
+          }
      };
 
      const onDeleteOrder = (data: IDetailsCartRes) => {
@@ -88,10 +113,11 @@ const MainContent: FC<IMainContentProps> = ({ data }) => {
                          onSendOrder,
                          onEditOrder,
                          onDeleteOrder,
+                         ordersLoading
                     },
                },
           ],
-          []
+          [ordersLoading]
      );
 
      return (

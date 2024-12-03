@@ -23,7 +23,9 @@ export const useQuerySearchHistory = () => {
      return useQuery({
           queryKey: ['historyRecentSymbol'],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<SearchSymbol[]>>(url);
+               const response = await AXIOS.get<GlobalApiResponseType<SearchSymbol[]>>(url, {
+                    params: { type: 'GeneralSearch' },
+               });
                return response.data.result;
           },
           staleTime: 10 * 60 * 1000,

@@ -5,12 +5,17 @@ interface ActionRendererParams extends CustomCellRendererProps<IDetailsCartRes> 
      onSendOrder: (data: IDetailsCartRes | undefined) => void;
      onDeleteOrder: (data: IDetailsCartRes | undefined) => void;
      onEditOrder: (data: IDetailsCartRes | undefined) => void;
+     ordersLoading: boolean;
 }
 
-const ActionRenderer = ({ data, onSendOrder, onEditOrder, onDeleteOrder }: ActionRendererParams) => {
+const ActionRenderer = ({ data, onSendOrder, onEditOrder, onDeleteOrder, ordersLoading }: ActionRendererParams) => {
      return (
           <div className="flex h-full items-center justify-center gap-4">
-               <button onClick={() => onSendOrder(data)}>
+               <button
+                    className="disabled:opacity-60"
+                    onClick={() => onSendOrder(data)}
+                    disabled={ordersLoading}
+               >
                     <RocketIcon className="text-icon-default" />
                </button>
                <button onClick={() => onEditOrder(data)}>
