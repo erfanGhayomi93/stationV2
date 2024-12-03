@@ -12,7 +12,7 @@ type ICartListRes = {
 interface IDetailsCartFilter {
      SymbolISIN: string | null;
      CustomerISINs: string[];
-     OrderSide: TSide | '';
+     side: TSide | '';
      PageNumber: number;
      PageSize: number;
 }
@@ -40,7 +40,7 @@ interface IDetailsCartRes {
      userId: 0;
      validity: validity;
      validityDate: string;
-     customerISINs: string;
+     customerISIN: string;
      orderStrategy: string;
      orderType: string;
      symbolTitle: string;

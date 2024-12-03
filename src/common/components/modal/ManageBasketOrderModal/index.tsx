@@ -13,8 +13,6 @@ const ManageBasketOrderModal = () => {
 
      const { data: CartListData, isLoading } = useQueryCartList();
 
-     console.log({ CartListData });
-
      const onClickCreateBasket = () => {
           setCreateNewBasketModal(true);
      };

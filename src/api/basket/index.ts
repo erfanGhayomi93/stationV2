@@ -85,3 +85,19 @@ export const useDeleteDetails = () => {
           },
      });
 };
+
+export const useSendCart = ({ onSuccess }: { onSuccess: () => void }) => {
+     const url = routeApi().Baskets.cartSendOrder;
+
+     return useMutation({
+          mutationFn: async (cartId: number) => {
+               const fd = new FormData();
+               fd.append('cartId', String(cartId));
+
+               const response = await AXIOS.post(url, fd);
+
+               return response.data;
+          },
+          onSuccess: onSuccess,
+     });
+};

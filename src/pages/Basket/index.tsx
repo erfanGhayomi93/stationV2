@@ -7,18 +7,19 @@ import CustomersSearch from '@components/customersSearch';
 import SymbolSearch from '@components/searchSymbol';
 import SelectInput from '@uiKit/Inputs/SelectInput';
 import MainContent from './components/mainContent';
-import { useQueryCartList, useQueryDetailsCart } from '@api/basket';
+import { useQueryCartList, useQueryDetailsCart, useSendCart } from '@api/basket';
 import { cleanObjectOfFalsyValues } from '@methods/helper';
 import { useCustomerStore } from '@store/customer';
 import useUpdateEffect from '@hooks/useUpdateEffect';
 import ScrollableSlider from '@components/scrollableSlider';
 import { useModalStore } from '@store/modal';
 import { useTranslation } from 'react-i18next';
+import { useQuerySearchHistory } from '@api/Symbol';
 
 export const initialDataFilterBasket: IDetailsCartFilter = {
      SymbolISIN: null,
      CustomerISINs: [],
-     OrderSide: '',
+     side: '',
      PageNumber: 1,
      PageSize: 10,
 };
@@ -28,7 +29,7 @@ const Basket = () => {
 
      const [searchSymbol, setSearchSymbol] = useState<SearchSymbol | null>(null);
 
-     const { data: cartList } = useQueryCartList();
+     const { data: cartList, refetch: refetchCartList } = useQueryCartList();
 
      const { selectedCustomers } = useCustomerStore();
 
@@ -41,6 +42,16 @@ const Basket = () => {
      const [detailParams, setDetailParams] = useState(cleanObjectOfFalsyValues(filterData) as IDetailsCartReq);
 
      const { data: detailsCartData } = useQueryDetailsCart(detailParams);
+
+     const { data: historyData } = useQuerySearchHistory();
+
+     const { mutate: mutateSendCart, isPending } = useSendCart({
+          onSuccess: () => {
+               refetchCartList();
+          }
+     })
+
+     const cartNameSend = useMemo(() => cartList?.find(item => item.id === selectedBasket)?.name, [selectedBasket, cartList])
 
      const onSubmitFilter = () => {
           setDetailParams(prev => ({ ...prev, ...filterData }));
@@ -104,8 +115,14 @@ const Basket = () => {
                     >
                          تعیین زمان ارسال
                     </Button>
-                    <Button variant="primary-darkness" className="py-[9px]" disabled={true}>
-                         ارسال سبد اول
+                    <Button
+                         variant="primary-darkness"
+                         className="py-[9px]"
+                         disabled={!selectedBasket}
+                         isLoading={isPending}
+                         onClick={() => selectedBasket && mutateSendCart(selectedBasket)}
+                    >
+                         ارسال {cartNameSend}
                     </Button>
                </Fragment>
           );
@@ -129,7 +146,7 @@ const Basket = () => {
                     </button>
                </Fragment>
           );
-     }, []);
+     }, [selectedBasket, isPending]);
 
      const leftNodeFilter = useMemo(() => {
           const items = [
@@ -141,12 +158,16 @@ const Basket = () => {
                <div className="flex flex-col gap-y-6">
                     <CustomersSearch />
 
-                    <SymbolSearch searchSymbol={searchSymbol} setSearchSymbol={setSearchSymbol} />
+                    <SymbolSearch
+                         searchSymbol={searchSymbol}
+                         setSearchSymbol={setSearchSymbol}
+                         historyData={historyData}
+                    />
 
                     <SelectInput
-                         value={items.find(item => item.id === filterData.OrderSide) || null}
+                         value={items.find(item => item.id === filterData.side) || null}
                          items={items}
-                         onChange={value => setFilterData(prev => ({ ...prev, OrderSide: value.id as TSide }))}
+                         onChange={value => setFilterData(prev => ({ ...prev, side: value.id as TSide }))}
                          placeholder="سمت"
                     />
                </div>

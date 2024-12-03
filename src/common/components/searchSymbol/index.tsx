@@ -66,7 +66,6 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, i
                onChange={symbol => {
                     if (symbol) {
                          setSearchSymbol(symbol);
-                         console.log({ isMainPage })
                          if (!isMainPage && symbol?.symbolTitle) setQuery(symbol.symbolTitle);
                          else setQuery('')
                     }
