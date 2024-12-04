@@ -30,22 +30,31 @@ const CustomerGroup = () => {
      };
 
      const filterDataBasedOnCustomerType = useMemo(() => {
-          return rowData?.map(child => {
-               const filteredChildren = child.children?.filter(item => {
-                    if (customerType === 'All') return item;
-                    if (customerType === 'Legal') return item.customerType === 'Legal';
-                    if (customerType === 'Natural') return item.customerType === 'Natural';
-               });
+          return rowData
+               ?.map(child => {
+                    const filteredChildren = child.children?.filter(item => {
+                         if (customerType === 'All') return item;
+                         if (customerType === 'Legal') return item.customerType === 'Legal';
+                         if (customerType === 'Natural') return item.customerType === 'Natural';
+                    });
 
-               return { ...child, children: filteredChildren };
-          });
+                    if (customerType === 'All') {
+                         return { ...child, children: filteredChildren };
+                    } else {
+                         return filteredChildren.length > 0 ? { ...child, children: filteredChildren } : null;
+                    }
+               })
+               .filter(Boolean);
      }, [rowData, customerType]);
 
      return (
           <>
                <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomerGroupTable data={filterDataBasedOnCustomerType ?? []} loading={isLoadingDefaultCustomerGroup} />
+               <CustomerGroupTable
+                    data={(filterDataBasedOnCustomerType as ICustomerAdvancedSearchRes[]) ?? []}
+                    loading={isLoadingDefaultCustomerGroup}
+               />
           </>
      );
 };
