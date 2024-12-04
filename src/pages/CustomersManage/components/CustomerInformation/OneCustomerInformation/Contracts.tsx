@@ -21,24 +21,24 @@ const Contracts = () => {
                     tooltipField: 'title',
                },
                {
-                    field: 'state',
+                    field: 'status',
                     headerName: t('customersManage.contractsStatusCol'),
-                    valueFormatter: ({ data }) => t(`customersManage.contractsStatus${data?.state ?? 'NotSpecified'}`),
+                    valueFormatter: ({ data }) => t(`customersManage.contractsStatus${data?.status ?? 'Null'}`),
                     cellClassRules: {
-                         'text-content-success-buy': ({ data }) => data?.state === 'Accepted',
-                         'text-content--buy': ({ data }) => data?.state === 'Accepted',
-                         'text-content-warning': ({ data }) => data?.state === 'NotSpecified',
-                         'text-content-error-sell': ({ data }) => data?.state === 'expired',
+                         'text-content-success-buy': ({ data }) => data?.status === 'Active',
+                         'text-content-warning': ({ data }) => data?.status === 'Suspend',
+                         'text-content-error-sell': ({ data }) => data?.status === 'InActive',
+                         'text-content-paragraph': ({ data }) => data?.status === null,
                     },
                },
                {
-                    field: 'changeDate',
+                    field: 'startDate',
                     headerName: t('customersManage.contractsDateCol'),
-                    valueFormatter: ({ data }) => '\u200e' + dateFormatter(data?.changeDate ?? 0, 'datetime'),
+                    valueFormatter: ({ data }) => '\u200e' + dateFormatter(data?.startDate ?? 0, 'datetime'),
                     cellClass: 'font-normal',
                },
           ],
-          [data]
+          []
      );
 
      return (

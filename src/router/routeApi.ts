@@ -34,6 +34,8 @@ export const routeApi = () => {
                GroupOrderDelete: baseUrl + '/Order/v1/GroupOrderDelete',
                GroupOrdersModify: baseUrl + '/Order/v1/GroupOrdersModify',
                Create: baseUrl + '/Order/v1/Create',
+
+               GetTrades: baseUrl + '/Order/v1/Trades',
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
@@ -44,7 +46,8 @@ export const routeApi = () => {
 
                GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
                GetCustomerFinancialStatus: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
-               GetCustomerContract: baseUrl + '/Agreement/v1/Get',
+               GetCustomerAgreement: baseUrl + '/Agreement/v1/Get',
+               getCustomerContracts: baseUrl + '/Customer/v1/GetContacts',
 
                GetMyGroup: baseUrl + '/CustomerGroup/v1/GetGroups',
                MyGroupAdvancedSearch: baseUrl + '/CustomerGroup/v1/SearchCustomerGroup',

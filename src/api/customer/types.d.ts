@@ -118,11 +118,11 @@ interface ICustomerFinancialRes {
      status: 'Normal' | 'CallMargin' | 'AtRisk';
 }
 
-interface ICustomerContractsReq {
+interface ICustomerAgreementsReq {
      customerISIN: string;
 }
 
-interface ICustomerContractsRes {
+interface ICustomerAgreementsRes {
      agreementId: number;
      approveBySMS: boolean;
      attachmentUrl: string;
@@ -163,4 +163,18 @@ interface IDeleteCustomerGroupReq {
 interface IDeleteCustomerFromGroupReq {
      customerISINs: string[];
      groupId: number;
+}
+
+interface ICustomerContractsReq {
+     customerISIN: string;
+}
+
+interface ICustomerContractsRes {
+     id: number;
+     type: 'Online' | 'Credit' | 'Option';
+     hasContract: boolean;
+     startDate: string;
+     title: string;
+     customerIsin: string;
+     status: 'Active' | 'InActive' | 'Suspend' | null;
 }
