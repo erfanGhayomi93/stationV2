@@ -60,6 +60,7 @@ const CreateNewBasketModal = () => {
                          <FieldInputText
                               onChange={onChangeBasketName}
                               placeholder={t('createNewBasketModal.basketNameInputLabel')}
+                              autoFocus={true}
                          />
                     </div>
 

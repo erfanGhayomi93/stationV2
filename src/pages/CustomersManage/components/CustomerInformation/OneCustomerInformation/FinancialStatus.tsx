@@ -40,61 +40,61 @@ const FinancialStatus = () => {
                {
                     id: 'margin',
                     name: t('customersManage.financialStatusMargin'),
-                    value: sepNumbers(data?.marginValue),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.marginValue),
                     unit: 'rial',
                },
                {
                     id: 'purchasShares',
                     name: t('customersManage.financialStatusPurchasShares'),
-                    value: sepNumbers(data?.t1),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.purchasePower),
                     unit: 'rial',
                },
                {
                     id: 'purchasOption',
                     name: t('customersManage.financialStatusPurchasOption'),
-                    value: sepNumbers(data?.t1),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.purchaseOptionPower),
                     unit: 'rial',
                },
                {
                     id: 'sharesBlocked',
                     name: t('customersManage.financialStatusSharesBlocked'),
-                    value: sepNumbers(data?.orderBlockValue),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.stockBlockValue),
                     unit: 'rial',
                },
                {
                     id: 'optionBlocked',
                     name: t('customersManage.financialStatusOptionBlocked'),
-                    value: sepNumbers(data?.orderBlockValue),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.optionBlockValue),
                     unit: 'rial',
                },
                {
                     id: 'withdrawalBlocked',
                     name: t('customersManage.financialStatusWithdrawalBlocked'),
-                    value: sepNumbers(data?.orderBlockValue),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.blockedValue),
                     unit: 'rial',
                },
                {
                     id: 'sharesCredit',
                     name: t('customersManage.financialStatusSharesCredit'),
-                    value: sepNumbers(data?.credit),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.stockDailyCredit),
                     unit: 'rial',
                },
                {
                     id: 'optionCredit',
                     name: t('customersManage.financialStatusOptionCredit'),
-                    value: sepNumbers(data?.credit),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.optionDailyCredit),
                     unit: 'rial',
                },
                {
                     id: 'remainT1',
                     name: t('customersManage.financialStatusRemainT1'),
-                    value: sepNumbers(data?.t1),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.remainT1),
                     unit: 'rial',
                },
                {
                     id: 'remainT2',
                     name: t('customersManage.financialStatusRemainT2'),
-                    value: sepNumbers(data?.t2),
+                    value: sepNumbers(data?.customerRemainAndOptionRemainDto.remainT2),
                     unit: 'rial',
                },
           ],
@@ -111,7 +111,7 @@ const FinancialStatus = () => {
                          >
                               <span className="text-content-selected">{name}</span>
                               <div className="flex items-center gap-2 pl-2 text-content-title">
-                                   <span className='ltr'>{value ?? '-'}</span>
+                                   <span className="ltr">{value ?? '-'}</span>
                                    {unit && t(`common.${unit ?? 'rial'}`)}
                               </div>
                          </li>

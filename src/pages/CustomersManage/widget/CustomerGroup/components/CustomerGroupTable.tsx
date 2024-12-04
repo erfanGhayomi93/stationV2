@@ -76,11 +76,13 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
           const allSelectedRowsMap = new Map<string, ICustomerAdvancedSearchRes>();
 
           gridRef.current?.api.forEachNode(node => {
-               if (node.master && node.expanded) {
+               if (node.master) {
                     const detailGridInfo = gridRef.current?.api.getDetailGridInfo(`detail_${node.id}`);
 
                     if (detailGridInfo) {
                          const selectedDetailRows = detailGridInfo.api?.getSelectedRows();
+
+                         console.log(selectedDetailRows, 'selectedDetailRows');
 
                          selectedDetailRows?.forEach(row => {
                               if (row.customerISIN && !allSelectedRowsMap.has(row.customerISIN)) {

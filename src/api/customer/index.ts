@@ -95,8 +95,24 @@ export const useCustomerFinancialStatus = ({ customerISIN }: ICustomerFinancialR
      });
 };
 
+export const useCustomerAgreements = ({ customerISIN }: ICustomerAgreementsReq) => {
+     const url = routeApi().Customer.GetCustomerAgreement;
+
+     return useQuery({
+          queryKey: ['getCustomerAgreements', customerISIN],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalApiResponseType<ICustomerAgreementsRes[]>>(url, {
+                    params: {
+                         customerISIN,
+                    },
+               });
+               return response.data.result;
+          },
+     });
+};
+
 export const useCustomerContracts = ({ customerISIN }: ICustomerContractsReq) => {
-     const url = routeApi().Customer.GetCustomerContract;
+     const url = routeApi().Customer.getCustomerContracts;
 
      return useQuery({
           queryKey: ['getCustomerContracts', customerISIN],

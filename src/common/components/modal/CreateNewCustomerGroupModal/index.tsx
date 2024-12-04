@@ -68,6 +68,7 @@ const CreateNewCustomerGroupModal = () => {
                               onChange={value => {
                                    setCustomerGroupName(value);
                               }}
+                              autoFocus={true}
                          />
                     </div>
 
