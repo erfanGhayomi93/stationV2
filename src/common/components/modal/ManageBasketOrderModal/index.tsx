@@ -9,7 +9,7 @@ import PlaceholderButton from '@components/PlaceholderButton.tsx';
 const ManageBasketOrderModal = () => {
      const { t } = useTranslation();
 
-     const { setManageBasketOrderModal, setCreateNewBasketModal } = useModalStore();
+     const { setManageBasketOrderModal, setCreateNewBasketModal , manageBasketOrderModal } = useModalStore();
 
      const { data: CartListData, isLoading } = useQueryCartList();
 
@@ -18,11 +18,13 @@ const ManageBasketOrderModal = () => {
      };
 
      const onCloseModal = () => {
-          setManageBasketOrderModal(false);
+          setManageBasketOrderModal({
+               isShow : false
+          });
      };
 
      return (
-          <Modal size="sm" loading={false} title={t('manageBasketOrderModal.title')} onCloseModal={onCloseModal}>
+          <Modal size="sm" loading={false} title={!manageBasketOrderModal?.isAdd ? t('manageBasketOrderModal.titleManage') : t('manageBasketOrderModal.titleAdd') } onCloseModal={onCloseModal}>
                <div className="flex flex-1 flex-col gap-6">
                     <div className="h-full flex-1">
                          <ManageBasketOrderTable data={CartListData} loading={isLoading} />

@@ -26,6 +26,11 @@ type TDeleteCustomerGroupModal = {
      customer: IMyGroupsInformationRes;
 };
 
+type TManageBasketOrderModal = {
+     isShow?: boolean;
+     isAdd?: boolean;
+};
+
 type TPortfolioCustomerModal = {
      customer: ICustomerAdvancedSearchRes;
 };
@@ -85,8 +90,8 @@ interface IModalStore {
      portfolioCustomerModal: TPortfolioCustomerModal | null;
      setPortfolioCustomerModal: (state: TPortfolioCustomerModal | null) => void;
 
-     manageBasketOrderModal: boolean;
-     setManageBasketOrderModal: (state: boolean) => void;
+     manageBasketOrderModal: TManageBasketOrderModal;
+     setManageBasketOrderModal: (state: TManageBasketOrderModal) => void;
 
      createNewBasketModal: boolean;
      setCreateNewBasketModal: (state: boolean) => void;

@@ -58,7 +58,9 @@ const Basket = () => {
      };
 
      const onManageBaskets = () => {
-          setManageBasketOrderModal(true);
+          setManageBasketOrderModal({
+               isShow: true
+          });
      };
 
      const onCreateNewBasket = () => {

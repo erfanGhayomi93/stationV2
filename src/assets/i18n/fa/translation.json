@@ -622,11 +622,12 @@
 
 
      "manageBasketOrderModal": {
-          "title": "مدیریت دسته سفارش",
+          "titleManage": "مدیریت دسته سفارش",
+          "titleAdd": "افزودن سفارش به دسته سفارش",
           "basketOrderNameCol": "نام دسته سفارش",
           "sendTimeCol": "زمان ارسال",
           "actionCol": "عملیات",
-          "addBasketOrderBtn": "افزودن دسته سفارش"
+          "addBasketOrderBtn": "افزودن دسته سفارش" 
      },
 
      "createNewBasketModal": {
