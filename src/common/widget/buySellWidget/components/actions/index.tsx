@@ -24,7 +24,7 @@ const ActionsOrder = () => {
           isDivideOrder,
      } = useBuySellContext();
 
-     const { setIsPercentQuantityOrderModal, setDividedOrdersModal } = useModalStore();
+     const { setIsPercentQuantityOrderModal, setDividedOrdersModal, setManageBasketOrderModal } = useModalStore();
 
      const { selectedCustomers } = useCustomerStore();
 
@@ -63,23 +63,31 @@ const ActionsOrder = () => {
           sendOrders(orders);
      };
 
-     const sendingOrder = () => {
+     const checkValidations = () => {
           if (selectedCustomers.length === 0) {
                onErrorNotif({ title: 'حداقل یک مشتری باید انتخاب شود' });
-               return;
+               return true;
           } else if (!isPercentPrice && !price) {
                onErrorNotif({ title: ' ورودی قیمت معتبر نمی باشد' });
-               return;
+               return true;
           } else if (isPercentPrice && !priceWithPercent.percent) {
                onErrorNotif({ title: ' درصد قیمت معتبر نمی باشد' });
-               return;
+               return true;
           } else if (!isPercentQuantity && !quantity) {
                onErrorNotif({ title: ' ورودی تعداد معتبر نمی باشد' });
-               return;
+               return true;
           } else if (isPercentQuantity && !quantityWithPercent.percent) {
                onErrorNotif({ title: ' درصد تعداد معتبر نمی باشد' });
-               return;
-          } else if (isPercentQuantity) {
+               return true;
+          }
+
+          return false;
+     }
+
+     const sendingOrder = () => {
+          if (checkValidations()) return;
+
+          else if (isPercentQuantity) {
                setIsPercentQuantityOrderModal(true);
                return;
           } else if (isDivideOrder) {
@@ -90,13 +98,23 @@ const ActionsOrder = () => {
           handleSendOrder();
      };
 
+     const handleClickToCart = () => {
+          if (checkValidations()) return;
+
+          setManageBasketOrderModal({
+               isShow: true,
+               isAdd: true
+          })
+     }
+
      return (
           <div className="flex gap-x-4">
                <Button
                     variant={side === 'Buy' ? 'primary-outline' : 'danger-outline'}
                     className="flex-1"
                     icon={<SendToBasketIcon />}
-                    disabled={true}
+                    onClick={handleClickToCart}
+               // disabled={true}
                >
                     ارسال به سبد
                </Button>

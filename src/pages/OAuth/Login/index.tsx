@@ -16,7 +16,7 @@ import 'swiper/css/pagination';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useAppState } from '@store/appState';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSymbolStore } from '@store/symbol';
 
 type formDate = {
@@ -31,6 +31,8 @@ const Login = () => {
      const { appState, setAppState } = useAppState()
 
      const { setSelectedSymbol } = useSymbolStore()
+
+     const [activeIndex, setActiveIndex] = useState(0);
 
      const {
           register,
@@ -183,6 +185,7 @@ const Login = () => {
                          modules={[Pagination, Autoplay]}
                          centeredSlides={true}
                          className="h-full w-full"
+                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} // Update active slide index
                     >
                          {[1, 2, 3]?.map((slide, index) => (
                               <SwiperSlide key={index} className="h-full w-full overflow-hidden">
@@ -210,7 +213,11 @@ const Login = () => {
                     </div>
 
                     <div className="absolute bottom-32 left-1/2 z-50 -translate-x-1/2">
-                         <span className="text-4xl font-bold text-white">افزایش سرعت و کارایی معاملات</span>
+                         <span className="text-4xl font-bold text-white">
+                              {activeIndex === 0 && <>افزایش سرعت و کارایی معاملات</>}
+                              {activeIndex === 1 && <>امکان تحلیل و تصمیم‌گیری سریع‌تر</>}
+                              {activeIndex === 2 && <>کاهش هزینه‌های معاملاتی</>}
+                         </span>
                     </div>
                </div>
           </main>

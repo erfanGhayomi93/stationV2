@@ -101,3 +101,15 @@ export const useSendCart = ({ onSuccess }: { onSuccess: () => void }) => {
           onSuccess: onSuccess,
      });
 };
+
+export const useCreateBulkCartDetail = () => {
+     const url = routeApi().Baskets.CreateBulkCartDetail;
+
+     return useMutation({
+          mutationFn: async (params: ICreateBulkCartDetailReq[]) => {
+               const response = await AXIOS.post(url, params);
+
+               return response.data;
+          },
+     });
+};

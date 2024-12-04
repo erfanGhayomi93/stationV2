@@ -38,7 +38,7 @@ interface IDetailsCartRes {
      deleted: true;
      date: string;
      userId: 0;
-     validity: validity;
+     validity: TValidity;
      validityDate: string;
      customerISIN: string;
      orderStrategy: string;
@@ -66,4 +66,16 @@ interface IEditCartReq {
 
 interface IDeleteDetailsCartRes {
      cartDetailId: number;
+}
+
+interface ICreateBulkCartDetailReq {
+     cartID: number;
+     symbolISIN: string;
+     price: number;
+     quantity: number;
+     side: TSide;
+     validity: TValidity;
+     validityDate: string | null;
+     customerISIN: string;
+     orderStrategy: string;
 }
