@@ -15,10 +15,11 @@ import SearchSymbol from '@components/searchSymbol';
 import UseDebounceOutput from '@hooks/useDebounceOutput';
 import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useSymbolStore } from 'store/symbol';
 import ProfileDropdown from './ProfileDropdown';
 import useUpdateEffect from '@hooks/useUpdateEffect';
+import { useLocation } from 'react-router';
 
 const HeaderLayout = () => {
      const [isLaptop, setIsLaptop] = useState(false);
@@ -44,6 +45,12 @@ const HeaderLayout = () => {
      const { mutate: mutateDelete } = useMutationDeleteSymbolTab();
 
      const { mutate: mutateUpdateCreateTime } = useMutationUpdateCreateDateTimeTab();
+
+     // const [isShowDropdown, setShowDropdown] = useState(false);
+
+     const { pathname } = useLocation()
+
+     const isDashboardPage = useMemo(() => pathname === '/', [pathname])
 
      const handleClickSymbolFromDropdown = (symbolISIN: string) => {
           mutateUpdateCreateTime(symbolISIN, {
@@ -161,43 +168,48 @@ const HeaderLayout = () => {
                </div>
                <div className="flex w-4/5 flex-1 items-center justify-end gap-x-2">
                     <div className="flex h-full flex-1 items-center justify-end">
-                         {symbolTab?.slice(0, isLaptop ? 4 : 7).map((item, ind) => (
-                              <Fragment key={item?.symbolISIN || ind}>
-                                   <div
-                                        className={clsx('flex h-full cursor-pointer items-center gap-2 px-5 transition-colors', {
-                                             'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN,
-                                        })}
-                                   >
-                                        <LastPriceTitle
-                                             PriceVar={item?.lastTradedPriceVarPercent}
-                                             price={item?.lastTradedPrice}
-                                             symbolISIN={item?.symbolISIN}
-                                             symbolTitle={item?.symbolTitle}
-                                             key={item?.symbolISIN}
-                                             onClick={symbolISIN => setSelectedSymbol(symbolISIN)}
-                                             isSelected={selectedSymbol === item?.symbolISIN}
-                                        />
-
-                                        {item?.symbolISIN === selectedSymbol && symbolTab.length !== 1 && (
-                                             <CloseIcon
-                                                  width={10}
-                                                  height={10}
-                                                  className="text-icon-default"
-                                                  onClick={() => handleRemoveTabSymbol(item?.symbolISIN)}
+                         {symbolTab
+                              ?.slice(0, isLaptop ? 4 : 7)
+                              .map((item, ind) => (
+                                   <Fragment key={item?.symbolISIN || ind}>
+                                        <div
+                                             className={clsx('flex h-full items-center gap-2 px-5 transition-colors', {
+                                                  'rounded-t-xl bg-back-2': selectedSymbol === item?.symbolISIN && isDashboardPage,
+                                                  // "cursor-pointer": isDashboardPage,
+                                                  // "cursor-none": !isDashboardPage,
+                                             })}
+                                        >
+                                             <LastPriceTitle
+                                                  PriceVar={item?.lastTradedPriceVarPercent}
+                                                  price={item?.lastTradedPrice}
+                                                  symbolISIN={item?.symbolISIN}
+                                                  symbolTitle={item?.symbolTitle}
+                                                  key={item?.symbolISIN}
+                                                  onClick={symbolISIN => setSelectedSymbol(symbolISIN)}
+                                                  isSelected={isDashboardPage ? selectedSymbol === item?.symbolISIN : false}
+                                                  isDisabled={!isDashboardPage}
                                              />
-                                        )}
-                                   </div>
 
-                                   <span
-                                        className={clsx(
-                                             `h-4 w-[1px] bg-line-div-2 last:opacity-0 ${!!symbolTab && symbolTab[ind + 1]?.symbolISIN === selectedSymbol ? 'opacity-0' : ''} `,
-                                             {
-                                                  'opacity-0': item?.symbolISIN === selectedSymbol,
-                                             }
-                                        )}
-                                   ></span>
-                              </Fragment>
-                         ))}
+                                             {item?.symbolISIN === selectedSymbol && isDashboardPage && (
+                                                  <CloseIcon
+                                                       width={10}
+                                                       height={10}
+                                                       className="text-icon-default"
+                                                       onClick={() => handleRemoveTabSymbol(item?.symbolISIN)}
+                                                  />
+                                             )}
+                                        </div>
+
+                                        <span
+                                             className={clsx(
+                                                  `h-4 w-[1px] bg-line-div-2 last:opacity-0 ${!!symbolTab && symbolTab[ind + 1]?.symbolISIN === selectedSymbol ? 'opacity-0' : ''} `,
+                                                  {
+                                                       'opacity-0': item?.symbolISIN === selectedSymbol,
+                                                  }
+                                             )}
+                                        ></span>
+                                   </Fragment>
+                              ))}
                     </div>
                     <Popup
                          margin={{
@@ -211,7 +223,7 @@ const HeaderLayout = () => {
                                         <button
                                              className={clsx(
                                                   'rtl flex w-full items-center rounded-md p-2 transition-colors hover:bg-back-primary',
-                                                  selectedSymbol === item?.symbolISIN && 'bg-back-primary'
+                                                  (selectedSymbol === item?.symbolISIN && isDashboardPage) && 'bg-back-primary'
                                              )}
                                              key={item.symbolISIN}
                                         >
@@ -225,7 +237,7 @@ const HeaderLayout = () => {
                                                        handleClickSymbolFromDropdown(item?.symbolISIN);
                                                        setOpen(false);
                                                   }}
-                                                  isSelected={selectedSymbol === item?.symbolISIN}
+                                                  isSelected={isDashboardPage ? selectedSymbol === item?.symbolISIN : false}
                                              />
                                         </button>
                                    ))}
@@ -234,7 +246,11 @@ const HeaderLayout = () => {
                     >
                          {({ setOpen, open }) => (
                               <div className="pb-2">
-                                   <button className="flex items-center rounded-lg bg-back-2 p-4" onClick={() => setOpen(!open)}>
+                                   <button
+                                        className="flex items-center rounded-lg bg-back-2 p-4 disabled:opacity-50"
+                                        onClick={() => setOpen(!open)}
+                                        disabled={!isDashboardPage}
+                                   >
                                         <UpArrowIcon
                                              className={clsx('h-min text-icon-default transition-transform', {
                                                   'rotate-180': !open,
