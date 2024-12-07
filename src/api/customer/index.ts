@@ -149,7 +149,7 @@ export const useMyGroupsAdvanced = (term: string, customerType?: TcustomerType) 
      return useQuery({
           queryKey: ['getMyGroupAdvanced', term],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<IMyGroupsInformationRes[]>>(url);
+               const response = await AXIOS.get<GlobalApiResponseType<IMyGroupsInformationRes[]>>(url, { params: { term } });
 
                return response.data.result;
           },

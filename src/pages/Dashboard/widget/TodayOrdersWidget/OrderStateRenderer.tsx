@@ -13,6 +13,16 @@ const OrderStateRenderer = ({ data }: CustomCellRendererProps<IOpenOrder>) => {
           );
      }
 
+     if (data?.orderState === 'Error' && !data?.customErrorMsg) {
+          return (
+               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+               //@ts-expect-error
+               <Tippy className="rtl" content={t(`order_errors.${data?.lastErrorCode}`)}>
+                    <span>{data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'}</span>
+               </Tippy>
+          );
+     }
+
      return <span>{data?.orderState ? t(`orderStatus.${data?.orderState as TStatus}`) : '-'}</span>;
 };
 
