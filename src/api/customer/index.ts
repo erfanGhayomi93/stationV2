@@ -2,6 +2,9 @@ import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+type TcustomerType = 'Legal' | 'Natural' | 'All';
+
+
 export const useQueryCustomerSearch = (term: string, customerType?: 'Natural' | 'Legal' | 'All') => {
      const url = routeApi().Customer.AdvancedSearch;
 
@@ -34,7 +37,7 @@ export const useQueryDefaultCustomer = () => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useQueryCustomerSearchGroup = (term: string, customerType?: TCustomerType) => {
+export const useQueryCustomerSearchGroup = (term: string, customerType?: TcustomerType) => {
      const url = routeApi().Customer.GroupAdvancedSearch;
 
      return useQuery({
@@ -140,7 +143,7 @@ export const useMyGroupsDefault = () => {
      });
 };
 
-export const useMyGroupsAdvanced = (term: string, customerType?: TCustomerType) => {
+export const useMyGroupsAdvanced = (term: string, customerType?: TcustomerType) => {
      const url = routeApi().Customer.MyGroupAdvancedSearch;
 
      return useQuery({
