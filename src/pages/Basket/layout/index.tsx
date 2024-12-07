@@ -56,7 +56,7 @@ const LayoutReport: FC<ILayoutReportProps> = ({ rightNodeHeader, leftNodeHeader,
                     isOpenFilter ? (
                         <div className="grid grid-rows-min-one-min p-4 pt-6 bg-back-surface w-72 rounded-lg">
                             <div className="flex justify-between items-center">
-                                <span>حذف فیلترها</span>
+                                <span className="text-content-title">حذف فیلترها</span>
                                 <button
                                     className="bg-button-primary-bg-selected p-1 rounded-lg"
                                     onClick={() => setIsOpenFilter(!isOpenFilter)}
