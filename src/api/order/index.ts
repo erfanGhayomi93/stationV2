@@ -1,6 +1,7 @@
 import AXIOS from '@config/axios';
 import { routeApi } from '@router/routeApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { cleanObjectOfFalsyValues } from '@methods/helper.ts';
 
 export const useQueryTodayOrders = (params: ITodayOrderReq) => {
      const url = routeApi().Orders.TodayOrdersList;
@@ -73,6 +74,21 @@ export const useDeleteGroupOrder = () => {
           mutationFn: async (params: IDeleteGroupOrderReq[]) => {
                const { data } = await AXIOS.post<GlobalApiResponseType<IDeleteGroupOrderRes>>(url, params);
                return data.result;
+          },
+     });
+};
+
+export const useTradesReports = (params: ITradesReportsReq) => {
+     const url = routeApi().Orders.GetTrades;
+
+     return useQuery({
+          queryKey: ['TradesReports'],
+          queryFn: async () => {
+               const response = await AXIOS.get<GlobalPaginatedApiResponse<ITradesReportsRes[]>>(url, {
+                    params: cleanObjectOfFalsyValues(params),
+               });
+
+               return response.data;
           },
      });
 };
