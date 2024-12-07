@@ -12,15 +12,17 @@ export interface ILastPriceTitleProps {
      onClick?: (symbolISIN: string) => void;
      isSelected: boolean;
      symbolISIN: string;
+     isDisabled?: boolean;
 }
 
-const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar, onClick, isSelected, symbolISIN }) => {
+const LastPriceTitle: FC<ILastPriceTitleProps> = ({ price, symbolTitle, PriceVar, onClick, isSelected, symbolISIN, isDisabled }) => {
      const { t } = useTranslation();
 
      return (
           <button
-               className={clsx('rtl flex h-full flex-1 select-none items-center justify-between gap-2', styles.container)}
+               className={clsx('rtl flex h-full flex-1 select-none items-center justify-between gap-2 disabled:opacity-90', styles.container)}
                onClick={() => onClick?.(symbolISIN)}
+               disabled={isDisabled}
           >
                <div className="flex items-center gap-x-1 text-xs">
                     <span
