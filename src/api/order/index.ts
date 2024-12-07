@@ -78,17 +78,17 @@ export const useDeleteGroupOrder = () => {
      });
 };
 
-export const useTradesReports = (params: ITradesReportsReq) => {
-     const url = routeApi().Orders.GetTrades;
+// export const useTradesReports = (params: ITradesReportsReq) => {
+//      const url = routeApi().Orders.GetTrades;
 
-     return useQuery({
-          queryKey: ['TradesReports'],
-          queryFn: async () => {
-               const response = await AXIOS.get<GlobalPaginatedApiResponse<ITradesReportsRes[]>>(url, {
-                    params: cleanObjectOfFalsyValues(params),
-               });
+//      return useQuery({
+//           queryKey: ['TradesReports'],
+//           queryFn: async () => {
+//                const response = await AXIOS.get<GlobalPaginatedApiResponse<ITradesReportsRes[]>>(url, {
+//                     params: cleanObjectOfFalsyValues(params),
+//                });
 
-               return response.data;
-          },
-     });
-};
+//                return response.data;
+//           },
+//      });
+// };
