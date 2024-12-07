@@ -4,6 +4,8 @@ import CustomersManageFilter from '@pages/CustomersManage/components/CustomersMa
 import { useMemo, useState } from 'react';
 import MyGroupTable from './components/MyGroupTable';
 
+type TCustomerType = 'Natural' | 'Legal' | 'All';
+
 const MyGroups = () => {
      const [term, setTerm] = useState('');
 

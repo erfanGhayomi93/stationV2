@@ -5,12 +5,17 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface ActionRendererParams extends CustomCellRendererProps<ICustomerAdvancedSearchRes> {
-     onPortfolioCustomer: (data: ICustomerAdvancedSearchRes | undefined) => void;
+     onPortfolioCustomers: (data: ICustomerAdvancedSearchRes | undefined) => void;
      onAddCustomerToGroups: (data: ICustomerAdvancedSearchRes | undefined) => void;
      onDeleteCustomerToGroups: (data: ICustomerAdvancedSearchRes | undefined) => void;
 }
 
-const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups, onDeleteCustomerToGroups }: ActionRendererParams) => {
+const ActionRenderer = ({
+     data,
+     onPortfolioCustomers,
+     onAddCustomerToGroups,
+     onDeleteCustomerToGroups,
+}: ActionRendererParams) => {
      const { t } = useTranslation();
 
      const MORE_ACTION_ITEMS = useMemo(
@@ -19,7 +24,7 @@ const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups, onDe
                     id: 'displayPortfolio',
                     label: t('customersManage.displayPortfolioActionItem'),
                     icon: <PieChartIcon />,
-                    onClick: onPortfolioCustomer,
+                    onClick: onPortfolioCustomers,
                },
                {
                     id: 'addToGroup',
