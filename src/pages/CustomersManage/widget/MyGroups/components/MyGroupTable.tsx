@@ -68,7 +68,7 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
           const allSelectedRowsMap = new Map<string, IMyGroupsCustomerInformation>();
 
           gridRef.current?.api.forEachNode(node => {
-               if (node.master && node.expanded) {
+               if (node.master) {
                     const detailGridInfo = gridRef.current?.api.getDetailGridInfo(`detail_${node.id}`);
 
                     if (detailGridInfo) {
