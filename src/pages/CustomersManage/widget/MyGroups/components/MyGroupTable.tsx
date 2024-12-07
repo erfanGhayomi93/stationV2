@@ -52,13 +52,17 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                { groupId: data?.groupId, customerISINs: [data?.customerISIN] },
                {
                     onSuccess: () => {
-                         queryClient.invalidateQueries({ queryKey: ['getMyGroupDefault'] });
+                         queryClient.refetchQueries({ queryKey: ['getMyGroupDefault'] });
 
                          toast.success(t('alerts.deleteCustomerFromGroupSuccessful'));
                     },
 
                     onError: () => {
                          toast.error(t('alerts.deleteCustomerFromGroupError'));
+                    },
+
+                    onSettled: () => {
+                         setMyGroups([]);
                     },
                }
           );
