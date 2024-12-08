@@ -72,7 +72,7 @@ const ManageBasketOrderModal = ({ data, loading }: IManageBasketOrderModalProps)
                     field: 'name',
                },
                {
-                    headerName: t('manageBasketOrderModal.sendTimeCol'),
+                    headerName: t('manageBasketOrderModal.createTimeCol'),
                     field: 'createDate',
                     valueGetter: ({ data }) => '\u200e' + dateFormatter(data?.createDate ?? 0, 'datetime'),
                },

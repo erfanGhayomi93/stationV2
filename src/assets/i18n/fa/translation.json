@@ -633,6 +633,7 @@
           "titleAdd": "افزودن سفارش به دسته سفارش",
           "basketOrderNameCol": "نام دسته سفارش",
           "sendTimeCol": "زمان ارسال",
+          "createTimeCol": "زمان ساخت سبد",
           "actionCol": "عملیات",
           "addBasketOrderBtn": "افزودن دسته سفارش" 
      },

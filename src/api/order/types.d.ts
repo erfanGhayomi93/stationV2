@@ -285,3 +285,8 @@ interface IDividedOrderRow {
      orderMessageType?: string;
      errorMessageType?: string;
 }
+
+interface IhostOrderNumberSub {
+     orderPlaceInPrice?: number;
+     orderVolumeInPrice?: number;
+}
