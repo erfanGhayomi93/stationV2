@@ -61,6 +61,9 @@ export const routeApi = () => {
                deleteCustomerGroup: baseUrl + '/CustomerGroup/v1/DeleteGroup',
 
                deleteCustomerFromGroup: baseUrl + '/CustomerGroup/v1/RemoveCustomersFromGroup',
+
+			   toggleFavoriteCustomer: baseUrl + '/Customer/v1/ToggleFavorite',
+
           },
 
           SupervisorMessage: {
