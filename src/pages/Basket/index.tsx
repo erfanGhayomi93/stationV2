@@ -35,7 +35,7 @@ const Basket = () => {
 
      const { setManageBasketOrderModal, setCreateNewBasketModal } = useModalStore();
 
-     const [selectedBasket, setSelectedBasket] = useState<number | null>(cartList ? cartList[0].id : null);
+     const [selectedBasket, setSelectedBasket] = useState<number | null>(cartList ? cartList[0]?.id : null);
 
      const [filterData, setFilterData] = useState(initialDataFilterBasket);
 
@@ -178,7 +178,7 @@ const Basket = () => {
 
      useEffect(() => {
           if (cartList) {
-               setSelectedBasket(cartList[0].id);
+               setSelectedBasket(cartList[0]?.id);
           }
      }, [cartList]);
 

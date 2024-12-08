@@ -81,9 +81,14 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const columnDefs = useMemo<ColDef<IOpenOrder>[]>(
           () => [
                {
-                    field: 'hostOrderNumber',
-                    headerName: t('todayOrders.orderPlaceInPriceColumn'),
-                    valueGetter: ({ data }) => sepNumbers(data?.hostOrderNumber),
+                    field: 'orderPlaceInPrice',
+                    headerName: 'جایگاه لحظه‌ای',
+                    valueGetter: ({ data }) => data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : '-',
+               },
+               {
+                    field: 'orderVolumeInPrice',
+                    headerName: 'حجم پیش‌رو',
+                    valueGetter: ({ data }) => data?.orderVolumeInPrice ? sepNumbers(data?.orderVolumeInPrice) : "-",
                },
                {
                     field: 'customerTitle',
@@ -123,7 +128,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                {
                     field: 'orderState',
                     headerName: t('todayOrders.statusColumn'),
-                    hide: tabSelected !== 'All' && true,
+                    hide: tabSelected !== 'All',
                     cellRenderer: OrderStateRenderer,
                },
           ],
@@ -133,6 +138,34 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      const onRowSelected = (event: SelectionChangedEvent<IOpenOrder>) => {
           ordersGroupSelectData.current = event.api.getSelectedRows();
      };
+
+     const updateOnHostOrderNumber = ({ itemName, changedFields }: { itemName: string, changedFields: IhostOrderNumberSub }) => {
+          if (itemName) {
+               const symbolISINItem = itemName.split('_')[1];
+               const sideItem = itemName.split('_')[2];
+               const hostOrderNumberItem = itemName.split('_')[3];
+
+               queryClient.setQueryData([
+                    'openOrders' + tabSelected + selectedSymbol + side,
+               ], (oldData: IOpenOrder[] | undefined) => {
+                    if (oldData) {
+                         const orders = JSON.parse(JSON.stringify(oldData)) as IOpenOrder[];
+                         const updatedOrder = orders.find((data) => data.symbolISIN === symbolISINItem && data.orderSide === sideItem && data.hostOrderNumber === hostOrderNumberItem) as IOpenOrder
+                         const index = orders.findIndex((data) => data.symbolISIN === symbolISINItem && data.orderSide === sideItem && data.hostOrderNumber === hostOrderNumberItem);
+
+                         if (index >= 0) {
+                              orders[index] = {
+                                   ...updatedOrder,
+                                   orderPlaceInPrice: changedFields?.orderPlaceInPrice ? changedFields.orderPlaceInPrice : updatedOrder.orderPlaceInPrice,
+                                   orderVolumeInPrice: changedFields?.orderVolumeInPrice ? changedFields.orderVolumeInPrice : updatedOrder.orderVolumeInPrice,
+                              };
+
+                              return [...orders];
+                         }
+                    }
+               })
+          }
+     }
 
      useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
@@ -156,11 +189,11 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
                if (items.length === 0) return;
 
-               subscribeOrderInPrice({
+               subscribeOrderInPrice<IhostOrderNumberSub>({
                     id,
                     items,
                     onItemUpdate(updatedFields) {
-                         console.log({ updatedFields })
+                         updateOnHostOrderNumber(updatedFields)
                     },
                })
 
@@ -168,7 +201,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     pushEngine.unSubscribe(id)
                }
           }
-     }, [isSuccess , todayOrdersData])
+     }, [isSuccess])
 
      return (
           <div className="grid h-full grid-rows-min-one">

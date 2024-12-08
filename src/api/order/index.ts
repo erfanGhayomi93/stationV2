@@ -7,7 +7,7 @@ export const useQueryTodayOrders = (params: ITodayOrderReq) => {
 
      return useQuery({
           queryKey: [
-               'openOrders' + params.GtOrderStateRequestType + String(params.CustomerISIN) + params.symbolISIN + params.side,
+               'openOrders' + params.GtOrderStateRequestType + params.symbolISIN + params.side,
           ],
           queryFn: async () => {
                const response = await AXIOS.get<GlobalApiResponseType<IOpenOrder[]>>(url, { params });
