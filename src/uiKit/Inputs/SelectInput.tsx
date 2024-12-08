@@ -11,7 +11,7 @@ interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
      onChange: (item: TItem) => void;
      items?: TItem[];
      value: TItem | null;
-     bgPlaceholder?: string
+     bgPlaceholder?: string;
 }
 
 const SelectInput = ({ onChange, items, value, placeholder = '', bgPlaceholder, ...props }: TSelectInputProps) => {
@@ -46,13 +46,13 @@ const SelectInput = ({ onChange, items, value, placeholder = '', bgPlaceholder, 
                className="dropdown-portal"
           >
                {({ setOpen, open }) => (
-                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active">
-                         <div className="w-full flex-1" onClick={() => setOpen(!open)}>
+                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 focus-within:border-input-focus">
+                         <div className="w-full flex-1 cursor-pointer" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}
                                    value={state?.label}
                                    onChange={() => null}
-                                   className="h-12 w-full border-none bg-transparent text-sm text-content-title outline-none"
+                                   className="h-12 w-full cursor-pointer border-none bg-transparent text-sm text-content-title outline-none"
                                    dir="rtl"
                                    {...props}
                               />

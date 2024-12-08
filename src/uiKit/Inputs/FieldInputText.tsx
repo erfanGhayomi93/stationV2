@@ -15,7 +15,7 @@ const FieldInputText = ({ onChange, placeholder, classes, ...props }: TFieldInpu
           <div
                className={clsx(
                     classes?.root,
-                    'rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default px-3 py-2 transition-colors focus-within:border-input-primary'
+                    'rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default px-3 py-2 transition-colors focus-within:border-input-focus'
                )}
           >
                <div className="flex flex-1 items-center">

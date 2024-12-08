@@ -36,7 +36,11 @@
           "editBasketOrderSuccessful": "نام دسته سفارش موردنظر با موفقیت تغییر کرد.",
           "editBasketOrderError": "تغییر دسته سفارش موردنظر با خطا مواجه شد.",
           "deleteOrderToBasketOrderSuccessful": "سفارش موردنظر از سبد سفارش با موفقیت حذف شد.",
-          "deleteOrderToBasketOrderError": "حذف سفارش موردنظر از سبد سفارش با خطا مواجه شد."
+          "deleteOrderToBasketOrderError": "حذف سفارش موردنظر از سبد سفارش با خطا مواجه شد.",
+          "addFavoriteCustomerSuccessful": "مشتری موردنظر با موفقیت به مشتریان دلخواه اضافه شد.",
+          "deleteFavoriteCustomerSuccessful": "مشتری موردنظر با موفقیت از مشتریان دلخواه حذف شد.",
+          "addFavoriteCustomerError": "اضافه کردن مشتری موردنظر به مشتریان دلخواه با خطا مواجه شد.",
+          "deleteFavoriteCustomerError": "حذف مشتری موردنظر به مشتریان دلخواه با خطا مواجه شد."
      },
 
      "dates": {
@@ -51,7 +55,9 @@
           "custom": "دلخواه",
           "today": "امروز",
           "from_date": "از تاریخ",
-          "to_date": "تا تاریخ"
+          "to_date": "تا تاریخ",
+          "from": "از",
+          "to": "تا"
      },
 
      "serverConnection": {
@@ -153,7 +159,8 @@
           "message_show_filter": "نمایش فیلتر",
           "message_hide_filter": "عدم نمایش فیلتر",
           "hide_symbol_details": "بستن جزئیات نماد",
-          "hasRiskAnnouncement": "دارای بیانیه ریسک"
+          "hasRiskAnnouncement": "دارای بیانیه ریسک",
+          "openFilter": "باز کردن فیلتر"
      },
      "price_range_slider": {
           "closing_price": "پایانی",
@@ -661,23 +668,30 @@
           "filterTooltip": "فیلتر",
           "rowNumberCol": "ردیف",
           "customerNameCol": "مشتری",
-          "BourseCodeCol": "کدبورسی",
+          "bourseCodeCol": "کدبورسی",
+          "symbolTitleCol": "نماد",
           "customerCodeCol": "کدمشتری",
           "volumeCol": "حجم",
           "priceCol": "قیمت",
           "finalPriceCol": "بهای تمام شده",
           "commissionCol": "کارمزد",
           "sideCol": "سمت",
-          "customerType": "نوع مشتری",
+          "customerTypeCol": "نوع مشتری",
+          "customerTypeNatural": "حقیقی",
+          "customerTypeLegal": "حقیقی",
+          "customerTypeAll": "همه",
+          "aggregateTypeNone": "هیچکدام",
+          "aggregateTypeCustomer": "مشتری",
+          "aggregateTypeSymbol": "نماد",
+          "aggregateTypeCustomerAndSymbol": "مشتری / نماد",
           "sourceCol": "مبدا",
           "dateCol": "تاریخ",
           "detailsCol": "جزئیات",
+          "sourceOnline": "آنلاین",
           "resetFilters": "حذف فیلترها",
           "closeFiltersTooltip": "بستن فیلتر",
           "searchCustomerLabelInput": "جستجوی مشتری",
           "searchSymbolLabelInput": "جستجوی نماد",
-          "individualSelectBtn": "حقیقی",
-          "legalSelectBtn": "حقوقی",
           "applyFilterBtn": "اعمال فیلتر"
      }
 }

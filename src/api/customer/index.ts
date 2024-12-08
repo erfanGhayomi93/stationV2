@@ -219,3 +219,15 @@ export const useDeleteCustomerFromGroup = () => {
           },
      });
 };
+
+export const useToggleFavoriteCustomer = () => {
+     const url = routeApi().Customer.toggleFavoriteCustomer;
+
+     return useMutation({
+          mutationFn: async (params: IToggleFavoriteCustomerReq) => {
+               const response = await AXIOS.post<GlobalApiResponseType<boolean>>(url, {}, { params });
+
+               return response.data.result;
+          },
+     });
+};
