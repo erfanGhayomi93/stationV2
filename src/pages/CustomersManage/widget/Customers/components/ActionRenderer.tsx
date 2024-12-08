@@ -1,8 +1,12 @@
 import { CustomCellRendererProps } from '@ag-grid-community/react';
-import { ArrowLeftIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon } from '@assets/icons';
+import { ArrowLeftIcon, MoreStatusIcon, PieChartIcon, PlusFillIcon, StartIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import { useToggleFavoriteCustomer } from '@api/customer';
+import { toast } from 'react-toastify';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ActionRendererParams extends CustomCellRendererProps<ICustomerAdvancedSearchRes> {
      onPortfolioCustomer: (data: ICustomerAdvancedSearchRes | undefined) => void;
@@ -11,6 +15,10 @@ interface ActionRendererParams extends CustomCellRendererProps<ICustomerAdvanced
 
 const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups }: ActionRendererParams) => {
      const { t } = useTranslation();
+
+     const queryClient = useQueryClient();
+
+     const { mutate } = useToggleFavoriteCustomer();
 
      const MORE_ACTION_ITEMS = useMemo(
           () => [
@@ -37,14 +45,37 @@ const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups }: Ac
 
      return (
           <div className="flex h-full items-center justify-center gap-4">
-               {/* <button
-                    className={clsx({
-                         'text-icon-default': !params.data?.isFavorite,
-                         'text-icon-warning': params.data?.isFavorite,
+               <button
+                    className={clsx('transition-colors', {
+                         'text-icon-default': !data?.isFavorite,
+                         'text-icon-warning': data?.isFavorite,
                     })}
+                    onClick={() => {
+                         mutate(
+                              { customerIsin: data?.customerISIN ?? '', isFavorite: !data?.isFavorite },
+                              {
+                                   onSuccess: () => {
+                                        queryClient.invalidateQueries({ queryKey: ['getDefaultCustomer'] });
+
+                                        toast.success(
+                                             t(
+                                                  `alerts.${data?.isFavorite ? 'deleteFavoriteCustomerSuccessful' : 'addFavoriteCustomerSuccessful'}`
+                                             )
+                                        );
+                                   },
+                                   onError: () => {
+                                        toast.error(
+                                             t(
+                                                  `alerts.${data?.isFavorite ? 'deleteFavoriteCustomerSuccessful' : 'addFavoriteCustomerSuccessful'}`
+                                             )
+                                        );
+                                   },
+                              }
+                         );
+                    }}
                >
                     <StartIcon />
-               </button> */}
+               </button>
                <Popup
                     margin={{
                          x: -20,

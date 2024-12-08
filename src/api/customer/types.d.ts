@@ -178,3 +178,8 @@ interface ICustomerContractsRes {
      customerIsin: string;
      status: 'Active' | 'InActive' | 'Suspend' | null;
 }
+
+interface IToggleFavoriteCustomerReq {
+     customerIsin: string;
+     isFavorite: boolean;
+}

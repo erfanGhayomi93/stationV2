@@ -24,6 +24,7 @@ const CustomersManageFilter = ({ onChangeSearchInput, onChangeSelectInput }: ICu
                               { id: 'Legal', label: t('customersManage.customersFilterLegal') },
                          ]}
                          value={{ id: 'All', label: t('customersManage.customersFilterAll') }}
+                         placeholder="نوع مشتری"
                     />
                </div>
           </div>
