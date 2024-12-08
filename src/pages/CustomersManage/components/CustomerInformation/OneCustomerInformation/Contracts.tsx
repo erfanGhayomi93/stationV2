@@ -11,7 +11,7 @@ const Contracts = () => {
 
      const { customers } = useContext(CustomersContext);
 
-     const { data } = useCustomerContracts({ customerISIN: customers[0].customerISIN ?? '' });
+     const { data, isLoading } = useCustomerContracts({ customerISIN: customers[0].customerISIN ?? '' });
 
      const COLUMNS_DEFS = useMemo<ColDef<ICustomerContractsRes>[]>(
           () => [
@@ -47,6 +47,7 @@ const Contracts = () => {
                     defaultColDef={{
                          cellClass: 'text-sm font-medium',
                     }}
+                    loading={isLoading}
                     rowData={data}
                     columnDefs={COLUMNS_DEFS}
                />
