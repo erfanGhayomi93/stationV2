@@ -15,6 +15,8 @@ import { useSymbolStore } from 'store/symbol';
 import OrderStateRenderer from './OrderStateRenderer';
 import { subscribeOrderInPrice } from '@LS/subscribes';
 import { pushEngine } from '@LS/pushEngine';
+import UseDebounceOutput from '@hooks/useDebounceOutput';
+import HostOrderNumberRenderer from './hostOrderNumber';
 
 interface ITodayOrdersWidgetProps {
      side: TSide;
@@ -35,6 +37,10 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const { selectedSymbol } = useSymbolStore();
 
+     const refData = useRef<IOpenOrder[]>()
+
+     const { setDebounce } = UseDebounceOutput();
+
      const { data: todayOrdersData, refetch: refetchTodayOrders, isSuccess } = useQueryTodayOrders({
           GtOrderStateRequestType: tabSelected,
           side: side,
@@ -49,30 +55,31 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
 
      const orderStatusIsntModify = ['OrderDone', 'Canceled', 'DeleteByEngine', 'Error', 'Expired', 'InOMSQueue', 'OnSending'];
 
+     const refreshStatus = [
+          'OnBoard',
+          'OrderDone',
+          'Canceled',
+          'DeleteByEngine',
+          'Error',
+          'Expired',
+          'InOMSQueue',
+          'OnBoardModify',
+          'PartOfTheOrderDone',
+          'OnModifyError',
+          'OnCancelError',
+          'OnCancelingWithBroker',
+          'RejectByGAP',
+          'TradeCancel',
+     ];
+
      onOMSMessageHandlerRef.current = useMemo(
           () => (message: Record<number, string>) => {
-               const omsClientKey = message[12];
                const omsOrderStatus = message[22] as TStatus;
 
-               queryClient.setQueryData(['openOrders', 'OnBoard'], (oldData: IOpenOrder[] | undefined) => {
-                    if (oldData) {
-                         const orders = JSON.parse(JSON.stringify(oldData)) as IOpenOrder[];
-                         const updatedOrder = orders.find(({ clientKey }) => clientKey === omsClientKey);
-
-                         const index = orders.findIndex(({ clientKey }) => clientKey === omsClientKey);
-                         if (index >= 0) {
-                              orders[index] = { ...updatedOrder, orderState: omsOrderStatus } as IOpenOrder;
-                         }
-
-                         return [...orders];
-                    }
-               });
-
-               if (orderStatusIsntModify.includes(omsOrderStatus)) {
-                    const timerId = setTimeout(() => {
-                         clearTimeout(timerId);
+               if (refreshStatus.includes(omsOrderStatus)) {
+                    setDebounce(() => {
                          refetchTodayOrders();
-                    }, 1000);
+                    }, 1000)
                }
           },
           []
@@ -84,12 +91,14 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     field: 'orderPlaceInPrice',
                     headerName: 'جایگاه لحظه‌ای',
                     valueGetter: ({ data }) => data?.orderPlaceInPrice ? sepNumbers(data?.orderPlaceInPrice) : '-',
+                    cellRenderer: HostOrderNumberRenderer,
+                    hide: tabSelected !== 'OnBoard'
                },
-               {
-                    field: 'orderVolumeInPrice',
-                    headerName: 'حجم پیش‌رو',
-                    valueGetter: ({ data }) => data?.orderVolumeInPrice ? sepNumbers(data?.orderVolumeInPrice) : "-",
-               },
+               // {
+               //      field: 'orderVolumeInPrice',
+               //      headerName: 'حجم پیش‌رو',
+               //      valueGetter: ({ data }) => data?.orderVolumeInPrice ? sepNumbers(data?.orderVolumeInPrice) : "-",
+               // },
                {
                     field: 'customerTitle',
                     headerName: t('todayOrders.customerTitleColumn'),
@@ -168,6 +177,11 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
      }
 
      useEffect(() => {
+          refData.current = todayOrdersData
+     }, [todayOrdersData])
+
+
+     useEffect(() => {
           ipcMain.handle('onOMSMessageReceived', onOMSMessageHandlerRef.current);
      }, []);
 
@@ -201,7 +215,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                     pushEngine.unSubscribe(id)
                }
           }
-     }, [isSuccess])
+     }, [isSuccess, todayOrdersData?.length])
 
      return (
           <div className="grid h-full grid-rows-min-one">
