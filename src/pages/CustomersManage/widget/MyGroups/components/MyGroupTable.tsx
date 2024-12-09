@@ -144,10 +144,10 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                               headerName: t('customersManage.purchasePowerCol'),
                               valueFormatter: ({ data }) =>
                                    '\u200e' +
-                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchasePower ?? 0, true, false),
+                                   numFormatter(data?.customerRemainAndOptionRemainDto?.purchasePower ?? 0, true, false),
                               cellClassRules: {
                                    'text-content-error-sell': ({ data }) =>
-                                        (data?.customerRemainAndOptionRemainDto.purchasePower ?? 0) < 0,
+                                        (data?.customerRemainAndOptionRemainDto?.purchasePower ?? 0) < 0,
                               },
                          },
                          {
@@ -155,10 +155,10 @@ const MyGroupTable = ({ data, loading }: TMyGroupTableProps) => {
                               headerName: t('customersManage.purchasePowerOptionCol'),
                               valueFormatter: ({ data }) =>
                                    '\u200e' +
-                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0, true, false),
+                                   numFormatter(data?.customerRemainAndOptionRemainDto?.purchaseOptionPower ?? 0, true, false),
                               cellClassRules: {
                                    'text-content-error-sell': ({ data }) =>
-                                        (data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0) < 0,
+                                        (data?.customerRemainAndOptionRemainDto?.purchaseOptionPower ?? 0) < 0,
                               },
                          },
                          {
