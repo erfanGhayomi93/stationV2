@@ -59,8 +59,6 @@ interface IOpenOrder {
      price: number;
      orderVolume: number;
      triggerPrice: number;
-     orderPlaceInPrice?: null | number;
-     orderVolumeInPrice?: null | number;
      quantity: number;
      orderSide: TSide;
      orderOrigin: string;
@@ -82,8 +80,8 @@ interface IOpenOrder {
      orderState: TStatus;
      lastErrorCode: string | null;
      customErrorMsg: string | null;
-     orderPlaceInPrice?: null | number;
-     orderVolumeInPrice?: null | number;
+     orderPlaceInPrice?: number;
+     orderVolumeInPrice?: number;
      tradeDetails: TtradeDetails;
      isEditable: boolean;
      blockType: Tblock;
