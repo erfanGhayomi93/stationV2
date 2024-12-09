@@ -19,15 +19,18 @@ interface IManageBasketOrderModalProps {
 const ManageBasketOrderModal = ({ data, loading }: IManageBasketOrderModalProps) => {
      const { t } = useTranslation();
 
-     const { setEditBasketOrderModal, setConfirmDeleteBasketOrderModal, manageBasketOrderModal } = useModalStore();
+     const { setEditBasketOrderModal, setConfirmDeleteBasketOrderModal, manageBasketOrderModal, setManageBasketOrderModal } = useModalStore();
 
      const { price, quantity, strategy, validity, validityDate, side } = useBuySellStore()
 
      const { selectedSymbol } = useSymbolStore()
 
-     const { selectedCustomers } = useCustomerStore()
+     const { selectedCustomers, removeAllSelectedCustomers } = useCustomerStore()
 
-     const { mutate: mutateCreateBulk , isPending : loadingCreate } = useCreateBulkCartDetail()
+     const { mutate: mutateCreateBulk, isPending: loadingCreate } = useCreateBulkCartDetail()
+
+     const { isKeepForm, reset } = useBuySellStore()
+
 
 
      const onDeleteBasket = (data: ICartListRes) => {
@@ -59,6 +62,13 @@ const ManageBasketOrderModal = ({ data, loading }: IManageBasketOrderModalProps)
                onError: (e) => {
                     console.log({ e })
                     onErrorNotif({ title: 'انجام نشد' });
+               },
+               onSettled: () => {
+                    setManageBasketOrderModal({})
+                    if (!isKeepForm) {
+                         reset();
+                         removeAllSelectedCustomers()
+                    }
                }
           })
      }
@@ -84,18 +94,18 @@ const ManageBasketOrderModal = ({ data, loading }: IManageBasketOrderModalProps)
                          onDeleteBasket,
                          onEditBasket,
                          onAddBasket,
-                         isAdd: !!manageBasketOrderModal?.isAdd ,
-                         loadingCreate : loadingCreate
+                         isAdd: !!manageBasketOrderModal?.isAdd,
+                         loadingCreate: loadingCreate
                     },
                },
           ],
-          [manageBasketOrderModal?.isAdd , loadingCreate]
+          [manageBasketOrderModal?.isAdd, loadingCreate]
      );
 
      return <AgGridTable
           tableHeight="20rem"
           columnDefs={COLUMNS_DEFS}
-          loading={loading} 
+          loading={loading}
           rowData={data}
      />;
 };

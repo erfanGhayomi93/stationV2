@@ -47,6 +47,7 @@ interface IDetailsCartRes {
      lastTradedPrice: number;
      lastTradedPriceVarPercent: number;
      customers: ICustomers[];
+     bourseCode : string;
 }
 
 interface ICreateCartReq {
