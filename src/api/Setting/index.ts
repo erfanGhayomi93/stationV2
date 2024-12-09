@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import AXIOS from '@config/axios';
 
 export const useQueryGlobalSettings = () => {
-     const baseUrl = 'https://wtapi.ramandtech.com';
+     const baseUrl = window.location.host.includes("tss") ? 'https://wtapi-tss.ramandtech.com' : 'https://wtapi.ramandtech.com';
 
      return useQuery({
           queryKey: ['GetSettings'],
