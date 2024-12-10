@@ -8,13 +8,14 @@ import SymbolSearch from '@components/searchSymbol';
 import SelectInput from '@uiKit/Inputs/SelectInput';
 import MainContent from './components/mainContent';
 import { useQueryCartList, useQueryDetailsCart, useSendCart } from '@api/basket';
-import { cleanObjectOfFalsyValues } from '@methods/helper';
+import { cleanObjectOfFalsyValues, createQueryKeyByParams } from '@methods/helper';
 import { useCustomerStore } from '@store/customer';
 import useUpdateEffect from '@hooks/useUpdateEffect';
 import ScrollableSlider from '@components/scrollableSlider';
 import { useModalStore } from '@store/modal';
 import { useTranslation } from 'react-i18next';
 import { useQuerySearchHistory } from '@api/Symbol';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const initialDataFilterBasket: IDetailsCartFilter = {
      SymbolISIN: null,
@@ -44,6 +45,8 @@ const Basket = () => {
      const { data: detailsCartData } = useQueryDetailsCart(detailParams);
 
      const { data: historyData } = useQuerySearchHistory();
+
+     const queryClient = useQueryClient()
 
      const { mutate: mutateSendCart, isPending } = useSendCart({
           onSuccess: () => {
@@ -177,8 +180,10 @@ const Basket = () => {
      }, []);
 
      useEffect(() => {
-          if (cartList) {
+          if (cartList?.length) {
                setSelectedBasket(cartList[0]?.id);
+          } else {
+               queryClient.invalidateQueries({ queryKey: ['detailsCard', ...createQueryKeyByParams(detailParams)] });
           }
      }, [cartList]);
 

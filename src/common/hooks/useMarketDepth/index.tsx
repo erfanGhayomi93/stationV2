@@ -1,6 +1,7 @@
 import { useQueryMarketDepthV2 } from "@api/Symbol";
 import { pushEngine } from "@LS/pushEngine";
 import { subscribeMarketDepth } from "@LS/subscribes";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 type TDataState = Record<number, TBuySellRowMarketDepthItems> | null
@@ -24,6 +25,8 @@ export const useMarketDepth = (selectedSymbol: string) => {
 
     const [isSubscribe, setIsSubscribe] = useState(false)
 
+    const queryClient = useQueryClient()
+
 
 
     const { data, isLoading } = useQueryMarketDepthV2(selectedSymbol)
@@ -38,6 +41,17 @@ export const useMarketDepth = (selectedSymbol: string) => {
         data: null,
         totalQuantity: 0,
     });
+
+    const getHONorders = (side: TSide) => {
+        const openOrder: IOpenOrder[] | undefined = queryClient.getQueryData(['openOrders' + 'OnBoard' + selectedSymbol + side])
+        const HONActive: string[] = []
+
+        if (openOrder) {
+            openOrder.forEach(item => HONActive.push(String(item.hostOrderNumber)))
+        }
+
+        return HONActive;
+    }
 
 
     const deletionOfAllPreviousOrders = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
@@ -121,6 +135,8 @@ export const useMarketDepth = (selectedSymbol: string) => {
     }
 
     const updateItemsOfOrderbook = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
+        const HONActive = getHONorders(marketDbRow[2] === 'buy' ? 'Buy' : 'Sell')
+
         const dataCopy = JSON.parse(JSON.stringify({ ...data }))
         const newData = dataCopy;
 
@@ -142,10 +158,13 @@ export const useMarketDepth = (selectedSymbol: string) => {
         for (let i = 0; i < countState; i++) {
             const child = childState[i]
             const seqNumState = +child[6]
+            // const honDb = String(seqNumDb)
+
 
             if (seqNumState === seqNumDb) {
                 const oldQuantity = +child[4];
                 child[4] = String(quantityDb);
+                child[9] = HONActive.includes(String(seqNumDb)) ? 'True' : 'False'
 
                 const rowQuantity = newData[priceDB][1];
                 newData[priceDB][1] = Math.abs((rowQuantity - oldQuantity) + quantityDb);
@@ -164,6 +183,7 @@ export const useMarketDepth = (selectedSymbol: string) => {
     }
 
     const addItemsToOrderbook = (data: TDataState, totalQuantity: number, marketDbRow: string[]) => {
+        const HONActive = getHONorders(marketDbRow[2] === 'buy' ? 'Buy' : 'Sell')
         /**
        * 3: Price
        * 4: Quantity
@@ -183,6 +203,8 @@ export const useMarketDepth = (selectedSymbol: string) => {
         const countState = priceRow?.[2]
         const childState = priceRow?.[3]
 
+        marketDbRow[9] = HONActive.includes(String(marketDbRow[6])) ? 'True' : 'False'
+
 
         if (priceRow) {
             newData[priceDB] = [priceState, volumeState + volumeDb, countState + 1, [...childState, [...marketDbRow]]]
@@ -194,7 +216,6 @@ export const useMarketDepth = (selectedSymbol: string) => {
             data: newData,
             totalQuantity: totalQuantity + volumeDb,
         }
-
     }
 
     const beautifyMarketRow = (stringifyRow: string) => {

@@ -22,7 +22,7 @@ export const useAddSymbolToWatchlist = () => {
 
      return useMutation({
           mutationFn: async (params: IAddSymbolsWatchlistReq) => {
-               const { data } = await AXIOS.post<GlobalApiResponseType<IAddSymbolsWatchlistRes>>(url, {}, { params: params });
+               const { data } = await AXIOS.post<GlobalApiResponseType<IAddSymbolsWatchlistRes>>(url, null, { params: params });
 
                return data.result;
           },
@@ -47,7 +47,7 @@ export const useDeleteSymbolInWatchlist = () => {
 
      return useMutation({
           mutationFn: async (params: IDeleteSymbolInWatchlistReq) => {
-               const { data } = await AXIOS.post<GlobalApiResponseType<TDeleteSymbolInWatchlistRes>>(url, {}, { params });
+               const { data } = await AXIOS.post<GlobalApiResponseType<TDeleteSymbolInWatchlistRes>>(url, null, { params });
 
                return data.result;
           },
