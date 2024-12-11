@@ -79,7 +79,7 @@ const TodayOrdersWidget: FC<ITodayOrdersWidgetProps> = ({ side }) => {
                if (refreshStatus.includes(omsOrderStatus)) {
                     setDebounce(() => {
                          refetchTodayOrders();
-                    }, 1000)
+                    }, 200)
                }
           },
           []

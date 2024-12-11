@@ -82,6 +82,7 @@ import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 import SendIcon from '../svg/send.svg?react';
 import RocketIcon from '../svg/rocket.svg?react';
+import PersonMarketIcon from '../svg/personMarket.svg?react';
 import UnOrderedListIcon from '../svg/unorderedlist.svg?react';
 
 export {
@@ -142,7 +143,7 @@ export {
      PlusFillIcon,
      PlusIcon,
      PlusSquareFillIcon,
-     ProfileIcon,
+     ProfileIcon, 
      RamandIcon,
      RefreshIcon,
      ReturnFillIcon,
@@ -170,4 +171,5 @@ export {
      XCircleOutlineIcon,
      XOutlineIcon,
      SendIcon,
+     PersonMarketIcon
 };
