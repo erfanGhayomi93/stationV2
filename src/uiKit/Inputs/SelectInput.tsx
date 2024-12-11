@@ -2,7 +2,7 @@ import { ChevronDownIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useEffect, useState } from 'react';
 
 type TItem<T> = { id: T; label: string; onClick?: () => void };
 
@@ -15,7 +15,11 @@ interface TSelectInputProps<T> extends Omit<InputHTMLAttributes<HTMLInputElement
 }
 
 const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlaceholder, ...props }: TSelectInputProps<T>) => {
-     const [state, setState] = useState<{ id: T; label: string } | null>(value);
+     const [selectItem, setSelectItem] = useState<{ id: T; label: string } | null>(value);
+
+     useEffect(() => {
+          setSelectItem(value);
+     }, [value]);
 
      return (
           <Popup
@@ -25,15 +29,15 @@ const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlacehold
                               <li
                                    className={clsx(
                                         'w-full cursor-pointer items-center justify-start rounded-md text-content-paragraph transition-colors hover:bg-back-primary',
-                                        item.id === state?.id && 'bg-back-primary'
+                                        item.id === selectItem?.id && 'bg-back-primary'
                                    )}
                                    key={index}
                               >
                                    <RadioButton
-                                        checked={item.id === state?.id}
+                                        checked={item.id === selectItem?.id}
                                         label={item.label}
                                         onChange={() => {
-                                             setState(item);
+                                             setSelectItem(item);
                                              onChange(item);
                                              setOpen(false);
                                              item.onClick?.();
@@ -50,7 +54,7 @@ const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlacehold
                          <div className="w-full flex-1 cursor-pointer" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}
-                                   value={state?.label}
+                                   value={selectItem?.label}
                                    onChange={() => null}
                                    className="h-12 w-full cursor-pointer border-none bg-transparent text-sm text-content-title outline-none"
                                    dir="rtl"
@@ -66,9 +70,9 @@ const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlacehold
                               </div>
                               <div
                                    className={clsx('absolute text-xs transition-all duration-100', {
-                                        '-top-3 right-2 bg-back-surface px-1 text-input-active': state,
-                                        [bgPlaceholder as string]: bgPlaceholder && state,
-                                        'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !state,
+                                        '-top-3 right-2 bg-back-surface px-1 text-input-active': selectItem,
+                                        [bgPlaceholder as string]: bgPlaceholder && selectItem,
+                                        'right-2 top-1/2 -translate-y-1/2 bg-transparent text-input-default': !selectItem,
                                    })}
                               >
                                    <span className="">{placeholder}</span>

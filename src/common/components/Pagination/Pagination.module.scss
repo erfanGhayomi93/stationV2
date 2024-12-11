@@ -1,3 +1,10 @@
+@mixin transitionPrefix($property, $duration, $timing-function: ease, $delay: 0) {
+  -webkit-transition: $property $duration $timing-function $delay;
+  -moz-transition: $property $duration $timing-function $delay;
+  -o-transition: $property $duration $timing-function $delay;
+  transition: $property $duration $timing-function $delay;
+}
+
 .pagination {
   display: flex;
   align-items: center;
@@ -48,8 +55,7 @@
     width: 2rem;
     background-color: transparent;
     color: theme("colors.content-deselecttab");
-    transition: background-color 250ms, color 250ms;
-    -webkit-transition: background-color 250ms, color 250ms;
+    @include transitionPrefix(all, 300ms, ease);
   }
 
   &.active button {
@@ -78,6 +84,7 @@
     color: theme("colors.content-deselecttab");
     font-size: 0.75rem;
     cursor: pointer;
+    @include transitionPrefix(all, 300ms,ease);
 
 
     &.active {

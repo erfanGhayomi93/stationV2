@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import CustomersSearch from '@components/customersSearch';
 import SelectInput from '@uiKit/Inputs/SelectInput.tsx';
 import AdvancedDatepicker from '@components/Datepicker/AdvanceDatePicker.tsx';
-import CheckButton from '@components/CheckButton.tsx';
 import MultiSearchSymbol from '@components/searchSymbol/MulitSearchSymbol.tsx';
 
 interface ITradesReportsFiltersSidebarProps {
@@ -138,12 +137,13 @@ const TradesReportsFilters = ({ filters, setFieldFilters }: ITradesReportsFilter
                          placement="bottom"
                          placeholder={t('dates.from')}
                          value={filters.fromDate}
-                         onChange={date => setFieldFilters('fromDate', date.getDate())}
+                         onChange={date => setFieldFilters('fromDate', date)}
                     />
                     <AdvancedDatepicker
+                         placement="bottom"
                          placeholder={t('dates.to')}
                          value={filters.toDate}
-                         onChange={date => setFieldFilters('toDate', date.getDate())}
+                         onChange={date => setFieldFilters('toDate', date)}
                     />
                </div>
 
