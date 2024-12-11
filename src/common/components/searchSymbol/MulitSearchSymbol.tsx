@@ -17,7 +17,7 @@ function MultiSearchSymbol({ searchSymbol, setSearchSymbol }: IMultiSearchSymbol
 
      const debouncedTerm = useDebounce(query, 400);
 
-     const { data, refetch, isFetching: isFetchingSearch } = useQuerySymbolSearch(debouncedTerm);
+     const { data, isFetching: isFetchingSearch } = useQuerySymbolSearch(debouncedTerm);
 
      const { data: historyData } = useQuerySearchHistory();
 
@@ -87,7 +87,7 @@ function MultiSearchSymbol({ searchSymbol, setSearchSymbol }: IMultiSearchSymbol
 
                          <span
                               className={clsx(
-                                   'absolute right-6 z-10 bg-back-surface p-2 text-xs text-content-title transition-transform group-focus-within:-translate-y-6'
+                                   'absolute right-6 z-10 bg-back-surface p-2 text-xs text-content-placeholder transition-transform group-focus-within:-translate-y-6'
                               )}
                          >
                               نماد

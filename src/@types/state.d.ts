@@ -9,8 +9,8 @@ interface ITradesReportsFilters {
           id: TDate;
           label: string;
      };
-     fromDate: number;
-     toDate: number;
+     fromDate: Date;
+     toDate: Date;
      side: {
           id: TSideFilter;
           label: string;

@@ -137,12 +137,13 @@ const TradesReportsFilters = ({ filters, setFieldFilters }: ITradesReportsFilter
                          placement="bottom"
                          placeholder={t('dates.from')}
                          value={filters.fromDate}
-                         onChange={date => setFieldFilters('fromDate', date.getDate())}
+                         onChange={date => setFieldFilters('fromDate', date)}
                     />
                     <AdvancedDatepicker
+                         placement="bottom"
                          placeholder={t('dates.to')}
                          value={filters.toDate}
-                         onChange={date => setFieldFilters('toDate', date.getDate())}
+                         onChange={date => setFieldFilters('toDate', date)}
                     />
                </div>
 

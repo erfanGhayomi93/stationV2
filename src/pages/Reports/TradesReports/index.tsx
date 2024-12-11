@@ -42,7 +42,7 @@ const TradesReports = () => {
      const {
           inputs: tradesReportsFilters,
           setFieldValue: setFieldTradesReportsFilters,
-          setFieldsValue: setFieldsTradesReportsFilters,
+          setInputs: setFieldsTradesReportsFilters,
      } = useInputs<ITradesReportsFilters>(initialTradesReportsFilter);
 
      const {
