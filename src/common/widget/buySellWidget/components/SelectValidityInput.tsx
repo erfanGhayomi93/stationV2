@@ -64,7 +64,7 @@ const SelectValidityInput = ({ onChange, items, value, placeholder = '', side, .
                )}
           >
                {({ setOpen, open }) => (
-                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active">
+                    <div className="group relative flex h-10 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 group-focus-within:border-input-active">
                          <div className="w-full flex-1" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}

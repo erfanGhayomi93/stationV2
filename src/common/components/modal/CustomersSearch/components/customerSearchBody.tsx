@@ -18,8 +18,6 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
 
      const debouncedTerm = useDebounce(term, 400);
 
-     // const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
-
      const { data: searchCustomers } = useQueryCustomerSearch(debouncedTerm, 'All');
 
      const { data: defaultCustomers } = useQueryDefaultCustomer();

@@ -46,7 +46,7 @@ const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlacehold
                className="dropdown-portal"
           >
                {({ setOpen, open }) => (
-                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 focus-within:border-input-active">
+                    <div className="group relative flex h-10 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 focus-within:border-input-active">
                          <div className="w-full flex-1 cursor-pointer" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}

@@ -72,7 +72,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, i
                }}
           >
                <div className={clsx('relative', {
-                    'rtl group flex h-12 w-full items-center justify-between rounded-lg border border-input-default py-2 transition-colors focus-within:border-input-active': !isMainPage
+                    'rtl group flex h-10 w-full items-center justify-between rounded-lg border border-input-default py-2 transition-colors focus-within:border-input-active': !isMainPage
                })}>
                     <ComboboxInput
                          aria-label={searchSymbol?.symbolTitle || ''}
@@ -84,7 +84,7 @@ const SymbolSearch: FC<ISymbolSearchProps> = ({ searchSymbol, setSearchSymbol, i
                               'focus:outline-none outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 px-8',
                               {
                                    "bg-back-2 py-1.5": isMainPage,
-                                   "h-12 bg-transparent text-right": !isMainPage,
+                                   "h-10 bg-transparent text-right": !isMainPage,
                               }
                          )}
                          autoComplete="off"

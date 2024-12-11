@@ -49,16 +49,16 @@ const Loading = () => {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      ({ children, variant = 'primary', icon, className, isLoading = false, ...props }, ref) => {
           const baseClass =
-               'py-2 px-6 rounded-lg w-full text-sm border flex items-center justify-center gap-x-2 disabled:opacity-60';
+               'py-2 px-6 rounded-lg w-full text-sm border flex items-center justify-center gap-x-2 disabled:opacity-60 ';
 
           const variantClass = clsx(isLoading && 'opacity-80 pointer-events-none w-full', {
-               'text-content-white bg-button-success-default border:content-success-buy': variant === 'primary',
-               'text-content-success-buy bg-content-white border:content-success-buy': variant === 'primary-outline',
-               'text-content-white bg-button-primary-default ': variant === 'primary-darkness',
-               'text-button-primary-default bg-content-white border-button-primary-default':
+               'text-content-white bg-button-success-default border:content-success-buy active:bg-button-success-pressing': variant === 'primary',
+               'text-button-success-default bg-content-white border:button-success-default active:border-button-success-pressing active:text-button-success-pressing': variant === 'primary-outline',
+               'text-content-white bg-button-primary-default active:bg-button-primary-pressing': variant === 'primary-darkness',
+               'text-button-primary-default bg-content-white border-button-primary-default active:text-button-primary-pressing active:border-button-primary-pressing':
                     variant === 'primary-darkness-outline',
-               'text-content-white bg-button-error-default': variant === 'danger',
-               'text-content-error-sell bg-back-error-default': variant === 'danger-outline',
+               'text-content-white bg-button-error-default active:bg-button-error-pressing': variant === 'danger',
+               'text-button-error-default border-button-error-default bg-back-error-default active:border-button-error-pressing active:text-button-error-pressing': variant === 'danger-outline',
                'text-content-deselecttab bg-button-tab-deactive': variant === 'secondary',
                'text-content-selected bg-button-tab-active  border-none': variant === 'label',
                'text-input-focus bg-button-info-bg-selected border-input-focus': variant === 'info',
@@ -71,7 +71,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                     ) : (
                          <>
                               {!!icon && icon}
-                              <span>{children}</span>
+                              <span className=''>{children}</span>
                          </>
                     )}
                </button>

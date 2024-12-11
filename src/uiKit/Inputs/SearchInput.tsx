@@ -95,7 +95,7 @@ const SearchInput = ({
                     }}
                     ref={searchInputRef}
                     // style={{width}}
-                    className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
+                    className="rtl group relative flex h-10 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
                >
                     <div className="flex w-full items-center gap-1 pr-5">
                          <div className="absolute right-2 flex h-full items-center justify-center">

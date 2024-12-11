@@ -22,8 +22,10 @@ const BodyBuySell = () => {
      );
 
      return (
-          <div className="flex w-full flex-col gap-y-4 px-4 py-4 outline-none">
-               <CustomersSearch />
+          <div className="flex w-full flex-col gap-y-4 px-4 py-2 outline-none">
+               <CustomersSearch
+                    isMainPage
+               />
                <Quantity
                     minTradeQuantity={data?.symbolData.minTradeQuantity}
                     maxTradeQuantity={data?.symbolData.maxTradeQuantity}

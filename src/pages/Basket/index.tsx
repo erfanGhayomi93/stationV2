@@ -161,7 +161,9 @@ const Basket = () => {
           ];
           return (
                <div className="flex flex-col gap-y-6">
-                    <CustomersSearch />
+                    <CustomersSearch
+                         isMainPage={false}
+                    />
 
                     <SymbolSearch
                          searchSymbol={searchSymbol}

@@ -39,13 +39,6 @@ const ResultItem: FC<IResultItem> = ({ data: customer, dispatch, selectedCustome
                               setChecked(!checked);
                          }}
                     />
-
-                    {/* <input
-                    type="checkbox"
-                    className="cursor-pointer"
-                    checked={selectedCustomers.some((item) => item.customerISIN === customer?.customerISIN)}
-                    onChange={(event) => onSelectionChanged(event.target.checked, customer)}
-                /> */}
                     {customer?.title}
                </div>
                <div className="flex w-4/6 select-text items-center justify-center border-l border-back-surface py-3">

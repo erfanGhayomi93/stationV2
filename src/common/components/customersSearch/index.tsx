@@ -14,9 +14,10 @@ interface CustomersSearchProps {
      onChange?: (selectedCustomerISIN: ICustomerAdvancedSearchRes[]) => void;
      bgPlaceholder?: boolean;
      isDetailsCustomerData?: boolean;
+     isMainPage?: boolean;
 }
 
-const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true }: CustomersSearchProps) => {
+const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true, isMainPage }: CustomersSearchProps) => {
      const { setCustomersSearchModalSheet } = useModalStore();
 
      const { selectedCustomers, setSelectedCustomers, removeAllSelectedCustomers, removeSelectedCustomers } = useCustomerStore();
@@ -52,7 +53,9 @@ const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true
      }, [selectedCustomers]);
 
      return (
-          <div className="mb-3 flex items-center">
+          <div className={clsx('flex items-center', {
+               'mb-3 ': isMainPage
+          })}>
                <div className="w-9/12 pl-4">
                     <div className="relative">
                          <SearchInput
@@ -70,7 +73,7 @@ const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true
                               )}
                          />
 
-                         {selectedCustomers.length === 1 && isDetailsCustomerData && (
+                         {(selectedCustomers.length === 1 && isDetailsCustomerData && isMainPage) && (
                               <div className="absolute mt-0.5 flex gap-x-1 pr-1 text-xs">
                                    {side === 'Buy' && (
                                         <>

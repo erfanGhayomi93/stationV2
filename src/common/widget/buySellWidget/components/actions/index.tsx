@@ -123,7 +123,6 @@ const ActionsOrder = () => {
                     variant={side === 'Buy' ? 'primary' : 'danger'}
                     className="flex-1"
                     onClick={sendingOrder}
-                    isLoading={ordersLoading}
                >
                     ارسال {side === 'Buy' ? 'خرید' : 'فروش'}
                </Button>

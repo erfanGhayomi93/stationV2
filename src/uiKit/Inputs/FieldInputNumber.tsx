@@ -78,7 +78,7 @@ const FieldInputNumber = ({
 
 
      return (
-          <div className={clsx('rtl mb-3 group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active', {
+          <div className={clsx('rtl mb-3 group relative flex h-10 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active', {
                "border-input-error focus-within:border-input-error ": isErrorInput,
                "border-input-focus focus-within:border-input-focus bg-button-info-bg-selected": isInfo,
 
