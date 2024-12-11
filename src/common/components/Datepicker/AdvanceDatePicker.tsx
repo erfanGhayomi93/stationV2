@@ -1,11 +1,10 @@
-import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineIcon } from '@assets/icons';
-import { weekDaysName, yearMonthsName } from '@constant/date';
+import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineIcon, CalculatorIcon } from '@assets/icons';
+import { getDateMilliseconds, weekDaysName, yearMonthsName } from '@constant/date';
 import dayjs from '@libs/dayjs';
-import { dayAsJalali, isBefore, isSameOrAfter, isSameOrBefore } from '@methods/helper';
+import { dayAsJalali, isBefore, isBetween, isSameOrAfter, isSameOrBefore } from '@methods/helper';
 import clsx from 'clsx';
 import { Dispatch, forwardRef, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-
 import styles from './AdvanceDatePicker.module.scss';
 
 type DateValue = null | string | number | Date;
@@ -61,6 +60,7 @@ interface AdvancedDatepickerProps {
      nonBorder?: boolean;
      dataTestId?: string;
      open?: boolean;
+     ownInput?: boolean;
      setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -79,13 +79,16 @@ const AdvancedDatepicker = ({
      weekDays = weekDaysName,
      dataTestId = 'advanced_date_picker',
      open,
+     clearable,
+     placeholder,
+     ownInput = true,
      setOpen,
 }: AdvancedDatepickerProps) => {
      const rootRef = useRef<HTMLDivElement>(null);
      const inputRef = useRef<HTMLInputElement>(null);
      const datepickerRef = useRef<HTMLDivElement | undefined>(undefined);
 
-     const [focusing] = useState(false);
+     const [focusing, setFocusing] = useState(false);
 
      const [visibleCalendar, setVisibleCalendar] = useState(false);
 
@@ -94,43 +97,43 @@ const AdvancedDatepicker = ({
           return dayjs(d).calendar('jalali').format('YYYY / MM / DD');
      }, [value]);
 
-     const [, setInputValue] = useState(valueAsJalali);
+     const [inputValue, setInputValue] = useState(valueAsJalali);
 
-     // const onClickDocument = (e: MouseEvent) => {
-     //      const rootEl = rootRef.current;
-     //      const datepickerEl = datepickerRef.current;
-     //      if (!rootEl || !datepickerEl) {
-     //           setVisibleCalendar(false);
-     //           document.removeEventListener('mousedown', onClickDocument);
-     //           return;
-     //      }
-     //
-     //      const target: Node = (e.target || e.currentTarget) as Node;
-     //      if (target && !datepickerEl.contains(target) && !rootEl.contains(target)) {
-     //           setVisibleCalendar(false);
-     //           document.removeEventListener('mousedown', onClickDocument);
-     //      }
-     // };
+     const onClickDocument = (e: MouseEvent) => {
+          const rootEl = rootRef.current;
+          const datepickerEl = datepickerRef.current;
+          if (!rootEl || !datepickerEl) {
+               setVisibleCalendar(false);
+               document.removeEventListener('mousedown', onClickDocument);
+               return;
+          }
 
-     // const onClickIcon = () => {
-     //      const inputElement = inputRef.current;
-     //      if (!inputElement) return;
-     //
-     //      setInputValue('');
-     //      inputElement.focus();
-     //
-     //      openCalendar();
-     // };
+          const target: Node = (e.target || e.currentTarget) as Node;
+          if (target && !datepickerEl.contains(target) && !rootEl.contains(target)) {
+               setVisibleCalendar(false);
+               document.removeEventListener('mousedown', onClickDocument);
+          }
+     };
 
-     // const isValidYear = (value: Date) => {
-     //      const d = dayAsJalali(value).calendar('jalali');
-     //      if (!d.isValid()) return;
-     //
-     //      const nYear = value.getFullYear();
-     //      const currentYear = new Date().getFullYear();
-     //
-     //      return isBetween(currentYear - 100, nYear, currentYear + 100);
-     // };
+     const onClickIcon = () => {
+          const inputElement = inputRef.current;
+          if (!inputElement) return;
+
+          setInputValue('');
+          inputElement.focus();
+
+          openCalendar();
+     };
+
+     const isValidYear = (value: Date) => {
+          const d = dayAsJalali(value).calendar('jalali');
+          if (!d.isValid()) return;
+
+          const nYear = value.getFullYear();
+          const currentYear = new Date().getFullYear();
+
+          return isBetween(currentYear - 100, nYear, currentYear + 100);
+     };
 
      const isDisabledDate = (d: Date): boolean => {
           if (dateIsDisabled) return dateIsDisabled(d);
@@ -142,97 +145,97 @@ const AdvancedDatepicker = ({
           return false;
      };
 
-     // const onBlurInput = (value: string, blurInput = true) => {
-     //      if (blurInput) setFocusing(false);
-     //
-     //      value = value.replace(/\s/g, '');
-     //
-     //      const d = dayAsJalali(value).calendar('jalali');
-     //      if (!d.isValid()) return;
-     //
-     //      const asDate = d.toDate();
-     //
-     //      if (isValidYear(asDate) === false) return;
-     //
-     //      if (!isDisabledDate(asDate)) onChange(asDate);
-     // };
+     const onBlurInput = (value: string, blurInput = true) => {
+          if (blurInput) setFocusing(false);
 
-     // const openCalendar = () => {
-     //      setVisibleCalendar(true);
-     //      setFocusing(true);
-     //      document.addEventListener('mousedown', onClickDocument);
-     // };
+          value = value.replace(/\s/g, '');
 
-     // const onKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-     //      try {
-     //           const { key } = e;
-     //
-     //           if (['Enter', 'ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(key)) {
-     //                e.preventDefault();
-     //                e.stopPropagation();
-     //           }
-     //
-     //           if (key === 'Enter') {
-     //                onBlurInput(inputValue, true);
-     //                return setVisibleCalendar(false);
-     //           }
-     //
-     //           if (key === 'Tab') return setVisibleCalendar(false);
-     //
-     //           if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'ArrowRight' || key === 'ArrowLeft') {
-     //                const { Week: weekAsTimestamp, Day: dayAsTimestamp } = getDateMilliseconds;
-     //                const timestamps = {
-     //                     ArrowDown: weekAsTimestamp,
-     //                     ArrowUp: -1 * weekAsTimestamp,
-     //                     ArrowRight: -1 * dayAsTimestamp,
-     //                     ArrowLeft: dayAsTimestamp,
-     //                };
-     //
-     //                if (value === null) return;
-     //
-     //                const valueAsTimestamp = typeof value === 'number' ? value : new Date(value).getTime();
-     //                const nextDate = new Date(valueAsTimestamp + timestamps[key]);
-     //
-     //                if (isDisabledDate(nextDate) || isValidYear(nextDate) === false) return;
-     //
-     //                onChange(nextDate);
-     //           }
-     //      } catch (e) {
-     //           //
-     //      }
-     // };
+          const d = dayAsJalali(value).calendar('jalali');
+          if (!d.isValid()) return;
 
-     // const checkDateValue = (str: string, max: number) => {
-     //      if (str.charAt(0) !== '0' || str === '00') {
-     //           let num = Number(str);
-     //           if (isNaN(num) || num <= 0 || num > max) num = 1;
-     //
-     //           str = num > Number(max.toString().charAt(0)) && num.toString().length === 1 ? `0${num}` : num.toString();
-     //      }
-     //
-     //      return str;
-     // };
+          const asDate = d.toDate();
 
-     // const dateFormatter = (input: string) => {
-     //      try {
-     //           if (/\D\/$/.test(input)) input = input.substring(0, input.length - 3);
-     //
-     //           const values = input.split('/').map(v => {
-     //                return v.replace(/\D/g, '');
-     //           });
-     //
-     //           if (values[1]) values[1] = checkDateValue(values[1], 12);
-     //           if (values[2]) values[2] = checkDateValue(values[2], 31);
-     //
-     //           const output = values.map((v, i) => {
-     //                return (v.length === 4 && i === 0) || (v.length === 2 && i === 1) ? `${v} / ` : v;
-     //           });
-     //
-     //           return output.join('').substring(0, 14);
-     //      } catch (e) {
-     //           return '';
-     //      }
-     // };
+          if (isValidYear(asDate) === false) return;
+
+          if (!isDisabledDate(asDate)) onChange(asDate);
+     };
+
+     const openCalendar = () => {
+          setVisibleCalendar(true);
+          setFocusing(true);
+          document.addEventListener('mousedown', onClickDocument);
+     };
+
+     const onKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+          try {
+               const { key } = e;
+
+               if (['Enter', 'ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(key)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+               }
+
+               if (key === 'Enter') {
+                    onBlurInput(inputValue, true);
+                    return setVisibleCalendar(false);
+               }
+
+               if (key === 'Tab') return setVisibleCalendar(false);
+
+               if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'ArrowRight' || key === 'ArrowLeft') {
+                    const { Week: weekAsTimestamp, Day: dayAsTimestamp } = getDateMilliseconds;
+                    const timestamps = {
+                         ArrowDown: weekAsTimestamp,
+                         ArrowUp: -1 * weekAsTimestamp,
+                         ArrowRight: -1 * dayAsTimestamp,
+                         ArrowLeft: dayAsTimestamp,
+                    };
+
+                    if (value === null) return;
+
+                    const valueAsTimestamp = typeof value === 'number' ? value : new Date(value).getTime();
+                    const nextDate = new Date(valueAsTimestamp + timestamps[key]);
+
+                    if (isDisabledDate(nextDate) || isValidYear(nextDate) === false) return;
+
+                    onChange(nextDate);
+               }
+          } catch (e) {
+               //
+          }
+     };
+
+     const checkDateValue = (str: string, max: number) => {
+          if (str.charAt(0) !== '0' || str === '00') {
+               let num = Number(str);
+               if (isNaN(num) || num <= 0 || num > max) num = 1;
+
+               str = num > Number(max.toString().charAt(0)) && num.toString().length === 1 ? `0${num}` : num.toString();
+          }
+
+          return str;
+     };
+
+     const dateFormatter = (input: string) => {
+          try {
+               if (/\D\/$/.test(input)) input = input.substring(0, input.length - 3);
+
+               const values = input.split('/').map(v => {
+                    return v.replace(/\D/g, '');
+               });
+
+               if (values[1]) values[1] = checkDateValue(values[1], 12);
+               if (values[2]) values[2] = checkDateValue(values[2], 31);
+
+               const output = values.map((v, i) => {
+                    return (v.length === 4 && i === 0) || (v.length === 2 && i === 1) ? `${v} / ` : v;
+               });
+
+               return output.join('').substring(0, 14);
+          } catch (e) {
+               return '';
+          }
+     };
 
      const onDatepickerLoad = useCallback(
           (datepickerEl: HTMLDivElement) => {
@@ -247,9 +250,9 @@ const AdvancedDatepicker = ({
                datepickerEl.style.width = rectOffset.width + 'px';
                datepickerEl.style.left = rectOffset.left + 'px';
                if (placement === 'bottom') {
-                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + 48 + 'px';
+                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + (ownInput ? 0 : 48) + 'px';
                } else {
-                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 - 48 + 'px';
+                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 - (ownInput ? 0 : 48) + 'px';
                }
           },
           [rootRef.current]
@@ -279,50 +282,44 @@ const AdvancedDatepicker = ({
                className={clsx(
                     styles.datepicker,
                     classes?.datepicker,
-                    !fixedPlaceholder && [styles.border, classes?.border],
-                    visibleCalendar && [styles.opened, classes?.opened],
-                    // theme === 'dark' && [styles.dark, classes?.dark],
-                    nonBorder && styles.nonBorder
+                    !nonBorder && [styles.border, classes?.border],
+                    visibleCalendar && [styles.opened, classes?.opened]
                )}
           >
-               {/* <div className={clsx(styles.container, classes?.container, 'input-group relative')}>
-                    {Boolean(fixedPlaceholder) && (
-                         <>
-                              <span className={cn('flexible-placeholder active')}>{fixedPlaceholder}</span>
+               {ownInput && (
+                    <div className={clsx(styles.container, classes?.container, 'relative')}>
+                         <input
+                              type="text"
+                              ref={inputRef}
+                              className={clsx(styles.input, visibleCalendar && [styles.active, classes?.active], classes?.input)}
+                              placeholder={placeholder || 'ــ / ــ / ــــ'}
+                              value={focusing ? inputValue : valueAsJalali}
+                              onKeyDown={onKeydown}
+                              onChange={e => setInputValue(dateFormatter(e.target.value))}
+                              onFocus={e => {
+                                   e.stopPropagation();
+                                   openCalendar();
+                              }}
+                              onBlur={e => onBlurInput(e.target.value)}
+                              onClick={() => {
+                                   if (focusing && !visibleCalendar) setVisibleCalendar(true);
+                              }}
+                              data-testid={`${dataTestId}_input`}
+                         />
 
-                              <fieldset className={cn('flexible-fieldset active')}>
-                                   <legend>{fixedPlaceholder}</legend>
-                              </fieldset>
-                         </>
-                    )}
+                         <span tabIndex={-1} role="button" onClick={onClickIcon} className={clsx(styles.icon, classes?.icon)}>
+                              {!inputValue ? (
+                                   <CalculatorIcon width="1.6rem" height="1.6rem" />
+                              ) : (
+                                   clearable && <XOutlineIcon width="1.6rem" height="1.6rem" />
+                              )}
+                         </span>
 
-                    <input
-                         type="text"
-                         ref={inputRef}
-                         className={clsx(styles.input, visibleCalendar && [styles.active, classes?.active], classes?.input)}
-                         placeholder={placeholder || 'ــ / ــ / ــــ'}
-                         value={focusing ? inputValue : valueAsJalali}
-                         onKeyDown={onKeydown}
-                         onChange={e => setInputValue(dateFormatter(e.target.value))}
-                         onFocus={e => {
-                              e.stopPropagation();
-                              openCalendar();
-                         }}
-                         onBlur={e => onBlurInput(e.target.value)}
-                         onClick={() => {
-                              if (focusing && !visibleCalendar) setVisibleCalendar(true);
-                         }}
-                         data-testid={`${dataTestId}_input`}
-                    />
-
-                    <span tabIndex={-1} role="button" onClick={onClickIcon} className={clsx(styles.icon, classes?.icon)}>
-                         {!inputValue ? (
-                              <CalenderIcon width="1.6rem" height="1.6rem" />
-                         ) : (
-                              clearable && <XOutlineICon width="1.6rem" height="1.6rem" />
-                         )}
-                    </span>
-               </div> */}
+                         <span className="absolute -top-2 right-2 bg-back-surface px-2 text-xs text-content-title">
+                              {placeholder}
+                         </span>
+                    </div>
+               )}
 
                {visibleCalendar &&
                     createPortal(
@@ -384,8 +381,6 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
           const [datepickerValue, setDatepickerValue] = useState<DateValue>(value);
 
           const [mode, setMode] = useState<'month' | 'year' | null>(null);
-
-          // const { theme } = useTheme();
 
           const onEditDate = (method: 'add' | 'subtract', name: 'year' | 'month') => {
                if (!datepickerValue) return;

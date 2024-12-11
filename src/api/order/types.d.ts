@@ -42,6 +42,8 @@ type Tblock = 'Account' | 'Portfolio' | 'Position';
 
 type TOrderStateRequestType = 'All' | 'OnBoard' | 'Done' | 'Error';
 
+type TAggregateTrades = 'None' | 'Customer' | 'Symbol' | 'Both';
+
 interface ISingleDeleteOrderResult {
      clientKey: string | null;
      orderId: number;
@@ -59,6 +61,8 @@ interface IOpenOrder {
      price: number;
      orderVolume: number;
      triggerPrice: number;
+     orderPlaceInPrice?: null | number;
+     orderVolumeInPrice?: null | number;
      quantity: number;
      orderSide: TSide;
      orderOrigin: string;
@@ -80,8 +84,8 @@ interface IOpenOrder {
      orderState: TStatus;
      lastErrorCode: string | null;
      customErrorMsg: string | null;
-     orderPlaceInPrice?: number;
-     orderVolumeInPrice?: number;
+     orderPlaceInPrice?: null | number;
+     orderVolumeInPrice?: null | number;
      tradeDetails: TtradeDetails;
      isEditable: boolean;
      blockType: Tblock;
@@ -283,6 +287,50 @@ interface IDividedOrderRow {
      orderMessageType?: string;
      errorMessageType?: string;
 }
+
+interface ITradesReportsRes {
+     bourseCode: string;
+     customerISIN: string;
+     customerTitle: string;
+     customerType: TCustomerType;
+     iterationCount: number;
+     nationalCode: string;
+     orderFrom: string;
+     orderId: string;
+     orderSide: Exclude<TSide, 'All'>;
+     symbolISIN: string;
+     symbolTitle: string;
+     totalCommission: number;
+     totalPrice: number;
+     tradeDate: string;
+     tradePrice: number;
+     tradeQuantity: number;
+}
+
+interface ITradesReportsReq {
+     FromDate: Date;
+     ToDate: Date;
+     Side?: TSide;
+     SymbolISIN: string[];
+     CustomerISIN: string[];
+     'QueryOption.PageSize': number;
+     'QueryOption.PageNumber': number;
+     Time?: string;
+     CustomerType?: TCustomerType;
+     MyStationOnly?: boolean;
+     GetTradesAggregateType: TAggregateTrades;
+}
+
+interface IDetailsTradesReportsReq {
+     OrderSide: Exclude<TSide, 'All'>;
+     SymbolISIN: string;
+     CustomerISIN: string;
+     TradeDate: string;
+     GetTradesAggregateType: TAggregateTrades;
+     OrderId: string;
+}
+
+interface IDetailsTradesReportsRes extends ITradesReportsRes {}
 
 interface IhostOrderNumberSub {
      orderPlaceInPrice?: number;

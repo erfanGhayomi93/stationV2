@@ -10,21 +10,27 @@ import clsx from 'clsx';
 import { useBuySellStore } from 'common/widget/buySellWidget/context/buySellContext';
 import { useEffect, useMemo } from 'react';
 
-const CustomersSearch = () => {
+interface CustomersSearchProps {
+     onChange?: (selectedCustomerISIN: ICustomerAdvancedSearchRes[]) => void;
+     bgPlaceholder?: boolean;
+     isDetailsCustomerData?: boolean;
+}
+
+const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true }: CustomersSearchProps) => {
      const { setCustomersSearchModalSheet } = useModalStore();
 
      const { selectedCustomers, setSelectedCustomers, removeAllSelectedCustomers, removeSelectedCustomers } = useCustomerStore();
 
-     const { selectedSymbol } = useSymbolStore()
+     const { selectedSymbol } = useSymbolStore();
 
      const { data, refetch: refetchPortlolio } = useQueryPortfolio({
           CustomerISIN: [selectedCustomers[0]?.customerISIN],
-          SymbolISIN: [selectedSymbol]
-     })
+          SymbolISIN: [selectedSymbol],
+     });
 
-     const asset = useMemo(() => data?.result[0]?.asset, [data?.result])
+     const asset = useMemo(() => data?.result[0]?.asset, [data?.result]);
 
-     const { side } = useBuySellStore()
+     const { side } = useBuySellStore();
 
      const selectedCustomerInputValues = useMemo(() => {
           return selectedCustomers.map(customer => {
@@ -39,14 +45,16 @@ const CustomersSearch = () => {
           if (side === 'Sell' && selectedCustomers?.length === 1) {
                refetchPortlolio();
           }
-     }, [side, selectedCustomers, refetchPortlolio])
+     }, [side, selectedCustomers, refetchPortlolio]);
 
-
+     useEffect(() => {
+          onChange?.(selectedCustomers);
+     }, [selectedCustomers]);
 
      return (
-          <div className="flex items-center mb-3">
+          <div className="mb-3 flex items-center">
                <div className="w-9/12 pl-4">
-                    <div className='relative'>
+                    <div className="relative">
                          <SearchInput
                               handleOpenModal={() => setCustomersSearchModalSheet({ symbolTitle: 'title in store' })}
                               placeholder="مشتری"
@@ -54,43 +62,36 @@ const CustomersSearch = () => {
                               values={selectedCustomerInputValues ?? []}
                               removeAllSelectedCustomers={removeAllSelectedCustomers}
                               removeSelectedCustomers={removeSelectedCustomers}
-                              bgPlaceholder={clsx({
-                                   'bg-button-error-bg-selected': side === 'Sell',
-                                   'bg-button-success-bg-selected': side === 'Buy',
-                              })}
+                              bgPlaceholder={clsx(
+                                   bgPlaceholder !== false && {
+                                        'bg-button-error-bg-selected': side === 'Sell',
+                                        'bg-button-success-bg-selected': side === 'Buy',
+                                   }
+                              )}
                          />
 
-                         {
-                              selectedCustomers.length === 1 && (
-                                   <div className='text-xs absolute flex gap-x-1 mt-0.5 pr-1'>
-                                        {
-                                             side === 'Buy' && (
-                                                  <>
-                                                       <span className='text-content-paragraph'>قدرت خرید مشتری:</span>
-                                                       <span className='text-content-success-buy'>
-                                                            {sepNumbers(selectedCustomers[0].customerRemainAndOptionRemainDto.purchasePower)}
-                                                       </span>
-                                                       <span className='text-content-paragraph'>ریال</span>
-                                                  </>
-                                             )
-                                        }
-                                        {
-                                             (side === 'Sell' && !!asset) &&
-                                             (
-                                                  <>
-                                                       <span className='text-content-paragraph'>دارایی مشتری:</span>
-                                                       <span className='text-content-title'>
-                                                            {sepNumbers(asset)}
-                                                       </span>
-                                                       <span className='text-content-paragraph'>سهم</span>
-                                                  </>
-                                             )
-                                        }
-
-                                   </div>
-                              )
-                         }
-
+                         {selectedCustomers.length === 1 && isDetailsCustomerData && (
+                              <div className="absolute mt-0.5 flex gap-x-1 pr-1 text-xs">
+                                   {side === 'Buy' && (
+                                        <>
+                                             <span className="text-content-paragraph">قدرت خرید مشتری:</span>
+                                             <span className="text-content-success-buy">
+                                                  {sepNumbers(
+                                                       selectedCustomers[0].customerRemainAndOptionRemainDto.purchasePower
+                                                  )}
+                                             </span>
+                                             <span className="text-content-paragraph">ریال</span>
+                                        </>
+                                   )}
+                                   {side === 'Sell' && !!asset && (
+                                        <>
+                                             <span className="text-content-paragraph">دارایی مشتری:</span>
+                                             <span className="text-content-title">{sepNumbers(asset)}</span>
+                                             <span className="text-content-paragraph">سهم</span>
+                                        </>
+                                   )}
+                              </div>
+                         )}
                     </div>
                </div>
 
@@ -132,20 +133,24 @@ const CustomersSearch = () => {
                                         if (selectedCustomers.length === 0) return;
                                         setOpen(!open);
                                    }}
-                                   className={clsx("flex items-center gap-1 rounded-lg px-3 py-3",{
+                                   className={clsx('flex items-center gap-1 rounded-lg px-3 py-3', {
                                         'bg-button-error-bg-selected': side === 'Sell',
                                         'bg-button-success-bg-selected': side === 'Buy',
                                    })}
                               >
-                                   <UserGroupIcon className={clsx({
-                                        "text-button-primary-default" :  side === 'Buy' , 
-                                        "text-button-error-default": side === 'Sell'
-                                   })} />
+                                   <UserGroupIcon
+                                        className={clsx({
+                                             'text-button-primary-default': side === 'Buy',
+                                             'text-button-error-default': side === 'Sell',
+                                        })}
+                                   />
 
-                                   <div className={clsx('flex h-5 w-5 items-center justify-center rounded-full text-icon-white' , {
-                                        "bg-button-primary-hover" : side === 'Buy' ,
-                                        "bg-button-error-hover" : side === 'Sell' ,
-                                   })}>
+                                   <div
+                                        className={clsx('flex h-5 w-5 items-center justify-center rounded-full text-icon-white', {
+                                             'bg-button-primary-hover': side === 'Buy',
+                                             'bg-button-error-hover': side === 'Sell',
+                                        })}
+                                   >
                                         <span className="text-xs">{selectedCustomers.length}</span>
                                    </div>
                               </button>

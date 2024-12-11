@@ -82,8 +82,10 @@ import XCircleOutlineIcon from '../svg/xCircleOutline.svg?react';
 import XOutlineIcon from '../svg/xOutline.svg?react';
 import SendIcon from '../svg/send.svg?react';
 import RocketIcon from '../svg/rocket.svg?react';
+import UnOrderedListIcon from '../svg/unorderedlist.svg?react';
 
 export {
+     UnOrderedListIcon,
      RocketIcon,
      AngleDownIcon,
      AngleUpIcon,
