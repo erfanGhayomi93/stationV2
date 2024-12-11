@@ -26,7 +26,7 @@ const Pagination = ({ onPageChange, onPageSizeChange, hasNextPage, hasPreviousPa
 
      const onPrevious = () => {
           if (!hasPreviousPage) return;
-          onPageChange(Math.max(props.pageNumber - 1, 1));
+          onPageChange(1);
      };
 
      return (
@@ -51,7 +51,7 @@ const Pagination = ({ onPageChange, onPageSizeChange, hasNextPage, hasPreviousPa
                     </li>
                     <div className={styles.pageWrapper}>
                          {pag.map(pn => (
-                              <li className={cn(styles.page, pn === props.pageNumber && styles.active)} key={pn}>
+                              <li className={cn(styles.page, pn === props.currentPage && styles.active)} key={pn}>
                                    <button
                                         disabled={typeof pn === 'string'}
                                         onClick={typeof pn === 'string' ? undefined : () => onPageChange(pn)}

@@ -378,28 +378,28 @@ export const oneDayAgo = () => {
 
      date = date.getTime();
 
-     return date - getDateMilliseconds.Day;
+     return new Date(date - getDateMilliseconds.Day);
 };
 
-export const oneMonthAgo = (n = 1): number => {
+export const oneMonthAgo = (n = 1): Date => {
      let d: number | Date = new Date();
 
      d.setHours(0, 0, 0, 0);
      d = d.getTime();
 
-     return d - getDateMilliseconds.Month * n;
+     return new Date(d - getDateMilliseconds.Month * n);
 };
 
-export const today = (): number => {
+export const today = (): Date => {
      let d: number | Date = new Date();
 
      d.setHours(23, 59, 59, 0);
      d = d.getTime();
 
-     return d;
+     return new Date(d);
 };
 
-export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = false): Record<'fromDate' | 'toDate', number> => {
+export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = false): Record<'fromDate' | 'toDate', Date> => {
      if (reverse === true) {
           const fromDate = today();
 
@@ -412,7 +412,7 @@ export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = fal
           if (date === 'month') toDate += getDateMilliseconds.Month;
           if (date === 'year') toDate += getDateMilliseconds.Year;
 
-          return { fromDate, toDate };
+          return { fromDate: new Date(fromDate), toDate: new Date(toDate) };
      }
 
      const toDate = today();
@@ -426,5 +426,5 @@ export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = fal
      if (date === 'month') fromDate -= getDateMilliseconds.Month;
      if (date === 'year') fromDate -= getDateMilliseconds.Year;
 
-     return { fromDate, toDate };
+     return { fromDate: new Date(fromDate), toDate: new Date(toDate) };
 };

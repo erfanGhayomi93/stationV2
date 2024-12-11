@@ -24,11 +24,11 @@ const CustomersSearch = ({ onChange, bgPlaceholder, isDetailsCustomerData = true
      const { selectedSymbol } = useSymbolStore();
 
      const { data, refetch: refetchPortlolio } = useQueryPortfolio({
-          CustomerISIN: [selectedCustomers[0]?.customerISIN],
+          CustomerISIN: [selectedCustomers?.[0]?.customerISIN],
           SymbolISIN: [selectedSymbol],
      });
 
-     const asset = useMemo(() => data?.result[0]?.asset, [data?.result]);
+     const asset = useMemo(() => data?.result?.[0]?.asset, [data?.result]);
 
      const { side } = useBuySellStore();
 

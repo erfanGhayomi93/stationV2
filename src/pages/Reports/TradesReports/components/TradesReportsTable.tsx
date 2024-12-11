@@ -82,6 +82,7 @@ const TradesReportsTable = ({ data, loading, filters, setFieldFilters }: ITrades
                {
                     headerName: t('tradesReports.detailsCol'),
                     cellRenderer: 'agGroupCellRenderer',
+                    cellClass: '[&_.ag-cell-expandable]:flex [&_.ag-cell-expandable]:justify-center',
                },
           ],
           []
