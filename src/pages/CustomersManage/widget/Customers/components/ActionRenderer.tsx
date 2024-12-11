@@ -93,7 +93,7 @@ const ActionRenderer = ({ data, onPortfolioCustomer, onAddCustomerToGroups }: Ac
                                              <span className="text-icon-default">{icon}</span>
                                              <span className="text-sm text-content-paragraph">{label}</span>
                                         </div>
-                                        <ArrowLeftIcon className="text-icon-default" />
+                                        <ArrowLeftIcon width="1rem" height="1rem" className="text-icon-default" />
                                    </li>
                               ))}
                          </ul>

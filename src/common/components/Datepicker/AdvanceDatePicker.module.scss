@@ -1,26 +1,28 @@
 .datepicker {
-     --rg-dp-border-color: theme('colors.button-primary-default');
-     --rg-dp-active-color: theme('colors.button-primary-selected');
+     --rg-dp-border-color: theme('colors.input-default');
+     --rg-dp-active-color: theme('colors.input-active');
      --rg-dp-active-border-color: theme('colors.button-primary-selected');
      --rg-dp-icon-color: theme('colors.icon-default');
      --rg-dp-to-color: theme('colors.icon-primary');
      --rg-db-disabled-color: theme('colors.icon-disable');
+     --rg-db-text-input: theme("colors.content-title");
      --rg-dp-height: 3rem;
 
-     border-radius: theme('borderRadius.DEFAULT');
+     border-radius: 8px;
      border: 1px solid transparent;
      width: 100%;
      max-width: 100%;
      direction: rtl;
 
+
+
      &.nonBorder {
           border-color: transparent;
-          box-shadow: 0 2px 11px 0 rgba(0, 0, 0, 0.03) !important;
      }
 
-     //  &.border {
-     //       border: 1px solid theme('colors.button-primary-default');
-     //  }
+       &.border {
+            border: 1px solid var(--rg-dp-border-color);
+       }
 }
 
 .container {
@@ -30,7 +32,8 @@
      justify-content: space-between;
      width: 100%;
      height: var(--rg-dp-height);
-     border-radius: theme('borderRadius.DEFAULT');
+     position: relative;
+
 }
 
 .icon {
@@ -55,6 +58,9 @@
      font-size: 0.75rem;
      font-weight: 400;
      text-align: center;
+     color: var(--rg-db-text-input);
+     border: none;
+     outline: none;
 
      &::placeholder {
           letter-spacing: 1px;

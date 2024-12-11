@@ -145,7 +145,7 @@ export const Captcha = ({ register, errors, captcha, onRefresh, className = '', 
                          </div>
                          <div className="ml-2 select-none items-center bg-transparent">
                               {!captcha?.base64String || getSessionCaptcha ? (
-                                   <p>{t('login.pleaseTryAgain')}</p>
+                                   <p className="text-content-placeholder">{t('login.pleaseTryAgain')}</p>
                               ) : (
                                    <img
                                         src={captcha?.base64String}

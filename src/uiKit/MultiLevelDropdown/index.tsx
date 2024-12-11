@@ -148,7 +148,11 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                   )}
                                                   {item.subMenu && (
                                                        <div>
-                                                            <ArrowLeftIcon className="text-icon-primary" />
+                                                            <ArrowLeftIcon
+                                                                 width="1rem"
+                                                                 height="1rem"
+                                                                 className="text-icon-primary"
+                                                            />
                                                        </div>
                                                   )}
                                              </div>

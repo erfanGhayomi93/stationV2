@@ -11,16 +11,16 @@ const ActionCellRenderer = (params: CustomGroupCellRendererProps<IPositionsCusto
      return (
           <div className="flex h-full items-center gap-4 text-icon-default">
                <Tippy content={t('portfolioCustomerModal.positionsChangeGuaranteeActionTooltip')}>
-                    <button>
+                    <button disabled>
                          <ReturnFillIcon />
                     </button>
                </Tippy>
                <Tippy content={t('portfolioCustomerModal.positionsClosePositionActionTooltip')}>
-                    <button>
+                    <button disabled>
                          <CloseFillIcon />
                     </button>
                </Tippy>
-               <button>
+               <button disabled>
                     <MoreStatusIcon />
                </button>
           </div>

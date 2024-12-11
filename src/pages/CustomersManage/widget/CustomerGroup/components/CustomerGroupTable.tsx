@@ -82,8 +82,6 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                     if (detailGridInfo) {
                          const selectedDetailRows = detailGridInfo.api?.getSelectedRows();
 
-                         console.log(selectedDetailRows, 'selectedDetailRows');
-
                          selectedDetailRows?.forEach(row => {
                               if (row.customerISIN && !allSelectedRowsMap.has(row.customerISIN)) {
                                    allSelectedRowsMap.set(row.customerISIN, row);
@@ -118,10 +116,10 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                               headerName: t('customersManage.purchasePowerCol'),
                               valueFormatter: ({ data }) =>
                                    '\u200e' +
-                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchasePower ?? 0, true, false),
+                                   numFormatter(data?.customerRemainAndOptionRemainDto?.purchasePower ?? 0, true, false),
                               cellClassRules: {
                                    'text-content-error-sell': ({ data }) =>
-                                        (data?.customerRemainAndOptionRemainDto.purchasePower ?? 0) < 0,
+                                        (data?.customerRemainAndOptionRemainDto?.purchasePower ?? 0) < 0,
                               },
                          },
                          {
@@ -129,10 +127,10 @@ const CustomerGroupTable = ({ data, loading }: TCustomerGroupTableProps) => {
                               headerName: t('customersManage.purchasePowerOptionCol'),
                               valueFormatter: ({ data }) =>
                                    '\u200e' +
-                                   numFormatter(data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0, true, false),
+                                   numFormatter(data?.customerRemainAndOptionRemainDto?.purchaseOptionPower ?? 0, true, false),
                               cellClassRules: {
                                    'text-content-error-sell': ({ data }) =>
-                                        (data?.customerRemainAndOptionRemainDto.purchaseOptionPower ?? 0) < 0,
+                                        (data?.customerRemainAndOptionRemainDto?.purchaseOptionPower ?? 0) < 0,
                               },
                          },
                          {

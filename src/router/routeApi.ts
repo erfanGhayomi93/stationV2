@@ -36,6 +36,7 @@ export const routeApi = () => {
                Create: baseUrl + '/Order/v1/Create',
 
                GetTrades: baseUrl + '/Order/v1/Trades',
+               GetTradeDetails: baseUrl + '/Order/v1/TradesDetails',
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
@@ -62,8 +63,7 @@ export const routeApi = () => {
 
                deleteCustomerFromGroup: baseUrl + '/CustomerGroup/v1/RemoveCustomersFromGroup',
 
-			   toggleFavoriteCustomer: baseUrl + '/Customer/v1/ToggleFavorite',
-
+               toggleFavoriteCustomer: baseUrl + '/Customer/v1/ToggleFavorite',
           },
 
           SupervisorMessage: {
@@ -105,8 +105,6 @@ export const routeApi = () => {
                deleteCart: baseUrl + '/Cart/v1/DeleteCart',
                editCart: baseUrl + '/Cart/v1/EditCart',
                deleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
-               cartSendOrder: baseUrl + '/Cart/v1/CartSendOrder',
-               CreateBulkCartDetail: baseUrl + '/Cart/v1/CreateBulkCartDetail',
           },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',

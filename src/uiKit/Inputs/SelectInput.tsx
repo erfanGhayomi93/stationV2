@@ -4,18 +4,18 @@ import RadioButton from '@uiKit/RadioButton';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useState } from 'react';
 
-type TItem = { id: string; label: string; onClick?: () => void };
+type TItem<T> = { id: T; label: string; onClick?: () => void };
 
-interface TSelectInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
+interface TSelectInputProps<T> extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'placeholder' | 'value'> {
      placeholder?: string;
-     onChange: (item: TItem) => void;
-     items?: TItem[];
-     value: TItem | null;
+     onChange: (item: TItem<T>) => void;
+     items?: TItem<T>[];
+     value: TItem<T> | null;
      bgPlaceholder?: string;
 }
 
-const SelectInput = ({ onChange, items, value, placeholder = '', bgPlaceholder, ...props }: TSelectInputProps) => {
-     const [state, setState] = useState<{ id: string; label: string } | null>(value);
+const SelectInput = <T,>({ onChange, items, value, placeholder = '', bgPlaceholder, ...props }: TSelectInputProps<T>) => {
+     const [state, setState] = useState<{ id: T; label: string } | null>(value);
 
      return (
           <Popup
@@ -46,7 +46,7 @@ const SelectInput = ({ onChange, items, value, placeholder = '', bgPlaceholder, 
                className="dropdown-portal"
           >
                {({ setOpen, open }) => (
-                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 focus-within:border-input-focus">
+                    <div className="group relative flex h-12 w-full items-center justify-between gap-1 rounded-lg border border-input-default px-2 focus-within:border-input-active">
                          <div className="w-full flex-1 cursor-pointer" onClick={() => setOpen(!open)}>
                               <input
                                    //    defaultValue={value.label}
