@@ -59,7 +59,7 @@ function MultiSearchSymbol({ searchSymbol, setSearchSymbol }: IMultiSearchSymbol
      );
 
      const createNotice = useCallback((text: string) => {
-          return <div className="text-content-paragraph">{text}</div>;
+          return <div className="truncate text-sm text-content-paragraph">{text}</div>;
      }, []);
 
      return (
@@ -72,16 +72,16 @@ function MultiSearchSymbol({ searchSymbol, setSearchSymbol }: IMultiSearchSymbol
                >
                     <div
                          className={clsx(
-                              'rtl group relative flex h-12 w-full items-center justify-between gap-2 rounded-lg border border-input-default px-2 py-2 transition-colors focus-within:border-input-active'
+                              'rtl group relative flex h-12 w-full items-center justify-between gap-2 rounded-lg border border-input-default py-2 transition-colors focus-within:border-input-active'
                          )}
                     >
-                         <div className="relative z-10">
+                         <div className="absolute right-2 z-10">
                               <SearchInputIcon width="1rem" height="1rem" className="text-icon-default" />
                          </div>
                          <ComboboxInput
                               aria-label="Assignees"
                               onChange={event => setQuery(event.target.value)}
-                              className="z-20 h-full w-full border-none bg-transparent text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
+                              className="z-20 h-full w-full border-none bg-transparent px-2 pr-8 text-sm text-content-title outline-none placeholder:text-xs placeholder:text-content-placeholder"
                               autoComplete="off"
                          />
 
@@ -105,7 +105,7 @@ function MultiSearchSymbol({ searchSymbol, setSearchSymbol }: IMultiSearchSymbol
 
                     <ComboboxOptions
                          anchor="bottom"
-                         className="rtl z-[1000] mt-8 w-[var(--input-width)] rounded-xl bg-back-surface p-2 shadow-E6 empty:invisible"
+                         className="rtl z-[1000] mt-3 w-[var(--input-width)] rounded-xl bg-back-surface p-2 shadow-E6 empty:invisible"
                     >
                          <div className="max-h-72 overflow-y-auto">{handleOptions()}</div>
                     </ComboboxOptions>

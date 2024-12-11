@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import CustomersSearch from '@components/customersSearch';
 import SelectInput from '@uiKit/Inputs/SelectInput.tsx';
 import AdvancedDatepicker from '@components/Datepicker/AdvanceDatePicker.tsx';
-import CheckButton from '@components/CheckButton.tsx';
 import MultiSearchSymbol from '@components/searchSymbol/MulitSearchSymbol.tsx';
 
 interface ITradesReportsFiltersSidebarProps {
