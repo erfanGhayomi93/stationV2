@@ -2,6 +2,8 @@ type TTradesAggregate = 'Customer' | 'Symbol' | 'Both' | 'None';
 
 type TDate = 'day' | 'week' | 'month' | 'year' | 'custom';
 
+type TSideFilter = 'Buy' | 'Sell' | 'All';
+
 interface ITradesReportsFilters {
      date: {
           id: TDate;
@@ -10,7 +12,7 @@ interface ITradesReportsFilters {
      fromDate: number;
      toDate: number;
      side: {
-          id: 'Buy' | 'Sell' | 'All';
+          id: TSideFilter;
           label: string;
      };
      symbols: (SearchSymbol | null)[];

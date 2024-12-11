@@ -95,7 +95,7 @@ const TradesReportsFilters = ({ filters, setFieldFilters }: ITradesReportsFilter
           []
      );
 
-     const sideItems = useMemo<{ id: TSide; label: string }[]>(
+     const sideItems = useMemo<{ id: TSideFilter; label: string }[]>(
           () => [
                {
                     id: 'All',
@@ -147,7 +147,7 @@ const TradesReportsFilters = ({ filters, setFieldFilters }: ITradesReportsFilter
                     />
                </div>
 
-               <SelectInput<TSide>
+               <SelectInput<TSideFilter>
                     onChange={side => setFieldFilters('side', side)}
                     value={filters.side}
                     items={sideItems}

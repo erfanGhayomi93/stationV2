@@ -19,8 +19,6 @@ const Pagination = ({ onPageChange, onPageSizeChange, hasNextPage, hasPreviousPa
           pageSize: props.pageSize ?? 15,
      });
 
-     console.log({ pag, props });
-
      const onNext = () => {
           if (!hasNextPage) return;
           onPageChange(Math.min(totalPages, props.pageNumber + 1));

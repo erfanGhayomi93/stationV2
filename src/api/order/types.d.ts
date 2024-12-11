@@ -1,4 +1,4 @@
-type TSide = 'Buy' | 'Sell' | 'All';
+type TSide = 'Buy' | 'Sell';
 
 type IOrderType = 'MarketOrder' | 'LimitOrder' | 'MarketToLimitOrder' | 'MarketOnOpeningOrder' | 'StopOrder';
 
