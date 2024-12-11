@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { twMerge } from 'tailwind-merge';
+import { getDateMilliseconds } from '@constant/date.ts';
 
 export const sepNumbers = (num: number | string | undefined): string => {
      if (typeof num === 'number') num = String(num);
@@ -370,4 +371,60 @@ export const factoryQueryKey = <T extends object>(obj: T): string => {
      });
 
      return JSON.stringify(sortObj);
+};
+
+export const oneDayAgo = () => {
+     let date: number | Date = new Date();
+
+     date = date.getTime();
+
+     return date - getDateMilliseconds.Day;
+};
+
+export const oneMonthAgo = (n = 1): number => {
+     let d: number | Date = new Date();
+
+     d.setHours(0, 0, 0, 0);
+     d = d.getTime();
+
+     return d - getDateMilliseconds.Month * n;
+};
+
+export const today = (): number => {
+     let d: number | Date = new Date();
+
+     d.setHours(23, 59, 59, 0);
+     d = d.getTime();
+
+     return d;
+};
+
+export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = false): Record<'fromDate' | 'toDate', number> => {
+     if (reverse === true) {
+          const fromDate = today();
+
+          let toDate: Date | number = new Date(fromDate);
+          toDate.setHours(0, 0, 0, 0);
+          toDate = toDate.getTime();
+
+          if (date === 'day') toDate += getDateMilliseconds.Day;
+          if (date === 'week') toDate += getDateMilliseconds.Week;
+          if (date === 'month') toDate += getDateMilliseconds.Month;
+          if (date === 'year') toDate += getDateMilliseconds.Year;
+
+          return { fromDate, toDate };
+     }
+
+     const toDate = today();
+
+     let fromDate: Date | number = new Date(toDate);
+     fromDate.setHours(0, 0, 0, 0);
+     fromDate = fromDate.getTime();
+
+     if (date === 'day') fromDate -= getDateMilliseconds.Day;
+     if (date === 'week') fromDate -= getDateMilliseconds.Week;
+     if (date === 'month') fromDate -= getDateMilliseconds.Month;
+     if (date === 'year') fromDate -= getDateMilliseconds.Year;
+
+     return { fromDate, toDate };
 };

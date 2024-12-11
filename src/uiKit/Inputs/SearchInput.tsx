@@ -15,7 +15,7 @@ interface TSearchInputProps
      handleOpenModal?: () => void;
      removeSelectedCustomers: (customerISIN: string) => void;
      removeAllSelectedCustomers: () => void;
-     bgPlaceholder?: string
+     bgPlaceholder?: string;
 }
 
 const SearchInput = ({
@@ -32,7 +32,7 @@ const SearchInput = ({
 
      const [inputValue, setInputValue] = useState('');
 
-     const [widthSize, setWidthSize] = useState(0)
+     const [widthSize, setWidthSize] = useState(0);
 
      //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
@@ -73,7 +73,7 @@ const SearchInput = ({
      useEffect(() => {
           if (searchInputRef.current) {
                const resizeObserver = new ResizeObserver(() => {
-                    setWidthSize(searchInputRef?.current?.offsetWidth ?? 0)
+                    setWidthSize(searchInputRef?.current?.offsetWidth ?? 0);
                });
 
                resizeObserver.observe(searchInputRef.current);
@@ -81,7 +81,6 @@ const SearchInput = ({
                return () => resizeObserver.disconnect(); // Cleanup observer on unmount
           }
      }, []);
-
 
      useEffect(() => {
           setItems(values);
@@ -98,13 +97,13 @@ const SearchInput = ({
                     // style={{width}}
                     className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
                >
-                    <div className="flex w-full items-center gap-1 pr-6">
+                    <div className="flex w-full items-center gap-1 pr-5">
                          <div className="absolute right-2 flex h-full items-center justify-center">
                               <SearchInputIcon className="size-4 text-icon-default" />
                          </div>
                          <ul
                               ref={chipsetsRef}
-                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto pt-1 truncate"
+                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto truncate pt-1"
                               style={{ maxWidth: widthSize - 70 }}
                          >
                               {items.map(value => (
@@ -154,7 +153,6 @@ const SearchInput = ({
                                    </button>
                               )}
                          </div>
-
                     </div>
 
                     <div

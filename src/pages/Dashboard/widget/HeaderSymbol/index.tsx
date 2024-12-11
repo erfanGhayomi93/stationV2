@@ -206,7 +206,7 @@ const MainSymbol = () => {
                                                        <span className="text-nowrap text-content-paragraph">{item.label}</span>
                                                   </div>
 
-                                                  <ArrowLeftIcon className="text-icon-default" />
+                                                  <ArrowLeftIcon width="1rem" height="1rem" className="text-icon-default" />
                                              </a>
                                         ))}
                                    </ul>
@@ -222,7 +222,7 @@ const MainSymbol = () => {
                </div>
 
                <div className="flex justify-between gap-x-1 rounded bg-back-2 px-0.5 py-3 text-content-title">
-                    <div className="flex flex-1 items-center justify-center gap-x-1 pl-1 border-l border-line-div-1 text-xs font-bold">
+                    <div className="flex flex-1 items-center justify-center gap-x-1 border-l border-line-div-1 pl-1 text-xs font-bold">
                          <span className="text-nowrap text-xs font-medium text-content-paragraph">آخرین قیمت:</span>
 
                          <PriceWithAmountChange
@@ -250,10 +250,7 @@ const MainSymbol = () => {
                          yesterdayClosingPrice={yesterdayClosingPrice}
                          thresholdData={[lowThreshold, highThreshold]}
                          exchangeData={[closingPrice, lastTradedPrice]}
-                         boundaryData={[
-                              lowestTradePriceOfTradingDay,
-                              highestTradePriceOfTradingDay,
-                         ]}
+                         boundaryData={[lowestTradePriceOfTradingDay, highestTradePriceOfTradingDay]}
                     />
                </div>
           </div>

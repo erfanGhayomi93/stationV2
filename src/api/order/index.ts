@@ -78,17 +78,53 @@ export const useDeleteGroupOrder = () => {
      });
 };
 
-export const useTradesReports = (params: ITradesReportsReq) => {
+export const useTradesReports = (filters: ITradesReportsFilters) => {
      const url = routeApi().Orders.GetTrades;
 
      return useQuery({
-          queryKey: ['TradesReports'],
+          queryKey: ['TradesReports', filters.pageNumber, filters.pageSize],
           queryFn: async () => {
+               const params: ITradesReportsReq = {
+                    FromDate: new Date(filters.fromDate),
+                    ToDate: new Date(filters.toDate),
+                    CustomerISIN: filters.customers.map(customer => customer.customerISIN),
+                    Side: filters.side.id !== 'All' ? filters.side.id : undefined,
+                    SymbolISIN: filters.symbols.map(symbol => symbol?.symbolISIN ?? ''),
+                    CustomerType: filters.customerType.id !== 'All' ? filters.customerType.id : undefined,
+                    GetTradesAggregateType: filters.aggregateType.id,
+                    'QueryOption.PageNumber': filters.pageNumber,
+                    'QueryOption.PageSize': filters.pageSize,
+               };
+
                const response = await AXIOS.get<GlobalPaginatedApiResponse<ITradesReportsRes[]>>(url, {
                     params: cleanObjectOfFalsyValues(params),
                });
 
                return response.data;
+          },
+     });
+};
+
+export const useDetailsTradesReports = (rowData?: ITradesReportsRes) => {
+     const url = routeApi().Orders.GetTradeDetails;
+
+     return useQuery({
+          queryKey: ['detailsTradesReports'],
+          queryFn: async () => {
+               if (!rowData) return;
+               const params: IDetailsTradesReportsReq = {
+                    CustomerISIN: rowData.customerISIN,
+                    SymbolISIN: rowData.symbolISIN,
+                    OrderId: rowData.orderId,
+                    OrderSide: rowData.orderSide,
+                    TradeDate: rowData.tradeDate,
+                    GetTradesAggregateType: 'None',
+               };
+               const response = await AXIOS.get<GlobalApiResponseType<IDetailsTradesReportsRes[]>>(url, {
+                    params,
+               });
+
+               return response.data.result;
           },
      });
 };

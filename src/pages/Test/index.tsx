@@ -1,11 +1,17 @@
-import AdvancedDatepicker from '@components/Datepicker/AdvanceDatePicker';
+import { useState } from 'react';
+import Example from '@components/searchSymbol/MulitSearchSymbol.tsx';
 
-const index = () => {
+const Test = () => {
+     const [symbolSearch, setSymbolSearch] = useState<SearchSymbol | null>(null);
+
      return (
-          <div>
-               <AdvancedDatepicker open placement="bottom" value={new Date()} onChange={() => null} />
+          <div className="h-full bg-back-surface p-6">
+               {/*<CheckButton label="حقیقی" checked={true} />*/}
+
+               {/*<MultiSearchSymbol searchSymbol={symbolSearch} setSearchSymbol={symbol => setSymbolSearch(symbol)} />*/}
+               {/*<Example />*/}
           </div>
      );
 };
 
-export default index;
+export default Test;

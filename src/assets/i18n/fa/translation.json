@@ -380,7 +380,7 @@
           "forgetPasswordLabel": "فراموشی کلمه عبور",
           "confirmLogin": "ورود",
           "inputCaptchaLabel": "کدامنیتی",
-          "pleaseTryAgain": "لطفا مجددا تلاش کنید.ش"
+          "pleaseTryAgain": "لطفا مجددا تلاش کنید."
      },
 
      "loginError": {
@@ -684,6 +684,9 @@
           "aggregateTypeCustomer": "مشتری",
           "aggregateTypeSymbol": "نماد",
           "aggregateTypeCustomerAndSymbol": "مشتری / نماد",
+          "sideAll": "همه",
+          "sideBuy": "خرید",
+          "sideSell": "فروش",
           "sourceCol": "مبدا",
           "dateCol": "تاریخ",
           "detailsCol": "جزئیات",

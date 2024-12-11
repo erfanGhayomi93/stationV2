@@ -36,6 +36,7 @@ export const routeApi = () => {
                Create: baseUrl + '/Order/v1/Create',
 
                GetTrades: baseUrl + '/Order/v1/Trades',
+               GetTradeDetails: baseUrl + '/Order/v1/TradesDetails',
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
@@ -61,6 +62,8 @@ export const routeApi = () => {
                deleteCustomerGroup: baseUrl + '/CustomerGroup/v1/DeleteGroup',
 
                deleteCustomerFromGroup: baseUrl + '/CustomerGroup/v1/RemoveCustomersFromGroup',
+
+               toggleFavoriteCustomer: baseUrl + '/Customer/v1/ToggleFavorite',
           },
 
           SupervisorMessage: {
