@@ -105,6 +105,8 @@ export const routeApi = () => {
                deleteCart: baseUrl + '/Cart/v1/DeleteCart',
                editCart: baseUrl + '/Cart/v1/EditCart',
                deleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
+               cartSendOrder: baseUrl + '/Cart/v1/CartSendOrder',
+               CreateBulkCartDetail: baseUrl + '/Cart/v1/CreateBulkCartDetail',
           },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
