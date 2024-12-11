@@ -4,10 +4,13 @@ import { useMemo, useState } from 'react';
 import CustomersManageFilter from '../../components/CustomersManageFilter';
 import CustomersTable from './components/CustomersTable';
 
+type TcustomerType = 'Legal' | 'Natural' | "All";
+
+
 const Customers = () => {
      const [term, setTerm] = useState('');
 
-     const [customerType, setCustomerType] = useState<TCustomerType>('All');
+     const [customerType, setCustomerType] = useState<TcustomerType>('All');
 
      const termDebounce = useDebounce(term, 100);
 

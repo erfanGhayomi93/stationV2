@@ -30,6 +30,7 @@
           "@ag-grid-enterprise/core": "^32.2.1",
           "@ag-grid-enterprise/master-detail": "^32.2.1",
           "@headlessui/react": "^2.1.8",
+          "@swc/core": "^1.10.0",
           "@tanstack/react-query": "^5.59.20",
           "@tippyjs/react": "^4.2.6",
           "axios": "^1.7.7",
@@ -73,12 +74,11 @@
           "globals": "^15.9.0",
           "postcss": "^8.4.41",
           "prettier": "^3.3.3",
-          "sass": "^1.81.0",
-          "sass-embedded": "^1.81.0",
+          "sass": "^1.79.4",
           "tailwindcss": "^3.4.10",
           "typescript": "^5.5.3",
           "typescript-eslint": "^8.0.1",
-          "vite": "^6.0.2",
+          "vite": "^5.4.1",
           "vite-plugin-svgr": "^4.2.0",
           "vite-tsconfig-paths": "^5.0.1"
      }

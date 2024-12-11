@@ -13,7 +13,7 @@ interface IBasketHeader {
 }
 const BasketHeader: FC<IBasketHeader> = ({ date, name, isSelected, clickBasket , id }) => {
     return (
-        <button className={clsx('p-2 flex items-center rounded-2xl gap-x-2 select-none cursor-pointer transition-colors', {
+        <button className={clsx('p-2 flex items-center rounded-2xl gap-x-2 select-none cursor-pointer transition-colors whitespace-nowrap', {
             "bg-button-tab-deactive text-content-deselecttab": !isSelected,
             "bg-button-tab-active text-content-selected": isSelected
         })}

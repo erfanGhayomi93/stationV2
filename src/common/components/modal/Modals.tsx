@@ -60,7 +60,7 @@ const Modals = () => {
      if (createNewBasketModal) return <CreateNewBasketModal />;
      if (isObjectNotNull(editBasketOrderModal)) return <EditBasketOrderModal />;
      if (isObjectNotNull(confirmDeleteBasketOrderModal)) return <ConfirmDeleteBasketOrderModal />;
-     if (manageBasketOrderModal) return <ManageBasketOrderModal />;
+     if (manageBasketOrderModal.isShow) return <ManageBasketOrderModal />;
      if (isObjectNotNull(addOrderToBasketModal)) return <AddOrderToBasketOrderModal />;
      else return null;
 };

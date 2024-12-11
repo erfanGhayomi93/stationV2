@@ -85,3 +85,31 @@ export const useDeleteDetails = () => {
           },
      });
 };
+
+export const useSendCart = ({ onSuccess }: { onSuccess: () => void }) => {
+     const url = routeApi().Baskets.cartSendOrder;
+
+     return useMutation({
+          mutationFn: async (cartId: number) => {
+               const fd = new FormData();
+               fd.append('cartId', String(cartId));
+
+               const response = await AXIOS.post(url, fd);
+
+               return response.data;
+          },
+          onSuccess: onSuccess,
+     });
+};
+
+export const useCreateBulkCartDetail = () => {
+     const url = routeApi().Baskets.CreateBulkCartDetail;
+
+     return useMutation({
+          mutationFn: async (params: ICreateBulkCartDetailReq[]) => {
+               const response = await AXIOS.post(url, params);
+
+               return response.data;
+          },
+     });
+};

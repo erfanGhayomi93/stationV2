@@ -158,7 +158,6 @@ export const subscribeOrderInPrice = <T>({
           isSnapShot: 'no',
           mode: 'MERGE',
           onFieldsUpdate: updatedField => {
-               console.log({ updatedField });
                onItemUpdate(updatedField as UpdatedFieldsType<T>);
           },
      });

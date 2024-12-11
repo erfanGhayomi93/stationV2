@@ -624,16 +624,19 @@
           "quantityCol": "تعداد",
           "actionCol": "عملیات",
           "title": "دسته سفارش",
-          "AddNewOrderToBasketBtn": "افزودن سفارش جدید به سبد"
+          "AddNewOrderToBasketBtn": "افزودن سفارش جدید به سبد" ,
+          "bourseCode" : "کدبورسی"
      },
 
 
      "manageBasketOrderModal": {
-          "title": "مدیریت دسته سفارش",
+          "titleManage": "مدیریت دسته سفارش",
+          "titleAdd": "افزودن سفارش به دسته سفارش",
           "basketOrderNameCol": "نام دسته سفارش",
           "sendTimeCol": "زمان ارسال",
+          "createTimeCol": "زمان ساخت سبد",
           "actionCol": "عملیات",
-          "addBasketOrderBtn": "افزودن دسته سفارش"
+          "addBasketOrderBtn": "افزودن دسته سفارش" 
      },
 
      "createNewBasketModal": {

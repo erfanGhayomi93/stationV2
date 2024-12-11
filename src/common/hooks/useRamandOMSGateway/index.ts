@@ -108,18 +108,22 @@ const createRamandOMSGateway = () => {
      //      };
 
      const handleOMSMessage = (message: Record<number, string>) => {
-          const timeOut = setTimeout(() => {
-               // ipcMain.send('onOMSMessageReceived', message);
-               ipcMain.send('onOMSMessageReceived', message);
+          try {
+               const timeOut = setTimeout(() => {
+                    // ipcMain.send('onOMSMessageReceived', message);
+                    ipcMain.send('onOMSMessageReceived', message);
 
-               handlePushNotification(message);
+                    handlePushNotification(message);
 
-               //    clearTimeout(timeOutRefetch);
-               //    const omsOrderStatus = message[22] as TStatus;
-               //    refetchApiAccordingLs(omsOrderStatus);
+                    //    clearTimeout(timeOutRefetch);
+                    //    const omsOrderStatus = message[22] as TStatus;
+                    //    refetchApiAccordingLs(omsOrderStatus);
 
-               clearTimeout(timeOut);
-          }, 500);
+                    clearTimeout(timeOut);
+               }, 500);
+          } catch (err) {
+               console.log({ err });
+          }
      };
 
      // eslint-disable-next-line @typescript-eslint/no-unused-vars

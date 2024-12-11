@@ -331,3 +331,8 @@ interface IDetailsTradesReportsReq {
 }
 
 interface IDetailsTradesReportsRes extends ITradesReportsRes {}
+
+interface IhostOrderNumberSub {
+     orderPlaceInPrice?: number;
+     orderVolumeInPrice?: number;
+}

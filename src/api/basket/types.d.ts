@@ -12,7 +12,7 @@ type ICartListRes = {
 interface IDetailsCartFilter {
      SymbolISIN: string | null;
      CustomerISINs: string[];
-     OrderSide: TSide | '';
+     side: TSide | '';
      PageNumber: number;
      PageSize: number;
 }
@@ -38,15 +38,16 @@ interface IDetailsCartRes {
      deleted: true;
      date: string;
      userId: 0;
-     validity: validity;
+     validity: TValidity;
      validityDate: string;
-     customerISINs: string;
+     customerISIN: string;
      orderStrategy: string;
      orderType: string;
      symbolTitle: string;
      lastTradedPrice: number;
      lastTradedPriceVarPercent: number;
      customers: ICustomers[];
+     bourseCode : string;
 }
 
 interface ICreateCartReq {
@@ -66,4 +67,16 @@ interface IEditCartReq {
 
 interface IDeleteDetailsCartRes {
      cartDetailId: number;
+}
+
+interface ICreateBulkCartDetailReq {
+     cartID: number;
+     symbolISIN: string;
+     price: number;
+     quantity: number;
+     side: TSide;
+     validity: TValidity;
+     validityDate: string | null;
+     customerISIN: string;
+     orderStrategy: string;
 }
