@@ -84,7 +84,7 @@ class IpcMain {
 			this._send<typeof channel>(this._channels[channel]![0], arg);
 			this._send<typeof channel>(this._channels[channel]![1], arg);
 		} catch (e) {
-			//
+               console.error(e);
 		}
 	}
 
@@ -102,7 +102,8 @@ class IpcMain {
 					.then((response) => resolve(response as R))
 					.catch(reject);
 			} catch (e) {
-				reject();
+                    console.error(e);
+                    reject();
 			}
 		});
 	}
@@ -161,7 +162,7 @@ class IpcMain {
 			try {
 				l.call(null, arg);
 			} catch (e) {
-				//
+				console.log({e})
 			}
 		});
 	}

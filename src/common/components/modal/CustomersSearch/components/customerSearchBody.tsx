@@ -3,26 +3,22 @@ import { DeleteIcon, UserGroupIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import useDebounce from '@hooks/useDebounce';
 import SearchInput from '@uiKit/Inputs/SearchInput';
-import { Dispatch, FC, HTMLAttributes, useMemo } from 'react';
+import { Dispatch, FC, HTMLAttributes, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import ResultHeader from './resultHeader';
 import ResultItem from './resultItem';
-import { useState } from 'react';
 
 interface ICustomersSearchBodyProps {
-     dispatch: Dispatch<ICustomerAction>,
+     dispatch: Dispatch<ICustomerAction>;
      selectedCustomers: ICustomerAdvancedSearchRes[];
 }
 
 const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selectedCustomers }) => {
      const [term, setTerm] = useState('');
 
-
      const debouncedTerm = useDebounce(term, 400);
 
-     // const { selectedCustomers, setAllSelectedCustomersWithPrevious, setSelectedCustomers } = useCustomerStore();
-
-     const { data: searchCustomers } = useQueryCustomerSearch({ term: debouncedTerm, customerType: 'All' });
+     const { data: searchCustomers } = useQueryCustomerSearch(debouncedTerm, 'All');
 
      const { data: defaultCustomers } = useQueryDefaultCustomer();
 
@@ -48,7 +44,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
           if (!listGroups) return;
 
           if (checked) {
-               dispatch({ type: "ADD_SELECTED_CUSTOMERS", payload: listGroups });
+               dispatch({ type: 'ADD_SELECTED_CUSTOMERS', payload: listGroups });
           } else {
                // If not checked, filter out customers from the selected list that are in the current group
                const customerISINs = listGroups.map(child => child.customerISIN);
@@ -56,7 +52,7 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                     customer => !customerISINs.includes(customer.customerISIN)
                );
 
-               dispatch({ type: "SET_SELECTED_CUSTOMERS", payload: filteredSelectedCustomers });
+               dispatch({ type: 'SET_SELECTED_CUSTOMERS', payload: filteredSelectedCustomers });
           }
      };
 
@@ -67,13 +63,9 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                <Virtuoso
                     data={listGroups}
                     className="rounded-lg rounded-t-none"
-                    itemContent={(index, data) => <ResultItem
-                         key={index}
-                         data={data}
-                         dispatch={dispatch}
-                         selectedCustomers={selectedCustomers}
-
-                    />}
+                    itemContent={(index, data) => (
+                         <ResultItem key={index} data={data} dispatch={dispatch} selectedCustomers={selectedCustomers} />
+                    )}
                     components={{
                          Item: ItemRenderer,
                     }}
@@ -97,9 +89,11 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                     <SearchInput
                          onChangeValue={(_, input) => setTerm(input)}
                          values={selectedCustomerInputValues ?? []}
-                         placeholder='جستجوی مشتری / کدبورسی / کد ملی'
-                         removeAllSelectedCustomers={() => dispatch({ type: "REMOVE_ALL_SELECTED_CUSTOMERS" })}
-                         removeSelectedCustomers={(customerISIN) => dispatch({ type: "REMOVE_SELECTED_CUSTOMER", payload: customerISIN })}
+                         placeholder="جستجوی مشتری / کدبورسی / کد ملی"
+                         removeAllSelectedCustomers={() => dispatch({ type: 'REMOVE_ALL_SELECTED_CUSTOMERS' })}
+                         removeSelectedCustomers={customerISIN =>
+                              dispatch({ type: 'REMOVE_SELECTED_CUSTOMER', payload: customerISIN })
+                         }
                     />
 
                     <Popup
@@ -120,8 +114,11 @@ const CustomersSearchBody: FC<ICustomersSearchBodyProps> = ({ dispatch, selected
                                                        const filterSelectCustomer = selectedCustomers.filter(
                                                             customer => customer.customerISIN !== item.customerISIN
                                                        );
-                                                       dispatch({ type: "SET_SELECTED_CUSTOMERS", payload: filterSelectCustomer })
-                                                       if (selectedCustomers.length === 1) setOpen(false)
+                                                       dispatch({
+                                                            type: 'SET_SELECTED_CUSTOMERS',
+                                                            payload: filterSelectCustomer,
+                                                       });
+                                                       if (selectedCustomers.length === 1) setOpen(false);
                                                   }}
                                              >
                                                   <DeleteIcon className="text-icon-error opacity-0 transition-opacity group-hover:opacity-100" />

@@ -1,8 +1,40 @@
 type TcustomerType = 'Legal' | 'Natural';
 
-interface ICustomerRemainAndOptionRemainDto {
-     remain: number;
+interface IMyGroupsCustomerInformation {
+     bourseCode: string;
+     credit: number;
+     customerISIN: string;
+     customerRemainAndOptionRemainDto: ICustomerRemainAndOptionRemainDto;
+     customerType: ICustomerMultiTypeType;
+     nationalCode: string;
      purchasePower: number;
+     title: string;
+     groupId: number;
+}
+
+interface ICustomerRemainAndOptionRemainDto {
+     blockedValue: number;
+     credit: number;
+     creditOption: number;
+     customerISIN: string;
+     optionBlockValue: number;
+     optionDailyCredit: number;
+     optionRemainT0: number;
+     optionRemainT1: number;
+     optionRemainT2: number;
+     optionRemainT3: number;
+     paymentBlockValue: number;
+     purchaseOptionPower: number;
+     purchasePower: number;
+     purchasePowerT1: number;
+     purchasePowerT2: number;
+     remain: number;
+     remainT0: number;
+     remainT1: number;
+     remainT2: number;
+     remainT3: number;
+     settlementBlock: number;
+     stockBlockValue: number;
      stockDailyCredit: number;
 }
 
@@ -50,25 +82,47 @@ interface ICustomerFinancialReq {
 
 interface ICustomerFinancialRes {
      bourseCode: string;
-     credit: number;
-     creditDebt: number;
      customerISIN: string;
+     customerRemainAndOptionRemainDto: {
+          marginValue: number;
+          blockedValue: number;
+          credit: number;
+          creditOption: number;
+          customerISIN: string;
+          optionBlockValue: number;
+          optionDailyCredit: number;
+          optionRemainT0: number;
+          optionRemainT1: number;
+          optionRemainT2: number;
+          optionRemainT3: number;
+          paymentBlockValue: number;
+          purchaseOptionPower: number;
+          purchasePower: number;
+          purchasePowerT1: number;
+          purchasePowerT2: number;
+          remain: number;
+          remainT0: number;
+          remainT1: number;
+          remainT2: number;
+          remainT3: number;
+          settlementBlock: number;
+          stockBlockValue: number;
+          stockDailyCredit: number;
+     };
+
      customerTitle: string;
-     marginValue: number;
      nationalCode: string;
      orderBlockValue: number;
      paymentRequestBlockValue: number;
      saveDate: string;
-     status: 'Normal' | 'AtRisk' | 'CallMargin';
-     t1: number;
-     t2: number;
+     status: 'Normal' | 'CallMargin' | 'AtRisk';
 }
 
-interface ICustomerContractsReq {
+interface ICustomerAgreementsReq {
      customerISIN: string;
 }
 
-interface ICustomerContractsRes {
+interface ICustomerAgreementsRes {
      agreementId: number;
      approveBySMS: boolean;
      attachmentUrl: string;
@@ -78,4 +132,54 @@ interface ICustomerContractsRes {
      state: 'Accepted' | 'NotSpecified' | 'expired';
      title: string;
      type: string;
+}
+
+interface IMyGroupsInformationRes {
+     children: IMyGroupsCustomerInformation[];
+     customerISINs: string;
+     groupName: string;
+     id: number;
+}
+
+interface ICreateCustomerGroupReq {
+     customerISINs?: string[];
+     groupName: string;
+}
+
+interface IAddCustomersToGroupsReq {
+     customerISINs: string[];
+     groupId: number[];
+}
+
+interface IEditCustomerGroupNameReq {
+     groupName: string;
+     id: number;
+}
+
+interface IDeleteCustomerGroupReq {
+     groupId: number;
+}
+
+interface IDeleteCustomerFromGroupReq {
+     customerISINs: string[];
+     groupId: number;
+}
+
+interface ICustomerContractsReq {
+     customerISIN: string;
+}
+
+interface ICustomerContractsRes {
+     id: number;
+     type: 'Online' | 'Credit' | 'Option';
+     hasContract: boolean;
+     startDate: string;
+     title: string;
+     customerIsin: string;
+     status: 'Active' | 'InActive' | 'Suspend' | null;
+}
+
+interface IToggleFavoriteCustomerReq {
+     customerIsin: string;
+     isFavorite: boolean;
 }

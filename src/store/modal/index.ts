@@ -16,9 +16,45 @@ export const useModalStore = create<IModalStore>(set => ({
      isPercentQuantityOrderModal: false,
      setIsPercentQuantityOrderModal: value => set(() => ({ isPercentQuantityOrderModal: value })),
 
+     dividedOrdersModal: false,
+     setDividedOrdersModal: value => set(() => ({ dividedOrdersModal: value })),
+
      addSymbolToWatchlistModal: false,
      setAddSymbolToWatchlistModal: value => set({ addSymbolToWatchlistModal: value }),
 
      createNewWatchlistModal: false,
      setCreateNewWatchlistModal: value => set(() => ({ createNewWatchlistModal: value })),
+
+     createNewCustomerGroupModal: false,
+     setCreateNewCustomerGroupModal: value => set(() => ({ createNewCustomerGroupModal: value })),
+
+     addCustomersToGroupModal: null,
+     setAddCustomersToGroupModal: value => set(() => ({ addCustomersToGroupModal: value })),
+
+     manageCustomerGroupModal: false,
+     setManageCustomerGroupModal: value => set(() => ({ manageCustomerGroupModal: value })),
+
+     editCustomerGroupModal: null,
+     setEditCustomerGroupModal: value => set(() => ({ editCustomerGroupModal: value })),
+
+     deleteCustomerGroupModal: null,
+     setDeleteCustomerGroupModal: value => set(() => ({ deleteCustomerGroupModal: value })),
+
+     portfolioCustomerModal: null,
+     setPortfolioCustomerModal: value => set(() => ({ portfolioCustomerModal: value })),
+
+     manageBasketOrderModal: false,
+     setManageBasketOrderModal: value => set(() => ({ manageBasketOrderModal: value })),
+
+     createNewBasketModal: false,
+     setCreateNewBasketModal: value => set(() => ({ createNewBasketModal: value })),
+
+     editBasketOrderModal: null,
+     setEditBasketOrderModal: value => set(() => ({ editBasketOrderModal: value })),
+
+     addOrderToBasketModal: null,
+     setAddOrderToBasketModal: value => set(() => ({ addOrderToBasketModal: value })),
+
+     confirmDeleteBasketOrderModal: null,
+     setConfirmDeleteBasketOrderModal: value => set(() => ({ confirmDeleteBasketOrderModal: value })),
 }));

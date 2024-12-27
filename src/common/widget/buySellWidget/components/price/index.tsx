@@ -9,6 +9,7 @@ import { useSymbolStore } from "@store/symbol";
 // import { pushEngine } from "@LS/pushEngine";
 import FieldInputNumber from "@uiKit/Inputs/FieldInputNumber";
 import useUpdateEffect from "@hooks/useUpdateEffect";
+import clsx from "clsx";
 
 
 interface IPriceProps {
@@ -84,7 +85,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
 
     return (
         <div className="flex-1 flex items-center">
-            <div className="w-9/12 flex px-4">
+            <div className="w-9/12 flex pl-4">
                 {
                     !isPercentPrice &&
                     <FieldInputNumber
@@ -101,6 +102,10 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
                         onClickIcon={handleClickLock}
                         isError={!isBetweenUpDownTick}
                         textError="قیمت در آستانه مجاز نمی‌باشد."
+                        bgPlaceholder={clsx({
+                            'bg-button-error-bg-selected': side === 'Sell',
+                            'bg-button-success-bg-selected': side === 'Buy',
+                        })}
                     />
                 }
 
@@ -110,7 +115,7 @@ const Price: FC<IPriceProps> = ({ downTickValue, upTickValue, bestBuyLimitPrice_
                 />}
             </div>
 
-            <div className="w-3/12 pl-4">
+            <div className="w-3/12">
                 <ToggleSwitch
                     checked={isPercentPrice}
                     label="درصدی"

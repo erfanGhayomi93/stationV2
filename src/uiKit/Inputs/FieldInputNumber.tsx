@@ -1,8 +1,9 @@
 import { ChangeEvent, InputHTMLAttributes, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockCloseIcon, LockIcon } from '@assets/icons';
+import { CalculatorIcon, ChevronDownIcon, ChevronUpIcon, LockCloseIcon, LockIcon, MoreInformationIcon } from '@assets/icons';
 import { sepNumbers } from '@methods/helper';
 import AnimatePresence from '@components/animation/AnimatePresence';
+import Tippy from '@tippyjs/react';
 
 interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'placeholder' | 'onChange' | 'type'> {
      onChangeValue: (v: number) => void;
@@ -14,9 +15,11 @@ interface TFieldInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
      variant?: 'simple' | 'advanced';
      placeholder?: string;
      isError?: boolean;
+     isInfo?: boolean;
      textError?: string;
      direction?: 'left' | 'right';
      secondaryPrice?: number;
+     bgPlaceholder?: string
 }
 
 const FieldInputNumber = ({
@@ -24,14 +27,16 @@ const FieldInputNumber = ({
      value,
      upTickValue = 0,
      downTickValue = 0,
-     selectIcon = 'calculator-0',
+     selectIcon,
      onClickIcon = () => null,
      placeholder = '',
      variant = 'advanced',
      isError,
+     isInfo,
      textError,
      direction = 'right',
      secondaryPrice,
+     bgPlaceholder,
      ...props
 }: TFieldInputProps) => {
      const [inputValue, setInputValue] = useState<string>(value.toString());
@@ -73,10 +78,12 @@ const FieldInputNumber = ({
 
 
      return (
-          <div className={clsx('rtl mb-3 group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active', {
-               "border-input-error focus-within:border-input-error ": isErrorInput
+          <div className={clsx('rtl mb-3 group relative flex h-10 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active', {
+               "border-input-error focus-within:border-input-error ": isErrorInput,
+               "border-input-focus focus-within:border-input-focus bg-button-info-bg-selected": isInfo,
+
           })}>
-               {!!secondaryPrice && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
+               {(!!secondaryPrice && !!value) && <div className="ml-2 text-xs text-content-selected">{`(${sepNumbers(secondaryPrice)})`}</div>}
 
                <div
                     className={clsx('flex items-center', {
@@ -84,6 +91,10 @@ const FieldInputNumber = ({
                          'w-full': variant === 'simple',
                     })}
                >
+                    {isInfo && <Tippy content={'تقسیم سفارش'} allowHTML>
+                         <MoreInformationIcon width={16} height={16} className="text-button-info-default ml-1" />
+                    </Tippy>}
+
                     <input
                          ref={inputRef}
                          value={+inputValue ? sepNumbers(inputValue) : ''}
@@ -100,11 +111,13 @@ const FieldInputNumber = ({
 
                     <div
                          className={clsx(
-                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active',
+                              'focus:outline-non text-xs text-input-default transition-all duration-100 group-focus-within:text-input-active px-1',
                               {
-                                   'absolute -top-3 right-2 bg-back-surface px-1': +inputValue,
+                                   'absolute -top-3 right-2 px-1 bg-back-surface': +inputValue,
+                                   [bgPlaceholder as string]: bgPlaceholder && +inputValue,
                                    'absolute right-1 top-1/2 -translate-y-1/2 bg-transparent px-1': !+inputValue,
-                                   "text-input-error group-focus-within:text-input-error": isErrorInput
+                                   "text-input-error group-focus-within:text-input-error": isErrorInput,
+                                   "text-input-focus group-focus-within:text-input-focus": isInfo,
                               }
                          )}
                     >
@@ -115,7 +128,10 @@ const FieldInputNumber = ({
 
                {variant === 'advanced' && (
                     <div className="ml-2 flex w-4/12 items-center justify-between gap-1 px-1 text-input-default">
-                         <div className="flex w-10/12 flex-col text-xs font-normal group-focus-within:text-input-active">
+                         <div className={clsx("flex flex-col text-xs font-normal group-focus-within:text-input-active" , {
+                              'w-10/12' : !!selectIcon ,
+                              'w-full' : !selectIcon ,
+                         })}>
                               <div className="flex items-center justify-between">
                                    <button className="cursor-pointer" onClick={() => onChangeValue(value + 1)}>
                                         <ChevronUpIcon />
@@ -140,13 +156,20 @@ const FieldInputNumber = ({
                               </div>
                          </div>
 
-                         <div className="w-2/12">
+                         <div className={clsx({
+                              "w-2/12": !!selectIcon,
+                              "hidden": !selectIcon,
+                         })}>
                               {selectIcon === 'lock-0' && <LockIcon className="text-icon-disable transition-colors" onClick={onClickIcon} />}
                               {selectIcon === 'lock-1' && <LockCloseIcon className="text-icon-primary transition-colors" onClick={onClickIcon} />}
-                              {selectIcon.includes('calculator') && <CalculatorIcon className={clsx("transition-colors", {
-                                   "text-icon-disable": selectIcon === 'calculator-0',
-                                   "text-icon-primary": selectIcon === 'calculator-1'
-                              })} onClick={onClickIcon} />}
+                              {(selectIcon?.includes('calculator')) &&
+                                   (
+                                        <CalculatorIcon className={clsx("transition-colors", {
+                                             "text-icon-disable": selectIcon === 'calculator-0',
+                                             "text-icon-primary": selectIcon === 'calculator-1'
+                                        })} onClick={onClickIcon} />
+                                   )
+                              }
                          </div>
                     </div>
                )}

@@ -7,14 +7,11 @@ import { sepNumbers } from '@methods/helper';
 import Button from '@uiKit/Button';
 import ToggleSwitch from '@uiKit/ToggleSwitch';
 import ipcMain from 'common/classes/IpcMain';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSymbolStore } from 'store/symbol';
-// import { Actions } from './actions';
 
-interface ITodayTradesWidgetProps {}
-
-const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
+const TodayTradesWidget = () => {
      const { t } = useTranslation();
 
      const onOMSMessageHandlerRef = useRef<(message: Record<number, string>) => void>(() => {});
@@ -47,7 +44,7 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                {
                     field: 'orderSide',
                     headerName: t('todayTrades.sideColumn'),
-                    valueGetter: ({ data }) => t(`common.${data?.orderSide.toLowerCase()}`, '-'),
+                    valueGetter: ({ data }) => t(`common.${data?.orderSide}`, '-'),
                     cellClassRules: {
                          'text-content-success-buy': ({ data }) => data?.orderSide === 'Buy',
                          'text-content-error-sell': ({ data }) => data?.orderSide === 'Sell',
@@ -59,9 +56,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                     valueGetter: ({ data }) => (data?.quantity ? sepNumbers(data?.quantity) : '-'),
                },
                {
-                    field: 'totalPrice',
+                    field: 'averagePrice',
                     headerName: t('todayTrades.averagePriceColumn'),
-                    valueGetter: ({ data }) => (data?.totalPrice ? sepNumbers(data?.totalPrice) : '-'),
+                    valueGetter: ({ data }) => (data?.averagePrice ? sepNumbers(data?.averagePrice) : '-'),
                },
                {
                     field: 'totalPrice',
@@ -117,9 +114,9 @@ const TodayTradesWidget: FC<ITodayTradesWidgetProps> = () => {
                          />
                     </div>
 
-                    <div className="flex items-center gap-x-6">
+                    <button disabled className="flex items-center gap-x-6 disabled:opacity-60">
                          <ExcelIcon className="size-6 text-icon-success" />
-                    </div>
+                    </button>
                </div>
 
                <div className="flex-1">

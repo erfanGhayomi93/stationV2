@@ -23,7 +23,9 @@ export const useQuerySearchHistory = () => {
      return useQuery({
           queryKey: ['historyRecentSymbol'],
           queryFn: async () => {
-               const response = await AXIOS.get<GlobalApiResponseType<SearchSymbol[]>>(url);
+               const response = await AXIOS.get<GlobalApiResponseType<SearchSymbol[]>>(url, {
+                    params: { type: 'GeneralSearch' },
+               });
                return response.data.result;
           },
           staleTime: 10 * 60 * 1000,
@@ -92,10 +94,27 @@ export const useMutationDeleteSymbolTab = () => {
 };
 
 export const useMutationUpdateCreateDateTimeTab = () => {
-     const url = routeApi().Symbol.UpdateSymbolTabCreateDateTime;
+     const url = routeApi().Symbol.UpdateTheCurrentTab;
 
      return useMutation({
           mutationFn: (symbolISIN: string) => AXIOS.post(url, null, { params: { symbolISIN } }),
+     });
+};
+
+export const useMutationUpdateCurrentTab = () => {
+     const url = routeApi().Symbol.UpdateTheCurrentTab;
+
+     return useMutation({
+          mutationFn: ({ currentSymbolISIN, newSymbolISIN }: { currentSymbolISIN: string; newSymbolISIN: string }) =>
+               AXIOS.post(url, null, { params: { currentSymbolISIN, newSymbolISIN } }),
+     });
+};
+
+export const useMutationClearSymbolTab = () => {
+     const url = routeApi().Symbol.CleareSymbolTabAfterLogOut;
+
+     return useMutation({
+          mutationFn: () => AXIOS.post(url),
      });
 };
 

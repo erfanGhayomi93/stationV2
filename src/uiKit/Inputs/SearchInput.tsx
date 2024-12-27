@@ -1,4 +1,4 @@
-import { SearchInputIcon, XCircleOutlineIcon, XOutlineICon } from '@assets/icons';
+import { SearchInputIcon, XCircleOutlineIcon, XOutlineIcon } from '@assets/icons';
 import clsx from 'clsx';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 
@@ -15,17 +15,28 @@ interface TSearchInputProps
      handleOpenModal?: () => void;
      removeSelectedCustomers: (customerISIN: string) => void;
      removeAllSelectedCustomers: () => void;
+     bgPlaceholder?: string;
 }
 
-const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal, removeAllSelectedCustomers, removeSelectedCustomers, ...props }: TSearchInputProps) => {
+const SearchInput = ({
+     values,
+     onChangeValue,
+     placeholder = '',
+     handleOpenModal,
+     removeAllSelectedCustomers,
+     removeSelectedCustomers,
+     bgPlaceholder,
+     ...props
+}: TSearchInputProps) => {
      const [items, setItems] = useState<TItem[]>(values);
 
      const [inputValue, setInputValue] = useState('');
 
+     const [widthSize, setWidthSize] = useState(0);
+
      //  const [visibleChipsetsCount, setVisibleChipsetsCount] = useState(values.length);
 
-
-     const searchInputRef = useRef<HTMLDivElement | null>(null);
+     const searchInputRef = useRef<HTMLButtonElement | null>(null);
      const chipsetsRef = useRef<HTMLUListElement | null>(null);
      const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -60,28 +71,42 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
      //  }, [searchInputRef, chipsetsRef, items]);
 
      useEffect(() => {
+          if (searchInputRef.current) {
+               const resizeObserver = new ResizeObserver(() => {
+                    setWidthSize(searchInputRef?.current?.offsetWidth ?? 0);
+               });
+
+               resizeObserver.observe(searchInputRef.current);
+
+               return () => resizeObserver.disconnect(); // Cleanup observer on unmount
+          }
+     }, []);
+
+     useEffect(() => {
           setItems(values);
      }, [values]);
 
      return (
-          <div className='w-full'>
-               <div
+          <div className="w-full">
+               <button
                     onClick={() => {
                          inputRef.current?.focus();
                          handleOpenModal?.();
                     }}
                     ref={searchInputRef}
-                    className="rtl group relative flex h-12 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
+                    // style={{width}}
+                    className="rtl group relative flex h-10 w-full items-center justify-between rounded-lg border border-input-default p-2 transition-colors focus-within:border-input-active"
                >
-                    <div className="flex w-full items-center gap-1">
-                         <div className="absolute flex h-full items-center justify-center bg-back-surface pl-1">
+                    <div className="flex w-full items-center gap-1 pr-5">
+                         <div className="absolute right-2 flex h-full items-center justify-center">
                               <SearchInputIcon className="size-4 text-icon-default" />
                          </div>
                          <ul
                               ref={chipsetsRef}
-                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto px-5 pr-6 pt-1"
+                              className="rtl transparent-scrollbar flex items-center gap-1 overflow-x-auto truncate pt-1"
+                              style={{ maxWidth: widthSize - 70 }}
                          >
-                              {[...items].map(value => (
+                              {items.map(value => (
                                    <li
                                         key={value.id}
                                         className="flex items-center gap-1 text-nowrap rounded-lg bg-progressbar-primary-line px-1 py-1 text-content-title"
@@ -99,16 +124,12 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                                              }}
                                              className="text-icon-disable"
                                         >
-                                             <XOutlineICon />
+                                             <XOutlineIcon />
                                         </button>
                                    </li>
                               ))}
                          </ul>
-                         {/* {visibleChipsetsCount < items.length && (
-                         <li className="flex items-center gap-1 rounded-full bg-progressbar-primary-line p-2 text-content-title">
-                              <span className="text-xs">{items.length - visibleChipsetsCount}+</span>
-                         </li>
-                    )} */}
+
                          <input
                               ref={inputRef}
                               value={inputValue}
@@ -117,6 +138,7 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                               inputMode="numeric"
                               {...props}
                          />
+
                          <div className="flex items-center justify-center">
                               {items.length !== 0 && (
                                    <button
@@ -132,15 +154,18 @@ const SearchInput = ({ values, onChangeValue, placeholder = '', handleOpenModal,
                               )}
                          </div>
                     </div>
+
                     <div
                          className={clsx('absolute text-xs transition-all duration-100', {
                               '-top-3 right-8 bg-back-surface px-1 text-input-active': items.length > 0 || !!inputValue,
-                              'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default': items.length === 0 && !inputValue,
+                              [bgPlaceholder as string]: bgPlaceholder && (items.length > 0 || !!inputValue),
+                              'right-8 top-1/2 -translate-y-1/2 bg-transparent text-input-default':
+                                   items.length === 0 && !inputValue,
                          })}
                     >
                          <span className="">{placeholder}</span>
                     </div>
-               </div>
+               </button>
           </div>
      );
 };

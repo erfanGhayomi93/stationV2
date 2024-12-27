@@ -49,8 +49,8 @@ const AnimatePresence = ({ exit, initial, children, disabled, onRefLoad }: Anima
 
                try {
                     onRefLoad?.(elRef.current);
-               } catch (e) {
-                    //
+               } catch (error) {
+                    console.error(error);
                }
 
                if (!elRef.current) return;

@@ -35,7 +35,7 @@ const PushEngineInfo = () => {
                return { colorClass: 'text-content-error-sell', text: t('serverConnection.DISCONNECTED') };
           else if (greenStatus.includes(pushEngineState))
                return { colorClass: 'text-content-success-buy', text: t('serverConnection.CONNECTED') };
-          else return { colorClass: 'text-content-warnning', text: t('serverConnection.CONNECTING') };
+          else return { colorClass: 'text-content-warning', text: t('serverConnection.CONNECTING') };
      }, [pushEngineState]);
 
      useEffect(() => {

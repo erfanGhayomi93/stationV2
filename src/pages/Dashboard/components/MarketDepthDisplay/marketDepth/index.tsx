@@ -13,6 +13,7 @@ export interface IHalfRowDepth {
      count: number;
      percent?: number;
      children?: IHalfRowDepth[];
+     isOrder?: string;
 }
 
 interface ISelectGeneralInformation {
@@ -55,7 +56,7 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
           if (bids?.data) {
                for (const key in bids.data) {
                     if (Array.isArray(bids.data?.[key])) {
-                         const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0 };
+                         const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0, isOrder: 'False' };
 
                          tempObj.price = bids.data[key][0];
                          tempObj.volume = bids.data[key][1];
@@ -65,7 +66,10 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                               price: +child[3],
                               volume: +child[4],
                               count: 1,
+                              isOrder: child[9]
                          }));
+
+                         tempObj.isOrder = bids.data[key][3].some(child => child[9] === 'True') ? 'True' : 'False';
 
                          data.push(tempObj);
                     }
@@ -81,7 +85,7 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
           if (asks?.data) {
                for (const key in asks.data) {
                     if (Array.isArray(asks.data?.[key])) {
-                         const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0, children: [] };
+                         const tempObj: IHalfRowDepth = { price: 0, volume: 0, count: 0, percent: 0, children: [], isOrder: 'False' };
 
                          tempObj.price = asks.data[key][0];
                          tempObj.volume = asks.data[key][1];
@@ -91,7 +95,10 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                               price: +child[3],
                               volume: +child[4],
                               count: 1,
-                         }));
+                              isOrder: child[9]
+                         })); 
+
+                         tempObj.isOrder = asks.data[key][3].some(child => child[9] === 'True') ? 'True' : 'False';
 
                          data.push(tempObj);
                     }
@@ -115,7 +122,7 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
 
      const clickTotalUpQueue = (side: TSide, ind: number) => {
           const data = side == "Buy" ? buyData : sellData;
-          const price = data[0].price;
+          const price = side === 'Sell' ? data[0].price : data[ind].price;
           const mode = side === "Buy" ? "Sell" : "Buy";
           const collectData = data.slice(0, ind + 1);
 
@@ -144,10 +151,10 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
 
 
      return (
-          <div className="h-full max-h-full px-2">
+          <div className="h-full max-h-full">
                <div className="grid grid-cols-2 grid-rows-1 gap-x-2 overflow-y-auto">
                     <div className="flex flex-col gap-y-4">
-                         <div>
+                         <div className='pr-2'>
                               <OrderBookHeader side="Buy" />
                          </div>
                          <div className="flex flex-col">
@@ -169,7 +176,7 @@ const MarketDepthTab: FC<IMarketDepthTabProps> = ({ onDataStatus }) => {
                     </div>
 
                     <div className="flex flex-col gap-y-4">
-                         <div>
+                         <div className='pl-2'>
                               <OrderBookHeader side="Sell" />
                          </div>
                          <div className="flex flex-col">

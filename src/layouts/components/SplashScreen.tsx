@@ -1,23 +1,33 @@
 import { tokenCookieName } from '@config/axios';
-import useApiPath from '@hooks/useApiPath';
 import { pushEngine } from '@LS/pushEngine';
 import Cookies from 'js-cookie';
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Fragment, useEffect } from 'react';
+// import { useTranslation } from 'react-i18next';
 import Loading from './Loading';
+import { Outlet, Navigate } from 'react-router';
+import { routerPagePath } from '@router/routerPage';
+import { useQueryGeneralUser } from '@api/trader';
+import { useAppState } from '@store/appState';
+import useUpdateEffect from '@hooks/useUpdateEffect';
 
-const SplashScreen = ({ children }: { children: React.ReactElement }) => {
-     const { apiRoutes, isLoading } = useApiPath();
 
-     const {
-          ready,
-          i18n: { resolvedLanguage },
-     } = useTranslation();
+const SplashScreenWrapper = () => {
 
-     const languageIsReady = ready && resolvedLanguage === 'fa';
+     const { appState, setAppState } = useAppState()
+
+     const { data, isLoading: isLoadingUser, refetch: refetchGeneralUser } = useQueryGeneralUser();
+
+     // const {
+     //      ready,
+     //      i18n: { resolvedLanguage },
+     // } = useTranslation();
+
+     // const languageIsReady = ready && resolvedLanguage === 'fa';
+
 
      useEffect(() => {
-          if (apiRoutes) {
+          if (data?.userName && appState === 'LoggedIn') {
+
                const clientId = Cookies.get(tokenCookieName);
 
                pushEngine.connect({
@@ -28,18 +38,42 @@ const SplashScreen = ({ children }: { children: React.ReactElement }) => {
                     Password: clientId ?? 'default password', // get from app context
                });
           }
-     }, [apiRoutes]);
+     }, [data?.userName, appState]);
+
+     useUpdateEffect(() => {
+          if (appState === 'LoggedIn') {
+               refetchGeneralUser()
+          }
+     }, [appState])
+
+     useEffect(() => {
+          if (isLoadingUser) {
+               setAppState('Loading')
+          } else if (data) {
+               setAppState('LoggedIn')
+          }
+          else if (!data) {
+               setAppState('LoggedOut')
+          }
+     }, [isLoadingUser, data])
+
+
+
+
+     if (appState === 'LoggedOut') {
+          <Navigate to={routerPagePath.login} />
+          return <Outlet />
+     }
 
      return (
-          <div>
-               {
-                    <>
-                         {(isLoading || !languageIsReady || !apiRoutes) && <Loading />}
-                         {languageIsReady && apiRoutes && !isLoading && children}
-                    </>
-               }
-          </div>
-     );
+          <Fragment>
+               {appState === 'Loading' && <Loading />}
+
+               {appState === 'LoggedIn' && <Outlet />}
+          </Fragment>
+     )
+
+
 };
 
-export default SplashScreen;
+export default SplashScreenWrapper;

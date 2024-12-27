@@ -1,12 +1,10 @@
-import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineICon } from '@assets/icons';
+import { ArrowRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon, XOutlineIcon, CalculatorIcon } from '@assets/icons';
 import { getDateMilliseconds, weekDaysName, yearMonthsName } from '@constant/date';
 import dayjs from '@libs/dayjs';
 import { dayAsJalali, isBefore, isBetween, isSameOrAfter, isSameOrBefore } from '@methods/helper';
 import clsx from 'clsx';
 import { Dispatch, forwardRef, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-
-import { useTranslation } from 'react-i18next';
 import styles from './AdvanceDatePicker.module.scss';
 
 type DateValue = null | string | number | Date;
@@ -62,15 +60,14 @@ interface AdvancedDatepickerProps {
      nonBorder?: boolean;
      dataTestId?: string;
      open?: boolean;
+     ownInput?: boolean;
      setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
 const AdvancedDatepicker = ({
      classes,
      value,
-     clearable,
      placement = 'bottom',
-     placeholder,
      dateIsDisabled,
      disabledIsBefore,
      disabledIsSameOrBefore,
@@ -82,6 +79,9 @@ const AdvancedDatepicker = ({
      weekDays = weekDaysName,
      dataTestId = 'advanced_date_picker',
      open,
+     clearable,
+     placeholder,
+     ownInput = true,
      setOpen,
 }: AdvancedDatepickerProps) => {
      const rootRef = useRef<HTMLDivElement>(null);
@@ -250,9 +250,9 @@ const AdvancedDatepicker = ({
                datepickerEl.style.width = rectOffset.width + 'px';
                datepickerEl.style.left = rectOffset.left + 'px';
                if (placement === 'bottom') {
-                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + 48 + 'px';
+                    datepickerEl.style.top = rectOffset.top + rectOffset.height + 1 + (ownInput ? 0 : 48) + 'px';
                } else {
-                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 - 48 + 'px';
+                    datepickerEl.style.top = rectOffset.top - datepickerOffset.height - 1 - (ownInput ? 0 : 48) + 'px';
                }
           },
           [rootRef.current]
@@ -282,50 +282,44 @@ const AdvancedDatepicker = ({
                className={clsx(
                     styles.datepicker,
                     classes?.datepicker,
-                    !fixedPlaceholder && [styles.border, classes?.border],
-                    visibleCalendar && [styles.opened, classes?.opened],
-                    // theme === 'dark' && [styles.dark, classes?.dark],
-                    nonBorder && styles.nonBorder
+                    !nonBorder && [styles.border, classes?.border],
+                    visibleCalendar && [styles.opened, classes?.opened]
                )}
           >
-               {/* <div className={clsx(styles.container, classes?.container, 'input-group relative')}>
-                    {Boolean(fixedPlaceholder) && (
-                         <>
-                              <span className={cn('flexible-placeholder active')}>{fixedPlaceholder}</span>
+               {ownInput && (
+                    <div className={clsx(styles.container, classes?.container, 'relative')}>
+                         <input
+                              type="text"
+                              ref={inputRef}
+                              className={clsx(styles.input, visibleCalendar && [styles.active, classes?.active], classes?.input)}
+                              placeholder={placeholder || 'ــ / ــ / ــــ'}
+                              value={focusing ? inputValue : valueAsJalali}
+                              onKeyDown={onKeydown}
+                              onChange={e => setInputValue(dateFormatter(e.target.value))}
+                              onFocus={e => {
+                                   e.stopPropagation();
+                                   openCalendar();
+                              }}
+                              onBlur={e => onBlurInput(e.target.value)}
+                              onClick={() => {
+                                   if (focusing && !visibleCalendar) setVisibleCalendar(true);
+                              }}
+                              data-testid={`${dataTestId}_input`}
+                         />
 
-                              <fieldset className={cn('flexible-fieldset active')}>
-                                   <legend>{fixedPlaceholder}</legend>
-                              </fieldset>
-                         </>
-                    )}
+                         <span tabIndex={-1} role="button" onClick={onClickIcon} className={clsx(styles.icon, classes?.icon)}>
+                              {!inputValue ? (
+                                   <CalculatorIcon width="1.6rem" height="1.6rem" />
+                              ) : (
+                                   clearable && <XOutlineIcon width="1.6rem" height="1.6rem" />
+                              )}
+                         </span>
 
-                    <input
-                         type="text"
-                         ref={inputRef}
-                         className={clsx(styles.input, visibleCalendar && [styles.active, classes?.active], classes?.input)}
-                         placeholder={placeholder || 'ــ / ــ / ــــ'}
-                         value={focusing ? inputValue : valueAsJalali}
-                         onKeyDown={onKeydown}
-                         onChange={e => setInputValue(dateFormatter(e.target.value))}
-                         onFocus={e => {
-                              e.stopPropagation();
-                              openCalendar();
-                         }}
-                         onBlur={e => onBlurInput(e.target.value)}
-                         onClick={() => {
-                              if (focusing && !visibleCalendar) setVisibleCalendar(true);
-                         }}
-                         data-testid={`${dataTestId}_input`}
-                    />
-
-                    <span tabIndex={-1} role="button" onClick={onClickIcon} className={clsx(styles.icon, classes?.icon)}>
-                         {!inputValue ? (
-                              <CalenderIcon width="1.6rem" height="1.6rem" />
-                         ) : (
-                              clearable && <XOutlineICon width="1.6rem" height="1.6rem" />
-                         )}
-                    </span>
-               </div> */}
+                         <span className="absolute -top-2 right-2 bg-back-surface px-2 text-xs text-content-title">
+                              {placeholder}
+                         </span>
+                    </div>
+               )}
 
                {visibleCalendar &&
                     createPortal(
@@ -384,13 +378,9 @@ interface DialogBoxProps {
 
 const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
      ({ classes, isDisabledDate, weekDays, value, onChange, onClose, dataTestId }, ref) => {
-          const { t } = useTranslation();
-
           const [datepickerValue, setDatepickerValue] = useState<DateValue>(value);
 
           const [mode, setMode] = useState<'month' | 'year' | null>(null);
-
-          // const { theme } = useTheme();
 
           const onEditDate = (method: 'add' | 'subtract', name: 'year' | 'month') => {
                if (!datepickerValue) return;
@@ -429,14 +419,14 @@ const DialogBox = forwardRef<HTMLDivElement, DialogBoxProps>(
                setMode(null);
           };
 
-          const setTodayDate = () => {
-               const d = new Date();
-
-               if (isDisabledDate(d)) return;
-
-               onChange(d);
-               setDatepickerValue(d);
-          };
+          // const setTodayDate = () => {
+          //      const d = new Date();
+          //
+          //      if (isDisabledDate(d)) return;
+          //
+          //      onChange(d);
+          //      setDatepickerValue(d);
+          // };
 
           const getDatepickerValue = useMemo(() => {
                if (!datepickerValue) return [];
@@ -668,7 +658,7 @@ const Months = ({ onChange, onClose, value, classes, months = yearMonthsName, da
      <div className={clsx(styles.selection, classes?.selection, 'darkness:bg-gray-50 bg-white')}>
           <div className={clsx(styles.back, classes?.back)}>
                <button role="button" type="button" onClick={onClose} data-testid={`${dataTestId}_close`}>
-                    <XOutlineICon width="2rem" height="2rem" />
+                    <XOutlineIcon width="2rem" height="2rem" />
                </button>
           </div>
 
@@ -718,7 +708,7 @@ const Years = ({ onChange, onClose, value, classes, dataTestId }: YearsProps) =>
           <div className={clsx(styles.selection, classes?.selection)}>
                <div className={clsx(styles.back, classes?.back)}>
                     <button role="button" type="button" onClick={onClose} data-testid={`${dataTestId}_close`}>
-                         <XOutlineICon width="2rem" height="2rem" />
+                         <XOutlineIcon width="2rem" height="2rem" />
                     </button>
                </div>
 

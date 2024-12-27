@@ -1,7 +1,5 @@
-import { queryClient } from '../config/reactQuery';
-
 export const routeApi = () => {
-     const data: IGetSettingsRes[] | undefined = queryClient.getQueryData(['GetSettings']);
+     // const data: IGetSettingsRes[] | undefined = queryClient.getQueryData(['GetSettings']);
 
      // const oAuthApi = window.REACT_APP_OAUTH_PATH
 
@@ -25,6 +23,8 @@ export const routeApi = () => {
                CreateNewSymbolTab: baseUrl + '/Symbol/v1/CreateNewSymbolTab',
                RemoveTabByTraderUserIdAndSymbolISIN: baseUrl + '/Symbol/v1/RemoveTabByTraderUserIdAndSymbolISIN',
                UpdateSymbolTabCreateDateTime: baseUrl + '/Symbol/v1/UpdateSymbolTabCreateDateTime',
+               UpdateTheCurrentTab: baseUrl + '/Symbol/v1/UpdateTheCurrentTab',
+               CleareSymbolTabAfterLogOut: baseUrl + '/Symbol/v1/CleareSymbolTabAfterLogOut',
                GetMarketDepthV2: baseUrl + '/Symbol/v1/GetMarketDepthV2',
           },
           Orders: {
@@ -34,6 +34,9 @@ export const routeApi = () => {
                GroupOrderDelete: baseUrl + '/Order/v1/GroupOrderDelete',
                GroupOrdersModify: baseUrl + '/Order/v1/GroupOrdersModify',
                Create: baseUrl + '/Order/v1/Create',
+
+               GetTrades: baseUrl + '/Order/v1/Trades',
+               GetTradeDetails: baseUrl + '/Order/v1/TradesDetails',
           },
           Customer: {
                AdvancedSearch: baseUrl + '/Customer/v1/AdvancedSearch',
@@ -44,7 +47,23 @@ export const routeApi = () => {
 
                GetCustomerInformation: baseUrl + '/Customer/v1/GetCustomerInformation',
                GetCustomerFinancialStatus: baseUrl + '/Customer/v1/GetCustomerFinancialInformation',
-               GetCustomerContract: baseUrl + '/Agreement/v1/Get',
+               GetCustomerAgreement: baseUrl + '/Agreement/v1/Get',
+               getCustomerContracts: baseUrl + '/Customer/v1/GetContacts',
+
+               GetMyGroup: baseUrl + '/CustomerGroup/v1/GetGroups',
+               MyGroupAdvancedSearch: baseUrl + '/CustomerGroup/v1/SearchCustomerGroup',
+
+               CreateNewCustomerGroup: baseUrl + '/CustomerGroup/v1/CreateGroup',
+
+               AddCustomersToGroups: baseUrl + '/CustomerGroup/v1/AddMultipleCustomersToMultipleGroups',
+
+               EditCustomerGroupName: baseUrl + '/CustomerGroup/v1/UpdateGroup',
+
+               deleteCustomerGroup: baseUrl + '/CustomerGroup/v1/DeleteGroup',
+
+               deleteCustomerFromGroup: baseUrl + '/CustomerGroup/v1/RemoveCustomersFromGroup',
+
+               toggleFavoriteCustomer: baseUrl + '/Customer/v1/ToggleFavorite',
           },
 
           SupervisorMessage: {
@@ -57,9 +76,14 @@ export const routeApi = () => {
           Trader: {
                GetUserInformation: baseUrl + '/Trader/v1/GetGeneralInformation',
           },
-          Portfolios : {
-               CustomerPortfolio : baseUrl + '/Portfolio/v1/Portfolios'
+          Portfolios: {
+               CustomerPortfolio: baseUrl + '/Portfolio/v1/Portfolios',
           },
+
+          Option: {
+               GetOptionOrder: baseUrl + '/Option/v1/OptionOrders',
+          },
+
           OAuth: {
                authorization: oAuthUrl + '/GTOAuthApi/v1/GTAuthorization',
                captcha: oAuthUrl + '/Captcha/v1/create',
@@ -74,7 +98,16 @@ export const routeApi = () => {
                changePasswordValidation: oAuthUrl + '/GTChangePassword/v1/Validation',
                changePasswordSetPassword: oAuthUrl + '/GTChangePassword/v1/ChangePassword',
           },
-
+          Baskets: {
+               cartList: baseUrl + '/Cart/v1/CartList',
+               CartDetailList: baseUrl + '/Cart/v1/CartDetailList',
+               createCart: baseUrl + '/Cart/v1/CreateCart',
+               deleteCart: baseUrl + '/Cart/v1/DeleteCart',
+               editCart: baseUrl + '/Cart/v1/EditCart',
+               deleteDetails: baseUrl + '/Cart/v1/CartDetailDelete',
+               cartSendOrder: baseUrl + '/Cart/v1/CartSendOrder',
+               CreateBulkCartDetail: baseUrl + '/Cart/v1/CreateBulkCartDetail',
+          },
           Watchlist: {
                getWatchlistSymbols: baseUrl + '/Watchlist/v1/GetWatchListSymbols',
                addWatchlistToSymbols: baseUrl + '/Watchlist/v1/AddSymbol',

@@ -1,6 +1,6 @@
 
 
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useBuySellContext } from "../../context/buySellContext";
 import { useCommissionValue } from "@hooks/useCommissionValue";
 import useUpdateEffect from "@hooks/useUpdateEffect";
@@ -20,7 +20,7 @@ interface IPriceProps {
 
 const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, marketUnit }) => {
 
-    const { quantity, side, price, amount, isCalculatedQuantity, setQuantity, isPercentQuantity, setIsPercentQuantity, setIsCalculatedQuantity, setAmount } = useBuySellContext()
+    const { quantity, side, price, amount, isCalculatedQuantity, setQuantity, isPercentQuantity, setIsPercentQuantity, setIsCalculatedQuantity, setAmount, isDivideOrder, setIsDivideOrder } = useBuySellContext()
 
     const { buyCommission, sellCommission } = useCommissionValue(marketUnit)
 
@@ -40,24 +40,22 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
         }
     }, [price, amount])
 
-    const isBetweenMaxMinQuantity = useMemo(() => {
-        if (!minTradeQuantity || !maxTradeQuantity) return true;
-
-        return quantity >= minTradeQuantity && quantity <= maxTradeQuantity;
-    }, [quantity, minTradeQuantity, maxTradeQuantity]);
-
-
-    //     useEffect(() => {
-    //         if (sizeRef.current) {
-    //             const resizeObserver = new ResizeObserver(() => {
-    //                 setwidthSize(sizeRef?.current?.offsetWidth)
-    //             });
+    //     const isBetweenMaxMinQuantity = useMemo(() => {
+    //         if (!minTradeQuantity || !maxTradeQuantity) return true;
     // 
-    //             resizeObserver.observe(sizeRef.current);
-    // 
-    //             return () => resizeObserver.disconnect(); // Cleanup observer on unmount
-    //         }
-    //     }, []);
+    //         return quantity >= minTradeQuantity && quantity <= maxTradeQuantity;
+    //     }, [quantity, minTradeQuantity, maxTradeQuantity]);
+
+
+    const calcIsDivideOrder = useMemo(() => {
+        if (!maxTradeQuantity) return false;
+
+        return quantity > maxTradeQuantity
+    }, [quantity, maxTradeQuantity]);
+
+    useEffect(() => {
+        setIsDivideOrder(calcIsDivideOrder)
+    }, [calcIsDivideOrder])
 
 
 
@@ -65,20 +63,25 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
         <div className={clsx('flex-1 flex flex-col gap-y-4', styles.container)}>
 
             <div className="flex items-center">
-                <div className="flex w-9/12 px-4">
+                <div className="flex w-9/12 pl-4">
                     {
                         !isPercentQuantity && (
                             <FieldInputNumber
                                 value={quantity}
                                 onChangeValue={value => setQuantity(+value)}
-                                placeholder="تعداد"
+                                placeholder="حجم"
                                 upTickValue={maxTradeQuantity}
                                 downTickValue={minTradeQuantity}
                                 variant="advanced"
                                 onClickIcon={() => setIsCalculatedQuantity(!isCalculatedQuantity)}
-                                isError={!isBetweenMaxMinQuantity}
-                                textError="حجم در تعداد مجاز نمی‌باشد."
+                                // isError={!isBetweenMaxMinQuantity}
+                                // textError="حجم در تعداد مجاز نمی‌باشد."
                                 selectIcon={!isCalculatedQuantity ? 'calculator-0' : 'calculator-1'}
+                                isInfo={isDivideOrder}
+                                bgPlaceholder={clsx({
+                                    'bg-button-error-bg-selected': side === 'Sell',
+                                    'bg-button-success-bg-selected': side === 'Buy',
+                                })}
                             />
                         )
                     }
@@ -86,7 +89,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                     {isPercentQuantity && <QuantityByPercent />}
                 </div>
 
-                <div className="w-3/12 pl-4">
+                <div className="w-3/12">
                     <ToggleSwitch
                         checked={isPercentQuantity}
                         label="درصدی"
@@ -98,7 +101,7 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
 
             {
                 isCalculatedQuantity && (
-                    <div className="w-9/12 px-4">
+                    <div className="w-9/12 pl-4">
                         <FieldInputNumber
                             value={amount}
                             onChangeValue={value => {
@@ -106,6 +109,10 @@ const Quantity‌: FC<IPriceProps> = ({ minTradeQuantity, maxTradeQuantity, mark
                             }}
                             placeholder="ارزش"
                             variant="simple"
+                            bgPlaceholder={clsx({
+                                'bg-button-error-bg-selected': side === 'Sell',
+                                'bg-button-success-bg-selected': side === 'Buy',
+                            })}
                         />
                     </div>
                 )

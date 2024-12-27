@@ -15,7 +15,7 @@ import { useUIStore } from '@store/ui';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Sidebar = () => {
      const { t } = useTranslation();
@@ -51,7 +51,7 @@ const Sidebar = () => {
                     id: 'portfolioTrader',
                     icon: <BasketIcon />,
                     title: t('sidebar.portfolioTrader'),
-                    disable: true,
+                    path: routerPagePath.basket,
                },
                {
                     id: 'requests',
@@ -64,7 +64,6 @@ const Sidebar = () => {
                     icon: <CommunityIcon />,
                     title: t('sidebar.manageCustomer'),
                     path: routerPagePath.customersManage,
-                    disable: window.REACT_APP_ENV !== "development",
                },
                {
                     id: 'reports',
@@ -134,6 +133,8 @@ const Sidebar = () => {
                          {ITEMS.map((item, ind) => (
                               <div
                                    onClick={() => {
+                                        if (item.disable) return;
+
                                         navigate(item.path ?? '/');
                                    }}
                                    className="flex items-center justify-between gap-3 py-2 pr-[10px] text-icon-default"

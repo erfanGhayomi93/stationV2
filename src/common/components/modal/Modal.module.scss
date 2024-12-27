@@ -22,6 +22,10 @@
      max-height: 80vh;
      overflow: hidden;
 
+     &.xl {
+          width: 100rem;
+     }
+
      &.lg {
           width: 71.25rem;
      }

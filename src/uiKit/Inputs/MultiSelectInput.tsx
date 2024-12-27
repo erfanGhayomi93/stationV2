@@ -1,4 +1,4 @@
-import { ChevronDownIcon, XOutlineICon } from '@assets/icons';
+import { ChevronDownIcon, XOutlineIcon } from '@assets/icons';
 import Popup from '@components/popup';
 import CheckboxButton from '@uiKit/CheckboxButton';
 import clsx from 'clsx';
@@ -81,7 +81,7 @@ const MultiSelectInput = ({ onChange, items, value, placeholder = '', ...props }
                                                        }}
                                                        className="text-icon-disable"
                                                   >
-                                                       <XOutlineICon />
+                                                       <XOutlineIcon />
                                                   </button>
                                              </li>
                                         ))}

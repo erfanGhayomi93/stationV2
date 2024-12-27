@@ -5,12 +5,18 @@ import { dateFormatter } from '@methods/helper';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSymbolStore } from '@store/symbol';
 
 type TMessageProps = {
      item: ISupervisorMessageRes;
 };
 
 const Message = ({ item }: TMessageProps) => {
+     const queryClient = useQueryClient();
+
+     const { selectedSymbol } = useSymbolStore();
+
      const [isOpen, setOpen] = useState(false);
 
      const { t } = useTranslation();
@@ -24,7 +30,20 @@ const Message = ({ item }: TMessageProps) => {
 
      const onReadMessage = (id: number) => {
           setOpen(prev => !prev);
-          mutate(id);
+          mutate(id, {
+               onSettled: () => {
+                    const messagesSupervisorCache = queryClient.getQueryData(['GetSupervisorMessages', selectedSymbol]);
+
+                    const cloneMessages = JSON.parse(JSON.stringify(messagesSupervisorCache));
+
+                    const findIndexSelectedMessage = cloneMessages.findIndex((msg: ISupervisorMessageRes) => msg.id === id);
+
+                    if (findIndexSelectedMessage !== -1) {
+                         cloneMessages[findIndexSelectedMessage].read = true;
+                    }
+                    queryClient.setQueryData(['GetSupervisorMessages', selectedSymbol], cloneMessages);
+               },
+          });
      };
 
      return (

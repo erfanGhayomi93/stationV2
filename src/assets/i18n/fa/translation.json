@@ -18,7 +18,29 @@
           "deleteSymbolInWatchlistSuccessful": "نماد با موفقیت از دیده‌بان حذف شد.",
           "deleteSymbolInWatchlistError": "حذف کردن نماد از دیده‌بان با خطا مواجه شد.",
           "createNewWatchlistSuccessful": "دیده‌بان جدید با موفقیت ایجاد شد.",
-          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد."
+          "createNewWatchlistError": "ایجاد دیده‌بان جدید با خطا مواجه شد.",
+          "createNewCustomerGroupSuccessful": "گروه جدید با موفقیت ایجاد شد.",
+          "createNewCustomerGroupError": "ایجاد گروه جدید با خطا مواجه شد.",
+          "addCustomersToGroupsSuccessful": "مشتری‌ها با موفقیت به گروه‌ها اضافه شدند.",
+          "addCustomersToGroupsError": "اضافه کردن مشتری‌ها به گروه‌ها با خطا مواجه شد.",
+          "editCustomerGroupNameSuccessful": "نام گروه مشتری با موفقیت تغییر کرد.",
+          "editCustomerGroupNameError": "تغییر نام گروه مشتری با خطا مواجه شد.",
+          "deleteCustomerGroupSuccessful": "گروه مشتری موردنظر با موفقیت حذف شد.",
+          "deleteCustomerGroupError": "حذف گروه مشتری با خطا مواجه شد.",
+          "deleteCustomerFromGroupSuccessful": "مشتری موردنظر با موفقیت از گروه حذف شد.",
+          "deleteCustomerFromGroupError": "حذف مشتری از گروه موردنظر با خطا مواجه شد.",
+          "createNewBasketSuccessFull": "دسته سفارش جدید با موفقیت ایجاد شد.",
+          "createNewBasketError": "ایجاد دسته سفارش جدید با خطا مواجه شد.",
+          "deleteBasketSuccessFull": "حذف دسته سفارش موردنظر با موفقیت انجام شد.",
+          "deleteBasketError": "حذف دسته سفارش مورد نظر با خظا مواجه شد.",
+          "editBasketOrderSuccessful": "نام دسته سفارش موردنظر با موفقیت تغییر کرد.",
+          "editBasketOrderError": "تغییر دسته سفارش موردنظر با خطا مواجه شد.",
+          "deleteOrderToBasketOrderSuccessful": "سفارش موردنظر از سبد سفارش با موفقیت حذف شد.",
+          "deleteOrderToBasketOrderError": "حذف سفارش موردنظر از سبد سفارش با خطا مواجه شد.",
+          "addFavoriteCustomerSuccessful": "مشتری موردنظر با موفقیت به مشتریان دلخواه اضافه شد.",
+          "deleteFavoriteCustomerSuccessful": "مشتری موردنظر با موفقیت از مشتریان دلخواه حذف شد.",
+          "addFavoriteCustomerError": "اضافه کردن مشتری موردنظر به مشتریان دلخواه با خطا مواجه شد.",
+          "deleteFavoriteCustomerError": "حذف مشتری موردنظر به مشتریان دلخواه با خطا مواجه شد."
      },
 
      "dates": {
@@ -33,7 +55,9 @@
           "custom": "دلخواه",
           "today": "امروز",
           "from_date": "از تاریخ",
-          "to_date": "تا تاریخ"
+          "to_date": "تا تاریخ",
+          "from": "از",
+          "to": "تا"
      },
 
      "serverConnection": {
@@ -135,7 +159,8 @@
           "message_show_filter": "نمایش فیلتر",
           "message_hide_filter": "عدم نمایش فیلتر",
           "hide_symbol_details": "بستن جزئیات نماد",
-          "hasRiskAnnouncement": "دارای بیانیه ریسک"
+          "hasRiskAnnouncement": "دارای بیانیه ریسک",
+          "openFilter": "باز کردن فیلتر"
      },
      "price_range_slider": {
           "closing_price": "پایانی",
@@ -204,7 +229,7 @@
           "sourceColumn": "مبدا"
      },
      "orderStatus": {
-          "InOMSQueue": "در حال ارسال",
+          "InOMSQueue": "در حال پردازش",
           "OnSending": " در حال ارسال ",
           "Error": "خطا",
           "DeleteByEngine": "حذف شده توسط هسته",
@@ -354,7 +379,8 @@
           "inputPasswordPlaceholder": "رمزعبور خود را وارد نمایید",
           "forgetPasswordLabel": "فراموشی کلمه عبور",
           "confirmLogin": "ورود",
-          "inputCaptchaLabel": "کدامنیتی"
+          "inputCaptchaLabel": "کدامنیتی",
+          "pleaseTryAgain": "لطفا مجددا تلاش کنید."
      },
 
      "loginError": {
@@ -471,7 +497,7 @@
           "myGroupsTab": "گروه‌های من",
           "customerCol": "مشتری",
           "bourseCodeCol": "کد بورسی",
-          "nationalCodeCol": "کدملی",
+          "nationalCodeCol": "شناسه مشتری",
           "purchasePowerCol": "قدرت خرید سهم",
           "purchasePowerOptionCol": "قدرت خرید آپشن",
           "actionCol": "عملیات",
@@ -510,16 +536,168 @@
           "contractsTitleCol": "عنوان",
           "contractsStatusCol": "وضعیت",
           "contractsDateCol": "تاریخ",
-          "contractsStatusAccepted": "تایید",
-          "contractsStatusNotSpecified": "تعیین نشده",
-          "contractsStatusexpired": "منقضی شده",
+          "contractsStatusActive": "فعال",
+          "contractsStatusInActive": "غیرفعال",
+          "contractsStatusSuspend": "تعیین نشده",
+          "contractsStatusNull": "نامشخص",
           "customersFilterAll": "همه",
           "customersFilterNatural": "حقیقی",
           "customersFilterLegal": "حقوقی",
           "selectCustomersFullNameCol": "نام و نام خانوادگی",
           "selectCustomersBourseCode": "کد بورسی",
-          "selectCustomersNationalCode": "کدملی",
+          "selectCustomersNationalCode": "شناسه مشتری",
           "listSelectCustomer": "لیست مشتریان انتخاب شده",
-          "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید."
+          "emptyCustomersSelectHelper": "با انتخاب هر کدام از مشتریان از لیست روبرو \n اطلاعات مربوط به آن را در این بخش خواهید دید.",
+          "groupCustomerNameCol": "نام گروه مشتریان",
+          "customerNameCol": "نام مشتری"
+     },
+
+     "createNewCustomerGroupModal": {
+          "title": "ایجاد گروه جدید",
+          "newCustomerInputLabel": "نام گروه جدید را وارد کنید.",
+          "changeConfirmButton": "ثبت تغییرات"
+     },
+
+     "addCustomersToGroupModal": {
+          "title": "افزودن به گروه",
+          "newGroupButton": "گروه جدید",
+          "addToGroupButton": "افزودن به گروه"
+     },
+
+     "manageCustomersGroupsModal": {
+          "title": "مدیریت گروه‌های من",
+          "createNewGroupButton": "ایجاد گروه جدید",
+          "groupNameCol": "نام گروه",
+          "actionCol": "عملیات",
+          "editGroupModalTitle": "ویرایش <span>گروه {{name}}</span>",
+          "editGroupNewNameHelper": "برای گروه مشتری خود یک عنوان انتخاب نمایید.",
+          "editGroupNewNamePlaceholder": "عنوان گروه",
+          "confirmChangeButton": "ثبت تغییرات",
+          "deleteCustomerGroupModalTitle": "حذف <span>گروه {{name}}</span>",
+          "confirmDeleteCustomerGroupQuestion": "آیا از حذف <span>{{name}}</span> اطمینان دارید؟",
+          "cancelButton": "انصراف",
+          "deleteButton": "حذف"
+     },
+
+     "portfolioCustomerModal": {
+          "title": "پرتفوی مشتری: <span>{{name}}</span>",
+          "portfolioTab": "پرتفوی",
+          "positionsTab": "موقعیت‌ها",
+          "portfolioSymbolTitleCol": "نماد",
+          "portfolioAssetCol": "تعداد",
+          "portfolioAveragePriceCol": "میانگین قیمت",
+          "portfolioFinalPriceCol": "بهای تمام شده",
+          "portfolioNetValueCol": "خالص ارزش روز",
+          "portfolioLastPriceCol": "آخرین قیمت",
+          "portfolioProfitLossCol": "سود/زیان",
+          "portfolioPercentProfitLossCol": "درصد سود و زیان",
+          "portfolioBuySellCol": "خرید/فروش",
+          "portfolioFreezeSymbolTooltip": "نماد فریز شده است.",
+          "positionsSymbolTitleCol": "نماد",
+          "positionsPositionCol": "موقعیت",
+          "positionsCountCol": "تعداد",
+          "positionsGuaranteePlaceCol": "محل تضمین",
+          "positionsPhysicalSettlementCol": "تسویه فیزیکی",
+          "positionsRemainToDueCol": "مانده تا سررسید",
+          "positionsStrikePriceCol": "قیمت اعمال",
+          "positionsValueClosePositionCol": "ارزش بستن",
+          "positionsAverageBuySellCol": "میانگین خرید/فروش",
+          "positionsLastPriceCol": "آخرین قیمت",
+          "positionsActionCol": "عملیات",
+          "positionsPositionSideBuy": "خرید",
+          "positionsPositionSideSell": "فروش",
+          "positionsBlockTypeAll": "همه",
+          "positionsBlockTypeAccount": "وجه نقد",
+          "positionsBlockTypePortfolio": "سهم پایه",
+          "positionsBlockTypePosition": "موقعیت",
+          "positionsChangeGuaranteeActionTooltip": "تغییر روش تضمین",
+          "positionsClosePositionActionTooltip": "بستن موقعیت"
+     },
+
+     "basketOrder": {
+          "customerNameCol": "مشتری",
+          "symbolTitleCol": "نماد",
+          "sideCol": "سمت",
+          "priceCol": "قیمت",
+          "lastPriceCol": "آخرین قیمت",
+          "percentCol": "درصد",
+          "quantityCol": "تعداد",
+          "actionCol": "عملیات",
+          "title": "دسته سفارش",
+          "AddNewOrderToBasketBtn": "افزودن سفارش جدید به سبد" ,
+          "bourseCode" : "کدبورسی"
+     },
+
+
+     "manageBasketOrderModal": {
+          "titleManage": "مدیریت دسته سفارش",
+          "titleAdd": "افزودن سفارش به دسته سفارش",
+          "basketOrderNameCol": "نام دسته سفارش",
+          "sendTimeCol": "زمان ارسال",
+          "createTimeCol": "زمان ساخت سبد",
+          "actionCol": "عملیات",
+          "addBasketOrderBtn": "افزودن دسته سفارش" 
+     },
+
+     "createNewBasketModal": {
+          "title": "ایجاد دسته سفارش",
+          "basketNameInputLabel": "نام دسته سفارش خود را وارد کنید",
+          "createBasketBtn": "ایجاد دسته سفارش"
+     },
+
+     "editBasketOrderModal": {
+          "title": "ویرایش <span>{{name}}</span",
+          "editBasketOrderNameHelper": "برای دسته سفارش خود یک عنوان انتخاب نمایید.",
+          "basketOrderNameLabel": "عنوان دسته سفارش",
+          "saveChangeBtn": "ثبت تغییرات"
+     },
+
+     "addOrderToBasketOrderModal": {
+          "title": "افزودن سفارش به دسته سفارش",
+          "createNewBasketOrderBtn": "افزودن دسته سفارش"
+     },
+
+     "confirmDeleteBasketOrderModal": {
+          "title": "حذف <span>{{name}}</span>",
+          "confirmDeleteBasketOrderQuestion": "آیا از حذف سبد <span>{{name}}</span> اطمینان دارید؟",
+          "cancelBtn": "انصراف",
+          "deleteBtn": "حذف"
+     },
+
+     "tradesReports": {
+          "title": "گزارش معاملات",
+          "manageColumnTooltip": "مدیریت ستون",
+          "exportExcelTooltip": "خروجی اکسل",
+          "filterTooltip": "فیلتر",
+          "rowNumberCol": "ردیف",
+          "customerNameCol": "مشتری",
+          "bourseCodeCol": "کدبورسی",
+          "symbolTitleCol": "نماد",
+          "customerCodeCol": "کدمشتری",
+          "volumeCol": "حجم",
+          "priceCol": "قیمت",
+          "finalPriceCol": "بهای تمام شده",
+          "commissionCol": "کارمزد",
+          "sideCol": "سمت",
+          "customerTypeCol": "نوع مشتری",
+          "customerTypeNatural": "حقیقی",
+          "customerTypeLegal": "حقیقی",
+          "customerTypeAll": "همه",
+          "aggregateTypeNone": "هیچکدام",
+          "aggregateTypeCustomer": "مشتری",
+          "aggregateTypeSymbol": "نماد",
+          "aggregateTypeCustomerAndSymbol": "مشتری / نماد",
+          "sideAll": "همه",
+          "sideBuy": "خرید",
+          "sideSell": "فروش",
+          "sourceCol": "مبدا",
+          "dateCol": "تاریخ",
+          "detailsCol": "جزئیات",
+          "sourceOnline": "آنلاین",
+          "resetFilters": "حذف فیلترها",
+          "closeFiltersTooltip": "بستن فیلتر",
+          "searchCustomerLabelInput": "جستجوی مشتری",
+          "searchSymbolLabelInput": "جستجوی نماد",
+          "applyFilterBtn": "اعمال فیلتر"
      }
 }

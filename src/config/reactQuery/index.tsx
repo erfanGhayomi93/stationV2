@@ -12,6 +12,7 @@ export const queryClient = new QueryClient({
                // refetchOnMount,
                refetchOnWindowFocus: false,
                retry: false,
+               retryOnMount: false
           },
      },
 });

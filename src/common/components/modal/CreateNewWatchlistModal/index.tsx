@@ -23,6 +23,32 @@ const CreateNewWatchlistModal = () => {
           setCreateNewWatchlistModal(false);
      };
 
+     const reset = () => {
+          setWatchlistName('');
+
+          onCloseModal();
+     };
+
+     const handleCreateWatchlist = () => {
+          createWatchlistMutate(
+               { watchlistName },
+               {
+                    onSuccess: () => {
+                         toast.success(t('alerts.createNewWatchlistSuccessful'));
+
+                         queryClient.refetchQueries({ queryKey: ['getWatchlists'] });
+
+                         reset();
+                    },
+                    onError: () => {
+                         toast.error(t('alerts.createNewWatchlistError'));
+
+                         reset();
+                    },
+               }
+          );
+     };
+
      return (
           <Modal size="xs" title={t('addSymbolToWatchlistModal.createNewWatchlistTitle')} onCloseModal={onCloseModal}>
                <div className="flex flex-col gap-6">
@@ -32,6 +58,7 @@ const CreateNewWatchlistModal = () => {
                               onChange={value => {
                                    setWatchlistName(value);
                               }}
+                              autoFocus={true}
                          />
                     </div>
 
@@ -47,29 +74,7 @@ const CreateNewWatchlistModal = () => {
                          >
                               {t('addSymbolToWatchlistModal.cancelButton')}
                          </Button>
-                         <Button
-                              onClick={() => {
-                                   createWatchlistMutate(
-                                        { watchlistName },
-                                        {
-                                             onSuccess: () => {
-                                                  toast.success(t('alerts.createNewWatchlistSuccessful'));
-
-                                                  queryClient.refetchQueries({ queryKey: ['getWatchlists'] });
-                                             },
-                                             onError: () => {
-                                                  toast.success(t('alerts.createNewWatchlistError'));
-                                             },
-                                        }
-                                   );
-
-                                   setWatchlistName('');
-
-                                   onCloseModal();
-                              }}
-                              variant="primary"
-                              className="flex-1"
-                         >
+                         <Button onClick={handleCreateWatchlist} variant="primary" className="flex-1">
                               {t('addSymbolToWatchlistModal.createWatchlistButton')}
                          </Button>
                     </div>

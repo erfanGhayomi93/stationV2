@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { twMerge } from 'tailwind-merge';
+import { getDateMilliseconds } from '@constant/date.ts';
 
 export const sepNumbers = (num: number | string | undefined): string => {
      if (typeof num === 'number') num = String(num);
@@ -41,12 +42,20 @@ export const toFixed = (v: number, l = 3, round = true) => {
      return sepNumbers(integer) + '.' + (round ? String(decimalAsNumber).slice(2) : decimal);
 };
 
+export const zeroPad = (num: string, length = 2): string => {
+     while (num.length < length) {
+          num = `0${num}`;
+     }
+
+     return num;
+};
+
 export const numFormatter = (num: number, formatNavigateNumber = true, isScale = true) => {
      try {
           let originalName = num;
           if (isNaN(num)) return '−';
 
-          const suffixes = ['', ' K', ' M', ' B', ' T'];
+          const suffixes = ['', ' K', ' M', ' B'];
           const divisor = 1e3;
           let index = 0;
           let isNegative = false;
@@ -69,7 +78,8 @@ export const numFormatter = (num: number, formatNavigateNumber = true, isScale =
           }
 
           return `\u200e${formattedNum}`;
-     } catch (e) {
+     } catch (error) {
+          console.error(error);
           return '−';
      }
 };
@@ -96,7 +106,8 @@ export const getHeightsForTables = (): Record<'rowHeight' | 'headerHeight', numb
           const headerHeight = 32;
 
           return { rowHeight, headerHeight };
-     } catch (e) {
+     } catch (error) {
+          console.error(error);
           return { rowHeight: 40, headerHeight: 32 };
      }
 };
@@ -164,7 +175,7 @@ export const getTSELink = (insCode?: string | number): string => {
 // temporary add use in login page
 export const base64 = {
      _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-     encode: function (e: any) {
+     encode: function (e: string) {
           let t = '';
           let n, r, i, s, o, u, a;
           let f = 0;
@@ -186,7 +197,7 @@ export const base64 = {
           }
           return t;
      },
-     decode: function (e: any) {
+     decode: function (e: string) {
           let t = '';
           let n, r, i;
           let s, o, u, a;
@@ -212,7 +223,7 @@ export const base64 = {
           t = base64._utf8_decode(t);
           return t;
      },
-     _utf8_encode: function (e: any) {
+     _utf8_encode: function (e: string) {
           e = e.replace(/\r\n/g, '\n');
           let t = '';
           for (let n = 0; n < e.length; n++) {
@@ -230,7 +241,7 @@ export const base64 = {
           }
           return t;
      },
-     _utf8_decode: function (e: any) {
+     _utf8_decode: function (e: string) {
           let t = '';
           let n = 0;
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -288,7 +299,7 @@ export const generateSourceOrder = (source: string, side: TSide) => {
 export const createQueryKeyByParams = <T>(params: T) => {
      return Object.entries(params as Record<string, unknown>)
           .filter(
-               ([_, value]) =>
+               ([, value]) =>
                     value !== undefined &&
                     value !== null &&
                     (typeof value === 'number' ||
@@ -296,6 +307,16 @@ export const createQueryKeyByParams = <T>(params: T) => {
                          (Array.isArray(value) && value.length > 0))
           )
           .map(([key, value]) => ({ [key]: value }));
+};
+
+export const cleanObjectOfFalsyValues = <T extends Record<string, any>>(object: T): Partial<T> => {
+     const result: Partial<T> = {};
+     for (const [key, value] of Object.entries(object)) {
+          if (value) {
+               result[key as keyof T] = value as T[keyof T]; // Ensure type alignment
+          }
+     }
+     return result;
 };
 
 export const dayAsJalali = (v: dayjs.ConfigType) => {
@@ -340,4 +361,70 @@ export const isSameOrBefore = (date1: Date, date2 = new Date()): boolean => {
      const day2 = date2.getDate();
 
      return year1 < year2 || (year1 === year2 && (month1 < month2 || (month1 === month2 && day1 <= day2)));
+};
+
+export const factoryQueryKey = <T extends object>(obj: T): string => {
+     const sortObj = {} as T;
+
+     (Object.keys(obj) as Array<keyof T>).sort().forEach(k => {
+          sortObj[k] = obj[k];
+     });
+
+     return JSON.stringify(sortObj);
+};
+
+export const oneDayAgo = () => {
+     let date: number | Date = new Date();
+
+     date = date.getTime();
+
+     return new Date(date - getDateMilliseconds.Day);
+};
+
+export const oneMonthAgo = (n = 1): Date => {
+     let d: number | Date = new Date();
+
+     d.setHours(0, 0, 0, 0);
+     d = d.getTime();
+
+     return new Date(d - getDateMilliseconds.Month * n);
+};
+
+export const today = (): Date => {
+     let d: number | Date = new Date();
+
+     d.setHours(23, 59, 59, 0);
+     d = d.getTime();
+
+     return new Date(d);
+};
+
+export const calculateDateRange = (date: Exclude<TDate, 'custom'>, reverse = false): Record<'fromDate' | 'toDate', Date> => {
+     if (reverse === true) {
+          const fromDate = today();
+
+          let toDate: Date | number = new Date(fromDate);
+          toDate.setHours(0, 0, 0, 0);
+          toDate = toDate.getTime();
+
+          if (date === 'day') toDate += getDateMilliseconds.Day;
+          if (date === 'week') toDate += getDateMilliseconds.Week;
+          if (date === 'month') toDate += getDateMilliseconds.Month;
+          if (date === 'year') toDate += getDateMilliseconds.Year;
+
+          return { fromDate: new Date(fromDate), toDate: new Date(toDate) };
+     }
+
+     const toDate = today();
+
+     let fromDate: Date | number = new Date(toDate);
+     fromDate.setHours(0, 0, 0, 0);
+     fromDate = fromDate.getTime();
+
+     if (date === 'day') fromDate -= getDateMilliseconds.Day;
+     if (date === 'week') fromDate -= getDateMilliseconds.Week;
+     if (date === 'month') fromDate -= getDateMilliseconds.Month;
+     if (date === 'year') fromDate -= getDateMilliseconds.Year;
+
+     return { fromDate: new Date(fromDate), toDate: new Date(toDate) };
 };

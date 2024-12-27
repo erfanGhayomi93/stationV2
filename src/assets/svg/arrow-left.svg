@@ -1,3 +1,4 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.0569 5.34529C12.3265 5.56092 12.3702 5.95423 12.1545 6.22377L9.13354 10L12.1545 13.7762C12.3702 14.0458 12.3265 14.4391 12.0569 14.6547C11.7874 14.8703 11.3941 14.8266 11.1784 14.5571L7.84511 10.3904C7.6625 10.1622 7.6625 9.83783 7.84511 9.60956L11.1784 5.4429C11.3941 5.17336 11.7874 5.12966 12.0569 5.34529Z" fill="currentcolor"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2.4rem" height="2.4rem" viewBox="0 0 24 24" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
 </svg>

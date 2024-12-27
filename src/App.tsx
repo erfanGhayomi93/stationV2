@@ -2,9 +2,16 @@ import { useThemeStore } from '@store/theme';
 import { Fragment, useEffect } from 'react';
 import 'tippy.js/dist/tippy.css';
 import RouterPage from './router/routerPage';
+import useApiPath from '@hooks/useApiPath';
+import { useAppState } from '@store/appState';
 
 function App() {
      const { theme } = useThemeStore();
+
+     const { apiRoutes, isLoading, isSuccess } = useApiPath();
+
+     const { setAppState } = useAppState()
+
 
      useEffect(() => {
           const element = document.documentElement;
@@ -17,7 +24,23 @@ function App() {
           }
      }, [theme]);
 
-     return <Fragment>{RouterPage}</Fragment>;
+     useEffect(() => {
+          if (isLoading) {
+               setAppState('Loading')
+          }
+          else if (apiRoutes && isSuccess) {
+               setAppState('FetchedConfig')
+          }
+     }, [apiRoutes, isLoading])
+
+
+
+     return (
+          <Fragment>
+               {(apiRoutes && isSuccess) && RouterPage}
+               {/* {!(apiRoutes && isSuccess) && 'Crashed'} */}
+          </Fragment>
+     )
 }
 
 export default App;

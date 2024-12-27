@@ -106,7 +106,7 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                     <div
                          id="multi-dropdown"
                          className={clsx(
-                              'absolute right-0 top-4 z-10 w-72 rounded-lg bg-back-surface shadow-E6 transition-opacity',
+                              'absolute right-0 top-4 z-[100] w-72 rounded-lg bg-back-surface shadow-E6 transition-opacity',
                               {
                                    'opacity-100': isDropdownOpen,
                                    'opacity-0': !isDropdownOpen,
@@ -148,7 +148,11 @@ const MultiLevelDropdown: FC<IMultiLevelDropdownProps> = ({
                                                   )}
                                                   {item.subMenu && (
                                                        <div>
-                                                            <ArrowLeftIcon className="text-icon-primary" />
+                                                            <ArrowLeftIcon
+                                                                 width="1rem"
+                                                                 height="1rem"
+                                                                 className="text-icon-primary"
+                                                            />
                                                        </div>
                                                   )}
                                              </div>

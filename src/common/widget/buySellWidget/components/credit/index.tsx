@@ -6,7 +6,7 @@ import { useBuySellContext } from '../../context/buySellContext';
 import SelectValidityInput from '../SelectValidityInput';
 
 const Credit = () => {
-     const { validity, setValidity, setValidityDate } = useBuySellContext();
+     const { validity, setValidity, setValidityDate, side } = useBuySellContext();
 
      const [showCalender, setShowCalender] = useState(false);
 
@@ -24,13 +24,13 @@ const Credit = () => {
                id: 2,
                title: 'Week',
                value: 'Week',
-               validityDate: dayjs().add(1, 'week').format('YYYY-MM-DD')
+               validityDate: dayjs().add(1, 'week').format('YYYY-MM-DD'),
           },
           {
                id: 3,
                title: 'Month',
                value: 'Month',
-               validityDate: dayjs().add(1, 'month').format('YYYY-MM-DD')
+               validityDate: dayjs().add(1, 'month').format('YYYY-MM-DD'),
           },
           {
                id: 4,
@@ -53,13 +53,13 @@ const Credit = () => {
      ];
 
      return (
-          <div className="flex-1 px-4">
+          <div className="flex-1">
                <SelectValidityInput
                     onChange={item => {
-                         setValidity(item.value as TValidity)
-                         const validityDate = VALIDITY_OPTIONS.find(option => item.id === option.id)?.validityDate
+                         setValidity(item.value as TValidity);
+                         const validityDate = VALIDITY_OPTIONS.find(option => item.id === option.id)?.validityDate;
                          if (validityDate !== undefined) {
-                              setValidityDate(validityDate)
+                              setValidityDate(validityDate);
                          }
                     }}
                     items={VALIDITY_OPTIONS.map(item => ({
@@ -79,6 +79,7 @@ const Credit = () => {
                                    ? dayjs(calenderDate).calendar('jalali').locale('fa').format('YYYY-MM-DD')
                                    : t(`BSValidity.${validity}`),
                     }}
+                    side={side}
                />
 
                <AdvancedDatepicker
@@ -87,9 +88,11 @@ const Credit = () => {
                     setOpen={setShowCalender}
                     onChange={date => {
                          setCalenderDate(date ?? new Date());
-                         setValidityDate(dayjs(date).format('YYYY-MM-DD'))
+                         setValidityDate(dayjs(date).format('YYYY-MM-DD'));
                     }}
                     value={calenderDate ?? new Date()}
+                    ownInput={false}
+                    nonBorder={true}
                />
           </div>
      );

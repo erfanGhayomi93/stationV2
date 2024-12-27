@@ -1,21 +1,30 @@
 import { useQueryCustomerSearch, useQueryDefaultCustomer } from '@api/customer';
 import useDebounce from '@hooks/useDebounce';
-import CustomersManageFilters from '@pages/CustomersManage/components/CustomersManageFilters';
-
-import CustomersTable from '@pages/CustomersManage/widget/Customers/components/CustomersTable';
 import { useMemo, useState } from 'react';
-import CustomersInformation from './components/CustomerInformation';
+import CustomersManageFilter from '../../components/CustomersManageFilter';
+import CustomersTable from './components/CustomersTable';
 
-type TCustomerType = 'Natural' | 'Legal' | 'All';
+type TcustomerType = 'Legal' | 'Natural' | "All";
+
 
 const Customers = () => {
      const [term, setTerm] = useState('');
 
-     const [customerType, setCustomerType] = useState<TCustomerType>('All');
+     const [customerType, setCustomerType] = useState<TcustomerType>('All');
 
-     const { data: searchCustomers } = useQueryCustomerSearch({ term: useDebounce(term, 400), customerType });
+     const termDebounce = useDebounce(term, 100);
 
-     const { data: defaultCustomers } = useQueryDefaultCustomer();
+     const { data: searchCustomers } = useQueryCustomerSearch(termDebounce, customerType);
+
+     const { data: defaultCustomers, isLoading: isLoadingDefaultCustomers } = useQueryDefaultCustomer();
+
+     const onChangeSearchInput = (value: string) => {
+          setTerm(value);
+     };
+
+     const onChangeSelectInput = (item: TItem) => {
+          setCustomerType(item.id as TcustomerType);
+     };
 
      const isDefaultUse = useMemo(() => !term?.length, [term]);
 
@@ -23,17 +32,19 @@ const Customers = () => {
           return isDefaultUse ? defaultCustomers : searchCustomers;
      }, [defaultCustomers, searchCustomers, isDefaultUse]);
 
+     const filterDataBasedOnCustomerType = useMemo(() => {
+          return listGroups?.filter(item => {
+               if (customerType === 'All') return item;
+               if (customerType === 'Legal') return item.customerType === 'Legal';
+               if (customerType === 'Natural') return item.customerType === 'Natural';
+          });
+     }, [listGroups, customerType]);
+
      return (
           <>
-               <div className="grid grid-rows-min-one gap-6 rounded-md bg-back-surface p-6">
-                    <CustomersManageFilters
-                         onChangeSearchInput={value => setTerm(value)}
-                         onChangeSelectInput={item => setCustomerType(item.id as TCustomerType)}
-                    />
-                    <CustomersTable data={listGroups} />
-               </div>
+               <CustomersManageFilter onChangeSearchInput={onChangeSearchInput} onChangeSelectInput={onChangeSelectInput} />
 
-               <CustomersInformation />
+               <CustomersTable data={filterDataBasedOnCustomerType} loading={isLoadingDefaultCustomers} />
           </>
      );
 };

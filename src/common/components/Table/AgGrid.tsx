@@ -1,16 +1,16 @@
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-import { AgGridEvent, ModuleRegistry } from '@ag-grid-community/core';
+import { AgGridEvent, ColTypeDef, ModuleRegistry } from '@ag-grid-community/core';
 import { AgGridReact, AgGridReactProps } from '@ag-grid-community/react';
 import { LicenseManager } from '@ag-grid-enterprise/core';
+import { MasterDetailModule } from '@ag-grid-enterprise/master-detail';
 import Spinner from '@components/Spinner';
 import useDarkMode from '@hooks/useDarkMode';
-import { getHeightsForTables } from '@methods/helper';
+import { dateFormatter, getHeightsForTables, numFormatter, sepNumbers } from '@methods/helper';
 import clsx from 'clsx';
 import { forwardRef, memo, Ref, Suspense, useMemo } from 'react';
 
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
-
 LicenseManager.setLicenseKey(import.meta.env.APP_AG_GRID_LICENSE_KEY);
+ModuleRegistry.registerModules([ClientSideRowModelModule, MasterDetailModule]);
 
 type AgGridTableProps<T = unknown> = AgGridReactProps<T> & {
      tableTheme?: 'alpine' | 'balham';
@@ -28,6 +28,28 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
 
           const isDarkMode = useDarkMode();
 
+          const ColumnTypes = useMemo((): { [key: string]: ColTypeDef<unknown> } => {
+               return {
+                    sepratedNumber: {
+                         valueFormatter: ({ value }) => sepNumbers(value),
+                         cellStyle: { direction: 'ltr' },
+                    },
+                    abbreviatedNumber: {
+                         valueFormatter: ({ value }) => (value ? numFormatter(value) : value),
+                    },
+                    date: {
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'datetime') : value),
+                    },
+                    dateWithoutTime: {
+                         valueFormatter: ({ value }) => (value ? dateFormatter(value, 'date') : value),
+                    },
+                    agTableIndex: {
+                         valueGetter: 'node.rowIndex + 1',
+                         cellRenderer: 'agGroupCellRenderer',
+                    },
+               };
+          }, []);
+
           return (
                <Suspense>
                     <div
@@ -40,7 +62,6 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                          }}
                     >
                          <AgGridReact
-                              modules={[ClientSideRowModelModule]}
                               onFirstDataRendered={fitColumnsSize}
                               onRowDataUpdated={fitColumnsSize}
                               onGridSizeChanged={fitColumnsSize}
@@ -67,6 +88,7 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
                               loading={false}
                               suppressColumnMoveAnimation
                               suppressDragLeaveHidesColumns
+                              columnTypes={ColumnTypes}
                               defaultColDef={Object.assign(
                                    {
                                         suppressMovable: true,
@@ -91,6 +113,4 @@ const AgGridTable = forwardRef<AgGridReact, AgGridTableProps>(
      }
 );
 
-export default memo(AgGridTable) as <TData extends unknown>(
-     props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }
-) => JSX.Element;
+export default memo(AgGridTable) as <TData>(props: AgGridTableProps<TData> & { ref?: Ref<AgGridReact<TData>> }) => JSX.Element;

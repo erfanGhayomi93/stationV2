@@ -34,6 +34,8 @@ interface IBuySellState {
      priceWithPercent: IPriceWithPercent;
      quantityWithPercent: IQuantityWithPercent;
      isLockPrice: boolean;
+     isKeepForm: boolean;
+     isDivideOrder: boolean;
 }
 
 interface IBuySellAction {
@@ -54,4 +56,6 @@ interface IBuySellAction {
      setQuantityWithValue: (percent: number) => void;
      setIsLockPrice: (isLockPrice: boolean) => void;
      reset: () => void;
+     setIsKeepForm: (isKeepForm: boolean) => void;
+     setIsDivideOrder: (isDivideOrder: boolean) => void;
 }

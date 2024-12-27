@@ -2,7 +2,7 @@ import { useLogout } from '@api/oAuth';
 import { useModalStore } from '@store/modal';
 import Button from '@uiKit/Button';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { routerPagePath } from 'router/routerPage';
 import Modal from '..';

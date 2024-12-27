@@ -5,7 +5,7 @@ import { base64 } from '@methods/helper';
 import clsx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import Captcha from './components/Captch';
 import Input from './components/Input';
@@ -15,6 +15,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useAppState } from '@store/appState';
+import { useEffect, useState } from 'react';
+import { useSymbolStore } from '@store/symbol';
 
 type formDate = {
      username: string;
@@ -24,6 +27,12 @@ type formDate = {
 
 const Login = () => {
      const { t } = useTranslation();
+
+     const { appState, setAppState } = useAppState()
+
+     const { setSelectedSymbol } = useSymbolStore()
+
+     const [activeIndex, setActiveIndex] = useState(0);
 
      const {
           register,
@@ -44,7 +53,7 @@ const Login = () => {
 
      const navigate = useNavigate();
 
-     const { data: captchaData, refetch: refetchCaptcha, isFetching: isLoadingCaptcha } = useCaptcha();
+     const { data: captchaData, refetch: refetchCaptcha } = useCaptcha();
 
      const handleRefetchCaptcha = (): void => {
           refetchCaptcha();
@@ -55,15 +64,18 @@ const Login = () => {
           onSuccess: result => {
                if (result.loginResultType === 'Successful') {
                     setAuthorizeData(result?.token);
-
-                    toast.success('با موفقیت وارد حساب کاربری شدید.');
+                    setAppState('LoggedIn')
+                    // toast.success('با موفقیت وارد حساب کاربری شدید.');
                     navigate('/');
+               } else {
+                    setAppState('LoggedOut')
                }
           },
           onError: params => {
                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                //@ts-expect-error
                toast.error(t(`loginError.${params.response.data.result.loginResultType}`));
+               setAppState('LoggedOut')
 
                handleRefetchCaptcha();
           },
@@ -77,6 +89,14 @@ const Login = () => {
                term: data.username,
           });
      };
+
+     useEffect(() => {
+          if (appState !== 'LoggedOut') {
+               setAppState('LoggedOut')
+          }
+          setSelectedSymbol('')
+     }, [])
+
 
      return (
           <main className="rtl flex h-screen items-center gap-10 bg-back-surface p-10">
@@ -165,6 +185,7 @@ const Login = () => {
                          modules={[Pagination, Autoplay]}
                          centeredSlides={true}
                          className="h-full w-full"
+                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} // Update active slide index
                     >
                          {[1, 2, 3]?.map((slide, index) => (
                               <SwiperSlide key={index} className="h-full w-full overflow-hidden">
@@ -192,7 +213,11 @@ const Login = () => {
                     </div>
 
                     <div className="absolute bottom-32 left-1/2 z-50 -translate-x-1/2">
-                         <span className="text-4xl font-bold text-white">افزایش سرعت و کارایی معاملات</span>
+                         <span className="text-4xl font-bold text-white">
+                              {activeIndex === 0 && <>افزایش سرعت و کارایی معاملات</>}
+                              {activeIndex === 1 && <>امکان تحلیل و تصمیم‌گیری سریع‌تر</>}
+                              {activeIndex === 2 && <>کاهش هزینه‌های معاملاتی</>}
+                         </span>
                     </div>
                </div>
           </main>
